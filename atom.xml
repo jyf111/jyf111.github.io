@@ -2,7 +2,7 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
     <id>https://jyf111.github.io</id>
     <title>Gridea</title>
-    <updated>2020-04-29T10:49:21.463Z</updated>
+    <updated>2020-04-30T12:57:41.420Z</updated>
     <generator>https://github.com/jpmonette/feed</generator>
     <link rel="alternate" href="https://jyf111.github.io"/>
     <link rel="self" href="https://jyf111.github.io/atom.xml"/>
@@ -10,6 +10,126 @@
     <logo>https://jyf111.github.io/images/avatar.png</logo>
     <icon>https://jyf111.github.io/favicon.ico</icon>
     <rights>All rights reserved 2020, Gridea</rights>
+    <entry>
+        <title type="html"><![CDATA[JOI2019 Final 独特的城市 思维+长剖]]></title>
+        <id>https://jyf111.github.io/post/joi2019-final-du-te-de-cheng-shi-si-wei-chang-pou/</id>
+        <link href="https://jyf111.github.io/post/joi2019-final-du-te-de-cheng-shi-si-wei-chang-pou/">
+        </link>
+        <updated>2020-04-30T12:47:13.000Z</updated>
+        <content type="html"><![CDATA[<p>给定一棵树,定义城市y为x的独特城市,当且仅当对于任意的z,<span class="katex"><span class="katex-mathml"><math><semantics><mrow><mi>d</mi><mi>i</mi><mi>s</mi><mo>(</mo><mi>x</mi><mo separator="true">,</mo><mi>y</mi><mo>)</mo><mo>!</mo><mo>=</mo><mi>d</mi><mi>i</mi><mi>s</mi><mo>(</mo><mi>x</mi><mo separator="true">,</mo><mi>z</mi><mo>)</mo></mrow><annotation encoding="application/x-tex">dis(x, y) != dis(x, z)</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathdefault">d</span><span class="mord mathdefault">i</span><span class="mord mathdefault">s</span><span class="mopen">(</span><span class="mord mathdefault">x</span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.16666666666666666em;"></span><span class="mord mathdefault" style="margin-right:0.03588em;">y</span><span class="mclose">)</span><span class="mclose">!</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span></span><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathdefault">d</span><span class="mord mathdefault">i</span><span class="mord mathdefault">s</span><span class="mopen">(</span><span class="mord mathdefault">x</span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.16666666666666666em;"></span><span class="mord mathdefault" style="margin-right:0.04398em;">z</span><span class="mclose">)</span></span></span></span>,每个点有个值,问对于每个城市的所有独特城市的值的种类数.<br>
+#做法<br>
+x的所有独特的城市一定位于距离x最远的点到x的链上(直径的某个端点).所以考虑以直径的两个端点各求解一次(取max)<br>
+在dfs的过程中用栈存储对于当前点u合法的答案.在u点时,栈中所有与u距离&lt;=u的<em>次长链</em>的答案都不合法,直接弹出,再将u入栈,利用长链剖分,先解决重儿子.长链解决后,栈中所有与u距离&lt;=该长链的点弹出.然后依次解决u的各个轻儿子即可(注意如果u不在栈中,要加入u).u子树解决后,如果u在栈中,弹出.<br>
+每次入栈和出栈用一个桶来统计答案即可.</p>
+<pre><code class="language-cpp">#include &lt;bits/stdc++.h&gt;
+#define mp make_pair
+#define pb push_back
+#define sz(x) (int)x.size()
+#define all(x) begin(x), end(x)
+#define fi first
+#define se second
+#define debug(x) cerr &lt;&lt; #x &lt;&lt; &quot; &quot; &lt;&lt; x &lt;&lt; '\n'
+using namespace std;
+using ll = long long;
+using pii = pair&lt;int,int&gt;;
+using pli = pair&lt;ll,int&gt;;
+const int INF = 0x3f3f3f3f, N = 2e5 + 5;
+const ll LINF = 1e18 + 5;
+constexpr int mod = 1e9 + 7;
+int n, m, c[N], cnt[N], cur;
+int s, t, mxlen, son[N], son2[N], len[N], dep[N];
+int sta[N], top, ans[N];
+int head[N], tot;
+struct node
+{
+	int to, next;
+}e[N&lt;&lt;1];
+void addedge(int u, int v)
+{
+	e[++tot].next = head[u];
+	e[tot].to = v;
+	head[u] = tot;
+}
+void dfs(int u, int fa, int dis)
+{
+	if(dis&gt;mxlen) 
+	{
+		mxlen = dis; 
+		t = u;
+	}
+	for(int i=head[u]; i; i=e[i].next)
+	{
+		int v = e[i].to;
+		if(v==fa) continue; 
+		dfs(v, u, dis+1);
+	}
+}
+void find()
+{
+	dfs(1, 0, 0);
+	s = t;
+	mxlen = t = 0;
+	dfs(s, 0, 0); 
+}
+void dfs2(int u, int fa)
+{
+	dep[u] = dep[fa] + 1;
+	son[u] = son2[u] = 0;
+	for(int i=head[u]; i; i=e[i].next)
+	{
+		int v = e[i].to;
+		if(v==fa) continue;
+		dfs2(v, u);
+		if(len[v]&gt;len[son[u]]) son2[u] = son[u], son[u] = v;
+		else if(len[v]&gt;len[son2[u]]) son2[u] = v;
+	}
+	len[u] = len[son[u]] + 1;
+}
+void add(int u)
+{
+	cnt[c[u]]++;
+	if(cnt[c[u]]==1) cur++;
+}
+void del(int u)
+{
+	cnt[c[u]]--;
+	if(!cnt[c[u]]) cur--;
+}
+void dfs3(int u, int fa)
+{
+	while(top &amp;&amp; dep[u]-dep[sta[top]]&lt;=len[son2[u]]) del(sta[top--]);
+	add(sta[++top]=u);
+	if(son[u]) dfs3(son[u], u);
+	while(top &amp;&amp; dep[u]-dep[sta[top]]&lt;=len[son[u]]) del(sta[top--]);
+	ans[u] = max(ans[u], cur);
+	for(int i=head[u]; i; i=e[i].next)
+	{
+		int v = e[i].to;
+		if(v==fa || v==son[u]) continue;
+		if(sta[top]!=u) add(sta[++top]=u);
+		dfs3(v, u);
+	}
+	if(sta[top]==u) del(sta[top--]);
+}
+int main()
+{
+	scanf(&quot;%d%d&quot;, &amp;n, &amp;m);
+	for(int i=1; i&lt;n; i++) 
+	{
+		int u, v;
+		scanf(&quot;%d%d&quot;, &amp;u, &amp;v);
+		addedge(u, v); addedge(v, u);
+	}
+	for(int i=1; i&lt;=n; i++) scanf(&quot;%d&quot;, c+i);
+	find();
+	dfs2(s, 0); dfs3(s, 0);
+	dfs2(t, 0); dfs3(t, 0);
+	for(int i=1; i&lt;=n; i++) printf(&quot;%d\n&quot;, ans[i]);
+	return 0;
+}
+</code></pre>
+]]></content>
+    </entry>
     <entry>
         <title type="html"><![CDATA[uoj207 LCT维护子树信息+随机化]]></title>
         <id>https://jyf111.github.io/post/uoj207-lct-wei-hu-zi-shu-xin-xi-sui-ji-hua/</id>
