@@ -2,7 +2,7 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
     <id>https://jyf111.github.io</id>
     <title>Gridea</title>
-    <updated>2020-04-30T12:57:41.420Z</updated>
+    <updated>2020-05-03T08:06:11.173Z</updated>
     <generator>https://github.com/jpmonette/feed</generator>
     <link rel="alternate" href="https://jyf111.github.io"/>
     <link rel="self" href="https://jyf111.github.io/atom.xml"/>
@@ -11,14 +11,154 @@
     <icon>https://jyf111.github.io/favicon.ico</icon>
     <rights>All rights reserved 2020, Gridea</rights>
     <entry>
+        <title type="html"><![CDATA[hdu5876 边权为1的无向图的补图最短路]]></title>
+        <id>https://jyf111.github.io/post/hdu5876-bian-quan-wei-1-de-wu-xiang-tu-de-bu-tu-zui-duan-lu/</id>
+        <link href="https://jyf111.github.io/post/hdu5876-bian-quan-wei-1-de-wu-xiang-tu-de-bu-tu-zui-duan-lu/">
+        </link>
+        <updated>2020-05-03T08:03:10.000Z</updated>
+        <content type="html"><![CDATA[<h1 id="做法">做法</h1>
+<p>因为边权是1,所以考虑bfs.<br>
+用set s1存储当前还未访问过的点,对于队首u,枚举其出点v,若v在s1中,则将其从s1erase,并insert入s2,则此时在s1中的所有点都和u在补图中直接相连,所以将它们入队即可.</p>
+<pre><code class="language-cpp">#include &lt;bits/stdc++.h&gt;
+#define mp make_pair
+#define pb push_back
+#define sz(x) (int)x.size()
+#define all(x) begin(x), end(x)
+#define fi first
+#define se second
+#define debug(x) cerr &lt;&lt; #x &lt;&lt; &quot; &quot; &lt;&lt; x &lt;&lt; '\n'
+using namespace std;
+using ll = long long;
+using pii = pair&lt;int,int&gt;;
+using pli = pair&lt;ll,int&gt;;
+const int INF = 0x3f3f3f3f, N = 2e5 + 5;
+const ll LINF = 1e18 + 5;
+constexpr int mod = 1e9 + 7;
+int n, m, s, dis[N];
+vector&lt;int&gt; G[N];
+void init() { for(int i=1; i&lt;=n; i++) G[i].clear(); }
+void bfs(int s)
+{
+    for(int i=1; i&lt;=n; i++) dis[i] = -1;
+    dis[s] = 0;
+    set &lt;int&gt; s1, s2;
+    for(int i=1; i&lt;=n; i++) if(i!=s) s1.insert(i);
+    queue &lt;int&gt; q; q.push(s);
+    while(sz(q))
+    {
+        int u = q.front(); q.pop();
+        for(int v : G[u])
+        {
+            auto it = s1.find(v);
+            if(it!=s1.end())
+            {
+                s2.insert(v);
+                s1.erase(it);
+            }
+        }
+        for(auto it : s1) dis[it] = dis[u] + 1, q.push(it);
+        swap(s1, s2); s2.clear();
+    }
+}
+void solve()
+{
+    scanf(&quot;%d%d&quot;, &amp;n, &amp;m);
+    init();
+    for(int i=1; i&lt;=m; i++)
+    {
+        int u, v; scanf(&quot;%d%d&quot;, &amp;u, &amp;v);
+        G[u].pb(v); G[v].pb(u);
+    }
+    scanf(&quot;%d&quot;, &amp;s);
+    bfs(s);
+    for(int i=1,j=0; i&lt;=n; i++)
+        if(i!=s) 
+        {
+            j++;
+            printf(&quot;%d%c&quot;, dis[i], &quot; \n&quot;[j==n-1]);
+        }
+}
+int main()
+{
+    int T; scanf(&quot;%d&quot;, &amp;T);
+    while(T--) solve();
+    return 0;
+}</code></pre>
+]]></content>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[codeforces1348 E dp]]></title>
+        <id>https://jyf111.github.io/post/codeforces1348-e-dp/</id>
+        <link href="https://jyf111.github.io/post/codeforces1348-e-dp/">
+        </link>
+        <updated>2020-05-02T12:45:51.000Z</updated>
+        <content type="html"><![CDATA[<p>有n组物品,每组物品有两种,一种a个,一种b个.定义合成方式为<strong>同种</strong>k个,或者<strong>同组</strong>k个.问最多合成多少次</p>
+<h1 id="做法">做法</h1>
+<p>对于每一组,最多只有s(s&lt;k)个第一种与k-s个第二种进行同组组合,其余都用在同种的合成方式上.<br>
+考虑 dp[i][j]: 前i组物品第一种有j个多余的情况下,最多合成的次数.<br>
+对于该状态,相应的第二种就有<span class="katex"><span class="katex-mathml"><math><semantics><mrow><msub><mo>∑</mo><mi>i</mi></msub><mo>(</mo><msub><mi>a</mi><mi>i</mi></msub><mo>+</mo><msub><mi>b</mi><mi>i</mi></msub><mo>)</mo><mo>−</mo><mi>k</mi><mo>∗</mo><mi>d</mi><msub><mi>p</mi><mrow><mi>i</mi><mi>j</mi></mrow></msub><mo>−</mo><mi>j</mi></mrow><annotation encoding="application/x-tex">\sum_i(a_i+b_i) - k*dp_{ij} - j</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1.0497100000000001em;vertical-align:-0.29971000000000003em;"></span><span class="mop"><span class="mop op-symbol small-op" style="position:relative;top:-0.0000050000000000050004em;">∑</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.16195399999999993em;"><span style="top:-2.40029em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathdefault mtight">i</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.29971000000000003em;"><span></span></span></span></span></span></span><span class="mopen">(</span><span class="mord"><span class="mord mathdefault">a</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.31166399999999994em;"><span style="top:-2.5500000000000003em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathdefault mtight">i</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mspace" style="margin-right:0.2222222222222222em;"></span><span class="mbin">+</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span></span><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord"><span class="mord mathdefault">b</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.31166399999999994em;"><span style="top:-2.5500000000000003em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathdefault mtight">i</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mclose">)</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span><span class="mbin">−</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span></span><span class="base"><span class="strut" style="height:0.69444em;vertical-align:0em;"></span><span class="mord mathdefault" style="margin-right:0.03148em;">k</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span><span class="mbin">∗</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span></span><span class="base"><span class="strut" style="height:0.980548em;vertical-align:-0.286108em;"></span><span class="mord mathdefault">d</span><span class="mord"><span class="mord mathdefault">p</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.311664em;"><span style="top:-2.5500000000000003em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathdefault mtight">i</span><span class="mord mathdefault mtight" style="margin-right:0.05724em;">j</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.286108em;"><span></span></span></span></span></span></span><span class="mspace" style="margin-right:0.2222222222222222em;"></span><span class="mbin">−</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span></span><span class="base"><span class="strut" style="height:0.85396em;vertical-align:-0.19444em;"></span><span class="mord mathdefault" style="margin-right:0.05724em;">j</span></span></span></span> = B<br>
+考虑转移 枚举dp[i-1][j], 再枚举当前组的同组组合状态s个第一种,k-s个第二种 则:<br>
+max{<span class="katex"><span class="katex-mathml"><math><semantics><mrow><mi>d</mi><mi>p</mi><mo>[</mo><mi>i</mi><mo>]</mo><mo>[</mo><mo>(</mo><mi>j</mi><mo>+</mo><msub><mi>a</mi><mi>i</mi></msub><mo>−</mo><mi>s</mi><mo>)</mo></mrow><annotation encoding="application/x-tex">dp[i][(j+a_i-s)%k]</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathdefault">d</span><span class="mord mathdefault">p</span><span class="mopen">[</span><span class="mord mathdefault">i</span><span class="mclose">]</span><span class="mopen">[</span><span class="mopen">(</span><span class="mord mathdefault" style="margin-right:0.05724em;">j</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span><span class="mbin">+</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span></span><span class="base"><span class="strut" style="height:0.73333em;vertical-align:-0.15em;"></span><span class="mord"><span class="mord mathdefault">a</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.31166399999999994em;"><span style="top:-2.5500000000000003em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathdefault mtight">i</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mspace" style="margin-right:0.2222222222222222em;"></span><span class="mbin">−</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span></span><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathdefault">s</span><span class="mclose">)</span></span></span></span>, <span class="katex"><span class="katex-mathml"><math><semantics><mrow><mi>d</mi><mi>p</mi><mo>[</mo><mi>i</mi><mo>−</mo><mn>1</mn><mo>]</mo><mo>[</mo><mi>j</mi><mo>]</mo><mo>+</mo><mo>(</mo><mi>j</mi><mo>+</mo><msub><mi>a</mi><mi>i</mi></msub><mo>−</mo><mi>s</mi><mo>)</mo><mi mathvariant="normal">/</mi><mi>k</mi><mo>+</mo><mo>(</mo><mi>B</mi><mo>+</mo><msub><mi>b</mi><mi>i</mi></msub><mo>−</mo><mo>(</mo><mi>k</mi><mo>−</mo><mi>s</mi><mo>)</mo><mo>)</mo><mi mathvariant="normal">/</mi><mi>k</mi></mrow><annotation encoding="application/x-tex">dp[i-1][j] + (j+a_i-s)/k + (B+b_i-(k-s))/k</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathdefault">d</span><span class="mord mathdefault">p</span><span class="mopen">[</span><span class="mord mathdefault">i</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span><span class="mbin">−</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span></span><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord">1</span><span class="mclose">]</span><span class="mopen">[</span><span class="mord mathdefault" style="margin-right:0.05724em;">j</span><span class="mclose">]</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span><span class="mbin">+</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span></span><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mopen">(</span><span class="mord mathdefault" style="margin-right:0.05724em;">j</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span><span class="mbin">+</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span></span><span class="base"><span class="strut" style="height:0.73333em;vertical-align:-0.15em;"></span><span class="mord"><span class="mord mathdefault">a</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.31166399999999994em;"><span style="top:-2.5500000000000003em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathdefault mtight">i</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mspace" style="margin-right:0.2222222222222222em;"></span><span class="mbin">−</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span></span><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathdefault">s</span><span class="mclose">)</span><span class="mord">/</span><span class="mord mathdefault" style="margin-right:0.03148em;">k</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span><span class="mbin">+</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span></span><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mopen">(</span><span class="mord mathdefault" style="margin-right:0.05017em;">B</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span><span class="mbin">+</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span></span><span class="base"><span class="strut" style="height:0.84444em;vertical-align:-0.15em;"></span><span class="mord"><span class="mord mathdefault">b</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.31166399999999994em;"><span style="top:-2.5500000000000003em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathdefault mtight">i</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mspace" style="margin-right:0.2222222222222222em;"></span><span class="mbin">−</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span></span><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mopen">(</span><span class="mord mathdefault" style="margin-right:0.03148em;">k</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span><span class="mbin">−</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span></span><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathdefault">s</span><span class="mclose">)</span><span class="mclose">)</span><span class="mord">/</span><span class="mord mathdefault" style="margin-right:0.03148em;">k</span></span></span></span>}</p>
+<pre><code class="language-cpp">#include &lt;bits/stdc++.h&gt;
+#define mp make_pair
+#define pb push_back
+#define sz(x) (int)x.size()
+#define all(x) begin(x), end(x)
+#define fi first
+#define se second
+#define debug(x) cerr &lt;&lt; #x &lt;&lt; &quot; &quot; &lt;&lt; x &lt;&lt; '\n'
+using namespace std;
+using ll = long long;
+using pii = pair&lt;int,int&gt;;
+using pli = pair&lt;ll,int&gt;;
+const int INF = 0x3f3f3f3f, N = 505;
+const ll LINF = 1e18 + 12;
+constexpr int mod = 1e9 + 7;
+int n, k;
+ll dp[N][N];
+inline void cmax(ll &amp;x, ll y) { if(x&lt;y) x = y; }
+int main()
+{
+	scanf(&quot;%d%d&quot;, &amp;n, &amp;k);
+	ll pre = 0;
+	for(int i=0; i&lt;=n; i++)
+		for(int j=0; j&lt;k; j++)
+			dp[i][j] = -1;
+	dp[0][0] = 0;
+	for(int i=1; i&lt;=n; i++)
+	{
+		int a, b;
+		scanf(&quot;%d%d&quot;, &amp;a, &amp;b);
+		for(int j=0; j&lt;k; j++)
+		{
+			if(dp[i-1][j]==-1) continue;
+			cmax(dp[i][(j+a)%k], dp[i-1][j] + (j+a)/k + (pre-dp[i-1][j]*k-j+b)/k);
+			for(int s=0; s&lt;=k; s++)
+			{
+				if(s&gt;a || k-s&gt;b) continue;
+				cmax(dp[i][(j+a-s)%k], dp[i-1][j] + (j+a-s)/k + (pre-dp[i-1][j]*k-j+b-(k-s))/k + 1);
+			}
+		}
+		pre += a + b;
+	}
+	ll ans = 0;
+	for(int i=0; i&lt;k; i++) cmax(ans, dp[n][i]);
+	printf(&quot;%lld\n&quot;, ans);
+	return 0;
+}
+
+</code></pre>
+]]></content>
+    </entry>
+    <entry>
         <title type="html"><![CDATA[JOI2019 Final 独特的城市 思维+长剖]]></title>
         <id>https://jyf111.github.io/post/joi2019-final-du-te-de-cheng-shi-si-wei-chang-pou/</id>
         <link href="https://jyf111.github.io/post/joi2019-final-du-te-de-cheng-shi-si-wei-chang-pou/">
         </link>
         <updated>2020-04-30T12:47:13.000Z</updated>
-        <content type="html"><![CDATA[<p>给定一棵树,定义城市y为x的独特城市,当且仅当对于任意的z,<span class="katex"><span class="katex-mathml"><math><semantics><mrow><mi>d</mi><mi>i</mi><mi>s</mi><mo>(</mo><mi>x</mi><mo separator="true">,</mo><mi>y</mi><mo>)</mo><mo>!</mo><mo>=</mo><mi>d</mi><mi>i</mi><mi>s</mi><mo>(</mo><mi>x</mi><mo separator="true">,</mo><mi>z</mi><mo>)</mo></mrow><annotation encoding="application/x-tex">dis(x, y) != dis(x, z)</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathdefault">d</span><span class="mord mathdefault">i</span><span class="mord mathdefault">s</span><span class="mopen">(</span><span class="mord mathdefault">x</span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.16666666666666666em;"></span><span class="mord mathdefault" style="margin-right:0.03588em;">y</span><span class="mclose">)</span><span class="mclose">!</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span></span><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathdefault">d</span><span class="mord mathdefault">i</span><span class="mord mathdefault">s</span><span class="mopen">(</span><span class="mord mathdefault">x</span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.16666666666666666em;"></span><span class="mord mathdefault" style="margin-right:0.04398em;">z</span><span class="mclose">)</span></span></span></span>,每个点有个值,问对于每个城市的所有独特城市的值的种类数.<br>
-#做法<br>
-x的所有独特的城市一定位于距离x最远的点到x的链上(直径的某个端点).所以考虑以直径的两个端点各求解一次(取max)<br>
+        <content type="html"><![CDATA[<p>给定一棵树,定义城市y为x的独特城市,当且仅当对于任意的z,<span class="katex"><span class="katex-mathml"><math><semantics><mrow><mi>d</mi><mi>i</mi><mi>s</mi><mo>(</mo><mi>x</mi><mo separator="true">,</mo><mi>y</mi><mo>)</mo><mo>!</mo><mo>=</mo><mi>d</mi><mi>i</mi><mi>s</mi><mo>(</mo><mi>x</mi><mo separator="true">,</mo><mi>z</mi><mo>)</mo></mrow><annotation encoding="application/x-tex">dis(x, y) != dis(x, z)</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathdefault">d</span><span class="mord mathdefault">i</span><span class="mord mathdefault">s</span><span class="mopen">(</span><span class="mord mathdefault">x</span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.16666666666666666em;"></span><span class="mord mathdefault" style="margin-right:0.03588em;">y</span><span class="mclose">)</span><span class="mclose">!</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span></span><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathdefault">d</span><span class="mord mathdefault">i</span><span class="mord mathdefault">s</span><span class="mopen">(</span><span class="mord mathdefault">x</span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.16666666666666666em;"></span><span class="mord mathdefault" style="margin-right:0.04398em;">z</span><span class="mclose">)</span></span></span></span>,每个点有个值,问对于每个城市的所有独特城市的值的种类数.</p>
+<h1 id="做法">做法</h1>
+<p>x的所有独特的城市一定位于距离x最远的点到x的链上(直径的某个端点).所以考虑以直径的两个端点各求解一次(取max)<br>
 在dfs的过程中用栈存储对于当前点u合法的答案.在u点时,栈中所有与u距离&lt;=u的<em>次长链</em>的答案都不合法,直接弹出,再将u入栈,利用长链剖分,先解决重儿子.长链解决后,栈中所有与u距离&lt;=该长链的点弹出.然后依次解决u的各个轻儿子即可(注意如果u不在栈中,要加入u).u子树解决后,如果u在栈中,弹出.<br>
 每次入栈和出栈用一个桶来统计答案即可.</p>
 <pre><code class="language-cpp">#include &lt;bits/stdc++.h&gt;

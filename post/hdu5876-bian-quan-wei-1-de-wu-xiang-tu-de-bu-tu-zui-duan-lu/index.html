@@ -5,7 +5,7 @@
     
 <meta charset="utf-8" >
 
-<title>Hello Gridea | Gridea</title>
+<title>hdu5876 边权为1的无向图的补图最短路 | Gridea</title>
 <meta name="description" content="温故而知新">
 
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
@@ -80,51 +80,93 @@
       <div class="content-container">
         <div class="post-detail">
           
-            <div class="feature-container" style="background-image: url('https://jyf111.github.io/post-images/hello-gridea.png')">
-            </div>
-          
-          <h2 class="post-title">Hello Gridea</h2>
+          <h2 class="post-title">hdu5876 边权为1的无向图的补图最短路</h2>
           <div class="post-info post-detail-info">
-            <span><i class="icon-calendar-outline"></i> 2018-12-12</span>
-            
-              <span>
-                <i class="icon-pricetags-outline"></i>
-                
-                  <a href="https://jyf111.github.io/tag/_w9eKNyrD/">
-                    Gridea
-                    
-                  </a>
-                
-              </span>
+            <span><i class="icon-calendar-outline"></i> 2020-05-03</span>
             
           </div>
           <div class="post-content">
-            <p>👏  欢迎使用 <strong>Gridea</strong> ！<br>
-✍️  <strong>Gridea</strong> 一个静态博客写作客户端。你可以用它来记录你的生活、心情、知识、笔记、创意... ...</p>
-<!-- more -->
-<p><a href="https://github.com/getgridea/gridea">Github</a><br>
-<a href="https://gridea.dev/">Gridea 主页</a><br>
-<a href="http://fehey.com/">示例网站</a></p>
-<h2 id="特性">特性👇</h2>
-<p>📝  你可以使用最酷的 <strong>Markdown</strong> 语法，进行快速创作</p>
-<p>🌉  你可以给文章配上精美的封面图和在文章任意位置插入图片</p>
-<p>🏷️  你可以对文章进行标签分组</p>
-<p>📋  你可以自定义菜单，甚至可以创建外部链接菜单</p>
-<p>💻  你可以在 <strong>Windows</strong>，<strong>MacOS</strong> 或 <strong>Linux</strong> 设备上使用此客户端</p>
-<p>🌎  你可以使用 <strong>𝖦𝗂𝗍𝗁𝗎𝖻 𝖯𝖺𝗀𝖾𝗌</strong> 或 <strong>Coding Pages</strong> 向世界展示，未来将支持更多平台</p>
-<p>💬  你可以进行简单的配置，接入 <a href="https://github.com/gitalk/gitalk">Gitalk</a> 或 <a href="https://github.com/SukkaW/DisqusJS">DisqusJS</a> 评论系统</p>
-<p>🇬🇧  你可以使用<strong>中文简体</strong>或<strong>英语</strong></p>
-<p>🌁  你可以任意使用应用内默认主题或任意第三方主题，强大的主题自定义能力</p>
-<p>🖥  你可以自定义源文件夹，利用 OneDrive、百度网盘、iCloud、Dropbox 等进行多设备同步</p>
-<p>🌱 当然 <strong>Gridea</strong> 还很年轻，有很多不足，但请相信，它会不停向前 🏃</p>
-<p>未来，它一定会成为你离不开的伙伴</p>
-<p>尽情发挥你的才华吧！</p>
-<p>😘 Enjoy~</p>
+            <h1 id="做法">做法</h1>
+<p>因为边权是1,所以考虑bfs.<br>
+用set s1存储当前还未访问过的点,对于队首u,枚举其出点v,若v在s1中,则将其从s1erase,并insert入s2,则此时在s1中的所有点都和u在补图中直接相连,所以将它们入队即可.</p>
+<pre><code class="language-cpp">#include &lt;bits/stdc++.h&gt;
+#define mp make_pair
+#define pb push_back
+#define sz(x) (int)x.size()
+#define all(x) begin(x), end(x)
+#define fi first
+#define se second
+#define debug(x) cerr &lt;&lt; #x &lt;&lt; &quot; &quot; &lt;&lt; x &lt;&lt; '\n'
+using namespace std;
+using ll = long long;
+using pii = pair&lt;int,int&gt;;
+using pli = pair&lt;ll,int&gt;;
+const int INF = 0x3f3f3f3f, N = 2e5 + 5;
+const ll LINF = 1e18 + 5;
+constexpr int mod = 1e9 + 7;
+int n, m, s, dis[N];
+vector&lt;int&gt; G[N];
+void init() { for(int i=1; i&lt;=n; i++) G[i].clear(); }
+void bfs(int s)
+{
+    for(int i=1; i&lt;=n; i++) dis[i] = -1;
+    dis[s] = 0;
+    set &lt;int&gt; s1, s2;
+    for(int i=1; i&lt;=n; i++) if(i!=s) s1.insert(i);
+    queue &lt;int&gt; q; q.push(s);
+    while(sz(q))
+    {
+        int u = q.front(); q.pop();
+        for(int v : G[u])
+        {
+            auto it = s1.find(v);
+            if(it!=s1.end())
+            {
+                s2.insert(v);
+                s1.erase(it);
+            }
+        }
+        for(auto it : s1) dis[it] = dis[u] + 1, q.push(it);
+        swap(s1, s2); s2.clear();
+    }
+}
+void solve()
+{
+    scanf(&quot;%d%d&quot;, &amp;n, &amp;m);
+    init();
+    for(int i=1; i&lt;=m; i++)
+    {
+        int u, v; scanf(&quot;%d%d&quot;, &amp;u, &amp;v);
+        G[u].pb(v); G[v].pb(u);
+    }
+    scanf(&quot;%d&quot;, &amp;s);
+    bfs(s);
+    for(int i=1,j=0; i&lt;=n; i++)
+        if(i!=s) 
+        {
+            j++;
+            printf(&quot;%d%c&quot;, dis[i], &quot; \n&quot;[j==n-1]);
+        }
+}
+int main()
+{
+    int T; scanf(&quot;%d&quot;, &amp;T);
+    while(T--) solve();
+    return 0;
+}</code></pre>
 
           </div>
         </div>
 
         
+          <div class="next-post">
+            <a class="purple-link" href="https://jyf111.github.io/post/codeforces1348-e-dp/">
+              <h3 class="post-title">
+                下一篇：codeforces1348 E dp
+              </h3>
+            </a>
+          </div>
+          
       </div>
 
       

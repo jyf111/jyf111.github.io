@@ -12,7 +12,7 @@
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.7.0/animate.min.css">
 
 <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
-<link rel="shortcut icon" href="https://jyf111.github.io/favicon.ico?v=1588251457843">
+<link rel="shortcut icon" href="https://jyf111.github.io/favicon.ico?v=1588493159861">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.10.0/katex.min.css">
 <link rel="stylesheet" href="https://jyf111.github.io/styles/main.css">
 
@@ -30,7 +30,7 @@
   <div class="site-header">
     <div class="left">
       <a href="https://jyf111.github.io">
-        <img class="avatar" src="https://jyf111.github.io/images/avatar.png?v=1588251457843" alt="" width="32px" height="32px">
+        <img class="avatar" src="https://jyf111.github.io/images/avatar.png?v=1588493159861" alt="" width="32px" height="32px">
       </a>
       <a href="https://jyf111.github.io">
         <h1 class="site-title">Gridea</h1>
@@ -86,9 +86,9 @@
             
           </div>
           <div class="post-content">
-            <p>给定一棵树,定义城市y为x的独特城市,当且仅当对于任意的z,<span class="katex"><span class="katex-mathml"><math><semantics><mrow><mi>d</mi><mi>i</mi><mi>s</mi><mo>(</mo><mi>x</mi><mo separator="true">,</mo><mi>y</mi><mo>)</mo><mo>!</mo><mo>=</mo><mi>d</mi><mi>i</mi><mi>s</mi><mo>(</mo><mi>x</mi><mo separator="true">,</mo><mi>z</mi><mo>)</mo></mrow><annotation encoding="application/x-tex">dis(x, y) != dis(x, z)</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathdefault">d</span><span class="mord mathdefault">i</span><span class="mord mathdefault">s</span><span class="mopen">(</span><span class="mord mathdefault">x</span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.16666666666666666em;"></span><span class="mord mathdefault" style="margin-right:0.03588em;">y</span><span class="mclose">)</span><span class="mclose">!</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span></span><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathdefault">d</span><span class="mord mathdefault">i</span><span class="mord mathdefault">s</span><span class="mopen">(</span><span class="mord mathdefault">x</span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.16666666666666666em;"></span><span class="mord mathdefault" style="margin-right:0.04398em;">z</span><span class="mclose">)</span></span></span></span>,每个点有个值,问对于每个城市的所有独特城市的值的种类数.<br>
-#做法<br>
-x的所有独特的城市一定位于距离x最远的点到x的链上(直径的某个端点).所以考虑以直径的两个端点各求解一次(取max)<br>
+            <p>给定一棵树,定义城市y为x的独特城市,当且仅当对于任意的z,<span class="katex"><span class="katex-mathml"><math><semantics><mrow><mi>d</mi><mi>i</mi><mi>s</mi><mo>(</mo><mi>x</mi><mo separator="true">,</mo><mi>y</mi><mo>)</mo><mo>!</mo><mo>=</mo><mi>d</mi><mi>i</mi><mi>s</mi><mo>(</mo><mi>x</mi><mo separator="true">,</mo><mi>z</mi><mo>)</mo></mrow><annotation encoding="application/x-tex">dis(x, y) != dis(x, z)</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathdefault">d</span><span class="mord mathdefault">i</span><span class="mord mathdefault">s</span><span class="mopen">(</span><span class="mord mathdefault">x</span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.16666666666666666em;"></span><span class="mord mathdefault" style="margin-right:0.03588em;">y</span><span class="mclose">)</span><span class="mclose">!</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span></span><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathdefault">d</span><span class="mord mathdefault">i</span><span class="mord mathdefault">s</span><span class="mopen">(</span><span class="mord mathdefault">x</span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.16666666666666666em;"></span><span class="mord mathdefault" style="margin-right:0.04398em;">z</span><span class="mclose">)</span></span></span></span>,每个点有个值,问对于每个城市的所有独特城市的值的种类数.</p>
+<h1 id="做法">做法</h1>
+<p>x的所有独特的城市一定位于距离x最远的点到x的链上(直径的某个端点).所以考虑以直径的两个端点各求解一次(取max)<br>
 在dfs的过程中用栈存储对于当前点u合法的答案.在u点时,栈中所有与u距离&lt;=u的<em>次长链</em>的答案都不合法,直接弹出,再将u入栈,利用长链剖分,先解决重儿子.长链解决后,栈中所有与u距离&lt;=该长链的点弹出.然后依次解决u的各个轻儿子即可(注意如果u不在栈中,要加入u).u子树解决后,如果u在栈中,弹出.<br>
 每次入栈和出栈用一个桶来统计答案即可.</p>
 <pre><code class="language-cpp">#include &lt;bits/stdc++.h&gt;
