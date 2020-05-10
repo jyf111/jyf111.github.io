@@ -12,7 +12,7 @@
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.7.0/animate.min.css">
 
 <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
-<link rel="shortcut icon" href="https://jyf111.github.io/favicon.ico?v=1588778001335">
+<link rel="shortcut icon" href="https://jyf111.github.io/favicon.ico?v=1589103906608">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.10.0/katex.min.css">
 <link rel="stylesheet" href="https://jyf111.github.io/styles/main.css">
 
@@ -30,7 +30,7 @@
   <div class="site-header">
     <div class="left">
       <a href="https://jyf111.github.io">
-        <img class="avatar" src="https://jyf111.github.io/images/avatar.png?v=1588778001335" alt="" width="32px" height="32px">
+        <img class="avatar" src="https://jyf111.github.io/images/avatar.png?v=1589103906608" alt="" width="32px" height="32px">
       </a>
       <a href="https://jyf111.github.io">
         <h1 class="site-title">Gridea</h1>
@@ -278,8 +278,8 @@ int main()
 <h1 id="c-序列最小化">C 序列最小化</h1>
 <p>给定一个1-n的排列,每次可以选择k个连续的数将其变成最小的那个数,问最少经过几次操作使序列最小.<br>
 最后肯定都变成了1,第一次操作肯定包含了1这个位置,所以枚举第一次操作的左右端点,则后面的操作一定是左右延伸.</p>
-<p>#D 小雨坐地铁<br>
-m条地铁线路,n个车站,第i条地铁线路花费a[i],经过c[i]个车站,每站花费b[i]元,问从s站到t站的最小花费.如果有多条地铁经过同一个车站,可以换乘.<br>
+<h1 id="d-小雨坐地铁">D 小雨坐地铁</h1>
+<p>m条地铁线路,n个车站,第i条地铁线路花费a[i],经过c[i]个车站,每站花费b[i]元,问从s站到t站的最小花费.如果有多条地铁经过同一个车站,可以换乘.<br>
 对于某个车站,如果存在于多个地铁线路中,其实是不同的状态,所以对于每个地铁线路中的车站我们都用一个新点来表示.这样就可以进行建图跑最短路了.<br>
 对于某条线路中的车站,依次连<strong>双向边</strong>,权值为b[i] (表示继续乘坐) ,再向经过该车站的其他线路中的该车站所代表的点连<strong>单向边</strong>,权值为a[i] (表示换乘).<br>
 由于s和t代表的点有多个,所以加上超源和超汇.超源向每个地铁线路中的s连<strong>单向边</strong>,权值为a[i], 每个地铁线路中的t向超汇连<strong>单向边</strong>,权值为0.<br>
