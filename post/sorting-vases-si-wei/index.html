@@ -5,7 +5,7 @@
     
 <meta charset="utf-8" >
 
-<title>uoj207 LCT维护子树信息+随机化 | Gridea</title>
+<title> Sorting Vases 思维 | Gridea</title>
 <meta name="description" content="温故而知新">
 
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
@@ -80,15 +80,17 @@
       <div class="content-container">
         <div class="post-detail">
           
-          <h2 class="post-title">uoj207 LCT维护子树信息+随机化</h2>
+          <h2 class="post-title"> Sorting Vases 思维</h2>
           <div class="post-info post-detail-info">
-            <span><i class="icon-calendar-outline"></i> 2020-04-29</span>
+            <span><i class="icon-calendar-outline"></i> 2020-05-11</span>
             
           </div>
           <div class="post-content">
-            <p>给定一棵树,要求支持加边删边,并维护一个点对集合,支持加入和删除点对,并询问一条边是否在所有集合中的点对间的路径上.</p>
+            <p>给定一个n的排列p,每次可以任意交换两个位置,花费为1,然后又给定m组交换,花费为0(可以任意次使用),问使该排列p有序的最小花费.(n&lt;=18, m&lt;=18)</p>
 <h1 id="做法">做法</h1>
-<p>考虑询问路径x和y:当x为根且集合中每个点对的其中一个都在y子树内时合法.给子树内每个点对随机一个权值,然后维护子树的异或和信息,当y子树内的异或和等于整个集合的异或和时合法.由于动态加边和删边所以用lct维护,对于子树信息,只要额外维护一下每个点虚儿子的异或和信息即可.</p>
+<p>先考虑m=0,此时只要让每个数直接向目标位置交换即可,答案为n-环的个数<br>
+再考虑m,既然可以任意交换,那就相当于这些位置是等价的,可以维护出每个等价的集合,然后直接全排列枚举每个集合,让p通过m=0的方式转换成该排列,最后取最小值.这样交的话其实只会tle一个点.<br>
+如果某个集合的大小&gt;10,全排列枚举显然t.但是我们并不需要枚举每个集合的排列,因为前几个数归位后,最后一个集合的数自然就归位了.所以我们不枚举最大的集合就可以了,这样我们枚举的集合的大小最多只有9,9!(362 880)完全可以接受.</p>
 <pre><code class="language-cpp">#include &lt;bits/stdc++.h&gt;
 #define mp make_pair
 #define pb push_back
@@ -101,161 +103,108 @@ using namespace std;
 using ll = long long;
 using pii = pair&lt;int,int&gt;;
 using pli = pair&lt;ll,int&gt;;
-const int INF = 0x3f3f3f3f, N = 3e5 + 5;
+const int INF = 0x3f3f3f3f, N = 20;
 const ll LINF = 1e18 + 5;
 constexpr int mod = 1e9 + 7;
-int id, n, m, tot, w[N];
-pii p[N];
-struct LCT
+int n, m, p[N], pos[N], x[N], y[N];
+int tmpp[N];
+int f[N], ans;
+vector&lt;vector&lt;int&gt;&gt; vec;
+vector&lt;int&gt; rt[N];
+int find(int x)
 {
-	int ch[N][2], fa[N], rev[N];
-	int sum[N], sum2[N], val[N];
-	void clear(int x)
+	if(x==f[x]) return x;
+	return f[x] = find(f[x]);
+}
+void merge(int x, int y)
+{
+	x = find(x), y = find(y);
+	if(x==y) return;
+	f[x] = y;
+}
+int cal()
+{	
+	int cnt = 0;
+	for(int i=1; i&lt;=n; i++) 
+		tmpp[i] = p[i];
+	for(int i=1; i&lt;=n; i++)
 	{
-		ch[x][0] = ch[x][1] = fa[x] = rev[x] = 0;
-		sum[x] = sum2[x] = val[x] = 0;
-	}
-	int getch(int x) { return ch[fa[x]][1]==x; }
-	int noroot(int x) { return ch[fa[x]][0]==x || ch[fa[x]][1]==x; }
-	void pushup(int x)
-	{
-		if(x) sum[x] = sum[ch[x][0]] ^ sum[ch[x][1]] ^ sum2[x] ^ val[x];
-	}
-	void reverse(int x)
-	{
-		swap(ch[x][0], ch[x][1]);
-		rev[x] ^= 1;
-	}
-	void pushdown(int x)
-	{
-		if(rev[x])
+		int j = i;
+		while(pos[tmpp[j]]&amp;&amp;pos[tmpp[j]]!=j) 
 		{
-			if(ch[x][0]) reverse(ch[x][0]);
-			if(ch[x][1]) reverse(ch[x][1]);
-			rev[x] = 0;
+			cnt++;
+			swap(tmpp[j], tmpp[pos[tmpp[j]]]);
 		}
 	}
-	void pushall(int x)
+	return cnt;
+}
+void dfs(int x)
+{
+	if(x==sz(vec))
 	{
-		if(noroot(x)) pushall(fa[x]);
-		pushdown(x);
+		ans = min(ans, cal());
+		return;
 	}
-	void rotate(int x)
+	vector&lt;int&gt; idx(sz(vec[x]));
+	iota(all(idx), 0);
+	do {
+		for(int i=0; i&lt;sz(vec[x]); i++)
+			pos[vec[x][i]] = vec[x][idx[i]];
+		dfs(x+1);
+	}while(next_permutation(all(idx)));
+}
+void solve()
+{
+	scanf(&quot;%d%d&quot;, &amp;n, &amp;m);
+	ans = n - 1;
+	vec.clear();
+	for(int i=1; i&lt;=n; i++) 
 	{
-		int y = fa[x], z = fa[y], chx = getch(x), chy = getch(y);
-		fa[x] = z;
-		if(noroot(y)) ch[z][chy] = x;
-		ch[y][chx] = ch[x][chx^1];
-		fa[ch[x][chx^1]] = y;
-		ch[x][chx^1] = y;
-		fa[y] = x;
-		pushup(y);
-		pushup(x);
-		pushup(z);
+		scanf(&quot;%d&quot;, p+i);
+		f[i] = i;
+		pos[i] = 0;
+		rt[i].clear();
 	}
-	void splay(int x)
+	for(int i=1; i&lt;=m; i++) 
 	{
-		pushall(x);
-		for(int f=fa[x]; f=fa[x], noroot(x); rotate(x))
-			if(noroot(f)) rotate(getch(x) == getch(f) ? f : x);
+		scanf(&quot;%d%d&quot;, x+i, y+i);
+		merge(x[i], y[i]);
 	}
-	void access(int x)
+	int mx = 0;
+	for(int i=1; i&lt;=n; i++)
 	{
-		for(int y=0; x; x=fa[y=x])
+		int r = find(i);
+		rt[r].pb(i);
+		mx = max(mx, sz(rt[r]));
+	}
+	bool tag = 0;
+	for(int i=1; i&lt;=n; i++)
+		if(f[i]==i &amp;&amp; sz(rt[i])&lt;mx) vec.pb(rt[i]);
+		else if(f[i]==i &amp;&amp; sz(rt[i])==mx)
 		{
-			splay(x);
-			sum2[x] ^= sum[ch[x][1]] ^ sum[y];
-			ch[x][1] = y;
-			pushup(x);
+			if(!tag) tag = 1;
+			else vec.pb(rt[i]);
 		}
-	}
-	void makeroot(int x)
-	{
-		access(x); splay(x);
-		reverse(x);
-	}
-	int findroot(int x)
-	{
-		access(x); splay(x);
-		while(ch[x][0]) pushdown(x), x = ch[x][0];
-		splay(x);
-		return x;
-	}
-	void split(int x,int y)
-	{
-		makeroot(x);
-		access(y); splay(y);
-	}
-	void link(int x,int y) 
-	{
-		makeroot(x);
-		makeroot(y);
-		fa[x] = y;
-		sum2[y] ^= sum[x];
-	}
-	void cut(int x,int y)
-	{
-		split(x,y);
-		fa[x] = ch[y][0]=0;
-		pushup(y);
-	}
-}T;
-int all;
+	dfs(0);
+	printf(&quot;%d\n&quot;, ans);
+}
 int main()
 {
-	srand(114514);
-	scanf(&quot;%d%d%d&quot;, &amp;id, &amp;n, &amp;m);
-	for(int i=1; i&lt;n; i++)
-	{
-		int u, v; scanf(&quot;%d%d&quot;, &amp;u, &amp;v);
-		T.link(u, v);
-	}
-	while(m--)
-	{
-		int op, x;
-		scanf(&quot;%d%d&quot;, &amp;op, &amp;x);
-		if(op==1)
-		{
-			int y, u, v;
-			scanf(&quot;%d%d%d&quot;, &amp;y, &amp;u, &amp;v);
-			T.cut(x, y); T.link(u, v);
-		}
-		else if(op==2)
-		{
-			int y;
-			scanf(&quot;%d&quot;, &amp;y);
-			p[++tot] = {x, y};
-			w[tot] = rand();
-			T.makeroot(x); T.val[x] ^= w[tot];
-			T.makeroot(y); T.val[y] ^= w[tot];
-			all ^= w[tot];
-		}
-		else if(op==3)
-		{
-			T.makeroot(p[x].fi); T.val[p[x].fi] ^= w[x];
-			T.makeroot(p[x].se); T.val[p[x].se] ^= w[x];
-			all ^= w[x];
-		}
-		else
-		{
-			int y;
-			scanf(&quot;%d&quot;, &amp;y);
-			T.split(x, y);
-			if(T.sum[x]==all) puts(&quot;YES&quot;);
-			else puts(&quot;NO&quot;);
-		}
-	}
+	int T;
+	scanf(&quot;%d&quot;, &amp;T);
+	while(T--) solve();
 	return 0;
-}</code></pre>
+}
+</code></pre>
 
           </div>
         </div>
 
         
           <div class="next-post">
-            <a class="purple-link" href="https://jyf111.github.io/post/codeforces1307f/">
+            <a class="purple-link" href="https://jyf111.github.io/post/chef-and-bitwise-product-tan-xin-wei-yun-suan/">
               <h3 class="post-title">
-                下一篇：codeforces1307F
+                下一篇：Chef and Bitwise Product 贪心+位运算
               </h3>
             </a>
           </div>

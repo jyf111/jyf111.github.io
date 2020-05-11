@@ -1,11 +1,10 @@
 
-<!DOCTYPE html>
 <html>
   <head>
     
 <meta charset="utf-8" >
 
-<title>hdu5876 边权为1的无向图的补图最短路 | Gridea</title>
+<title>Gridea</title>
 <meta name="description" content="温故而知新">
 
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
@@ -78,98 +77,66 @@
 
 
       <div class="content-container">
-        <div class="post-detail">
-          
-          <h2 class="post-title">hdu5876 边权为1的无向图的补图最短路</h2>
-          <div class="post-info post-detail-info">
-            <span><i class="icon-calendar-outline"></i> 2020-05-03</span>
-            
-          </div>
-          <div class="post-content">
-            <h1 id="做法">做法</h1>
-<p>因为边权是1,所以考虑bfs.<br>
-用set s1存储当前还未访问过的点,对于队首u,枚举其出点v,若v在s1中,则将其从s1erase,并insert入s2,则此时在s1中的所有点都和u在补图中直接相连,所以将它们入队即可.</p>
-<pre><code class="language-cpp">#include &lt;bits/stdc++.h&gt;
-#define mp make_pair
-#define pb push_back
-#define sz(x) (int)x.size()
-#define all(x) begin(x), end(x)
-#define fi first
-#define se second
-#define debug(x) cerr &lt;&lt; #x &lt;&lt; &quot; &quot; &lt;&lt; x &lt;&lt; '\n'
-using namespace std;
-using ll = long long;
-using pii = pair&lt;int,int&gt;;
-using pli = pair&lt;ll,int&gt;;
-const int INF = 0x3f3f3f3f, N = 2e5 + 5;
-const ll LINF = 1e18 + 5;
-constexpr int mod = 1e9 + 7;
-int n, m, s, dis[N];
-vector&lt;int&gt; G[N];
-void init() { for(int i=1; i&lt;=n; i++) G[i].clear(); }
-void bfs(int s)
-{
-    for(int i=1; i&lt;=n; i++) dis[i] = -1;
-    dis[s] = 0;
-    set &lt;int&gt; s1, s2;
-    for(int i=1; i&lt;=n; i++) if(i!=s) s1.insert(i);
-    queue &lt;int&gt; q; q.push(s);
-    while(sz(q))
-    {
-        int u = q.front(); q.pop();
-        for(int v : G[u])
-        {
-            auto it = s1.find(v);
-            if(it!=s1.end())
-            {
-                s2.insert(v);
-                s1.erase(it);
-            }
-        }
-        for(auto it : s1) dis[it] = dis[u] + 1, q.push(it);
-        swap(s1, s2); s2.clear();
-    }
-}
-void solve()
-{
-    scanf(&quot;%d%d&quot;, &amp;n, &amp;m);
-    init();
-    for(int i=1; i&lt;=m; i++)
-    {
-        int u, v; scanf(&quot;%d%d&quot;, &amp;u, &amp;v);
-        G[u].pb(v); G[v].pb(u);
-    }
-    scanf(&quot;%d&quot;, &amp;s);
-    bfs(s);
-    for(int i=1,j=0; i&lt;=n; i++)
-        if(i!=s) 
-        {
-            j++;
-            printf(&quot;%d%c&quot;, dis[i], &quot; \n&quot;[j==n-1]);
-        }
-}
-int main()
-{
-    int T; scanf(&quot;%d&quot;, &amp;T);
-    while(T--) solve();
-    return 0;
-}</code></pre>
-
-          </div>
-        </div>
-
         
-          <div class="next-post">
-            <a class="purple-link" href="https://jyf111.github.io/post/codeforces1348-e-dp/">
-              <h3 class="post-title">
-                下一篇：codeforces1348 E dp
-              </h3>
-            </a>
-          </div>
-          
+        
+<section class="post-item">
+    <div class="content">
+      <a href="https://jyf111.github.io/post/uoj207-lct-wei-hu-zi-shu-xin-xi-sui-ji-hua/">
+        <h2 class="post-title">uoj207 LCT维护子树信息+随机化</h2>
+      </a>
+      <div class="post-abstract">
+        
       </div>
+      <div class="post-info">
+        <span><i class="icon icon-calendar-outline"></i> 2020-04-29</span>
+        
+      </div>
+    </div>
+    
+  </section>
 
-      
+<section class="post-item">
+    <div class="content">
+      <a href="https://jyf111.github.io/post/codeforces1307f/">
+        <h2 class="post-title">codeforces1307F</h2>
+      </a>
+      <div class="post-abstract">
+        
+      </div>
+      <div class="post-info">
+        <span><i class="icon icon-calendar-outline"></i> 2020-04-29</span>
+        
+      </div>
+    </div>
+    
+  </section>
+
+<section class="post-item">
+    <div class="content">
+      <a href="https://jyf111.github.io/post/head/">
+        <h2 class="post-title">head</h2>
+      </a>
+      <div class="post-abstract">
+        
+      </div>
+      <div class="post-info">
+        <span><i class="icon icon-calendar-outline"></i> 2020-04-29</span>
+        
+      </div>
+    </div>
+    
+  </section>
+
+
+<div class="pagination-container">
+  
+    <a href="https://jyf111.github.io/" class="prev"><i class="icon-arrow-ios-back-outline"></i> 上一页</a>
+  
+  
+</div>
+
+
+      </div>
 
       <div class="site-footer">
   <div class="slogan">温故而知新</div>
