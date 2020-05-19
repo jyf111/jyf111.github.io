@@ -2,7 +2,7 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
     <id>https://jyf111.github.io</id>
     <title>Gridea</title>
-    <updated>2020-05-14T07:59:21.097Z</updated>
+    <updated>2020-05-19T12:51:01.210Z</updated>
     <generator>https://github.com/jpmonette/feed</generator>
     <link rel="alternate" href="https://jyf111.github.io"/>
     <link rel="self" href="https://jyf111.github.io/atom.xml"/>
@@ -10,6 +10,456 @@
     <logo>https://jyf111.github.io/images/avatar.png</logo>
     <icon>https://jyf111.github.io/favicon.ico</icon>
     <rights>All rights reserved 2020, Gridea</rights>
+    <entry>
+        <title type="html"><![CDATA[ 环鸽的数列]]></title>
+        <id>https://jyf111.github.io/post/huan-ge-de-shu-lie/</id>
+        <link href="https://jyf111.github.io/post/huan-ge-de-shu-lie/">
+        </link>
+        <updated>2020-05-19T12:49:36.000Z</updated>
+        <content type="html"><![CDATA[<p>区间加广义斐波那契数列<br>
+大概有三种做法<br>
+1.用特征方程求出通项,跑出根号的二次剩余后代入,变成区间加等比数列,线段树维护即可<br>
+2.矩阵<br>
+3.利用性质</p>
+<pre><code class="language-cpp">#include &lt;bits/stdc++.h&gt;
+#define mp make_pair
+#define pb push_back
+#define sz(x) (int)x.size()
+#define all(x) begin(x), end(x)
+#define fi first
+#define se second
+#define debug(x) cerr &lt;&lt; #x &lt;&lt; &quot; &quot; &lt;&lt; x &lt;&lt; '\n'
+using namespace std;
+using ll = long long;
+using pii = pair&lt;int,int&gt;;
+using pli = pair&lt;ll,int&gt;;
+const int INF = 0x3f3f3f3f, N = 3e5 + 5;
+const ll LINF = 1e18 + 5;
+constexpr int mod = 1e9 + 9, a = 276601605, b = 691504013, c = 308495997;
+int sum[N];
+int n, m, x[N];
+inline void mul(int &amp;a, int b) { a = 1ll*a*b%mod; }
+inline int Mul(int a, int b) { return 1ll*a*b%mod; }
+inline void add(int &amp;a, int b) { a+=b; if(a&gt;=mod) a-=mod; }
+inline int Add(int a, int b) { a+=b; if(a&gt;=mod) return a-mod; return a; }
+inline void sub(int &amp;a, int b) { a-=b; if(a&lt;0) a+=mod; }
+inline int Sub(int a, int b) { a-=b; if(a&lt;0) return a+mod; return a; }
+int powmod(int a, int b)
+{
+	int ans = 1;
+	while(b)
+	{
+		if(b&amp;1) ans = Mul(ans, a);
+		a = Mul(a, a);
+		b &gt;&gt;= 1;
+	}
+	return ans;
+}
+struct SegTree
+{
+	#define ls (p&lt;&lt;1)
+	#define rs (p&lt;&lt;1|1)
+	int inv, pw[N]; 
+	struct seg
+	{
+		int l, r, sum, tag;
+	}t[N&lt;&lt;2];
+	void init(int q)
+	{
+		pw[0] = 1;
+		for(int i=1; i&lt;=n; i++) pw[i] = Mul(pw[i-1], q)%mod;
+		inv = powmod(q-1, mod-2);
+	}
+	void setval(int p, int v)
+	{
+		add(t[p].sum, Mul(Mul(v, Sub(pw[t[p].r-t[p].l+1], 1)), inv));
+		add(t[p].tag, v);
+	}
+	void pushup(int p)
+	{
+		t[p].sum = Add(t[ls].sum, t[rs].sum);
+	}
+	void pushdown(int p)
+	{
+		setval(ls, t[p].tag); setval(rs, Mul(t[p].tag, pw[t[rs].l-t[ls].l]));
+		t[p].tag = 0;
+	}
+	void build(int p, int l, int r)
+	{
+		t[p].l = l, t[p].r = r;
+		if(l==r) return;
+		int mid = (l+r)&gt;&gt;1;
+		build(ls, l, mid); build(rs, mid+1, r);
+		pushup(p);
+	}
+	void upd(int p, int x, int y)
+	{
+		int l = t[p].l, r = t[p].r;
+		if(l&gt;=x &amp;&amp; r&lt;=y) 
+		{
+			setval(p, pw[l-x+1]);
+			return;
+		}
+		if(t[p].tag) pushdown(p);
+		int mid = (l+r)&gt;&gt;1;
+		if(x&lt;=mid) upd(ls, x, y);
+		if(y&gt;mid) upd(rs, x, y);
+		pushup(p);
+	}
+	int ask(int p, int x, int y)
+	{
+		int l = t[p].l, r = t[p].r;
+		if(l&gt;=x &amp;&amp; r&lt;=y) return t[p].sum;
+		if(t[p].tag) pushdown(p);
+		int mid = (l+r)&gt;&gt;1, ans = 0;
+		if(x&lt;=mid) add(ans, ask(ls, x, y));
+		if(y&gt;mid) add(ans, ask(rs, x, y));
+		return ans;
+	}
+	#undef ls
+	#undef rs
+}T1, T2;
+int main()
+{
+	scanf(&quot;%d%d&quot;, &amp;n, &amp;m);
+	for(int i=1; i&lt;=n; i++) scanf(&quot;%d&quot;, x+i);
+	for(int i=1; i&lt;=n; i++) sum[i] = Add(sum[i-1], x[i]);
+	T1.init(b); T2.init(c);
+	T1.build(1, 1, n); T2.build(1, 1, n);
+	while(m--)
+	{
+		int op, l, r;
+		scanf(&quot;%d%d%d&quot;, &amp;op, &amp;l, &amp;r);
+		if(op==1)
+		{
+			T1.upd(1, l, r);
+			T2.upd(1, l, r);
+		}
+		else
+		{
+			int ans = Mul(Sub(T1.ask(1, l, r), T2.ask(1, l, r)), a);
+			add(ans, Sub(sum[r], sum[l-1]));
+			printf(&quot;%d\n&quot;, ans);
+		}
+	}
+	return 0;
+}
+</code></pre>
+]]></content>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[#525. 【美团杯2020】平行四边形]]></title>
+        <id>https://jyf111.github.io/post/525-mei-tuan-bei-2020-ping-xing-si-bian-xing/</id>
+        <link href="https://jyf111.github.io/post/525-mei-tuan-bei-2020-ping-xing-si-bian-xing/">
+        </link>
+        <updated>2020-05-18T10:23:34.000Z</updated>
+        <content type="html"><![CDATA[<p>给定n*n的棋盘,要求放置n个棋子,满足:</p>
+<ul>
+<li>x和y都是一个1-n的排列</li>
+<li>任意四个棋子不构成平行四边形<br>
+其中n+1是一个质数</li>
+</ul>
+<p>考虑n+1的原根g,则<span class="katex"><span class="katex-mathml"><math><semantics><mrow><mi>g</mi><mo separator="true">,</mo><msup><mi>g</mi><mn>2</mn></msup><mo separator="true">,</mo><msup><mi>g</mi><mn>3</mn></msup><mi mathvariant="normal">.</mi><mi mathvariant="normal">.</mi><mi mathvariant="normal">.</mi><msup><mi>g</mi><mi>n</mi></msup></mrow><annotation encoding="application/x-tex">{g, g^2, g^3 ... g^n}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1.008548em;vertical-align:-0.19444em;"></span><span class="mord"><span class="mord mathdefault" style="margin-right:0.03588em;">g</span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.16666666666666666em;"></span><span class="mord"><span class="mord mathdefault" style="margin-right:0.03588em;">g</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.8141079999999999em;"><span style="top:-3.063em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight">2</span></span></span></span></span></span></span></span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.16666666666666666em;"></span><span class="mord"><span class="mord mathdefault" style="margin-right:0.03588em;">g</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.8141079999999999em;"><span style="top:-3.063em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight">3</span></span></span></span></span></span></span></span><span class="mord">.</span><span class="mord">.</span><span class="mord">.</span><span class="mord"><span class="mord mathdefault" style="margin-right:0.03588em;">g</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.664392em;"><span style="top:-3.063em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathdefault mtight">n</span></span></span></span></span></span></span></span></span></span></span></span>%(n+1)各不相同<br>
+(1,g)...(n,<span class="katex"><span class="katex-mathml"><math><semantics><mrow><msup><mi>g</mi><mi>n</mi></msup></mrow><annotation encoding="application/x-tex">g^n</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.858832em;vertical-align:-0.19444em;"></span><span class="mord"><span class="mord mathdefault" style="margin-right:0.03588em;">g</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.664392em;"><span style="top:-3.063em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathdefault mtight">n</span></span></span></span></span></span></span></span></span></span></span>%(n+1))即为答案<br>
+无证明</p>
+<pre><code class="language-cpp">#include &lt;bits/stdc++.h&gt;
+using namespace std;
+int powmod(int a, int b, int m)
+{
+	int ans = 1;
+	while(b)
+	{
+		if(b&amp;1) ans = 1ll*ans*a%m;
+		a = 1ll*a*a%m;
+		b &gt;&gt;= 1;
+	}
+	return ans;
+}
+int phi(int x) 
+{
+	int ans = x;
+	for(int i=2; i*i&lt;=x; i++)
+	{
+		if(x%i==0) 
+		{
+			ans -= ans / i;
+			while(x%i==0) x /= i;
+		}
+	}
+	if(x&gt;1) ans -= ans / x;
+	return ans;
+}
+void solve()
+{
+	int n;
+	scanf(&quot;%d&quot;, &amp;n);
+	int c = phi(n+1), g = 0;
+	bool ok = 0;
+	while(++g)
+	{
+		ok = (powmod(g, c, n+1)==1);
+		int tmpc = c;
+		for(int i=2; i*i&lt;=tmpc&amp;&amp;ok; i++)
+		{
+			if(tmpc%i==0)
+			{
+				while(tmpc%i==0) tmpc /= i;
+				if(powmod(g, c/i, n+1)==1) ok = 0;
+			}
+		}
+		if(tmpc&gt;1&amp;&amp;powmod(g, c/tmpc, n+1)==1) ok = 0;
+		if(ok) break;
+	}
+	int ans = g; 
+	for(int i=1; i&lt;=n; i++)
+	{
+		printf(&quot;%d %d\n&quot;, i, ans);
+		ans = ans*g%(n+1);
+	}
+}
+int main()
+{
+	int t;
+	scanf(&quot;%d&quot;, &amp;t);
+	while(t--) solve();
+	return 0;
+}
+</code></pre>
+]]></content>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[牛客挑战赛40]]></title>
+        <id>https://jyf111.github.io/post/niu-ke-tiao-zhan-sai-40/</id>
+        <link href="https://jyf111.github.io/post/niu-ke-tiao-zhan-sai-40/">
+        </link>
+        <updated>2020-05-16T11:11:42.000Z</updated>
+        <content type="html"><![CDATA[<h1 id="b">B</h1>
+<p>给定1e6个随机生成的数,多次询问,给定y,问是否存在一个数x满足x^y在二进制下1的个数&lt;=3</p>
+<h1 id="做法">做法</h1>
+<p>因为最多只有3个二进制位不同,考虑将二进制每16位分成4组,满足条件的x与y一定在某一组中的16位完全相同,所以查找该组中的数,又由于数字随机,每次查找的次数期望为<span class="katex"><span class="katex-mathml"><math><semantics><mrow><mn>4</mn><mo>∗</mo><mo>(</mo><msup><mn>2</mn><mn>20</mn></msup><mi mathvariant="normal">/</mi><msup><mn>2</mn><mn>16</mn></msup><mo>)</mo></mrow><annotation encoding="application/x-tex">4*(2^{20} / 2^{16})</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.64444em;vertical-align:0em;"></span><span class="mord">4</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span><span class="mbin">∗</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span></span><span class="base"><span class="strut" style="height:1.064108em;vertical-align:-0.25em;"></span><span class="mopen">(</span><span class="mord"><span class="mord">2</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.8141079999999999em;"><span style="top:-3.063em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mtight">2</span><span class="mord mtight">0</span></span></span></span></span></span></span></span></span><span class="mord">/</span><span class="mord"><span class="mord">2</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.8141079999999999em;"><span style="top:-3.063em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mtight">1</span><span class="mord mtight">6</span></span></span></span></span></span></span></span></span><span class="mclose">)</span></span></span></span> = 64</p>
+]]></content>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[P5236 【模板】静态仙人掌]]></title>
+        <id>https://jyf111.github.io/post/p5236-mo-ban-jing-tai-xian-ren-zhang/</id>
+        <link href="https://jyf111.github.io/post/p5236-mo-ban-jing-tai-xian-ren-zhang/">
+        </link>
+        <updated>2020-05-15T09:36:36.000Z</updated>
+        <content type="html"><![CDATA[<p>每条边最多在一个简单环上的图<br>
+每个环都是一个点双(方点),可以很方便的用圆方树来维护</p>
+<p>求仙人掌图上两点间的最短路<br>
+注意仙人掌上的圆方树的建法:<br>
+每个简单环新建一个方点,环上每个点与方点连边,权值为到起点的最短距离,如果u是割点,向v连边权值为原图的边权(两个圆点连边)</p>
+<h1 id="做法">做法</h1>
+<p>先建出圆方树<br>
+考虑u和v在树上的LCA:p</p>
+<ul>
+<li>p为圆点,则答案就是树上两点的距离</li>
+<li>p为方点,找出p的两个儿子a(u的祖先),b(v的祖先),a和b处在一个环上,答案是<span class="katex"><span class="katex-mathml"><math><semantics><mrow><mi>d</mi><mi>i</mi><mi>s</mi><mo>(</mo><mi>a</mi><mo separator="true">,</mo><mi>b</mi><mo>)</mo><mo>+</mo><mi>d</mi><mi>i</mi><mi>s</mi><mo>(</mo><mi>a</mi><mo separator="true">,</mo><mi>u</mi><mo>)</mo><mo>+</mo><mi>d</mi><mi>i</mi><mi>s</mi><mo>(</mo><mi>b</mi><mo separator="true">,</mo><mi>v</mi><mo>)</mo></mrow><annotation encoding="application/x-tex">dis(a,b)+dis(a,u)+dis(b,v)</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathdefault">d</span><span class="mord mathdefault">i</span><span class="mord mathdefault">s</span><span class="mopen">(</span><span class="mord mathdefault">a</span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.16666666666666666em;"></span><span class="mord mathdefault">b</span><span class="mclose">)</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span><span class="mbin">+</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span></span><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathdefault">d</span><span class="mord mathdefault">i</span><span class="mord mathdefault">s</span><span class="mopen">(</span><span class="mord mathdefault">a</span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.16666666666666666em;"></span><span class="mord mathdefault">u</span><span class="mclose">)</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span><span class="mbin">+</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span></span><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathdefault">d</span><span class="mord mathdefault">i</span><span class="mord mathdefault">s</span><span class="mopen">(</span><span class="mord mathdefault">b</span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.16666666666666666em;"></span><span class="mord mathdefault" style="margin-right:0.03588em;">v</span><span class="mclose">)</span></span></span></span>,注意dis(a,b)要取min</li>
+</ul>
+<pre><code class="language-cpp">#include &lt;bits/stdc++.h&gt;
+#define mp make_pair
+#define pb push_back
+#define sz(x) (int)x.size()
+#define all(x) begin(x), end(x)
+#define fi first
+#define se second
+#define debug(x) cerr &lt;&lt; #x &lt;&lt; &quot; &quot; &lt;&lt; x &lt;&lt; '\n'
+using namespace std;
+using ll = long long;
+using pii = pair&lt;int,int&gt;;
+using pli = pair&lt;ll,int&gt;;
+const int INF = 0x3f3f3f3f, N = 2e5 + 5;
+const ll LINF = 1e18 + 5;
+constexpr int mod = 1e9 + 7;
+int dfn[N], low[N], clk, cnt, s[N], sum[N];
+vector&lt;pii&gt; G[N], T[N];
+int n, m, q;
+constexpr int LOG = 16;
+int fa[N][20], dep[N], dis[N]; 
+void dfs(int u)
+{	
+	for(int i=1; i&lt;=LOG; i++) 
+		fa[u][i] = fa[fa[u][i-1]][i-1];
+	for(auto it : T[u])
+	{
+		int v = it.fi, w = it.se;
+		if(v==fa[u][0]) continue;
+		dis[v] = dis[u] + w;
+		dep[v] = dep[u] + 1;
+		fa[v][0] = u; 
+		dfs(v);
+	}
+}
+int LCA(int x,int y) 
+{
+	if(dep[x]&gt;dep[y]) swap(x,y);
+	for(int i=LOG; i&gt;=0; i--)
+		if(dep[fa[y][i]]&gt;=dep[x]) y = fa[y][i];
+	if(x==y) return x;
+	for(int i=LOG; i&gt;=0; i--)
+		if(fa[x][i]!=fa[y][i]) x = fa[x][i], y = fa[y][i]; 
+	return fa[x][0]; 
+}
+void findcir(int u, int v, int w)
+{
+	++cnt;
+	int x = v, pre = w, pw = 0;
+	while(x!=fa[u][0])
+	{
+		sum[x] = pre;
+		pre += s[x];
+		x = fa[x][0];
+	}
+	sum[cnt] = sum[u];
+	sum[u] = 0;
+	x = v;
+	while(x!=fa[u][0])
+	{
+		pw = min(sum[x], sum[cnt]-sum[x]);
+		T[cnt].pb({x, pw});
+		T[x].pb({cnt, pw});
+		x = fa[x][0];
+	}
+}
+void tarjan(int u, int f)
+{
+	dfn[u] = low[u] = ++clk;
+	for(auto it : G[u])
+	{
+		int v = it.fi, w = it.se;
+		if(v==f) continue;
+		if(!dfn[v])
+		{
+			fa[v][0] = u;
+			s[v] = w;
+			tarjan(v, u);
+			low[u] = min(low[u], low[v]);
+		}
+		else low[u] = min(low[u], dfn[v]);
+		if(low[v]&gt;dfn[u]) 
+		{
+			T[u].pb({v, w});
+			T[v].pb({u, w});
+		}
+	}
+	for(auto it : G[u])
+	{
+		int v = it.fi, w = it.se;
+		if(fa[v][0]==u||dfn[v]&lt;=dfn[u]) continue;
+		findcir(u, v, w);
+	}
+}
+int find(int x, int y)
+{
+	int t = x;
+	for(int i=LOG; i&gt;=0; i--)
+		if(dep[fa[fa[t][i]][0]]&gt;=dep[y]) t = fa[t][i];
+	return t;
+}
+int main()
+{
+	scanf(&quot;%d%d%d&quot;, &amp;n, &amp;m, &amp;q);
+	cnt = n;
+	for(int i=1; i&lt;=m; i++)
+	{
+		int u, v, w;
+		scanf(&quot;%d%d%d&quot;, &amp;u, &amp;v, &amp;w);
+		G[u].pb({v, w}); G[v].pb({u, w});
+	}
+	tarjan(1, 0);
+	dep[1] = 1; dfs(1);
+	while(q--)
+	{
+		int u, v;
+		scanf(&quot;%d%d&quot;, &amp;u, &amp;v);
+		int z = LCA(u, v);
+		if(z&lt;=n) printf(&quot;%d\n&quot;, dis[u]+dis[v]-2*dis[z]);
+		else
+		{
+			int x = find(u, z), y = find(v, z);
+			if(sum[x]&gt;sum[y]) swap(x, y);
+			int ans = dis[u]-dis[x]+dis[v]-dis[y]+min(sum[y]-sum[x], sum[x]+sum[z]-sum[y]);
+			printf(&quot;%d\n&quot;, ans);
+		}
+	}
+	return 0;
+}
+</code></pre>
+]]></content>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[圆方树]]></title>
+        <id>https://jyf111.github.io/post/yuan-fang-shu/</id>
+        <link href="https://jyf111.github.io/post/yuan-fang-shu/">
+        </link>
+        <updated>2020-05-15T09:21:54.000Z</updated>
+        <content type="html"><![CDATA[<h2 id="概念">概念</h2>
+<p>点双联通分量:不存在割点/任意两点间有至少两条点不重复路径<br>
+特殊:两个点一条边<br>
+每条边属于一个点双,每个割点可以属于多个点双<br>
+圆方树中原图的每个点对应一个圆点,一个点双对应一个方点<br>
+对于每一个点双连通分量，它对应的方点向这个点双连通分量中的每个圆点连边<br>
+每个点双形成一个“菊花图”，多个“菊花图”通过原图中的割点连接在一起(因为点双的分隔点是割点)</p>
+<h2 id="性质">性质:</h2>
+<p>圆点只和方点相连,方点只和圆点相连<br>
+度数大于1的圆点是原图的割点<br>
+圆方树是无根树,无论取哪个点为根开始dfs见树,形态都一样</p>
+<h2 id="建树">建树</h2>
+<p>注意两倍空间<br>
+建完树栈中可能还有点,注意多组数据清空</p>
+<pre><code class="language-cpp">vector&lt;int&gt; G[N], T[N&lt;&lt;1];
+void tarjan(int u, int fa)
+{
+	low[u] = dfn[u] = ++clk;
+	stk[++top] = u;
+	for(int v : G[u])
+	{
+		if(!dfn[v])
+		{
+			tarjan(v, u);
+			low[u] = min(low[u], low[v]);
+			if(low[v]&gt;=dfn[u])
+			{
+				++cnt;
+				for(int x=0; x!=v; top--)
+				{
+					x = stk[top];
+					T[cnt].pb(x);
+					T[x].pb(cnt);
+				}
+				T[cnt].pb(u);
+				T[u].pb(cnt);
+			}
+		}
+		else if(v!=fa) low[u] = min(low[u], dfn[v]);
+	}
+}
+</code></pre>
+<h2 id="应用">应用</h2>
+<p>圆方树会损失掉原图中所有的边的信息,但是在维护点的信息的时候有较好的性质<br>
+P5058 [ZJOI2004]嗅探器<br>
+求无向图中两点间的编号最小的割点<br>
+建出圆方树,那么两点在树上路径中的割点(度数大于1的圆点)取编号最小的即可</p>
+]]></content>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[P5495 Dirichlet 前缀和]]></title>
+        <id>https://jyf111.github.io/post/p5495-dirichlet-qian-zhui-he/</id>
+        <link href="https://jyf111.github.io/post/p5495-dirichlet-qian-zhui-he/">
+        </link>
+        <updated>2020-05-15T07:22:54.000Z</updated>
+        <content type="html"><![CDATA[<p><span class="katex"><span class="katex-mathml"><math><semantics><mrow><msub><mi>b</mi><mi>k</mi></msub><mo>=</mo><msub><mo>∑</mo><mrow><mi>i</mi><mo>∣</mo><mi>k</mi></mrow></msub><msub><mi>a</mi><mi>i</mi></msub></mrow><annotation encoding="application/x-tex">b_k = \sum_{i \mid k} a_i</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.84444em;vertical-align:-0.15em;"></span><span class="mord"><span class="mord mathdefault">b</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.33610799999999996em;"><span style="top:-2.5500000000000003em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathdefault mtight" style="margin-right:0.03148em;">k</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mspace" style="margin-right:0.2777777777777778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span></span><span class="base"><span class="strut" style="height:1.22471em;vertical-align:-0.47471em;"></span><span class="mop"><span class="mop op-symbol small-op" style="position:relative;top:-0.0000050000000000050004em;">∑</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.22528999999999993em;"><span style="top:-2.40029em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathdefault mtight">i</span><span class="mrel mtight">∣</span><span class="mord mathdefault mtight" style="margin-right:0.03148em;">k</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.47471em;"><span></span></span></span></span></span></span><span class="mspace" style="margin-right:0.16666666666666666em;"></span><span class="mord"><span class="mord mathdefault">a</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.31166399999999994em;"><span style="top:-2.5500000000000003em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathdefault mtight">i</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span></span></span></span><br>
+求数组b<br>
+考虑下标i和j,对其质因数分解,当且仅当i的所有质因数的幂次&lt;=j的,i才是j的因数,可以有贡献<br>
+发现这个实际上就是一个关于质因子分解后的指数的高维前缀和，使用类似FMT的方法就可以了<br>
+复杂度<span class="katex"><span class="katex-mathml"><math><semantics><mrow><mi>O</mi><mo>(</mo><mi>n</mi><mi>log</mi><mo>⁡</mo><mi>log</mi><mo>⁡</mo><mi>n</mi><mo>)</mo></mrow><annotation encoding="application/x-tex">O(n\log \log n)</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathdefault" style="margin-right:0.02778em;">O</span><span class="mopen">(</span><span class="mord mathdefault">n</span><span class="mspace" style="margin-right:0.16666666666666666em;"></span><span class="mop">lo<span style="margin-right:0.01389em;">g</span></span><span class="mspace" style="margin-right:0.16666666666666666em;"></span><span class="mop">lo<span style="margin-right:0.01389em;">g</span></span><span class="mspace" style="margin-right:0.16666666666666666em;"></span><span class="mord mathdefault">n</span><span class="mclose">)</span></span></span></span></p>
+<pre><code class="language-cpp">for(int i=1; i&lt;=prime[0]; i++)
+		for(int j=1; 1ll*j*prime[i]&lt;=n; j++)
+			b[j*prime[i]] += b[j];
+</code></pre>
+]]></content>
+    </entry>
     <entry>
         <title type="html"><![CDATA[P6514 [QkOI#R1] Quark and Strings]]></title>
         <id>https://jyf111.github.io/post/p6514-qkoir1-quark-and-strings/</id>
@@ -623,810 +1073,6 @@ int main()
 		add(ans[q[i].id], q[i].coef*askt(1, q[i].z));
 	}
 	for(int i=1; i&lt;=m; i++) printf(&quot;%d\n&quot;, (ans[i]+mod)%mod);
-	return 0;
-}
-</code></pre>
-]]></content>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[四维偏序 cdq套cdq]]></title>
-        <id>https://jyf111.github.io/post/si-wei-pian-xu-cdq-tao-cdq/</id>
-        <link href="https://jyf111.github.io/post/si-wei-pian-xu-cdq-tao-cdq/">
-        </link>
-        <updated>2020-05-13T12:59:52.000Z</updated>
-        <content type="html"><![CDATA[<h1 id="问题">问题</h1>
-<p>求解&lt;=a&amp;&amp;&lt;=b&amp;&amp;&lt;=c&amp;&amp;&lt;=d的四元组数量</p>
-<h1 id="过程">过程</h1>
-<p>1.有四元组相同需要先合并(unique)<br>
-2.对第一维排序<br>
-3.cdq1,<strong>先把左半部分标记为LEFT,右半部分标记为RIGHT</strong>,然后对第二维按序归并<br>
-4.cdq2,对第三维按序归并,第四维用数据结构(如bit)维护,<strong>只对左边标记为LEFT的进行修改,对右边标记为RIGHT的进行查询</strong><br>
-注:有时也可以直接sort,多一个log<br>
-cdq1中的归并数组最好和cdq2不同,否则在cdq2结束后记得还原为cdq1中的顺序</p>
-<h1 id="例题">例题</h1>
-<p>hdu5126<br>
-立方体加点,立方体数点<br>
-把加点看作修改操作,数点利用容斥拆成8个询问.<br>
-修改和查询按照时间有序,是一个四维偏序.</p>
-<pre><code class="language-cpp">#include &lt;bits/stdc++.h&gt;
-#define mp make_pair
-#define pb push_back
-#define sz(x) (int)x.size()
-#define all(x) begin(x), end(x)
-#define fi first
-#define se second
-#define debug(x) cerr &lt;&lt; #x &lt;&lt; &quot; &quot; &lt;&lt; x &lt;&lt; '\n'
-using namespace std;
-using ll = long long;
-using pii = pair&lt;int,int&gt;;
-using pli = pair&lt;ll,int&gt;;
-const int INF = 0x3f3f3f3f, N = 4e5 + 5;
-const ll LINF = 1e18 + 5;
-constexpr int mod = 1e9 + 7;
-int q, c[N], tot, ans[N], id[N];
-bool isq[N];
-void upd(int x, int v)
-{
-    for(int i=x; i&lt;=tot; i+=(i&amp;-i)) c[i] += v;
-}
-int ask(int x)
-{
-    int ans = 0;
-    for(int i=x; i&gt;0; i-=(i&amp;-i)) ans += c[i];
-    return ans;
-}
-struct item
-{
-    int x, y, z, t, coef;
-    bool tag;
-}p[N], tmp[N], tmp2[N];
-bool cmp(item a, item b)
-{
-    if(a.x==b.x)
-    {
-        if(a.y==b.y) return a.z==b.z ? a.t &lt; b.t : a.z &lt; b.z;
-        return a.y &lt; b.y;
-    }
-    return a.x &lt; b.x;
-}
-void CDQ2(int l, int r)
-{
-    if(l==r) return;
-    int mid = (l+r)&gt;&gt;1;
-    CDQ2(l, mid); CDQ2(mid+1, r);
-    int i = l, j = mid+1, k = l;
-    while(i&lt;=mid&amp;&amp;j&lt;=r)
-    {
-        if(tmp[i].z&lt;=tmp[j].z)
-        {
-            if(!tmp[i].tag&amp;&amp;!tmp[i].coef) upd(tmp[i].t, 1);
-            tmp2[k++] = tmp[i++];
-        }
-        else
-        {
-            if(tmp[j].tag&amp;&amp;tmp[j].coef) ans[tmp[j].t] += ask(tmp[j].t-1)*tmp[j].coef; 
-            tmp2[k++] = tmp[j++];
-        }
-    }
-    while(i&lt;=mid) 
-    { 
-    	if(!tmp[i].tag&amp;&amp;!tmp[i].coef) upd(tmp[i].t, 1); 
-    	tmp2[k++] = tmp[i++]; 
-    }
-    while(j&lt;=r) 
-    { 
-    	if(tmp[j].tag&amp;&amp;tmp[j].coef) ans[tmp[j].t] += ask(tmp[j].t-1)*tmp[j].coef; 
-    	tmp2[k++] = tmp[j++]; 
-    }
-    for(int i=l; i&lt;=mid; i++) if(!tmp[i].tag&amp;&amp;!tmp[i].coef) upd(tmp[i].t, -1);
-    for(int i=l; i&lt;=r; i++) tmp[i] = tmp2[i]; 
-}
-void CDQ1(int l, int r)
-{
-    if(l==r) return;
-    int mid = (l+r)&gt;&gt;1;
-    CDQ1(l, mid); CDQ1(mid+1, r);
-    for(int i=l; i&lt;=mid; i++) p[i].tag = 0;
-    for(int i=mid+1; i&lt;=r; i++) p[i].tag = 1;
-    int i = l, j = mid+1, k = l;
-    while(i&lt;=mid&amp;&amp;j&lt;=r)
-    {
-        if(p[i].y&lt;=p[j].y) tmp[k++] = p[i++];
-        else tmp[k++] = p[j++];
-    }
-    while(i&lt;=mid) tmp[k++] = p[i++];
-    while(j&lt;=r) tmp[k++] = p[j++];
-    for(int i=l; i&lt;=r; i++) p[i] = tmp[i]; 
-    CDQ2(l, r);
-}
-void solve()
-{
-    scanf(&quot;%d&quot;, &amp;q);
-    tot = 0;
-    for(int i=1; i&lt;=q; i++)
-    {
-        int op; scanf(&quot;%d&quot;, &amp;op);
-        ans[i] = isq[i] = 0;
-        if(op==1)
-        {
-            int x, y, z;
-            scanf(&quot;%d%d%d&quot;, &amp;x, &amp;y, &amp;z);
-            p[++tot] = {x, y, z, i, 0};
-        }
-        else
-        {
-            int x1, y1, z1, x2, y2, z2;
-            scanf(&quot;%d%d%d%d%d%d&quot;, &amp;x1, &amp;y1, &amp;z1, &amp;x2, &amp;y2, &amp;z2);
-            isq[i] = 1;
-            p[++tot] = {x2, y2, z2, i, 1};
-            p[++tot] = {x1-1, y2, z2, i, -1};
-            p[++tot] = {x2, y1-1, z2, i, -1};
-            p[++tot] = {x2, y2, z1-1, i, -1};
-            p[++tot] = {x1-1, y1-1, z2, i, 1};
-            p[++tot] = {x2, y1-1, z1-1, i, 1};
-            p[++tot] = {x1-1, y2, z1-1, i, 1};
-            p[++tot] = {x1-1, y1-1, z1-1, i, -1};
-        }
-    }
-    sort(p+1, p+tot+1, cmp);
-    CDQ1(1, tot);
-    for(int i=1; i&lt;=q; i++)
-        if(isq[i]) printf(&quot;%d\n&quot;, ans[i]);
-}
-int main()
-{
-    int T; scanf(&quot;%d&quot;, &amp;T);
-    while(T--) solve();
-    return 0;
-}
-</code></pre>
-<p>p5621<br>
-四维LIS<br>
-树状数组维护第四维的dp前缀max,第四维要离散化,同时相同的四元组要合并<br>
-<strong>注意</strong><br>
-此题要先cdq左半部分,然后统计左对右的答案,再cdq右半部分.<br>
-而上一题是先cdq左右,最后再统计答案(其实也可以按本题的流程,但本题不可以这样,因为本质是一个dp,必须从左到右,而统计没这个要求).</p>
-<pre><code class="language-cpp">#include &lt;bits/stdc++.h&gt;
-#define mp make_pair
-#define pb push_back
-#define sz(x) (int)x.size()
-#define all(x) begin(x), end(x)
-#define fi first
-#define se second
-#define debug(x) cerr &lt;&lt; #x &lt;&lt; &quot; &quot; &lt;&lt; x &lt;&lt; '\n'
-using namespace std;
-using ll = long long;
-using pii = pair&lt;int,int&gt;;
-using pli = pair&lt;ll,int&gt;;
-const int INF = 0x3f3f3f3f, N = 5e4 + 5;
-const ll LINF = 1e18 + 5;
-constexpr int mod = 1e9 + 7;
-int n, m;
-int id[N], lsh[N];
-ll c[N];
-void upd(int x, ll v)
-{
-	for(int i=x; i&lt;=m; i+=(i&amp;-i)) c[i] = max(c[i], v);
-}
-void clear(int x)
-{
-	for(int i=x; i&lt;=m; i+=(i&amp;-i)) c[i] = 0;
-}
-ll ask(int x)
-{
-	ll ans = 0;
-	for(int i=x; i&gt;0; i-=(i&amp;-i)) ans = max(ans, c[i]);
-	return ans;
-}
-struct item
-{
-	int a, b, c, d, id;
-	bool t;
-	ll mx, val;
-}p[N], tmp[N];
-bool cmp1(item x, item y)
-{
-	if(x.a==y.a) 
-	{
-		if(x.b==y.b) return x.c==y.c ? x.d &lt; y.d : x.c &lt; y.c;
-		return x.b &lt; y.b;
-	}
-	return x.a &lt; y.a;
-}
-bool cmp2(item x, item y)
-{
-	if(x.b==y.b) return x.c==y.c ? x.d &lt; y.d : x.c &lt; y.c;
-	return x.b &lt; y.b;
-}
-bool cmp3(item x, item y)
-{
-	return x.c==y.c ? x.d &lt; y.d : x.c &lt; y.c;
-}
-void CDQ2(int l, int r)
-{
-	if(l==r) return;
-	int mid = (l+r)&gt;&gt;1;
-	CDQ2(l, mid);
-	sort(p+l, p+mid+1, cmp3);
-	sort(p+mid+1, p+r+1, cmp3);
-	int i = l, j = mid+1;
-	while(j&lt;=r)
-	{
-		while(i&lt;=mid &amp;&amp; p[i].c&lt;=p[j].c)
-		{
-			if(!p[i].t) upd(p[i].d, p[i].mx);
-			i++;
-		}
-		if(p[j].t) p[j].mx = max(p[j].mx, ask(p[j].d)+p[j].val);
-		j++;
-	}
-	for(int i=l; i&lt;=mid; i++) if(!p[i].t) clear(p[i].d);
-	for(int i=l; i&lt;=r; i++) tmp[id[p[i].id]] = p[i];
-	for(int i=l; i&lt;=r; i++) p[i] = tmp[i];
-	CDQ2(mid+1, r);
-}
-void CDQ1(int l, int r)
-{
-	if(l==r) return;
-	int mid = (l+r)&gt;&gt;1;
-	CDQ1(l, mid);
-	for(int i=l; i&lt;=mid; i++) p[i].t = 0;
-	for(int i=mid+1; i&lt;=r; i++) p[i].t = 1;
-	sort(p+l, p+r+1, cmp2);
-	for(int i=l; i&lt;=r; i++) id[p[i].id] = i;
-	CDQ2(l, r);
-	for(int i=l; i&lt;=r; i++) tmp[p[i].id] = p[i];
-	for(int i=l; i&lt;=r; i++) p[i] = tmp[i];
-	CDQ1(mid+1, r);
-}
-int main()
-{
-	scanf(&quot;%d&quot;, &amp;n);
-	for(int i=1; i&lt;=n; i++)
-	{
-		scanf(&quot;%d%d%d%d&quot;, &amp;p[i].a, &amp;p[i].b, &amp;p[i].c, &amp;p[i].d);
-		scanf(&quot;%lld&quot;, &amp;p[i].val);
-		lsh[i] = p[i].d;
-	}
-	sort(lsh+1, lsh+n+1);
-	m = unique(lsh+1, lsh+n+1) - lsh - 1;
-	for(int i=1; i&lt;=n; i++)
-		p[i].d = lower_bound(lsh+1, lsh+m+1, p[i].d) - lsh;
-	int tot = 1;
-	sort(p+1, p+n+1, cmp1);
-	for(int i=2; i&lt;=n; i++)
-	{
-		if(p[i].a!=p[i-1].a||p[i].b!=p[i-1].b||p[i].c!=p[i-1].c||p[i].d!=p[i-1].d) p[++tot] = p[i];
-		else p[tot].val += max(p[i].val, 0ll);
-	}
-	n = tot;
-	for(int i=1; i&lt;=n; i++) 
-	{
-		p[i].id = i;
-		p[i].mx = p[i].val;
-	}
-	CDQ1(1, n);
-	ll ans = 0;
-	for(int i=1; i&lt;=n; i++) ans = max(ans, p[i].mx);
-	printf(&quot;%lld\n&quot;, ans);
-	return 0;
-}
-</code></pre>
-]]></content>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[p5107 矩阵快速幂+倍增+卡常]]></title>
-        <id>https://jyf111.github.io/post/p5107-ju-zhen-kuai-su-mi-bei-zeng-qia-chang/</id>
-        <link href="https://jyf111.github.io/post/p5107-ju-zhen-kuai-su-mi-bei-zeng-qia-chang/">
-        </link>
-        <updated>2020-05-13T08:57:44.000Z</updated>
-        <content type="html"><![CDATA[<p>带行和列的矩阵模板<br>
-记得初始化行列,注意左乘还是右乘<br>
-注意到询问很多,所以先预处理好倍增矩阵,(倍数不一定要是2,如果预处理复杂度比较低,可以增大倍数b)<br>
-增大倍数,预处理复杂度提升,但询问复杂度降低,可以考虑制衡两者<br>
-询问可以按从小到大的顺序排序,可以减少一些运算<br>
-可以把矩阵乘法的for进行循环展开</p>
-<pre><code class="language-cpp">#include &lt;bits/stdc++.h&gt;
-#define mp make_pair
-#define pb push_back
-#define sz(x) (int)x.size()
-#define all(x) begin(x), end(x)
-#define fi first
-#define se second
-#define debug(x) cerr &lt;&lt; #x &lt;&lt; &quot; &quot; &lt;&lt; x &lt;&lt; '\n'
-using namespace std;
-using ll = long long;
-using pii = pair&lt;int,int&gt;;
-using pli = pair&lt;ll,int&gt;;
-const int INF = 0x3f3f3f3f, N = 55, M = 5e4 + 5;
-const ll LINF = 1e18 + 5;
-constexpr int mod = 998244353;
-int n, m, q, qry[M], idx[M], res[M];
-ll inv[N];
-struct matrix
-{
-	int n, m;
-	ll mat[N][N];
-	matrix() { memset(mat, 0, sizeof(mat)); }
-	matrix(int a, int b) : n(a), m(b) { memset(mat, 0, sizeof(mat)); }
-	void one()
-	{
-		for(int i=1; i&lt;=n; i++)
-			for(int j=1; j&lt;=m; j++)
-				mat[i][j] = (i==j);
-	}
-}b[32];
-matrix operator * (matrix a, matrix b) 
-{
-	matrix res(a.n, b.m);
-	for(int i=1; i&lt;=a.n; i++)
-		for(int j=1; j&lt;=b.m; j++)
-			for(int k=1; k&lt;=a.m; k++)
-				res.mat[i][j] = (res.mat[i][j]+a.mat[i][k]*b.mat[k][j]%mod)%mod;
-	return res;
-}
-matrix operator ^ (matrix a, ll x) 
-{
-	matrix res; res.one();
-	while(x)
-	{
-		if(x&amp;1) res = res * a;
-		a = a * a;
-		x &gt;&gt;= 1;
-	}
-	return res;
-}
-int main()
-{
-	scanf(&quot;%d%d%d&quot;, &amp;n, &amp;m, &amp;q);
-	matrix a(n, 1);
-	for(int i=1; i&lt;=n; i++) scanf(&quot;%lld&quot;, &amp;a.mat[i][1]);
-	b[0].n = b[0].m = n;
-	b[0].one();
-	for(int i=1; i&lt;=m; i++)
-	{
-		int u, v; scanf(&quot;%d%d&quot;, &amp;u, &amp;v);
-		b[0].mat[v][u]++;
-	}
-	inv[0] = inv[1] = 1;
-	for(int i=2; i&lt;=n; i++) inv[i] = (mod-mod/i)*inv[mod%i]%mod;
-	for(int j=1; j&lt;=n; j++)
-	{
-		int d = 0;
-		for(int i=1; i&lt;=n; i++) d += b[0].mat[i][j];
-		for(int i=1; i&lt;=n; i++) b[0].mat[i][j] = b[0].mat[i][j]*inv[d]%mod;
-	}
-	for(int i=1; i&lt;=31; i++) b[i] = b[i-1]*b[i-1];
-	for(int i=1; i&lt;=q; i++) scanf(&quot;%d&quot;, qry+i);
-	iota(idx+1, idx+q+1, 1);
-	sort(idx+1, idx+q+1, [](int x, int y) {
-		return qry[x] &lt; qry[y];
-	});
-	matrix ans = a;
-	for(int i=1; i&lt;=q; i++)
-	{
-		int tmp = qry[idx[i]] - qry[idx[i-1]];
-		for(int j=31; j&gt;=0; j--)
-			if((tmp&gt;&gt;j)&amp;1) ans = b[j]*ans;
-		ll Res = 0;
-		for(int i=1; i&lt;=n; i++) Res ^= ans.mat[i][1];
-		res[idx[i]] = Res%mod;
-	}
-	for(int i=1; i&lt;=q; i++) printf(&quot;%d\n&quot;, res[i]);
-	return 0;
-}
-</code></pre>
-]]></content>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[Codeforces1349]]></title>
-        <id>https://jyf111.github.io/post/codeforces1349/</id>
-        <link href="https://jyf111.github.io/post/codeforces1349/">
-        </link>
-        <updated>2020-05-13T07:17:22.000Z</updated>
-        <content type="html"><![CDATA[<h1 id="a">A</h1>
-<h2 id="题意">题意</h2>
-<p>给定n个数<span class="katex"><span class="katex-mathml"><math><semantics><mrow><msub><mi>a</mi><mi>i</mi></msub></mrow><annotation encoding="application/x-tex">a_i</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.58056em;vertical-align:-0.15em;"></span><span class="mord"><span class="mord mathdefault">a</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.31166399999999994em;"><span style="top:-2.5500000000000003em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathdefault mtight">i</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span></span></span></span>,求<span class="katex"><span class="katex-mathml"><math><semantics><mrow><mi>g</mi><mi>c</mi><mi>d</mi><mrow><mo>(</mo><mi>l</mi><mi>c</mi><mi>m</mi><mo>(</mo><msub><mi>a</mi><mi>i</mi></msub><mo separator="true">,</mo><msub><mi>a</mi><mi>j</mi></msub><mo>)</mo><mo>)</mo></mrow></mrow><annotation encoding="application/x-tex">gcd{(lcm(a_i,a_j))}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1.036108em;vertical-align:-0.286108em;"></span><span class="mord mathdefault" style="margin-right:0.03588em;">g</span><span class="mord mathdefault">c</span><span class="mord mathdefault">d</span><span class="mord"><span class="mopen">(</span><span class="mord mathdefault" style="margin-right:0.01968em;">l</span><span class="mord mathdefault">c</span><span class="mord mathdefault">m</span><span class="mopen">(</span><span class="mord"><span class="mord mathdefault">a</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.31166399999999994em;"><span style="top:-2.5500000000000003em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathdefault mtight">i</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.16666666666666666em;"></span><span class="mord"><span class="mord mathdefault">a</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.311664em;"><span style="top:-2.5500000000000003em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathdefault mtight" style="margin-right:0.05724em;">j</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.286108em;"><span></span></span></span></span></span></span><span class="mclose">)</span><span class="mclose">)</span></span></span></span></span></p>
-<h2 id="做法">做法</h2>
-<p>考虑gcd和lcm的本质,gcd就是所有数个质因子幂次取min,而lcm是取max<br>
-所以答案就是各质因子幂次的次大值(<s>不会维护</s>)<br>
-考虑a[i]对答案的贡献,就是<span class="katex"><span class="katex-mathml"><math><semantics><mrow><mi>l</mi><mi>c</mi><mi>m</mi><mo>(</mo><msub><mi>a</mi><mi>i</mi></msub><mo separator="true">,</mo><mi>s</mi><mi>u</mi><mi>f</mi><mi>g</mi><mi>c</mi><msub><mi>d</mi><mrow><mi>i</mi><mo>+</mo><mn>1</mn></mrow></msub><mo>)</mo></mrow><annotation encoding="application/x-tex">lcm(a_i, sufgcd_{i+1})</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathdefault" style="margin-right:0.01968em;">l</span><span class="mord mathdefault">c</span><span class="mord mathdefault">m</span><span class="mopen">(</span><span class="mord"><span class="mord mathdefault">a</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.31166399999999994em;"><span style="top:-2.5500000000000003em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathdefault mtight">i</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.16666666666666666em;"></span><span class="mord mathdefault">s</span><span class="mord mathdefault">u</span><span class="mord mathdefault" style="margin-right:0.10764em;">f</span><span class="mord mathdefault" style="margin-right:0.03588em;">g</span><span class="mord mathdefault">c</span><span class="mord"><span class="mord mathdefault">d</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.311664em;"><span style="top:-2.5500000000000003em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathdefault mtight">i</span><span class="mbin mtight">+</span><span class="mord mtight">1</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.208331em;"><span></span></span></span></span></span></span><span class="mclose">)</span></span></span></span> sufgcd为后缀gcd<br>
-最后各个数贡献取gcd即可</p>
-<h1 id="b">B</h1>
-<h2 id="题意-2">题意</h2>
-<p>给定n个数<span class="katex"><span class="katex-mathml"><math><semantics><mrow><msub><mi>a</mi><mi>i</mi></msub></mrow><annotation encoding="application/x-tex">a_i</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.58056em;vertical-align:-0.15em;"></span><span class="mord"><span class="mord mathdefault">a</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.31166399999999994em;"><span style="top:-2.5500000000000003em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathdefault mtight">i</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span></span></span></span>,每次操作可以选定一个连续子段,并把所有数变为中位数(第<span class="katex"><span class="katex-mathml"><math><semantics><mrow><mo>⌊</mo><mfrac><mrow><mi>n</mi><mo>+</mo><mn>1</mn></mrow><mn>2</mn></mfrac><mo>⌋</mo></mrow><annotation encoding="application/x-tex">\lfloor \frac{n+1}{2} \rfloor</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1.190108em;vertical-align:-0.345em;"></span><span class="mopen">⌊</span><span class="mord"><span class="mopen nulldelimiter"></span><span class="mfrac"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.845108em;"><span style="top:-2.6550000000000002em;"><span class="pstrut" style="height:3em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mtight">2</span></span></span></span><span style="top:-3.23em;"><span class="pstrut" style="height:3em;"></span><span class="frac-line" style="border-bottom-width:0.04em;"></span></span><span style="top:-3.394em;"><span class="pstrut" style="height:3em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathdefault mtight">n</span><span class="mbin mtight">+</span><span class="mord mtight">1</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.345em;"><span></span></span></span></span></span><span class="mclose nulldelimiter"></span></span><span class="mclose">⌋</span></span></span></span>大的数),问能否通过若干次操作使整个数列所有数都是k</p>
-<h2 id="做法-2">做法</h2>
-<p>1.如果没有k,无解<br>
-2.n=1,看是不是k<br>
-3.如果有一段连续的k(&gt;=2),则一定有解,因为每次都可以至少向左右延拓一步.<br>
-考虑到两个&gt;=k的数可以把一个&lt;k的数变成&gt;=k.而一个=k数可以把一个&gt;k的数变成k<br>
-只要<strong>存在两个&gt;=k的数的位置差&lt;2</strong>则一定有解(首先变成3个&gt;=k的数,然后不断延拓即可)</p>
-<h1 id="c">C</h1>
-<h2 id="题意-3">题意</h2>
-<p>一个黑白格,在每一秒,若一个格子与上下左右的格子颜色不同,它的颜色不改变,否则改变.问某个格子t秒后的颜色</p>
-<h2 id="做法-3">做法</h2>
-<p>如果该格子与四周某格子颜色相同,那么它就一直会改变,否则它会保持不变x秒后,再一直改变,x为距离该格子最近的一直改变的格子的曼哈顿距离,多源bfs预处理即可.</p>
-]]></content>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[Binary Land 双栈trick]]></title>
-        <id>https://jyf111.github.io/post/binary-land-shuang-zhan-trick/</id>
-        <link href="https://jyf111.github.io/post/binary-land-shuang-zhan-trick/">
-        </link>
-        <updated>2020-05-11T12:57:21.000Z</updated>
-        <content type="html"><![CDATA[<p>要求动态维护一个01矩阵,支持:<br>
-1.从顶部删除一行<br>
-2.从尾部添加一行<br>
-3.询问当前顶部某列到尾部某列的合法路径数<br>
-其中合法路径数定义为,每次只能从<span class="katex"><span class="katex-mathml"><math><semantics><mrow><mo>[</mo><mi>i</mi><mo separator="true">,</mo><mi>j</mi><mo>]</mo><mo>−</mo><mo>&gt;</mo><mo>[</mo><mi>i</mi><mo separator="true">,</mo><mi>j</mi><mo>−</mo><mn>1</mn><mo>]</mo><mi>o</mi><mi>r</mi><mo>[</mo><mi>i</mi><mo separator="true">,</mo><mi>j</mi><mo>]</mo><mi>o</mi><mi>r</mi><mo>[</mo><mi>i</mi><mo separator="true">,</mo><mi>j</mi><mo>+</mo><mn>1</mn><mo>]</mo></mrow><annotation encoding="application/x-tex">[i, j]-&gt;[i,j-1]or[i,j]or[i,j+1]</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mopen">[</span><span class="mord mathdefault">i</span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.16666666666666666em;"></span><span class="mord mathdefault" style="margin-right:0.05724em;">j</span><span class="mclose">]</span><span class="mord">−</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span><span class="mrel">&gt;</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span></span><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mopen">[</span><span class="mord mathdefault">i</span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.16666666666666666em;"></span><span class="mord mathdefault" style="margin-right:0.05724em;">j</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span><span class="mbin">−</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span></span><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord">1</span><span class="mclose">]</span><span class="mord mathdefault">o</span><span class="mord mathdefault" style="margin-right:0.02778em;">r</span><span class="mopen">[</span><span class="mord mathdefault">i</span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.16666666666666666em;"></span><span class="mord mathdefault" style="margin-right:0.05724em;">j</span><span class="mclose">]</span><span class="mord mathdefault">o</span><span class="mord mathdefault" style="margin-right:0.02778em;">r</span><span class="mopen">[</span><span class="mord mathdefault">i</span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.16666666666666666em;"></span><span class="mord mathdefault" style="margin-right:0.05724em;">j</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span><span class="mbin">+</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span></span><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord">1</span><span class="mclose">]</span></span></span></span>,且要求两点同为0或1<br>
-矩阵列数=20,操作数=3e5</p>
-<h1 id="做法">做法</h1>
-<p>显然路径数可以通过简单dp求得,从尾部添加一行也很简单,可以O(col)求得,但是删除操作很麻烦,必须全部重算.<br>
-此时就有一个trick了,当要求的是双端队列操作,但是只有添加可以快速做,那就可以用两个对顶栈来操作.开口向上的为s1,开口向下的为s2<br>
-尾部添加就让s2的栈指针++,并且O(col)更新<br>
-顶部删除就让s1的栈指针--,注意如果s1的栈指针为0,就把s2的所有值搬到s1,此时就相当于给s1添加,s2删除.<br>
-列数很少,我们直接保存所有可能的 n^2 个答案,然后每次修改也都是 n^2 的.<br>
-询问的话, n^2 处理下对顶处部分答案的合并即可.</p>
-<pre><code class="language-cpp">#include &lt;bits/stdc++.h&gt;
-#define mp make_pair
-#define pb push_back
-#define sz(x) (int)x.size()
-#define all(x) begin(x), end(x)
-#define fi first
-#define se second
-#define debug(x) cerr &lt;&lt; #x &lt;&lt; &quot; &quot; &lt;&lt; x &lt;&lt; '\n'
-using namespace std;
-using ll = long long;
-using pii = pair&lt;int,int&gt;;
-using pli = pair&lt;ll,int&gt;;
-const int INF = 0x3f3f3f3f, N = 3e5 + 5, M = 25;
-const ll LINF = 1e18 + 5;
-constexpr int mod = 1e9 + 7;
-int n, q, sta[2];
-int dp[2][N][M][M];
-string p[2][N];
-void upd(int idx)
-{
-    int x = sta[idx];
-    if(x==1) 
-    {
-        for(int i=1; i&lt;=n; i++)
-            for(int j=1; j&lt;=n; j++)
-                dp[idx][x][i][j] = (i==j);
-    }
-    else
-    {
-        for(int i=1; i&lt;=n; i++)
-            for(int j=1; j&lt;=n; j++)
-            {
-                dp[idx][x][i][j] = 0;
-                for(int k=j-1; k&lt;=j+1; k++)
-                {
-                    if(k&lt;1||k&gt;n||p[idx][x-1][k-1]!=p[idx][x][j-1]) continue;
-                    dp[idx][x][i][j] += dp[idx][x-1][i][k];
-                    if(dp[idx][x][i][j]&gt;=mod) dp[idx][x][i][j] -= mod;
-                }
-            }
-    }
-}
-int main()
-{
-    ios::sync_with_stdio(false);
-    cin.tie(nullptr);
-    cin &gt;&gt; n &gt;&gt; q;
-    while(q--)
-    {
-        string op;
-        cin &gt;&gt; op;
-        if(op[0]=='a')
-        {
-            cin &gt;&gt; p[1][++sta[1]]; 
-            upd(1);
-        }
-        else if(op[0]=='r')
-        {
-            if(sta[0]==0)
-            {
-                while(sta[1]) 
-                {
-                    p[0][++sta[0]] = p[1][sta[1]--];
-                    upd(0);
-                }
-            }
-            sta[0]--;
-        }
-        else
-        {
-            int a, b;
-            cin &gt;&gt; a &gt;&gt; b;
-            if(sta[0]==0) cout &lt;&lt; dp[1][sta[1]][a][b] &lt;&lt; '\n';
-            else if(sta[1]==0) cout &lt;&lt; dp[0][sta[0]][b][a] &lt;&lt; '\n';
-            else
-            {
-                int ans = 0;
-                for(int i=1; i&lt;=n; i++)
-                    for(int j=i-1; j&lt;=i+1; j++)
-                    {
-                        if(j&lt;1||j&gt;n||p[0][1][i-1]!=p[1][1][j-1]) continue;
-                        ans += 1ll*dp[0][sta[0]][i][a]*dp[1][sta[1]][j][b]%mod;
-                        if(ans&gt;=mod) ans -= mod;
-                    }
-                cout &lt;&lt; ans &lt;&lt; '\n';
-            }
-        }
-    }
-    return 0;
-}
-</code></pre>
-]]></content>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[Not a real world problem 最小割+方案]]></title>
-        <id>https://jyf111.github.io/post/not-a-real-problem-zui-xiao-ge-fang-an/</id>
-        <link href="https://jyf111.github.io/post/not-a-real-problem-zui-xiao-ge-fang-an/">
-        </link>
-        <updated>2020-05-11T10:24:08.000Z</updated>
-        <content type="html"><![CDATA[<p>有h*w的网格,每个点有权值h[i][j], 有n个粒子,告诉你每个点的坐标(x,y),权值的绝对值<br>
-<span class="katex"><span class="katex-mathml"><math><semantics><mrow><mo fence="true">∣</mo><mi>p</mi><mo>[</mo><mi>i</mi><mo>]</mo><mo fence="true">∣</mo></mrow><annotation encoding="application/x-tex">\left| p[i] \right|</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="minner"><span class="mopen delimcenter" style="top:0em;">∣</span><span class="mord mathdefault">p</span><span class="mopen">[</span><span class="mord mathdefault">i</span><span class="mclose">]</span><span class="mclose delimcenter" style="top:0em;">∣</span></span></span></span></span>,定义价值为<span class="katex"><span class="katex-mathml"><math><semantics><mrow><mo>∑</mo><mrow><mi>p</mi><mo>[</mo><mi>i</mi><mo>]</mo><mo>∗</mo><mi>h</mi><mo>[</mo><mi>x</mi><mo>[</mo><mi>i</mi><mo>]</mo><mo>]</mo><mo>[</mo><mi>y</mi><mo>[</mo><mi>i</mi><mo>]</mo><mo>]</mo></mrow><mo>+</mo><mo>∑</mo><mrow><mi>p</mi><mo>[</mo><mi>i</mi><mo>]</mo><mo>∗</mo><mi>p</mi><mo>[</mo><mi>j</mi><mo>]</mo></mrow><mo>(</mo><mi mathvariant="normal">如</mi><mi mathvariant="normal">果</mi><mi>i</mi><mi mathvariant="normal">点</mi><mi mathvariant="normal">和</mi><mi>j</mi><mi mathvariant="normal">点</mi><mi mathvariant="normal">相</mi><mi mathvariant="normal">邻</mi><mo>)</mo></mrow><annotation encoding="application/x-tex">\sum{p[i]*h[x[i]][y[i]]} + \sum{p[i]*p[j]}(如果i点和j点相邻)</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1.00001em;vertical-align:-0.25001em;"></span><span class="mop op-symbol small-op" style="position:relative;top:-0.0000050000000000050004em;">∑</span><span class="mspace" style="margin-right:0.16666666666666666em;"></span><span class="mord"><span class="mord mathdefault">p</span><span class="mopen">[</span><span class="mord mathdefault">i</span><span class="mclose">]</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span><span class="mbin">∗</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span><span class="mord mathdefault">h</span><span class="mopen">[</span><span class="mord mathdefault">x</span><span class="mopen">[</span><span class="mord mathdefault">i</span><span class="mclose">]</span><span class="mclose">]</span><span class="mopen">[</span><span class="mord mathdefault" style="margin-right:0.03588em;">y</span><span class="mopen">[</span><span class="mord mathdefault">i</span><span class="mclose">]</span><span class="mclose">]</span></span><span class="mspace" style="margin-right:0.2222222222222222em;"></span><span class="mbin">+</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span></span><span class="base"><span class="strut" style="height:1.00001em;vertical-align:-0.25001em;"></span><span class="mop op-symbol small-op" style="position:relative;top:-0.0000050000000000050004em;">∑</span><span class="mspace" style="margin-right:0.16666666666666666em;"></span><span class="mord"><span class="mord mathdefault">p</span><span class="mopen">[</span><span class="mord mathdefault">i</span><span class="mclose">]</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span><span class="mbin">∗</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span><span class="mord mathdefault">p</span><span class="mopen">[</span><span class="mord mathdefault" style="margin-right:0.05724em;">j</span><span class="mclose">]</span></span><span class="mopen">(</span><span class="mord cjk_fallback">如</span><span class="mord cjk_fallback">果</span><span class="mord mathdefault">i</span><span class="mord cjk_fallback">点</span><span class="mord cjk_fallback">和</span><span class="mord mathdefault" style="margin-right:0.05724em;">j</span><span class="mord cjk_fallback">点</span><span class="mord cjk_fallback">相</span><span class="mord cjk_fallback">邻</span><span class="mclose">)</span></span></span></span><br>
-问如何分配p的正负号可以最大化价值,并输出方案</p>
-<h1 id="做法">做法</h1>
-<p>这种分配到两个集合,然后定义一下价值并最大化的可以考虑转化为最小割,s代表+号,t代表-号,那么对于每个粒子i:s-&gt;i,权值为<span class="katex"><span class="katex-mathml"><math><semantics><mrow><mi>p</mi><mo>[</mo><mi>i</mi><mo>]</mo><mo>∗</mo><mi>h</mi><mo>[</mo><mi>x</mi><mo>[</mo><mi>i</mi><mo>]</mo><mo>]</mo><mo>[</mo><mi>y</mi><mo>[</mo><mi>i</mi><mo>]</mo><mo>]</mo></mrow><annotation encoding="application/x-tex">p[i]*h[x[i]][y[i]]</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathdefault">p</span><span class="mopen">[</span><span class="mord mathdefault">i</span><span class="mclose">]</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span><span class="mbin">∗</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span></span><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathdefault">h</span><span class="mopen">[</span><span class="mord mathdefault">x</span><span class="mopen">[</span><span class="mord mathdefault">i</span><span class="mclose">]</span><span class="mclose">]</span><span class="mopen">[</span><span class="mord mathdefault" style="margin-right:0.03588em;">y</span><span class="mopen">[</span><span class="mord mathdefault">i</span><span class="mclose">]</span><span class="mclose">]</span></span></span></span>(表示如果割掉,则p为负号,会<strong>损失</strong>这么多),同理i-&gt;t,权值为<span class="katex"><span class="katex-mathml"><math><semantics><mrow><mo>−</mo><mi>p</mi><mo>[</mo><mi>i</mi><mo>]</mo><mo>∗</mo><mi>h</mi><mo>[</mo><mi>x</mi><mo>[</mo><mi>i</mi><mo>]</mo><mo>]</mo><mo>[</mo><mi>y</mi><mo>[</mo><mi>i</mi><mo>]</mo><mo>]</mo></mrow><annotation encoding="application/x-tex">-p[i]*h[x[i]][y[i]]</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord">−</span><span class="mord mathdefault">p</span><span class="mopen">[</span><span class="mord mathdefault">i</span><span class="mclose">]</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span><span class="mbin">∗</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span></span><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathdefault">h</span><span class="mopen">[</span><span class="mord mathdefault">x</span><span class="mopen">[</span><span class="mord mathdefault">i</span><span class="mclose">]</span><span class="mclose">]</span><span class="mopen">[</span><span class="mord mathdefault" style="margin-right:0.03588em;">y</span><span class="mopen">[</span><span class="mord mathdefault">i</span><span class="mclose">]</span><span class="mclose">]</span></span></span></span>,注意不能有负权,所以全加一个偏移量offset.<br>
-再考虑相邻点,如果符号相同有一种收获x,符号不同有一种收获y.其实只要从i向j连边x-y,从j向i也连边x-y.可以默认两者符号相同收获x,那么如果割掉i与j间的边,说明两者分别属于s和t,损失x-y.<br>
-建完图最大流,输出方案只要从源点走权值&gt;0的边,所有经过的点就是属于s的(即符号为正)</p>
-<pre><code class="language-cpp">#include &lt;bits/stdc++.h&gt;
-#define mp make_pair
-#define pb push_back
-#define sz(x) (int)x.size()
-#define all(x) begin(x), end(x)
-#define fi first
-#define se second
-#define debug(x) cerr &lt;&lt; #x &lt;&lt; &quot; &quot; &lt;&lt; x &lt;&lt; '\n'
-using namespace std;
-using ll = long long;
-using pii = pair&lt;int,int&gt;;
-using pli = pair&lt;ll,int&gt;;
-const int INF = 0x3f3f3f3f, maxn = 1e3 + 5;
-const ll LINF = 1e18 + 5;
-constexpr int mod = 1e9 + 7;
-int h, w, n, p[maxn], a[maxn][maxn], x[maxn], y[maxn], state[maxn];
-const int N = 1e4 + 5, M = 2e5 + 5; 
-int cnt, head[N];
-bool vis[N];
-struct node
-{
-	int next, to, w;
-}e[M&lt;&lt;1];
-inline void add(int u,int v,int w)
-{
-	e[++cnt].next = head[u];
-	e[cnt].to = v;
-	e[cnt].w = w;
-	head[u] = cnt;
-}
-struct Dinic
-{
-	int n, m, s, t; 
-	int dep[N], cur[N];
-	void init(int n,int s,int t)
-	{
-		this-&gt;s = s, this-&gt;t = t, this-&gt;n = n;
-		cnt = 1, m = 0;
-		memset(head,0,(n+1)*sizeof(int));
-		memset(vis,0,(n+1)*sizeof(bool));
-	}
-	void addedge(int u,int v,int cap) 
-	{
-		add(u,v,cap); 
-		add(v,u,0);
-		m += 2;
-	}
-	bool bfs()
-	{
-		memset(dep,0,(n+1)*sizeof(int));
-		memcpy(cur,head,(n+1)*sizeof(int));
-		queue &lt;int&gt; q;
-		q.push(s); dep[s] = 1;
-		while(!q.empty())
-		{
-			int u = q.front(); q.pop();
-			for(int i=head[u];i;i=e[i].next)
-			{
-				int v = e[i].to;
-				if(!dep[v]&amp;&amp;e[i].w&gt;0)
-				{
-					dep[v] = dep[u] + 1;
-					q.push(v);
-				}
-			}
-		}
-		return dep[t];
-	}
-	int dfs(int u,int flow)
-	{
-		if(u==t||!flow) return flow;
-		int used = flow;
-		for(int i=cur[u];i;i=e[i].next)
-		{
-			cur[u] = i;
-			int v = e[i].to;
-			if(dep[v]==dep[u]+1)
-			{
-				int low = dfs(v,min(flow,e[i].w));
-				e[i].w -= low; e[i^1].w += low;
-				flow -= low;
-				if(!flow) break;
-			}
-		}
-		return used - flow;
-	}
-	int go()
-	{
-		int maxflow = 0;
-		while(bfs()) maxflow += dfs(s,INF);
-		return maxflow;
-	}
-	void dfs(int u) 
-	{
-		vis[u] = 1;
-		for (int i = head[u]; i; i = e[i].next) 
-		{
-			if (e[i].w&gt;0) 
-			{
-				if (vis[e[i].to]) continue;
-				state[e[i].to] = 1;
-				dfs(e[i].to);
-			}
-		}
-	}
-}MF;
-void solve()
-{
-	scanf(&quot;%d%d%d&quot;, &amp;h, &amp;w, &amp;n);
-	for(int i=1; i&lt;=h; i++)
-		for(int j=1; j&lt;=w; j++)
-			scanf(&quot;%d&quot;, &amp;a[i][j]);
-	for(int i=1; i&lt;=n; i++)
-		scanf(&quot;%d%d%d&quot;, x+i, y+i, p+i);
-	MF.init(n+2, 0, n+1);
-	int ans = n*100000;
-	for(int i=1; i&lt;=n; i++)
-	{
-		state[i] = 0;
-		MF.addedge(MF.s, i, p[i]*a[x[i]][y[i]]+100000);
-		MF.addedge(i, MF.t, -p[i]*a[x[i]][y[i]]+100000);
-		for(int j=i+1; j&lt;=n; j++)
-			if(abs(x[i]-x[j])+abs(y[i]-y[j])&lt;=1)
-				MF.addedge(i, j, 2*p[i]*p[j]), MF.addedge(j, i, 2*p[i]*p[j]), ans += p[i]*p[j];
-	}
-	ans -= MF.go();
-	printf(&quot;%d\n&quot;, ans);
-	MF.dfs(MF.s);
-	for(int i=1; i&lt;=n; i++) 
-		if(state[i]) printf(&quot;1%c&quot;, &quot; \n&quot;[i==n]);
-		else printf(&quot;-1%c&quot;, &quot; \n&quot;[i==n]);
-}
-int main()
-{
-	int T; scanf(&quot;%d&quot;, &amp;T);
-	while(T--) solve();
-	return 0;
-}
-</code></pre>
-]]></content>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[ Sorting Vases 思维]]></title>
-        <id>https://jyf111.github.io/post/sorting-vases-si-wei/</id>
-        <link href="https://jyf111.github.io/post/sorting-vases-si-wei/">
-        </link>
-        <updated>2020-05-11T04:05:46.000Z</updated>
-        <content type="html"><![CDATA[<p>给定一个n的排列p,每次可以任意交换两个位置,花费为1,然后又给定m组交换,花费为0(可以任意次使用),问使该排列p有序的最小花费.(n&lt;=18, m&lt;=18)</p>
-<h1 id="做法">做法</h1>
-<p>先考虑m=0,此时只要让每个数直接向目标位置交换即可,答案为n-环的个数<br>
-再考虑m,既然可以任意交换,那就相当于这些位置是等价的,可以维护出每个等价的集合,然后直接全排列枚举每个集合,让p通过m=0的方式转换成该排列,最后取最小值.这样交的话其实只会tle一个点.<br>
-如果某个集合的大小&gt;10,全排列枚举显然t.但是我们并不需要枚举每个集合的排列,因为前几个数归位后,最后一个集合的数自然就归位了.所以我们不枚举最大的集合就可以了,这样我们枚举的集合的大小最多只有9,9!(362 880)完全可以接受.</p>
-<pre><code class="language-cpp">#include &lt;bits/stdc++.h&gt;
-#define mp make_pair
-#define pb push_back
-#define sz(x) (int)x.size()
-#define all(x) begin(x), end(x)
-#define fi first
-#define se second
-#define debug(x) cerr &lt;&lt; #x &lt;&lt; &quot; &quot; &lt;&lt; x &lt;&lt; '\n'
-using namespace std;
-using ll = long long;
-using pii = pair&lt;int,int&gt;;
-using pli = pair&lt;ll,int&gt;;
-const int INF = 0x3f3f3f3f, N = 20;
-const ll LINF = 1e18 + 5;
-constexpr int mod = 1e9 + 7;
-int n, m, p[N], pos[N], x[N], y[N];
-int tmpp[N];
-int f[N], ans;
-vector&lt;vector&lt;int&gt;&gt; vec;
-vector&lt;int&gt; rt[N];
-int find(int x)
-{
-	if(x==f[x]) return x;
-	return f[x] = find(f[x]);
-}
-void merge(int x, int y)
-{
-	x = find(x), y = find(y);
-	if(x==y) return;
-	f[x] = y;
-}
-int cal()
-{	
-	int cnt = 0;
-	for(int i=1; i&lt;=n; i++) 
-		tmpp[i] = p[i];
-	for(int i=1; i&lt;=n; i++)
-	{
-		int j = i;
-		while(pos[tmpp[j]]&amp;&amp;pos[tmpp[j]]!=j) 
-		{
-			cnt++;
-			swap(tmpp[j], tmpp[pos[tmpp[j]]]);
-		}
-	}
-	return cnt;
-}
-void dfs(int x)
-{
-	if(x==sz(vec))
-	{
-		ans = min(ans, cal());
-		return;
-	}
-	vector&lt;int&gt; idx(sz(vec[x]));
-	iota(all(idx), 0);
-	do {
-		for(int i=0; i&lt;sz(vec[x]); i++)
-			pos[vec[x][i]] = vec[x][idx[i]];
-		dfs(x+1);
-	}while(next_permutation(all(idx)));
-}
-void solve()
-{
-	scanf(&quot;%d%d&quot;, &amp;n, &amp;m);
-	ans = n - 1;
-	vec.clear();
-	for(int i=1; i&lt;=n; i++) 
-	{
-		scanf(&quot;%d&quot;, p+i);
-		f[i] = i;
-		pos[i] = 0;
-		rt[i].clear();
-	}
-	for(int i=1; i&lt;=m; i++) 
-	{
-		scanf(&quot;%d%d&quot;, x+i, y+i);
-		merge(x[i], y[i]);
-	}
-	int mx = 0;
-	for(int i=1; i&lt;=n; i++)
-	{
-		int r = find(i);
-		rt[r].pb(i);
-		mx = max(mx, sz(rt[r]));
-	}
-	bool tag = 0;
-	for(int i=1; i&lt;=n; i++)
-		if(f[i]==i &amp;&amp; sz(rt[i])&lt;mx) vec.pb(rt[i]);
-		else if(f[i]==i &amp;&amp; sz(rt[i])==mx)
-		{
-			if(!tag) tag = 1;
-			else vec.pb(rt[i]);
-		}
-	dfs(0);
-	printf(&quot;%d\n&quot;, ans);
-}
-int main()
-{
-	int T;
-	scanf(&quot;%d&quot;, &amp;T);
-	while(T--) solve();
 	return 0;
 }
 </code></pre>
