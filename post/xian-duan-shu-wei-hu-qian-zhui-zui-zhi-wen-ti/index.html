@@ -12,7 +12,7 @@
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.7.0/animate.min.css">
 
 <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
-<link rel="shortcut icon" href="https://jyf111.github.io/favicon.ico?v=1590245591900">
+<link rel="shortcut icon" href="https://jyf111.github.io/favicon.ico?v=1590406760832">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.10.0/katex.min.css">
 <link rel="stylesheet" href="https://jyf111.github.io/styles/main.css">
 
@@ -30,7 +30,7 @@
   <div class="site-header">
     <div class="left">
       <a href="https://jyf111.github.io">
-        <img class="avatar" src="https://jyf111.github.io/images/avatar.png?v=1590245591900" alt="" width="32px" height="32px">
+        <img class="avatar" src="https://jyf111.github.io/images/avatar.png?v=1590406760832" alt="" width="32px" height="32px">
       </a>
       <a href="https://jyf111.github.io">
         <h1 class="site-title">Gridea</h1>
@@ -237,7 +237,7 @@ int main()
 }
 </code></pre>
 <p>copy自小粉兔:</p>
-<blockquote></blockquote>
+<blockquote>
 <p>但是，我们注意到一个很关键的性质：<br>
 当v小于左子树的最大值时，右子树对当前节点的贡献，是通过减法计算的<br>
 也就是说这个信息要满足一定程度上的可减性<br>
@@ -247,6 +247,7 @@ int main()
 此时并不是维护区间的答案，而是<span class="katex"><span class="katex-mathml"><math><semantics><mrow><mi mathvariant="normal">仅</mi><mi mathvariant="normal">考</mi><mi mathvariant="normal">虑</mi><mi mathvariant="normal">该</mi><mi mathvariant="normal">区</mi><mi mathvariant="normal">间</mi><mi mathvariant="normal">的</mi><mi mathvariant="normal">影</mi><mi mathvariant="normal">响</mi><mi mathvariant="normal">后</mi><mi mathvariant="normal">，</mi><mi mathvariant="normal">却</mi><mi mathvariant="normal">又</mi><mi mathvariant="normal">只</mi><mi mathvariant="normal">统</mi><mi mathvariant="normal">计</mi><mi mathvariant="normal">右</mi><mi mathvariant="normal">子</mi><mi mathvariant="normal">树</mi><mi mathvariant="normal">的</mi><mi mathvariant="normal">答</mi><mi mathvariant="normal">案</mi></mrow><annotation encoding="application/x-tex">仅考虑该区间的影响后，却又只统计右子树的答案</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0em;vertical-align:0em;"></span><span class="mord cjk_fallback">仅</span><span class="mord cjk_fallback">考</span><span class="mord cjk_fallback">虑</span><span class="mord cjk_fallback">该</span><span class="mord cjk_fallback">区</span><span class="mord cjk_fallback">间</span><span class="mord cjk_fallback">的</span><span class="mord cjk_fallback">影</span><span class="mord cjk_fallback">响</span><span class="mord cjk_fallback">后</span><span class="mord cjk_fallback">，</span><span class="mord cjk_fallback">却</span><span class="mord cjk_fallback">又</span><span class="mord cjk_fallback">只</span><span class="mord cjk_fallback">统</span><span class="mord cjk_fallback">计</span><span class="mord cjk_fallback">右</span><span class="mord cjk_fallback">子</span><span class="mord cjk_fallback">树</span><span class="mord cjk_fallback">的</span><span class="mord cjk_fallback">答</span><span class="mord cjk_fallback">案</span></span></span></span>。<br>
 也就是说令当前节点对应的区间为 [l,r]，区间中点为 mid，则：<br>
 维护的答案是，只考虑 [l,r] 时，在区间 [mid+1,r] 中的答案。</p>
+</blockquote>
 <p>线段树每个节点仍然维护mx[i], len[i],但对于叶节点len[i]无意义,再考虑merge(v, p)函数</p>
 <pre><code class="language-cpp">void pushup(int p)
 {

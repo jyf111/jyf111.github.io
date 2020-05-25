@@ -2,7 +2,7 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
     <id>https://jyf111.github.io</id>
     <title>Gridea</title>
-    <updated>2020-05-23T14:55:05.404Z</updated>
+    <updated>2020-05-25T11:39:49.729Z</updated>
     <generator>https://github.com/jpmonette/feed</generator>
     <link rel="alternate" href="https://jyf111.github.io"/>
     <link rel="self" href="https://jyf111.github.io/atom.xml"/>
@@ -10,6 +10,35 @@
     <logo>https://jyf111.github.io/images/avatar.png</logo>
     <icon>https://jyf111.github.io/favicon.ico</icon>
     <rights>All rights reserved 2020, Gridea</rights>
+    <entry>
+        <title type="html"><![CDATA[小球与盒子]]></title>
+        <id>https://jyf111.github.io/post/xiao-qiu-yu-he-zi/</id>
+        <link href="https://jyf111.github.io/post/xiao-qiu-yu-he-zi/">
+        </link>
+        <updated>2020-05-25T11:22:07.000Z</updated>
+        <content type="html"><![CDATA[<p>n个球放进k个盒子，根据球是否相同、盒子是否相同、盒子是否可以为空，可以总结出8个模型。<br>
+前置芝士：组合数、斯特灵数、快速幂、贝尔数、整数拆分等</p>
+<h1 id="球不同盒子相同不同不能空盒">球不同，盒子相同（不同），不能空盒</h1>
+<p>盒子相同时为第二类斯特灵数，不同时再乘以k！即可<br>
+可以nk递推，可以容斥</p>
+<h1 id="球不同盒子不同可以空盒">球不同，盒子不同，可以空盒</h1>
+<p>每个球有k种方法 <span class="katex"><span class="katex-mathml"><math><semantics><mrow><msup><mi>k</mi><mi>n</mi></msup></mrow><annotation encoding="application/x-tex">k^n</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.69444em;vertical-align:0em;"></span><span class="mord"><span class="mord mathdefault" style="margin-right:0.03148em;">k</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.664392em;"><span style="top:-3.063em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathdefault mtight">n</span></span></span></span></span></span></span></span></span></span></span></p>
+<h1 id="球不同盒子相同可以空盒">球不同，盒子相同，可以空盒</h1>
+<p>枚举空盒的数量，答案为第二类斯特灵数一行求和<br>
+也相当与是贝尔数</p>
+<h1 id="球相同盒子不同不能空盒">球相同，盒子不同，不能空盒</h1>
+<p>x1+x2+...+xn = k的正整数解个数<br>
+C(n-1, k-1)</p>
+<h1 id="球相同盒子不同可以空盒">球相同，盒子不同，可以空盒</h1>
+<p>x1+x2+...+xn = k的非负整数解个数<br>
+C(n+k-1, k-1)</p>
+<h1 id="球相同盒子相同不能空盒">球相同，盒子相同，不能空盒</h1>
+<p>整数n拆分成k份=用最大数为k拆分n<br>
+D(n-k, k) 将n-k用&lt;=k的数拆分</p>
+<h1 id="球相同盒子相同可以空盒">球相同，盒子相同，可以空盒</h1>
+<p>D(n, k) = D(n, k-1) + D(n-k, k)</p>
+]]></content>
+    </entry>
     <entry>
         <title type="html"><![CDATA[线段树维护前缀最值问题]]></title>
         <id>https://jyf111.github.io/post/xian-duan-shu-wei-hu-qian-zhui-zui-zhi-wen-ti/</id>
@@ -167,7 +196,7 @@ int main()
 }
 </code></pre>
 <p>copy自小粉兔:</p>
-<blockquote></blockquote>
+<blockquote>
 <p>但是，我们注意到一个很关键的性质：<br>
 当v小于左子树的最大值时，右子树对当前节点的贡献，是通过减法计算的<br>
 也就是说这个信息要满足一定程度上的可减性<br>
@@ -177,6 +206,7 @@ int main()
 此时并不是维护区间的答案，而是<span class="katex"><span class="katex-mathml"><math><semantics><mrow><mi mathvariant="normal">仅</mi><mi mathvariant="normal">考</mi><mi mathvariant="normal">虑</mi><mi mathvariant="normal">该</mi><mi mathvariant="normal">区</mi><mi mathvariant="normal">间</mi><mi mathvariant="normal">的</mi><mi mathvariant="normal">影</mi><mi mathvariant="normal">响</mi><mi mathvariant="normal">后</mi><mi mathvariant="normal">，</mi><mi mathvariant="normal">却</mi><mi mathvariant="normal">又</mi><mi mathvariant="normal">只</mi><mi mathvariant="normal">统</mi><mi mathvariant="normal">计</mi><mi mathvariant="normal">右</mi><mi mathvariant="normal">子</mi><mi mathvariant="normal">树</mi><mi mathvariant="normal">的</mi><mi mathvariant="normal">答</mi><mi mathvariant="normal">案</mi></mrow><annotation encoding="application/x-tex">仅考虑该区间的影响后，却又只统计右子树的答案</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0em;vertical-align:0em;"></span><span class="mord cjk_fallback">仅</span><span class="mord cjk_fallback">考</span><span class="mord cjk_fallback">虑</span><span class="mord cjk_fallback">该</span><span class="mord cjk_fallback">区</span><span class="mord cjk_fallback">间</span><span class="mord cjk_fallback">的</span><span class="mord cjk_fallback">影</span><span class="mord cjk_fallback">响</span><span class="mord cjk_fallback">后</span><span class="mord cjk_fallback">，</span><span class="mord cjk_fallback">却</span><span class="mord cjk_fallback">又</span><span class="mord cjk_fallback">只</span><span class="mord cjk_fallback">统</span><span class="mord cjk_fallback">计</span><span class="mord cjk_fallback">右</span><span class="mord cjk_fallback">子</span><span class="mord cjk_fallback">树</span><span class="mord cjk_fallback">的</span><span class="mord cjk_fallback">答</span><span class="mord cjk_fallback">案</span></span></span></span>。<br>
 也就是说令当前节点对应的区间为 [l,r]，区间中点为 mid，则：<br>
 维护的答案是，只考虑 [l,r] 时，在区间 [mid+1,r] 中的答案。</p>
+</blockquote>
 <p>线段树每个节点仍然维护mx[i], len[i],但对于叶节点len[i]无意义,再考虑merge(v, p)函数</p>
 <pre><code class="language-cpp">void pushup(int p)
 {
@@ -983,163 +1013,6 @@ int main()
 		read(op); read(cur.x[0]); read(cur.x[1]);
 		if(op==1) insert(rt, 0);
 		else printf(&quot;%d\n&quot;, ask(rt));
-	}
-	return 0;
-}
-</code></pre>
-]]></content>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[p4148 简单题 kdtree]]></title>
-        <id>https://jyf111.github.io/post/p4148-jian-dan-ti-kdtree/</id>
-        <link href="https://jyf111.github.io/post/p4148-jian-dan-ti-kdtree/">
-        </link>
-        <updated>2020-05-14T03:29:20.000Z</updated>
-        <content type="html"><![CDATA[<p>维护矩形,支持加点,询问矩形和,强制在线</p>
-<h1 id="做法">做法</h1>
-<p>不强制在线可以cdq,强制在线就只能kdtree了<br>
-每个节点维护最大矩形,以及子树内所有点权值的和<br>
-对于询问,如果当前节点的最大矩形在询问矩形内部,直接返回sum,如果不相交,返回0,否则继续递归</p>
-<pre><code class="language-cpp">#include &lt;bits/stdc++.h&gt;
-#define mp make_pair
-#define pb push_back
-#define sz(x) (int)x.size()
-#define all(x) begin(x), end(x)
-#define fi first
-#define se second
-#define debug(x) cerr &lt;&lt; #x &lt;&lt; &quot; &quot; &lt;&lt; x &lt;&lt; '\n'
-using namespace std;
-using ll = long long;
-using pii = pair&lt;int,int&gt;;
-using pli = pair&lt;ll,int&gt;;
-const int INF = 0x3f3f3f3f, N = 5e5 + 5;
-const ll LINF = 1e18 + 5;
-constexpr int mod = 1e9 + 7;
-const int MAXSIZE = 1 &lt;&lt; 20;
-char buf[MAXSIZE], *p1, *p2;
-inline char gc()
-{
-	return (p1==p2&amp;&amp;(p2=(p1=buf)+fread(buf,1,MAXSIZE,stdin),p1==p2) ? EOF : *p1++);
-}
-template &lt;class T&gt; 
-inline void read(T&amp; t)
-{
-	t = 0; int f = 1;
-	char c = gc();
-	while(c&gt;'9'||c&lt;'0') {if(c=='-') f = -f; c = gc();}
-	while(c&gt;='0'&amp;&amp;c&lt;='9') t = t*10 + c - 48, c = gc();
-	t *= f;
-}
-int n;
-constexpr int k = 2;
-constexpr double alph = 0.75;
-int rt, pool[N], top, tot, D;
-struct point
-{
-	int x[k], w;
-	bool operator &lt; (point &amp;oth) {
-		return x[D] &lt; oth.x[D];
-	} 
-}a[N], cur;
-struct node
-{
-	int l, r, mx[k], mn[k], sum, sz;
-	point tp;
-}t[N];
-int newnode()
-{
-	if(top) return pool[top--];
-	return ++tot;
-}
-void pushup(int p)
-{
-	int l = t[p].l, r = t[p].r;
-	for(int i=0; i&lt;k; i++)
-	{
-		t[p].mn[i] = t[p].mx[i] = t[p].tp.x[i];
-		if(l) t[p].mn[i] = min(t[p].mn[i], t[l].mn[i]), t[p].mx[i] = max(t[p].mx[i], t[l].mx[i]);
-		if(r) t[p].mn[i] = min(t[p].mn[i], t[r].mn[i]), t[p].mx[i] = max(t[p].mx[i], t[r].mx[i]);
-	}
-	t[p].sz = t[l].sz + t[r].sz + 1;
-	t[p].sum = t[l].sum + t[r].sum + t[p].tp.w;
-}
-int build(int l, int r, int d)
-{
-	if(l&gt;r) return 0;
-	int p = newnode(), mid = (l+r)&gt;&gt;1;
-	D = d;
-	nth_element(a+l, a+mid, a+r+1);
-	t[p].tp = a[mid];
-	t[p].l = build(l, mid-1, (d+1)%k);
-	t[p].r = build(mid+1, r, (d+1)%k);
-	pushup(p);
-	return p;
-}
-void rebuild(int p, int num)
-{
-	if(t[p].l) rebuild(t[p].l, num);
-	a[num+t[t[p].l].sz+1] = t[p].tp, pool[++top] = p;
-	if(t[p].r) rebuild(t[p].r, num+t[t[p].l].sz+1);
-}
-void test(int &amp;p, int d)
-{
-	if(alph*t[p].sz&lt;t[t[p].l].sz||alph*t[p].sz&lt;t[t[p].r].sz)
-		rebuild(p, 0), p = build(1, t[p].sz, d);
-}
-bool in(int x1, int y1, int x2, int y2, int X1, int Y1, int X2, int Y2)
-{
-	return X1&gt;=x1&amp;&amp;Y1&gt;=y1&amp;&amp;X2&lt;=x2&amp;&amp;Y2&lt;=y2;
-}
-bool out(int x1, int y1, int x2, int y2, int X1, int Y1, int X2, int Y2)
-{
-	return X2&lt;x1||X1&gt;x2||Y1&gt;y2||Y2&lt;y1;
-}
-int ask(int p, int x1, int y1, int x2, int y2)
-{
-	if(!p) return 0;
-	int ans = 0;
-	if(in(x1, y1, x2, y2, t[p].mn[0], t[p].mn[1], t[p].mx[0], t[p].mx[1])) return t[p].sum;
-	if(out(x1, y1, x2, y2, t[p].mn[0], t[p].mn[1], t[p].mx[0], t[p].mx[1])) return 0;
-	if(in(x1, y1, x2, y2, t[p].tp.x[0], t[p].tp.x[1], t[p].tp.x[0], t[p].tp.x[1])) ans += t[p].tp.w;
-	ans += ask(t[p].l, x1, y1, x2, y2) + ask(t[p].r, x1, y1, x2, y2);
-	return ans;
-}
-void insert(int &amp;p, int d)
-{
-	if(!p)
-	{
-		p = newnode();
-		t[p].tp = cur;
-		t[p].l = t[p].r = 0;
-		pushup(p);
-		return;
-	}
-	if(cur.x[d]&gt;t[p].tp.x[d]) insert(t[p].r, (d+1)%k);
-	else insert(t[p].l, (d+1)%k);
-	pushup(p); test(p, d);
-}
-int main()
-{
-	read(n);
-	int lstans = 0;
-	while(1)
-	{
-		int op;
-		read(op);
-		if(op==1)
-		{
-			read(cur.x[0]), read(cur.x[1]), read(cur.w);
-			cur.x[0] ^= lstans, cur.x[1] ^= lstans, cur.w ^= lstans;
-			insert(rt, 0);
-		}
-		else if(op==2)
-		{
-			int a, b, c, d;
-			read(a), read(b), read(c), read(d);
-			a ^= lstans, b ^= lstans, c ^= lstans, d ^= lstans;
-			printf(&quot;%d\n&quot;, lstans=ask(rt, a, b, c, d));
-		}
-		else break;
 	}
 	return 0;
 }
