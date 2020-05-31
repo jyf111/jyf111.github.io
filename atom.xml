@@ -2,7 +2,7 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
     <id>https://jyf111.github.io</id>
     <title>Gridea</title>
-    <updated>2020-05-31T02:23:00.337Z</updated>
+    <updated>2020-05-31T11:28:39.026Z</updated>
     <generator>https://github.com/jpmonette/feed</generator>
     <link rel="alternate" href="https://jyf111.github.io"/>
     <link rel="self" href="https://jyf111.github.io/atom.xml"/>
@@ -10,6 +10,180 @@
     <logo>https://jyf111.github.io/images/avatar.png</logo>
     <icon>https://jyf111.github.io/favicon.ico</icon>
     <rights>All rights reserved 2020, Gridea</rights>
+    <entry>
+        <title type="html"><![CDATA[“科林明伦杯”哈尔滨理工大学第十届程序设计竞赛]]></title>
+        <id>https://jyf111.github.io/post/ke-lin-ming-lun-bei-ha-er-bin-li-gong-da-xue-di-shi-jie-cheng-xu-she-ji-jing-sai/</id>
+        <link href="https://jyf111.github.io/post/ke-lin-ming-lun-bei-ha-er-bin-li-gong-da-xue-di-shi-jie-cheng-xu-she-ji-jing-sai/">
+        </link>
+        <updated>2020-05-31T11:06:09.000Z</updated>
+        <content type="html"><![CDATA[<h3 id="a">A</h3>
+<p>给定一棵树，定义点对（s, t）间距离为<strong>路径上边权和+s和t的点权和</strong><br>
+dp记录每个点子树中到该点的最大和次大距离即可<br>
+比赛的时候用树直径两次dfs的方法wa了，应该是有问题</p>
+<h3 id="b">B</h3>
+<p>给定n个数，每次可以选择一段区间，使区间-1，问最少几次操作可以使所有数变为1<br>
+区间操作利用差分就可以转化成两次单点操作，再贪心考虑就很简单了</p>
+<h3 id="c">C</h3>
+<p>小学数学</p>
+<h3 id="d">D</h3>
+<p>条件概率，<span class="katex"><span class="katex-mathml"><math><semantics><mrow><mi>P</mi><mo>(</mo><mi>A</mi><mi mathvariant="normal">∣</mi><mi>B</mi><mo>)</mo><mo>=</mo><mfrac><mrow><mi>P</mi><mo>(</mo><mi>A</mi><mi>B</mi><mo>)</mo></mrow><mrow><mi>P</mi><mo>(</mo><mi>B</mi><mo>)</mo></mrow></mfrac></mrow><annotation encoding="application/x-tex">P(A|B) = \frac {P(AB)} {P(B)}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathdefault" style="margin-right:0.13889em;">P</span><span class="mopen">(</span><span class="mord mathdefault">A</span><span class="mord">∣</span><span class="mord mathdefault" style="margin-right:0.05017em;">B</span><span class="mclose">)</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span></span><span class="base"><span class="strut" style="height:1.53em;vertical-align:-0.52em;"></span><span class="mord"><span class="mopen nulldelimiter"></span><span class="mfrac"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:1.01em;"><span style="top:-2.655em;"><span class="pstrut" style="height:3em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathdefault mtight" style="margin-right:0.13889em;">P</span><span class="mopen mtight">(</span><span class="mord mathdefault mtight" style="margin-right:0.05017em;">B</span><span class="mclose mtight">)</span></span></span></span><span style="top:-3.23em;"><span class="pstrut" style="height:3em;"></span><span class="frac-line" style="border-bottom-width:0.04em;"></span></span><span style="top:-3.485em;"><span class="pstrut" style="height:3em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathdefault mtight" style="margin-right:0.13889em;">P</span><span class="mopen mtight">(</span><span class="mord mathdefault mtight">A</span><span class="mord mathdefault mtight" style="margin-right:0.05017em;">B</span><span class="mclose mtight">)</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.52em;"><span></span></span></span></span></span><span class="mclose nulldelimiter"></span></span></span></span></span><br>
+P(AB):至少m枚硬币是反面，且恰好k枚硬币是正面同时发生，由于正面固定，所以反面为n-k，当<span class="katex"><span class="katex-mathml"><math><semantics><mrow><mi>n</mi><mo>−</mo><mi>k</mi><mo>&lt;</mo><mi>m</mi></mrow><annotation encoding="application/x-tex">n-k&lt;m</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.66666em;vertical-align:-0.08333em;"></span><span class="mord mathdefault">n</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span><span class="mbin">−</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span></span><span class="base"><span class="strut" style="height:0.73354em;vertical-align:-0.0391em;"></span><span class="mord mathdefault" style="margin-right:0.03148em;">k</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span><span class="mrel">&lt;</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span></span><span class="base"><span class="strut" style="height:0.43056em;vertical-align:0em;"></span><span class="mord mathdefault">m</span></span></span></span>时概率为0,否则为<span class="katex"><span class="katex-mathml"><math><semantics><mrow><mi>C</mi><mo>(</mo><mi>n</mi><mo separator="true">,</mo><mi>k</mi><mo>)</mo><mi mathvariant="normal">/</mi><mo>(</mo><msup><mn>2</mn><mi>n</mi></msup><mo>)</mo></mrow><annotation encoding="application/x-tex">C(n, k)/(2^n)</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathdefault" style="margin-right:0.07153em;">C</span><span class="mopen">(</span><span class="mord mathdefault">n</span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.16666666666666666em;"></span><span class="mord mathdefault" style="margin-right:0.03148em;">k</span><span class="mclose">)</span><span class="mord">/</span><span class="mopen">(</span><span class="mord"><span class="mord">2</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.664392em;"><span style="top:-3.063em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathdefault mtight">n</span></span></span></span></span></span></span></span><span class="mclose">)</span></span></span></span><br>
+P(B):从m到n枚举反面硬币个数，<span class="katex"><span class="katex-mathml"><math><semantics><mrow><msubsup><mo>∑</mo><mrow><mi>i</mi><mo>=</mo><mi>m</mi></mrow><mi>n</mi></msubsup><mi>C</mi><mo>(</mo><mi>n</mi><mo separator="true">,</mo><mi>i</mi><mo>)</mo><mi mathvariant="normal">/</mi><mo>(</mo><msup><mn>2</mn><mi>n</mi></msup><mo>)</mo></mrow><annotation encoding="application/x-tex">\sum_{i=m}^{n} C(n, i)/(2^n)</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1.104002em;vertical-align:-0.29971000000000003em;"></span><span class="mop"><span class="mop op-symbol small-op" style="position:relative;top:-0.0000050000000000050004em;">∑</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.804292em;"><span style="top:-2.40029em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathdefault mtight">i</span><span class="mrel mtight">=</span><span class="mord mathdefault mtight">m</span></span></span></span><span style="top:-3.2029em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathdefault mtight">n</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.29971000000000003em;"><span></span></span></span></span></span></span><span class="mspace" style="margin-right:0.16666666666666666em;"></span><span class="mord mathdefault" style="margin-right:0.07153em;">C</span><span class="mopen">(</span><span class="mord mathdefault">n</span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.16666666666666666em;"></span><span class="mord mathdefault">i</span><span class="mclose">)</span><span class="mord">/</span><span class="mopen">(</span><span class="mord"><span class="mord">2</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.664392em;"><span style="top:-3.063em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathdefault mtight">n</span></span></span></span></span></span></span></span><span class="mclose">)</span></span></span></span><br>
+代入公式即可</p>
+<h3 id="e">E</h3>
+<p>简单贪心，从小到大去战胜，并且每次用刚好大于的那个</p>
+<h3 id="f">F</h3>
+<p>显然是个fibonacci，数据范围有点坑，我开了ull还是wa，改成py就过了<br>
+😡😤</p>
+<h3 id="g">G</h3>
+<p>显然最大流</p>
+<h3 id="h">H</h3>
+<p>每增加一条边，最多可以与之前的所有直线都产生一个交点<br>
+蜜汁数据范围，又要大数，不过py不香吗</p>
+<h3 id="i">I</h3>
+<p>给定n个数，定义n个数组，第i个数组为删去<span class="katex"><span class="katex-mathml"><math><semantics><mrow><msub><mi>a</mi><mi>i</mi></msub></mrow><annotation encoding="application/x-tex">a_i</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.58056em;vertical-align:-0.15em;"></span><span class="mord"><span class="mord mathdefault">a</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.31166399999999994em;"><span style="top:-2.5500000000000003em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathdefault mtight">i</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span></span></span></span>后形成的，问这n个数组字典序从大到小的排列顺序<br>
+考虑相邻两个数<span class="katex"><span class="katex-mathml"><math><semantics><mrow><msub><mi>a</mi><mi>i</mi></msub><mo separator="true">,</mo><msub><mi>a</mi><mrow><mi>i</mi><mo>+</mo><mn>1</mn></mrow></msub></mrow><annotation encoding="application/x-tex">a_i, a_{i+1}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.638891em;vertical-align:-0.208331em;"></span><span class="mord"><span class="mord mathdefault">a</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.31166399999999994em;"><span style="top:-2.5500000000000003em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathdefault mtight">i</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.16666666666666666em;"></span><span class="mord"><span class="mord mathdefault">a</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.311664em;"><span style="top:-2.5500000000000003em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathdefault mtight">i</span><span class="mbin mtight">+</span><span class="mord mtight">1</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.208331em;"><span></span></span></span></span></span></span></span></span></span></p>
+<ul>
+<li><span class="katex"><span class="katex-mathml"><math><semantics><mrow><msub><mi>a</mi><mi>i</mi></msub><mo>&lt;</mo><msub><mi>a</mi><mrow><mi>i</mi><mo>+</mo><mn>1</mn></mrow></msub></mrow><annotation encoding="application/x-tex">a_i &lt; a_{i+1}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.6891em;vertical-align:-0.15em;"></span><span class="mord"><span class="mord mathdefault">a</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.31166399999999994em;"><span style="top:-2.5500000000000003em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathdefault mtight">i</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mspace" style="margin-right:0.2777777777777778em;"></span><span class="mrel">&lt;</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span></span><span class="base"><span class="strut" style="height:0.638891em;vertical-align:-0.208331em;"></span><span class="mord"><span class="mord mathdefault">a</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.311664em;"><span style="top:-2.5500000000000003em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathdefault mtight">i</span><span class="mbin mtight">+</span><span class="mord mtight">1</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.208331em;"><span></span></span></span></span></span></span></span></span></span> i比后面所有的都要劣</li>
+<li><span class="katex"><span class="katex-mathml"><math><semantics><mrow><msub><mi>a</mi><mi>i</mi></msub><mo>&gt;</mo><msub><mi>a</mi><mrow><mi>i</mi><mo>+</mo><mn>1</mn></mrow></msub></mrow><annotation encoding="application/x-tex">a_i &gt; a_{i+1}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.6891em;vertical-align:-0.15em;"></span><span class="mord"><span class="mord mathdefault">a</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.31166399999999994em;"><span style="top:-2.5500000000000003em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathdefault mtight">i</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mspace" style="margin-right:0.2777777777777778em;"></span><span class="mrel">&gt;</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span></span><span class="base"><span class="strut" style="height:0.638891em;vertical-align:-0.208331em;"></span><span class="mord"><span class="mord mathdefault">a</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.311664em;"><span style="top:-2.5500000000000003em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathdefault mtight">i</span><span class="mbin mtight">+</span><span class="mord mtight">1</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.208331em;"><span></span></span></span></span></span></span></span></span></span> i比后面所有的都要优</li>
+<li><span class="katex"><span class="katex-mathml"><math><semantics><mrow><msub><mi>a</mi><mi>i</mi></msub><mo>=</mo><msub><mi>a</mi><mrow><mi>i</mi><mo>+</mo><mn>1</mn></mrow></msub></mrow><annotation encoding="application/x-tex">a_i = a_{i+1}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.58056em;vertical-align:-0.15em;"></span><span class="mord"><span class="mord mathdefault">a</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.31166399999999994em;"><span style="top:-2.5500000000000003em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathdefault mtight">i</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mspace" style="margin-right:0.2777777777777778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span></span><span class="base"><span class="strut" style="height:0.638891em;vertical-align:-0.208331em;"></span><span class="mord"><span class="mord mathdefault">a</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.311664em;"><span style="top:-2.5500000000000003em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathdefault mtight">i</span><span class="mbin mtight">+</span><span class="mord mtight">1</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.208331em;"><span></span></span></span></span></span></span></span></span></span> i比i+1优<br>
+考虑将相同的一起考虑，然后用两个栈来模拟即可</li>
+</ul>
+<h3 id="j">J</h3>
+<p>问一个串中最长的与前缀相同的非前缀串的长度<br>
+比赛的时候无脑二分+kmp<br>
+next[i]表示s[0:i]这个前缀与后缀相同的最长长度（前缀最长border），所以所有next取个max即可</p>
+]]></content>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[2019ICPC 徐州]]></title>
+        <id>https://jyf111.github.io/post/2019icpc-xu-zhou/</id>
+        <link href="https://jyf111.github.io/post/2019icpc-xu-zhou/">
+        </link>
+        <updated>2020-05-31T02:25:08.000Z</updated>
+        <content type="html"><![CDATA[<h3 id="f">F</h3>
+<p>暴力打表即可，不过在我电脑上跑的挺慢的。。</p>
+<h3 id="c">C</h3>
+<p>素数密度是不断变小的</p>
+<h3 id="a">A</h3>
+<p>利用连续整数异或和的trick即可，只要小范围枚举左右两端点，中间一大段大概率可以是0</p>
+<h3 id="e">E</h3>
+<p>求出<span class="katex"><span class="katex-mathml"><math><semantics><mrow><mfrac><mrow><mi>Y</mi><mo>!</mo></mrow><mrow><mo>∏</mo><msub><mi>a</mi><mi>i</mi></msub></mrow></mfrac></mrow><annotation encoding="application/x-tex">\frac{Y!} {\prod {a_i}}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1.400115em;vertical-align:-0.520007em;"></span><span class="mord"><span class="mopen nulldelimiter"></span><span class="mfrac"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.8801079999999999em;"><span style="top:-2.655em;"><span class="pstrut" style="height:3em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mop op-symbol small-op mtight" style="position:relative;top:-0.0000050000000000050004em;">∏</span><span class="mspace mtight" style="margin-right:0.19516666666666668em;"></span><span class="mord mtight"><span class="mord mtight"><span class="mord mathdefault mtight">a</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.3280857142857143em;"><span style="top:-2.357em;margin-left:0em;margin-right:0.07142857142857144em;"><span class="pstrut" style="height:2.5em;"></span><span class="sizing reset-size3 size1 mtight"><span class="mord mathdefault mtight">i</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.143em;"><span></span></span></span></span></span></span></span></span></span></span><span style="top:-3.23em;"><span class="pstrut" style="height:3em;"></span><span class="frac-line" style="border-bottom-width:0.04em;"></span></span><span style="top:-3.394em;"><span class="pstrut" style="height:3em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathdefault mtight" style="margin-right:0.22222em;">Y</span><span class="mclose mtight">!</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.520007em;"><span></span></span></span></span></span><span class="mclose nulldelimiter"></span></span></span></span></span>是X的多少次方的倍数<br>
+利用pollardrho求解X的所有素因子，然后求出各个阶乘中各素因子幂次的数量，乘法+，除法-，最后每个素因子取个min，注意负数和正数上下取整的问题</p>
+<h3 id="h">H</h3>
+<p>单点修改，区间询问该段区间最小的不能被表示的数<br>
+洛谷p4587+修改<br>
+先考虑不带修改的情况，对[l,r]内的数从小到大考虑，假设当前能够表示出[1,cur]的范围，如果询问[1,cur+1]的值等于cur，说明剩余的值都是大于等于cur+2的，此时cur+1是无法被表示出来的，所以break，容易发现该操作中cur的增长速度是fibnacci级别的，利用主席树完成二维数点问题。<br>
+至于修改，在外层套一个树状数组即可，复杂度<span class="katex"><span class="katex-mathml"><math><semantics><mrow><mi>O</mi><mo>(</mo><mi>n</mi><mi>l</mi><mi>o</mi><msup><mi>g</mi><mn>3</mn></msup><mi>n</mi><mo>)</mo></mrow><annotation encoding="application/x-tex">O(n log^3 n)</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1.064108em;vertical-align:-0.25em;"></span><span class="mord mathdefault" style="margin-right:0.02778em;">O</span><span class="mopen">(</span><span class="mord mathdefault">n</span><span class="mord mathdefault" style="margin-right:0.01968em;">l</span><span class="mord mathdefault">o</span><span class="mord"><span class="mord mathdefault" style="margin-right:0.03588em;">g</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.8141079999999999em;"><span style="top:-3.063em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight">3</span></span></span></span></span></span></span></span><span class="mord mathdefault">n</span><span class="mclose">)</span></span></span></span></p>
+<pre><code class="language-cpp">#include &lt;bits/stdc++.h&gt;
+#define mp make_pair
+#define pb push_back
+#define sz(x) (int)x.size()
+#define all(x) begin(x), end(x)
+#define fi first
+#define se second
+#define debug(x) cerr &lt;&lt; #x &lt;&lt; &quot; &quot; &lt;&lt; x &lt;&lt; '\n'
+using namespace std;
+using ll = long long;
+using pii = pair&lt;int,int&gt;;
+using pli = pair&lt;ll,int&gt;;
+const int INF = 0x3f3f3f3f, N = 2e5 + 5, up = 2e5;
+const ll LINF = 1e18 + 5;
+constexpr int mod = 1e9 + 7;
+int n, q, a[N];
+namespace PSegTree 
+{
+	#define ls(x) t[x].l
+	#define rs(x) t[x].r
+	int rt[N], tot;
+	int lrt[N], rrt[N], lc, rc;
+	struct node
+	{
+	    int l, r;
+	    ll sum;
+	}t[N*128];
+	void insert(int &amp;p, int l, int r, int x, int v)
+	{
+	   	if(!p) p = ++tot;
+	   	t[p].sum += x*v;
+	    if(l==r) return;
+	    int mid = (l+r) &gt;&gt; 1;
+	    if(x&lt;=mid) insert(ls(p), l, mid, x, v);
+	    else insert(rs(p), mid+1, r, x, v);
+	}
+	ll ask(int l, int r, int x) 
+	{
+		if(l==r) 
+		{
+			ll ans = 0;
+			for(int i=1; i&lt;=lc; i++) ans -= t[lrt[i]].sum;
+			for(int i=1; i&lt;=rc; i++) ans += t[rrt[i]].sum;
+			return ans;
+		}
+		int mid = (l+r) &gt;&gt; 1; 
+		if(x&lt;=mid) 
+		{
+			for(int i=1; i&lt;=lc; i++) lrt[i] = ls(lrt[i]);
+			for(int i=1; i&lt;=rc; i++) rrt[i] = ls(rrt[i]);
+			return ask(l, mid, x);
+		}	
+		else
+		{
+			ll ans = 0;
+			for(int i=1; i&lt;=lc; i++) ans -= t[ls(lrt[i])].sum;
+			for(int i=1; i&lt;=rc; i++) ans += t[ls(rrt[i])].sum;
+			for(int i=1; i&lt;=lc; i++) lrt[i] = rs(lrt[i]);
+			for(int i=1; i&lt;=rc; i++) rrt[i] = rs(rrt[i]);
+			return ans + ask(mid+1, r, x);
+		}
+	}
+	#undef ls
+	#undef rs
+}
+using namespace PSegTree;
+void upd(int x, int v)
+{
+	for(int i=x; i&lt;=n; i+=(i&amp;-i)) insert(rt[i], 1, up, a[x], v);
+}
+ll query(int l, int r, int x)
+{
+	lc = rc = 0;
+	for(int i=l-1; i&gt;0; i-=(i&amp;-i)) lrt[++lc] = rt[i];
+	for(int i=r; i&gt;0; i-=(i&amp;-i)) rrt[++rc] = rt[i];
+	return ask(1, up, x);
+}
+int main()
+{
+	scanf(&quot;%d%d&quot;, &amp;n, &amp;q);
+	for(int i=1; i&lt;=n; i++) scanf(&quot;%d&quot;, a+i);
+	for(int i=1; i&lt;=n; i++) upd(i, 1);
+	while(q--)
+	{
+		int op, x, y;
+		scanf(&quot;%d%d%d&quot;, &amp;op, &amp;x, &amp;y);
+		if(op==1)
+		{
+			upd(x, -1);
+			a[x] = y;
+			upd(x, 1);
+		}
+		else
+		{
+			ll cur = 0;
+			while(true)
+			{
+				ll sum = query(x, y, min((ll)up, cur+1));
+				if(sum==cur) break;
+				cur = sum;
+			}
+			printf(&quot;%lld\n&quot;, cur+1);
+		}
+	}
+	return 0;
+}
+</code></pre>
+]]></content>
+    </entry>
     <entry>
         <title type="html"><![CDATA[厦门大学“网宿杯“17届程序设计竞赛决赛]]></title>
         <id>https://jyf111.github.io/post/sha-men-da-xue-wang-su-bei-17-jie-cheng-xu-she-ji-jing-sai-jue-sai/</id>
@@ -970,167 +1144,6 @@ int main()
 	int t;
 	scanf(&quot;%d&quot;, &amp;t);
 	while(t--) solve();
-	return 0;
-}
-</code></pre>
-]]></content>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[牛客挑战赛40]]></title>
-        <id>https://jyf111.github.io/post/niu-ke-tiao-zhan-sai-40/</id>
-        <link href="https://jyf111.github.io/post/niu-ke-tiao-zhan-sai-40/">
-        </link>
-        <updated>2020-05-16T11:11:42.000Z</updated>
-        <content type="html"><![CDATA[<h1 id="b">B</h1>
-<p>给定1e6个随机生成的数,多次询问,给定y,问是否存在一个数x满足x^y在二进制下1的个数&lt;=3</p>
-<h1 id="做法">做法</h1>
-<p>因为最多只有3个二进制位不同,考虑将二进制每16位分成4组,满足条件的x与y一定在某一组中的16位完全相同,所以查找该组中的数,又由于数字随机,每次查找的次数期望为<span class="katex"><span class="katex-mathml"><math><semantics><mrow><mn>4</mn><mo>∗</mo><mo>(</mo><msup><mn>2</mn><mn>20</mn></msup><mi mathvariant="normal">/</mi><msup><mn>2</mn><mn>16</mn></msup><mo>)</mo></mrow><annotation encoding="application/x-tex">4*(2^{20} / 2^{16})</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.64444em;vertical-align:0em;"></span><span class="mord">4</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span><span class="mbin">∗</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span></span><span class="base"><span class="strut" style="height:1.064108em;vertical-align:-0.25em;"></span><span class="mopen">(</span><span class="mord"><span class="mord">2</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.8141079999999999em;"><span style="top:-3.063em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mtight">2</span><span class="mord mtight">0</span></span></span></span></span></span></span></span></span><span class="mord">/</span><span class="mord"><span class="mord">2</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.8141079999999999em;"><span style="top:-3.063em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mtight">1</span><span class="mord mtight">6</span></span></span></span></span></span></span></span></span><span class="mclose">)</span></span></span></span> = 64</p>
-]]></content>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[P5236 【模板】静态仙人掌]]></title>
-        <id>https://jyf111.github.io/post/p5236-mo-ban-jing-tai-xian-ren-zhang/</id>
-        <link href="https://jyf111.github.io/post/p5236-mo-ban-jing-tai-xian-ren-zhang/">
-        </link>
-        <updated>2020-05-15T09:36:36.000Z</updated>
-        <content type="html"><![CDATA[<p>每条边最多在一个简单环上的图<br>
-每个环都是一个点双(方点),可以很方便的用圆方树来维护</p>
-<p>求仙人掌图上两点间的最短路<br>
-注意仙人掌上的圆方树的建法:<br>
-每个简单环新建一个方点,环上每个点与方点连边,权值为到起点的最短距离,如果u是割点,向v连边权值为原图的边权(两个圆点连边)</p>
-<h1 id="做法">做法</h1>
-<p>先建出圆方树<br>
-考虑u和v在树上的LCA:p</p>
-<ul>
-<li>p为圆点,则答案就是树上两点的距离</li>
-<li>p为方点,找出p的两个儿子a(u的祖先),b(v的祖先),a和b处在一个环上,答案是<span class="katex"><span class="katex-mathml"><math><semantics><mrow><mi>d</mi><mi>i</mi><mi>s</mi><mo>(</mo><mi>a</mi><mo separator="true">,</mo><mi>b</mi><mo>)</mo><mo>+</mo><mi>d</mi><mi>i</mi><mi>s</mi><mo>(</mo><mi>a</mi><mo separator="true">,</mo><mi>u</mi><mo>)</mo><mo>+</mo><mi>d</mi><mi>i</mi><mi>s</mi><mo>(</mo><mi>b</mi><mo separator="true">,</mo><mi>v</mi><mo>)</mo></mrow><annotation encoding="application/x-tex">dis(a,b)+dis(a,u)+dis(b,v)</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathdefault">d</span><span class="mord mathdefault">i</span><span class="mord mathdefault">s</span><span class="mopen">(</span><span class="mord mathdefault">a</span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.16666666666666666em;"></span><span class="mord mathdefault">b</span><span class="mclose">)</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span><span class="mbin">+</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span></span><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathdefault">d</span><span class="mord mathdefault">i</span><span class="mord mathdefault">s</span><span class="mopen">(</span><span class="mord mathdefault">a</span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.16666666666666666em;"></span><span class="mord mathdefault">u</span><span class="mclose">)</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span><span class="mbin">+</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span></span><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathdefault">d</span><span class="mord mathdefault">i</span><span class="mord mathdefault">s</span><span class="mopen">(</span><span class="mord mathdefault">b</span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.16666666666666666em;"></span><span class="mord mathdefault" style="margin-right:0.03588em;">v</span><span class="mclose">)</span></span></span></span>,注意dis(a,b)要取min</li>
-</ul>
-<pre><code class="language-cpp">#include &lt;bits/stdc++.h&gt;
-#define mp make_pair
-#define pb push_back
-#define sz(x) (int)x.size()
-#define all(x) begin(x), end(x)
-#define fi first
-#define se second
-#define debug(x) cerr &lt;&lt; #x &lt;&lt; &quot; &quot; &lt;&lt; x &lt;&lt; '\n'
-using namespace std;
-using ll = long long;
-using pii = pair&lt;int,int&gt;;
-using pli = pair&lt;ll,int&gt;;
-const int INF = 0x3f3f3f3f, N = 2e5 + 5;
-const ll LINF = 1e18 + 5;
-constexpr int mod = 1e9 + 7;
-int dfn[N], low[N], clk, cnt, s[N], sum[N];
-vector&lt;pii&gt; G[N], T[N];
-int n, m, q;
-constexpr int LOG = 16;
-int fa[N][20], dep[N], dis[N]; 
-void dfs(int u)
-{	
-	for(int i=1; i&lt;=LOG; i++) 
-		fa[u][i] = fa[fa[u][i-1]][i-1];
-	for(auto it : T[u])
-	{
-		int v = it.fi, w = it.se;
-		if(v==fa[u][0]) continue;
-		dis[v] = dis[u] + w;
-		dep[v] = dep[u] + 1;
-		fa[v][0] = u; 
-		dfs(v);
-	}
-}
-int LCA(int x,int y) 
-{
-	if(dep[x]&gt;dep[y]) swap(x,y);
-	for(int i=LOG; i&gt;=0; i--)
-		if(dep[fa[y][i]]&gt;=dep[x]) y = fa[y][i];
-	if(x==y) return x;
-	for(int i=LOG; i&gt;=0; i--)
-		if(fa[x][i]!=fa[y][i]) x = fa[x][i], y = fa[y][i]; 
-	return fa[x][0]; 
-}
-void findcir(int u, int v, int w)
-{
-	++cnt;
-	int x = v, pre = w, pw = 0;
-	while(x!=fa[u][0])
-	{
-		sum[x] = pre;
-		pre += s[x];
-		x = fa[x][0];
-	}
-	sum[cnt] = sum[u];
-	sum[u] = 0;
-	x = v;
-	while(x!=fa[u][0])
-	{
-		pw = min(sum[x], sum[cnt]-sum[x]);
-		T[cnt].pb({x, pw});
-		T[x].pb({cnt, pw});
-		x = fa[x][0];
-	}
-}
-void tarjan(int u, int f)
-{
-	dfn[u] = low[u] = ++clk;
-	for(auto it : G[u])
-	{
-		int v = it.fi, w = it.se;
-		if(v==f) continue;
-		if(!dfn[v])
-		{
-			fa[v][0] = u;
-			s[v] = w;
-			tarjan(v, u);
-			low[u] = min(low[u], low[v]);
-		}
-		else low[u] = min(low[u], dfn[v]);
-		if(low[v]&gt;dfn[u]) 
-		{
-			T[u].pb({v, w});
-			T[v].pb({u, w});
-		}
-	}
-	for(auto it : G[u])
-	{
-		int v = it.fi, w = it.se;
-		if(fa[v][0]==u||dfn[v]&lt;=dfn[u]) continue;
-		findcir(u, v, w);
-	}
-}
-int find(int x, int y)
-{
-	int t = x;
-	for(int i=LOG; i&gt;=0; i--)
-		if(dep[fa[fa[t][i]][0]]&gt;=dep[y]) t = fa[t][i];
-	return t;
-}
-int main()
-{
-	scanf(&quot;%d%d%d&quot;, &amp;n, &amp;m, &amp;q);
-	cnt = n;
-	for(int i=1; i&lt;=m; i++)
-	{
-		int u, v, w;
-		scanf(&quot;%d%d%d&quot;, &amp;u, &amp;v, &amp;w);
-		G[u].pb({v, w}); G[v].pb({u, w});
-	}
-	tarjan(1, 0);
-	dep[1] = 1; dfs(1);
-	while(q--)
-	{
-		int u, v;
-		scanf(&quot;%d%d&quot;, &amp;u, &amp;v);
-		int z = LCA(u, v);
-		if(z&lt;=n) printf(&quot;%d\n&quot;, dis[u]+dis[v]-2*dis[z]);
-		else
-		{
-			int x = find(u, z), y = find(v, z);
-			if(sum[x]&gt;sum[y]) swap(x, y);
-			int ans = dis[u]-dis[x]+dis[v]-dis[y]+min(sum[y]-sum[x], sum[x]+sum[z]-sum[y]);
-			printf(&quot;%d\n&quot;, ans);
-		}
-	}
 	return 0;
 }
 </code></pre>
