@@ -1,0 +1,231 @@
+
+<!DOCTYPE html>
+<html>
+  <head>
+    
+<meta charset="utf-8" >
+
+<title>[YsOI2020]幼儿园 思维 | Gridea</title>
+<meta name="description" content="温故而知新">
+
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.7.0/animate.min.css">
+
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
+<link rel="shortcut icon" href="https://jyf111.github.io/favicon.ico?v=1591111154348">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.10.0/katex.min.css">
+<link rel="stylesheet" href="https://jyf111.github.io/styles/main.css">
+
+
+
+<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+<script src="https://cdn.bootcss.com/highlight.js/9.12.0/highlight.min.js"></script>
+
+
+
+  </head>
+  <body>
+    <div id="app" class="main">
+      <div class="site-header-container">
+  <div class="site-header">
+    <div class="left">
+      <a href="https://jyf111.github.io">
+        <img class="avatar" src="https://jyf111.github.io/images/avatar.png?v=1591111154348" alt="" width="32px" height="32px">
+      </a>
+      <a href="https://jyf111.github.io">
+        <h1 class="site-title">Gridea</h1>
+      </a>
+    </div>
+    <div class="right">
+      <transition name="fade">
+        <i class="icon" :class="{ 'icon-close-outline': menuVisible, 'icon-menu-outline': !menuVisible }" @click="menuVisible = !menuVisible"></i>
+      </transition>
+    </div>
+  </div>
+</div>
+
+<transition name="fade">
+  <div class="menu-container" style="display: none;" v-show="menuVisible">
+    <div class="menu-list">
+      
+        
+          <a href="/" class="menu purple-link">
+            首页
+          </a>
+        
+      
+        
+          <a href="/archives" class="menu purple-link">
+            归档
+          </a>
+        
+      
+        
+          <a href="/tags" class="menu purple-link">
+            标签
+          </a>
+        
+      
+        
+          <a href="/post/about" class="menu purple-link">
+            关于
+          </a>
+        
+      
+    </div>
+  </div>
+</transition>
+
+
+      <div class="content-container">
+        <div class="post-detail">
+          
+          <h2 class="post-title">[YsOI2020]幼儿园 思维</h2>
+          <div class="post-info post-detail-info">
+            <span><i class="icon-calendar-outline"></i> 2020-06-02</span>
+            
+          </div>
+          <div class="post-content">
+            <h3 id="题意">题意</h3>
+<p>给定有向图，n个点m条边，每条边有权值i，且恰好是1-m的一个排列，多次询问从x点只走<span class="katex"><span class="katex-mathml"><math><semantics><mrow><mo>[</mo><mi>l</mi><mo separator="true">,</mo><mi>r</mi><mo>]</mo></mrow><annotation encoding="application/x-tex">[l, r]</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mopen">[</span><span class="mord mathdefault" style="margin-right:0.01968em;">l</span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.16666666666666666em;"></span><span class="mord mathdefault" style="margin-right:0.02778em;">r</span><span class="mclose">]</span></span></span></span>的边，且边权严格单调下降能否到达1号点，强制在线</p>
+<h3 id="做法">做法</h3>
+<p>限制了边权的范围<span class="katex"><span class="katex-mathml"><math><semantics><mrow><mo>[</mo><mi>l</mi><mo separator="true">,</mo><mi>r</mi><mo>]</mo></mrow><annotation encoding="application/x-tex">[l, r]</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mopen">[</span><span class="mord mathdefault" style="margin-right:0.01968em;">l</span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.16666666666666666em;"></span><span class="mord mathdefault" style="margin-right:0.02778em;">r</span><span class="mclose">]</span></span></span></span>，我们可以先考虑<span class="katex"><span class="katex-mathml"><math><semantics><mrow><mo>[</mo><mn>1</mn><mo separator="true">,</mo><mi>r</mi><mo>]</mo></mrow><annotation encoding="application/x-tex">[1, r]</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mopen">[</span><span class="mord">1</span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.16666666666666666em;"></span><span class="mord mathdefault" style="margin-right:0.02778em;">r</span><span class="mclose">]</span></span></span></span>的时候怎么做，考虑dp[u]表示u号点与1连通需要的最小边权，从小到大枚举每一条边，如果该点与1相连，则dp[u]=w，否则如果dp[v]有值，则dp[u]=i，然后只要看dp[u]是不是小于r即可<br>
+加入下界限制后，将dp[u]转化为与1连通时需要经过的最小边权<strong>最大</strong>是多少，如果该点与1相连，则dp[u]=i，否则dp[u]=max(dp[u],dp[v])，随着从小到大枚举边权dp，dp[u]是不断变大的，考虑按照枚举顺序建立主席树，每次单点更新u点的值，询问只要查询rt[r]版本的主席树中x点的值是否&gt;=l即可。<br>
+相当于每个点处有很多单调递增的二维点（x坐标为边权，y坐标为dp），我们对每个点用vector<pair>存这些点，那么只要看x&lt;=r的最后一个点的y是否&gt;=l。</p>
+<h3 id="思考">思考</h3>
+<p>严格单调下降的限制只要通过从小到大的顺序dp即可解决，对于既有上界又有下界的限制，考虑枚举上界，然后最大化下界即可</p>
+<p>主席树写法</p>
+<pre><code class="language-cpp">#include &lt;bits/stdc++.h&gt;
+#define mp make_pair
+#define pb push_back
+#define sz(x) (int)x.size()
+#define all(x) begin(x), end(x)
+#define fi first
+#define se second
+#define debug(x) cerr &lt;&lt; #x &lt;&lt; &quot; &quot; &lt;&lt; x &lt;&lt; '\n'
+using namespace std;
+using ll = long long;
+using pii = pair&lt;int,int&gt;;
+using pli = pair&lt;ll,int&gt;;
+const int INF = 0x3f3f3f3f, N = 2e5 + 5;
+const ll LINF = 1e18 + 5;
+constexpr int mod = 1e9 + 7;
+int n, m, k, w, dp[N];
+pii edges[N];
+namespace PSegTree 
+{
+	#define ls(x) t[x].l
+	#define rs(x) t[x].r
+	int rt[N], tot;
+	struct node
+	{
+		int l, r, mx;
+	}t[N&lt;&lt;5];
+	inline void newnode(int &amp;p)
+	{
+		t[++tot] = t[p];
+		p = tot; 
+	}
+	void upd(int &amp;p, int l, int r, int x, int v)
+	{
+		newnode(p);
+		if(l==r) 
+		{
+			t[p].mx = max(t[p].mx, v);
+			return;
+		}
+		int mid = (l+r) &gt;&gt; 1;
+		if(x&lt;=mid) upd(ls(p), l, mid, x, v);
+		else upd(rs(p), mid+1, r, x, v);
+		t[p].mx = max(t[ls(p)].mx, t[rs(p)].mx);
+	}
+	int ask(int p, int l, int r, int x) 
+	{
+		if(l==r) return t[p].mx;
+		int mid = (l+r) &gt;&gt; 1;
+		if(x&lt;=mid) return ask(ls(p), l, mid, x);
+		else return ask(rs(p), mid+1, r, x);
+	}
+	#undef ls
+	#undef rs
+}
+using namespace PSegTree;
+int main()
+{
+	scanf(&quot;%d%d%d%d&quot;, &amp;n, &amp;m, &amp;k, &amp;w);
+	for(int i=1; i&lt;=m; i++) scanf(&quot;%d%d&quot;, &amp;edges[i].fi, &amp;edges[i].se);
+	for(int i=1; i&lt;=m; i++)
+	{
+		int u = edges[i].fi, v = edges[i].se;
+		if(v==1) dp[u] = i;
+		else dp[u] = max(dp[u], dp[v]);
+		rt[i] = rt[i-1];
+		upd(rt[i], 1, m, u, dp[u]);
+	}
+	int L = 0;
+	for(int i=1; i&lt;=k; i++)
+	{
+		int x, l, r;
+		scanf(&quot;%d%d%d&quot;, &amp;x, &amp;l, &amp;r);
+		if(w) x ^= L, l ^= L, r ^= L;
+		if(x==1||ask(rt[r], 1, m, x)&gt;=l) ++L, puts(&quot;1&quot;);
+		else puts(&quot;0&quot;);
+	}
+	return 0;
+}
+</code></pre>
+
+          </div>
+        </div>
+
+        
+          <div class="next-post">
+            <a class="purple-link" href="https://jyf111.github.io/post/cf893f-subtree-minimum-query-zhu-xi-shu-trick/">
+              <h3 class="post-title">
+                下一篇：CF893F Subtree Minimum Query 主席树trick
+              </h3>
+            </a>
+          </div>
+          
+      </div>
+
+      
+
+      <div class="site-footer">
+  <div class="slogan">温故而知新</div>
+  <div class="social-container">
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+  </div>
+  Powered by <a href="https://github.com/getgridea/gridea" target="_blank">Gridea</a> | <a class="rss" href="https://jyf111.github.io/atom.xml" target="_blank">RSS</a>
+</div>
+
+
+    </div>
+    <script type="application/javascript">
+
+hljs.initHighlightingOnLoad()
+
+var app = new Vue({
+  el: '#app',
+  data: {
+    menuVisible: false,
+  },
+})
+
+</script>
+
+
+
+
+  </body>
+</html>
