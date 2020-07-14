@@ -1,11 +1,10 @@
 
-<!DOCTYPE html>
 <html>
   <head>
     
 <meta charset="utf-8" >
 
-<title>圆方树 | Gridea</title>
+<title>Gridea</title>
 <meta name="description" content="温故而知新">
 
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
@@ -78,77 +77,82 @@
 
 
       <div class="content-container">
-        <div class="post-detail">
-          
-          <h2 class="post-title">圆方树</h2>
-          <div class="post-info post-detail-info">
-            <span><i class="icon-calendar-outline"></i> 2020-05-15</span>
-            
-          </div>
-          <div class="post-content">
-            <h2 id="概念">概念</h2>
-<p>点双联通分量:不存在割点/任意两点间有至少两条点不重复路径<br>
-特殊:两个点一条边<br>
-每条边属于一个点双,每个割点可以属于多个点双<br>
-圆方树中原图的每个点对应一个圆点,一个点双对应一个方点<br>
-对于每一个点双连通分量，它对应的方点向这个点双连通分量中的每个圆点连边<br>
-每个点双形成一个“菊花图”，多个“菊花图”通过原图中的割点连接在一起(因为点双的分隔点是割点)</p>
-<h2 id="性质">性质:</h2>
-<p>圆点只和方点相连,方点只和圆点相连<br>
-度数大于1的圆点是原图的割点<br>
-圆方树是无根树,无论取哪个点为根开始dfs见树,形态都一样</p>
-<h2 id="建树">建树</h2>
-<p>注意两倍空间<br>
-建完树栈中可能还有点,注意多组数据清空</p>
-<pre><code class="language-cpp">vector&lt;int&gt; G[N], T[N&lt;&lt;1];
-void tarjan(int u, int fa)
-{
-	low[u] = dfn[u] = ++clk;
-	stk[++top] = u;
-	for(int v : G[u])
-	{
-		if(!dfn[v])
-		{
-			tarjan(v, u);
-			low[u] = min(low[u], low[v]);
-			if(low[v]&gt;=dfn[u])
-			{
-				++cnt;
-				for(int x=0; x!=v; top--)
-				{
-					x = stk[top];
-					T[cnt].pb(x);
-					T[x].pb(cnt);
-				}
-				T[cnt].pb(u);
-				T[u].pb(cnt);
-			}
-		}
-		else if(v!=fa) low[u] = min(low[u], dfn[v]);
-	}
-}
-</code></pre>
-<h2 id="应用">应用</h2>
-<p>圆方树会损失掉原图中所有的边的信息,但是在维护点的信息的时候有较好的性质<br>
-P5058 [ZJOI2004]嗅探器<br>
-求无向图中两点间的编号最小的割点<br>
-建出圆方树,那么两点在树上路径中的割点(度数大于1的圆点)取编号最小的即可</p>
-
-          </div>
-        </div>
-
         
-          <div class="next-post">
-            <a class="purple-link" href="https://jyf111.github.io/post/p5495-dirichlet-qian-zhui-he/">
-              <h3 class="post-title">
-                下一篇：P5495 Dirichlet 前缀和
-              </h3>
-            </a>
-          </div>
-          
+        
+<section class="post-item">
+    <div class="content">
+      <a href="https://jyf111.github.io/post/joi2019-final-du-te-de-cheng-shi-si-wei-chang-pou/">
+        <h2 class="post-title">JOI2019 Final 独特的城市 思维+长剖</h2>
+      </a>
+      <div class="post-abstract">
+        
       </div>
+      <div class="post-info">
+        <span><i class="icon icon-calendar-outline"></i> 2020-04-30</span>
+        
+      </div>
+    </div>
+    
+  </section>
 
-      
+<section class="post-item">
+    <div class="content">
+      <a href="https://jyf111.github.io/post/uoj207-lct-wei-hu-zi-shu-xin-xi-sui-ji-hua/">
+        <h2 class="post-title">uoj207 LCT维护子树信息+随机化</h2>
+      </a>
+      <div class="post-abstract">
+        
+      </div>
+      <div class="post-info">
+        <span><i class="icon icon-calendar-outline"></i> 2020-04-29</span>
+        
+      </div>
+    </div>
+    
+  </section>
+
+<section class="post-item">
+    <div class="content">
+      <a href="https://jyf111.github.io/post/codeforces1307f/">
+        <h2 class="post-title">codeforces1307F</h2>
+      </a>
+      <div class="post-abstract">
+        
+      </div>
+      <div class="post-info">
+        <span><i class="icon icon-calendar-outline"></i> 2020-04-29</span>
+        
+      </div>
+    </div>
+    
+  </section>
+
+<section class="post-item">
+    <div class="content">
+      <a href="https://jyf111.github.io/post/head/">
+        <h2 class="post-title">head</h2>
+      </a>
+      <div class="post-abstract">
+        
+      </div>
+      <div class="post-info">
+        <span><i class="icon icon-calendar-outline"></i> 2020-04-29</span>
+        
+      </div>
+    </div>
+    
+  </section>
+
+
+<div class="pagination-container">
+  
+    <a href="https://jyf111.github.io/page/4/" class="prev"><i class="icon-arrow-ios-back-outline"></i> 上一页</a>
+  
+  
+</div>
+
+
+      </div>
 
       <div class="site-footer">
   <div class="slogan">温故而知新</div>

@@ -1,0 +1,229 @@
+
+<!DOCTYPE html>
+<html>
+  <head>
+    
+<meta charset="utf-8" >
+
+<title>kmp学习笔记 | Gridea</title>
+<meta name="description" content="温故而知新">
+
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.7.0/animate.min.css">
+
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
+<link rel="shortcut icon" href="https://jyf111.github.io/favicon.ico?v=1594711758040">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.10.0/katex.min.css">
+<link rel="stylesheet" href="https://jyf111.github.io/styles/main.css">
+
+
+
+<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+<script src="https://cdn.bootcss.com/highlight.js/9.12.0/highlight.min.js"></script>
+
+
+
+  </head>
+  <body>
+    <div id="app" class="main">
+      <div class="site-header-container">
+  <div class="site-header">
+    <div class="left">
+      <a href="https://jyf111.github.io">
+        <img class="avatar" src="https://jyf111.github.io/images/avatar.png?v=1594711758040" alt="" width="32px" height="32px">
+      </a>
+      <a href="https://jyf111.github.io">
+        <h1 class="site-title">Gridea</h1>
+      </a>
+    </div>
+    <div class="right">
+      <transition name="fade">
+        <i class="icon" :class="{ 'icon-close-outline': menuVisible, 'icon-menu-outline': !menuVisible }" @click="menuVisible = !menuVisible"></i>
+      </transition>
+    </div>
+  </div>
+</div>
+
+<transition name="fade">
+  <div class="menu-container" style="display: none;" v-show="menuVisible">
+    <div class="menu-list">
+      
+        
+          <a href="/" class="menu purple-link">
+            首页
+          </a>
+        
+      
+        
+          <a href="/archives" class="menu purple-link">
+            归档
+          </a>
+        
+      
+        
+          <a href="/tags" class="menu purple-link">
+            标签
+          </a>
+        
+      
+        
+          <a href="/post/about" class="menu purple-link">
+            关于
+          </a>
+        
+      
+    </div>
+  </div>
+</transition>
+
+
+      <div class="content-container">
+        <div class="post-detail">
+          
+          <h2 class="post-title">kmp学习笔记</h2>
+          <div class="post-info post-detail-info">
+            <span><i class="icon-calendar-outline"></i> 2020-07-14</span>
+            
+          </div>
+          <div class="post-content">
+            <h3 id="应用">应用</h3>
+<p>给定主串t和模式串s，求出s在t中的所有匹配位置<br>
+求出一个串的所有前缀的最大border(next数组)</p>
+<h3 id="定义">定义</h3>
+<p>前缀pre(s, l)：s长度为l的前缀(s[1...l])<br>
+后缀suf(s, l)：s长度为l的后缀(s[|s|-l+1...|s|])<br>
+周期period：<span class="katex"><span class="katex-mathml"><math><semantics><mrow><mi>s</mi><mo>[</mo><mi>i</mi><mo>]</mo><mo>=</mo><mi>s</mi><mo>[</mo><mi>i</mi><mo>+</mo><mi>p</mi><mo>]</mo><mi mathvariant="normal">，</mi><mi mathvariant="normal">∀</mi><mi>i</mi><mo>∈</mo><mn>1...</mn><mi mathvariant="normal">∣</mi><mi>s</mi><mi mathvariant="normal">∣</mi><mo>−</mo><mi>p</mi></mrow><annotation encoding="application/x-tex">s[i] = s[i+p]，\forall i \in 1...|s|-p</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathdefault">s</span><span class="mopen">[</span><span class="mord mathdefault">i</span><span class="mclose">]</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span></span><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathdefault">s</span><span class="mopen">[</span><span class="mord mathdefault">i</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span><span class="mbin">+</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span></span><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathdefault">p</span><span class="mclose">]</span><span class="mord cjk_fallback">，</span><span class="mord">∀</span><span class="mord mathdefault">i</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span><span class="mrel">∈</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span></span><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord">1</span><span class="mord">.</span><span class="mord">.</span><span class="mord">.</span><span class="mord">∣</span><span class="mord mathdefault">s</span><span class="mord">∣</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span><span class="mbin">−</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span></span><span class="base"><span class="strut" style="height:0.625em;vertical-align:-0.19444em;"></span><span class="mord mathdefault">p</span></span></span></span>，则p是s的周期<br>
+border: <span class="katex"><span class="katex-mathml"><math><semantics><mrow><mi>p</mi><mi>r</mi><mi>e</mi><mo>(</mo><mi>s</mi><mo separator="true">,</mo><mi>l</mi><mo>)</mo><mo>=</mo><mi>s</mi><mi>u</mi><mi>f</mi><mo>(</mo><mi>s</mi><mo separator="true">,</mo><mi>l</mi><mo>)</mo></mrow><annotation encoding="application/x-tex">pre(s, l) = suf(s, l)</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathdefault">p</span><span class="mord mathdefault" style="margin-right:0.02778em;">r</span><span class="mord mathdefault">e</span><span class="mopen">(</span><span class="mord mathdefault">s</span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.16666666666666666em;"></span><span class="mord mathdefault" style="margin-right:0.01968em;">l</span><span class="mclose">)</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span></span><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathdefault">s</span><span class="mord mathdefault">u</span><span class="mord mathdefault" style="margin-right:0.10764em;">f</span><span class="mopen">(</span><span class="mord mathdefault">s</span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.16666666666666666em;"></span><span class="mord mathdefault" style="margin-right:0.01968em;">l</span><span class="mclose">)</span></span></span></span>，则pre(s, l)是s的border</p>
+<h3 id="性质">性质</h3>
+<p>若s有长为x的border，则|s|-x为s的一个周期。证明可以分成border相交和不相交两种情况<br>
+最小周期=串长-最大border<br>
+border具有传递性，串s的所有border可以用<span class="katex"><span class="katex-mathml"><math><semantics><mrow><mi>n</mi><mi>x</mi><mi>t</mi><mo>[</mo><mi mathvariant="normal">∣</mi><mi>s</mi><mi mathvariant="normal">∣</mi><mo>]</mo><mi mathvariant="normal">，</mi><mi>n</mi><mi>x</mi><mi>t</mi><mo>[</mo><mi>n</mi><mi>x</mi><mi>t</mi><mo>[</mo><mi mathvariant="normal">∣</mi><mi>s</mi><mi mathvariant="normal">∣</mi><mo>]</mo><mo>]</mo><mi mathvariant="normal">.</mi><mi mathvariant="normal">.</mi><mi mathvariant="normal">.</mi></mrow><annotation encoding="application/x-tex">nxt[|s|]，nxt[nxt[|s|]]...</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathdefault">n</span><span class="mord mathdefault">x</span><span class="mord mathdefault">t</span><span class="mopen">[</span><span class="mord">∣</span><span class="mord mathdefault">s</span><span class="mord">∣</span><span class="mclose">]</span><span class="mord cjk_fallback">，</span><span class="mord mathdefault">n</span><span class="mord mathdefault">x</span><span class="mord mathdefault">t</span><span class="mopen">[</span><span class="mord mathdefault">n</span><span class="mord mathdefault">x</span><span class="mord mathdefault">t</span><span class="mopen">[</span><span class="mord">∣</span><span class="mord mathdefault">s</span><span class="mord">∣</span><span class="mclose">]</span><span class="mclose">]</span><span class="mord">.</span><span class="mord">.</span><span class="mord">.</span></span></span></span>表示<br>
+<strong>Weak Periodicity Lemma</strong><br>
+p和q是s的周期，p+q&lt;=|s|，则gcd(p, q)也是s的周期<br>
+<strong>Periodicity Lemma</strong><br>
+p和q是s的周期，p+q-gcd(p, q)&lt;=|s|，则gcd(p, q)也是s的周期<br>
+(牛客多校1的签到是给出两个无限串各自的周期，要求比较这两个串的字典序大小，只需要比较前p+q-gcd(p,q)或者前p+q个字符，如果都相同，说明p和q都是各自的周期，两个串相等)</p>
+<h3 id="求法">求法</h3>
+<p>nxt数组的求法可以当作是s串自己和自己匹配的过程。<br>
+规定<span class="katex"><span class="katex-mathml"><math><semantics><mrow><mi>n</mi><mi>x</mi><mi>t</mi><mo>[</mo><mn>0</mn><mo>]</mo><mo>=</mo><mo>−</mo><mn>1</mn></mrow><annotation encoding="application/x-tex">nxt[0] = -1</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathdefault">n</span><span class="mord mathdefault">x</span><span class="mord mathdefault">t</span><span class="mopen">[</span><span class="mord">0</span><span class="mclose">]</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span></span><span class="base"><span class="strut" style="height:0.72777em;vertical-align:-0.08333em;"></span><span class="mord">−</span><span class="mord">1</span></span></span></span>，s串从0开始，nxt[i]表示s[0...i-1]的最大border<br>
+考虑当前已经求出了<span class="katex"><span class="katex-mathml"><math><semantics><mrow><mi>n</mi><mi>x</mi><mi>t</mi><mo>[</mo><mn>0...</mn><mi>i</mi><mo>]</mo><mi mathvariant="normal">，</mi><mi mathvariant="normal">且</mi><mi>n</mi><mi>x</mi><mi>t</mi><mo>[</mo><mi>i</mi><mo>]</mo><mo>=</mo><mi>j</mi></mrow><annotation encoding="application/x-tex">nxt[0...i]，且nxt[i]=j</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathdefault">n</span><span class="mord mathdefault">x</span><span class="mord mathdefault">t</span><span class="mopen">[</span><span class="mord">0</span><span class="mord">.</span><span class="mord">.</span><span class="mord">.</span><span class="mord mathdefault">i</span><span class="mclose">]</span><span class="mord cjk_fallback">，</span><span class="mord cjk_fallback">且</span><span class="mord mathdefault">n</span><span class="mord mathdefault">x</span><span class="mord mathdefault">t</span><span class="mopen">[</span><span class="mord mathdefault">i</span><span class="mclose">]</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span></span><span class="base"><span class="strut" style="height:0.85396em;vertical-align:-0.19444em;"></span><span class="mord mathdefault" style="margin-right:0.05724em;">j</span></span></span></span>，说明s[i-j...i-1]=s[0...j-1]</p>
+<ul>
+<li><span class="katex"><span class="katex-mathml"><math><semantics><mrow><mi>s</mi><mo>[</mo><mi>i</mi><mo>]</mo><mo>=</mo><mo>=</mo><mi>s</mi><mo>[</mo><mi>j</mi><mo>]</mo><mi mathvariant="normal">，</mi><mi>n</mi><mi>x</mi><mi>t</mi><mo>[</mo><mo>+</mo><mo>+</mo><mi>i</mi><mo>]</mo><mo>=</mo><mo>+</mo><mo>+</mo><mi>j</mi></mrow><annotation encoding="application/x-tex">s[i]==s[j]，nxt[++i] = ++j</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathdefault">s</span><span class="mopen">[</span><span class="mord mathdefault">i</span><span class="mclose">]</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span><span class="mrel">=</span></span><span class="base"><span class="strut" style="height:0.36687em;vertical-align:0em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span></span><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathdefault">s</span><span class="mopen">[</span><span class="mord mathdefault" style="margin-right:0.05724em;">j</span><span class="mclose">]</span><span class="mord cjk_fallback">，</span><span class="mord mathdefault">n</span><span class="mord mathdefault">x</span><span class="mord mathdefault">t</span><span class="mopen">[</span><span class="mord">+</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span><span class="mbin">+</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span></span><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathdefault">i</span><span class="mclose">]</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span></span><span class="base"><span class="strut" style="height:0.66666em;vertical-align:-0.08333em;"></span><span class="mord">+</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span><span class="mbin">+</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span></span><span class="base"><span class="strut" style="height:0.85396em;vertical-align:-0.19444em;"></span><span class="mord mathdefault" style="margin-right:0.05724em;">j</span></span></span></span></li>
+<li><span class="katex"><span class="katex-mathml"><math><semantics><mrow><mi>s</mi><mo>[</mo><mi>i</mi><mo>]</mo><mo>!</mo><mo>=</mo><mi>s</mi><mo>[</mo><mi>j</mi><mo>]</mo></mrow><annotation encoding="application/x-tex">s[i]!=s[j]</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathdefault">s</span><span class="mopen">[</span><span class="mord mathdefault">i</span><span class="mclose">]</span><span class="mclose">!</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span></span><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathdefault">s</span><span class="mopen">[</span><span class="mord mathdefault" style="margin-right:0.05724em;">j</span><span class="mclose">]</span></span></span></span>，此时我们需要不断往前跳nxt，直到找到一个border的后一个字符等于s[j]，然后转为第一种情况</li>
+</ul>
+<pre><code class="language-cpp">void kmp_pre(char s[], int n, int nxt[])
+{
+	int i = 0, j = nxt[0] = -1;
+	while(i&lt;n)
+	{
+		while(j!=-1&amp;&amp;s[i]!=s[j]) j = nxt[j];
+		nxt[++i] = ++j;
+	}
+}
+</code></pre>
+<p>字符串匹配的过程和求next数组的过程类似（模式串都是s，只不过主串变了）。<br>
+规定s串为模式串，t为主串，下标均从0开始。<br>
+先求出s串的next数组<br>
+考虑当前t串匹配到i-1，s串匹配到j-1，说明<span class="katex"><span class="katex-mathml"><math><semantics><mrow><mi>t</mi><mo>[</mo><mi>i</mi><mo>−</mo><mi>j</mi><mi mathvariant="normal">.</mi><mi mathvariant="normal">.</mi><mi mathvariant="normal">.</mi><mi>i</mi><mo>−</mo><mn>1</mn><mo>]</mo><mo>=</mo><mi>s</mi><mo>[</mo><mn>0...</mn><mi>j</mi><mo>−</mo><mn>1</mn><mo>]</mo></mrow><annotation encoding="application/x-tex">t[i-j...i-1]=s[0...j-1]</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathdefault">t</span><span class="mopen">[</span><span class="mord mathdefault">i</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span><span class="mbin">−</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span></span><span class="base"><span class="strut" style="height:0.85396em;vertical-align:-0.19444em;"></span><span class="mord mathdefault" style="margin-right:0.05724em;">j</span><span class="mord">.</span><span class="mord">.</span><span class="mord">.</span><span class="mord mathdefault">i</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span><span class="mbin">−</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span></span><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord">1</span><span class="mclose">]</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span></span><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathdefault">s</span><span class="mopen">[</span><span class="mord">0</span><span class="mord">.</span><span class="mord">.</span><span class="mord">.</span><span class="mord mathdefault" style="margin-right:0.05724em;">j</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span><span class="mbin">−</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span></span><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord">1</span><span class="mclose">]</span></span></span></span></p>
+<ul>
+<li><span class="katex"><span class="katex-mathml"><math><semantics><mrow><mi>t</mi><mo>[</mo><mi>i</mi><mo>]</mo><mo>=</mo><mi>s</mi><mo>[</mo><mi>j</mi><mo>]</mo></mrow><annotation encoding="application/x-tex">t[i]=s[j]</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathdefault">t</span><span class="mopen">[</span><span class="mord mathdefault">i</span><span class="mclose">]</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span></span><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathdefault">s</span><span class="mopen">[</span><span class="mord mathdefault" style="margin-right:0.05724em;">j</span><span class="mclose">]</span></span></span></span>，++i，++j。如果j&gt;|s|，说明找到一个匹配，记录下位置，让j=nxt[j]</li>
+<li><span class="katex"><span class="katex-mathml"><math><semantics><mrow><mi>t</mi><mo>[</mo><mi>i</mi><mo>]</mo><mo>!</mo><mo>=</mo><mi>s</mi><mo>[</mo><mi>j</mi><mo>]</mo></mrow><annotation encoding="application/x-tex">t[i]!=s[j]</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathdefault">t</span><span class="mopen">[</span><span class="mord mathdefault">i</span><span class="mclose">]</span><span class="mclose">!</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span></span><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathdefault">s</span><span class="mopen">[</span><span class="mord mathdefault" style="margin-right:0.05724em;">j</span><span class="mclose">]</span></span></span></span>，j不断跳nxt直到找到一个border的后一个字符等于t[i]为止，然后转化为第一种情况</li>
+</ul>
+<pre><code class="language-cpp">int kmp_work(char s[], int n, char t[], int m)
+{
+	int i = 0, j = 0, ans = 0;
+	kmp_pre(s, n, nxt);
+	while(i&lt;m)
+	{
+		while(j!=-1&amp;&amp;t[i]!=s[j]) j = nxt[j];
+		i++; j++;
+		if(j&gt;=n)
+		{
+			ans++;
+			match[i-n] = 1; 
+			j = nxt[j];
+		}
+	}
+	return ans; 
+}
+</code></pre>
+<h3 id="习题">习题</h3>
+<ul>
+<li>p3375<br>
+求出所有匹配位置+nxt数组</li>
+<li>p5829<br>
+引入一种失配树（和ac自动机的fail树类似）：按照next数组进行建树，next[i]作为i的父亲。<br>
+显然每个点有且仅有一个父节点。<br>
+容易发现每个点的所有祖先就是它的所有border，跳nxt的过程相当于不断往父亲走<br>
+本题多次询问一个串s的某两个前缀的最大公共border。建出失配树后很直观的可以发现答案就是两个节点的LCA代表的前缀</li>
+<li>p3435<br>
+求每个前缀的最大周期。<br>
+求最大周期相当于求最小border。放在失配树上就相当于找到每个点祖先中离根最近的那个。树上dp一下即可。也可以路径压缩。</li>
+<li>poj2185<br>
+一个n*m字符矩阵，求一个最小的子矩阵，使其重复多次后所得矩阵包含原矩阵。<br>
+行列分开做一遍kmp，求出各自的最大border。<br>
+按行做的时候，每一行的字符当作一个字符（hash一下，直接暴力也行）</li>
+<li>p2375<br>
+对s的所有前缀，求出长度不超过一半的border数量<br>
+放到失配树上，倍增一下（border长度单减）（无脑+暴力）<span class="katex"><span class="katex-mathml"><math><semantics><mrow><mi>O</mi><mo>(</mo><mi>n</mi><mi>l</mi><mi>o</mi><mi>g</mi><mi>n</mi><mo>)</mo></mrow><annotation encoding="application/x-tex">O(nlogn)</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathdefault" style="margin-right:0.02778em;">O</span><span class="mopen">(</span><span class="mord mathdefault">n</span><span class="mord mathdefault" style="margin-right:0.01968em;">l</span><span class="mord mathdefault">o</span><span class="mord mathdefault" style="margin-right:0.03588em;">g</span><span class="mord mathdefault">n</span><span class="mclose">)</span></span></span></span><br>
+利用性质可以<span class="katex"><span class="katex-mathml"><math><semantics><mrow><mi>O</mi><mo>(</mo><mi>n</mi><mo>)</mo></mrow><annotation encoding="application/x-tex">O(n)</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathdefault" style="margin-right:0.02778em;">O</span><span class="mopen">(</span><span class="mord mathdefault">n</span><span class="mclose">)</span></span></span></span></li>
+<li>p3426<br>
+对于字符串s，求一个最短的字符串t，其<strong>可重叠</strong>地重复数次后等于s<br>
+显然t是s的一个border<br>
+如果当前等价于s[1...i]，相当于t是pre(s, i)的一个border。所以这个t是s的某些前缀的border，而且这些前缀的位置的差值要&lt;=这个串t的长度。</li>
+</ul>
+
+          </div>
+        </div>
+
+        
+          <div class="next-post">
+            <a class="purple-link" href="https://jyf111.github.io/post/d-array-gou-zao/">
+              <h3 class="post-title">
+                下一篇：D-Array 构造
+              </h3>
+            </a>
+          </div>
+          
+      </div>
+
+      
+
+      <div class="site-footer">
+  <div class="slogan">温故而知新</div>
+  <div class="social-container">
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+  </div>
+  Powered by <a href="https://github.com/getgridea/gridea" target="_blank">Gridea</a> | <a class="rss" href="https://jyf111.github.io/atom.xml" target="_blank">RSS</a>
+</div>
+
+
+    </div>
+    <script type="application/javascript">
+
+hljs.initHighlightingOnLoad()
+
+var app = new Vue({
+  el: '#app',
+  data: {
+    menuVisible: false,
+  },
+})
+
+</script>
+
+
+
+
+  </body>
+</html>

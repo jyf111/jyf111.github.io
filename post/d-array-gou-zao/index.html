@@ -5,7 +5,7 @@
     
 <meta charset="utf-8" >
 
-<title>圆方树 | Gridea</title>
+<title>D-Array 构造 | Gridea</title>
 <meta name="description" content="温故而知新">
 
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
@@ -80,68 +80,50 @@
       <div class="content-container">
         <div class="post-detail">
           
-          <h2 class="post-title">圆方树</h2>
+          <h2 class="post-title">D-Array 构造</h2>
           <div class="post-info post-detail-info">
-            <span><i class="icon-calendar-outline"></i> 2020-05-15</span>
+            <span><i class="icon-calendar-outline"></i> 2020-06-18</span>
             
           </div>
           <div class="post-content">
-            <h2 id="概念">概念</h2>
-<p>点双联通分量:不存在割点/任意两点间有至少两条点不重复路径<br>
-特殊:两个点一条边<br>
-每条边属于一个点双,每个割点可以属于多个点双<br>
-圆方树中原图的每个点对应一个圆点,一个点双对应一个方点<br>
-对于每一个点双连通分量，它对应的方点向这个点双连通分量中的每个圆点连边<br>
-每个点双形成一个“菊花图”，多个“菊花图”通过原图中的割点连接在一起(因为点双的分隔点是割点)</p>
-<h2 id="性质">性质:</h2>
-<p>圆点只和方点相连,方点只和圆点相连<br>
-度数大于1的圆点是原图的割点<br>
-圆方树是无根树,无论取哪个点为根开始dfs见树,形态都一样</p>
-<h2 id="建树">建树</h2>
-<p>注意两倍空间<br>
-建完树栈中可能还有点,注意多组数据清空</p>
-<pre><code class="language-cpp">vector&lt;int&gt; G[N], T[N&lt;&lt;1];
-void tarjan(int u, int fa)
-{
-	low[u] = dfn[u] = ++clk;
-	stk[++top] = u;
-	for(int v : G[u])
-	{
-		if(!dfn[v])
-		{
-			tarjan(v, u);
-			low[u] = min(low[u], low[v]);
-			if(low[v]&gt;=dfn[u])
-			{
-				++cnt;
-				for(int x=0; x!=v; top--)
-				{
-					x = stk[top];
-					T[cnt].pb(x);
-					T[x].pb(cnt);
-				}
-				T[cnt].pb(u);
-				T[u].pb(cnt);
-			}
-		}
-		else if(v!=fa) low[u] = min(low[u], dfn[v]);
-	}
-}
+            <h3 id="题意">题意</h3>
+<p>给定两个数x和y，要求用最少的n个数，使得他们的异或和=x，求和=y</p>
+<h3 id="做法">做法</h3>
+<p>这道题在cf上有类似的</p>
+<ul>
+<li>x=y=0 输出0</li>
+<li>x=y!=0 输出1</li>
+<li>x&gt;y 输出-1</li>
+<li>(y-x)&amp;1 输出-1</li>
+<li>如果可以用(y+x)/2 和(y-x)/2，就输出2</li>
+<li>否则输出3 x, (y-x)/2, (y-x)/2<br>
+顺便记一下python多组输入(竟然跑了6s多。。)</li>
+</ul>
+<pre><code class="language-python">while True:
+	try:
+		x, y = map(int, input().split())
+		if x==y:
+			print(0) if(x==0) else print(1)
+		elif x&gt;y:
+			print(-1)
+		elif (y-x)&amp;1:
+			print(-1)
+		elif ((y+x)//2) ^ ((y-x)//2) == x:
+			print(2)
+		else:
+			print(3)
+	except:
+		break;
 </code></pre>
-<h2 id="应用">应用</h2>
-<p>圆方树会损失掉原图中所有的边的信息,但是在维护点的信息的时候有较好的性质<br>
-P5058 [ZJOI2004]嗅探器<br>
-求无向图中两点间的编号最小的割点<br>
-建出圆方树,那么两点在树上路径中的割点(度数大于1的圆点)取编号最小的即可</p>
 
           </div>
         </div>
 
         
           <div class="next-post">
-            <a class="purple-link" href="https://jyf111.github.io/post/p5495-dirichlet-qian-zhui-he/">
+            <a class="purple-link" href="https://jyf111.github.io/post/niu-ke-lian-xi-sai-65/">
               <h3 class="post-title">
-                下一篇：P5495 Dirichlet 前缀和
+                下一篇：牛客练习赛65
               </h3>
             </a>
           </div>
