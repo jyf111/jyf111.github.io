@@ -12,7 +12,7 @@
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.7.0/animate.min.css">
 
 <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
-<link rel="shortcut icon" href="https://jyf111.github.io/favicon.ico?v=1594990183931">
+<link rel="shortcut icon" href="https://jyf111.github.io/favicon.ico?v=1594990464454">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.10.0/katex.min.css">
 <link rel="stylesheet" href="https://jyf111.github.io/styles/main.css">
 
@@ -30,7 +30,7 @@
   <div class="site-header">
     <div class="left">
       <a href="https://jyf111.github.io">
-        <img class="avatar" src="https://jyf111.github.io/images/avatar.png?v=1594990183931" alt="" width="32px" height="32px">
+        <img class="avatar" src="https://jyf111.github.io/images/avatar.png?v=1594990464454" alt="" width="32px" height="32px">
       </a>
       <a href="https://jyf111.github.io">
         <h1 class="site-title">Gridea</h1>
@@ -96,7 +96,7 @@
 -221c5.3,-9.3,12,-14,20,-14H400000v40H845.2724s-225.272,467,-225.272,467
 s-235,486,-235,486c-2.7,4.7,-9,7,-19,7c-6,0,-10,-1,-12,-3s-194,-422,-194,-422
 s-65,47,-65,47z M834 80H400000v40H845z'/></svg></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.23972em;"><span></span></span></span></span></span></span></span></span>（维护多串的根号trick）<br>
-第二种是sam上直接无脑暴力跳到某个长度范围内，一般情况是要写倍增的，但是我在2019徐州L、p4094上直接暴力跳也都过了，而且比倍增快（常数小）。。</li>
+第二种是sam上直接无脑暴力跳到某个长度范围内，一般情况是要写倍增的，但是我在2019徐州L、p4094上直接暴力跳也都过了，而且比倍增快（常数小）。。如果是aaaaa...的话parent树是链，应该能卡，所以还是要写倍增吧</li>
 <li>trie上建广义sam<br>
 正解是bfs的做法，但是需要显示的建出trie，如果不建会错，我认为是重边的影响（不确定）。<br>
 如果直接dfs，复杂度会取决于trie上<span class="katex"><span class="katex-mathml"><math><semantics><mrow><mo>∑</mo><mi>d</mi><mi>e</mi><mi>p</mi><mo>(</mo><mi>l</mi><mi>e</mi><mi>a</mi><mi>f</mi><mo>)</mo></mrow><annotation encoding="application/x-tex">\sum dep(leaf)</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1.00001em;vertical-align:-0.25001em;"></span><span class="mop op-symbol small-op" style="position:relative;top:-0.0000050000000000050004em;">∑</span><span class="mspace" style="margin-right:0.16666666666666666em;"></span><span class="mord mathdefault">d</span><span class="mord mathdefault">e</span><span class="mord mathdefault">p</span><span class="mopen">(</span><span class="mord mathdefault" style="margin-right:0.01968em;">l</span><span class="mord mathdefault">e</span><span class="mord mathdefault">a</span><span class="mord mathdefault" style="margin-right:0.10764em;">f</span><span class="mclose">)</span></span></span></span>（15国家论文），感觉可以卡成<span class="katex"><span class="katex-mathml"><math><semantics><mrow><msup><mi>n</mi><mn>2</mn></msup></mrow><annotation encoding="application/x-tex">n^2</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.8141079999999999em;vertical-align:0em;"></span><span class="mord"><span class="mord mathdefault">n</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.8141079999999999em;"><span style="top:-3.063em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight">2</span></span></span></span></span></span></span></span></span></span></span>，然而我在2019徐州L、2019wfG上直接dfs建就过了，由于不用建trie，时间和空间上都挺优秀，目前还不知道是数据问题还是什么。p3346由于叶子只有20个，所以dfs肯定是对的。</li>
