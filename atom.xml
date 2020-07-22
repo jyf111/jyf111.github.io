@@ -2,7 +2,7 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
     <id>https://jyf111.github.io</id>
     <title>Gridea</title>
-    <updated>2020-07-17T12:54:30.234Z</updated>
+    <updated>2020-07-22T13:19:40.900Z</updated>
     <generator>https://github.com/jpmonette/feed</generator>
     <link rel="alternate" href="https://jyf111.github.io"/>
     <link rel="self" href="https://jyf111.github.io/atom.xml"/>
@@ -10,6 +10,49 @@
     <logo>https://jyf111.github.io/images/avatar.png</logo>
     <icon>https://jyf111.github.io/favicon.ico</icon>
     <rights>All rights reserved 2020, Gridea</rights>
+    <entry>
+        <title type="html"><![CDATA[shift-and/or 字符串匹配算法]]></title>
+        <id>https://jyf111.github.io/post/shift-andor-zi-fu-chuan-pi-pei-suan-fa/</id>
+        <link href="https://jyf111.github.io/post/shift-andor-zi-fu-chuan-pi-pei-suan-fa/">
+        </link>
+        <updated>2020-07-22T12:43:20.000Z</updated>
+        <content type="html"><![CDATA[<p><em><strong>shift-and</strong></em><br>
+在串s中查找串t<br>
+规定串s的长度为n，串t的长度为m，字符串下标从0开始<br>
+bitset&lt;m&gt; B[26];<br>
+预处理字符集中每个字母在串t中的出现的位置，各用一个bitset表示<br>
+bitset&lt;m&gt; D;<br>
+在s中枚举位置i，D[j]=1仅当串t的前缀t[0...j]是串s的后缀s[i-j...i]<br>
+当D[m-1]=1时表示一次匹配<br>
+当枚举位置i+1，就要更新D<br>
+D = (D&lt;&lt;1|1)&amp;B[s[i+1]-'a'];<br>
+复杂度<span class="katex"><span class="katex-mathml"><math><semantics><mrow><mi>O</mi><mo>(</mo><mfrac><mrow><mi>n</mi><mi>m</mi></mrow><mn>32</mn></mfrac><mo>)</mo></mrow><annotation encoding="application/x-tex">O(\frac{nm}{32})</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1.095em;vertical-align:-0.345em;"></span><span class="mord mathdefault" style="margin-right:0.02778em;">O</span><span class="mopen">(</span><span class="mord"><span class="mopen nulldelimiter"></span><span class="mfrac"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.695392em;"><span style="top:-2.6550000000000002em;"><span class="pstrut" style="height:3em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mtight">3</span><span class="mord mtight">2</span></span></span></span><span style="top:-3.23em;"><span class="pstrut" style="height:3em;"></span><span class="frac-line" style="border-bottom-width:0.04em;"></span></span><span style="top:-3.394em;"><span class="pstrut" style="height:3em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathdefault mtight">n</span><span class="mord mathdefault mtight">m</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.345em;"><span></span></span></span></span></span><span class="mclose nulldelimiter"></span></span><span class="mclose">)</span></span></span></span></p>
+<pre><code class="language-cpp">int shift_and()
+{
+	int n = strlen(s), m = strlen(t);
+	for(int i=0; i&lt;n; i++) 
+		B[s[i]-'A'].set(i);
+	int cnt = 0;
+	for(int i=0; i&lt;m; i++)
+	{
+		D &lt;&lt;= 1; D.set(0);
+		D &amp;= B[t[i]-'A'];
+		if(D[n-1]) cnt++;
+	}
+	return cnt;
+}
+</code></pre>
+<p><em><strong>shift-or</strong></em><br>
+与shiftand的B和D含义都相反，B=0表示存在，D=0表示匹配，所以初始时B和D全为1，每次转移D = (D&lt;&lt;1|B[s[i]-'a'])</p>
+<p>在普通的字符串匹配中这两者的作用显然没有kmp强，复杂度劣势<br>
+但是在可选字符匹配中很有用<br>
+规定每个位置可以与多个字符相匹配，此时只要让这些字符的B的那个位置都置1即可</p>
+<ul>
+<li>hdu 5972 输出的时候令s[n+1]=0,然后puts(s[i-n+1])，再还原s[n+1]。如果先记录匹配位置最后双重for会T</li>
+<li>hdu 5716</li>
+</ul>
+]]></content>
+    </entry>
     <entry>
         <title type="html"><![CDATA[后缀自动机和广义后缀自动机的一些疑问]]></title>
         <id>https://jyf111.github.io/post/hou-zhui-zi-dong-ji-he-guang-yi-hou-zhui-zi-dong-ji-de-yi-xie-yi-wen/</id>
@@ -959,136 +1002,6 @@ int main()
 		if(w) x ^= L, l ^= L, r ^= L;
 		if(x==1||ask(rt[r], 1, m, x)&gt;=l) ++L, puts(&quot;1&quot;);
 		else puts(&quot;0&quot;);
-	}
-	return 0;
-}
-</code></pre>
-]]></content>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[CF893F Subtree Minimum Query 主席树trick]]></title>
-        <id>https://jyf111.github.io/post/cf893f-subtree-minimum-query-zhu-xi-shu-trick/</id>
-        <link href="https://jyf111.github.io/post/cf893f-subtree-minimum-query-zhu-xi-shu-trick/">
-        </link>
-        <updated>2020-06-02T01:57:41.000Z</updated>
-        <content type="html"><![CDATA[<h3 id="题意">题意</h3>
-<p>给定一棵有点权的树，每次询问点u子树中距离u&lt;=k的点的点权的最小值，要求在线回答</p>
-<h3 id="做法">做法</h3>
-<p>询问子树，考虑dfs序，即询问<span class="katex"><span class="katex-mathml"><math><semantics><mrow><mo>[</mo><mi>i</mi><mi>n</mi><mo>[</mo><mi>u</mi><mo>]</mo><mi mathvariant="normal">：</mi><mi>o</mi><mi>u</mi><mi>t</mi><mo>[</mo><mi>u</mi><mo>]</mo><mo>]</mo></mrow><annotation encoding="application/x-tex">[in[u]：out[u]]</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mopen">[</span><span class="mord mathdefault">i</span><span class="mord mathdefault">n</span><span class="mopen">[</span><span class="mord mathdefault">u</span><span class="mclose">]</span><span class="mord cjk_fallback">：</span><span class="mord mathdefault">o</span><span class="mord mathdefault">u</span><span class="mord mathdefault">t</span><span class="mopen">[</span><span class="mord mathdefault">u</span><span class="mclose">]</span><span class="mclose">]</span></span></span></span> <span class="katex"><span class="katex-mathml"><math><semantics><mrow><mo>[</mo><mi>d</mi><mi>e</mi><mi>p</mi><mo>[</mo><mi>u</mi><mo>]</mo><mi mathvariant="normal">：</mi><mi>d</mi><mi>e</mi><mi>p</mi><mo>[</mo><mi>u</mi><mo>]</mo><mo>+</mo><mi>k</mi><mo>]</mo></mrow><annotation encoding="application/x-tex">[dep[u]：dep[u]+k]</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mopen">[</span><span class="mord mathdefault">d</span><span class="mord mathdefault">e</span><span class="mord mathdefault">p</span><span class="mopen">[</span><span class="mord mathdefault">u</span><span class="mclose">]</span><span class="mord cjk_fallback">：</span><span class="mord mathdefault">d</span><span class="mord mathdefault">e</span><span class="mord mathdefault">p</span><span class="mopen">[</span><span class="mord mathdefault">u</span><span class="mclose">]</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span><span class="mbin">+</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span></span><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathdefault" style="margin-right:0.03148em;">k</span><span class="mclose">]</span></span></span></span> 中的min{a}<br>
-二维偏序，发现每个dfs序对应了一个点，按照深度建主席树，每个版本的主席树维护的是<span class="katex"><span class="katex-mathml"><math><semantics><mrow><mo>[</mo><mn>1</mn><mo separator="true">,</mo><mi>d</mi><mi>e</mi><mi>p</mi><mo>[</mo><mi>u</mi><mo>]</mo><mo>]</mo></mrow><annotation encoding="application/x-tex">[1,dep[u]]</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mopen">[</span><span class="mord">1</span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.16666666666666666em;"></span><span class="mord mathdefault">d</span><span class="mord mathdefault">e</span><span class="mord mathdefault">p</span><span class="mopen">[</span><span class="mord mathdefault">u</span><span class="mclose">]</span><span class="mclose">]</span></span></span></span>这个深度前缀中dfs序区间的最小值，按照bfs深度顺序更新。<br>
-询问的时候只要ask dep[u]+k版本的主席树中[in[u], out[u]]区间的最小值即可</p>
-<p>一些不一定对的思考：<br>
-线段树可以高效维护一段区间的信息，而主席树可以维护各个版本的线段树，每个版本维护的是它及其之前的所有版本的前缀信息，所以主席树可以维护二维的信息，通过转变维度，巧妙的利用某一维来建树可以解决很多问题。该题中最小值不可减，所以只能询问前缀，而不能询问rt[l]-rt[r]，但是在该dfs序中的点dep[u]都是符合条件的，所以没有问题。再说带修的主席树，由于主席树维护的是每个版本的前缀信息，所以在修改的时候需要修改后面每个版本的信息，所以考虑在外层套一个树状数组，此时树状数组中每棵主席树维护的不再是前缀信息了，不需要继承前一个版本(rt[i]=rt[i-1])，每次的查询和询问操作都只与log棵主席树相关</p>
-<pre><code class="language-cpp">#include &lt;bits/stdc++.h&gt;
-#define mp make_pair
-#define pb push_back
-#define sz(x) (int)x.size()
-#define all(x) begin(x), end(x)
-#define fi first
-#define se second
-#define debug(x) cerr &lt;&lt; #x &lt;&lt; &quot; &quot; &lt;&lt; x &lt;&lt; '\n'
-using namespace std;
-using ll = long long;
-using pii = pair&lt;int,int&gt;;
-using pli = pair&lt;ll,int&gt;;
-const int INF = 0x3f3f3f3f, N = 1e5 + 5;
-const ll LINF = 1e18 + 5;
-constexpr int mod = 1e9 + 7;
-int n, r, a[N], in[N], out[N], dfn, dep[N];
-int m, p, q, mxdep;
-vector&lt;int&gt; G[N];
-namespace PSegTree 
-{
-	#define ls(x) t[x].l
-	#define rs(x) t[x].r
-	int rt[N], tot;
-	struct node
-	{
-		int l, r, mn;
-	}t[N&lt;&lt;5];
-	inline void newnode(int &amp;p)
-	{
-		t[++tot] = t[p];
-		p = tot; 
-	}
-	void upd(int &amp;p, int l, int r, int x, int v)
-	{
-		newnode(p);
-		if(l==r) 
-		{
-			t[p].mn = min(t[p].mn, v);
-			return;
-		}
-		int mid = (l+r) &gt;&gt; 1;
-		if(x&lt;=mid) upd(ls(p), l, mid, x, v);
-		else upd(rs(p), mid+1, r, x, v);
-		t[p].mn = min(t[ls(p)].mn, t[rs(p)].mn);
-	}
-	int ask(int p, int l, int r, int ql, int qr) 
-	{
-		if(l&gt;=ql&amp;&amp;r&lt;=qr) return t[p].mn;
-		int ans = INF, mid = (l+r)&gt;&gt;1;
-		if(ql&lt;=mid) ans = min(ans, ask(ls(p), l, mid, ql, qr));
-		if(qr&gt;mid) ans = min(ans, ask(rs(p), mid+1, r, ql, qr));
-		return ans;
-	}
-	#undef ls
-	#undef rs
-}
-using namespace PSegTree;
-void dfs(int u, int fa)
-{
-	in[u] = ++dfn;
-	dep[u] = dep[fa] + 1;
-	mxdep = max(mxdep, dep[u]);
-	for(int v : G[u])
-	{
-		if(v==fa) continue;
-		dfs(v, u);
-	}
-	out[u] = dfn;
-}
-void bfs()
-{
-	queue&lt;int&gt; q;
-	q.push(r);
-	int curd = 0;
-	rt[0] = 0;
-	t[0].mn = INF;
-	while(sz(q))
-	{
-		int u = q.front(); q.pop();
-		if(dep[u]&gt;curd)
-		{
-			rt[dep[u]] = rt[curd];
-			curd = dep[u];
-		}
-		upd(rt[dep[u]], 1, n, in[u], a[u]);
-		//cout &lt;&lt; u &lt;&lt; ' ' &lt;&lt; in[u] &lt;&lt; ' ' &lt;&lt; a[u] &lt;&lt; '\n';
-		for(int v : G[u])
-			if(dep[v]==dep[u]+1) q.push(v);
-	}
-}
-int main()
-{
-	scanf(&quot;%d%d&quot;, &amp;n, &amp;r);
-	for(int i=1; i&lt;=n; i++) scanf(&quot;%d&quot;, a+i);
-	for(int i=1; i&lt;n; i++)
-	{
-		int x, y; scanf(&quot;%d%d&quot;, &amp;x, &amp;y);
-		G[x].pb(y); G[y].pb(x);
-	}
-	dfs(r, 0);
-	bfs();
-	scanf(&quot;%d&quot;, &amp;m);
-	int lstans = 0;
-	while(m--)
-	{
-		scanf(&quot;%d%d&quot;, &amp;p, &amp;q);
-		p = (p+lstans)%n + 1;
-		q = (q+lstans)%n;
-		//debug(p); debug(q);
-		printf(&quot;%d\n&quot;, lstans=ask(rt[min(mxdep, dep[p]+q)], 1, n, in[p], out[p]));
 	}
 	return 0;
 }

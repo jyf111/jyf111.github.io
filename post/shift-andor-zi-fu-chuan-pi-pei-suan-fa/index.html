@@ -1,0 +1,178 @@
+
+<!DOCTYPE html>
+<html>
+  <head>
+    
+<meta charset="utf-8" >
+
+<title>shift-and/or 字符串匹配算法 | Gridea</title>
+<meta name="description" content="温故而知新">
+
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.7.0/animate.min.css">
+
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
+<link rel="shortcut icon" href="https://jyf111.github.io/favicon.ico?v=1595423788302">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.10.0/katex.min.css">
+<link rel="stylesheet" href="https://jyf111.github.io/styles/main.css">
+
+
+
+<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+<script src="https://cdn.bootcss.com/highlight.js/9.12.0/highlight.min.js"></script>
+
+
+
+  </head>
+  <body>
+    <div id="app" class="main">
+      <div class="site-header-container">
+  <div class="site-header">
+    <div class="left">
+      <a href="https://jyf111.github.io">
+        <img class="avatar" src="https://jyf111.github.io/images/avatar.png?v=1595423788302" alt="" width="32px" height="32px">
+      </a>
+      <a href="https://jyf111.github.io">
+        <h1 class="site-title">Gridea</h1>
+      </a>
+    </div>
+    <div class="right">
+      <transition name="fade">
+        <i class="icon" :class="{ 'icon-close-outline': menuVisible, 'icon-menu-outline': !menuVisible }" @click="menuVisible = !menuVisible"></i>
+      </transition>
+    </div>
+  </div>
+</div>
+
+<transition name="fade">
+  <div class="menu-container" style="display: none;" v-show="menuVisible">
+    <div class="menu-list">
+      
+        
+          <a href="/" class="menu purple-link">
+            首页
+          </a>
+        
+      
+        
+          <a href="/archives" class="menu purple-link">
+            归档
+          </a>
+        
+      
+        
+          <a href="/tags" class="menu purple-link">
+            标签
+          </a>
+        
+      
+        
+          <a href="/post/about" class="menu purple-link">
+            关于
+          </a>
+        
+      
+    </div>
+  </div>
+</transition>
+
+
+      <div class="content-container">
+        <div class="post-detail">
+          
+          <h2 class="post-title">shift-and/or 字符串匹配算法</h2>
+          <div class="post-info post-detail-info">
+            <span><i class="icon-calendar-outline"></i> 2020-07-22</span>
+            
+          </div>
+          <div class="post-content">
+            <p><em><strong>shift-and</strong></em><br>
+在串s中查找串t<br>
+规定串s的长度为n，串t的长度为m，字符串下标从0开始<br>
+bitset&lt;m&gt; B[26];<br>
+预处理字符集中每个字母在串t中的出现的位置，各用一个bitset表示<br>
+bitset&lt;m&gt; D;<br>
+在s中枚举位置i，D[j]=1仅当串t的前缀t[0...j]是串s的后缀s[i-j...i]<br>
+当D[m-1]=1时表示一次匹配<br>
+当枚举位置i+1，就要更新D<br>
+D = (D&lt;&lt;1|1)&amp;B[s[i+1]-'a'];<br>
+复杂度<span class="katex"><span class="katex-mathml"><math><semantics><mrow><mi>O</mi><mo>(</mo><mfrac><mrow><mi>n</mi><mi>m</mi></mrow><mn>32</mn></mfrac><mo>)</mo></mrow><annotation encoding="application/x-tex">O(\frac{nm}{32})</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1.095em;vertical-align:-0.345em;"></span><span class="mord mathdefault" style="margin-right:0.02778em;">O</span><span class="mopen">(</span><span class="mord"><span class="mopen nulldelimiter"></span><span class="mfrac"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.695392em;"><span style="top:-2.6550000000000002em;"><span class="pstrut" style="height:3em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mtight">3</span><span class="mord mtight">2</span></span></span></span><span style="top:-3.23em;"><span class="pstrut" style="height:3em;"></span><span class="frac-line" style="border-bottom-width:0.04em;"></span></span><span style="top:-3.394em;"><span class="pstrut" style="height:3em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathdefault mtight">n</span><span class="mord mathdefault mtight">m</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.345em;"><span></span></span></span></span></span><span class="mclose nulldelimiter"></span></span><span class="mclose">)</span></span></span></span></p>
+<pre><code class="language-cpp">int shift_and()
+{
+	int n = strlen(s), m = strlen(t);
+	for(int i=0; i&lt;n; i++) 
+		B[s[i]-'A'].set(i);
+	int cnt = 0;
+	for(int i=0; i&lt;m; i++)
+	{
+		D &lt;&lt;= 1; D.set(0);
+		D &amp;= B[t[i]-'A'];
+		if(D[n-1]) cnt++;
+	}
+	return cnt;
+}
+</code></pre>
+<p><em><strong>shift-or</strong></em><br>
+与shiftand的B和D含义都相反，B=0表示存在，D=0表示匹配，所以初始时B和D全为1，每次转移D = (D&lt;&lt;1|B[s[i]-'a'])</p>
+<p>在普通的字符串匹配中这两者的作用显然没有kmp强，复杂度劣势<br>
+但是在可选字符匹配中很有用<br>
+规定每个位置可以与多个字符相匹配，此时只要让这些字符的B的那个位置都置1即可</p>
+<ul>
+<li>hdu 5972 输出的时候令s[n+1]=0,然后puts(s[i-n+1])，再还原s[n+1]。如果先记录匹配位置最后双重for会T</li>
+<li>hdu 5716</li>
+</ul>
+
+          </div>
+        </div>
+
+        
+          <div class="next-post">
+            <a class="purple-link" href="https://jyf111.github.io/post/hou-zhui-zi-dong-ji-he-guang-yi-hou-zhui-zi-dong-ji-de-yi-xie-yi-wen/">
+              <h3 class="post-title">
+                下一篇：后缀自动机和广义后缀自动机的一些疑问
+              </h3>
+            </a>
+          </div>
+          
+      </div>
+
+      
+
+      <div class="site-footer">
+  <div class="slogan">温故而知新</div>
+  <div class="social-container">
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+  </div>
+  Powered by <a href="https://github.com/getgridea/gridea" target="_blank">Gridea</a> | <a class="rss" href="https://jyf111.github.io/atom.xml" target="_blank">RSS</a>
+</div>
+
+
+    </div>
+    <script type="application/javascript">
+
+hljs.initHighlightingOnLoad()
+
+var app = new Vue({
+  el: '#app',
+  data: {
+    menuVisible: false,
+  },
+})
+
+</script>
+
+
+
+
+  </body>
+</html>
