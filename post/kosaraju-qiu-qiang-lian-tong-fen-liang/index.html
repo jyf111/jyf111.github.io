@@ -5,7 +5,7 @@
     
 <meta charset="utf-8" >
 
-<title>D-Array 构造 | Gridea</title>
+<title>Kosaraju求强连通分量 | Gridea</title>
 <meta name="description" content="温故而知新">
 
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
@@ -80,40 +80,47 @@
       <div class="content-container">
         <div class="post-detail">
           
-          <h2 class="post-title">D-Array 构造</h2>
+          <h2 class="post-title">Kosaraju求强连通分量</h2>
           <div class="post-info post-detail-info">
-            <span><i class="icon-calendar-outline"></i> 2020-06-18</span>
+            <span><i class="icon-calendar-outline"></i> 2020-08-07</span>
             
           </div>
           <div class="post-content">
-            <h3 id="题意">题意</h3>
-<p>给定两个数x和y，要求用最少的n个数，使得他们的异或和=x，求和=y</p>
-<h3 id="做法">做法</h3>
-<p>这道题在cf上有类似的</p>
-<ul>
-<li>x=y=0 输出0</li>
-<li>x=y!=0 输出1</li>
-<li>x&gt;y 输出-1</li>
-<li>(y-x)&amp;1 输出-1</li>
-<li>如果可以用(y+x)/2 和(y-x)/2，就输出2</li>
-<li>否则输出3 x, (y-x)/2, (y-x)/2<br>
-顺便记一下python多组输入(竟然跑了6s多。。)</li>
-</ul>
-<pre><code class="language-python">while True:
-	try:
-		x, y = map(int, input().split())
-		if x==y:
-			print(0) if(x==0) else print(1)
-		elif x&gt;y:
-			print(-1)
-		elif (y-x)&amp;1:
-			print(-1)
-		elif ((y+x)//2) ^ ((y-x)//2) == x:
-			print(2)
-		else:
-			print(3)
-	except:
-		break;
+            <p>反图的强连通分量和原图相同<br>
+按照反图的逆后序方向遍历原图即可<br>
+逆后序方向：先遍历与该点相连的节点，最后将该点入栈，栈的反序为逆后序</p>
+<pre><code class="language-cpp">vector&lt;int&gt; G[N], rG[N];
+int n, m, ord[N], num[N], idx, scc];
+bool vis[N];
+void dfs(int u)
+{
+	vis[u] = 1;
+	for(int v : rG[u])
+		if(!vis[v]) dfs(v);
+	ord[++idx] = u;
+}
+void dfs2(int u)
+{
+	num[u] = scc;
+	sum[scc] += a[u];
+	for(int v : G[u])
+		if(!num[v]) dfs2(v);
+}
+for(int i=1; i&lt;=m; i++)
+{
+    int u, v;
+    scanf(&quot;%d%d&quot;, &amp;u, &amp;v);
+    G[u].push_back(v);
+    rG[v].push_back(u);
+}
+for(int i=1; i&lt;=n; i++)
+    if(!vis[i]) dfs(i);
+for(int i=n; i&gt;=1; i--)
+    if(!num[ord[i]]) 
+    {
+        ++scc;
+        dfs2(ord[i]);
+    }
 </code></pre>
 
           </div>
@@ -121,9 +128,9 @@
 
         
           <div class="next-post">
-            <a class="purple-link" href="https://jyf111.github.io/post/niu-ke-lian-xi-sai-65/">
+            <a class="purple-link" href="https://jyf111.github.io/post/p5488-chai-fen-yu-qian-zhui-he/">
               <h3 class="post-title">
-                下一篇：牛客练习赛65
+                下一篇：P5488 差分与前缀和
               </h3>
             </a>
           </div>

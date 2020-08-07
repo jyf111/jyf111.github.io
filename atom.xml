@@ -2,7 +2,7 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
     <id>https://jyf111.github.io</id>
     <title>Gridea</title>
-    <updated>2020-08-07T07:04:36.040Z</updated>
+    <updated>2020-08-07T11:48:09.066Z</updated>
     <generator>https://github.com/jpmonette/feed</generator>
     <link rel="alternate" href="https://jyf111.github.io"/>
     <link rel="self" href="https://jyf111.github.io/atom.xml"/>
@@ -10,6 +10,50 @@
     <logo>https://jyf111.github.io/images/avatar.png</logo>
     <icon>https://jyf111.github.io/favicon.ico</icon>
     <rights>All rights reserved 2020, Gridea</rights>
+    <entry>
+        <title type="html"><![CDATA[Kosaraju求强连通分量]]></title>
+        <id>https://jyf111.github.io/post/kosaraju-qiu-qiang-lian-tong-fen-liang/</id>
+        <link href="https://jyf111.github.io/post/kosaraju-qiu-qiang-lian-tong-fen-liang/">
+        </link>
+        <updated>2020-08-07T11:45:01.000Z</updated>
+        <content type="html"><![CDATA[<p>反图的强连通分量和原图相同<br>
+按照反图的逆后序方向遍历原图即可<br>
+逆后序方向：先遍历与该点相连的节点，最后将该点入栈，栈的反序为逆后序</p>
+<pre><code class="language-cpp">vector&lt;int&gt; G[N], rG[N];
+int n, m, ord[N], num[N], idx, scc];
+bool vis[N];
+void dfs(int u)
+{
+	vis[u] = 1;
+	for(int v : rG[u])
+		if(!vis[v]) dfs(v);
+	ord[++idx] = u;
+}
+void dfs2(int u)
+{
+	num[u] = scc;
+	sum[scc] += a[u];
+	for(int v : G[u])
+		if(!num[v]) dfs2(v);
+}
+for(int i=1; i&lt;=m; i++)
+{
+    int u, v;
+    scanf(&quot;%d%d&quot;, &amp;u, &amp;v);
+    G[u].push_back(v);
+    rG[v].push_back(u);
+}
+for(int i=1; i&lt;=n; i++)
+    if(!vis[i]) dfs(i);
+for(int i=n; i&gt;=1; i--)
+    if(!num[ord[i]]) 
+    {
+        ++scc;
+        dfs2(ord[i]);
+    }
+</code></pre>
+]]></content>
+    </entry>
     <entry>
         <title type="html"><![CDATA[P5488 差分与前缀和]]></title>
         <id>https://jyf111.github.io/post/p5488-chai-fen-yu-qian-zhui-he/</id>
@@ -1388,99 +1432,6 @@ int main()
 	}
 	MM.go();
 	cout &lt;&lt; MM.cost &lt;&lt; '\n';
-	return 0;
-}
-</code></pre>
-]]></content>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[codeforces1361]]></title>
-        <id>https://jyf111.github.io/post/codeforces1361/</id>
-        <link href="https://jyf111.github.io/post/codeforces1361/">
-        </link>
-        <updated>2020-06-06T13:08:58.000Z</updated>
-        <content type="html"><![CDATA[<h3 id="a">A</h3>
-<p>给定一张无向图，每个点有一个权值，如果访问u点，产生的价值是与u相连的所有点的点权的mex，给定价值序列，让你求访问顺序</p>
-<p>显然只要按照权值从小到大访问，然后模拟一遍看是否合法即可。<br>
-<s>我TM在排序里用了等于号，一直re，人快没了</s> sort的比较函数必须是偏序的</p>
-<h3 id="b">B</h3>
-<p>每个物品的权值为<span class="katex"><span class="katex-mathml"><math><semantics><mrow><msup><mi>p</mi><msub><mi>k</mi><mi>i</mi></msub></msup></mrow><annotation encoding="application/x-tex">p^{k_i}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1.043548em;vertical-align:-0.19444em;"></span><span class="mord"><span class="mord mathdefault">p</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.849108em;"><span style="top:-3.063em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mtight"><span class="mord mathdefault mtight" style="margin-right:0.03148em;">k</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.3280857142857143em;"><span style="top:-2.357em;margin-left:-0.03148em;margin-right:0.07142857142857144em;"><span class="pstrut" style="height:2.5em;"></span><span class="sizing reset-size3 size1 mtight"><span class="mord mathdefault mtight">i</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.143em;"><span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span>，给定<span class="katex"><span class="katex-mathml"><math><semantics><mrow><mi>p</mi></mrow><annotation encoding="application/x-tex">p</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.625em;vertical-align:-0.19444em;"></span><span class="mord mathdefault">p</span></span></span></span>和<span class="katex"><span class="katex-mathml"><math><semantics><mrow><msub><mi>k</mi><mi>i</mi></msub></mrow><annotation encoding="application/x-tex">k_i</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.84444em;vertical-align:-0.15em;"></span><span class="mord"><span class="mord mathdefault" style="margin-right:0.03148em;">k</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.31166399999999994em;"><span style="top:-2.5500000000000003em;margin-left:-0.03148em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathdefault mtight">i</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span></span></span></span>，问将物品分成两堆，使权值和的差最小，问最小值。</p>
-<p>可以看成一个p进制的数，每次将当前最高位丢入第一堆，然后用后面的数不断补给第二堆，直到与第一堆相等，然后重复即可。记录两堆相差的p的幂次即可，细节较多<br>
-感觉最近写题的正确率有点低，总是犯些奇奇怪怪的错误，导致调的时候也很烦</p>
-<h3 id="c">C</h3>
-<p>用n个线段，每个线段的端点有权值a和b，要求将它们串成一个环，定义两条线段连接点处的权值为<span class="katex"><span class="katex-mathml"><math><semantics><mrow><mi>h</mi><mi>i</mi><mi>g</mi><mi>h</mi><mi>b</mi><mi>i</mi><mi>t</mi><mo>(</mo><msup><mi>a</mi><mi>b</mi></msup><mo>)</mo></mrow><annotation encoding="application/x-tex">highbit(a^b)</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1.099108em;vertical-align:-0.25em;"></span><span class="mord mathdefault">h</span><span class="mord mathdefault">i</span><span class="mord mathdefault" style="margin-right:0.03588em;">g</span><span class="mord mathdefault">h</span><span class="mord mathdefault">b</span><span class="mord mathdefault">i</span><span class="mord mathdefault">t</span><span class="mopen">(</span><span class="mord"><span class="mord mathdefault">a</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.849108em;"><span style="top:-3.063em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathdefault mtight">b</span></span></span></span></span></span></span></span><span class="mclose">)</span></span></span></span>，环的价值为所有连接点处价值的最小值，问环的价值最大是多少</p>
-<p>显然二分价值（由于只有20，直接从大到小枚举即可，考虑如何check。如果价值为x，说明连接点处两点权值的低x位是相同的，所以按照<span class='katex-error' title='ParseError: KaTeX parse error: Expected &#039;EOF&#039;, got &#039;&amp;&#039; at position 2: a&amp;̲((1&lt;&lt;k)-1) -- b…'>a&amp;((1&lt;&lt;k)-1) -- b&amp;((1&lt;&lt;k)-1)</span>建图，看是否存在欧拉回路即可<br>
-我貌似不会欧拉回路怎么记录。。。<br>
-随便从一点出发找出欧拉路径，看其长度是否为n，再看<strong>首尾连接点处的权值是否满足要求</strong>，注意在找路径前要先利用度数进行判断，否则找的路径会出问题（我也不知道为什么）<br>
-对于欧拉图（存在欧拉回路），所有点度数一定都是偶数，且为连通图（可以不判断，因为如果找到的欧拉路径&lt;n就说明不连通）</p>
-<pre><code class="language-cpp">#include &lt;bits/stdc++.h&gt;
-#define mp make_pair
-#define pb push_back
-#define sz(x) (int)x.size()
-#define all(x) begin(x), end(x)
-#define fi first
-#define se second
-#define debug(x) cerr &lt;&lt; #x &lt;&lt; &quot; &quot; &lt;&lt; x &lt;&lt; '\n'
-using namespace std;
-using ll = long long;
-using pii = pair&lt;int,int&gt;;
-using pli = pair&lt;ll,int&gt;;
-const int INF = 0x3f3f3f3f, N = (1&lt;&lt;20) + 5;
-const ll LINF = 1e18 + 5;
-constexpr int mod = 1e9 + 7;
-int n, a[N], b[N], cur[N], in[N], out[N];
-vector&lt;int&gt; path;
-vector&lt;pii&gt; G[N];
-bool vis[N];
-void dfs(int u, int pre) //找欧拉路径的板子
-{
-	while(cur[u]&lt;sz(G[u]))
-	{
-		int v = G[u][cur[u]].fi, id = G[u][cur[u]].se;
-		++cur[u];
-		if(!vis[id]) 
-		{
-			vis[id] = vis[id^1] = 1; //每条边正向和反向选其1，所以走了一个后，另一个也要标记
-			dfs(v, id);
-		}
-	}
-	if(pre!=-1) path.pb(pre);
-}
-int main()
-{
-	ios::sync_with_stdio(false);
-	cin.tie(nullptr);
-	cin &gt;&gt; n;
-	for(int i=1; i&lt;=n; i++) cin &gt;&gt; a[i] &gt;&gt; b[i];
-	for(int k=20; k&gt;=0; k--)
-	{
-		int c = (1&lt;&lt;k) - 1;
-		for(int i=0; i&lt;=c; i++) G[i].clear(), cur[i] = 0, in[i] = 0;
-		for(int i=2; i&lt;=2*n+1; i++) vis[i] = 0;
-		for(int i=1; i&lt;=n; i++)
-		{
-			G[a[i]&amp;c].emplace_back(b[i]&amp;c, 2*i);
-			G[b[i]&amp;c].emplace_back(a[i]&amp;c, 2*i+1);
-			in[a[i]&amp;c]++, in[b[i]&amp;c]++;
-		}
-		bool ok = 1;
-		for(int i=0; i&lt;=c&amp;&amp;ok; i++)
-			if(in[i]&amp;1) ok = 0;
-		if(!ok) continue;
-		path.clear();
-		dfs(a[1]&amp;c, -1);
-		if(sz(path)&lt;n) continue;
-		if(path[0]%2&amp;&amp;(a[(path[0]-1)/2]&amp;c)!=(a[1]&amp;c)) continue;
-		if(path[0]%2==0&amp;&amp;(b[path[0]/2]&amp;c)!=(a[1]&amp;c)) continue;
-		cout &lt;&lt; k &lt;&lt; '\n';
-		for(int x : path)
-		{
-			if(x&amp;1) cout &lt;&lt; x-2 &lt;&lt; ' ' &lt;&lt; x-1 &lt;&lt; ' ';
-			else cout &lt;&lt; x &lt;&lt; ' ' &lt;&lt; x-1 &lt;&lt; ' ';
-		}
-		cout &lt;&lt; '\n';
-		break;
-	}
 	return 0;
 }
 </code></pre>
