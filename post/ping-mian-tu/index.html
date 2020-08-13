@@ -12,7 +12,7 @@
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.7.0/animate.min.css">
 
 <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
-<link rel="shortcut icon" href="https://jyf111.github.io/favicon.ico?v=1597313392287">
+<link rel="shortcut icon" href="https://jyf111.github.io/favicon.ico?v=1597315134944">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.10.0/katex.min.css">
 <link rel="stylesheet" href="https://jyf111.github.io/styles/main.css">
 
@@ -30,7 +30,7 @@
   <div class="site-header">
     <div class="left">
       <a href="https://jyf111.github.io">
-        <img class="avatar" src="https://jyf111.github.io/images/avatar.png?v=1597313392287" alt="" width="32px" height="32px">
+        <img class="avatar" src="https://jyf111.github.io/images/avatar.png?v=1597315134944" alt="" width="32px" height="32px">
       </a>
       <a href="https://jyf111.github.io">
         <h1 class="site-title">Gridea</h1>
@@ -113,14 +113,14 @@ using pii = pair&lt;int, int&gt;;
 using pli = pair&lt;ll, int&gt;;
 const int N = 1e3 + 5;
 constexpr ll LINF = 0x3f3f3f3f3f3f3f3f;
-int n, m, id[2*N][N], tot;
+int n, m, S, T;
 vector&lt;pii&gt; G[2*N*N];
 ll dis[2*N*N];
 bool vis[2*N*N];
 void Dijkstra(int s) 
 {
-	memset(dis, 0x3f, (tot+2)*sizeof(ll)); 
-	memset(vis, 0, (tot+2)*sizeof(bool));
+	memset(dis, 0x3f, (T+1)*sizeof(ll)); 
+	memset(vis, 0, (T+1)*sizeof(bool));
 	dis[s] = 0;
 	priority_queue&lt;pli,vector&lt;pli&gt;,greater&lt;pli&gt;&gt; q; 
 	q.push(mp(0, s));
@@ -143,37 +143,32 @@ void Dijkstra(int s)
 int main()
 {
 	scanf(&quot;%d%d&quot;, &amp;n, &amp;m);
-	for(int i=1; i&lt;=2*n-2; i++)
-		for(int j=1; j&lt;m; j++)
-			id[i][j] = ++tot;
+	S = 0, T = (2*n-2)*(m-1) + 1;
+	auto id = [&amp;](int x, int y) {
+		if(x==0||y==m) return S;
+		if(x==2*n-1||y==0) return T; 
+		return (x-1)*(m-1) + y;
+	};
 	for(int i=1; i&lt;=n; i++)
 		for(int j=1; j&lt;m; j++)
 		{
-			int u, v, w; scanf(&quot;%d&quot;, &amp;w);
-			if(i==1) u = 0;
-			else u = id[2*i-2][j];
-			if(i==n) v = tot+1;
-			else v = id[2*i-1][j];
+			int u = id(2*i-2, j), v = id(2*i-1, j), w; scanf(&quot;%d&quot;, &amp;w);
 			G[u].emplace_back(v, w); G[v].emplace_back(u, w);
 		}
 	for(int i=1; i&lt;n; i++)
 		for(int j=1; j&lt;=m; j++)
 		{
-			int u, v, w; scanf(&quot;%d&quot;, &amp;w);
-			if(j==1) u = tot+1;
-			else u = id[2*i-1][j-1];
-			if(j==m) v = 0;
-			else v = id[2*i][j];
+			int u = id(2*i-1, j-1), v = id(2*i, j), w; scanf(&quot;%d&quot;, &amp;w);
 			G[u].emplace_back(v, w); G[v].emplace_back(u, w);
 		}
 	for(int i=1; i&lt;n; i++)
 		for(int j=1; j&lt;m; j++)
 		{
-			int u = id[2*i-1][j], v = id[2*i][j], w; scanf(&quot;%d&quot;, &amp;w);
+			int u = id(2*i-1, j), v = id(2*i, j), w; scanf(&quot;%d&quot;, &amp;w);
 			G[u].emplace_back(v, w); G[v].emplace_back(u, w);
 		}
-	Dijkstra(0);
-	printf(&quot;%lld\n&quot;, dis[tot+1]);
+	Dijkstra(S);
+	printf(&quot;%lld\n&quot;, dis[T]);
 	return 0;
 }
 </code></pre>
