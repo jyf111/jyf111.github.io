@@ -2,7 +2,7 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
     <id>https://jyf111.github.io</id>
     <title>Gridea</title>
-    <updated>2020-08-15T10:45:05.731Z</updated>
+    <updated>2020-08-17T09:55:16.498Z</updated>
     <generator>https://github.com/jpmonette/feed</generator>
     <link rel="alternate" href="https://jyf111.github.io"/>
     <link rel="self" href="https://jyf111.github.io/atom.xml"/>
@@ -10,6 +10,191 @@
     <logo>https://jyf111.github.io/images/avatar.png</logo>
     <icon>https://jyf111.github.io/favicon.ico</icon>
     <rights>All rights reserved 2020, Gridea</rights>
+    <entry>
+        <title type="html"><![CDATA[最小割相关]]></title>
+        <id>https://jyf111.github.io/post/zui-xiao-ge-xiang-guan/</id>
+        <link href="https://jyf111.github.io/post/zui-xiao-ge-xiang-guan/">
+        </link>
+        <updated>2020-08-16T11:09:25.000Z</updated>
+        <content type="html"><![CDATA[<h4 id="最小割的方案">最小割的方案</h4>
+<p>跑一遍最大流，记录从s出发能到达的点集S，不能到达的点集为T，则跨越S和T的满流边（残留网络中容量=0）是最小割中的边</p>
+<h4 id="可行边与必须边">可行边与必须边</h4>
+<p>可行边：属于所有可能的最小割集的并集中的边<br>
+必须边：属于所有可能的最小割集的交集中的边<br>
+跑一遍最大流，然后对残余网络（容量大于0的边）跑一遍tarjan<br>
+如果该边还有容量，不属于最小割集，所以既不是可行边也不是必须边<br>
+如果某条边连接的两个点分属于两个scc，则为可行边<br>
+如果某条边连接的两个点一个与S同在一个scc，一个与T同在一个scc，则为必须边</p>
+<h4 id="求边数最少的最小割">求边数最少的最小割</h4>
+<p>设原图总边数=M<br>
+让原图的每一条边的权值w变成<span class="katex"><span class="katex-mathml"><math><semantics><mrow><mo>(</mo><mi>M</mi><mo>+</mo><mn>1</mn><mo>)</mo><mi>w</mi><mo>+</mo><mn>1</mn></mrow><annotation encoding="application/x-tex">(M+1)w+1</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mopen">(</span><span class="mord mathdefault" style="margin-right:0.10903em;">M</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span><span class="mbin">+</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span></span><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord">1</span><span class="mclose">)</span><span class="mord mathdefault" style="margin-right:0.02691em;">w</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span><span class="mbin">+</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span></span><span class="base"><span class="strut" style="height:0.64444em;vertical-align:0em;"></span><span class="mord">1</span></span></span></span><br>
+再跑最大流即可</p>
+<h4 id="最小割树">最小割树</h4>
+<p>求任意两点间的最小割<br>
+本质只有<span class="katex"><span class="katex-mathml"><math><semantics><mrow><mi>O</mi><mo>(</mo><mi>n</mi><mo>)</mo></mrow><annotation encoding="application/x-tex">O(n)</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathdefault" style="margin-right:0.02778em;">O</span><span class="mopen">(</span><span class="mord mathdefault">n</span><span class="mclose">)</span></span></span></span>种，建出最小割树后，u，v两点的最小割等于路径上的最小边权<br>
+建树方法：跑n次最大流<br>
+每次随机取两个点，求它们的最小割，将图分为两部分，在这两个集合间连一条边权为最小割的边，然后分治处理两个集合。这样最后会得到一棵树。则两个点之间的最小割大小为其树上唯一路径的最小值。<br>
+每次网络流的流量要复原，所以用变量fw记录每条边已经流过的流量，变量w记录容量保持不变，当fw=w时说明该边满流，复原只需要清零fw即可<br>
+求路径最小值没必要倍增，因为点数不会很大，直接建出树，以每个点为根bfs一次即可</p>
+<pre><code class="language-cpp">#include &lt;bits/stdc++.h&gt;
+#define mp make_pair
+#define pb push_back
+#define sz(x) (int)x.size()
+#define all(x) begin(x), end(x)
+#define fi first
+#define se second
+#define debug(x) cerr &lt;&lt; #x &lt;&lt; &quot; &quot; &lt;&lt; x &lt;&lt; '\n'
+using namespace std;
+using ll = long long;
+using pii = pair&lt;int,int&gt;;
+using pli = pair&lt;ll,int&gt;;
+const int INF = 0x3f3f3f3f;
+const ll LINF = 1e18 + 5;
+constexpr int mod = 1e9 + 7;
+const int N = 505, M = 2e3 + 5; 
+int n, m;
+int cnt, head[N];
+struct node
+{
+	int next, to, w, fw;
+}e[M&lt;&lt;1];
+inline void add(int u, int v, int w)
+{
+	e[++cnt] = {head[u], v, w, 0};
+	head[u] = cnt;
+}
+struct Dinic
+{
+	int n, m, s, t;
+	int dep[N], cur[N]; 
+	void init(int n)
+	{
+		this-&gt;n = n;
+		cnt = 1, m = 0;
+		memset(head,0,(n+1)*sizeof(int));
+	}
+	void addedge(int u,int v,int cap) 
+	{
+		add(u, v, cap); 
+		add(v, u, cap);
+		m += 2;
+	}
+	bool bfs()
+	{
+		memset(dep,0,(n+1)*sizeof(int));
+		memcpy(cur,head,(n+1)*sizeof(int));
+		queue &lt;int&gt; q;
+		q.push(s); dep[s] = 1;
+		while(!q.empty())
+		{
+			int u = q.front(); q.pop();
+			for(int i=head[u];i;i=e[i].next)
+			{
+				int v = e[i].to;
+				if(!dep[v]&amp;&amp;e[i].fw&lt;e[i].w)
+				{
+					dep[v] = dep[u] + 1;
+					q.push(v);
+				}
+			}
+		}
+		return dep[t];
+	}
+	int dfs(int u,int flow)
+	{
+		if(u==t||!flow) return flow;
+		int used = flow;
+		for(int i=cur[u];i;i=e[i].next)
+		{
+			cur[u] = i;
+			int v = e[i].to;
+			if(dep[v]==dep[u]+1)
+			{
+				int low = dfs(v,min(flow,e[i].w-e[i].fw));
+				e[i].fw += low; e[i^1].fw -= low;
+				flow -= low;
+				if(!flow) break;
+			}
+		}
+		return used - flow;
+	}
+	int go(int x, int y)
+	{
+		int maxflow = 0; s = x, t = y;
+		for(int i=2; i&lt;=cnt; i++) e[i].fw = 0;
+		while(bfs()) maxflow += dfs(s,INF);
+		return maxflow;
+	}
+}MF;
+struct GHT
+{
+	int pt[N], col[N], tmpt[N], cnt, cut[N][N];
+	vector&lt;pii&gt; G[N];
+	void dfs(int u)
+	{
+		col[u] = cnt;
+		for(int i=head[u]; i; i=e[i].next)
+			if(e[i].fw&lt;e[i].w &amp;&amp; col[e[i].to]!=cnt)
+				dfs(e[i].to);
+	}
+	void build(int l, int r)
+	{
+		if(l&gt;=r) return;
+		int x = pt[l], y = pt[l+1];
+		int cutw = MF.go(x, y);
+		++cnt; dfs(x); int p = l, q = r;
+		for(int i=l; i&lt;=r; i++)
+			if(col[pt[i]]==cnt) tmpt[p++] = pt[i];
+			else tmpt[q--] = pt[i];
+		for(int i=l; i&lt;=r; i++) pt[i] = tmpt[i];
+		G[x].pb({y, cutw}); G[y].pb({x, cutw});
+		build(l, p-1); build(q+1, r); 
+	}
+	void bfs(int s, int *dis)
+	{
+		for(int i=1; i&lt;=n; i++) dis[i] = -1;
+		dis[s] = INF;
+		queue&lt;int&gt; q; q.push(s);
+		while(sz(q))
+		{
+			int u = q.front(); q.pop();
+			for(auto it : G[u])
+			{
+				int v = it.fi, w = it.se;
+				if(~dis[v]) continue;
+				dis[v] = min(dis[u], w);
+				q.push(v);
+			}
+		}
+	}
+}T;
+int main()
+{
+	ios::sync_with_stdio(false);
+	cin.tie(nullptr);
+	cin &gt;&gt; n &gt;&gt; m;
+	MF.init(n);
+	for(int i=1; i&lt;=m; i++)
+	{
+		int u, v, w;
+		cin &gt;&gt; u &gt;&gt; v &gt;&gt; w;
+		MF.addedge(u, v, w);
+	}
+	iota(T.pt+1, T.pt+n+1, 1);
+	T.build(1, n);
+	for(int i=1; i&lt;=n; i++) T.bfs(i, T.cut[i]);
+	int q; cin &gt;&gt; q;
+	while(q--)
+	{
+		int u, v;
+		cin &gt;&gt; u &gt;&gt; v;
+		cout &lt;&lt; T.cut[u][v] &lt;&lt; '\n';
+	}
+	return 0;
+}
+</code></pre>
+]]></content>
+    </entry>
     <entry>
         <title type="html"><![CDATA[整数拆分]]></title>
         <id>https://jyf111.github.io/post/zheng-shu-chai-fen/</id>
@@ -1233,115 +1418,6 @@ int main()
 		}
 	}
 	return 0;
-}
-</code></pre>
-]]></content>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[shift-and/or 字符串匹配算法]]></title>
-        <id>https://jyf111.github.io/post/shift-andor-zi-fu-chuan-pi-pei-suan-fa/</id>
-        <link href="https://jyf111.github.io/post/shift-andor-zi-fu-chuan-pi-pei-suan-fa/">
-        </link>
-        <updated>2020-07-22T12:43:20.000Z</updated>
-        <content type="html"><![CDATA[<h3 id="shift-and">shift-and</h3>
-<p>在串s中查找串t<br>
-规定串s的长度为n，串t的长度为m，字符串下标从0开始<br>
-bitset&lt;m&gt; B[26];<br>
-预处理字符集中每个字母在串t中的出现的位置，各用一个bitset表示。B[s[i]-'a']表示的是s串中i位置与t串中哪些位置可以匹配<br>
-bitset&lt;m&gt; D;<br>
-在s中枚举位置i，D[j]=1仅当串t的前缀t[0...j]是串s的后缀s[i-j...i]<br>
-当D[m-1]=1时表示一次匹配<br>
-当枚举位置i+1，就要更新D<br>
-D = (D&lt;&lt;1|1)&amp;B[s[i+1]-'a'];<br>
-复杂度<span class="katex"><span class="katex-mathml"><math><semantics><mrow><mi>O</mi><mo>(</mo><mfrac><mrow><mi>n</mi><mi>m</mi></mrow><mn>32</mn></mfrac><mo>)</mo></mrow><annotation encoding="application/x-tex">O(\frac{nm}{32})</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1.095em;vertical-align:-0.345em;"></span><span class="mord mathdefault" style="margin-right:0.02778em;">O</span><span class="mopen">(</span><span class="mord"><span class="mopen nulldelimiter"></span><span class="mfrac"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.695392em;"><span style="top:-2.6550000000000002em;"><span class="pstrut" style="height:3em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mtight">3</span><span class="mord mtight">2</span></span></span></span><span style="top:-3.23em;"><span class="pstrut" style="height:3em;"></span><span class="frac-line" style="border-bottom-width:0.04em;"></span></span><span style="top:-3.394em;"><span class="pstrut" style="height:3em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathdefault mtight">n</span><span class="mord mathdefault mtight">m</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.345em;"><span></span></span></span></span></span><span class="mclose nulldelimiter"></span></span><span class="mclose">)</span></span></span></span></p>
-<pre><code class="language-cpp">int shift_and()
-{
-	int n = strlen(s), m = strlen(t);
-	for(int i=0; i&lt;n; i++) 
-		B[s[i]-'A'].set(i);
-	int cnt = 0;
-	for(int i=0; i&lt;m; i++)
-	{
-		D &lt;&lt;= 1; D.set(0);
-		D &amp;= B[t[i]-'A'];
-		if(D[n-1]) cnt++;
-	}
-	return cnt;
-}
-</code></pre>
-<h3 id="shift-or">shift-or</h3>
-<p>与shiftand的B和D含义都相反，B=0表示存在，D=0表示匹配，所以初始时B和D全为1，每次转移D = (D&lt;&lt;1|B[s[i]-'a'])</p>
-<p>在普通的字符串匹配中这两者的作用显然没有kmp强，复杂度劣势<br>
-但是在可选字符匹配中很有用<br>
-规定每个位置可以与多个字符相匹配，此时只要让这些字符的B的那个位置都置1即可</p>
-<ul>
-<li>hdu 5972 输出的时候令s[n+1]=0,然后puts(s[i-n+1])，再还原s[n+1]。如果先记录匹配位置最后双重for会T</li>
-<li>hdu 5716</li>
-<li>牛客多校2G题<br>
-给定长度为n的数组a和长度为m的数组b，询问数组a中每一位都严格大于数组b的子段个数<br>
-可以把这个问题当成一个可选字符匹配问题，对于每个a[i]可以与所有&lt;=a[i]的b[j]相匹配。<br>
-考虑预处理出bitset&lt;M&gt; B[N]，表示a的每一位可以与b的哪些位相匹配，然后跑一遍shift-and即可。<br>
-这样会MLE，随着a的增大，能够匹配的位置不断增加，所以本质不同的bitset只有m个，开成bitset&lt;M&gt; B[M]即可。</li>
-</ul>
-<pre><code class="language-cpp">#include &lt;bits/stdc++.h&gt;
-#define fi first
-#define se second
-using namespace std;
-using pii = pair&lt;int, int&gt;;
-const int N = 1.5e5 + 5, M = 4e4 + 5;
-int n, m, idx[N];
-pii a[N], b[M];
-bitset&lt;M&gt; B[M], D;
-int main()
-{
-	scanf(&quot;%d%d&quot;, &amp;n, &amp;m);
-	for(int i=1; i&lt;=n; i++) scanf(&quot;%d&quot;, &amp;a[i].fi), a[i].se = i;
-	for(int i=1; i&lt;=m; i++) scanf(&quot;%d&quot;, &amp;b[i].fi), b[i].se = i;
-	sort(a+1, a+n+1); sort(b+1, b+m+1);
-	for(int i=1; i&lt;=m; i++)
-		B[i] = B[i-1], B[i].set(b[i].se);
-	for(int i=1, j=1; i&lt;=n; i++)
-	{
-		while(j&lt;=m &amp;&amp; a[i].fi&gt;=b[j].fi) ++j;
-		idx[a[i].se] = j-1;
-	}
-	int ans = 0;
-	for(int i=1; i&lt;=n; i++)
-	{
-		D &lt;&lt;= 1; D.set(1);
-		D &amp;= B[idx[i]];
-		if(D[m]) ++ans;
-	}
-	printf(&quot;%d\n&quot;, ans);
-	return 0;
-}
-</code></pre>
-<p>考虑预处理bitset&lt;N&gt; B[i]表示b数组中第i位可以与a数组中哪些位相匹配。然后用一个全1的bitset&lt;N&gt; D，当D[i]=1时表示a数组中以i下标起始的长度为m的子段可以与b数组相匹配。只要枚举b数组中的所有位置让D &amp;= (B[i]&gt;&gt;(i-1))即可，如果B[i][j]=0，那么D[j-i+1]起始的子段就不可能与b数组相匹配，因为a[j]!=b[i]。<br>
-以上方法也可以用于字符串匹配。<br>
-在牛客多校这题中，利用该方法可以仅开一个bitset&lt;N&gt; B，因为在这里b数组下标的枚举顺序是任意的，所以我们可以对b排序后再枚举，然后利用尺取实现B的滚动。</p>
-<pre><code class="language-cpp">#include &lt;bits/stdc++.h&gt;
-#define fi first
-#define se second
-using namespace std;
-using pii = pair&lt;int, int&gt;;
-const int N = 1.5e5 + 5, M = 4e4 + 5;
-int n, m, idx[N];
-pii a[N], b[M];
-bitset&lt;N&gt; B, D;
-int main()
-{
-    scanf(&quot;%d%d&quot;, &amp;n, &amp;m);
-    for(int i=1; i&lt;=n; i++) scanf(&quot;%d&quot;, &amp;a[i].fi), a[i].se = i;
-    for(int i=1; i&lt;=m; i++) scanf(&quot;%d&quot;, &amp;b[i].fi), b[i].se = i;
-    sort(a+1, a+n+1); sort(b+1, b+m+1);
-    for(int i=1; i&lt;=n-m+1; i++) D.set(i);
-    for(int i=m, j=n; i; i--)
-    {
-        while(j &amp;&amp; a[j].fi&gt;=b[i].fi) B.set(a[j--].se);
-        D &amp;= (B&gt;&gt;(b[i].se-1));
-    }
-    printf(&quot;%d\n&quot;, (int)D.count());
-    return 0;
 }
 </code></pre>
 ]]></content>
