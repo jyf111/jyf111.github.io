@@ -616,3 +616,7 @@
         }
         #menu-toggle-zh {display:none;}
     
+      html {
+        font-family: Georgia, serif;
+      }
+    
