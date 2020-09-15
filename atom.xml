@@ -2,7 +2,7 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
     <id>https://jyf111.github.io</id>
     <title>jyf111</title>
-    <updated>2020-09-15T15:54:00.481Z</updated>
+    <updated>2020-09-15T15:55:16.442Z</updated>
     <generator>https://github.com/jpmonette/feed</generator>
     <link rel="alternate" href="https://jyf111.github.io"/>
     <link rel="self" href="https://jyf111.github.io/atom.xml"/>
@@ -30,12 +30,140 @@ tips:可以用rbegin来指向最后一个元素，比--end方便点</p>
 定义ge为伤害<span class="katex"><span class="katex-mathml"><math><semantics><mrow><mo>&gt;</mo><mo>=</mo><mi>b</mi></mrow><annotation encoding="application/x-tex">&gt;=b</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.5782em;vertical-align:-0.0391em;"></span><span class="mrel">&gt;</span></span><span class="base"><span class="strut" style="height:0.36687em;vertical-align:0em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span></span><span class="base"><span class="strut" style="height:0.69444em;vertical-align:0em;"></span><span class="mord mathdefault">b</span></span></span></span>的怪物数量，le为<span class="katex"><span class="katex-mathml"><math><semantics><mrow><mo>&lt;</mo><mi>b</mi></mrow><annotation encoding="application/x-tex">&lt;b</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.5782em;vertical-align:-0.0391em;"></span><span class="mrel">&lt;</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span></span><span class="base"><span class="strut" style="height:0.69444em;vertical-align:0em;"></span><span class="mord mathdefault">b</span></span></span></span>的怪物数量，将d排序后lowerbound即可<br>
 对于伤害<span class="katex"><span class="katex-mathml"><math><semantics><mrow><mo>&gt;</mo><mo>=</mo><mi>b</mi></mrow><annotation encoding="application/x-tex">&gt;=b</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.5782em;vertical-align:-0.0391em;"></span><span class="mrel">&gt;</span></span><span class="base"><span class="strut" style="height:0.36687em;vertical-align:0em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span></span><span class="base"><span class="strut" style="height:0.69444em;vertical-align:0em;"></span><span class="mord mathdefault">b</span></span></span></span>的ge个怪物，排在前a个是没有伤害的，因为会被盾牌挡掉，所以有贡献的概率就是<span class="katex"><span class="katex-mathml"><math><semantics><mrow><mfrac><mrow><mi>g</mi><mi>e</mi><mo>−</mo><mi>a</mi></mrow><mrow><mi>g</mi><mi>e</mi></mrow></mfrac></mrow><annotation encoding="application/x-tex">\frac{ge-a}{ge}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1.335547em;vertical-align:-0.481108em;"></span><span class="mord"><span class="mopen nulldelimiter"></span><span class="mfrac"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.854439em;"><span style="top:-2.6550000000000002em;"><span class="pstrut" style="height:3em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathdefault mtight" style="margin-right:0.03588em;">g</span><span class="mord mathdefault mtight">e</span></span></span></span><span style="top:-3.23em;"><span class="pstrut" style="height:3em;"></span><span class="frac-line" style="border-bottom-width:0.04em;"></span></span><span style="top:-3.446108em;"><span class="pstrut" style="height:3em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathdefault mtight" style="margin-right:0.03588em;">g</span><span class="mord mathdefault mtight">e</span><span class="mbin mtight">−</span><span class="mord mathdefault mtight">a</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.481108em;"><span></span></span></span></span></span><span class="mclose nulldelimiter"></span></span></span></span></span>，再乘上这些怪物的伤害和即可<br>
 对于伤害<span class="katex"><span class="katex-mathml"><math><semantics><mrow><mo>&lt;</mo><mi>b</mi></mrow><annotation encoding="application/x-tex">&lt;b</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.5782em;vertical-align:-0.0391em;"></span><span class="mrel">&lt;</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span></span><span class="base"><span class="strut" style="height:0.69444em;vertical-align:0em;"></span><span class="mord mathdefault">b</span></span></span></span>的le个怪物，必须保证前面有至少a个伤害<span class="katex"><span class="katex-mathml"><math><semantics><mrow><mo>&gt;</mo><mo>=</mo><mi>b</mi></mrow><annotation encoding="application/x-tex">&gt;=b</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.5782em;vertical-align:-0.0391em;"></span><span class="mrel">&gt;</span></span><span class="base"><span class="strut" style="height:0.36687em;vertical-align:0em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span></span><span class="base"><span class="strut" style="height:0.69444em;vertical-align:0em;"></span><span class="mord mathdefault">b</span></span></span></span>的怪物，可以固定住ge个怪物的位置，那么现在有ge+1个空位，前a个是没有贡献的，所以有贡献的概率就是<span class="katex"><span class="katex-mathml"><math><semantics><mrow><mfrac><mrow><mi>g</mi><mi>e</mi><mo>+</mo><mn>1</mn><mo>−</mo><mi>a</mi></mrow><mrow><mi>g</mi><mi>e</mi><mo>+</mo><mn>1</mn></mrow></mfrac></mrow><annotation encoding="application/x-tex">\frac{ge+1-a}{ge+1}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1.378324em;vertical-align:-0.481108em;"></span><span class="mord"><span class="mopen nulldelimiter"></span><span class="mfrac"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.897216em;"><span style="top:-2.6550000000000002em;"><span class="pstrut" style="height:3em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathdefault mtight" style="margin-right:0.03588em;">g</span><span class="mord mathdefault mtight">e</span><span class="mbin mtight">+</span><span class="mord mtight">1</span></span></span></span><span style="top:-3.23em;"><span class="pstrut" style="height:3em;"></span><span class="frac-line" style="border-bottom-width:0.04em;"></span></span><span style="top:-3.446108em;"><span class="pstrut" style="height:3em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathdefault mtight" style="margin-right:0.03588em;">g</span><span class="mord mathdefault mtight">e</span><span class="mbin mtight">+</span><span class="mord mtight">1</span><span class="mbin mtight">−</span><span class="mord mathdefault mtight">a</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.481108em;"><span></span></span></span></span></span><span class="mclose nulldelimiter"></span></span></span></span></span>，再乘上一个前缀和即可</p>
+<pre><code class="language-cpp">#include &lt;bits/stdc++.h&gt;
+using namespace std;
+const int N = 2e5 + 5, mod = 998244353;
+int n, m, d[N], sum[N], inv[N];
+void init()
+{
+	inv[0] = inv[1] = 1;
+	for(int i=2; i&lt;=n; i++) inv[i] = 1ll*(mod-mod/i)*inv[mod%i]%mod;
+}
+int main()
+{
+	ios::sync_with_stdio(false);
+	cin.tie(nullptr);
+	cin &gt;&gt; n &gt;&gt; m;
+	init();
+	for(int i=1; i&lt;=n; i++) cin &gt;&gt; d[i];
+	sort(d+1, d+n+1);
+	for(int i=1; i&lt;=n; i++) sum[i] = (sum[i-1] + d[i])%mod;
+	for(int i=1; i&lt;=m; i++)
+	{
+		int a, b;
+		cin &gt;&gt; a &gt;&gt; b;
+		int le = lower_bound(d+1, d+n+1, b) - d - 1;
+		int ge = n - le;
+		int x = (ge &lt; a ? 0 : 1ll*(ge-a)*inv[ge]%mod*(sum[n]-sum[le])%mod);
+		int y = (ge &lt; a ? 0 : 1ll*(ge+1-a)*inv[ge+1]%mod*sum[le]%mod);
+		printf(&quot;%d\n&quot;, ((x+y)%mod+mod)%mod);
+	}
+	return 0;
+}
+</code></pre>
 <h4 id="g-three-occurrences">G. Three Occurrences</h4>
 <p>给出一个数组a，定义一个区间是好的，当且仅当每个数恰好出现0次或者3次，询问好区间的个数<br>
 <span class="katex"><span class="katex-mathml"><math><semantics><mrow><mi>n</mi><mo>≤</mo><mn>5</mn><mo>×</mo><mn>1</mn><msup><mn>0</mn><mn>5</mn></msup><mo separator="true">,</mo><mn>1</mn><mo>≤</mo><msub><mi>a</mi><mi>i</mi></msub><mo>≤</mo><mi>n</mi></mrow><annotation encoding="application/x-tex">n\leq 5\times 10^5, 1\leq a_i \leq n</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.7719400000000001em;vertical-align:-0.13597em;"></span><span class="mord mathdefault">n</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span><span class="mrel">≤</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span></span><span class="base"><span class="strut" style="height:0.72777em;vertical-align:-0.08333em;"></span><span class="mord">5</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span><span class="mbin">×</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span></span><span class="base"><span class="strut" style="height:1.008548em;vertical-align:-0.19444em;"></span><span class="mord">1</span><span class="mord"><span class="mord">0</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.8141079999999999em;"><span style="top:-3.063em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight">5</span></span></span></span></span></span></span></span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.16666666666666666em;"></span><span class="mord">1</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span><span class="mrel">≤</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span></span><span class="base"><span class="strut" style="height:0.7859700000000001em;vertical-align:-0.15em;"></span><span class="mord"><span class="mord mathdefault">a</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.31166399999999994em;"><span style="top:-2.5500000000000003em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathdefault mtight">i</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mspace" style="margin-right:0.2777777777777778em;"></span><span class="mrel">≤</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span></span><span class="base"><span class="strut" style="height:0.43056em;vertical-align:0em;"></span><span class="mord mathdefault">n</span></span></span></span><br>
 考虑固定左端点为i，那么<span class="katex"><span class="katex-mathml"><math><semantics><mrow><msub><mi>a</mi><mi>i</mi></msub></mrow><annotation encoding="application/x-tex">a_i</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.58056em;vertical-align:-0.15em;"></span><span class="mord"><span class="mord mathdefault">a</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.31166399999999994em;"><span style="top:-2.5500000000000003em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathdefault mtight">i</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span></span></span></span>出现0次和3次就是两个连续的区间，我们对<span class="katex"><span class="katex-mathml"><math><semantics><mrow><mn>1</mn><mo>−</mo><mi>n</mi></mrow><annotation encoding="application/x-tex">1-n</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.72777em;vertical-align:-0.08333em;"></span><span class="mord">1</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span><span class="mbin">−</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span></span><span class="base"><span class="strut" style="height:0.43056em;vertical-align:0em;"></span><span class="mord mathdefault">n</span></span></span></span>的每个数维护它的合法区间，如果是合法的就让这段区间的每个数都等于1，我们可以用一颗线段树来维护。从后往前枚举左端点，对于<span class="katex"><span class="katex-mathml"><math><semantics><mrow><msub><mi>a</mi><mi>i</mi></msub></mrow><annotation encoding="application/x-tex">a_i</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.58056em;vertical-align:-0.15em;"></span><span class="mord"><span class="mord mathdefault">a</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.31166399999999994em;"><span style="top:-2.5500000000000003em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathdefault mtight">i</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span></span></span></span>，我们先删除它之前的合法区间(两段区间-1)，然后再加上它当前的合法区间(两端区间+1)，只需要查询左端点-n中大小等于n的值的个数即可(显然最大值<span class="katex"><span class="katex-mathml"><math><semantics><mrow><mo>≤</mo><mi>n</mi></mrow><annotation encoding="application/x-tex">\leq n</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.7719400000000001em;vertical-align:-0.13597em;"></span><span class="mrel">≤</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span></span><span class="base"><span class="strut" style="height:0.43056em;vertical-align:0em;"></span><span class="mord mathdefault">n</span></span></span></span>，所以维护最大值以及最大值个数即可)<br>
 <span class="katex"><span class="katex-mathml"><math><semantics><mrow><mi>O</mi><mo>(</mo><mi>n</mi><mi>l</mi><mi>o</mi><mi>g</mi><mi>n</mi><mo>)</mo></mrow><annotation encoding="application/x-tex">O(nlogn)</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathdefault" style="margin-right:0.02778em;">O</span><span class="mopen">(</span><span class="mord mathdefault">n</span><span class="mord mathdefault" style="margin-right:0.01968em;">l</span><span class="mord mathdefault">o</span><span class="mord mathdefault" style="margin-right:0.03588em;">g</span><span class="mord mathdefault">n</span><span class="mclose">)</span></span></span></span><br>
 这题还有一种更加普适的哈希做法，而且复杂度是<span class="katex"><span class="katex-mathml"><math><semantics><mrow><mi>O</mi><mo>(</mo><mi>n</mi><mo>)</mo></mrow><annotation encoding="application/x-tex">O(n)</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathdefault" style="margin-right:0.02778em;">O</span><span class="mopen">(</span><span class="mord mathdefault">n</span><span class="mclose">)</span></span></span></span>的，先咕</p>
+<pre><code class="language-cpp">#include &lt;bits/stdc++.h&gt;
+#define fi first
+#define se second
+using namespace std;
+using pii = pair&lt;int, int&gt;;
+const int N = 5e5 + 5;
+int n, a[N];
+vector&lt;int&gt; p[N];
+struct seg
+{
+	int l, r, mx, cnt, tag;
+	seg() {}
+	seg(int _l, int _r) : l(_l), r(_r), mx(0), cnt(0), tag(0) {}
+}t[N&lt;&lt;2];
+void pull(int p)
+{
+	t[p].mx = max(t[p&lt;&lt;1].mx, t[p&lt;&lt;1|1].mx);
+	t[p].cnt = 0;
+	if(t[p].mx==t[p&lt;&lt;1].mx) t[p].cnt += t[p&lt;&lt;1].cnt;
+	if(t[p].mx==t[p&lt;&lt;1|1].mx) t[p].cnt += t[p&lt;&lt;1|1].cnt;
+}
+void setv(int p, int v)
+{
+	t[p].mx += v;
+	t[p].tag += v;
+}
+void push(int p)
+{
+	setv(p&lt;&lt;1, t[p].tag); setv(p&lt;&lt;1|1, t[p].tag);
+	t[p].tag = 0;
+}
+void build(int p, int l, int r)
+{
+	t[p] = seg(l, r);
+	if(l==r) 
+	{
+		t[p].mx = n, t[p].cnt = 1;
+		return;
+	}
+	int mid = (l+r)&gt;&gt;1;
+	build(p&lt;&lt;1, l, mid); build(p&lt;&lt;1|1, mid+1, r); 
+	pull(p);
+}
+void upd(int p, int x, int y, int v)
+{
+	int l = t[p].l, r = t[p].r;
+	if(l&gt;=x &amp;&amp; r&lt;=y)
+	{
+		setv(p, v);
+		return;
+	}
+	if(t[p].tag) push(p);
+	int mid = (l+r)&gt;&gt;1;
+	if(x&lt;=mid) upd(p&lt;&lt;1, x, y, v);
+	if(y&gt;mid) upd(p&lt;&lt;1|1, x, y, v);
+	pull(p);
+}
+void chk(pii &amp;a, pii b) 
+{
+	if(a.fi==b.fi) a.se += b.se;
+	else if(a.fi&lt;b.fi) a = b;
+}
+pii ask(int p, int x, int y)
+{
+	int l = t[p].l, r = t[p].r;
+	if(l&gt;=x &amp;&amp; r&lt;=y) return {t[p].mx, t[p].cnt};
+	if(t[p].tag) push(p);
+	int mid = (l+r)&gt;&gt;1; pii ans = {0, 0};
+	if(x&lt;=mid) chk(ans, ask(p&lt;&lt;1, x, y));
+	if(y&gt;mid) chk(ans, ask(p&lt;&lt;1|1, x, y));
+	return ans;
+}
+int main()
+{
+	ios::sync_with_stdio(false);
+	cin.tie(nullptr);
+	cin &gt;&gt; n;
+	for(int i=1; i&lt;=n; i++) cin &gt;&gt; a[i]; 
+	build(1, 1, n);
+	int64_t ans = 0;
+	for(int i=1; i&lt;=n; i++) p[i].push_back(n+1);
+	for(int i=n; i&gt;=1; i--)
+	{
+		int sz = p[a[i]].size();
+		if(sz&gt;=4) upd(1, p[a[i]][sz-3], p[a[i]][sz-4]-1, -1);
+		int suf = p[a[i]][sz-1];
+		p[a[i]].push_back(i);
+		++sz;
+		if(sz&gt;=4) upd(1, p[a[i]][sz-3], p[a[i]][sz-4]-1, 1);
+		upd(1, i, suf-1, -1);
+		auto cur = ask(1, i, n);
+		if(cur.fi==n) ans += cur.se;
+	}
+	cout &lt;&lt; ans &lt;&lt; '\n';
+	return 0;
+}
+</code></pre>
 ]]></content>
     </entry>
     <entry>
