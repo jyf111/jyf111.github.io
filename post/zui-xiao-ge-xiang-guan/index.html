@@ -3,7 +3,7 @@
     <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>最小割相关 | jyf111</title>
-<link rel="shortcut icon" href="https://jyf111.github.io/favicon.ico?v=1600354070601">
+<link rel="shortcut icon" href="https://jyf111.github.io/favicon.ico?v=1600437492051">
 <link href="https://cdn.jsdelivr.net/npm/remixicon@2.3.0/fonts/remixicon.css" rel="stylesheet">
 <link rel="stylesheet" href="https://jyf111.github.io/styles/main.css">
 <link rel="alternate" type="application/atom+xml" title="最小割相关 | jyf111 - Atom Feed" href="https://jyf111.github.io/atom.xml">
@@ -26,7 +26,7 @@
       <div class="main-content">
         <div class="site-header">
   <a href="https://jyf111.github.io">
-  <img class="avatar" src="https://jyf111.github.io/images/avatar.png?v=1600354070601" alt="">
+  <img class="avatar" src="https://jyf111.github.io/images/avatar.png?v=1600437492051" alt="">
   </a>
   <h1 class="site-title">
     jyf111
@@ -86,7 +86,7 @@
                 2020-08-16
               </span>
               <span>
-                6 min read
+                7 min read
               </span>
               
             </div>
@@ -106,6 +106,8 @@
 <p>设原图总边数=M<br>
 让原图的每一条边的权值w变成<span class="katex"><span class="katex-mathml"><math><semantics><mrow><mo>(</mo><mi>M</mi><mo>+</mo><mn>1</mn><mo>)</mo><mi>w</mi><mo>+</mo><mn>1</mn></mrow><annotation encoding="application/x-tex">(M+1)w+1</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mopen">(</span><span class="mord mathdefault" style="margin-right:0.10903em;">M</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span><span class="mbin">+</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span></span><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord">1</span><span class="mclose">)</span><span class="mord mathdefault" style="margin-right:0.02691em;">w</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span><span class="mbin">+</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span></span><span class="base"><span class="strut" style="height:0.64444em;vertical-align:0em;"></span><span class="mord">1</span></span></span></span><br>
 再跑最大流即可</p>
+<h4 id="每条边有两个权值在最小化第一个权值的割后找一个第二个权值字典序最小的割">每条边有两个权值，在最小化第一个权值的割后，找一个第二个权值字典序最小的割</h4>
+<p>先随便求一个最小割，将这些边按照第二个权值排序，判断该边是否是可行边，如果是就选择，割掉一条边需要利用退流操作，具体做法是对于边(u,v)，让u向S跑一遍最大流，再让T向v跑一遍最大流，最后让(u,v)这条边及其反边的残余流量置0，即w=0</p>
 <h4 id="最小割树">最小割树</h4>
 <p>求任意两点间的最小割<br>
 本质只有<span class="katex"><span class="katex-mathml"><math><semantics><mrow><mi>O</mi><mo>(</mo><mi>n</mi><mo>)</mo></mrow><annotation encoding="application/x-tex">O(n)</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathdefault" style="margin-right:0.02778em;">O</span><span class="mopen">(</span><span class="mord mathdefault">n</span><span class="mclose">)</span></span></span></span>种，建出最小割树后，u，v两点的最小割等于路径上的最小边权<br>
@@ -283,6 +285,7 @@ int main()
 <li><a href="#%E6%9C%80%E5%B0%8F%E5%89%B2%E7%9A%84%E6%96%B9%E6%A1%88">最小割的方案</a></li>
 <li><a href="#%E5%8F%AF%E8%A1%8C%E8%BE%B9%E4%B8%8E%E5%BF%85%E9%A1%BB%E8%BE%B9">可行边与必须边</a></li>
 <li><a href="#%E6%B1%82%E8%BE%B9%E6%95%B0%E6%9C%80%E5%B0%91%E7%9A%84%E6%9C%80%E5%B0%8F%E5%89%B2">求边数最少的最小割</a></li>
+<li><a href="#%E6%AF%8F%E6%9D%A1%E8%BE%B9%E6%9C%89%E4%B8%A4%E4%B8%AA%E6%9D%83%E5%80%BC%E5%9C%A8%E6%9C%80%E5%B0%8F%E5%8C%96%E7%AC%AC%E4%B8%80%E4%B8%AA%E6%9D%83%E5%80%BC%E7%9A%84%E5%89%B2%E5%90%8E%E6%89%BE%E4%B8%80%E4%B8%AA%E7%AC%AC%E4%BA%8C%E4%B8%AA%E6%9D%83%E5%80%BC%E5%AD%97%E5%85%B8%E5%BA%8F%E6%9C%80%E5%B0%8F%E7%9A%84%E5%89%B2">每条边有两个权值，在最小化第一个权值的割后，找一个第二个权值字典序最小的割</a></li>
 <li><a href="#%E6%9C%80%E5%B0%8F%E5%89%B2%E6%A0%91">最小割树</a></li>
 </ul>
 </li>
