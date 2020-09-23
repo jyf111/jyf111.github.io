@@ -2,7 +2,7 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
     <id>https://jyf111.github.io</id>
     <title>jyf111</title>
-    <updated>2020-09-18T13:58:23.613Z</updated>
+    <updated>2020-09-23T15:24:33.829Z</updated>
     <generator>https://github.com/jpmonette/feed</generator>
     <link rel="alternate" href="https://jyf111.github.io"/>
     <link rel="self" href="https://jyf111.github.io/atom.xml"/>
@@ -10,6 +10,159 @@
     <logo>https://jyf111.github.io/images/avatar.png</logo>
     <icon>https://jyf111.github.io/favicon.ico</icon>
     <rights>All rights reserved 2020, jyf111</rights>
+    <entry>
+        <title type="html"><![CDATA[牛客挑战赛41 D买糖果 折半 多点求值]]></title>
+        <id>https://jyf111.github.io/post/niu-ke-tiao-zhan-sai-41-d-mai-tang-guo-zhe-ban-duo-dian-qiu-zhi/</id>
+        <link href="https://jyf111.github.io/post/niu-ke-tiao-zhan-sai-41-d-mai-tang-guo-zhe-ban-duo-dian-qiu-zhi/">
+        </link>
+        <updated>2020-09-23T15:17:49.000Z</updated>
+        <content type="html"><![CDATA[<p>给定n个数，求所有非空子集的和的乘积<span class="katex"><span class="katex-mathml"><math><semantics><mrow><mi>m</mi><mi>o</mi><mi>d</mi><mn>998244353</mn></mrow><annotation encoding="application/x-tex">mod 998244353</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.69444em;vertical-align:0em;"></span><span class="mord mathdefault">m</span><span class="mord mathdefault">o</span><span class="mord mathdefault">d</span><span class="mord">9</span><span class="mord">9</span><span class="mord">8</span><span class="mord">2</span><span class="mord">4</span><span class="mord">4</span><span class="mord">3</span><span class="mord">5</span><span class="mord">3</span></span></span></span><br>
+<span class="katex"><span class="katex-mathml"><math><semantics><mrow><mi>n</mi><mo>≤</mo><mn>32</mn></mrow><annotation encoding="application/x-tex">n \leq 32</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.7719400000000001em;vertical-align:-0.13597em;"></span><span class="mord mathdefault">n</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span><span class="mrel">≤</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span></span><span class="base"><span class="strut" style="height:0.64444em;vertical-align:0em;"></span><span class="mord">3</span><span class="mord">2</span></span></span></span></p>
+<p>考虑折半L，R，很容易状压求出两部分内部各自的贡献，两部分共同的贡献可以用<span class="katex"><span class="katex-mathml"><math><semantics><mrow><msubsup><mo>∏</mo><mrow><mi>i</mi><mo>=</mo><mn>1</mn></mrow><mrow><mo>(</mo><mn>1</mn><mo>&lt;</mo><mo>&lt;</mo><mi>L</mi><mo>)</mo><mo>−</mo><mn>1</mn></mrow></msubsup><msubsup><mo>∏</mo><mrow><mi>j</mi><mo>=</mo><mn>1</mn></mrow><mrow><mo>(</mo><mn>1</mn><mo>&lt;</mo><mo>&lt;</mo><mi>R</mi><mo>)</mo><mo>−</mo><mn>1</mn></mrow></msubsup><mo>(</mo><msub><mi>c</mi><mi>i</mi></msub><mo>+</mo><msub><mi>d</mi><mi>j</mi></msub><mo>)</mo></mrow><annotation encoding="application/x-tex">\prod \limits_{i=1}^{(1&lt;&lt;L)-1} \prod \limits_{j=1}^{(1&lt;&lt;R)-1} (c_i + d_j)</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:2.774782em;vertical-align:-1.113777em;"></span><span class="mop op-limits"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:1.6610050000000003em;"><span style="top:-2.122331em;margin-left:0em;"><span class="pstrut" style="height:3em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathdefault mtight">i</span><span class="mrel mtight">=</span><span class="mord mtight">1</span></span></span></span><span style="top:-3.0000050000000003em;"><span class="pstrut" style="height:3em;"></span><span><span class="mop op-symbol small-op">∏</span></span></span><span style="top:-4.036005em;margin-left:0em;"><span class="pstrut" style="height:3em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mopen mtight">(</span><span class="mord mtight">1</span><span class="mrel mtight">&lt;</span><span class="mrel mtight">&lt;</span><span class="mord mathdefault mtight">L</span><span class="mclose mtight">)</span><span class="mbin mtight">−</span><span class="mord mtight">1</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.9776689999999999em;"><span></span></span></span></span></span><span class="mspace" style="margin-right:0.16666666666666666em;"></span><span class="mop op-limits"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:1.6610050000000003em;"><span style="top:-2.122331em;margin-left:0em;"><span class="pstrut" style="height:3em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathdefault mtight" style="margin-right:0.05724em;">j</span><span class="mrel mtight">=</span><span class="mord mtight">1</span></span></span></span><span style="top:-3.0000050000000003em;"><span class="pstrut" style="height:3em;"></span><span><span class="mop op-symbol small-op">∏</span></span></span><span style="top:-4.036005em;margin-left:0em;"><span class="pstrut" style="height:3em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mopen mtight">(</span><span class="mord mtight">1</span><span class="mrel mtight">&lt;</span><span class="mrel mtight">&lt;</span><span class="mord mathdefault mtight" style="margin-right:0.00773em;">R</span><span class="mclose mtight">)</span><span class="mbin mtight">−</span><span class="mord mtight">1</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:1.113777em;"><span></span></span></span></span></span><span class="mopen">(</span><span class="mord"><span class="mord mathdefault">c</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.31166399999999994em;"><span style="top:-2.5500000000000003em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathdefault mtight">i</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mspace" style="margin-right:0.2222222222222222em;"></span><span class="mbin">+</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span></span><span class="base"><span class="strut" style="height:1.036108em;vertical-align:-0.286108em;"></span><span class="mord"><span class="mord mathdefault">d</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.311664em;"><span style="top:-2.5500000000000003em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathdefault mtight" style="margin-right:0.05724em;">j</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.286108em;"><span></span></span></span></span></span></span><span class="mclose">)</span></span></span></span><br>
+令<span class="katex"><span class="katex-mathml"><math><semantics><mrow><mi>f</mi><mo>(</mo><mi>x</mi><mo>)</mo><mo>=</mo><msubsup><mo>∏</mo><mrow><mi>j</mi><mo>=</mo><mn>1</mn></mrow><mrow><mo>(</mo><mn>1</mn><mo>&lt;</mo><mo>&lt;</mo><mi>R</mi><mo>−</mo><mo>)</mo><mn>1</mn></mrow></msubsup><mo>(</mo><mi>x</mi><mo>+</mo><msub><mi>d</mi><mi>j</mi></msub><mo>)</mo></mrow><annotation encoding="application/x-tex">f(x) = \prod \limits_{j=1}^{(1&lt;&lt;R-)1} (x+d_j)</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathdefault" style="margin-right:0.10764em;">f</span><span class="mopen">(</span><span class="mord mathdefault">x</span><span class="mclose">)</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span></span><span class="base"><span class="strut" style="height:2.774782em;vertical-align:-1.113777em;"></span><span class="mop op-limits"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:1.6610050000000003em;"><span style="top:-2.122331em;margin-left:0em;"><span class="pstrut" style="height:3em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathdefault mtight" style="margin-right:0.05724em;">j</span><span class="mrel mtight">=</span><span class="mord mtight">1</span></span></span></span><span style="top:-3.0000050000000003em;"><span class="pstrut" style="height:3em;"></span><span><span class="mop op-symbol small-op">∏</span></span></span><span style="top:-4.036005em;margin-left:0em;"><span class="pstrut" style="height:3em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mopen mtight">(</span><span class="mord mtight">1</span><span class="mrel mtight">&lt;</span><span class="mrel mtight">&lt;</span><span class="mord mathdefault mtight" style="margin-right:0.00773em;">R</span><span class="mord mtight">−</span><span class="mclose mtight">)</span><span class="mord mtight">1</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:1.113777em;"><span></span></span></span></span></span><span class="mopen">(</span><span class="mord mathdefault">x</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span><span class="mbin">+</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span></span><span class="base"><span class="strut" style="height:1.036108em;vertical-align:-0.286108em;"></span><span class="mord"><span class="mord mathdefault">d</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.311664em;"><span style="top:-2.5500000000000003em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathdefault mtight" style="margin-right:0.05724em;">j</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.286108em;"><span></span></span></span></span></span></span><span class="mclose">)</span></span></span></span>，显然可以用分治NTT求得该多项式，然后只要对每个<span class="katex"><span class="katex-mathml"><math><semantics><mrow><msub><mi>c</mi><mi>i</mi></msub></mrow><annotation encoding="application/x-tex">c_i</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.58056em;vertical-align:-0.15em;"></span><span class="mord"><span class="mord mathdefault">c</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.31166399999999994em;"><span style="top:-2.5500000000000003em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathdefault mtight">i</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span></span></span></span>求值后乘积即可，多点求值板子</p>
+<pre><code class="language-cpp">#include &lt;bits/stdc++.h&gt;
+using namespace std;
+const int mod = 998244353, G = 3;
+const int N = (1&lt;&lt;17) + 5;
+int up, w[N], rev[N], inv[N];
+int fpw(int a, int b)
+{
+	int ans = 1;
+	while(b)
+	{
+		if(b&amp;1) ans = 1ll*ans*a%mod;
+		a = 1ll*a*a%mod;
+		b &gt;&gt;= 1;
+	}
+	return ans;
+}
+namespace poly
+{
+	void init(int n)
+	{
+		inv[0] = inv[1] = 1;
+		for(int i=2; i&lt;=n; i++) inv[i] = 1ll*(mod-mod/i)*inv[mod%i]%mod;
+		up = 1; int l = 0;
+		while(up&lt;=n) up &lt;&lt;= 1, l++;
+		for(int i=0; i&lt;up; i++) rev[i] = (rev[i&gt;&gt;1]&gt;&gt;1)|((i&amp;1)&lt;&lt;(l-1));
+		int wn = fpw(G, mod&gt;&gt;l); w[up&gt;&gt;1] = 1;
+		for(int i=(up&gt;&gt;1)+1; i&lt;up; i++) w[i] = 1ll*w[i-1]*wn%mod;
+		for(int i=(up&gt;&gt;1)-1; i&gt;=1; i--) w[i] = w[i&lt;&lt;1];
+	}
+	void clear(int *a, int n) { memset(a, 0, n&lt;&lt;2); }
+	int getlen(int n) { return 1&lt;&lt;(32-__builtin_clz(n)); }
+	inline void mul(int *a, int n, int x, int *b) { while(n--) *b++ = 1ll**a++*x%mod; }
+	inline void dot(int *a, int *b, int n, int *c) { while(n--) *c++ = 1ll**a++**b++%mod; }
+	void DFT(int *a, int l)
+	{
+		static unsigned long long tmp[N];
+		int u = __builtin_ctz(up/l), t;
+		for(int i=0; i&lt;l; i++) tmp[i] = a[rev[i]&gt;&gt;u];
+		for(int i=1; i^l; i&lt;&lt;=1)
+			for(int j=0, d=i&lt;&lt;1; j^l; j+=d)
+				for(int k=0; k&lt;i; k++)
+					t = tmp[i|j|k]*w[i|k]%mod, tmp[i|j|k] = tmp[j|k]+mod-t, tmp[j|k] += t;
+		for(int i=0; i&lt;l; i++) a[i] = tmp[i]%mod;
+	}
+	void IDFT(int *a, int l)
+	{
+		reverse(a+1, a+l); DFT(a, l);
+		mul(a, l, mod-mod/l, a);
+	}
+	inline void conv(int *a, int *b, int l) { DFT(a, l); DFT(b, l); dot(a, b, l, a); IDFT(a, l); }
+    void Inv(const int *a, int *b, int n)
+	{
+		static int c[N], l;
+		if(n==0) { b[0] = fpw(a[0], mod-2); return; }
+		Inv(a, b, n&gt;&gt;1); l = getlen(n&lt;&lt;1);
+		for(int i=0; i&lt;=n; i++) c[i] = a[i];
+		for(int i=n+1; i&lt;l; i++) c[i] = 0;
+		DFT(c, l); DFT(b, l);
+		for(int i=0; i&lt;l; i++) b[i] = (2ll-1ll*c[i]*b[i]%mod+mod)%mod*b[i]%mod;
+		IDFT(b, l);
+		for(int i=n+1; i&lt;l; i++) b[i] = 0;
+	}
+    int *f[N], *g[N], buf[N&lt;&lt;5], *np(buf);
+    void mul(int *a, int n, int *b, int m, int *c, int deg, int st)
+    {
+        static int A[N], B[N], l;
+        l = getlen(deg), copy(a, a+n+1, A), copy(b, b+m+1, B);
+        conv(A, B, l); copy(A+st, A+deg+1, c);
+        clear(A, l), clear(B, l);
+    }
+    void eval_init(int p, int l, int r, int *a)
+    {
+        g[p] = np, np += r-l+2, f[p] = np, np += r-l+2;
+        if(l==r) { g[p][0] = (mod-a[l])%mod, g[p][1] = 1; return; } 
+        int lc = p&lt;&lt;1, rc = lc|1, mid = (l+r)&gt;&gt;1, up1 = mid-l+1, up2 = r-mid;
+        eval_init(lc, l, mid, a); eval_init(rc, mid+1, r, a);
+        mul(g[lc], up1, g[rc], up2, g[p], up1+up2, 0);
+    }
+    void eval_work(int p, int l, int r, int *a)
+    {
+        if(l==r) { a[l] = f[p][0]; return; }
+        int lc = p&lt;&lt;1, rc = lc|1, mid = (l+r)&gt;&gt;1, up1 = mid-l+1, up2 = r-mid;
+        mul(f[p], r-l, g[rc], up2, f[lc], r-l, up2);
+        eval_work(lc, l, mid, a);
+        mul(f[p], r-l, g[lc], up1, f[rc], r-l, up1);
+        eval_work(rc, mid+1, r, a);
+    }
+    void eval(int *a, int n, int *b, int m, int *c)
+    {
+        static int invg[N], q[N];
+        eval_init(1, 1, m, b);
+        reverse(g[1], g[1]+m+1);
+        Inv(g[1], invg, m);
+        reverse(invg, invg+m+1);
+        mul(a, n, invg, m, q, n+m, 0);
+        copy(q+n+1, q+n+m+1, f[1]); 
+        eval_work(1, 1, m, c);
+        for(int i=1; i&lt;=m; i++) c[i] = (1ll*c[i]*b[i]%mod+a[0])%mod;
+    }
+} 
+int n, a[35];
+int c[N], d[N], v[N];
+int *f[N], pool[N&lt;&lt;5], *ptr(pool);
+void solve(int p, int l, int r)
+{
+    f[p] = ptr, ptr += r-l+2;
+    if(l==r) { f[p][0] = d[l], f[p][1] = 1; return; }
+    int lc = p&lt;&lt;1, rc = lc|1, mid = (l+r)&gt;&gt;1;
+    solve(lc, l, mid); solve(rc, mid+1, r);
+    poly::mul(f[lc], mid-l+1, f[rc], r-mid, f[p], r-l+1, 0);
+}
+int main()
+{
+    ios_base::sync_with_stdio(false); cin.tie(nullptr);
+    cin &gt;&gt; n;
+    for(int i=0; i&lt;n; i++) cin &gt;&gt; a[i];
+    int L = n/2, R = n - L, ans = 1;
+    poly::init((1&lt;&lt;(R+1))-1);
+    for(int i=1; i&lt;(1&lt;&lt;L); i++)
+    {
+        int cur = 0;
+        for(int j=0; j&lt;L; j++)
+            if((i&gt;&gt;j)&amp;1) cur += a[j];
+        ans = 1ll*ans*cur%mod;
+        c[i] = cur;
+    }
+    for(int i=1; i&lt;(1&lt;&lt;R); i++)
+    {
+        int cur = 0;
+        for(int j=0; j&lt;R; j++)
+            if((i&gt;&gt;j)&amp;1) cur += a[L+j];
+        ans = 1ll*ans*cur%mod;
+        d[i] = cur;
+    }
+    solve(1, 1, (1&lt;&lt;R)-1);
+    poly::eval(f[1], (1&lt;&lt;R)-1, c, (1&lt;&lt;R)-1, v);
+    for(int i=1; i&lt;(1&lt;&lt;L); i++) ans = 1ll*ans*v[i]%mod;
+    cout &lt;&lt; ans &lt;&lt; '\n';
+    return 0;
+}
+</code></pre>
+]]></content>
+    </entry>
     <entry>
         <title type="html"><![CDATA[狄利克雷卷积相关]]></title>
         <id>https://jyf111.github.io/post/di-li-ke-lei-juan-ji-xiang-guan/</id>
@@ -775,54 +928,6 @@ int main()
 		ans = min(ans, dp[n][p]);
 	}
 	printf(&quot;%lld\n&quot;, m*ans-sum[n]*sum[n]);
-	return 0;
-}
-</code></pre>
-]]></content>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[codeforces1396C]]></title>
-        <id>https://jyf111.github.io/post/codeforces1396c/</id>
-        <link href="https://jyf111.github.io/post/codeforces1396c/">
-        </link>
-        <updated>2020-08-31T08:58:04.000Z</updated>
-        <content type="html"><![CDATA[<p>有n个关卡，每关有<span class="katex"><span class="katex-mathml"><math><semantics><mrow><msub><mi>a</mi><mi>i</mi></msub></mrow><annotation encoding="application/x-tex">a_i</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.58056em;vertical-align:-0.15em;"></span><span class="mord"><span class="mord mathdefault">a</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.31166399999999994em;"><span style="top:-2.5500000000000003em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathdefault mtight">i</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span></span></span></span>个小怪(1hp)和1个boss(2hp)，在第i关可以转移到i-1和i+1关，需要花费d，有三种武器</p>
-<ul>
-<li>花费r1，让一只怪物-1hp</li>
-<li>花费r2，让所有怪物-1hp</li>
-<li>花费r3，秒杀一只怪物</li>
-</ul>
-<p>其中第一和第三种武器必须在没有小怪的情况下才能攻击boss，并且如果没有秒掉boss（还剩1滴血），则会被强制转移到相邻的关卡（花费d），问你杀死所有怪物的最小花费<br>
-<span class="katex"><span class="katex-mathml"><math><semantics><mrow><mi>n</mi><mo>≤</mo><mn>1</mn><msup><mn>0</mn><mn>6</mn></msup><mo separator="true">,</mo><mn>1</mn><mo>≤</mo><mi>r</mi><mn>1</mn><mo>≤</mo><mi>r</mi><mn>2</mn><mo>≤</mo><mi>r</mi><mn>3</mn><mo>≤</mo><mn>1</mn><msup><mn>0</mn><mn>9</mn></msup></mrow><annotation encoding="application/x-tex">n \leq 10^6,1\leq r1 \leq r2 \leq r3 \leq 10^9</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.7719400000000001em;vertical-align:-0.13597em;"></span><span class="mord mathdefault">n</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span><span class="mrel">≤</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span></span><span class="base"><span class="strut" style="height:1.008548em;vertical-align:-0.19444em;"></span><span class="mord">1</span><span class="mord"><span class="mord">0</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.8141079999999999em;"><span style="top:-3.063em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight">6</span></span></span></span></span></span></span></span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.16666666666666666em;"></span><span class="mord">1</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span><span class="mrel">≤</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span></span><span class="base"><span class="strut" style="height:0.78041em;vertical-align:-0.13597em;"></span><span class="mord mathdefault" style="margin-right:0.02778em;">r</span><span class="mord">1</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span><span class="mrel">≤</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span></span><span class="base"><span class="strut" style="height:0.78041em;vertical-align:-0.13597em;"></span><span class="mord mathdefault" style="margin-right:0.02778em;">r</span><span class="mord">2</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span><span class="mrel">≤</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span></span><span class="base"><span class="strut" style="height:0.78041em;vertical-align:-0.13597em;"></span><span class="mord mathdefault" style="margin-right:0.02778em;">r</span><span class="mord">3</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span><span class="mrel">≤</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span></span><span class="base"><span class="strut" style="height:0.8141079999999999em;vertical-align:0em;"></span><span class="mord">1</span><span class="mord"><span class="mord">0</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.8141079999999999em;"><span style="top:-3.063em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight">9</span></span></span></span></span></span></span></span></span></span></span></p>
-<h4 id="解法">解法</h4>
-<p>在某一关中我们要么用r3直接秒掉boss避免强制转移(先用r1清小怪)，要么就先让boss少一滴血(用r1清小怪再点一下boss或者一下r2)转移走，之后再回来用一下r1点死boss。<br>
-所以每关其实只有两种选择，一是用r1杀掉小怪后用r3秒掉boss(cost1 = a[i]*r1+r3)，二是用r2或者(a[i]*r1+r1)让boss剩1hp然后强制转移走回来后再花r1杀死boss(cost2=min(a[i]*r1+r1,r2))，然后就可以dp了<br>
-<span class="katex"><span class="katex-mathml"><math><semantics><mrow><mi>d</mi><msub><mi>p</mi><mrow><mi>i</mi><mo separator="true">,</mo><mn>0</mn></mrow></msub></mrow><annotation encoding="application/x-tex">dp_{i,0}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.980548em;vertical-align:-0.286108em;"></span><span class="mord mathdefault">d</span><span class="mord"><span class="mord mathdefault">p</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.311664em;"><span style="top:-2.5500000000000003em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathdefault mtight">i</span><span class="mpunct mtight">,</span><span class="mord mtight">0</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.286108em;"><span></span></span></span></span></span></span></span></span></span>表示第i关已经解决的最小费用，<span class="katex"><span class="katex-mathml"><math><semantics><mrow><mi>d</mi><msub><mi>p</mi><mrow><mi>i</mi><mo separator="true">,</mo><mn>1</mn></mrow></msub></mrow><annotation encoding="application/x-tex">dp_{i,1}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.980548em;vertical-align:-0.286108em;"></span><span class="mord mathdefault">d</span><span class="mord"><span class="mord mathdefault">p</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.311664em;"><span style="top:-2.5500000000000003em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathdefault mtight">i</span><span class="mpunct mtight">,</span><span class="mord mtight">1</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.286108em;"><span></span></span></span></span></span></span></span></span></span>表示第i关的boss还剩1hp然后还没强制跳转的最小费用<br>
-<span class="katex"><span class="katex-mathml"><math><semantics><mrow><mi>d</mi><msub><mi>p</mi><mrow><mn>0</mn><mo separator="true">,</mo><mn>0</mn></mrow></msub><mo>=</mo><mi>m</mi><mi>i</mi><mi>n</mi><mo>(</mo><mi>d</mi><msub><mi>p</mi><mrow><mi>i</mi><mo>−</mo><mn>1</mn><mo separator="true">,</mo><mn>0</mn></mrow></msub><mo>+</mo><mi>d</mi><mo>+</mo><mi>m</mi><mi>i</mi><mi>n</mi><mo>(</mo><mi>c</mi><mi>o</mi><mi>s</mi><mi>t</mi><mn>1</mn><mo separator="true">,</mo><mn>2</mn><mo>∗</mo><mi>d</mi><mo>+</mo><mi>c</mi><mi>o</mi><mi>s</mi><mi>t</mi><mn>2</mn><mo>+</mo><mi>r</mi><mn>1</mn><mo>)</mo><mo separator="true">,</mo><mi>d</mi><msub><mi>p</mi><mrow><mi>i</mi><mo>−</mo><mn>1</mn><mo separator="true">,</mo><mn>1</mn></mrow></msub><mo>+</mo><mn>3</mn><mo>∗</mo><mi>d</mi><mo>+</mo><mi>r</mi><mn>1</mn><mo>+</mo><mi>m</mi><mi>i</mi><mi>n</mi><mo>(</mo><mi>c</mi><mi>o</mi><mi>s</mi><mi>t</mi><mn>1</mn><mo separator="true">,</mo><mi>c</mi><mi>o</mi><mi>s</mi><mi>t</mi><mn>2</mn><mo>+</mo><mi>r</mi><mn>1</mn><mo>)</mo><mo>)</mo></mrow><annotation encoding="application/x-tex">dp_{0,0}=min(dp_{i-1,0}+d+min(cost1,2*d+cost2+r1),dp_{i-1,1}+3*d+r1+min(cost1,cost2+r1))</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.980548em;vertical-align:-0.286108em;"></span><span class="mord mathdefault">d</span><span class="mord"><span class="mord mathdefault">p</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.301108em;"><span style="top:-2.5500000000000003em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mtight">0</span><span class="mpunct mtight">,</span><span class="mord mtight">0</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.286108em;"><span></span></span></span></span></span></span><span class="mspace" style="margin-right:0.2777777777777778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span></span><span class="base"><span class="strut" style="height:1.036108em;vertical-align:-0.286108em;"></span><span class="mord mathdefault">m</span><span class="mord mathdefault">i</span><span class="mord mathdefault">n</span><span class="mopen">(</span><span class="mord mathdefault">d</span><span class="mord"><span class="mord mathdefault">p</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.311664em;"><span style="top:-2.5500000000000003em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathdefault mtight">i</span><span class="mbin mtight">−</span><span class="mord mtight">1</span><span class="mpunct mtight">,</span><span class="mord mtight">0</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.286108em;"><span></span></span></span></span></span></span><span class="mspace" style="margin-right:0.2222222222222222em;"></span><span class="mbin">+</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span></span><span class="base"><span class="strut" style="height:0.77777em;vertical-align:-0.08333em;"></span><span class="mord mathdefault">d</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span><span class="mbin">+</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span></span><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathdefault">m</span><span class="mord mathdefault">i</span><span class="mord mathdefault">n</span><span class="mopen">(</span><span class="mord mathdefault">c</span><span class="mord mathdefault">o</span><span class="mord mathdefault">s</span><span class="mord mathdefault">t</span><span class="mord">1</span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.16666666666666666em;"></span><span class="mord">2</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span><span class="mbin">∗</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span></span><span class="base"><span class="strut" style="height:0.77777em;vertical-align:-0.08333em;"></span><span class="mord mathdefault">d</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span><span class="mbin">+</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span></span><span class="base"><span class="strut" style="height:0.72777em;vertical-align:-0.08333em;"></span><span class="mord mathdefault">c</span><span class="mord mathdefault">o</span><span class="mord mathdefault">s</span><span class="mord mathdefault">t</span><span class="mord">2</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span><span class="mbin">+</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span></span><span class="base"><span class="strut" style="height:1.036108em;vertical-align:-0.286108em;"></span><span class="mord mathdefault" style="margin-right:0.02778em;">r</span><span class="mord">1</span><span class="mclose">)</span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.16666666666666666em;"></span><span class="mord mathdefault">d</span><span class="mord"><span class="mord mathdefault">p</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.311664em;"><span style="top:-2.5500000000000003em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathdefault mtight">i</span><span class="mbin mtight">−</span><span class="mord mtight">1</span><span class="mpunct mtight">,</span><span class="mord mtight">1</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.286108em;"><span></span></span></span></span></span></span><span class="mspace" style="margin-right:0.2222222222222222em;"></span><span class="mbin">+</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span></span><span class="base"><span class="strut" style="height:0.64444em;vertical-align:0em;"></span><span class="mord">3</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span><span class="mbin">∗</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span></span><span class="base"><span class="strut" style="height:0.77777em;vertical-align:-0.08333em;"></span><span class="mord mathdefault">d</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span><span class="mbin">+</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span></span><span class="base"><span class="strut" style="height:0.72777em;vertical-align:-0.08333em;"></span><span class="mord mathdefault" style="margin-right:0.02778em;">r</span><span class="mord">1</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span><span class="mbin">+</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span></span><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathdefault">m</span><span class="mord mathdefault">i</span><span class="mord mathdefault">n</span><span class="mopen">(</span><span class="mord mathdefault">c</span><span class="mord mathdefault">o</span><span class="mord mathdefault">s</span><span class="mord mathdefault">t</span><span class="mord">1</span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.16666666666666666em;"></span><span class="mord mathdefault">c</span><span class="mord mathdefault">o</span><span class="mord mathdefault">s</span><span class="mord mathdefault">t</span><span class="mord">2</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span><span class="mbin">+</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span></span><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathdefault" style="margin-right:0.02778em;">r</span><span class="mord">1</span><span class="mclose">)</span><span class="mclose">)</span></span></span></span><br>
-如果上一关已经消灭(<span class="katex"><span class="katex-mathml"><math><semantics><mrow><mi>d</mi><msub><mi>p</mi><mrow><mi>i</mi><mo>−</mo><mn>1</mn><mo separator="true">,</mo><mn>0</mn></mrow></msub></mrow><annotation encoding="application/x-tex">dp_{i-1,0}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.980548em;vertical-align:-0.286108em;"></span><span class="mord mathdefault">d</span><span class="mord"><span class="mord mathdefault">p</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.311664em;"><span style="top:-2.5500000000000003em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathdefault mtight">i</span><span class="mbin mtight">−</span><span class="mord mtight">1</span><span class="mpunct mtight">,</span><span class="mord mtight">0</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.286108em;"><span></span></span></span></span></span></span></span></span></span>)，这一关要么就cost1，要么就cost2然后来回跳两个d，再一个r1补死<br>
-如果上一关还有1hp，那么这关消灭后再回去补死上一关再回来<br>
-<span class="katex"><span class="katex-mathml"><math><semantics><mrow><mi>d</mi><msub><mi>p</mi><mrow><mi>i</mi><mo separator="true">,</mo><mn>1</mn></mrow></msub><mo>=</mo><mi>d</mi><msub><mi>p</mi><mrow><mi>i</mi><mo>−</mo><mn>1</mn><mo separator="true">,</mo><mn>0</mn></mrow></msub><mo>+</mo><mi>d</mi><mo>+</mo><mi>c</mi><mi>o</mi><mi>s</mi><mi>t</mi><mn>2</mn></mrow><annotation encoding="application/x-tex">dp_{i,1} = dp_{i-1,0}+d+cost2</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.980548em;vertical-align:-0.286108em;"></span><span class="mord mathdefault">d</span><span class="mord"><span class="mord mathdefault">p</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.311664em;"><span style="top:-2.5500000000000003em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathdefault mtight">i</span><span class="mpunct mtight">,</span><span class="mord mtight">1</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.286108em;"><span></span></span></span></span></span></span><span class="mspace" style="margin-right:0.2777777777777778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span></span><span class="base"><span class="strut" style="height:0.980548em;vertical-align:-0.286108em;"></span><span class="mord mathdefault">d</span><span class="mord"><span class="mord mathdefault">p</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.311664em;"><span style="top:-2.5500000000000003em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathdefault mtight">i</span><span class="mbin mtight">−</span><span class="mord mtight">1</span><span class="mpunct mtight">,</span><span class="mord mtight">0</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.286108em;"><span></span></span></span></span></span></span><span class="mspace" style="margin-right:0.2222222222222222em;"></span><span class="mbin">+</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span></span><span class="base"><span class="strut" style="height:0.77777em;vertical-align:-0.08333em;"></span><span class="mord mathdefault">d</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span><span class="mbin">+</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span></span><span class="base"><span class="strut" style="height:0.64444em;vertical-align:0em;"></span><span class="mord mathdefault">c</span><span class="mord mathdefault">o</span><span class="mord mathdefault">s</span><span class="mord mathdefault">t</span><span class="mord">2</span></span></span></span><br>
-还有一种特殊情况就是在倒数第二关强制转移到最后一关，然后消灭最后一关再转移到倒数第二关补死之后结束。</p>
-<pre><code class="language-cpp">#include &lt;bits/stdc++.h&gt;
-using namespace std;
-using ll = long long;
-const int N = 1e6 + 5;
-int n, a[N];
-ll r1, r2, r3, d, dp[N][2];
-int main()
-{
-	scanf(&quot;%d%lld%lld%lld%lld&quot;, &amp;n, &amp;r1, &amp;r2, &amp;r3, &amp;d);
-	for(int i=1; i&lt;=n; i++) scanf(&quot;%d&quot;, a+i);
-	memset(dp, 0x3f, sizeof(dp));
-	dp[0][0] = -d;
-	for(int i=1; i&lt;=n; i++)
-	{
-		ll c1 = min(a[i]*r1+r1, r2), c2 = a[i]*r1 + r3;
-		dp[i][0] = min(dp[i-1][0]+d+min(c2, 2*d+c1+r1), dp[i-1][1]+3*d+r1+min(r1+c1, c2));
-		dp[i][1] = dp[i-1][0]+d+c1; 
-	}
-	ll ans = min(dp[n][0], dp[n-2][0]+d+a[n]*r1+r3+r1+2*d+min(a[n-1]*r1+r1, r2));
-	printf(&quot;%lld\n&quot;, ans);
 	return 0;
 }
 </code></pre>
