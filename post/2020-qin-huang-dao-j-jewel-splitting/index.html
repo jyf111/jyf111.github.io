@@ -3,7 +3,7 @@
     <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>2020秦皇岛 J Jewel Splitting | jyf111</title>
-<link rel="shortcut icon" href="https://jyf111.github.io/favicon.ico?v=1607001848310">
+<link rel="shortcut icon" href="https://jyf111.github.io/favicon.ico?v=1607003928110">
 <link href="https://cdn.jsdelivr.net/npm/remixicon@2.3.0/fonts/remixicon.css" rel="stylesheet">
 <link rel="stylesheet" href="https://jyf111.github.io/styles/main.css">
 <link rel="alternate" type="application/atom+xml" title="2020秦皇岛 J Jewel Splitting | jyf111 - Atom Feed" href="https://jyf111.github.io/atom.xml">
@@ -23,7 +23,7 @@ n≤3×1..." />
       <div class="main-content">
         <div class="site-header">
   <a href="https://jyf111.github.io">
-  <img class="avatar" src="https://jyf111.github.io/images/avatar.png?v=1607001848310" alt="">
+  <img class="avatar" src="https://jyf111.github.io/images/avatar.png?v=1607003928110" alt="">
   </a>
   <h1 class="site-title">
     jyf111
@@ -96,17 +96,18 @@ n≤3×1..." />
 <h3 id="做法">做法</h3>
 <p>显然不同的d互不影响，可以分开做<br>
 当<span class="katex"><span class="katex-mathml"><math><semantics><mrow><mi>d</mi><mo>∣</mo><mi>n</mi></mrow><annotation encoding="application/x-tex">d \mid n</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathdefault">d</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span><span class="mrel">∣</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span></span><span class="base"><span class="strut" style="height:0.43056em;vertical-align:0em;"></span><span class="mord mathdefault">n</span></span></span></span>，就是一个可重集排列，用map来维护每种hash值出现的个数<br>
-当<span class="katex"><span class="katex-mathml"><math><semantics><mrow><mi>d</mi><mo>∤</mo><mi>n</mi></mrow><annotation encoding="application/x-tex">d \nmid n</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.99253em;vertical-align:-0.25142em;"></span><span class="mord mathdefault">d</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span><span class="mrel amsrm">∤</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span></span><span class="base"><span class="strut" style="height:0.43056em;vertical-align:0em;"></span><span class="mord mathdefault">n</span></span></span></span>，那么我们可能会丢弃<span class="katex"><span class="katex-mathml"><math><semantics><mrow><mo>[</mo><mn>1</mn><mo separator="true">,</mo><mi>n</mi></mrow><annotation encoding="application/x-tex">[1,n%d],[d+1,d+n%d]...</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mopen">[</span><span class="mord">1</span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.16666666666666666em;"></span><span class="mord mathdefault">n</span></span></span></span>，容易发现相邻两种只有两个字符串是不同的，因此动态维护即可。有个问题是，丢弃不同的区间，剩余的串的类型是一模一样的，即这个状态的map是一样的，这时候不能重复算，因此还要对每个时刻的map状态进行hash。<br>
+当<span class="katex"><span class="katex-mathml"><math><semantics><mrow><mi>d</mi><mo>∤</mo><mi>n</mi></mrow><annotation encoding="application/x-tex">d \nmid n</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.99253em;vertical-align:-0.25142em;"></span><span class="mord mathdefault">d</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span><span class="mrel amsrm">∤</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span></span><span class="base"><span class="strut" style="height:0.43056em;vertical-align:0em;"></span><span class="mord mathdefault">n</span></span></span></span>，那么我们可能会丢弃<span class="katex"><span class="katex-mathml"><math><semantics><mrow><mo>[</mo><mn>1</mn><mo separator="true">,</mo><mi>n</mi><mi mathvariant="normal">%</mi><mi>d</mi><mo>]</mo><mo separator="true">,</mo><mo>[</mo><mi>d</mi><mo>+</mo><mn>1</mn><mo separator="true">,</mo><mi>d</mi><mo>+</mo><mi>n</mi><mi mathvariant="normal">%</mi><mi>d</mi><mo>]</mo><mi mathvariant="normal">.</mi><mi mathvariant="normal">.</mi><mi mathvariant="normal">.</mi></mrow><annotation encoding="application/x-tex">[1,n\%d],[d+1,d+n\%d]...</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mopen">[</span><span class="mord">1</span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.16666666666666666em;"></span><span class="mord mathdefault">n</span><span class="mord">%</span><span class="mord mathdefault">d</span><span class="mclose">]</span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.16666666666666666em;"></span><span class="mopen">[</span><span class="mord mathdefault">d</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span><span class="mbin">+</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span></span><span class="base"><span class="strut" style="height:0.8888799999999999em;vertical-align:-0.19444em;"></span><span class="mord">1</span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.16666666666666666em;"></span><span class="mord mathdefault">d</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span><span class="mbin">+</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span></span><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathdefault">n</span><span class="mord">%</span><span class="mord mathdefault">d</span><span class="mclose">]</span><span class="mord">.</span><span class="mord">.</span><span class="mord">.</span></span></span></span>，容易发现相邻两种只有两个字符串是不同的，因此动态维护即可。有个问题是，丢弃不同的区间，剩余的串的类型是一模一样的，即这个状态的map是一样的，这时候不能重复算，因此还要对每个时刻的map状态进行hash。<br>
 思路不难，但是卡常。不双hash会wa，双hash又tle🤡</p>
 <p>字符串的rolling hash的本质其实就是将这个字符串用base进制的数来表示，然后可以O(1)的求每个子区间的hash值（我好像到现在才明白字符串hash就是用base进制数来表示。。。）<br>
 考虑map的状态怎么求，就相对于有很多pairs，（hash，cnt）。<br>
 我的做法是把hash值丢到map里然后映射成小的编号，然后cnt就可以用数组来存了，然后map的状态就相当于第id[hash]位的值为cnt，用cnt*pw[id[hash]]来表示即可。<br>
-各个位的值用异或也是可以的（一般都是加），这样可以快点<br>
+如果只要整个串的hash值，各个位的值用异或也是可以，这样可以快点。<br>
 然后就是双hash的值，用pair的话肯定会慢，这里用int存，然后高低位合并成一个ull即可。</p>
 <p>通过这题测了一下各种map和set<br>
 unordered_set很没用，set和map比较稳定，unordered_map有时快有时慢，加了手写hash也慢，很不稳定。<br>
 所以一般情况下还是用set和map就行了，稳定log，unordered容易卡成n<br>
-如果要实现无序的set，要么就用set，要么用vector，只能全部push_back，然后再sort，常数小点<br>
+如果要实现无序的set，不推荐unordered_set。<br>
+如果可以离线，那就vector<br>
 此外pbds的gp_hash_table很快，被卡map可以用这个代替unordered_map</p>
 <pre><code class="language-cpp">#include &lt;ext/pb_ds/assoc_container.hpp&gt;
 using namespace __gnu_pbds;
