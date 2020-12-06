@@ -3,7 +3,7 @@
     <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>平衡树之FHQ Treap | jyf111</title>
-<link rel="shortcut icon" href="https://jyf111.github.io/favicon.ico?v=1607263245789">
+<link rel="shortcut icon" href="https://jyf111.github.io/favicon.ico?v=1607264554477">
 <link href="https://cdn.jsdelivr.net/npm/remixicon@2.3.0/fonts/remixicon.css" rel="stylesheet">
 <link rel="stylesheet" href="https://jyf111.github.io/styles/main.css">
 <link rel="alternate" type="application/atom+xml" title="平衡树之FHQ Treap | jyf111 - Atom Feed" href="https://jyf111.github.io/atom.xml">
@@ -24,7 +24,7 @@
       <div class="main-content">
         <div class="site-header">
   <a href="https://jyf111.github.io">
-  <img class="avatar" src="https://jyf111.github.io/images/avatar.png?v=1607263245789" alt="">
+  <img class="avatar" src="https://jyf111.github.io/images/avatar.png?v=1607264554477" alt="">
   </a>
   <h1 class="site-title">
     jyf111
@@ -84,7 +84,7 @@
                 2020-12-06
               </span>
               <span>
-                5 min read
+                9 min read
               </span>
               
             </div>
@@ -193,6 +193,109 @@ int main()
  		}
  	}
  	printf(&quot;%d\n&quot;, ans);
+	return 0;
+}
+</code></pre>
+<p>然后是维护区间，也很简单，改一下split和merge的定义即可。<br>
+split，给定一个树，把一棵树的前k个节点划分给一棵树，剩余节点划分给另一棵树<br>
+merge，将两棵树合并成一棵树，需要保证一棵树完全处在另一棵树的前面<br>
+写法和上面类似，不再赘述<br>
+考虑对区间[l,r]的操作怎么做：<br>
+先把rt的前r个节点split给x，其他的丢给y<br>
+再把x的前l-1个节点split给z<br>
+此时x就是[l,r]区间内所有节点构成的treap的根了，直接在根上打标记即可。<br>
+最后按照顺序z，x，y进行merge。<br>
+考虑pushup和pushdown在什么时候进行。<br>
+pushup是要维护当前子树的信息，因此需要在左右儿子改变后调用，而pushdown是为了下放赖在当前节点上的懒标记，所以要在左右儿子改变前调用，想清楚这两点就知道了，应该在split和merge进入子树前pushdown，在回溯上来之后再pushup。<br>
+p3391 文艺平衡树，区间翻转，显然只要把要操作的区间split出来然后在根上打一个翻转标记即可。</p>
+<pre><code class="language-cpp">#include &lt;bits/stdc++.h&gt;
+using namespace std;
+const int N = 1e5 + 5;
+int n, m;
+int rnd() { return rand()&lt;&lt;15|rand(); }
+int rt, tot;
+struct node
+{
+	int ls, rs;
+	int val, key, sz;
+	bool tag;
+}t[N];
+void up(int p) { t[p].sz = t[t[p].ls].sz + t[t[p].rs].sz + 1; }
+void down(int p)
+{
+	swap(t[p].ls, t[p].rs);
+	if(t[p].ls) t[t[p].ls].tag ^= 1;
+	if(t[p].rs) t[t[p].rs].tag ^= 1;
+	t[p].tag = 0;
+}
+int newnode(int v)
+{
+	int p = ++tot;
+	t[p].val = v;
+	t[p].sz = 1; t[p].tag = 0;
+	t[p].ls = t[p].rs = 0;
+	t[p].key = rnd();
+	return p;
+}
+void split(int p, int &amp;x, int &amp;y, int k)
+{
+	if(!p) { x = y = 0; return; }
+	if(t[p].tag) down(p);
+	if(k&lt;=t[t[p].ls].sz) { y = p; split(t[p].ls, x, t[p].ls, k); }
+	else { x = p, split(t[p].rs, t[p].rs, y, k-t[t[p].ls].sz-1); }
+	up(p);
+}
+void merge(int &amp;p, int x, int y)
+{
+	if(!x||!y) { p = x|y; return; }
+	if(t[x].key&lt;t[y].key) 
+	{
+		if(t[x].tag) down(x);
+		p = x;
+		merge(t[p].rs, t[x].rs, y);
+	}
+	else 
+	{
+		if(t[y].tag) down(y);
+		p = y;
+		merge(t[p].ls, x, t[y].ls);
+	}
+	up(p);
+}
+void ins(int &amp;p, int v)
+{
+	int x = newnode(v);
+	merge(p, p, x);
+}
+void rev(int l, int r)
+{
+	int x, y, z;
+	split(rt, x, y, r);
+	split(x, z, x, l-1);
+	t[x].tag ^= 1;
+	merge(x, z, x);
+	merge(rt, x, y);
+}
+void print(int p)
+{
+	if(!p) return;
+	if(t[p].tag) down(p);
+	print(t[p].ls);
+	printf(&quot;%d &quot;, t[p].val);
+	print(t[p].rs);
+}
+int main()
+{
+	srand(int(time(0)));
+	scanf(&quot;%d%d&quot;, &amp;n, &amp;m);
+	for(int i=1; i&lt;=n; i++) ins(rt, i);
+	for(int i=1; i&lt;=m; i++)
+	{
+		int l, r;
+		scanf(&quot;%d%d&quot;, &amp;l, &amp;r);
+		rev(l, r);
+	}
+	print(rt);
 	return 0;
 }
 </code></pre>
