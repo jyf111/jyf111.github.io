@@ -2,7 +2,7 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
     <id>https://jyf111.github.io</id>
     <title>jyf111</title>
-    <updated>2020-12-06T14:23:55.507Z</updated>
+    <updated>2020-12-07T10:28:56.449Z</updated>
     <generator>https://github.com/jpmonette/feed</generator>
     <link rel="alternate" href="https://jyf111.github.io"/>
     <link rel="self" href="https://jyf111.github.io/atom.xml"/>
@@ -10,6 +10,194 @@
     <logo>https://jyf111.github.io/images/avatar.png</logo>
     <icon>https://jyf111.github.io/favicon.ico</icon>
     <rights>All rights reserved 2020, jyf111</rights>
+    <entry>
+        <title type="html"><![CDATA[P5217 贫穷 fhq treap]]></title>
+        <id>https://jyf111.github.io/post/p5217-pin-qiong-fhq-treap/</id>
+        <link href="https://jyf111.github.io/post/p5217-pin-qiong-fhq-treap/">
+        </link>
+        <updated>2020-12-07T10:23:30.000Z</updated>
+        <content type="html"><![CDATA[<p>给定一个字符串序列<br>
+要求支持以下操作</p>
+<ul>
+<li>在x位置后插入一个字母</li>
+<li>删除x位置的字母</li>
+<li>翻转区间[x,y]</li>
+<li>输出初始字符串序列第x个字母当前位置</li>
+<li>输出当前字符串序列第x个字母</li>
+<li>输出区间[x,y]字母种类数</li>
+</ul>
+<p>前三个很简单。<br>
+第四个要查节点号为x的字母的位置，由于是维护区间，按size分裂，所以自上而下找不了，只能额外维护父亲，然后自下而上找。由于第三个区间翻转操作，导致左右儿子可能会改变，所以要先到根节点把所有懒标记pushdown下来，再自下而上找才能正确<br>
+第五个就是查第k大（区间意义下），直接split和merge比较好，如果是从根递归着走，不要忘记pushdown<br>
+第六个状压维护一下</p>
+<pre><code class="language-cpp">#include &lt;bits/stdc++.h&gt;
+using namespace std;
+const int N = 2e5 + 5;
+char s[N];
+int n, m;
+int rt, tot;
+int rnd() { return rand()&lt;&lt;15|rand(); }
+struct node
+{
+	int ls, rs;
+	int mask, sz, fa, key, c;
+	bool rev;
+}t[N];
+int newnode(int c)
+{
+	int p = ++tot;
+	t[p].ls = t[p].rs = t[p].fa = 0;
+	t[p].mask = 1&lt;&lt;c, t[p].c = c, t[p].key = rnd();
+	t[p].sz = 1;
+	t[p].rev = 0;
+	return p;
+}
+void up(int p)
+{
+	t[p].sz = t[t[p].ls].sz + t[t[p].rs].sz + 1;
+	t[p].mask = t[t[p].ls].mask | t[t[p].rs].mask | (1&lt;&lt;t[p].c);
+}
+void down(int p)
+{
+	if(t[p].rev)
+	{
+		swap(t[p].ls, t[p].rs);
+		t[t[p].ls].rev ^= 1;
+		t[t[p].rs].rev ^= 1;
+		t[p].rev = 0;
+	}
+}
+void split(int p, int &amp;x, int &amp;y, int k, int fx=0, int fy=0)
+{
+	if(!p) { x = y = 0; return; }
+	down(p);
+	if(k&lt;=t[t[p].ls].sz) 
+	{ 
+		y = p; 
+		split(t[p].ls, x, t[p].ls, k, fx, p); 
+	}
+	else 
+	{ 
+		x = p; 
+		split(t[p].rs, t[p].rs, y, k-t[t[p].ls].sz-1, p, fy); 
+	}
+	if(x) t[x].fa = fx;
+	if(y) t[y].fa = fy;
+	up(p);
+}
+void merge(int &amp;p, int x, int y)
+{
+	if(!x||!y) { p = x|y; return; }
+	if(t[x].key&lt;t[y].key)
+	{
+		down(x);
+		p = x;
+		merge(t[p].rs, t[p].rs, y);
+		t[t[p].rs].fa = p;
+	}
+	else
+	{
+		down(y);
+		p = y;
+		merge(t[p].ls, x, t[p].ls);
+		t[t[p].ls].fa = p;
+	}
+	up(p);
+}
+void downall(int p)
+{
+	if(!p) return;
+	downall(t[p].fa);
+	down(p);
+}
+int get(int p)
+{
+	downall(p);
+	int rk = t[t[p].ls].sz + 1;
+	while(t[p].fa)
+	{
+		if(t[t[p].fa].rs==p) rk += t[t[p].fa].sz - t[p].sz;
+		p = t[p].fa;
+	}
+	return rk*(p==rt);
+}
+int kth(int p, int k)
+{
+	down(p);
+	if(k&lt;=t[t[p].ls].sz) return kth(t[p].ls, k);
+	else if(k==t[t[p].ls].sz+1) return t[p].c;
+	else return kth(t[p].rs, k-t[t[p].ls].sz-1);
+}
+int main()
+{
+	scanf(&quot;%d%d&quot;, &amp;n, &amp;m);
+	scanf(&quot;%s&quot;, s+1);
+	for(int i=1; i&lt;=n; i++)
+	{
+		int x = newnode(s[i]-'a');
+		merge(rt, rt, x);
+	}
+	while(m--)
+	{
+		static char opt[2], c[2];
+		scanf(&quot;%s&quot;, opt);
+		if(opt[0]=='I')
+		{
+			int k;
+			scanf(&quot;%d%s&quot;, &amp;k, c);
+			int x, y, z;
+			split(rt, x, y, k);
+			z = newnode(c[0]-'a');
+			merge(x, x, z);
+			merge(rt, x, y);
+		}
+		else if(opt[0]=='D')
+		{
+			int k;
+			scanf(&quot;%d&quot;, &amp;k);
+			int x, y, z;
+			split(rt, x, y, k);
+			split(x, x, z, k-1);
+			merge(rt, x, y);
+		}
+		else if(opt[0]=='R')
+		{
+			int l, r; scanf(&quot;%d%d&quot;, &amp;l, &amp;r);
+			int x, y, z;
+			split(rt, x, y, r);
+			split(x, z, x, l-1);
+			t[x].rev ^= 1;
+			merge(x, z, x);
+			merge(rt, x, y);
+		}
+		else if(opt[0]=='P')
+		{
+			int k;
+			scanf(&quot;%d&quot;, &amp;k);
+			printf(&quot;%d\n&quot;, get(k));
+		}
+		else if(opt[0]=='T')
+		{
+			int k;
+			scanf(&quot;%d&quot;, &amp;k);
+			printf(&quot;%c\n&quot;, char(kth(rt, k)+'a'));
+		}
+		else
+		{
+			int l, r; scanf(&quot;%d%d&quot;, &amp;l, &amp;r);
+			int x, y, z;
+			split(rt, x, y, r);
+			split(x, z, x, l-1);
+			printf(&quot;%d\n&quot;, __builtin_popcount(t[x].mask));
+			merge(x, z, x);
+			merge(rt, x, y);
+		}
+	}
+	return 0;
+}
+</code></pre>
+]]></content>
+    </entry>
     <entry>
         <title type="html"><![CDATA[平衡树之FHQ Treap]]></title>
         <id>https://jyf111.github.io/post/ping-heng-shu-zhi-fhq-treap/</id>
@@ -222,6 +410,57 @@ int main()
 	}
 	print(rt);
 	return 0;
+}
+</code></pre>
+<p>维护区间信息的时候，一定要注意平衡树和线段树是不一样的，线段树只要左右儿子取优即可（因为本节点维护的区间是左右儿子维护的区间的并），而平衡树左右儿子维护的信息是不包含本节点的，所以还需要维护本节点的值，和该值再取优。<br>
+在维护区间的时候，就丧失了权值大小的比较了，那么如何知道编号为i的节点在区间中的哪个位置呢？<br>
+显然从根开始是不知道该走左还是右的。但是如果我们从i节点不断跳父亲直至根，然后不断维护小于你的节点个数就可以了，而treap的树高是<span class="katex"><span class="katex-mathml"><math><semantics><mrow><mi>log</mi><mo>⁡</mo><mi>n</mi></mrow><annotation encoding="application/x-tex">\log n</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.8888799999999999em;vertical-align:-0.19444em;"></span><span class="mop">lo<span style="margin-right:0.01389em;">g</span></span><span class="mspace" style="margin-right:0.16666666666666666em;"></span><span class="mord mathdefault">n</span></span></span></span>级别的，复杂度没问题。<br>
+要维护节点的父亲，一种简单的做法是在pushup的时候维护一下p的左右儿子的父亲为p，但这样子是有问题的，根节点的fa值是错误的，没法及时清零，当然如果只有一棵treap，且知道根节点的编号，就可以通过==rt来判断，否则就应该在split和merge中维护fa：</p>
+<pre><code class="language-cpp">void split(int p, int &amp;x, int &amp;y, int fx, int fy, int k)
+{
+	if(!p) { x = y = 0; return; }
+	if(k&lt;=t[t[p].ls].sz)
+	{
+		y = p;
+		split(t[p].ls, x, t[p].ls, fx, p, k);
+	}
+	else
+	{
+		x = p;
+		split(t[p].rs, t[p].rs, y, p, fy, k-t[t[p].ls].sz-1);
+	}
+	if(x) t[x].fa = fx;
+	if(y) t[y].fa = fy;
+	up(p);
+}
+void merge(int &amp;p, int x, int y)
+{
+	if(!x||!y) { p = x|y; return; }
+	if(t[x].key&lt;t[y].key)
+	{
+		p = x;
+		merge(t[p].rs, t[p].rs, y);
+		t[t[p].rs].fa = p;
+	}
+	else
+	{
+		p = y;
+		merge(t[p].ls, x, t[p].ls);
+		t[t[p].ls].fa = p;
+	}
+	up(p);
+}
+</code></pre>
+<p>返回编号为p的节点所在treap的根节点，以及在原数组中的下标：</p>
+<pre><code class="language-cpp">pair&lt;int, int&gt; get(int p)
+{
+	int rk = t[t[p].ls].sz + 1;
+	while(t[p].fa)
+	{
+		if(p==t[t[p].fa].rs) rk += t[t[p].fa].sz - t[p].sz; 
+		p = t[p].fa;
+	}
+	return make_pair(p, rk);
 }
 </code></pre>
 ]]></content>
@@ -1518,175 +1757,6 @@ int main()
 	ios::sync_with_stdio(false);
 	cin.tie(nullptr);
 	while(cin &gt;&gt; n &gt;&gt; q) solve();
-	return 0;
-}
-</code></pre>
-]]></content>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[cf487E tourists 树剖+线段树维护圆方树]]></title>
-        <id>https://jyf111.github.io/post/cf487e-tourists-shu-pou-xian-duan-shu-wei-hu-yuan-fang-shu/</id>
-        <link href="https://jyf111.github.io/post/cf487e-tourists-shu-pou-xian-duan-shu-wei-hu-yuan-fang-shu/">
-        </link>
-        <updated>2020-10-09T03:22:40.000Z</updated>
-        <content type="html"><![CDATA[<p>给定无向图，每个点有点权，多次询问两点间所有简单路径上的点权的最小值，并要求支持修改点权</p>
-<p>考虑建出圆方树，将方点的点权置为所有相邻圆点的点权的最小值，那答案就是两个点在圆方树上的路径上的点权最小值。但是如果一个圆点和多个方点相邻，在修改的时候复杂度就炸了。<br>
-此时的trick是让1为根，方点维护所有儿子的圆点的权值最小值，这样在修改时圆点只需要单点修改其父亲即可，而在查询时，如果lca是一个方点，再统计一下方点的父亲这个圆点的答案即可。<br>
-树剖，线段树支持单点修改，区间查询最小值</p>
-<pre><code class="language-cpp">#include &lt;bits/stdc++.h&gt;
-using namespace std;
-const int N = 1e5 + 5, inf = 0x3f3f3f3f;
-int n, m, q;
-int low[N], dfn[N], stk[N], clk, top, cnt;
-int val[N];
-vector&lt;int&gt; G[N], T[N&lt;&lt;1];
-void tarjan(int u, int fa)
-{
-	low[u] = dfn[u] = ++clk;
-	stk[++top] = u;
-	for(int v : G[u])
-	{
-		if(!dfn[v])
-		{
-			tarjan(v, u);
-			low[u] = min(low[u], low[v]);
-			if(low[v]&gt;=dfn[u])
-			{
-				++cnt;
-				for(int x=0; x!=v; top--)
-				{
-					x = stk[top];
-					T[cnt].push_back(x);
-					T[x].push_back(cnt);
-				}
-				T[cnt].push_back(u);
-				T[u].push_back(cnt);
-			}
-		}
-		else if(v!=fa) low[u] = min(low[u], dfn[v]);
-	}
-}
-const int M = N&lt;&lt;1;
-multiset&lt;int&gt; mst[M]; 
-namespace HLD
-{
-	int sz[M], top[M], son[M], dep[M], fa[M], dfn[M], idfn[M], tot;
-	void dfs1(int u, int f) 
-	{
-		dep[u] = dep[f] + 1; fa[u] = f;
-		sz[u] = 1;
-		if(u&lt;=n) mst[u].insert(val[u]);
-		for(int v : T[u])
-		{
-			if(v!=f)
-			{
-				if(u&gt;n) mst[u].insert(val[v]);
-				dfs1(v, u);
-				sz[u] += sz[v];
-				if(sz[v]&gt;sz[son[u]]) son[u] = v;
-			}
-		}
-	}
-	void dfs2(int u, int t) 
-	{
-		top[u] = t;
-		dfn[u] = ++tot;
-		idfn[tot] = u;
-		if(!son[u]) return;
-		dfs2(son[u], t);
-		for(int v : T[u])
-			if(v!=son[u]&amp;&amp;v!=fa[u]) dfs2(v, v);
-	}
-}
-using HLD::fa;
-using HLD::idfn;
-using HLD::dep;
-struct seg
-{
-	int l, r, mn;
-}t[M&lt;&lt;2];
-void pull(int p) { t[p].mn = min(t[p&lt;&lt;1].mn, t[p&lt;&lt;1|1].mn); }
-void build(int p, int l, int r)
-{
-	t[p].l = l, t[p].r = r;
-	if(l==r) 
-	{
-		t[p].mn = *mst[idfn[l]].begin();
-		return;
-	}
-	int mid = (l+r)&gt;&gt;1;
-	build(p&lt;&lt;1, l, mid); build(p&lt;&lt;1|1, mid+1, r);
-	pull(p);
-}
-void upd(int p, int x, int y)
-{
-	int l = t[p].l, r = t[p].r;
-	if(l==r) 
-	{
-		t[p].mn = y;
-		return;
-	}
-	int mid = (l+r)&gt;&gt;1;
-	if(x&lt;=mid) upd(p&lt;&lt;1, x, y);
-	else upd(p&lt;&lt;1|1, x, y);
-	pull(p);
-}
-int ask(int p, int x, int y)
-{
-	int l = t[p].l, r = t[p].r;
-	if(l&gt;=x &amp;&amp; r&lt;=y) return t[p].mn;
-	int mid = (l+r)&gt;&gt;1, ans = inf;
-	if(x&lt;=mid) ans = min(ans, ask(p&lt;&lt;1, x, y));
-	if(y&gt;mid) ans = min(ans, ask(p&lt;&lt;1|1, x, y));
-	return ans;
-}
-int askt(int x, int y)
-{
-	int ans = inf;
-	while(HLD::top[x]!=HLD::top[y])
-	{
-		if(dep[HLD::top[x]]&lt;dep[HLD::top[y]]) swap(x,y);
-		ans = min(ans, ask(1, HLD::dfn[HLD::top[x]], HLD::dfn[x])); 
-		x = fa[HLD::top[x]];
-	}
-	if(dep[x]&gt;dep[y]) swap(x,y);
-	ans = min(ans, ask(1, HLD::dfn[x], HLD::dfn[y]));
-	if(x&gt;n) ans = min(ans, val[fa[x]]); 
-	return ans;
-}
-int main()
-{
-	ios::sync_with_stdio(false);
-	cin.tie(nullptr);
-	cin &gt;&gt; n &gt;&gt; m &gt;&gt; q;
-	for(int i=1; i&lt;=n; i++) cin &gt;&gt; val[i];
-	for(int i=1; i&lt;=m; i++)
-	{
-		int u, v; cin &gt;&gt; u &gt;&gt; v; 
-		G[u].push_back(v); G[v].push_back(u);
-	}
-	cnt = n; tarjan(1, 0);
-	HLD::dfs1(1, 0), HLD::dfs2(1, 1);
-	build(1, 1, 2*n);
-	while(q--)
-	{
-		char op; int x, y;
-		cin &gt;&gt; op &gt;&gt; x &gt;&gt; y;
-		if(op=='C')
-		{
-			if(fa[x])
-			{
-				int pre = *mst[fa[x]].begin();
-				mst[fa[x]].erase(mst[fa[x]].find(val[x]));
-				mst[fa[x]].insert(y);
-				int cur = *mst[fa[x]].begin();
-				if(pre!=cur) upd(1, HLD::dfn[fa[x]], cur);
-			}
-			val[x] = y;
-			upd(1, HLD::dfn[x], y);
-		}
-		else cout &lt;&lt; askt(x, y) &lt;&lt; '\n';
-	}
 	return 0;
 }
 </code></pre>

@@ -3,7 +3,7 @@
     <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>平衡树之FHQ Treap | jyf111</title>
-<link rel="shortcut icon" href="https://jyf111.github.io/favicon.ico?v=1607264554477">
+<link rel="shortcut icon" href="https://jyf111.github.io/favicon.ico?v=1607336932845">
 <link href="https://cdn.jsdelivr.net/npm/remixicon@2.3.0/fonts/remixicon.css" rel="stylesheet">
 <link rel="stylesheet" href="https://jyf111.github.io/styles/main.css">
 <link rel="alternate" type="application/atom+xml" title="平衡树之FHQ Treap | jyf111 - Atom Feed" href="https://jyf111.github.io/atom.xml">
@@ -24,7 +24,7 @@
       <div class="main-content">
         <div class="site-header">
   <a href="https://jyf111.github.io">
-  <img class="avatar" src="https://jyf111.github.io/images/avatar.png?v=1607264554477" alt="">
+  <img class="avatar" src="https://jyf111.github.io/images/avatar.png?v=1607336932845" alt="">
   </a>
   <h1 class="site-title">
     jyf111
@@ -84,7 +84,7 @@
                 2020-12-06
               </span>
               <span>
-                9 min read
+                11 min read
               </span>
               
             </div>
@@ -297,6 +297,57 @@ int main()
 	}
 	print(rt);
 	return 0;
+}
+</code></pre>
+<p>维护区间信息的时候，一定要注意平衡树和线段树是不一样的，线段树只要左右儿子取优即可（因为本节点维护的区间是左右儿子维护的区间的并），而平衡树左右儿子维护的信息是不包含本节点的，所以还需要维护本节点的值，和该值再取优。<br>
+在维护区间的时候，就丧失了权值大小的比较了，那么如何知道编号为i的节点在区间中的哪个位置呢？<br>
+显然从根开始是不知道该走左还是右的。但是如果我们从i节点不断跳父亲直至根，然后不断维护小于你的节点个数就可以了，而treap的树高是<span class="katex"><span class="katex-mathml"><math><semantics><mrow><mi>log</mi><mo>⁡</mo><mi>n</mi></mrow><annotation encoding="application/x-tex">\log n</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.8888799999999999em;vertical-align:-0.19444em;"></span><span class="mop">lo<span style="margin-right:0.01389em;">g</span></span><span class="mspace" style="margin-right:0.16666666666666666em;"></span><span class="mord mathdefault">n</span></span></span></span>级别的，复杂度没问题。<br>
+要维护节点的父亲，一种简单的做法是在pushup的时候维护一下p的左右儿子的父亲为p，但这样子是有问题的，根节点的fa值是错误的，没法及时清零，当然如果只有一棵treap，且知道根节点的编号，就可以通过==rt来判断，否则就应该在split和merge中维护fa：</p>
+<pre><code class="language-cpp">void split(int p, int &amp;x, int &amp;y, int fx, int fy, int k)
+{
+	if(!p) { x = y = 0; return; }
+	if(k&lt;=t[t[p].ls].sz)
+	{
+		y = p;
+		split(t[p].ls, x, t[p].ls, fx, p, k);
+	}
+	else
+	{
+		x = p;
+		split(t[p].rs, t[p].rs, y, p, fy, k-t[t[p].ls].sz-1);
+	}
+	if(x) t[x].fa = fx;
+	if(y) t[y].fa = fy;
+	up(p);
+}
+void merge(int &amp;p, int x, int y)
+{
+	if(!x||!y) { p = x|y; return; }
+	if(t[x].key&lt;t[y].key)
+	{
+		p = x;
+		merge(t[p].rs, t[p].rs, y);
+		t[t[p].rs].fa = p;
+	}
+	else
+	{
+		p = y;
+		merge(t[p].ls, x, t[p].ls);
+		t[t[p].ls].fa = p;
+	}
+	up(p);
+}
+</code></pre>
+<p>返回编号为p的节点所在treap的根节点，以及在原数组中的下标：</p>
+<pre><code class="language-cpp">pair&lt;int, int&gt; get(int p)
+{
+	int rk = t[t[p].ls].sz + 1;
+	while(t[p].fa)
+	{
+		if(p==t[t[p].fa].rs) rk += t[t[p].fa].sz - t[p].sz; 
+		p = t[p].fa;
+	}
+	return make_pair(p, rk);
 }
 </code></pre>
 
