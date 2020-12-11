@@ -2,18 +2,20 @@
   <head>
     <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
-<title>P6514 [QkOI#R1] Quark and Strings | jyf111</title>
+<title>C、Shuffle Cards 区间移位 splay | jyf111</title>
 <link rel="shortcut icon" href="https://jyf111.github.io/favicon.ico?v=1607704365093">
 <link href="https://cdn.jsdelivr.net/npm/remixicon@2.3.0/fonts/remixicon.css" rel="stylesheet">
 <link rel="stylesheet" href="https://jyf111.github.io/styles/main.css">
-<link rel="alternate" type="application/atom+xml" title="P6514 [QkOI#R1] Quark and Strings | jyf111 - Atom Feed" href="https://jyf111.github.io/atom.xml">
+<link rel="alternate" type="application/atom+xml" title="C、Shuffle Cards 区间移位 splay | jyf111 - Atom Feed" href="https://jyf111.github.io/atom.xml">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Droid+Serif:400,700">
 
 
 
-    <meta name="description" content="要求维护n个字符串,每次在区间[l,r]加一个字符,或询问区间[l,r]的字符串的最长公共子序列的长度
-做法
-本质就是每次插入一条[l,r]的线段,或询问左端点&lt;=l&amp;&amp;右端点&gt;=r的线段的个数,转化后就是一个二..." />
+    <meta name="description" content="一个序列初始为1-n的排列，现在有m次操作，将一个区间移到最前面。
+问所有操作结束后的序列是什么
+突然发现没有写过区间平移的问题，然后去找了一道，然后就调了2小时，很难受。
+罗列一下几个易错点：
+pushup的时候最好特判一下p==0，这时..." />
     <meta name="keywords" content="" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.10.0/katex.min.css">
     <script src="https://cdn.bootcss.com/highlight.js/9.12.0/highlight.min.js"></script>
@@ -76,152 +78,109 @@
         <div class="post-detail">
           <article class="post">
             <h2 class="post-title">
-              P6514 [QkOI#R1] Quark and Strings
+              C、Shuffle Cards 区间移位 splay
             </h2>
             <div class="post-info">
               <span>
-                2020-05-14
+                2020-12-12
               </span>
               <span>
-                5 min read
+                4 min read
               </span>
               
             </div>
             
             <div class="post-content-wrapper">
               <div class="post-content">
-                <p>要求维护n个字符串,每次在区间[l,r]加一个字符,或询问区间[l,r]的字符串的最长公共子序列的长度</p>
-<h1 id="做法">做法</h1>
-<p>本质就是每次插入一条[l,r]的线段,或询问左端点&lt;=l&amp;&amp;右端点&gt;=r的线段的个数,转化后就是一个二维数点的模型,cdq分治,树套树,kdt都可以解决</p>
+                <p>一个序列初始为1-n的排列，现在有m次操作，将一个区间移到最前面。<br>
+问所有操作结束后的序列是什么</p>
+<p>突然发现没有写过区间平移的问题，然后去找了一道，然后就调了2小时，很难受。</p>
+<p>罗列一下几个易错点：<br>
+pushup的时候最好特判一下p==0，这时候就直接return，否则总感觉容易出问题<br>
+splay一个不好的地方就是要加哨兵，反正左后各加一个就完事了<br>
+偷懒把取区间写了个split，然后就导致了一个问题（bug根源）<br>
+当要提取的区间是一个空区间就会出现奇奇怪怪的问题（插入和删除的时候需要），因为这时候它会返回0，我就没办法维护我本来需要的返回节点的父亲了。<br>
+所以最好还是不要写split函数了😭</p>
+<p>说一下区间平移怎么做<br>
+其实就是区间插入问题，先把一个区间提取出来，把这个区间删除掉，然后假设这个节点要插入到p（要注意前面这个区间删除带来的影响）节点的后面，那就把p转到根，p+1转到p的儿子，则把刚才提取的区间插到p+1的左儿子就可以了。</p>
 <pre><code class="language-cpp">#include &lt;bits/stdc++.h&gt;
-#define mp make_pair
-#define pb push_back
-#define sz(x) (int)x.size()
-#define all(x) begin(x), end(x)
-#define fi first
-#define se second
-#define debug(x) cerr &lt;&lt; #x &lt;&lt; &quot; &quot; &lt;&lt; x &lt;&lt; '\n'
 using namespace std;
-using ll = long long;
-using pii = pair&lt;int,int&gt;;
-using pli = pair&lt;ll,int&gt;;
-const int INF = 0x3f3f3f3f, N = 1e5 + 5;
-const ll LINF = 1e18 + 5;
-constexpr int k = 2;
-constexpr double alpha = 0.75; 
-const int MAXSIZE = 1 &lt;&lt; 20;
-char buf[MAXSIZE], *p1, *p2;
-inline char gc()
+const int N = 1e5 + 5;
+int n, m;
+int rt;
+int ch[N][2], sz[N], fa[N], val[N];
+bool rs(int x) { return ch[fa[x]][1]==x; }
+void up(int x) { if(!x) return; sz[x] = sz[ch[x][0]] + sz[ch[x][1]] + 1; }
+void build(int l, int r, int f)
 {
-	return (p1==p2&amp;&amp;(p2=(p1=buf)+fread(buf,1,MAXSIZE,stdin),p1==p2) ? EOF : *p1++);
+	if(l&gt;r) return;
+	int p = (l+r)&gt;&gt;1;
+	sz[p] = 1, fa[p] = f, val[p] = p;
+	ch[f][p&gt;f] = p;
+	if(l==r) return;
+	build(l, p-1, p), build(p+1, r, p);
+	up(p);
 }
-template &lt;class T&gt; 
-inline void read(T&amp; t)
+void rotate(int x)
 {
-	t = 0; int f = 1;
-	char c = gc();
-	while(c&gt;'9'||c&lt;'0') {if(c=='-') f = -f; c = gc();}
-	while(c&gt;='0'&amp;&amp;c&lt;='9') t = t*10 + c - 48, c = gc();
-	t *= f;
+    int y = fa[x], z = fa[y], k = rs(x), w = ch[x][k^1];
+    ch[y][k] = w; fa[w] = y;
+    ch[z][rs(y)] = x; fa[x] = z;
+    ch[x][k^1] = y; fa[y] = x;
+    up(y); up(x);
 }
-int D, pool[N], top, tot, rt; 
-struct point
+void splay(int x, int g=0)
 {
-	int x[k];
-	bool operator &lt; (const point &amp;oth) const { 
-		return x[D] &lt; oth.x[D];
-	}
-}a[N], cur; 
-struct node
-{
-	int mx[k], mn[k]; 
-	int l, r, sz; 
-	point tp;
-}t[N];
-int newnode()
-{
-	if(top) return pool[top--];
-	return ++tot;
+    while(fa[x]!=g)
+    {
+        int y = fa[x];
+        if(fa[y]!=g) (rs(x)==rs(y) ? rotate(y) : rotate(x));
+        rotate(x);
+    }
+    if(!g) rt = x;
 }
-void pushup(int p)
+int kth(int p, int k)
 {
-	int l = t[p].l, r = t[p].r;
-	for(int i=0; i&lt;k; i++)
-	{
-		t[p].mn[i] = t[p].mx[i] = t[p].tp.x[i];
-		if(l) t[p].mn[i] = min(t[p].mn[i], t[l].mn[i]), t[p].mx[i] = max(t[p].mx[i], t[l].mx[i]);
-		if(r) t[p].mn[i] = min(t[p].mn[i], t[r].mn[i]), t[p].mx[i] = max(t[p].mx[i], t[r].mx[i]);
-	}
-	t[p].sz = t[l].sz + t[r].sz + 1;
+    if(ch[p][0]&amp;&amp;sz[ch[p][0]]&gt;=k) return kth(ch[p][0], k);
+    else if(sz[ch[p][0]]+1==k) return p;
+    else return kth(ch[p][1], k-sz[ch[p][0]]-1); 
 }
-int build(int l, int r, int d) 
+void go(int p)
 {
-	if(l&gt;r) return 0;
-	int p = newnode(), mid = (l+r)&gt;&gt;1;
-	D = d;
-	nth_element(a+l, a+mid, a+r+1);
-	t[p].tp = a[mid];
-	t[p].l = build(l, mid-1, d^1);
-	t[p].r = build(mid+1, r, d^1);
-	pushup(p);
-	return p;
-}
-void rebuild(int p, int num)
-{
-	if(t[p].l) rebuild(t[p].l, num);
-	a[num+t[t[p].l].sz+1] = t[p].tp, pool[++top] = p;
-	if(t[p].r) rebuild(t[p].r, num+t[t[p].l].sz+1);
-}
-void test(int &amp;p, int d)
-{
-	if(alpha*t[p].sz&lt;t[t[p].l].sz||alpha*t[p].sz&lt;t[t[p].r].sz)
-	rebuild(p, 0), p = build(1, t[p].sz, d);
-}
-void insert(int &amp;p, int d)
-{
-	if(!p)
-	{
-		p = newnode();
-		t[p].tp = cur;
-		t[p].l = t[p].r = 0;
-		pushup(p);
-		return;
-	}
-	if(cur.x[d]&gt;t[p].tp.x[d]) insert(t[p].r, d^1);
-	else insert(t[p].l, d^1);
-	pushup(p); test(p, d);
-}
-int ask(int p) 
-{
-	if(!p) return 0;
-	if(t[p].mx[0]&lt;=cur.x[0]&amp;&amp;t[p].mn[1]&gt;=cur.x[1]) return t[p].sz;
-	if(t[p].mn[0]&gt;cur.x[0]||t[p].mx[1]&lt;cur.x[1]) return 0;
-	int ans = 0;
-	if(t[p].tp.x[0]&lt;=cur.x[0]&amp;&amp;t[p].tp.x[1]&gt;=cur.x[1]) ++ans;
-	ans += ask(t[p].l) + ask(t[p].r);
-	return ans;
+	if(!p) return;
+	go(ch[p][0]);
+	if(val[p]&gt;=2 &amp;&amp; val[p]&lt;=n+1) printf(&quot;%d &quot;, val[p]-1); 
+	go(ch[p][1]);
 }
 int main()
 {
-	int n, q;
-	read(n); read(q);
-	for(int i=1; i&lt;=q; i++)
+	scanf(&quot;%d%d&quot;, &amp;n, &amp;m);
+	build(1, n+2, 0);
+	rt = (n+3)&gt;&gt;1;
+	while(m--)
 	{
-		int op;
-		read(op); read(cur.x[0]); read(cur.x[1]);
-		if(op==1) insert(rt, 0);
-		else printf(&quot;%d\n&quot;, ask(rt));
+		int a, b; scanf(&quot;%d%d&quot;, &amp;a, &amp;b);
+		++a;
+		int x = kth(rt, 1), y = kth(rt, a);
+		splay(x); splay(y, x);
+		int z = ch[y][0];
+		fa[z] = 0;
+		ch[y][0] = 0;
+		up(y); up(fa[y]); 
+		int tx = kth(rt, b+1), ty = kth(rt, b+2);
+		splay(tx); splay(ty, tx);
+		ch[ty][0] = z;
+		fa[z] = ty;
+	 	up(ty); up(fa[ty]);
 	}
+	go(rt);
 	return 0;
 }
 </code></pre>
 
               </div>
               <div class="toc-container">
-                <ul class="markdownIt-TOC">
-<li><a href="#%E5%81%9A%E6%B3%95">做法</a></li>
-</ul>
-
+                
               </div>
             </div>
           </article>
@@ -230,9 +189,9 @@ int main()
         
           <div class="next-post">
             <div class="next">下一篇</div>
-            <a href="https://jyf111.github.io/post/p4148-jian-dan-ti-kdtree/">
+            <a href="https://jyf111.github.io/post/p2042-noi2005wei-hu-shu-lie/">
               <h3 class="post-title">
-                p4148 简单题 kdtree
+                P2042 [NOI2005]维护数列
               </h3>
             </a>
           </div>
