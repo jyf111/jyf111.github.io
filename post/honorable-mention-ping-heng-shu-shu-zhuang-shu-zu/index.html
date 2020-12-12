@@ -2,20 +2,21 @@
   <head>
     <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
-<title>C、Shuffle Cards 区间移位 splay | jyf111</title>
+<title>Honorable Mention 平衡树+树状数组 | jyf111</title>
 <link rel="shortcut icon" href="https://jyf111.github.io/favicon.ico?v=1607789932659">
 <link href="https://cdn.jsdelivr.net/npm/remixicon@2.3.0/fonts/remixicon.css" rel="stylesheet">
 <link rel="stylesheet" href="https://jyf111.github.io/styles/main.css">
-<link rel="alternate" type="application/atom+xml" title="C、Shuffle Cards 区间移位 splay | jyf111 - Atom Feed" href="https://jyf111.github.io/atom.xml">
+<link rel="alternate" type="application/atom+xml" title="Honorable Mention 平衡树+树状数组 | jyf111 - Atom Feed" href="https://jyf111.github.io/atom.xml">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Droid+Serif:400,700">
 
 
 
-    <meta name="description" content="一个序列初始为1-n的排列，现在有m次操作，将一个区间移到最前面。
-问所有操作结束后的序列是什么
-突然发现没有写过区间平移的问题，然后去找了一道，然后就调了2小时，很难受。
-罗列一下几个易错点：
-pushup的时候最好特判一下p==0，这时..." />
+    <meta name="description" content="给定一个排列pip_ipi​，表示第i个人的排名，要求支持两种操作：
+
+第x个人的排名上升到y，显然原来y~rank(x)-1的人的排名就要下降1
+问第x到第y个人中有多少人的排名在后40%
+
+我们发现第一个操作需要以排名为下标进行维护，而..." />
     <meta name="keywords" content="" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.10.0/katex.min.css">
     <script src="https://cdn.bootcss.com/highlight.js/9.12.0/highlight.min.js"></script>
@@ -78,47 +79,66 @@ pushup的时候最好特判一下p==0，这时..." />
         <div class="post-detail">
           <article class="post">
             <h2 class="post-title">
-              C、Shuffle Cards 区间移位 splay
+              Honorable Mention 平衡树+树状数组
             </h2>
             <div class="post-info">
               <span>
-                2020-12-12
+                2020-12-13
               </span>
               <span>
-                4 min read
+                5 min read
               </span>
               
             </div>
             
             <div class="post-content-wrapper">
               <div class="post-content">
-                <p>一个序列初始为1-n的排列，现在有m次操作，将一个区间移到最前面。<br>
-问所有操作结束后的序列是什么</p>
-<p>突然发现没有写过区间平移的问题，然后去找了一道，然后就调了2小时，很难受。</p>
-<p>罗列一下几个易错点：<br>
-pushup的时候最好特判一下p==0，这时候就直接return，否则总感觉容易出问题<br>
-splay一个不好的地方就是要加哨兵，反正左后各加一个就完事了<br>
-偷懒把取区间写了个split，然后就导致了一个问题（bug根源）<br>
-当要提取的区间是一个空区间就会出现奇奇怪怪的问题（插入和删除的时候需要），因为这时候它会返回0，我就没办法维护我本来需要的返回节点的父亲了。<br>
-所以最好还是不要写split函数了😭</p>
-<p>说一下区间平移怎么做<br>
-其实就是区间插入问题，先把一个区间提取出来，把这个区间删除掉，然后假设这个节点要插入到p（要注意前面这个区间删除带来的影响）节点的后面，那就把p转到根，p+1转到p的儿子，则把刚才提取的区间插到p+1的左儿子就可以了。</p>
+                <p>给定一个排列<span class="katex"><span class="katex-mathml"><math><semantics><mrow><msub><mi>p</mi><mi>i</mi></msub></mrow><annotation encoding="application/x-tex">p_i</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.625em;vertical-align:-0.19444em;"></span><span class="mord"><span class="mord mathdefault">p</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.31166399999999994em;"><span style="top:-2.5500000000000003em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathdefault mtight">i</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span></span></span></span>，表示第i个人的排名，要求支持两种操作：</p>
+<ul>
+<li>第x个人的排名上升到y，显然原来y~rank(x)-1的人的排名就要下降1</li>
+<li>问第x到第y个人中有多少人的排名在后40%</li>
+</ul>
+<p>我们发现第一个操作需要以排名为下标进行维护，而第二个操作又需要以编号为下标进行维护。似乎不太可做。<br>
+但是仔细想想，对于后40%，我们并不关心谁在前谁在后，我们只需要知道哪些人是在后40%<br>
+那么用一个树状数组，以编号为下标维护哪些人是后40%<br>
+然后用一个平衡树，以排名为下标来维护第一个操作。<br>
+当x的排名原先在后40%，然后提升后不再后40%，就需要对树状数组的x-1，然后对原来排名40%的那个在树状数组中+1。然后只需要将x这个节点删掉，再插到排名为y节点的前面就可以了。<br>
+还有一个问题，x的排名怎么求，我们以排名为下标怎么求排名呢。<br>
+容易发现对于每个编号在平衡树中的节点是一一对应的，所以我们用数组保存x是平衡树中的哪个节点，然后把它splay到根，则左儿子的size+1就是排名了。<br>
+最后不要忘记在splay中前后各插入一个哨兵！！</p>
 <pre><code class="language-cpp">#include &lt;bits/stdc++.h&gt;
 using namespace std;
-const int N = 1e5 + 5;
-int n, m;
+const int N = 5e4 + 5;
+int n, q, p[N], rp[N];
+int c[N];
+void upd(int x, int v)
+{
+	for(int i=x; i&lt;=n; i+=(i&amp;-i)) c[i] += v;
+}
+int ask(int x)
+{
+	int ans = 0;
+	for(int i=x; i&gt;0; i-=(i&amp;-i)) ans += c[i];
+	return ans;
+}
 int rt;
-int ch[N][2], sz[N], fa[N], val[N];
+int ch[N][2], sz[N], val[N], fa[N], id[N];
 bool rs(int x) { return ch[fa[x]][1]==x; }
-void up(int x) { if(!x) return; sz[x] = sz[ch[x][0]] + sz[ch[x][1]] + 1; }
-void build(int l, int r, int f)
+void up(int p) { if(p) sz[p] = sz[ch[p][0]] + sz[ch[p][1]] + 1; }
+void bld(int l, int r, int f)
 {
 	if(l&gt;r) return;
 	int p = (l+r)&gt;&gt;1;
-	sz[p] = 1, fa[p] = f, val[p] = p;
-	ch[f][p&gt;f] = p;
+	sz[p] = 1;
+	ch[p][0] = ch[p][1] = 0;
+	if(p&gt;=2&amp;&amp;p&lt;=n+1)
+	{
+		val[p] = rp[p-1];
+		id[rp[p-1]] = p;
+	}
+	fa[p] = f, ch[f][p&gt;f] = p;
 	if(l==r) return;
-	build(l, p-1, p), build(p+1, r, p);
+	bld(l, p-1, p); bld(p+1, r, p);
 	up(p);
 }
 void rotate(int x)
@@ -145,35 +165,60 @@ int kth(int p, int k)
     else if(sz[ch[p][0]]+1==k) return p;
     else return kth(ch[p][1], k-sz[ch[p][0]]-1); 
 }
-void go(int p)
+int rnk(int p)
 {
-	if(!p) return;
-	go(ch[p][0]);
-	if(val[p]&gt;=2 &amp;&amp; val[p]&lt;=n+1) printf(&quot;%d &quot;, val[p]-1); 
-	go(ch[p][1]);
+	splay(p);
+	return sz[ch[p][0]] + 1;
+}
+void ins(int l, int r)
+{
+	int x = kth(rt, l-1), y = kth(rt, l+1);
+	splay(x); splay(y, x);
+	int z = ch[y][0];
+	ch[y][0] = 0; fa[z] = 0;
+	up(y); up(fa[y]);
+	int x2 = kth(rt, r-1), y2 = kth(rt, r);
+	splay(x2); splay(y2, x2);
+	ch[y2][0] = z; fa[z] = y2;
+	up(y2); up(fa[y2]);
+}
+void solve()
+{
+	scanf(&quot;%d&quot;, &amp;n);
+	for(int i=1; i&lt;=n; i++) 
+	{
+		scanf(&quot;%d&quot;, p+i);
+		rp[p[i]] = i;
+	}
+	scanf(&quot;%d&quot;, &amp;q);
+	int lim = n*0.6;
+	for(int i=1; i&lt;=n; i++) c[i] = 0;
+	for(int i=lim+1; i&lt;=n; i++) upd(rp[i], 1);
+	bld(1, n+2, 0);
+	rt = (n+3)&gt;&gt;1;
+	while(q--)
+	{
+		int op, x, y; scanf(&quot;%d%d%d&quot;, &amp;op, &amp;x, &amp;y);
+		if(op==1)
+		{
+			if(y&lt;=lim)
+			{
+				int rkx = rnk(id[x]) - 1;
+				if(rkx&gt;lim)
+				{
+					upd(x, -1);
+					upd(val[kth(rt, lim+1)], 1);
+				}
+				ins(rkx+1, y+1);
+			}
+		}
+		else printf(&quot;%d\n&quot;, ask(y)-ask(x-1));
+	}
 }
 int main()
 {
-	scanf(&quot;%d%d&quot;, &amp;n, &amp;m);
-	build(1, n+2, 0);
-	rt = (n+3)&gt;&gt;1;
-	while(m--)
-	{
-		int a, b; scanf(&quot;%d%d&quot;, &amp;a, &amp;b);
-		++a;
-		int x = kth(rt, 1), y = kth(rt, a);
-		splay(x); splay(y, x);
-		int z = ch[y][0];
-		fa[z] = 0;
-		ch[y][0] = 0;
-		up(y); up(fa[y]); 
-		int tx = kth(rt, b+1), ty = kth(rt, b+2);
-		splay(tx); splay(ty, tx);
-		ch[ty][0] = z;
-		fa[z] = ty;
-	 	up(ty); up(fa[ty]);
-	}
-	go(rt);
+	int _; scanf(&quot;%d&quot;, &amp;_);
+	while(_--) solve();
 	return 0;
 }
 </code></pre>
@@ -189,9 +234,9 @@ int main()
         
           <div class="next-post">
             <div class="next">下一篇</div>
-            <a href="https://jyf111.github.io/post/p2042-noi2005wei-hu-shu-lie/">
+            <a href="https://jyf111.github.io/post/cshuffle-cards-qu-jian-yi-wei-splay/">
               <h3 class="post-title">
-                P2042 [NOI2005]维护数列
+                C、Shuffle Cards 区间移位 splay
               </h3>
             </a>
           </div>
