@@ -2,17 +2,25 @@
   <head>
     <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
-<title>平衡树之替罪羊树 | jyf111</title>
+<title>数据结构模板整合 | jyf111</title>
 <link rel="shortcut icon" href="https://jyf111.github.io/favicon.ico?v=1608131143274">
 <link href="https://cdn.jsdelivr.net/npm/remixicon@2.3.0/fonts/remixicon.css" rel="stylesheet">
 <link rel="stylesheet" href="https://jyf111.github.io/styles/main.css">
-<link rel="alternate" type="application/atom+xml" title="平衡树之替罪羊树 | jyf111 - Atom Feed" href="https://jyf111.github.io/atom.xml">
+<link rel="alternate" type="application/atom+xml" title="数据结构模板整合 | jyf111 - Atom Feed" href="https://jyf111.github.io/atom.xml">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Droid+Serif:400,700">
 
 
 
-    <meta name="description" content="很简单的思路，在每次插入和删除的时候，检查一下左右子树是不是失衡，如果失衡就将整棵子树进行拍扁(中序遍历存到数组)，重构(每次以中心点为当前的根，然后递归左右区间)。
-失衡的判定：当左子树或者右子树的大小超过了整个子树大小的某个比例alph..." />
+    <meta name="description" content="替罪羊树
+维护权值
+const int N = 1e5 + 5;
+const double alpha = 0.7;
+struct node
+{
+	int ls, rs;
+	int val, sz, cnt;
+}t[N];
+int rt, ..." />
     <meta name="keywords" content="" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.10.0/katex.min.css">
     <script src="https://cdn.bootcss.com/highlight.js/9.12.0/highlight.min.js"></script>
@@ -75,36 +83,23 @@
         <div class="post-detail">
           <article class="post">
             <h2 class="post-title">
-              平衡树之替罪羊树
+              数据结构模板整合
             </h2>
             <div class="post-info">
               <span>
-                2020-12-06
+                2020-12-16
               </span>
               <span>
-                5 min read
+                8 min read
               </span>
               
             </div>
             
             <div class="post-content-wrapper">
               <div class="post-content">
-                <p>很简单的思路，在每次插入和删除的时候，检查一下左右子树是不是失衡，如果失衡就将整棵子树进行拍扁(中序遍历存到数组)，重构(每次以中心点为当前的根，然后递归左右区间)。<br>
-失衡的判定：当左子树或者右子树的大小超过了整个子树大小的某个比例alpha（一般定义在0.7~0.8）</p>
-<pre><code class="language-cpp">bool bad(int p) { return t[p].cnt &amp;&amp; t[p].sz*alpha&lt;max(t[t[p].ls].sz, t[t[p].rs].sz); }
-</code></pre>
-<p>几个细节：</p>
-<ul>
-<li>删除的实现采用最简单的惰性删除，找到对应的节点后让cnt--即可，即使等于0也没有关系，因为在拍扁重构的时候可以把等于0的节点直接丢弃掉</li>
-<li>由于插入删除的时候可能需要重构，因此一定要记得传引用</li>
-<li>这种平衡树最大的特点就是好写加常数小(均摊mlogn)</li>
-</ul>
-<p>记住拍扁重构的思想应该就很容易手写了吧</p>
-<p>前驱、后继、第k大、排名其实没必要每个都实现一个函数。只需要实现求第k大，然后求小于x的数的个数以及小于等于x的数的个数即可，只与后两者只有细微的差异，完全可以合并到一个函数中<br>
-洛谷模板p3369开O2 170ms：</p>
-<pre><code class="language-cpp">#include &lt;bits/stdc++.h&gt;
-using namespace std;
-const int N = 1e5 + 5;
+                <h3 id="替罪羊树">替罪羊树</h3>
+<p>维护权值</p>
+<pre><code class="language-cpp">const int N = 1e5 + 5;
 const double alpha = 0.7;
 struct node
 {
@@ -176,27 +171,244 @@ int kth(int p, int k)
 	else if(t[t[p].ls].sz+t[p].cnt&gt;=k) return t[p].val;
 	else return kth(t[p].rs, k-t[p].cnt-t[t[p].ls].sz);
 }
-int main()
+</code></pre>
+<h3 id="fhq-treap">fhq treap</h3>
+<p>维护区间的（按size分裂），带有up、down以及fa的维护</p>
+<pre><code class="language-cpp">int rt, tot;
+int rnd() { return rand()&lt;&lt;15|rand(); }
+struct node
 {
-	int n; scanf(&quot;%d&quot;, &amp;n);
-	while(n--)
-	{
-		int t, x;
-		scanf(&quot;%d%d&quot;, &amp;t, &amp;x);
-        if(t==1) ins(rt, x);
-        else if(t==2) del(rt, x);
-        else if(t==3) printf(&quot;%d\n&quot;, Less(rt, x, 0)+1);
-        else if(t==4) printf(&quot;%d\n&quot;, kth(rt, x));
-        else if(t==5) printf(&quot;%d\n&quot;, kth(rt, Less(rt, x, 0)));
-        else printf(&quot;%d\n&quot;, kth(rt, Less(rt, x, 1)+1));
+	int ls, rs;
+	int fa, key, sz;
+}t[N];
+int newnode(int c)
+{
+	int p = ++tot;
+	t[p].ls = t[p].rs = t[p].fa = 0;
+	t[p].key = rnd();
+	t[p].sz = 1;
+	return p;
+}
+void up(int p)
+{
+	t[p].sz = t[t[p].ls].sz + t[t[p].rs].sz + 1;
+}
+void down(int p)
+{
+}
+void split(int p, int &amp;x, int &amp;y, int k, int fx=0, int fy=0)
+{
+	if(!p) { x = y = 0; return; }
+	down(p);
+	if(k&lt;=t[t[p].ls].sz) 
+	{ 
+		y = p; 
+		split(t[p].ls, x, t[p].ls, k, fx, p); 
 	}
-	return 0;
+	else 
+	{ 
+		x = p; 
+		split(t[p].rs, t[p].rs, y, k-t[t[p].ls].sz-1, p, fy); 
+	}
+	if(x) t[x].fa = fx;
+	if(y) t[y].fa = fy;
+	up(p);
+}
+void merge(int &amp;p, int x, int y)
+{
+	if(!x||!y) { p = x|y; return; }
+	if(t[x].key&lt;t[y].key)
+	{
+		down(x);
+		p = x;
+		merge(t[p].rs, t[p].rs, y);
+		t[t[p].rs].fa = p;
+	}
+	else
+	{
+		down(y);
+		p = y;
+		merge(t[p].ls, x, t[p].ls);
+		t[t[p].ls].fa = p;
+	}
+	up(p);
+}
+void downall(int p)
+{
+	if(!p) return;
+	downall(t[p].fa);
+	down(p);
+}
+int get(int p)
+{
+	downall(p);
+	int rk = t[t[p].ls].sz + 1;
+	while(t[p].fa)
+	{
+		if(t[t[p].fa].rs==p) rk += t[t[p].fa].sz - t[p].sz;
+		p = t[p].fa;
+	}
+	return rk;
+}
+int kth(int p, int k)
+{
+	down(p);
+	if(k&lt;=t[t[p].ls].sz) return kth(t[p].ls, k);
+	else if(k==t[t[p].ls].sz+1) return t[p].c;
+	else return kth(t[p].rs, k-t[t[p].ls].sz-1);
+}
+</code></pre>
+<h3 id="splay">splay</h3>
+<p>维护区间，注意及时up，只需要在kth中down即可</p>
+<pre><code class="language-cpp">int rt;
+int ch[N][2], sz[N], fa[N];
+bool rs(int x) { return ch[fa[x]][1]==x; }
+void up(int p) 
+{
+	if(!p) return;
+	int l = ch[p][0], r = ch[p][1];
+}
+void down(int p)
+{
+}
+void build(int l, int r, int f)
+{
+	if(l&gt;r) return;
+	int p = (l+r)&gt;&gt;1;
+	sz[p] = 1, fa[p] = f, ch[f][p&gt;f] = p;
+	if(l==r) return;
+	build(l, p-1, p); build(p+1, r, p);
+	up(p);
+}
+void rotate(int x)
+{
+    int y = fa[x], z = fa[y], k = rs(x), w = ch[x][k^1];
+    ch[y][k] = w; fa[w] = y;
+    ch[z][rs(y)] = x; fa[x] = z;
+    ch[x][k^1] = y; fa[y] = x;
+    up(y); up(x);
+}
+void splay(int x, int g=0)
+{
+    while(fa[x]!=g)
+    {
+        int y = fa[x];
+        if(fa[y]!=g) (rs(x)==rs(y) ? rotate(y) : rotate(x));
+        rotate(x);
+    }
+    if(!g) rt = x;
+}
+int kth(int p, int k)
+{
+    down(p);
+    if(ch[p][0]&amp;&amp;sz[ch[p][0]]&gt;=k) return kth(ch[p][0], k);
+    else if(sz[ch[p][0]]+1==k) return p;
+    else return kth(ch[p][1], k-sz[ch[p][0]]-1); 
+}
+int split(int l, int r)
+{
+	int x = kth(rt, l-1), y = kth(rt, r+1);
+	splay(x); splay(y, x);
+	return ch[y][0];
+}
+</code></pre>
+<h3 id="lct">LCT</h3>
+<p>维护边权：拆点<br>
+维护边双：每次加边，如果两端点已经连通，则用并查集缩起来，然后在access的时候，x=fa[x]=find(fa[x])</p>
+<pre><code class="language-cpp">int ch[N][2], fa[N], rev[N];
+bool rs(int x) { return ch[fa[x]][1]==x; }
+int notrt(int x) { return ch[fa[x]][0]==x || ch[fa[x]][1]==x; }
+void up(int x) 
+{ 
+}
+void reverse(int x)
+{
+	swap(ch[x][0], ch[x][1]);
+	rev[x] ^= 1;
+}
+void down(int x)
+{
+	if(rev[x])
+	{
+		if(ch[x][0]) reverse(ch[x][0]);
+		if(ch[x][1]) reverse(ch[x][1]);
+		rev[x] = 0;
+	}
+}
+void pushall(int x)
+{
+	if(notrt(x)) pushall(fa[x]);
+	down(x);
+}
+void rotate(int x)
+{
+	int y = fa[x], z = fa[y], k = rs(x);
+    if(notrt(y)) ch[z][ch[z][1]==y] = x;
+    ch[y][k] = ch[x][!k]; fa[ch[x][!k]] = y;
+    ch[x][!k] = y, fa[y] = x, fa[x] = z;
+    up(y), up(x), up(z);
+}
+void splay(int x)
+{
+	pushall(x);
+	for(int f=fa[x]; f=fa[x], notrt(x); rotate(x))
+		if(notrt(f)) rotate(rs(x) == rs(f) ? f : x);
+}
+void access(int x)
+{
+	for(int y=0; x; y=x, x=fa[x])
+		splay(x), ch[x][1] = y, up(x);
+}
+void makert(int x)
+{
+	access(x); splay(x);
+	reverse(x);
+}
+int findrt(int x)
+{
+	access(x); splay(x);
+	while(ch[x][0]) down(x), x = ch[x][0];
+	splay(x);
+	return x;
+}
+void split(int x, int y)
+{
+	makert(x);
+	access(y); splay(y);
+}
+void link(int x, int y)
+{
+	makert(x);
+	if(findrt(y)!=x) fa[x] = y;
+}
+void cut(int x,int y)
+{
+	makert(x);
+	if(findrt(y)==x&amp;&amp;fa[y]==x&amp;&amp;!ch[y][0])
+	{
+		fa[y] = ch[x][1] = 0;
+		up(x);
+	}
 }
 </code></pre>
 
               </div>
               <div class="toc-container">
-                
+                <ul class="markdownIt-TOC">
+<li>
+<ul>
+<li>
+<ul>
+<li><a href="#%E6%9B%BF%E7%BD%AA%E7%BE%8A%E6%A0%91">替罪羊树</a></li>
+<li><a href="#fhq-treap">fhq treap</a></li>
+<li><a href="#splay">splay</a></li>
+<li><a href="#lct">LCT</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
               </div>
             </div>
           </article>
@@ -205,9 +417,9 @@ int main()
         
           <div class="next-post">
             <div class="next">下一篇</div>
-            <a href="https://jyf111.github.io/post/ecpc-2019-kickoff/">
+            <a href="https://jyf111.github.io/post/rope-kuai-zhuang-lian-biao-shi-xian-de-stl-rong-qi/">
               <h3 class="post-title">
-                ECPC 2019 Kickoff
+                rope 块状链表实现的STL容器
               </h3>
             </a>
           </div>
