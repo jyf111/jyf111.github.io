@@ -2,7 +2,7 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
     <id>https://jyf111.github.io</id>
     <title>jyf111</title>
-    <updated>2020-12-16T15:05:46.675Z</updated>
+    <updated>2020-12-22T14:55:03.602Z</updated>
     <generator>https://github.com/jpmonette/feed</generator>
     <link rel="alternate" href="https://jyf111.github.io"/>
     <link rel="self" href="https://jyf111.github.io/atom.xml"/>
@@ -10,6 +10,38 @@
     <logo>https://jyf111.github.io/images/avatar.png</logo>
     <icon>https://jyf111.github.io/favicon.ico</icon>
     <rights>All rights reserved 2020, jyf111</rights>
+    <entry>
+        <title type="html"><![CDATA[牛客练习赛74]]></title>
+        <id>https://jyf111.github.io/post/niu-ke-lian-xi-sai-74/</id>
+        <link href="https://jyf111.github.io/post/niu-ke-lian-xi-sai-74/">
+        </link>
+        <updated>2020-12-22T13:10:41.000Z</updated>
+        <content type="html"><![CDATA[<p>ABCD都很一眼</p>
+<h3 id="e">E</h3>
+<p>看到题也想到思路了，然而写法复杂了，加上写错一个地方，再加上出题人数据范围不给下限，正整数包含0可还行，写了一个多小时<br>
+给定一个联通简单无向图，定义一种操作是，随机选择两个不同的点，将他们之间最短路径上的所有点都变成黑色，问你操作k次后黑色点的个数的期望<br>
+<span class="katex"><span class="katex-mathml"><math><semantics><mrow><mi>n</mi><mo>≤</mo><mn>500</mn></mrow><annotation encoding="application/x-tex">n \leq 500</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.7719400000000001em;vertical-align:-0.13597em;"></span><span class="mord mathdefault">n</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span><span class="mrel">≤</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span></span><span class="base"><span class="strut" style="height:0.64444em;vertical-align:0em;"></span><span class="mord">5</span><span class="mord">0</span><span class="mord">0</span></span></span></span><br>
+思路很简单，考虑每个点变黑的概率是多少，一次操作变黑，就是枚举有多少对点，它们之间存在一条最短路经过该点。然后这题就没了<br>
+先跑一遍floyd，然后枚举i,j,k，如果<span class="katex"><span class="katex-mathml"><math><semantics><mrow><msub><mi>d</mi><mrow><mi>i</mi><mi>k</mi></mrow></msub><mo>+</mo><msub><mi>d</mi><mrow><mi>k</mi><mi>j</mi></mrow></msub><mo>=</mo><msub><mi>d</mi><mrow><mi>i</mi><mi>j</mi></mrow></msub></mrow><annotation encoding="application/x-tex">d_{ik}+d_{kj}=d_{ij}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.84444em;vertical-align:-0.15em;"></span><span class="mord"><span class="mord mathdefault">d</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.33610799999999996em;"><span style="top:-2.5500000000000003em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathdefault mtight">i</span><span class="mord mathdefault mtight" style="margin-right:0.03148em;">k</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mspace" style="margin-right:0.2222222222222222em;"></span><span class="mbin">+</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span></span><span class="base"><span class="strut" style="height:0.980548em;vertical-align:-0.286108em;"></span><span class="mord"><span class="mord mathdefault">d</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.3361079999999999em;"><span style="top:-2.5500000000000003em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathdefault mtight" style="margin-right:0.03148em;">k</span><span class="mord mathdefault mtight" style="margin-right:0.05724em;">j</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.286108em;"><span></span></span></span></span></span></span><span class="mspace" style="margin-right:0.2777777777777778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span></span><span class="base"><span class="strut" style="height:0.980548em;vertical-align:-0.286108em;"></span><span class="mord"><span class="mord mathdefault">d</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.311664em;"><span style="top:-2.5500000000000003em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathdefault mtight">i</span><span class="mord mathdefault mtight" style="margin-right:0.05724em;">j</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.286108em;"><span></span></span></span></span></span></span></span></span></span>，说明i和j的最短路中有k<br>
+我写复杂了，考虑以每个点为根的最短路径图，固定选根，那么要让第i个点变黑，就必须选择第i个点的后继可达点（最短路径图是个DAG，拓扑排序+bitset，复杂度其实有点炸，不过题目数据w存在0，这时候就不是DAG了，这做法就挂了）<br>
+另外我竟然在初始化时写出</p>
+<pre><code class="language-cpp">G[i][j] = (i^j)*inf
+</code></pre>
+<p>没多想把i!=j改成了i^j，蠢了</p>
+<h3 id="f">F</h3>
+<p>一个n个节点的树，对其染至多m种颜色，定义一颗树是好的，当且仅当存在一条链使得端点是同色，且除端点外存在一个点与端点不同色。问染色方案数的期望（树的形态任意）<br>
+<span class="katex"><span class="katex-mathml"><math><semantics><mrow><mi>n</mi><mo>≤</mo><mn>1</mn><msup><mn>0</mn><mn>7</mn></msup><mi>m</mi><mo>≤</mo><mn>1</mn><msup><mn>0</mn><mn>7</mn></msup></mrow><annotation encoding="application/x-tex">n \leq 10^7 m \leq 10^7</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.7719400000000001em;vertical-align:-0.13597em;"></span><span class="mord mathdefault">n</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span><span class="mrel">≤</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span></span><span class="base"><span class="strut" style="height:0.950078em;vertical-align:-0.13597em;"></span><span class="mord">1</span><span class="mord"><span class="mord">0</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.8141079999999999em;"><span style="top:-3.063em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight">7</span></span></span></span></span></span></span></span><span class="mord mathdefault">m</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span><span class="mrel">≤</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span></span><span class="base"><span class="strut" style="height:0.8141079999999999em;vertical-align:0em;"></span><span class="mord">1</span><span class="mord"><span class="mord">0</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.8141079999999999em;"><span style="top:-3.063em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight">7</span></span></span></span></span></span></span></span></span></span></span><br>
+存在问题转成反问题，每条链都不合法，要么整条链同色，要么都不同色，<s>然后就不会了</s><br>
+按照dfs序来dp<br>
+<span class="katex"><span class="katex-mathml"><math><semantics><mrow><mi>d</mi><msub><mi>p</mi><mrow><mi>i</mi><mi>j</mi></mrow></msub></mrow><annotation encoding="application/x-tex">dp_{ij}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.980548em;vertical-align:-0.286108em;"></span><span class="mord mathdefault">d</span><span class="mord"><span class="mord mathdefault">p</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.311664em;"><span style="top:-2.5500000000000003em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathdefault mtight">i</span><span class="mord mathdefault mtight" style="margin-right:0.05724em;">j</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.286108em;"><span></span></span></span></span></span></span></span></span></span>表示考虑到dfs序为i的点时，已经染了j种颜色，且整棵树不合法<br>
+则<span class="katex"><span class="katex-mathml"><math><semantics><mrow><mi>d</mi><msub><mi>p</mi><mrow><mi>i</mi><mi>j</mi></mrow></msub><mo>=</mo><mi>d</mi><msub><mi>p</mi><mrow><mi>i</mi><mo>−</mo><mn>1</mn><mi>j</mi></mrow></msub><mo>+</mo><mi>d</mi><msub><mi>p</mi><mrow><mi>i</mi><mo>−</mo><mn>1</mn><mi>j</mi><mo>−</mo><mn>1</mn></mrow></msub><mo>(</mo><mi>m</mi><mo>−</mo><mi>j</mi><mo>+</mo><mn>1</mn><mo>)</mo></mrow><annotation encoding="application/x-tex">dp_{ij} = dp_{i-1j} + dp_{i-1j-1}(m-j+1)</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.980548em;vertical-align:-0.286108em;"></span><span class="mord mathdefault">d</span><span class="mord"><span class="mord mathdefault">p</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.311664em;"><span style="top:-2.5500000000000003em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathdefault mtight">i</span><span class="mord mathdefault mtight" style="margin-right:0.05724em;">j</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.286108em;"><span></span></span></span></span></span></span><span class="mspace" style="margin-right:0.2777777777777778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span></span><span class="base"><span class="strut" style="height:0.980548em;vertical-align:-0.286108em;"></span><span class="mord mathdefault">d</span><span class="mord"><span class="mord mathdefault">p</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.311664em;"><span style="top:-2.5500000000000003em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathdefault mtight">i</span><span class="mbin mtight">−</span><span class="mord mtight">1</span><span class="mord mathdefault mtight" style="margin-right:0.05724em;">j</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.286108em;"><span></span></span></span></span></span></span><span class="mspace" style="margin-right:0.2222222222222222em;"></span><span class="mbin">+</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span></span><span class="base"><span class="strut" style="height:1.036108em;vertical-align:-0.286108em;"></span><span class="mord mathdefault">d</span><span class="mord"><span class="mord mathdefault">p</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.311664em;"><span style="top:-2.5500000000000003em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathdefault mtight">i</span><span class="mbin mtight">−</span><span class="mord mtight">1</span><span class="mord mathdefault mtight" style="margin-right:0.05724em;">j</span><span class="mbin mtight">−</span><span class="mord mtight">1</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.286108em;"><span></span></span></span></span></span></span><span class="mopen">(</span><span class="mord mathdefault">m</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span><span class="mbin">−</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span></span><span class="base"><span class="strut" style="height:0.85396em;vertical-align:-0.19444em;"></span><span class="mord mathdefault" style="margin-right:0.05724em;">j</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span><span class="mbin">+</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span></span><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord">1</span><span class="mclose">)</span></span></span></span><br>
+要么和父亲同色，要么选择一种没出现过的颜色<br>
+容易发现所有形态树的染色方案树是相同的，所以答案等价于求一棵树的染色方案数<br>
+考虑这个式子的组合意义，就是i个有标号球，m个有标号盒子，然后放入其中的j个的方案数<br>
+可以直接求出来是<span class="katex"><span class="katex-mathml"><math><semantics><mrow><mi>j</mi><mo>!</mo><mrow><mo fence="true">(</mo><mfrac linethickness="0px"><mi>m</mi><mi>j</mi></mfrac><mo fence="true">)</mo></mrow><mrow><mo fence="true">(</mo><mfrac linethickness="0px"><mrow><mi>i</mi><mo>−</mo><mn>1</mn></mrow><mrow><mi>j</mi><mo>−</mo><mn>1</mn></mrow></mfrac><mo fence="true">)</mo></mrow></mrow><annotation encoding="application/x-tex">j!\binom{m}{j}\binom{i-1}{j-1}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1.3867720000000001em;vertical-align:-0.481108em;"></span><span class="mord mathdefault" style="margin-right:0.05724em;">j</span><span class="mclose">!</span><span class="mord"><span class="mopen delimcenter" style="top:0em;"><span class="delimsizing size1">(</span></span><span class="mfrac"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.745392em;"><span style="top:-2.3550000000000004em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathdefault mtight" style="margin-right:0.05724em;">j</span></span></span></span><span style="top:-3.144em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathdefault mtight">m</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.481108em;"><span></span></span></span></span></span><span class="mclose delimcenter" style="top:0em;"><span class="delimsizing size1">)</span></span></span><span class="mord"><span class="mopen delimcenter" style="top:0em;"><span class="delimsizing size1">(</span></span><span class="mfrac"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.905664em;"><span style="top:-2.3550000000000004em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathdefault mtight" style="margin-right:0.05724em;">j</span><span class="mbin mtight">−</span><span class="mord mtight">1</span></span></span></span><span style="top:-3.144em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathdefault mtight">i</span><span class="mbin mtight">−</span><span class="mord mtight">1</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.481108em;"><span></span></span></span></span></span><span class="mclose delimcenter" style="top:0em;"><span class="delimsizing size1">)</span></span></span></span></span></span>先从m个盒子里选j个，然后这j个任意排列，之后就是个隔板法了<br>
+最后的答案就是<span class="katex"><span class="katex-mathml"><math><semantics><mrow><msup><mi>m</mi><mi>n</mi></msup><mo>−</mo><msubsup><mo>∑</mo><mrow><mi>i</mi><mo>=</mo><mn>1</mn></mrow><mi>m</mi></msubsup><mi>d</mi><msub><mi>p</mi><mrow><mi>n</mi><mi>i</mi></mrow></msub></mrow><annotation encoding="application/x-tex">m^n - \sum_{i=1}^m dp_{ni}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.747722em;vertical-align:-0.08333em;"></span><span class="mord"><span class="mord mathdefault">m</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.664392em;"><span style="top:-3.063em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathdefault mtight">n</span></span></span></span></span></span></span></span><span class="mspace" style="margin-right:0.2222222222222222em;"></span><span class="mbin">−</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span></span><span class="base"><span class="strut" style="height:1.104002em;vertical-align:-0.29971000000000003em;"></span><span class="mop"><span class="mop op-symbol small-op" style="position:relative;top:-0.0000050000000000050004em;">∑</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.804292em;"><span style="top:-2.40029em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathdefault mtight">i</span><span class="mrel mtight">=</span><span class="mord mtight">1</span></span></span></span><span style="top:-3.2029em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathdefault mtight">m</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.29971000000000003em;"><span></span></span></span></span></span></span><span class="mspace" style="margin-right:0.16666666666666666em;"></span><span class="mord mathdefault">d</span><span class="mord"><span class="mord mathdefault">p</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.31166399999999994em;"><span style="top:-2.5500000000000003em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathdefault mtight">n</span><span class="mord mathdefault mtight">i</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span></span></span></span></p>
+]]></content>
+    </entry>
     <entry>
         <title type="html"><![CDATA[数据结构模板整合]]></title>
         <id>https://jyf111.github.io/post/shu-ju-jie-gou-mo-ban-zheng-he/</id>
@@ -300,7 +332,7 @@ void link(int x, int y)
 	makert(x);
 	if(findrt(y)!=x) fa[x] = y;
 }
-void cut(int x,int y)
+void cut(int x, int y)
 {
 	makert(x);
 	if(findrt(y)==x&amp;&amp;fa[y]==x&amp;&amp;!ch[y][0])
@@ -309,6 +341,75 @@ void cut(int x,int y)
 		up(x);
 	}
 }
+</code></pre>
+<p>哈希表</p>
+<pre><code class="language-cpp">const int M = 2174729;
+struct HashTable 
+{
+	struct node { int next, v; ull k; }e[M+5];
+	int head[M], st[N], tp, sz;
+	int f(ull k) { return k % M; }
+	void clear() { sz = 0; while(tp) head[st[tp--]] = 0; }
+	int get(ull k) 
+	{
+		int t = f(k);
+		for(int p = head[t]; p; p = e[p].next)
+			if(e[p].k==k) return e[p].v;
+		++sz; 
+		e[sz] = {head[t], sz, k};
+		head[t] = sz; st[++tp] = t;
+		return sz;
+	}
+};
+</code></pre>
+<p>哈希set</p>
+<pre><code class="language-cpp">struct HashSet
+{
+	struct node { int next; ull k; }e[M+5];
+	int head[M], st[N], tp, sz;
+	int f(ull k) { return k % M; }
+	void clear() { sz = 0; while(tp) head[st[tp--]] = 0; }
+	bool get(ull k) 
+	{
+		for(int p = head[f(k)]; p; p = e[p].next)
+			if(e[p].k==k) return true;
+		return false;
+	}
+	void ins(ull k)
+	{
+		if(get(k)) return;
+		int t = f(k);
+		e[++sz] = {head[t], k};
+		head[t] = sz; st[++tp] = t;
+	}
+};
+</code></pre>
+<p>gp_hash</p>
+<pre><code class="language-cpp">#include &lt;ext/pb_ds/assoc_container.hpp&gt;
+using namespace __gnu_pbds;
+struct custom_hash {
+    size_t operator()(uint64_t x) const {
+        static const uint64_t FIXED_RANDOM = chrono::steady_clock::now().time_since_epoch().count();
+        return x + FIXED_RANDOM;
+    }
+};
+struct custom_hash {
+    static uint64_t splitmix64(uint64_t x) {
+        // http://xorshift.di.unimi.it/splitmix64.c
+        x += 0x9e3779b97f4a7c15;
+        x = (x ^ (x &gt;&gt; 30)) * 0xbf58476d1ce4e5b9;
+        x = (x ^ (x &gt;&gt; 27)) * 0x94d049bb133111eb;
+        return x ^ (x &gt;&gt; 31);
+    }
+
+    size_t operator()(uint64_t x) const {
+        static const uint64_t FIXED_RANDOM = chrono::steady_clock::now().time_since_epoch().count();
+        return splitmix64(x + FIXED_RANDOM);
+    }
+};
+gp_hash_table&lt;ull, int, custom_hash&gt;
+gp_hash_table&lt;ull, bool&gt;
+gp_hash_table&lt;ull, null_type&gt;
 </code></pre>
 ]]></content>
     </entry>
@@ -1497,118 +1598,6 @@ void merge(int &amp;p, int x, int y)
 		p = t[p].fa;
 	}
 	return make_pair(p, rk);
-}
-</code></pre>
-]]></content>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[平衡树之替罪羊树]]></title>
-        <id>https://jyf111.github.io/post/ping-heng-shu-zhi-ti-zui-yang-shu/</id>
-        <link href="https://jyf111.github.io/post/ping-heng-shu-zhi-ti-zui-yang-shu/">
-        </link>
-        <updated>2020-12-06T12:13:21.000Z</updated>
-        <content type="html"><![CDATA[<p>很简单的思路，在每次插入和删除的时候，检查一下左右子树是不是失衡，如果失衡就将整棵子树进行拍扁(中序遍历存到数组)，重构(每次以中心点为当前的根，然后递归左右区间)。<br>
-失衡的判定：当左子树或者右子树的大小超过了整个子树大小的某个比例alpha（一般定义在0.7~0.8）</p>
-<pre><code class="language-cpp">bool bad(int p) { return t[p].cnt &amp;&amp; t[p].sz*alpha&lt;max(t[t[p].ls].sz, t[t[p].rs].sz); }
-</code></pre>
-<p>几个细节：</p>
-<ul>
-<li>删除的实现采用最简单的惰性删除，找到对应的节点后让cnt--即可，即使等于0也没有关系，因为在拍扁重构的时候可以把等于0的节点直接丢弃掉</li>
-<li>由于插入删除的时候可能需要重构，因此一定要记得传引用</li>
-<li>这种平衡树最大的特点就是好写加常数小(均摊mlogn)</li>
-</ul>
-<p>记住拍扁重构的思想应该就很容易手写了吧</p>
-<p>前驱、后继、第k大、排名其实没必要每个都实现一个函数。只需要实现求第k大，然后求小于x的数的个数以及小于等于x的数的个数即可，只与后两者只有细微的差异，完全可以合并到一个函数中<br>
-洛谷模板p3369开O2 170ms：</p>
-<pre><code class="language-cpp">#include &lt;bits/stdc++.h&gt;
-using namespace std;
-const int N = 1e5 + 5;
-const double alpha = 0.7;
-struct node
-{
-	int ls, rs;
-	int val, sz, cnt;
-}t[N];
-int rt, tot;
-void up(int p) { t[p].sz = t[t[p].ls].sz + t[t[p].rs].sz + t[p].cnt; }
-bool bad(int p) { return t[p].cnt &amp;&amp; t[p].sz*alpha&lt;max(t[t[p].ls].sz, t[t[p].rs].sz); }
-int ord[N], top;
-void dfs(int p)
-{
-	if(!p) return;
-	dfs(t[p].ls);
-	if(t[p].cnt) ord[++top] = p;
-	dfs(t[p].rs);
-}
-int build(int l, int r)
-{
-	if(l&gt;r) return 0;
-	int mid = (l+r)&gt;&gt;1, p = ord[mid];
-	t[p].ls = build(l, mid-1);
-	t[p].rs = build(mid+1, r);
-	up(p); 
-	return p;
-}
-void rebuild(int &amp;p)
-{
-	top = 0;
-	dfs(p);
-	p = build(1, top);
-}
-void newnode(int &amp;p, int v)
-{
-	p = ++tot;
-	t[p].val = v, t[p].ls = t[p].rs = 0;
-	t[p].cnt = t[p].sz = 1;
-}
-void ins(int &amp;p, int v)
-{
-	if(!p) newnode(p, v);
-	else
-	{
-		if(v==t[p].val) t[p].cnt++;
-		else if(v&lt;t[p].val) ins(t[p].ls, v);
-		else ins(t[p].rs, v);
-		up(p);
-		if(bad(p)) rebuild(p);
-	}
-}
-void del(int &amp;p, int v)
-{
-	if(v==t[p].val) t[p].cnt--;
-	else if(v&lt;t[p].val) del(t[p].ls, v);
-	else del(t[p].rs, v);
-	up(p);
-	if(bad(p)) rebuild(p);
-}
-int Less(int p, int v, bool eq)
-{
-	if(!p) return 0;
-	if(t[p].cnt&amp;&amp;v==t[p].val) return t[t[p].ls].sz + t[p].cnt*eq;
-	else if(v&lt;t[p].val) return Less(t[p].ls, v, eq);
-	else return t[t[p].ls].sz + t[p].cnt + Less(t[p].rs, v, eq);
-}
-int kth(int p, int k)
-{
-	if(k&lt;=t[t[p].ls].sz) return kth(t[p].ls, k);
-	else if(t[t[p].ls].sz+t[p].cnt&gt;=k) return t[p].val;
-	else return kth(t[p].rs, k-t[p].cnt-t[t[p].ls].sz);
-}
-int main()
-{
-	int n; scanf(&quot;%d&quot;, &amp;n);
-	while(n--)
-	{
-		int t, x;
-		scanf(&quot;%d%d&quot;, &amp;t, &amp;x);
-        if(t==1) ins(rt, x);
-        else if(t==2) del(rt, x);
-        else if(t==3) printf(&quot;%d\n&quot;, Less(rt, x, 0)+1);
-        else if(t==4) printf(&quot;%d\n&quot;, kth(rt, x));
-        else if(t==5) printf(&quot;%d\n&quot;, kth(rt, Less(rt, x, 0)));
-        else printf(&quot;%d\n&quot;, kth(rt, Less(rt, x, 1)+1));
-	}
-	return 0;
 }
 </code></pre>
 ]]></content>

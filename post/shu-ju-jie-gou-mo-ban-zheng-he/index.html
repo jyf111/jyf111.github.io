@@ -3,7 +3,7 @@
     <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>数据结构模板整合 | jyf111</title>
-<link rel="shortcut icon" href="https://jyf111.github.io/favicon.ico?v=1608131143274">
+<link rel="shortcut icon" href="https://jyf111.github.io/favicon.ico?v=1608648866845">
 <link href="https://cdn.jsdelivr.net/npm/remixicon@2.3.0/fonts/remixicon.css" rel="stylesheet">
 <link rel="stylesheet" href="https://jyf111.github.io/styles/main.css">
 <link rel="alternate" type="application/atom+xml" title="数据结构模板整合 | jyf111 - Atom Feed" href="https://jyf111.github.io/atom.xml">
@@ -30,7 +30,7 @@ int rt, ..." />
       <div class="main-content">
         <div class="site-header">
   <a href="https://jyf111.github.io">
-  <img class="avatar" src="https://jyf111.github.io/images/avatar.png?v=1608131143274" alt="">
+  <img class="avatar" src="https://jyf111.github.io/images/avatar.png?v=1608648866845" alt="">
   </a>
   <h1 class="site-title">
     jyf111
@@ -90,7 +90,7 @@ int rt, ..." />
                 2020-12-16
               </span>
               <span>
-                8 min read
+                10 min read
               </span>
               
             </div>
@@ -381,7 +381,7 @@ void link(int x, int y)
 	makert(x);
 	if(findrt(y)!=x) fa[x] = y;
 }
-void cut(int x,int y)
+void cut(int x, int y)
 {
 	makert(x);
 	if(findrt(y)==x&amp;&amp;fa[y]==x&amp;&amp;!ch[y][0])
@@ -390,6 +390,75 @@ void cut(int x,int y)
 		up(x);
 	}
 }
+</code></pre>
+<p>哈希表</p>
+<pre><code class="language-cpp">const int M = 2174729;
+struct HashTable 
+{
+	struct node { int next, v; ull k; }e[M+5];
+	int head[M], st[N], tp, sz;
+	int f(ull k) { return k % M; }
+	void clear() { sz = 0; while(tp) head[st[tp--]] = 0; }
+	int get(ull k) 
+	{
+		int t = f(k);
+		for(int p = head[t]; p; p = e[p].next)
+			if(e[p].k==k) return e[p].v;
+		++sz; 
+		e[sz] = {head[t], sz, k};
+		head[t] = sz; st[++tp] = t;
+		return sz;
+	}
+};
+</code></pre>
+<p>哈希set</p>
+<pre><code class="language-cpp">struct HashSet
+{
+	struct node { int next; ull k; }e[M+5];
+	int head[M], st[N], tp, sz;
+	int f(ull k) { return k % M; }
+	void clear() { sz = 0; while(tp) head[st[tp--]] = 0; }
+	bool get(ull k) 
+	{
+		for(int p = head[f(k)]; p; p = e[p].next)
+			if(e[p].k==k) return true;
+		return false;
+	}
+	void ins(ull k)
+	{
+		if(get(k)) return;
+		int t = f(k);
+		e[++sz] = {head[t], k};
+		head[t] = sz; st[++tp] = t;
+	}
+};
+</code></pre>
+<p>gp_hash</p>
+<pre><code class="language-cpp">#include &lt;ext/pb_ds/assoc_container.hpp&gt;
+using namespace __gnu_pbds;
+struct custom_hash {
+    size_t operator()(uint64_t x) const {
+        static const uint64_t FIXED_RANDOM = chrono::steady_clock::now().time_since_epoch().count();
+        return x + FIXED_RANDOM;
+    }
+};
+struct custom_hash {
+    static uint64_t splitmix64(uint64_t x) {
+        // http://xorshift.di.unimi.it/splitmix64.c
+        x += 0x9e3779b97f4a7c15;
+        x = (x ^ (x &gt;&gt; 30)) * 0xbf58476d1ce4e5b9;
+        x = (x ^ (x &gt;&gt; 27)) * 0x94d049bb133111eb;
+        return x ^ (x &gt;&gt; 31);
+    }
+
+    size_t operator()(uint64_t x) const {
+        static const uint64_t FIXED_RANDOM = chrono::steady_clock::now().time_since_epoch().count();
+        return splitmix64(x + FIXED_RANDOM);
+    }
+};
+gp_hash_table&lt;ull, int, custom_hash&gt;
+gp_hash_table&lt;ull, bool&gt;
+gp_hash_table&lt;ull, null_type&gt;
 </code></pre>
 
               </div>
