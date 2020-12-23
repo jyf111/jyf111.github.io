@@ -3,7 +3,7 @@
     <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>数据结构模板整合 | jyf111</title>
-<link rel="shortcut icon" href="https://jyf111.github.io/favicon.ico?v=1608648866845">
+<link rel="shortcut icon" href="https://jyf111.github.io/favicon.ico?v=1608737678566">
 <link href="https://cdn.jsdelivr.net/npm/remixicon@2.3.0/fonts/remixicon.css" rel="stylesheet">
 <link rel="stylesheet" href="https://jyf111.github.io/styles/main.css">
 <link rel="alternate" type="application/atom+xml" title="数据结构模板整合 | jyf111 - Atom Feed" href="https://jyf111.github.io/atom.xml">
@@ -30,7 +30,7 @@ int rt, ..." />
       <div class="main-content">
         <div class="site-header">
   <a href="https://jyf111.github.io">
-  <img class="avatar" src="https://jyf111.github.io/images/avatar.png?v=1608648866845" alt="">
+  <img class="avatar" src="https://jyf111.github.io/images/avatar.png?v=1608737678566" alt="">
   </a>
   <h1 class="site-title">
     jyf111
@@ -90,7 +90,7 @@ int rt, ..." />
                 2020-12-16
               </span>
               <span>
-                10 min read
+                13 min read
               </span>
               
             </div>
@@ -459,6 +459,71 @@ struct custom_hash {
 gp_hash_table&lt;ull, int, custom_hash&gt;
 gp_hash_table&lt;ull, bool&gt;
 gp_hash_table&lt;ull, null_type&gt;
+</code></pre>
+<p>bitset压位(64位和32位速度差不多)</p>
+<pre><code class="language-cpp">struct Bitset
+{
+	using uint = uint32_t;
+	static const int B = 32;
+	static const uint up = numeric_limits&lt;uint&gt;::max(); 
+	vector&lt;uint&gt; b; int sz;
+	Bitset(int _sz=0) { sz = _sz; b.resize((sz+B-1)/B, 0); }
+	Bitset operator | (const Bitset &amp;oth) const
+	{
+		Bitset res(sz);
+		int i;
+		for(i=0; i+3&lt;(int)b.size(); i+=4)
+		{
+			res.b[i] = b[i] | oth.b[i];
+			res.b[i+1] = b[i+1] | oth.b[i+1];
+			res.b[i+2] = b[i+2] | oth.b[i+2];
+			res.b[i+3] = b[i+3] | oth.b[i+3];
+		}
+		while(i&lt;(int)b.size()) 
+			res.b[i] = b[i] | oth.b[i], i++;
+		return res;
+	}
+	void set(int p) { b[p/B] |= (1ull&lt;&lt;(p%B)); }
+	void reset(int p) { b[p/B] &amp;= (up^(1ull&lt;&lt;(p%B))); }
+	void setv(int p, int v) { (v ? set(p) : reset(p)); }
+	bool get(uint x, int bit) { return (x&gt;&gt;bit)&amp;1; }
+	int getf0(uint x) { for(int i=0; i&lt;B; i++) if(!get(x, i)) return i; }
+	int getf1(uint x) { for(int i=0; i&lt;B; i++) if(get(x, i)) return i; }
+	int getl0(uint x) { for(int i=B-1; i&gt;=0; i--) if(!get(x, i)) return i; }
+	int getl1(uint x) { for(int i=B-1; i&gt;=0; i--) if(get(x, i)) return i; }
+	int findr0(int x)
+	{
+		int p = x/B, q = x%B;
+		for(int i=q; i&lt;B; i++) if(!get(b[p], i)) return x+i-q; 
+		for(int i=p+1; i&lt;(int)b.size(); i++) 
+			if(b[i]!=up) return x+B-1-q+(i-p-1)*B+getf0(b[i])+1; 
+		return sz + 1;
+	}
+	int findr1(int x)
+	{
+		int p = x/B, q = x%B;
+		for(int i=q; i&lt;B; i++) if(get(b[p], i)) return x+i-q;
+		for(int i=p+1; i&lt;(int)b.size(); i++)
+			if(b[i]) return x+B-1-q+(i-p-1)*B+getf1(b[i])+1;
+		return sz + 1;
+	}
+	int findl0(int x)
+	{
+		int p = x/B, q = x%B;
+		for(int i=q; i&gt;=0; i--) if(!get(b[p], i)) return x+i-q; 
+		for(int i=p-1; i&gt;=0; i--) 
+			if(b[i]!=up) return x-q-(p-1-i)*B-(B-getl0(b[i])); 
+		return -1;
+	}
+	int findl1(int x)
+	{
+		int p = x/B, q = x%B;
+		for(int i=q; i&gt;=0; i--) if(get(b[p], i)) return x+i-q;
+		for(int i=p-1; i&gt;=0; i--) 
+			if(b[i]) return x-q-(p-1-i)*B-(B-getl1(b[i])); 
+		return -1;
+	}
+};
 </code></pre>
 
               </div>
