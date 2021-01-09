@@ -2,7 +2,7 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
     <id>https://jyf111.github.io</id>
     <title>jyf111</title>
-    <updated>2021-01-09T07:06:07.710Z</updated>
+    <updated>2021-01-09T07:37:15.639Z</updated>
     <generator>https://github.com/jpmonette/feed</generator>
     <link rel="alternate" href="https://jyf111.github.io"/>
     <link rel="self" href="https://jyf111.github.io/atom.xml"/>
@@ -10,6 +10,55 @@
     <logo>https://jyf111.github.io/images/avatar.png</logo>
     <icon>https://jyf111.github.io/favicon.ico</icon>
     <rights>All rights reserved 2021, jyf111</rights>
+    <entry>
+        <title type="html"><![CDATA[ICPC Central Russia Regional Contest (CRRC 19) gym102780]]></title>
+        <id>https://jyf111.github.io/post/icpc-central-russia-regional-contest-crrc-19-gym102780/</id>
+        <link href="https://jyf111.github.io/post/icpc-central-russia-regional-contest-crrc-19-gym102780/">
+        </link>
+        <updated>2021-01-09T07:15:46.000Z</updated>
+        <content type="html"><![CDATA[<p>除了两道题没什么人过外比较简单</p>
+<h3 id="a">A</h3>
+<p>小学数学</p>
+<h3 id="b">B</h3>
+<p>初中物理</p>
+<h3 id="c">C</h3>
+<p>模拟题，带一点点推理</p>
+<h3 id="d">D</h3>
+<p>给定a,b，让你求一个x，满足<span class="katex"><span class="katex-mathml"><math><semantics><mrow><msup><mi>a</mi><mi>x</mi></msup><mo>=</mo><msup><mi>x</mi><mi>b</mi></msup></mrow><annotation encoding="application/x-tex">a^x=x^b</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.664392em;vertical-align:0em;"></span><span class="mord"><span class="mord mathdefault">a</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.664392em;"><span style="top:-3.063em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathdefault mtight">x</span></span></span></span></span></span></span></span><span class="mspace" style="margin-right:0.2777777777777778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span></span><span class="base"><span class="strut" style="height:0.849108em;vertical-align:0em;"></span><span class="mord"><span class="mord mathdefault">x</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.849108em;"><span style="top:-3.063em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathdefault mtight">b</span></span></span></span></span></span></span></span></span></span></span><br>
+其中<span class="katex"><span class="katex-mathml"><math><semantics><mrow><mn>2</mn><mo>≤</mo><mi>a</mi><mo separator="true">,</mo><mi>b</mi><mo>≤</mo><mn>10000</mn></mrow><annotation encoding="application/x-tex">2\leq a,b \leq 10000</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.78041em;vertical-align:-0.13597em;"></span><span class="mord">2</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span><span class="mrel">≤</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span></span><span class="base"><span class="strut" style="height:0.8888799999999999em;vertical-align:-0.19444em;"></span><span class="mord mathdefault">a</span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.16666666666666666em;"></span><span class="mord mathdefault">b</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span><span class="mrel">≤</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span></span><span class="base"><span class="strut" style="height:0.64444em;vertical-align:0em;"></span><span class="mord">1</span><span class="mord">0</span><span class="mord">0</span><span class="mord">0</span><span class="mord">0</span></span></span></span><br>
+容易想到x可以表示<span class="katex"><span class="katex-mathml"><math><semantics><mrow><msup><mi>a</mi><mi>t</mi></msup></mrow><annotation encoding="application/x-tex">a^t</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.7935559999999999em;vertical-align:0em;"></span><span class="mord"><span class="mord mathdefault">a</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.7935559999999999em;"><span style="top:-3.063em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathdefault mtight">t</span></span></span></span></span></span></span></span></span></span></span>的形式<br>
+考虑<span class="katex"><span class="katex-mathml"><math><semantics><mrow><mi>t</mi><mo>≥</mo><mn>1</mn></mrow><annotation encoding="application/x-tex">t\geq 1</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.7719400000000001em;vertical-align:-0.13597em;"></span><span class="mord mathdefault">t</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span><span class="mrel">≥</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span></span><span class="base"><span class="strut" style="height:0.64444em;vertical-align:0em;"></span><span class="mord">1</span></span></span></span>的情况<br>
+<span class="katex"><span class="katex-mathml"><math><semantics><mrow><msup><mi>a</mi><mi>t</mi></msup><mo>=</mo><mi>t</mi><mi>b</mi></mrow><annotation encoding="application/x-tex">a^t = tb</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.7935559999999999em;vertical-align:0em;"></span><span class="mord"><span class="mord mathdefault">a</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.7935559999999999em;"><span style="top:-3.063em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathdefault mtight">t</span></span></span></span></span></span></span></span><span class="mspace" style="margin-right:0.2777777777777778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span></span><span class="base"><span class="strut" style="height:0.69444em;vertical-align:0em;"></span><span class="mord mathdefault">t</span><span class="mord mathdefault">b</span></span></span></span><br>
+可以直接暴力枚举t，幂次的增速是迅速的<br>
+考虑<span class="katex"><span class="katex-mathml"><math><semantics><mrow><mi>t</mi><mo>≤</mo><mn>1</mn></mrow><annotation encoding="application/x-tex">t\le 1</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.7719400000000001em;vertical-align:-0.13597em;"></span><span class="mord mathdefault">t</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span><span class="mrel">≤</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span></span><span class="base"><span class="strut" style="height:0.64444em;vertical-align:0em;"></span><span class="mord">1</span></span></span></span>的情况<br>
+小数没法枚举了，但是可以找到a的因子d，使得d的幂次=a，转而用d的幂次去表示x即可</p>
+<h3 id="f">F</h3>
+<p>给定一个字符串，两个人轮流操作，每次操作可以删除选择一种字母，然后删除一个或者二个或者全部，问谁赢。<br>
+可以把每种字母想成一堆石子，那就是一个只能取1个或2个或全部的NIM游戏，跑一下sg即可，其实直接手推也行</p>
+<h3 id="h">H</h3>
+<p>一个数n，两个轮流让其减1，减5，或者减13，问谁赢<br>
+跟F差不多，跑一下dp即可</p>
+<h3 id="i">I</h3>
+<p>有一个<span class="katex"><span class="katex-mathml"><math><semantics><mrow><mi>n</mi><mo>×</mo><mi>n</mi></mrow><annotation encoding="application/x-tex">n \times n</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.66666em;vertical-align:-0.08333em;"></span><span class="mord mathdefault">n</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span><span class="mbin">×</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span></span><span class="base"><span class="strut" style="height:0.43056em;vertical-align:0em;"></span><span class="mord mathdefault">n</span></span></span></span>的网格，现在有一个特殊点，然后每次你可以进行三种询问</p>
+<ul>
+<li>询问某个点是不是特殊点</li>
+<li>询问某条线段是否包含特殊点</li>
+<li>询问某个三角形是否包含特殊点</li>
+</ul>
+<p><span class="katex"><span class="katex-mathml"><math><semantics><mrow><mi>n</mi><mo>≤</mo><mn>1</mn><msup><mn>0</mn><mn>8</mn></msup></mrow><annotation encoding="application/x-tex">n \leq 10^8</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.7719400000000001em;vertical-align:-0.13597em;"></span><span class="mord mathdefault">n</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span><span class="mrel">≤</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span></span><span class="base"><span class="strut" style="height:0.8141079999999999em;vertical-align:0em;"></span><span class="mord">1</span><span class="mord"><span class="mord">0</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.8141079999999999em;"><span style="top:-3.063em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight">8</span></span></span></span></span></span></span></span></span></span></span>，询问次数不超过60<br>
+看到这个数据范围和询问次数就想到二分，x和y可以分开做，那么我们相当于要通过一次询问判断这个特殊点的坐标是小于x还是大于x。这边有个条件就是询问的点的坐标可以超过n，在<span class="katex"><span class="katex-mathml"><math><semantics><mrow><mn>1</mn><msup><mn>0</mn><mn>9</mn></msup></mrow><annotation encoding="application/x-tex">10^9</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.8141079999999999em;vertical-align:0em;"></span><span class="mord">1</span><span class="mord"><span class="mord">0</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.8141079999999999em;"><span style="top:-3.063em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight">9</span></span></span></span></span></span></span></span></span></span></span>以内就行，那就很简单了，每次问一个右边的特别大的三角形，保证可以盖住大于x的这块矩形就可以了</p>
+<h3 id="j">J</h3>
+<p>让你用不超过5个数，使得它们的立方和等于x<br>
+<span class="katex"><span class="katex-mathml"><math><semantics><mrow><mi>x</mi><mo>≤</mo><mn>1</mn><msup><mn>0</mn><mn>100000</mn></msup></mrow><annotation encoding="application/x-tex">x\leq 10^{100000}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.7719400000000001em;vertical-align:-0.13597em;"></span><span class="mord mathdefault">x</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span><span class="mrel">≤</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span></span><span class="base"><span class="strut" style="height:0.8141079999999999em;vertical-align:0em;"></span><span class="mord">1</span><span class="mord"><span class="mord">0</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.8141079999999999em;"><span style="top:-3.063em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mtight">1</span><span class="mord mtight">0</span><span class="mord mtight">0</span><span class="mord mtight">0</span><span class="mord mtight">0</span><span class="mord mtight">0</span></span></span></span></span></span></span></span></span></span></span></span><br>
+考虑<span class="katex"><span class="katex-mathml"><math><semantics><mrow><mo>(</mo><mi>x</mi><mo>−</mo><mn>1</mn><msup><mo>)</mo><mn>3</mn></msup><mo>+</mo><mo>(</mo><mi>x</mi><mo>+</mo><mn>1</mn><msup><mo>)</mo><mn>3</mn></msup><mo>=</mo><mn>2</mn><msup><mi>x</mi><mn>3</mn></msup><mo>+</mo><mn>6</mn><mi>x</mi></mrow><annotation encoding="application/x-tex">(x-1)^3 + (x+1)^3 = 2x^3 + 6x</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mopen">(</span><span class="mord mathdefault">x</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span><span class="mbin">−</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span></span><span class="base"><span class="strut" style="height:1.064108em;vertical-align:-0.25em;"></span><span class="mord">1</span><span class="mclose"><span class="mclose">)</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.8141079999999999em;"><span style="top:-3.063em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight">3</span></span></span></span></span></span></span></span><span class="mspace" style="margin-right:0.2222222222222222em;"></span><span class="mbin">+</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span></span><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mopen">(</span><span class="mord mathdefault">x</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span><span class="mbin">+</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span></span><span class="base"><span class="strut" style="height:1.064108em;vertical-align:-0.25em;"></span><span class="mord">1</span><span class="mclose"><span class="mclose">)</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.8141079999999999em;"><span style="top:-3.063em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight">3</span></span></span></span></span></span></span></span><span class="mspace" style="margin-right:0.2777777777777778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span></span><span class="base"><span class="strut" style="height:0.897438em;vertical-align:-0.08333em;"></span><span class="mord">2</span><span class="mord"><span class="mord mathdefault">x</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.8141079999999999em;"><span style="top:-3.063em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight">3</span></span></span></span></span></span></span></span><span class="mspace" style="margin-right:0.2222222222222222em;"></span><span class="mbin">+</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span></span><span class="base"><span class="strut" style="height:0.64444em;vertical-align:0em;"></span><span class="mord">6</span><span class="mord mathdefault">x</span></span></span></span><br>
+那如果x是6的倍数，让y=x/6，然后用y-1，y+1，-y, -y这四个数就可以表示出x了<br>
+其余按照%6讨论一下即可<br>
+比如x%6=2，就先表示出x-8，再加个<span class="katex"><span class="katex-mathml"><math><semantics><mrow><msup><mn>2</mn><mn>3</mn></msup></mrow><annotation encoding="application/x-tex">2^3</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.8141079999999999em;vertical-align:0em;"></span><span class="mord"><span class="mord">2</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.8141079999999999em;"><span style="top:-3.063em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight">3</span></span></span></span></span></span></span></span></span></span></span>即可</p>
+<h3 id="k">K</h3>
+<p>给定n个不同的数，每次可以交换相邻的两个数，问你最少交换几次，使得这n个数先减后增<br>
+从大到小考虑每个数，最大的数只能放在最左边或者最右边，然后似乎就有种<span class="katex"><span class="katex-mathml"><math><semantics><mrow><msup><mi>n</mi><mn>2</mn></msup></mrow><annotation encoding="application/x-tex">n^2</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.8141079999999999em;vertical-align:0em;"></span><span class="mord"><span class="mord mathdefault">n</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.8141079999999999em;"><span style="top:-3.063em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight">2</span></span></span></span></span></span></span></span></span></span></span>的dp了，但是仔细思考可以发现最大的数放在左边还是右边是不影响次大的数的，所以每个数贪心的放就行了</p>
+]]></content>
+    </entry>
     <entry>
         <title type="html"><![CDATA[Codeforces Round #695 (Div. 2)]]></title>
         <id>https://jyf111.github.io/post/codeforces-round-695-div-2/</id>
@@ -1353,62 +1402,6 @@ int main()
 	return 0;
 }
 </code></pre>
-]]></content>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[平衡树之splay]]></title>
-        <id>https://jyf111.github.io/post/ping-heng-shu-zhi-splay/</id>
-        <link href="https://jyf111.github.io/post/ping-heng-shu-zhi-splay/">
-        </link>
-        <updated>2020-12-11T13:29:32.000Z</updated>
-        <content type="html"><![CDATA[<p>伸展树的核心操作就是splay了，将每次访问的点splay到根节点（类似输入法，频繁打的词会比较靠前）。而正确的splay操作可以保证在将x旋转到根节点的过程中，沿途的所有父节点的深度都会至少减少一半，这种自我调整的特性保证了splay树在各种操作下均摊<span class="katex"><span class="katex-mathml"><math><semantics><mrow><mi>O</mi><mo>(</mo><mi>l</mi><mi>o</mi><mi>g</mi><mi>n</mi><mo>)</mo></mrow><annotation encoding="application/x-tex">O(logn)</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathdefault" style="margin-right:0.02778em;">O</span><span class="mopen">(</span><span class="mord mathdefault" style="margin-right:0.01968em;">l</span><span class="mord mathdefault">o</span><span class="mord mathdefault" style="margin-right:0.03588em;">g</span><span class="mord mathdefault">n</span><span class="mclose">)</span></span></span></span><br>
-rotate需要分3种情况，splay需要分6种情况比较麻烦，不再赘述（<s>其实是不会</s>），只给出代码实现：</p>
-<pre><code class="language-cpp">void rotate(int x)
-{
-    int y = fa[x], z = fa[y], k = rs(x), w = ch[x][k^1];
-    ch[y][k] = w; fa[w] = y;
-    ch[z][rs(y)] = x; fa[x] = z;
-    ch[x][k^1] = y; fa[y] = x;
-    up(y); up(x);
-}
-void splay(int x, int g=0)
-{
-    while(fa[x]!=g)
-    {
-        int y = fa[x];
-        if(fa[y]!=g) (rs(x)==rs(y) ? rotate(y) : rotate(x));
-        rotate(x);
-    }
-    if(!g) rt = x;
-}
-</code></pre>
-<p>splay(x,g)表示将x旋转到g的儿子处，当g=0时即将x旋转到根。用splay来维护权值大小我觉得很麻烦，码量和常数都比较大，一般情况下用pbds或者fhq treap替代即可。但是用splay来维护区间还是需要只要的。做法也很简单，如果要维护[l,r]，先把l-1旋转到根，再把r+1旋转到l-1的儿子，那么此时r+1的左子树就是要操作的[l,r]部分，直接对这个根节点打上相应的标记即可：</p>
-<pre><code class="language-cpp">int split(int l, int r)
-{
-	int x = kth(rt, l-1), y = kth(rt, r+1);
-	splay(x); splay(y, x);
-	return ch[y][0];
-}
-</code></pre>
-<p>pushdown操作只需要在kth函数中进行即可：</p>
-<pre><code class="language-cpp">int kth(int p, int k)
-{
-    down(p);
-    if(ch[p][0]&amp;&amp;sz[ch[p][0]]&gt;=k) return kth(ch[p][0], k);
-    else if(sz[ch[p][0]]+1==k) return p;
-    else return kth(ch[p][1], k-sz[ch[p][0]]-1); 
-}
-</code></pre>
-<p>而pushup操作在每次进行split区间操作后都要执行，假设split返回的节点是x，那么就要pushup(y)以及pushup(fa[y])：</p>
-<pre><code class="language-cpp">void replace(int l, int r, int v)
-{
-	int x = split(l, r), y = fa[x];
-	setv(x, v);
-	up(y); up(fa[y]);
-}
-</code></pre>
-<p>其实splay的所有操作都可以用fhq treap来替代，不过在区间操作中要找到区间下标x的点这一功能还是splay方便，只需要把这个点splay到根就可以了，而treap则需要额外维护父亲，而自下而上找。<br>
-当然splay无可替代的地方就是LCT了，如果用treap就会多一个log。</p>
 ]]></content>
     </entry>
 </feed>
