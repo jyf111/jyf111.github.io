@@ -2,7 +2,7 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
     <id>https://jyf111.github.io</id>
     <title>jyf111</title>
-    <updated>2021-02-01T06:48:50.381Z</updated>
+    <updated>2021-02-28T03:27:40.609Z</updated>
     <generator>https://github.com/jpmonette/feed</generator>
     <link rel="alternate" href="https://jyf111.github.io"/>
     <link rel="self" href="https://jyf111.github.io/atom.xml"/>
@@ -10,6 +10,126 @@
     <logo>https://jyf111.github.io/images/avatar.png</logo>
     <icon>https://jyf111.github.io/favicon.ico</icon>
     <rights>All rights reserved 2021, jyf111</rights>
+    <entry>
+        <title type="html"><![CDATA[区间k次覆盖 费用流模型]]></title>
+        <id>https://jyf111.github.io/post/qu-jian-k-ci-fu-gai-fei-yong-liu-mo-xing/</id>
+        <link href="https://jyf111.github.io/post/qu-jian-k-ci-fu-gai-fei-yong-liu-mo-xing/">
+        </link>
+        <updated>2021-02-28T03:18:22.000Z</updated>
+        <content type="html"><![CDATA[<p>各出n个带权区间，让你保留最多的区间，使得数轴上的每个点最多被覆盖了k次</p>
+<p>建立超源0，超汇maxv+1<br>
+i和i+1连一条费用为0，流量为k的边<br>
+对于每个区间，s向t+1连一条费用为-w，流量为1的边<br>
+跑一遍最小费用流即可<br>
+容易发现这个图是个dag，可以直接dp求出势能h后跑dijkstra</p>
+<p>gym102759F<br>
+区间2次覆盖板子，卡了spfa</p>
+<pre><code class="language-cpp">#include &lt;bits/stdc++.h&gt;
+#define fi first
+#define se second
+using namespace std;
+using ll = long long;
+using pli = pair&lt;ll, int&gt;;
+namespace MCMF
+{
+    const int N = 5e5 + 5, M = 1e6 + 5, inf = 1e9;
+    const ll linf = 1e18;
+    int cnt, head[N];
+    struct edge
+    {
+        int next, to, w;
+        ll f; 
+    }e[M&lt;&lt;1];
+    inline void addedge(int u, int v, int w, ll f)
+    {
+        e[++cnt] = {head[u], v, w, f};
+        head[u] = cnt;
+    }
+    int n, s, t;
+    int flow;
+    int p[N], a[N];
+    ll d[N], h[N], cost;
+    void init(int _n, int _s, int _t)
+    {
+        n = _n, s = _s, t = _t;
+        cnt = 1, flow = cost = 0;
+        memset(head, 0, (n+1)&lt;&lt;2);
+    }
+    void add(int u, int v, int cap, ll cost)
+    {
+        addedge(u, v, cap, cost), addedge(v, u, 0, -cost);
+    }
+    void getH()
+    {
+        for(int i=0; i&lt;=n; i++) h[i] = linf;
+        h[s] = 0;
+        for(int i=s; i&lt;t; i++)
+            for(int j=head[i]; j; j=e[j].next)
+            {
+                int v = e[j].to;
+                if(e[j].w &amp;&amp; h[v]&gt;h[i]+e[j].f) h[v] = h[i] + e[j].f;
+            }
+    }
+    bool Dijkstra()
+    {
+        for(int i=0; i&lt;=n; i++) d[i] = linf;
+        d[s] = 0, a[s] = inf;
+        priority_queue&lt;pli, vector&lt;pli&gt;, greater&lt;pli&gt;&gt; pq;
+        pq.push({0, s});
+        while(!pq.empty())
+        {
+            auto cur = pq.top(); pq.pop();
+            int u = cur.se;
+            if(cur.fi&gt;d[u]) continue;
+            for(int i=head[u]; i; i=e[i].next)
+            {
+                int v = e[i].to;
+                ll w = e[i].f + h[u] - h[v];
+                if(e[i].w&amp;&amp;d[v]&gt;d[u]+w)
+                {
+                    p[v] = i;
+                    a[v] = min(a[u], e[i].w);
+                    pq.push({d[v]=d[u]+w, v});
+                }
+            }
+        }
+        for(int i=0; i&lt;=n; i++)
+            if(d[i]&lt;linf) h[i] += d[i];
+            else h[i] = 0;
+        return d[t]!=linf;
+    }
+    void go()
+    {
+        getH();
+        while(Dijkstra())
+        {
+            flow += a[t], cost += a[t]*h[t];
+            int u = t;
+            while(u!=s)
+            {
+                e[p[u]].w -= a[t], e[p[u]^1].w += a[t];
+                u = e[p[u]^1].to;
+            }
+        }
+    }
+}
+int main()
+{
+    int n; scanf(&quot;%d&quot;, &amp;n);
+    MCMF::init(500002, 0, 500001);
+    for(int i=1; i&lt;=n; i++)
+    {
+        int s, e; ll w; scanf(&quot;%d%d%lld&quot;, &amp;s, &amp;e, &amp;w);
+        MCMF::add(s, e+1, 1, -w);
+    }
+    for(int i=0; i&lt;MCMF::t; i++) MCMF::add(i, i+1, 2, 0);
+    MCMF::go();
+    printf(&quot;%lld\n&quot;, -MCMF::cost);
+    return 0;
+}
+</code></pre>
+]]></content>
+    </entry>
     <entry>
         <title type="html"><![CDATA[AtCoder Regular Contest 111]]></title>
         <id>https://jyf111.github.io/post/atcoder-regular-contest-111/</id>
@@ -1114,99 +1234,6 @@ int main()
 {
 	int _; scanf(&quot;%d&quot;, &amp;_);
 	while(_--) solve();
-	return 0;
-}
-</code></pre>
-]]></content>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[C、Shuffle Cards 区间移位 splay]]></title>
-        <id>https://jyf111.github.io/post/cshuffle-cards-qu-jian-yi-wei-splay/</id>
-        <link href="https://jyf111.github.io/post/cshuffle-cards-qu-jian-yi-wei-splay/">
-        </link>
-        <updated>2020-12-11T16:25:12.000Z</updated>
-        <content type="html"><![CDATA[<p>一个序列初始为1-n的排列，现在有m次操作，将一个区间移到最前面。<br>
-问所有操作结束后的序列是什么</p>
-<p>突然发现没有写过区间平移的问题，然后去找了一道，然后就调了2小时，很难受。</p>
-<p>罗列一下几个易错点：<br>
-pushup的时候最好特判一下p==0，这时候就直接return，否则总感觉容易出问题<br>
-splay一个不好的地方就是要加哨兵，反正左后各加一个就完事了<br>
-偷懒把取区间写了个split，然后就导致了一个问题（bug根源）<br>
-当要提取的区间是一个空区间就会出现奇奇怪怪的问题（插入和删除的时候需要），因为这时候它会返回0，我就没办法维护我本来需要的返回节点的父亲了。<br>
-所以最好还是不要写split函数了😭</p>
-<p>说一下区间平移怎么做<br>
-其实就是区间插入问题，先把一个区间提取出来，把这个区间删除掉，然后假设这个节点要插入到p（要注意前面这个区间删除带来的影响）节点的后面，那就把p转到根，p+1转到p的儿子，则把刚才提取的区间插到p+1的左儿子就可以了。</p>
-<pre><code class="language-cpp">#include &lt;bits/stdc++.h&gt;
-using namespace std;
-const int N = 1e5 + 5;
-int n, m;
-int rt;
-int ch[N][2], sz[N], fa[N], val[N];
-bool rs(int x) { return ch[fa[x]][1]==x; }
-void up(int x) { if(!x) return; sz[x] = sz[ch[x][0]] + sz[ch[x][1]] + 1; }
-void build(int l, int r, int f)
-{
-	if(l&gt;r) return;
-	int p = (l+r)&gt;&gt;1;
-	sz[p] = 1, fa[p] = f, val[p] = p;
-	ch[f][p&gt;f] = p;
-	if(l==r) return;
-	build(l, p-1, p), build(p+1, r, p);
-	up(p);
-}
-void rotate(int x)
-{
-    int y = fa[x], z = fa[y], k = rs(x), w = ch[x][k^1];
-    ch[y][k] = w; fa[w] = y;
-    ch[z][rs(y)] = x; fa[x] = z;
-    ch[x][k^1] = y; fa[y] = x;
-    up(y); up(x);
-}
-void splay(int x, int g=0)
-{
-    while(fa[x]!=g)
-    {
-        int y = fa[x];
-        if(fa[y]!=g) (rs(x)==rs(y) ? rotate(y) : rotate(x));
-        rotate(x);
-    }
-    if(!g) rt = x;
-}
-int kth(int p, int k)
-{
-    if(ch[p][0]&amp;&amp;sz[ch[p][0]]&gt;=k) return kth(ch[p][0], k);
-    else if(sz[ch[p][0]]+1==k) return p;
-    else return kth(ch[p][1], k-sz[ch[p][0]]-1); 
-}
-void go(int p)
-{
-	if(!p) return;
-	go(ch[p][0]);
-	if(val[p]&gt;=2 &amp;&amp; val[p]&lt;=n+1) printf(&quot;%d &quot;, val[p]-1); 
-	go(ch[p][1]);
-}
-int main()
-{
-	scanf(&quot;%d%d&quot;, &amp;n, &amp;m);
-	build(1, n+2, 0);
-	rt = (n+3)&gt;&gt;1;
-	while(m--)
-	{
-		int a, b; scanf(&quot;%d%d&quot;, &amp;a, &amp;b);
-		++a;
-		int x = kth(rt, 1), y = kth(rt, a);
-		splay(x); splay(y, x);
-		int z = ch[y][0];
-		fa[z] = 0;
-		ch[y][0] = 0;
-		up(y); up(fa[y]); 
-		int tx = kth(rt, b+1), ty = kth(rt, b+2);
-		splay(tx); splay(ty, tx);
-		ch[ty][0] = z;
-		fa[z] = ty;
-	 	up(ty); up(fa[ty]);
-	}
-	go(rt);
 	return 0;
 }
 </code></pre>
