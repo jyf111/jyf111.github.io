@@ -2,7 +2,7 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
     <id>https://jyf111.github.io</id>
     <title>jyf111</title>
-    <updated>2021-03-06T04:36:32.725Z</updated>
+    <updated>2021-03-08T11:33:04.369Z</updated>
     <generator>https://github.com/jpmonette/feed</generator>
     <link rel="alternate" href="https://jyf111.github.io"/>
     <link rel="self" href="https://jyf111.github.io/atom.xml"/>
@@ -11,13 +11,29 @@
     <icon>https://jyf111.github.io/favicon.ico</icon>
     <rights>All rights reserved 2021, jyf111</rights>
     <entry>
+        <title type="html"><![CDATA[纳什均衡]]></title>
+        <id>https://jyf111.github.io/post/na-shi-jun-heng/</id>
+        <link href="https://jyf111.github.io/post/na-shi-jun-heng/">
+        </link>
+        <updated>2021-03-08T11:18:04.000Z</updated>
+        <content type="html"><![CDATA[<p>甲乙两人进行一个博弈，有AB两种选择，而他们的组合选择会对应某种收益（双方均知道这些组合选择的后果），而每个人不知道对方如何选择，所以每个人会选择自己期望意义下有最大收益的那个（即对方选A或选B两种情况综合之下）。<br>
+现在站在甲的角度去考虑，有以下几种情况：</p>
+<ul>
+<li>乙选A的时候我选A比B更优，乙选B的时候我选A还是比B更优，那么毫无疑问我会选择A</li>
+<li>同理可能选择B完全优于选择A</li>
+</ul>
+<p>同样的，站在乙的角度也会出现这两种情况。此时另外一者能够想到对方的选择，而自己只能在这个前提下选择更优的一种<br>
+当然也可能出现，某种情况下A优，某种情况下B优，这时候就涉及到一种混合策略，假设我有p的概率选择A，(1-p)的概率选择B，为了利益最大化，那么我要使得对方在选A或选B的时候自己期望得到的收益相同，即<span class="katex"><span class="katex-mathml"><math><semantics><mrow><mi>p</mi><mi>V</mi><mo>(</mo><mi>A</mi><mo separator="true">,</mo><mi>A</mi><mo>)</mo><mo>+</mo><mo>(</mo><mn>1</mn><mo>−</mo><mi>p</mi><mo>)</mo><mi>V</mi><mo>(</mo><mi>B</mi><mo separator="true">,</mo><mi>A</mi><mo>)</mo><mo>=</mo><mi>p</mi><mi>V</mi><mo>(</mo><mi>A</mi><mo separator="true">,</mo><mi>B</mi><mo>)</mo><mo>+</mo><mo>(</mo><mn>1</mn><mo>−</mo><mi>p</mi><mo>)</mo><mi>V</mi><mo>(</mo><mi>B</mi><mo separator="true">,</mo><mi>B</mi><mo>)</mo></mrow><annotation encoding="application/x-tex">pV(A, A) + (1-p)V(B, A) = pV(A, B) + (1-p)V(B, B)</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathdefault">p</span><span class="mord mathdefault" style="margin-right:0.22222em;">V</span><span class="mopen">(</span><span class="mord mathdefault">A</span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.16666666666666666em;"></span><span class="mord mathdefault">A</span><span class="mclose">)</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span><span class="mbin">+</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span></span><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mopen">(</span><span class="mord">1</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span><span class="mbin">−</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span></span><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathdefault">p</span><span class="mclose">)</span><span class="mord mathdefault" style="margin-right:0.22222em;">V</span><span class="mopen">(</span><span class="mord mathdefault" style="margin-right:0.05017em;">B</span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.16666666666666666em;"></span><span class="mord mathdefault">A</span><span class="mclose">)</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span></span><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathdefault">p</span><span class="mord mathdefault" style="margin-right:0.22222em;">V</span><span class="mopen">(</span><span class="mord mathdefault">A</span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.16666666666666666em;"></span><span class="mord mathdefault" style="margin-right:0.05017em;">B</span><span class="mclose">)</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span><span class="mbin">+</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span></span><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mopen">(</span><span class="mord">1</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span><span class="mbin">−</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span></span><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathdefault">p</span><span class="mclose">)</span><span class="mord mathdefault" style="margin-right:0.22222em;">V</span><span class="mopen">(</span><span class="mord mathdefault" style="margin-right:0.05017em;">B</span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.16666666666666666em;"></span><span class="mord mathdefault" style="margin-right:0.05017em;">B</span><span class="mclose">)</span></span></span></span></p>
+]]></content>
+    </entry>
+    <entry>
         <title type="html"><![CDATA[利用dp解决各个本质不同方案的平方和]]></title>
         <id>https://jyf111.github.io/post/li-yong-dp-jie-jue-ge-ge-ben-zhi-bu-tong-fang-an-de-ping-fang-he/</id>
         <link href="https://jyf111.github.io/post/li-yong-dp-jie-jue-ge-ge-ben-zhi-bu-tong-fang-an-de-ping-fang-he/">
         </link>
         <updated>2021-03-05T11:28:35.000Z</updated>
         <content type="html"><![CDATA[<p>前提：如果只是简单的求和，可以利用dp[s]来解决<br>
-那么再加一维，dp[s1][s2]，然后在转移的时候当前仅当下一个状态两者相同才转移，这样得到的结果就是平方和<br>
+那么再加一维，dp[s1][s2]，然后在转移的时候当且仅当下一个状态两者相同才转移，这样得到的结果就是平方和，可以发现这实际上是在对这s1和s2这两种状态作匹配，如果某种状态有x个，那么这两者之间就会匹配<span class="katex"><span class="katex-mathml"><math><semantics><mrow><msup><mi>x</mi><mn>2</mn></msup></mrow><annotation encoding="application/x-tex">x^2</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.8141079999999999em;vertical-align:0em;"></span><span class="mord"><span class="mord mathdefault">x</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.8141079999999999em;"><span style="top:-3.063em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight">2</span></span></span></span></span></span></span></span></span></span></span>次<br>
 同理，继续加维，可以得到更高次方和的结果</p>
 ]]></content>
     </entry>
@@ -1040,77 +1056,6 @@ gp_hash_table&lt;ull, null_type&gt;
 	}
 };
 </code></pre>
-]]></content>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[rope 块状链表实现的STL容器]]></title>
-        <id>https://jyf111.github.io/post/rope-kuai-zhuang-lian-biao-shi-xian-de-stl-rong-qi/</id>
-        <link href="https://jyf111.github.io/post/rope-kuai-zhuang-lian-biao-shi-xian-de-stl-rong-qi/">
-        </link>
-        <updated>2020-12-12T16:31:40.000Z</updated>
-        <content type="html"><![CDATA[<p>crope = rope<char>（可以直接cin cout）</p>
-<pre><code class="language-cpp">#include &lt;ext/rope&gt; 
-using namespace __gnu_cxx;
-</code></pre>
-<p>可以较快速的解决区间移动、区间插入删除、区间翻转问题</p>
-<pre><code class="language-cpp">rp.push_back(x); // 在末尾插入 x
-rp.insert(pos, x); // 从pos 处插入一个数组x
-rp.erase(pos, x); // 从pos 处删除 x 个元素
-rp.length(); // 返回 rp 的大小
-rp.size(); // 同上
-rp.replace(pos, x); // 将 pos 处的元素替换成 x
-rp.substr(pos, x); // 从 pos 处开始提取 x 个元素
-rp.copy(pos, x, s); // 从 pos 处开始复制 x 个元素到 s(string or char*(末尾要手动加0)) 中
-rp[x]; // 访问第 x 个元素
-rp.at(x); // 同上
-+ //拼接操作，很快速
-</code></pre>
-<pre><code class="language-cpp">#include&lt;bits/stdc++.h&gt;
-#include&lt;ext/rope&gt;
-using namespace std;
-using namespace __gnu_cxx;
-rope&lt;int&gt;s;
-int main()
-{
-    int n,m,k,l;
-    scanf(&quot;%d%d&quot;,&amp;n,&amp;m);
-    for(int i=1;i&lt;=n;++i)s.push_back(i);
-    while(m--)
-    {
-        scanf(&quot;%d%d&quot;,&amp;l,&amp;k);
-        s=s.substr(l-1,k)+s.substr(0,l-1)+s.substr(l+k-1,n+1-k-l);
-    }
-    for(auto c:s)
-        printf(&quot;%d &quot;,c);
-    puts(&quot;&quot;);
-}
-</code></pre>
-<pre><code class="language-cpp">
-#include&lt;iostream&gt;
-#include&lt;ext/rope&gt;
-using namespace std;
-using namespace __gnu_cxx;
-rope&lt;int&gt;a;
-int main(){
-    int n,m,x,y;
-    cin&gt;&gt;n&gt;&gt;m;
-    for(int i=1;i&lt;=n;i++){
-        a.push_back(i);
-    }
-    for(int i=0;i&lt;m;i++){
-        cin&gt;&gt;x&gt;&gt;y;
-        a.insert(0,a.substr(x-1,y));
-        a.erase(x+y-1,y);
-    }
-    for(int i=0;i&lt;n;i++){
-        if(i==0){
-            cout&lt;&lt;a[i];
-        }else{
-            cout&lt;&lt;&quot; &quot;&lt;&lt;a[i];
-        }
-    }
-    cout&lt;&lt;endl;
-}</code></pre>
 ]]></content>
     </entry>
 </feed>
