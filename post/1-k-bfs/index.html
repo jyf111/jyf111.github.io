@@ -2,17 +2,18 @@
   <head>
     <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
-<title>利用dp解决各个本质不同方案的平方和 | jyf111</title>
+<title>1-k bfs | jyf111</title>
 <link rel="shortcut icon" href="https://jyf111.github.io/favicon.ico?v=1616592953494">
 <link href="https://cdn.jsdelivr.net/npm/remixicon@2.3.0/fonts/remixicon.css" rel="stylesheet">
 <link rel="stylesheet" href="https://jyf111.github.io/styles/main.css">
-<link rel="alternate" type="application/atom+xml" title="利用dp解决各个本质不同方案的平方和 | jyf111 - Atom Feed" href="https://jyf111.github.io/atom.xml">
+<link rel="alternate" type="application/atom+xml" title="1-k bfs | jyf111 - Atom Feed" href="https://jyf111.github.io/atom.xml">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Droid+Serif:400,700">
 
 
 
-    <meta name="description" content="前提：如果只是简单的求和，可以利用dp[s]来解决
-那么再加一维，dp[s1][s2]，然后在转移的时候当且仅当下一个状态两者相同才转移，这样得到的结果就是平方和，可以发现这实际上是在对s1和s2这两种状态作匹配，如果某种状态有x个，那么这..." />
+    <meta name="description" content="考虑一个单源最短路径问题，但是图的边权范围是1-k，k不大，那就可以用以下方法
+本质上在一个队列中同时最多只有k+1种不同的dis的取值，因此只需要用k+1个队列来维护即可，当前队列为空时，就循环移位找到下一个非空的队列即可
+复杂度为O(n..." />
     <meta name="keywords" content="" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.10.0/katex.min.css">
     <script src="https://cdn.bootcss.com/highlight.js/9.12.0/highlight.min.js"></script>
@@ -75,11 +76,11 @@
         <div class="post-detail">
           <article class="post">
             <h2 class="post-title">
-              利用dp解决各个本质不同方案的平方和
+              1-k bfs
             </h2>
             <div class="post-info">
               <span>
-                2021-03-05
+                2021-03-24
               </span>
               <span>
                 1 min read
@@ -89,9 +90,31 @@
             
             <div class="post-content-wrapper">
               <div class="post-content">
-                <p>前提：如果只是简单的求和，可以利用dp[s]来解决<br>
-那么再加一维，dp[s1][s2]，然后在转移的时候当且仅当下一个状态两者相同才转移，这样得到的结果就是平方和，可以发现这实际上是在对s1和s2这两种状态作匹配，如果某种状态有x个，那么这两者之间就会匹配<span class="katex"><span class="katex-mathml"><math><semantics><mrow><msup><mi>x</mi><mn>2</mn></msup></mrow><annotation encoding="application/x-tex">x^2</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.8141079999999999em;vertical-align:0em;"></span><span class="mord"><span class="mord mathdefault">x</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.8141079999999999em;"><span style="top:-3.063em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight">2</span></span></span></span></span></span></span></span></span></span></span>次<br>
-同理，继续加维，可以得到更高次方和的结果</p>
+                <p>考虑一个单源最短路径问题，但是图的边权范围是1-k，k不大，那就可以用以下方法<br>
+本质上在一个队列中同时最多只有k+1种不同的dis的取值，因此只需要用k+1个队列来维护即可，当前队列为空时，就循环移位找到下一个非空的队列即可<br>
+复杂度为<span class="katex"><span class="katex-mathml"><math><semantics><mrow><mi>O</mi><mo>(</mo><mi>n</mi><mi>k</mi><mo>+</mo><mi>m</mi><mo>)</mo></mrow><annotation encoding="application/x-tex">O(nk+m)</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathdefault" style="margin-right:0.02778em;">O</span><span class="mopen">(</span><span class="mord mathdefault">n</span><span class="mord mathdefault" style="margin-right:0.03148em;">k</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span><span class="mbin">+</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span></span><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathdefault">m</span><span class="mclose">)</span></span></span></span></p>
+<pre><code class="language-cpp">queue&lt;int&gt; q[K+1];
+d[s] = 0;
+int pos = 0, num = 1;
+while(num&gt;0)
+{
+    while(q[pos%(k+1)].empty()) ++pos;
+    int u = q[pos%(k+1)].front(); q[pos%(k+1)].pop();
+    num--;
+    if(vis[u]) continue;
+    vis[u] = 1;
+    for(auto it : G[u])
+    {
+        int v = it.fi, w = it.se;
+        if(d[v]&gt;d[u]+w)
+        {
+            d[v] = d[u] + w;
+            q[d[v]%(k+1)].push(v);
+            ++num;
+        }
+    }
+}
+</code></pre>
 
               </div>
               <div class="toc-container">
@@ -104,9 +127,9 @@
         
           <div class="next-post">
             <div class="next">下一篇</div>
-            <a href="https://jyf111.github.io/post/qu-jian-k-ci-fu-gai-fei-yong-liu-mo-xing/">
+            <a href="https://jyf111.github.io/post/ni-zhen/">
               <h3 class="post-title">
-                区间k次覆盖 费用流模型
+                拟阵
               </h3>
             </a>
           </div>
