@@ -1,0 +1,293 @@
+<html>
+  <head>
+    <meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>旅行 有向图两点可达性 | jyf111</title>
+<link rel="shortcut icon" href="https://jyf111.github.io/favicon.ico?v=1688054387335">
+<link href="https://cdn.jsdelivr.net/npm/remixicon@2.3.0/fonts/remixicon.css" rel="stylesheet">
+<link rel="stylesheet" href="https://jyf111.github.io/styles/main.css">
+<link rel="alternate" type="application/atom+xml" title="旅行 有向图两点可达性 | jyf111 - Atom Feed" href="https://jyf111.github.io/atom.xml">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Droid+Serif:400,700">
+
+
+
+    <meta name="description" content="题意
+给出一张随机生成的有向图，多次询问x点能否到达y点
+n≤105,m≤n+5000,q≤3×105n \leq 10^5,m \leq n + 5000,q \leq 3\times 10^5n≤105,m≤n+5000,q≤3×105..." />
+    <meta name="keywords" content="算法" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.10.0/katex.min.css">
+    <script src="https://cdn.bootcss.com/highlight.js/9.12.0/highlight.min.js"></script>
+  </head>
+  <body>
+    <div class="main">
+      <div class="main-content">
+        <div class="site-header">
+  <a href="https://jyf111.github.io">
+  <img class="avatar" src="https://jyf111.github.io/images/avatar.png?v=1688054387335" alt="">
+  </a>
+  <h1 class="site-title">
+    jyf111
+  </h1>
+  <p class="site-description">
+    温故而知新
+  </p>
+  <div class="menu-container">
+    
+      
+        <a href="https://jyf111.github.io" class="menu">
+          首页
+        </a>
+      
+    
+      
+        <a href="/archives" class="menu">
+          归档
+        </a>
+      
+    
+      
+        <a href="https://jyf111.github.io/tags" class="menu">
+          分类
+        </a>
+      
+    
+  </div>
+  <div class="social-container">
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+  </div>
+</div>
+
+        <div class="post-detail">
+          <article class="post">
+            <h2 class="post-title">
+              旅行 有向图两点可达性
+            </h2>
+            <div class="post-info">
+              <span>
+                2020-08-06
+              </span>
+              <span>
+                4 min read
+              </span>
+              
+                <a href="https://jyf111.github.io/tag/HKuTllKYu/" class="post-tag">
+                  # 算法
+                </a>
+              
+            </div>
+            
+            <div class="post-content-wrapper">
+              <div class="post-content">
+                <h3 id="题意">题意</h3>
+<p>给出一张随机生成的有向图，多次询问x点能否到达y点<br>
+<span class="katex"><span class="katex-mathml"><math><semantics><mrow><mi>n</mi><mo>≤</mo><mn>1</mn><msup><mn>0</mn><mn>5</mn></msup><mo separator="true">,</mo><mi>m</mi><mo>≤</mo><mi>n</mi><mo>+</mo><mn>5000</mn><mo separator="true">,</mo><mi>q</mi><mo>≤</mo><mn>3</mn><mo>×</mo><mn>1</mn><msup><mn>0</mn><mn>5</mn></msup></mrow><annotation encoding="application/x-tex">n \leq 10^5,m \leq n + 5000,q \leq 3\times 10^5</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.7719400000000001em;vertical-align:-0.13597em;"></span><span class="mord mathdefault">n</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span><span class="mrel">≤</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span></span><span class="base"><span class="strut" style="height:1.008548em;vertical-align:-0.19444em;"></span><span class="mord">1</span><span class="mord"><span class="mord">0</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.8141079999999999em;"><span style="top:-3.063em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight">5</span></span></span></span></span></span></span></span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.16666666666666666em;"></span><span class="mord mathdefault">m</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span><span class="mrel">≤</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span></span><span class="base"><span class="strut" style="height:0.66666em;vertical-align:-0.08333em;"></span><span class="mord mathdefault">n</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span><span class="mbin">+</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span></span><span class="base"><span class="strut" style="height:0.8388800000000001em;vertical-align:-0.19444em;"></span><span class="mord">5</span><span class="mord">0</span><span class="mord">0</span><span class="mord">0</span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.16666666666666666em;"></span><span class="mord mathdefault" style="margin-right:0.03588em;">q</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span><span class="mrel">≤</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span></span><span class="base"><span class="strut" style="height:0.72777em;vertical-align:-0.08333em;"></span><span class="mord">3</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span><span class="mbin">×</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span></span><span class="base"><span class="strut" style="height:0.8141079999999999em;vertical-align:0em;"></span><span class="mord">1</span><span class="mord"><span class="mord">0</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.8141079999999999em;"><span style="top:-3.063em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight">5</span></span></span></span></span></span></span></span></span></span></span></p>
+<h3 id="做法">做法</h3>
+<p>跑一遍tarjan缩点成DAG<br>
+设置根号个标记点，然后暴力跑出这些标记点能够到达的点，用bitset记录<br>
+对于每个询问从x暴力dfs，遇到标记点则返回<br>
+标记点选择度数最大的根号个<br>
+复杂度：O(能过)</p>
+<pre><code class="language-cpp">#include &lt;bits/stdc++.h&gt;
+#define pb push_back
+#define fi first
+#define se second
+using namespace std;
+using pii = pair&lt;int, int&gt;;
+const int N = 1e5 + 5, M = 405;
+vector&lt;int&gt; G[N], DAG[N];
+vector&lt;pii&gt; edges;
+int n, m, _;
+int dfn[N], num[N], low[N], id, tot, sta[N], top, deg[N], idx[N];
+bool in[N];
+int vis[N], spe[N];
+bitset&lt;N&gt; bit[M];
+void tarjan(int u)
+{
+	in[u] = 1;
+	low[u] = dfn[u] = ++id;
+	sta[++top] = u;
+	for(int v : G[u])
+	{
+		if(!dfn[v])
+		{
+			tarjan(v);
+			low[u] = min(low[u],low[v]);
+		}
+		else if(in[v]) low[u] = min(low[u],dfn[v]);
+	}
+	if(low[u]==dfn[u])
+	{
+		tot++;
+		while(top)
+		{
+			int tmp = sta[top--];
+			in[tmp] = 0;
+			num[tmp] = tot;
+			if(tmp==u) break;
+		}
+	}
+}
+void dfs(int u, int t)
+{
+	if(spe[u]) { bit[t] |= bit[spe[u]]; return; }
+	vis[u] = t;
+	bit[t].set(u);
+	for(int v : DAG[u])
+	{
+		if(vis[v]==t) continue;
+		dfs(v, t);
+	}
+}
+void prework()
+{
+	for(int i=1; i&lt;=n; i++)
+		if(!dfn[i]) tarjan(i);
+	for(auto it : edges)
+	{
+		int u = num[it.fi], v = num[it.se];
+		if(u!=v) DAG[u].pb(v), deg[u]++, deg[v]++;
+	}
+	int lim = (int)sqrt(tot) + 1;
+	iota(idx+1, idx+tot+1, 1);
+	sort(idx+1, idx+tot+1, [](int x, int y) {
+		return deg[x] &gt; deg[y];
+	});
+	for(int i=1; i&lt;=lim; i++) 
+	{
+		dfs(idx[i], i);
+		spe[idx[i]] = i;
+	}
+}
+bool dfs2(int s, int t, int tt)
+{
+	if(s==t) return 1;
+	if(spe[s]) return bit[spe[s]].test(t);
+	vis[s] = tt;
+	for(int ss : DAG[s])
+	{
+		if(vis[ss]==tt) continue;
+		if(dfs2(ss, t, tt)) return 1;
+	}
+	return 0;
+}
+void solve(int t)
+{
+	int u, v;
+	scanf(&quot;%d%d&quot;, &amp;u, &amp;v);
+	++u, ++v;
+	if(num[u]==num[v]) puts(&quot;Good&quot;);
+	else puts((dfs2(num[u], num[v], t) ? &quot;Good&quot; : &quot;Bad&quot;));
+}
+int main()
+{
+	scanf(&quot;%d%d&quot;, &amp;n, &amp;m);
+	for(int i=1; i&lt;=m; i++) 
+	{
+		int u, v;
+		scanf(&quot;%d%d&quot;, &amp;u, &amp;v);
+		++u, ++v;
+		G[u].pb(v);
+		edges.emplace_back(u, v);
+	}
+	prework();
+	scanf(&quot;%d&quot;, &amp;_);
+	for(int i=1; i&lt;=_; i++) solve(400+i);
+	return 0;
+}
+</code></pre>
+
+              </div>
+              <div class="toc-container">
+                <ul class="markdownIt-TOC">
+<li>
+<ul>
+<li>
+<ul>
+<li><a href="#%E9%A2%98%E6%84%8F">题意</a></li>
+<li><a href="#%E5%81%9A%E6%B3%95">做法</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+              </div>
+            </div>
+          </article>
+        </div>
+
+        
+          <div class="next-post">
+            <div class="next">下一篇</div>
+            <a href="https://jyf111.github.io/post/gua-hao-xu-lie-wen-ti/">
+              <h3 class="post-title">
+                括号序列问题
+              </h3>
+            </a>
+          </div>
+        
+
+        
+
+        <div class="site-footer">
+  
+  <a class="rss" href="https://jyf111.github.io/atom.xml" target="_blank">
+    <i class="ri-rss-line"></i> RSS
+  </a>
+</div>
+
+      </div>
+    </div>
+
+    <script>
+      hljs.initHighlightingOnLoad()
+
+      let mainNavLinks = document.querySelectorAll(".markdownIt-TOC a");
+
+      // This should probably be throttled.
+      // Especially because it triggers during smooth scrolling.
+      // https://lodash.com/docs/4.17.10#throttle
+      // You could do like...
+      // window.addEventListener("scroll", () => {
+      //    _.throttle(doThatStuff, 100);
+      // });
+      // Only not doing it here to keep this Pen dependency-free.
+
+      window.addEventListener("scroll", event => {
+        let fromTop = window.scrollY;
+
+        mainNavLinks.forEach((link, index) => {
+          let section = document.getElementById(decodeURI(link.hash).substring(1));
+          let nextSection = null
+          if (mainNavLinks[index + 1]) {
+            nextSection = document.getElementById(decodeURI(mainNavLinks[index + 1].hash).substring(1));
+          }
+          if (section.offsetTop <= fromTop) {
+            if (nextSection) {
+              if (nextSection.offsetTop > fromTop) {
+                link.classList.add("current");
+              } else {
+                link.classList.remove("current");    
+              }
+            } else {
+              link.classList.add("current");
+            }
+          } else {
+            link.classList.remove("current");
+          }
+        });
+      });
+
+    </script>
+  </body>
+</html>

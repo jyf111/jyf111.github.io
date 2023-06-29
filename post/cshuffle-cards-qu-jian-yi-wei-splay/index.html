@@ -1,0 +1,251 @@
+<html>
+  <head>
+    <meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>C、Shuffle Cards 区间移位 splay | jyf111</title>
+<link rel="shortcut icon" href="https://jyf111.github.io/favicon.ico?v=1688054387335">
+<link href="https://cdn.jsdelivr.net/npm/remixicon@2.3.0/fonts/remixicon.css" rel="stylesheet">
+<link rel="stylesheet" href="https://jyf111.github.io/styles/main.css">
+<link rel="alternate" type="application/atom+xml" title="C、Shuffle Cards 区间移位 splay | jyf111 - Atom Feed" href="https://jyf111.github.io/atom.xml">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Droid+Serif:400,700">
+
+
+
+    <meta name="description" content="一个序列初始为1-n的排列，现在有m次操作，将一个区间移到最前面。
+问所有操作结束后的序列是什么
+突然发现没有写过区间平移的问题，然后去找了一道，然后就调了2小时，很难受。
+罗列一下几个易错点：
+pushup的时候最好特判一下p==0，这时..." />
+    <meta name="keywords" content="算法" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.10.0/katex.min.css">
+    <script src="https://cdn.bootcss.com/highlight.js/9.12.0/highlight.min.js"></script>
+  </head>
+  <body>
+    <div class="main">
+      <div class="main-content">
+        <div class="site-header">
+  <a href="https://jyf111.github.io">
+  <img class="avatar" src="https://jyf111.github.io/images/avatar.png?v=1688054387335" alt="">
+  </a>
+  <h1 class="site-title">
+    jyf111
+  </h1>
+  <p class="site-description">
+    温故而知新
+  </p>
+  <div class="menu-container">
+    
+      
+        <a href="https://jyf111.github.io" class="menu">
+          首页
+        </a>
+      
+    
+      
+        <a href="/archives" class="menu">
+          归档
+        </a>
+      
+    
+      
+        <a href="https://jyf111.github.io/tags" class="menu">
+          分类
+        </a>
+      
+    
+  </div>
+  <div class="social-container">
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+  </div>
+</div>
+
+        <div class="post-detail">
+          <article class="post">
+            <h2 class="post-title">
+              C、Shuffle Cards 区间移位 splay
+            </h2>
+            <div class="post-info">
+              <span>
+                2020-12-12
+              </span>
+              <span>
+                4 min read
+              </span>
+              
+                <a href="https://jyf111.github.io/tag/HKuTllKYu/" class="post-tag">
+                  # 算法
+                </a>
+              
+            </div>
+            
+            <div class="post-content-wrapper">
+              <div class="post-content">
+                <p>一个序列初始为1-n的排列，现在有m次操作，将一个区间移到最前面。<br>
+问所有操作结束后的序列是什么</p>
+<p>突然发现没有写过区间平移的问题，然后去找了一道，然后就调了2小时，很难受。</p>
+<p>罗列一下几个易错点：<br>
+pushup的时候最好特判一下p==0，这时候就直接return，否则总感觉容易出问题<br>
+splay一个不好的地方就是要加哨兵，反正左后各加一个就完事了<br>
+偷懒把取区间写了个split，然后就导致了一个问题（bug根源）<br>
+当要提取的区间是一个空区间就会出现奇奇怪怪的问题（插入和删除的时候需要），因为这时候它会返回0，我就没办法维护我本来需要的返回节点的父亲了。<br>
+所以最好还是不要写split函数了😭</p>
+<p>说一下区间平移怎么做<br>
+其实就是区间插入问题，先把一个区间提取出来，把这个区间删除掉，然后假设这个节点要插入到p（要注意前面这个区间删除带来的影响）节点的后面，那就把p转到根，p+1转到p的儿子，则把刚才提取的区间插到p+1的左儿子就可以了。</p>
+<pre><code class="language-cpp">#include &lt;bits/stdc++.h&gt;
+using namespace std;
+const int N = 1e5 + 5;
+int n, m;
+int rt;
+int ch[N][2], sz[N], fa[N], val[N];
+bool rs(int x) { return ch[fa[x]][1]==x; }
+void up(int x) { if(!x) return; sz[x] = sz[ch[x][0]] + sz[ch[x][1]] + 1; }
+void build(int l, int r, int f)
+{
+	if(l&gt;r) return;
+	int p = (l+r)&gt;&gt;1;
+	sz[p] = 1, fa[p] = f, val[p] = p;
+	ch[f][p&gt;f] = p;
+	if(l==r) return;
+	build(l, p-1, p), build(p+1, r, p);
+	up(p);
+}
+void rotate(int x)
+{
+    int y = fa[x], z = fa[y], k = rs(x), w = ch[x][k^1];
+    ch[y][k] = w; fa[w] = y;
+    ch[z][rs(y)] = x; fa[x] = z;
+    ch[x][k^1] = y; fa[y] = x;
+    up(y); up(x);
+}
+void splay(int x, int g=0)
+{
+    while(fa[x]!=g)
+    {
+        int y = fa[x];
+        if(fa[y]!=g) (rs(x)==rs(y) ? rotate(y) : rotate(x));
+        rotate(x);
+    }
+    if(!g) rt = x;
+}
+int kth(int p, int k)
+{
+    if(ch[p][0]&amp;&amp;sz[ch[p][0]]&gt;=k) return kth(ch[p][0], k);
+    else if(sz[ch[p][0]]+1==k) return p;
+    else return kth(ch[p][1], k-sz[ch[p][0]]-1); 
+}
+void go(int p)
+{
+	if(!p) return;
+	go(ch[p][0]);
+	if(val[p]&gt;=2 &amp;&amp; val[p]&lt;=n+1) printf(&quot;%d &quot;, val[p]-1); 
+	go(ch[p][1]);
+}
+int main()
+{
+	scanf(&quot;%d%d&quot;, &amp;n, &amp;m);
+	build(1, n+2, 0);
+	rt = (n+3)&gt;&gt;1;
+	while(m--)
+	{
+		int a, b; scanf(&quot;%d%d&quot;, &amp;a, &amp;b);
+		++a;
+		int x = kth(rt, 1), y = kth(rt, a);
+		splay(x); splay(y, x);
+		int z = ch[y][0];
+		fa[z] = 0;
+		ch[y][0] = 0;
+		up(y); up(fa[y]); 
+		int tx = kth(rt, b+1), ty = kth(rt, b+2);
+		splay(tx); splay(ty, tx);
+		ch[ty][0] = z;
+		fa[z] = ty;
+	 	up(ty); up(fa[ty]);
+	}
+	go(rt);
+	return 0;
+}
+</code></pre>
+
+              </div>
+              <div class="toc-container">
+                
+              </div>
+            </div>
+          </article>
+        </div>
+
+        
+          <div class="next-post">
+            <div class="next">下一篇</div>
+            <a href="https://jyf111.github.io/post/p2042-noi2005wei-hu-shu-lie/">
+              <h3 class="post-title">
+                P2042 [NOI2005]维护数列
+              </h3>
+            </a>
+          </div>
+        
+
+        
+
+        <div class="site-footer">
+  
+  <a class="rss" href="https://jyf111.github.io/atom.xml" target="_blank">
+    <i class="ri-rss-line"></i> RSS
+  </a>
+</div>
+
+      </div>
+    </div>
+
+    <script>
+      hljs.initHighlightingOnLoad()
+
+      let mainNavLinks = document.querySelectorAll(".markdownIt-TOC a");
+
+      // This should probably be throttled.
+      // Especially because it triggers during smooth scrolling.
+      // https://lodash.com/docs/4.17.10#throttle
+      // You could do like...
+      // window.addEventListener("scroll", () => {
+      //    _.throttle(doThatStuff, 100);
+      // });
+      // Only not doing it here to keep this Pen dependency-free.
+
+      window.addEventListener("scroll", event => {
+        let fromTop = window.scrollY;
+
+        mainNavLinks.forEach((link, index) => {
+          let section = document.getElementById(decodeURI(link.hash).substring(1));
+          let nextSection = null
+          if (mainNavLinks[index + 1]) {
+            nextSection = document.getElementById(decodeURI(mainNavLinks[index + 1].hash).substring(1));
+          }
+          if (section.offsetTop <= fromTop) {
+            if (nextSection) {
+              if (nextSection.offsetTop > fromTop) {
+                link.classList.add("current");
+              } else {
+                link.classList.remove("current");    
+              }
+            } else {
+              link.classList.add("current");
+            }
+          } else {
+            link.classList.remove("current");
+          }
+        });
+      });
+
+    </script>
+  </body>
+</html>

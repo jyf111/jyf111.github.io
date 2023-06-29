@@ -1,0 +1,212 @@
+<html>
+  <head>
+    <meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>D-Array 构造 | jyf111</title>
+<link rel="shortcut icon" href="https://jyf111.github.io/favicon.ico?v=1688054387335">
+<link href="https://cdn.jsdelivr.net/npm/remixicon@2.3.0/fonts/remixicon.css" rel="stylesheet">
+<link rel="stylesheet" href="https://jyf111.github.io/styles/main.css">
+<link rel="alternate" type="application/atom+xml" title="D-Array 构造 | jyf111 - Atom Feed" href="https://jyf111.github.io/atom.xml">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Droid+Serif:400,700">
+
+
+
+    <meta name="description" content="题意
+给定两个数x和y，要求用最少的n个数，使得他们的异或和=x，求和=y
+做法
+这道题在cf上有类似的
+
+x=y=0 输出0
+x=y!=0 输出1
+x&gt;y 输出-1
+(y-x)&amp;1 输出-1
+如果可以用(y+x)/2 和(y..." />
+    <meta name="keywords" content="算法" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.10.0/katex.min.css">
+    <script src="https://cdn.bootcss.com/highlight.js/9.12.0/highlight.min.js"></script>
+  </head>
+  <body>
+    <div class="main">
+      <div class="main-content">
+        <div class="site-header">
+  <a href="https://jyf111.github.io">
+  <img class="avatar" src="https://jyf111.github.io/images/avatar.png?v=1688054387335" alt="">
+  </a>
+  <h1 class="site-title">
+    jyf111
+  </h1>
+  <p class="site-description">
+    温故而知新
+  </p>
+  <div class="menu-container">
+    
+      
+        <a href="https://jyf111.github.io" class="menu">
+          首页
+        </a>
+      
+    
+      
+        <a href="/archives" class="menu">
+          归档
+        </a>
+      
+    
+      
+        <a href="https://jyf111.github.io/tags" class="menu">
+          分类
+        </a>
+      
+    
+  </div>
+  <div class="social-container">
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+  </div>
+</div>
+
+        <div class="post-detail">
+          <article class="post">
+            <h2 class="post-title">
+              D-Array 构造
+            </h2>
+            <div class="post-info">
+              <span>
+                2020-06-18
+              </span>
+              <span>
+                1 min read
+              </span>
+              
+                <a href="https://jyf111.github.io/tag/HKuTllKYu/" class="post-tag">
+                  # 算法
+                </a>
+              
+            </div>
+            
+            <div class="post-content-wrapper">
+              <div class="post-content">
+                <h3 id="题意">题意</h3>
+<p>给定两个数x和y，要求用最少的n个数，使得他们的异或和=x，求和=y</p>
+<h3 id="做法">做法</h3>
+<p>这道题在cf上有类似的</p>
+<ul>
+<li>x=y=0 输出0</li>
+<li>x=y!=0 输出1</li>
+<li>x&gt;y 输出-1</li>
+<li>(y-x)&amp;1 输出-1</li>
+<li>如果可以用(y+x)/2 和(y-x)/2，就输出2</li>
+<li>否则输出3 x, (y-x)/2, (y-x)/2<br>
+顺便记一下python多组输入(竟然跑了6s多。。)</li>
+</ul>
+<pre><code class="language-python">while True:
+	try:
+		x, y = map(int, input().split())
+		if x==y:
+			print(0) if(x==0) else print(1)
+		elif x&gt;y:
+			print(-1)
+		elif (y-x)&amp;1:
+			print(-1)
+		elif ((y+x)//2) ^ ((y-x)//2) == x:
+			print(2)
+		else:
+			print(3)
+	except:
+		break;
+</code></pre>
+
+              </div>
+              <div class="toc-container">
+                <ul class="markdownIt-TOC">
+<li>
+<ul>
+<li>
+<ul>
+<li><a href="#%E9%A2%98%E6%84%8F">题意</a></li>
+<li><a href="#%E5%81%9A%E6%B3%95">做法</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+              </div>
+            </div>
+          </article>
+        </div>
+
+        
+          <div class="next-post">
+            <div class="next">下一篇</div>
+            <a href="https://jyf111.github.io/post/niu-ke-lian-xi-sai-65/">
+              <h3 class="post-title">
+                牛客练习赛65
+              </h3>
+            </a>
+          </div>
+        
+
+        
+
+        <div class="site-footer">
+  
+  <a class="rss" href="https://jyf111.github.io/atom.xml" target="_blank">
+    <i class="ri-rss-line"></i> RSS
+  </a>
+</div>
+
+      </div>
+    </div>
+
+    <script>
+      hljs.initHighlightingOnLoad()
+
+      let mainNavLinks = document.querySelectorAll(".markdownIt-TOC a");
+
+      // This should probably be throttled.
+      // Especially because it triggers during smooth scrolling.
+      // https://lodash.com/docs/4.17.10#throttle
+      // You could do like...
+      // window.addEventListener("scroll", () => {
+      //    _.throttle(doThatStuff, 100);
+      // });
+      // Only not doing it here to keep this Pen dependency-free.
+
+      window.addEventListener("scroll", event => {
+        let fromTop = window.scrollY;
+
+        mainNavLinks.forEach((link, index) => {
+          let section = document.getElementById(decodeURI(link.hash).substring(1));
+          let nextSection = null
+          if (mainNavLinks[index + 1]) {
+            nextSection = document.getElementById(decodeURI(mainNavLinks[index + 1].hash).substring(1));
+          }
+          if (section.offsetTop <= fromTop) {
+            if (nextSection) {
+              if (nextSection.offsetTop > fromTop) {
+                link.classList.add("current");
+              } else {
+                link.classList.remove("current");    
+              }
+            } else {
+              link.classList.add("current");
+            }
+          } else {
+            link.classList.remove("current");
+          }
+        });
+      });
+
+    </script>
+  </body>
+</html>

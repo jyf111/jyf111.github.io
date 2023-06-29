@@ -1,0 +1,312 @@
+<html>
+  <head>
+    <meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Not a real world problem 最小割+方案 | jyf111</title>
+<link rel="shortcut icon" href="https://jyf111.github.io/favicon.ico?v=1688054387335">
+<link href="https://cdn.jsdelivr.net/npm/remixicon@2.3.0/fonts/remixicon.css" rel="stylesheet">
+<link rel="stylesheet" href="https://jyf111.github.io/styles/main.css">
+<link rel="alternate" type="application/atom+xml" title="Not a real world problem 最小割+方案 | jyf111 - Atom Feed" href="https://jyf111.github.io/atom.xml">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Droid+Serif:400,700">
+
+
+
+    <meta name="description" content="有h*w的网格,每个点有权值h[i][j], 有n个粒子,告诉你每个点的坐标(x,y),权值的绝对值
+∣p[i]∣\left| p[i] \right|∣p[i]∣,定义价值为∑p[i]∗h[x[i]][y[i]]+∑p[i]∗p[j](如..." />
+    <meta name="keywords" content="算法" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.10.0/katex.min.css">
+    <script src="https://cdn.bootcss.com/highlight.js/9.12.0/highlight.min.js"></script>
+  </head>
+  <body>
+    <div class="main">
+      <div class="main-content">
+        <div class="site-header">
+  <a href="https://jyf111.github.io">
+  <img class="avatar" src="https://jyf111.github.io/images/avatar.png?v=1688054387335" alt="">
+  </a>
+  <h1 class="site-title">
+    jyf111
+  </h1>
+  <p class="site-description">
+    温故而知新
+  </p>
+  <div class="menu-container">
+    
+      
+        <a href="https://jyf111.github.io" class="menu">
+          首页
+        </a>
+      
+    
+      
+        <a href="/archives" class="menu">
+          归档
+        </a>
+      
+    
+      
+        <a href="https://jyf111.github.io/tags" class="menu">
+          分类
+        </a>
+      
+    
+  </div>
+  <div class="social-container">
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+  </div>
+</div>
+
+        <div class="post-detail">
+          <article class="post">
+            <h2 class="post-title">
+              Not a real world problem 最小割+方案
+            </h2>
+            <div class="post-info">
+              <span>
+                2020-05-11
+              </span>
+              <span>
+                6 min read
+              </span>
+              
+                <a href="https://jyf111.github.io/tag/HKuTllKYu/" class="post-tag">
+                  # 算法
+                </a>
+              
+            </div>
+            
+            <div class="post-content-wrapper">
+              <div class="post-content">
+                <p>有h*w的网格,每个点有权值h[i][j], 有n个粒子,告诉你每个点的坐标(x,y),权值的绝对值<br>
+<span class="katex"><span class="katex-mathml"><math><semantics><mrow><mo fence="true">∣</mo><mi>p</mi><mo>[</mo><mi>i</mi><mo>]</mo><mo fence="true">∣</mo></mrow><annotation encoding="application/x-tex">\left| p[i] \right|</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="minner"><span class="mopen delimcenter" style="top:0em;">∣</span><span class="mord mathdefault">p</span><span class="mopen">[</span><span class="mord mathdefault">i</span><span class="mclose">]</span><span class="mclose delimcenter" style="top:0em;">∣</span></span></span></span></span>,定义价值为<span class="katex"><span class="katex-mathml"><math><semantics><mrow><mo>∑</mo><mrow><mi>p</mi><mo>[</mo><mi>i</mi><mo>]</mo><mo>∗</mo><mi>h</mi><mo>[</mo><mi>x</mi><mo>[</mo><mi>i</mi><mo>]</mo><mo>]</mo><mo>[</mo><mi>y</mi><mo>[</mo><mi>i</mi><mo>]</mo><mo>]</mo></mrow><mo>+</mo><mo>∑</mo><mrow><mi>p</mi><mo>[</mo><mi>i</mi><mo>]</mo><mo>∗</mo><mi>p</mi><mo>[</mo><mi>j</mi><mo>]</mo></mrow><mo>(</mo><mi mathvariant="normal">如</mi><mi mathvariant="normal">果</mi><mi>i</mi><mi mathvariant="normal">点</mi><mi mathvariant="normal">和</mi><mi>j</mi><mi mathvariant="normal">点</mi><mi mathvariant="normal">相</mi><mi mathvariant="normal">邻</mi><mo>)</mo></mrow><annotation encoding="application/x-tex">\sum{p[i]*h[x[i]][y[i]]} + \sum{p[i]*p[j]}(如果i点和j点相邻)</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1.00001em;vertical-align:-0.25001em;"></span><span class="mop op-symbol small-op" style="position:relative;top:-0.0000050000000000050004em;">∑</span><span class="mspace" style="margin-right:0.16666666666666666em;"></span><span class="mord"><span class="mord mathdefault">p</span><span class="mopen">[</span><span class="mord mathdefault">i</span><span class="mclose">]</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span><span class="mbin">∗</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span><span class="mord mathdefault">h</span><span class="mopen">[</span><span class="mord mathdefault">x</span><span class="mopen">[</span><span class="mord mathdefault">i</span><span class="mclose">]</span><span class="mclose">]</span><span class="mopen">[</span><span class="mord mathdefault" style="margin-right:0.03588em;">y</span><span class="mopen">[</span><span class="mord mathdefault">i</span><span class="mclose">]</span><span class="mclose">]</span></span><span class="mspace" style="margin-right:0.2222222222222222em;"></span><span class="mbin">+</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span></span><span class="base"><span class="strut" style="height:1.00001em;vertical-align:-0.25001em;"></span><span class="mop op-symbol small-op" style="position:relative;top:-0.0000050000000000050004em;">∑</span><span class="mspace" style="margin-right:0.16666666666666666em;"></span><span class="mord"><span class="mord mathdefault">p</span><span class="mopen">[</span><span class="mord mathdefault">i</span><span class="mclose">]</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span><span class="mbin">∗</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span><span class="mord mathdefault">p</span><span class="mopen">[</span><span class="mord mathdefault" style="margin-right:0.05724em;">j</span><span class="mclose">]</span></span><span class="mopen">(</span><span class="mord cjk_fallback">如</span><span class="mord cjk_fallback">果</span><span class="mord mathdefault">i</span><span class="mord cjk_fallback">点</span><span class="mord cjk_fallback">和</span><span class="mord mathdefault" style="margin-right:0.05724em;">j</span><span class="mord cjk_fallback">点</span><span class="mord cjk_fallback">相</span><span class="mord cjk_fallback">邻</span><span class="mclose">)</span></span></span></span><br>
+问如何分配p的正负号可以最大化价值,并输出方案</p>
+<h1 id="做法">做法</h1>
+<p>这种分配到两个集合,然后定义一下价值并最大化的可以考虑转化为最小割,s代表+号,t代表-号,那么对于每个粒子i:s-&gt;i,权值为<span class="katex"><span class="katex-mathml"><math><semantics><mrow><mi>p</mi><mo>[</mo><mi>i</mi><mo>]</mo><mo>∗</mo><mi>h</mi><mo>[</mo><mi>x</mi><mo>[</mo><mi>i</mi><mo>]</mo><mo>]</mo><mo>[</mo><mi>y</mi><mo>[</mo><mi>i</mi><mo>]</mo><mo>]</mo></mrow><annotation encoding="application/x-tex">p[i]*h[x[i]][y[i]]</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathdefault">p</span><span class="mopen">[</span><span class="mord mathdefault">i</span><span class="mclose">]</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span><span class="mbin">∗</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span></span><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathdefault">h</span><span class="mopen">[</span><span class="mord mathdefault">x</span><span class="mopen">[</span><span class="mord mathdefault">i</span><span class="mclose">]</span><span class="mclose">]</span><span class="mopen">[</span><span class="mord mathdefault" style="margin-right:0.03588em;">y</span><span class="mopen">[</span><span class="mord mathdefault">i</span><span class="mclose">]</span><span class="mclose">]</span></span></span></span>(表示如果割掉,则p为负号,会<strong>损失</strong>这么多),同理i-&gt;t,权值为<span class="katex"><span class="katex-mathml"><math><semantics><mrow><mo>−</mo><mi>p</mi><mo>[</mo><mi>i</mi><mo>]</mo><mo>∗</mo><mi>h</mi><mo>[</mo><mi>x</mi><mo>[</mo><mi>i</mi><mo>]</mo><mo>]</mo><mo>[</mo><mi>y</mi><mo>[</mo><mi>i</mi><mo>]</mo><mo>]</mo></mrow><annotation encoding="application/x-tex">-p[i]*h[x[i]][y[i]]</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord">−</span><span class="mord mathdefault">p</span><span class="mopen">[</span><span class="mord mathdefault">i</span><span class="mclose">]</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span><span class="mbin">∗</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span></span><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathdefault">h</span><span class="mopen">[</span><span class="mord mathdefault">x</span><span class="mopen">[</span><span class="mord mathdefault">i</span><span class="mclose">]</span><span class="mclose">]</span><span class="mopen">[</span><span class="mord mathdefault" style="margin-right:0.03588em;">y</span><span class="mopen">[</span><span class="mord mathdefault">i</span><span class="mclose">]</span><span class="mclose">]</span></span></span></span>,注意不能有负权,所以全加一个偏移量offset.<br>
+再考虑相邻点,如果符号相同有一种收获x,符号不同有一种收获y.其实只要从i向j连边x-y,从j向i也连边x-y.可以默认两者符号相同收获x,那么如果割掉i与j间的边,说明两者分别属于s和t,损失x-y.<br>
+建完图最大流,输出方案只要从源点走权值&gt;0的边,所有经过的点就是属于s的(即符号为正)</p>
+<pre><code class="language-cpp">#include &lt;bits/stdc++.h&gt;
+#define mp make_pair
+#define pb push_back
+#define sz(x) (int)x.size()
+#define all(x) begin(x), end(x)
+#define fi first
+#define se second
+#define debug(x) cerr &lt;&lt; #x &lt;&lt; &quot; &quot; &lt;&lt; x &lt;&lt; '\n'
+using namespace std;
+using ll = long long;
+using pii = pair&lt;int,int&gt;;
+using pli = pair&lt;ll,int&gt;;
+const int INF = 0x3f3f3f3f, maxn = 1e3 + 5;
+const ll LINF = 1e18 + 5;
+constexpr int mod = 1e9 + 7;
+int h, w, n, p[maxn], a[maxn][maxn], x[maxn], y[maxn], state[maxn];
+const int N = 1e4 + 5, M = 2e5 + 5; 
+int cnt, head[N];
+bool vis[N];
+struct node
+{
+	int next, to, w;
+}e[M&lt;&lt;1];
+inline void add(int u,int v,int w)
+{
+	e[++cnt].next = head[u];
+	e[cnt].to = v;
+	e[cnt].w = w;
+	head[u] = cnt;
+}
+struct Dinic
+{
+	int n, m, s, t; 
+	int dep[N], cur[N];
+	void init(int n,int s,int t)
+	{
+		this-&gt;s = s, this-&gt;t = t, this-&gt;n = n;
+		cnt = 1, m = 0;
+		memset(head,0,(n+1)*sizeof(int));
+		memset(vis,0,(n+1)*sizeof(bool));
+	}
+	void addedge(int u,int v,int cap) 
+	{
+		add(u,v,cap); 
+		add(v,u,0);
+		m += 2;
+	}
+	bool bfs()
+	{
+		memset(dep,0,(n+1)*sizeof(int));
+		memcpy(cur,head,(n+1)*sizeof(int));
+		queue &lt;int&gt; q;
+		q.push(s); dep[s] = 1;
+		while(!q.empty())
+		{
+			int u = q.front(); q.pop();
+			for(int i=head[u];i;i=e[i].next)
+			{
+				int v = e[i].to;
+				if(!dep[v]&amp;&amp;e[i].w&gt;0)
+				{
+					dep[v] = dep[u] + 1;
+					q.push(v);
+				}
+			}
+		}
+		return dep[t];
+	}
+	int dfs(int u,int flow)
+	{
+		if(u==t||!flow) return flow;
+		int used = flow;
+		for(int i=cur[u];i;i=e[i].next)
+		{
+			cur[u] = i;
+			int v = e[i].to;
+			if(dep[v]==dep[u]+1)
+			{
+				int low = dfs(v,min(flow,e[i].w));
+				e[i].w -= low; e[i^1].w += low;
+				flow -= low;
+				if(!flow) break;
+			}
+		}
+		return used - flow;
+	}
+	int go()
+	{
+		int maxflow = 0;
+		while(bfs()) maxflow += dfs(s,INF);
+		return maxflow;
+	}
+	void dfs(int u) 
+	{
+		vis[u] = 1;
+		for (int i = head[u]; i; i = e[i].next) 
+		{
+			if (e[i].w&gt;0) 
+			{
+				if (vis[e[i].to]) continue;
+				state[e[i].to] = 1;
+				dfs(e[i].to);
+			}
+		}
+	}
+}MF;
+void solve()
+{
+	scanf(&quot;%d%d%d&quot;, &amp;h, &amp;w, &amp;n);
+	for(int i=1; i&lt;=h; i++)
+		for(int j=1; j&lt;=w; j++)
+			scanf(&quot;%d&quot;, &amp;a[i][j]);
+	for(int i=1; i&lt;=n; i++)
+		scanf(&quot;%d%d%d&quot;, x+i, y+i, p+i);
+	MF.init(n+2, 0, n+1);
+	int ans = n*100000;
+	for(int i=1; i&lt;=n; i++)
+	{
+		state[i] = 0;
+		MF.addedge(MF.s, i, p[i]*a[x[i]][y[i]]+100000);
+		MF.addedge(i, MF.t, -p[i]*a[x[i]][y[i]]+100000);
+		for(int j=i+1; j&lt;=n; j++)
+			if(abs(x[i]-x[j])+abs(y[i]-y[j])&lt;=1)
+				MF.addedge(i, j, 2*p[i]*p[j]), MF.addedge(j, i, 2*p[i]*p[j]), ans += p[i]*p[j];
+	}
+	ans -= MF.go();
+	printf(&quot;%d\n&quot;, ans);
+	MF.dfs(MF.s);
+	for(int i=1; i&lt;=n; i++) 
+		if(state[i]) printf(&quot;1%c&quot;, &quot; \n&quot;[i==n]);
+		else printf(&quot;-1%c&quot;, &quot; \n&quot;[i==n]);
+}
+int main()
+{
+	int T; scanf(&quot;%d&quot;, &amp;T);
+	while(T--) solve();
+	return 0;
+}
+</code></pre>
+
+              </div>
+              <div class="toc-container">
+                <ul class="markdownIt-TOC">
+<li><a href="#%E5%81%9A%E6%B3%95">做法</a></li>
+</ul>
+
+              </div>
+            </div>
+          </article>
+        </div>
+
+        
+          <div class="next-post">
+            <div class="next">下一篇</div>
+            <a href="https://jyf111.github.io/post/sorting-vases-si-wei/">
+              <h3 class="post-title">
+                 Sorting Vases 思维
+              </h3>
+            </a>
+          </div>
+        
+
+        
+
+        <div class="site-footer">
+  
+  <a class="rss" href="https://jyf111.github.io/atom.xml" target="_blank">
+    <i class="ri-rss-line"></i> RSS
+  </a>
+</div>
+
+      </div>
+    </div>
+
+    <script>
+      hljs.initHighlightingOnLoad()
+
+      let mainNavLinks = document.querySelectorAll(".markdownIt-TOC a");
+
+      // This should probably be throttled.
+      // Especially because it triggers during smooth scrolling.
+      // https://lodash.com/docs/4.17.10#throttle
+      // You could do like...
+      // window.addEventListener("scroll", () => {
+      //    _.throttle(doThatStuff, 100);
+      // });
+      // Only not doing it here to keep this Pen dependency-free.
+
+      window.addEventListener("scroll", event => {
+        let fromTop = window.scrollY;
+
+        mainNavLinks.forEach((link, index) => {
+          let section = document.getElementById(decodeURI(link.hash).substring(1));
+          let nextSection = null
+          if (mainNavLinks[index + 1]) {
+            nextSection = document.getElementById(decodeURI(mainNavLinks[index + 1].hash).substring(1));
+          }
+          if (section.offsetTop <= fromTop) {
+            if (nextSection) {
+              if (nextSection.offsetTop > fromTop) {
+                link.classList.add("current");
+              } else {
+                link.classList.remove("current");    
+              }
+            } else {
+              link.classList.add("current");
+            }
+          } else {
+            link.classList.remove("current");
+          }
+        });
+      });
+
+    </script>
+  </body>
+</html>

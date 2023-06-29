@@ -1,0 +1,255 @@
+<html>
+  <head>
+    <meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>最小圆覆盖至少x个点 | jyf111</title>
+<link rel="shortcut icon" href="https://jyf111.github.io/favicon.ico?v=1688054387335">
+<link href="https://cdn.jsdelivr.net/npm/remixicon@2.3.0/fonts/remixicon.css" rel="stylesheet">
+<link rel="stylesheet" href="https://jyf111.github.io/styles/main.css">
+<link rel="alternate" type="application/atom+xml" title="最小圆覆盖至少x个点 | jyf111 - Atom Feed" href="https://jyf111.github.io/atom.xml">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Droid+Serif:400,700">
+
+
+
+    <meta name="description" content="先考虑一个问题，平面上有n个点，问用一个单位圆最多能覆盖几个点
+可以转化成将所有点变成以该点为圆心的单位圆，被圆覆盖最多次的点就是答案
+考虑枚举一个圆，其余圆和该圆如果有交，就是该圆上的一段圆弧，求出极角后就可以转化为一个区间覆盖最多次的问..." />
+    <meta name="keywords" content="算法" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.10.0/katex.min.css">
+    <script src="https://cdn.bootcss.com/highlight.js/9.12.0/highlight.min.js"></script>
+  </head>
+  <body>
+    <div class="main">
+      <div class="main-content">
+        <div class="site-header">
+  <a href="https://jyf111.github.io">
+  <img class="avatar" src="https://jyf111.github.io/images/avatar.png?v=1688054387335" alt="">
+  </a>
+  <h1 class="site-title">
+    jyf111
+  </h1>
+  <p class="site-description">
+    温故而知新
+  </p>
+  <div class="menu-container">
+    
+      
+        <a href="https://jyf111.github.io" class="menu">
+          首页
+        </a>
+      
+    
+      
+        <a href="/archives" class="menu">
+          归档
+        </a>
+      
+    
+      
+        <a href="https://jyf111.github.io/tags" class="menu">
+          分类
+        </a>
+      
+    
+  </div>
+  <div class="social-container">
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+  </div>
+</div>
+
+        <div class="post-detail">
+          <article class="post">
+            <h2 class="post-title">
+              最小圆覆盖至少x个点
+            </h2>
+            <div class="post-info">
+              <span>
+                2020-10-06
+              </span>
+              <span>
+                4 min read
+              </span>
+              
+                <a href="https://jyf111.github.io/tag/HKuTllKYu/" class="post-tag">
+                  # 算法
+                </a>
+              
+            </div>
+            
+            <div class="post-content-wrapper">
+              <div class="post-content">
+                <p>先考虑一个问题，平面上有n个点，问用一个单位圆最多能覆盖几个点<br>
+可以转化成将所有点变成以该点为圆心的单位圆，被圆覆盖最多次的点就是答案<br>
+考虑枚举一个圆，其余圆和该圆如果有交，就是该圆上的一段圆弧，求出极角后就可以转化为一个区间覆盖最多次的问题，差分+前缀和即可。<br>
+该题可以二分最小圆的半径，然后用以上方法来check即可<br>
+<a href="https://www.zhihu.com/question/266750532/answer/312982493">https://www.zhihu.com/question/266750532/answer/312982493</a></p>
+<pre><code class="language-cpp">#include &lt;bits/stdc++.h&gt;
+#define fi first
+#define se second
+using namespace std;
+const int N = 1e3 + 5;
+using db = double;
+using pdi = pair&lt;db, int&gt;;
+const db eps = 1e-8, pi = acos(-1.0);
+int sgn(db x) { return (x&lt;-eps ? -1 : x&gt;eps); }
+db sqr(db x) { return x*x; }
+int n, s;
+db R;
+struct P
+{
+	db x, y;
+	P() {}
+	db dis(P p) { return sqrt(sqr(x-p.x) + sqr(y-p.y)); }
+}p[N];
+void norm(db&amp; theta)
+{
+	if(sgn(theta)&lt;0) theta += 2*pi;
+}
+bool check(db r)
+{
+	for(int i=1; i&lt;=n; i++)
+	{
+		vector&lt;pdi&gt; pre;
+		int cnt = 0;
+		for(int j=1; j&lt;=n; j++)
+		{
+			db d = p[i].dis(p[j]);
+			if(sgn(d)==0) { ++cnt; continue; }
+			if(sgn(d-2*r)&gt;=0) continue;
+			db p1 = atan2(p[j].y-p[i].y, p[j].x-p[i].x);
+			db p2 = acos(0.5*d/r);
+			db l = p1 - p2, r = p1 + p2;
+			norm(l), norm(r);
+			if(sgn(r-l)&gt;=0) pre.push_back({l, 1}), pre.push_back({r+eps, -1});
+			else
+			{
+				pre.push_back({0, 1}), pre.push_back({r+eps, -1});
+				pre.push_back({l, 1}), pre.push_back({2*pi+eps, -1});
+			}
+		}
+		int mx = cnt, cur = cnt;
+		sort(begin(pre), end(pre));
+		for(int i=0; i&lt;(int)pre.size(); i++)
+		{
+			cur += pre[i].se;
+			if(cur&gt;mx) mx = cur;
+		}
+		if(mx&gt;=s) return true;
+	}
+	return false;
+}
+db work()
+{
+	db l = 0.0, r = 0.0;
+	for(int i=1; i&lt;=n; i++)
+		for(int j=i+1; j&lt;=n; j++)
+			r = max(r, p[i].dis(p[j]));
+	db ans = 0.0;
+	while(r-l&gt;eps) 
+	{
+		db mid = (l+r)/2;
+		if(check(mid)) r = mid, ans = mid;
+		else l = mid;
+	}
+	return ans + R;
+}
+void solve()
+{
+	cin &gt;&gt; n &gt;&gt; s;
+	for(int i=1; i&lt;=n; i++) cin &gt;&gt; p[i].x &gt;&gt; p[i].y;
+	cin &gt;&gt; R;
+	if(s&gt;n) cout &lt;&lt; &quot;The cake is a lie.\n&quot;;
+	else cout &lt;&lt; work() &lt;&lt; '\n';
+}
+int main()
+{
+	ios::sync_with_stdio(false), cin.tie(nullptr);
+	cout &lt;&lt; fixed &lt;&lt; setprecision(4);
+	int _; cin &gt;&gt; _;
+	while(_--) solve();
+	return 0;
+}</code></pre>
+
+              </div>
+              <div class="toc-container">
+                
+              </div>
+            </div>
+          </article>
+        </div>
+
+        
+          <div class="next-post">
+            <div class="next">下一篇</div>
+            <a href="https://jyf111.github.io/post/2020-niu-ke-guo-qing-ji-xun-pai-dui-day1/">
+              <h3 class="post-title">
+                2020牛客国庆集训派对day1
+              </h3>
+            </a>
+          </div>
+        
+
+        
+
+        <div class="site-footer">
+  
+  <a class="rss" href="https://jyf111.github.io/atom.xml" target="_blank">
+    <i class="ri-rss-line"></i> RSS
+  </a>
+</div>
+
+      </div>
+    </div>
+
+    <script>
+      hljs.initHighlightingOnLoad()
+
+      let mainNavLinks = document.querySelectorAll(".markdownIt-TOC a");
+
+      // This should probably be throttled.
+      // Especially because it triggers during smooth scrolling.
+      // https://lodash.com/docs/4.17.10#throttle
+      // You could do like...
+      // window.addEventListener("scroll", () => {
+      //    _.throttle(doThatStuff, 100);
+      // });
+      // Only not doing it here to keep this Pen dependency-free.
+
+      window.addEventListener("scroll", event => {
+        let fromTop = window.scrollY;
+
+        mainNavLinks.forEach((link, index) => {
+          let section = document.getElementById(decodeURI(link.hash).substring(1));
+          let nextSection = null
+          if (mainNavLinks[index + 1]) {
+            nextSection = document.getElementById(decodeURI(mainNavLinks[index + 1].hash).substring(1));
+          }
+          if (section.offsetTop <= fromTop) {
+            if (nextSection) {
+              if (nextSection.offsetTop > fromTop) {
+                link.classList.add("current");
+              } else {
+                link.classList.remove("current");    
+              }
+            } else {
+              link.classList.add("current");
+            }
+          } else {
+            link.classList.remove("current");
+          }
+        });
+      });
+
+    </script>
+  </body>
+</html>

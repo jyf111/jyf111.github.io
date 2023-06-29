@@ -1,0 +1,273 @@
+<html>
+  <head>
+    <meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Binary Land 双栈trick | jyf111</title>
+<link rel="shortcut icon" href="https://jyf111.github.io/favicon.ico?v=1688054387335">
+<link href="https://cdn.jsdelivr.net/npm/remixicon@2.3.0/fonts/remixicon.css" rel="stylesheet">
+<link rel="stylesheet" href="https://jyf111.github.io/styles/main.css">
+<link rel="alternate" type="application/atom+xml" title="Binary Land 双栈trick | jyf111 - Atom Feed" href="https://jyf111.github.io/atom.xml">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Droid+Serif:400,700">
+
+
+
+    <meta name="description" content="要求动态维护一个01矩阵,支持:
+1.从顶部删除一行
+2.从尾部添加一行
+3.询问当前顶部某列到尾部某列的合法路径数
+其中合法路径数定义为,每次只能从[i,j]−&gt;[i,j−1]or[i,j]or[i,j+1][i, j]-&gt;[..." />
+    <meta name="keywords" content="算法" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.10.0/katex.min.css">
+    <script src="https://cdn.bootcss.com/highlight.js/9.12.0/highlight.min.js"></script>
+  </head>
+  <body>
+    <div class="main">
+      <div class="main-content">
+        <div class="site-header">
+  <a href="https://jyf111.github.io">
+  <img class="avatar" src="https://jyf111.github.io/images/avatar.png?v=1688054387335" alt="">
+  </a>
+  <h1 class="site-title">
+    jyf111
+  </h1>
+  <p class="site-description">
+    温故而知新
+  </p>
+  <div class="menu-container">
+    
+      
+        <a href="https://jyf111.github.io" class="menu">
+          首页
+        </a>
+      
+    
+      
+        <a href="/archives" class="menu">
+          归档
+        </a>
+      
+    
+      
+        <a href="https://jyf111.github.io/tags" class="menu">
+          分类
+        </a>
+      
+    
+  </div>
+  <div class="social-container">
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+  </div>
+</div>
+
+        <div class="post-detail">
+          <article class="post">
+            <h2 class="post-title">
+              Binary Land 双栈trick
+            </h2>
+            <div class="post-info">
+              <span>
+                2020-05-11
+              </span>
+              <span>
+                4 min read
+              </span>
+              
+                <a href="https://jyf111.github.io/tag/HKuTllKYu/" class="post-tag">
+                  # 算法
+                </a>
+              
+            </div>
+            
+            <div class="post-content-wrapper">
+              <div class="post-content">
+                <p>要求动态维护一个01矩阵,支持:<br>
+1.从顶部删除一行<br>
+2.从尾部添加一行<br>
+3.询问当前顶部某列到尾部某列的合法路径数<br>
+其中合法路径数定义为,每次只能从<span class="katex"><span class="katex-mathml"><math><semantics><mrow><mo>[</mo><mi>i</mi><mo separator="true">,</mo><mi>j</mi><mo>]</mo><mo>−</mo><mo>&gt;</mo><mo>[</mo><mi>i</mi><mo separator="true">,</mo><mi>j</mi><mo>−</mo><mn>1</mn><mo>]</mo><mi>o</mi><mi>r</mi><mo>[</mo><mi>i</mi><mo separator="true">,</mo><mi>j</mi><mo>]</mo><mi>o</mi><mi>r</mi><mo>[</mo><mi>i</mi><mo separator="true">,</mo><mi>j</mi><mo>+</mo><mn>1</mn><mo>]</mo></mrow><annotation encoding="application/x-tex">[i, j]-&gt;[i,j-1]or[i,j]or[i,j+1]</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mopen">[</span><span class="mord mathdefault">i</span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.16666666666666666em;"></span><span class="mord mathdefault" style="margin-right:0.05724em;">j</span><span class="mclose">]</span><span class="mord">−</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span><span class="mrel">&gt;</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span></span><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mopen">[</span><span class="mord mathdefault">i</span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.16666666666666666em;"></span><span class="mord mathdefault" style="margin-right:0.05724em;">j</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span><span class="mbin">−</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span></span><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord">1</span><span class="mclose">]</span><span class="mord mathdefault">o</span><span class="mord mathdefault" style="margin-right:0.02778em;">r</span><span class="mopen">[</span><span class="mord mathdefault">i</span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.16666666666666666em;"></span><span class="mord mathdefault" style="margin-right:0.05724em;">j</span><span class="mclose">]</span><span class="mord mathdefault">o</span><span class="mord mathdefault" style="margin-right:0.02778em;">r</span><span class="mopen">[</span><span class="mord mathdefault">i</span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.16666666666666666em;"></span><span class="mord mathdefault" style="margin-right:0.05724em;">j</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span><span class="mbin">+</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span></span><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord">1</span><span class="mclose">]</span></span></span></span>,且要求两点同为0或1<br>
+矩阵列数=20,操作数=3e5</p>
+<h1 id="做法">做法</h1>
+<p>显然路径数可以通过简单dp求得,从尾部添加一行也很简单,可以O(col)求得,但是删除操作很麻烦,必须全部重算.<br>
+此时就有一个trick了,当要求的是双端队列操作,但是只有添加可以快速做,那就可以用两个对顶栈来操作.开口向上的为s1,开口向下的为s2<br>
+尾部添加就让s2的栈指针++,并且O(col)更新<br>
+顶部删除就让s1的栈指针--,注意如果s1的栈指针为0,就把s2的所有值搬到s1,此时就相当于给s1添加,s2删除.<br>
+列数很少,我们直接保存所有可能的 n^2 个答案,然后每次修改也都是 n^2 的.<br>
+询问的话, n^2 处理下对顶处部分答案的合并即可.</p>
+<pre><code class="language-cpp">#include &lt;bits/stdc++.h&gt;
+#define mp make_pair
+#define pb push_back
+#define sz(x) (int)x.size()
+#define all(x) begin(x), end(x)
+#define fi first
+#define se second
+#define debug(x) cerr &lt;&lt; #x &lt;&lt; &quot; &quot; &lt;&lt; x &lt;&lt; '\n'
+using namespace std;
+using ll = long long;
+using pii = pair&lt;int,int&gt;;
+using pli = pair&lt;ll,int&gt;;
+const int INF = 0x3f3f3f3f, N = 3e5 + 5, M = 25;
+const ll LINF = 1e18 + 5;
+constexpr int mod = 1e9 + 7;
+int n, q, sta[2];
+int dp[2][N][M][M];
+string p[2][N];
+void upd(int idx)
+{
+    int x = sta[idx];
+    if(x==1) 
+    {
+        for(int i=1; i&lt;=n; i++)
+            for(int j=1; j&lt;=n; j++)
+                dp[idx][x][i][j] = (i==j);
+    }
+    else
+    {
+        for(int i=1; i&lt;=n; i++)
+            for(int j=1; j&lt;=n; j++)
+            {
+                dp[idx][x][i][j] = 0;
+                for(int k=j-1; k&lt;=j+1; k++)
+                {
+                    if(k&lt;1||k&gt;n||p[idx][x-1][k-1]!=p[idx][x][j-1]) continue;
+                    dp[idx][x][i][j] += dp[idx][x-1][i][k];
+                    if(dp[idx][x][i][j]&gt;=mod) dp[idx][x][i][j] -= mod;
+                }
+            }
+    }
+}
+int main()
+{
+    ios::sync_with_stdio(false);
+    cin.tie(nullptr);
+    cin &gt;&gt; n &gt;&gt; q;
+    while(q--)
+    {
+        string op;
+        cin &gt;&gt; op;
+        if(op[0]=='a')
+        {
+            cin &gt;&gt; p[1][++sta[1]]; 
+            upd(1);
+        }
+        else if(op[0]=='r')
+        {
+            if(sta[0]==0)
+            {
+                while(sta[1]) 
+                {
+                    p[0][++sta[0]] = p[1][sta[1]--];
+                    upd(0);
+                }
+            }
+            sta[0]--;
+        }
+        else
+        {
+            int a, b;
+            cin &gt;&gt; a &gt;&gt; b;
+            if(sta[0]==0) cout &lt;&lt; dp[1][sta[1]][a][b] &lt;&lt; '\n';
+            else if(sta[1]==0) cout &lt;&lt; dp[0][sta[0]][b][a] &lt;&lt; '\n';
+            else
+            {
+                int ans = 0;
+                for(int i=1; i&lt;=n; i++)
+                    for(int j=i-1; j&lt;=i+1; j++)
+                    {
+                        if(j&lt;1||j&gt;n||p[0][1][i-1]!=p[1][1][j-1]) continue;
+                        ans += 1ll*dp[0][sta[0]][i][a]*dp[1][sta[1]][j][b]%mod;
+                        if(ans&gt;=mod) ans -= mod;
+                    }
+                cout &lt;&lt; ans &lt;&lt; '\n';
+            }
+        }
+    }
+    return 0;
+}
+</code></pre>
+
+              </div>
+              <div class="toc-container">
+                <ul class="markdownIt-TOC">
+<li><a href="#%E5%81%9A%E6%B3%95">做法</a></li>
+</ul>
+
+              </div>
+            </div>
+          </article>
+        </div>
+
+        
+          <div class="next-post">
+            <div class="next">下一篇</div>
+            <a href="https://jyf111.github.io/post/not-a-real-problem-zui-xiao-ge-fang-an/">
+              <h3 class="post-title">
+                Not a real world problem 最小割+方案
+              </h3>
+            </a>
+          </div>
+        
+
+        
+
+        <div class="site-footer">
+  
+  <a class="rss" href="https://jyf111.github.io/atom.xml" target="_blank">
+    <i class="ri-rss-line"></i> RSS
+  </a>
+</div>
+
+      </div>
+    </div>
+
+    <script>
+      hljs.initHighlightingOnLoad()
+
+      let mainNavLinks = document.querySelectorAll(".markdownIt-TOC a");
+
+      // This should probably be throttled.
+      // Especially because it triggers during smooth scrolling.
+      // https://lodash.com/docs/4.17.10#throttle
+      // You could do like...
+      // window.addEventListener("scroll", () => {
+      //    _.throttle(doThatStuff, 100);
+      // });
+      // Only not doing it here to keep this Pen dependency-free.
+
+      window.addEventListener("scroll", event => {
+        let fromTop = window.scrollY;
+
+        mainNavLinks.forEach((link, index) => {
+          let section = document.getElementById(decodeURI(link.hash).substring(1));
+          let nextSection = null
+          if (mainNavLinks[index + 1]) {
+            nextSection = document.getElementById(decodeURI(mainNavLinks[index + 1].hash).substring(1));
+          }
+          if (section.offsetTop <= fromTop) {
+            if (nextSection) {
+              if (nextSection.offsetTop > fromTop) {
+                link.classList.add("current");
+              } else {
+                link.classList.remove("current");    
+              }
+            } else {
+              link.classList.add("current");
+            }
+          } else {
+            link.classList.remove("current");
+          }
+        });
+      });
+
+    </script>
+  </body>
+</html>

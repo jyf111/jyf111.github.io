@@ -1,0 +1,262 @@
+<html>
+  <head>
+    <meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>p5107 矩阵快速幂+倍增+卡常 | jyf111</title>
+<link rel="shortcut icon" href="https://jyf111.github.io/favicon.ico?v=1688054387335">
+<link href="https://cdn.jsdelivr.net/npm/remixicon@2.3.0/fonts/remixicon.css" rel="stylesheet">
+<link rel="stylesheet" href="https://jyf111.github.io/styles/main.css">
+<link rel="alternate" type="application/atom+xml" title="p5107 矩阵快速幂+倍增+卡常 | jyf111 - Atom Feed" href="https://jyf111.github.io/atom.xml">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Droid+Serif:400,700">
+
+
+
+    <meta name="description" content="带行和列的矩阵模板
+记得初始化行列,注意左乘还是右乘
+注意到询问很多,所以先预处理好倍增矩阵,(倍数不一定要是2,如果预处理复杂度比较低,可以增大倍数b)
+增大倍数,预处理复杂度提升,但询问复杂度降低,可以考虑制衡两者
+询问可以按从小到大的..." />
+    <meta name="keywords" content="算法" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.10.0/katex.min.css">
+    <script src="https://cdn.bootcss.com/highlight.js/9.12.0/highlight.min.js"></script>
+  </head>
+  <body>
+    <div class="main">
+      <div class="main-content">
+        <div class="site-header">
+  <a href="https://jyf111.github.io">
+  <img class="avatar" src="https://jyf111.github.io/images/avatar.png?v=1688054387335" alt="">
+  </a>
+  <h1 class="site-title">
+    jyf111
+  </h1>
+  <p class="site-description">
+    温故而知新
+  </p>
+  <div class="menu-container">
+    
+      
+        <a href="https://jyf111.github.io" class="menu">
+          首页
+        </a>
+      
+    
+      
+        <a href="/archives" class="menu">
+          归档
+        </a>
+      
+    
+      
+        <a href="https://jyf111.github.io/tags" class="menu">
+          分类
+        </a>
+      
+    
+  </div>
+  <div class="social-container">
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+  </div>
+</div>
+
+        <div class="post-detail">
+          <article class="post">
+            <h2 class="post-title">
+              p5107 矩阵快速幂+倍增+卡常
+            </h2>
+            <div class="post-info">
+              <span>
+                2020-05-13
+              </span>
+              <span>
+                4 min read
+              </span>
+              
+                <a href="https://jyf111.github.io/tag/HKuTllKYu/" class="post-tag">
+                  # 算法
+                </a>
+              
+            </div>
+            
+            <div class="post-content-wrapper">
+              <div class="post-content">
+                <p>带行和列的矩阵模板<br>
+记得初始化行列,注意左乘还是右乘<br>
+注意到询问很多,所以先预处理好倍增矩阵,(倍数不一定要是2,如果预处理复杂度比较低,可以增大倍数b)<br>
+增大倍数,预处理复杂度提升,但询问复杂度降低,可以考虑制衡两者<br>
+询问可以按从小到大的顺序排序,可以减少一些运算<br>
+可以把矩阵乘法的for进行循环展开</p>
+<pre><code class="language-cpp">#include &lt;bits/stdc++.h&gt;
+#define mp make_pair
+#define pb push_back
+#define sz(x) (int)x.size()
+#define all(x) begin(x), end(x)
+#define fi first
+#define se second
+#define debug(x) cerr &lt;&lt; #x &lt;&lt; &quot; &quot; &lt;&lt; x &lt;&lt; '\n'
+using namespace std;
+using ll = long long;
+using pii = pair&lt;int,int&gt;;
+using pli = pair&lt;ll,int&gt;;
+const int INF = 0x3f3f3f3f, N = 55, M = 5e4 + 5;
+const ll LINF = 1e18 + 5;
+constexpr int mod = 998244353;
+int n, m, q, qry[M], idx[M], res[M];
+ll inv[N];
+struct matrix
+{
+	int n, m;
+	ll mat[N][N];
+	matrix() { memset(mat, 0, sizeof(mat)); }
+	matrix(int a, int b) : n(a), m(b) { memset(mat, 0, sizeof(mat)); }
+	void one()
+	{
+		for(int i=1; i&lt;=n; i++)
+			for(int j=1; j&lt;=m; j++)
+				mat[i][j] = (i==j);
+	}
+}b[32];
+matrix operator * (matrix a, matrix b) 
+{
+	matrix res(a.n, b.m);
+	for(int i=1; i&lt;=a.n; i++)
+		for(int j=1; j&lt;=b.m; j++)
+			for(int k=1; k&lt;=a.m; k++)
+				res.mat[i][j] = (res.mat[i][j]+a.mat[i][k]*b.mat[k][j]%mod)%mod;
+	return res;
+}
+matrix operator ^ (matrix a, ll x) 
+{
+	matrix res; res.one();
+	while(x)
+	{
+		if(x&amp;1) res = res * a;
+		a = a * a;
+		x &gt;&gt;= 1;
+	}
+	return res;
+}
+int main()
+{
+	scanf(&quot;%d%d%d&quot;, &amp;n, &amp;m, &amp;q);
+	matrix a(n, 1);
+	for(int i=1; i&lt;=n; i++) scanf(&quot;%lld&quot;, &amp;a.mat[i][1]);
+	b[0].n = b[0].m = n;
+	b[0].one();
+	for(int i=1; i&lt;=m; i++)
+	{
+		int u, v; scanf(&quot;%d%d&quot;, &amp;u, &amp;v);
+		b[0].mat[v][u]++;
+	}
+	inv[0] = inv[1] = 1;
+	for(int i=2; i&lt;=n; i++) inv[i] = (mod-mod/i)*inv[mod%i]%mod;
+	for(int j=1; j&lt;=n; j++)
+	{
+		int d = 0;
+		for(int i=1; i&lt;=n; i++) d += b[0].mat[i][j];
+		for(int i=1; i&lt;=n; i++) b[0].mat[i][j] = b[0].mat[i][j]*inv[d]%mod;
+	}
+	for(int i=1; i&lt;=31; i++) b[i] = b[i-1]*b[i-1];
+	for(int i=1; i&lt;=q; i++) scanf(&quot;%d&quot;, qry+i);
+	iota(idx+1, idx+q+1, 1);
+	sort(idx+1, idx+q+1, [](int x, int y) {
+		return qry[x] &lt; qry[y];
+	});
+	matrix ans = a;
+	for(int i=1; i&lt;=q; i++)
+	{
+		int tmp = qry[idx[i]] - qry[idx[i-1]];
+		for(int j=31; j&gt;=0; j--)
+			if((tmp&gt;&gt;j)&amp;1) ans = b[j]*ans;
+		ll Res = 0;
+		for(int i=1; i&lt;=n; i++) Res ^= ans.mat[i][1];
+		res[idx[i]] = Res%mod;
+	}
+	for(int i=1; i&lt;=q; i++) printf(&quot;%d\n&quot;, res[i]);
+	return 0;
+}
+</code></pre>
+
+              </div>
+              <div class="toc-container">
+                
+              </div>
+            </div>
+          </article>
+        </div>
+
+        
+          <div class="next-post">
+            <div class="next">下一篇</div>
+            <a href="https://jyf111.github.io/post/codeforces1349/">
+              <h3 class="post-title">
+                Codeforces1349
+              </h3>
+            </a>
+          </div>
+        
+
+        
+
+        <div class="site-footer">
+  
+  <a class="rss" href="https://jyf111.github.io/atom.xml" target="_blank">
+    <i class="ri-rss-line"></i> RSS
+  </a>
+</div>
+
+      </div>
+    </div>
+
+    <script>
+      hljs.initHighlightingOnLoad()
+
+      let mainNavLinks = document.querySelectorAll(".markdownIt-TOC a");
+
+      // This should probably be throttled.
+      // Especially because it triggers during smooth scrolling.
+      // https://lodash.com/docs/4.17.10#throttle
+      // You could do like...
+      // window.addEventListener("scroll", () => {
+      //    _.throttle(doThatStuff, 100);
+      // });
+      // Only not doing it here to keep this Pen dependency-free.
+
+      window.addEventListener("scroll", event => {
+        let fromTop = window.scrollY;
+
+        mainNavLinks.forEach((link, index) => {
+          let section = document.getElementById(decodeURI(link.hash).substring(1));
+          let nextSection = null
+          if (mainNavLinks[index + 1]) {
+            nextSection = document.getElementById(decodeURI(mainNavLinks[index + 1].hash).substring(1));
+          }
+          if (section.offsetTop <= fromTop) {
+            if (nextSection) {
+              if (nextSection.offsetTop > fromTop) {
+                link.classList.add("current");
+              } else {
+                link.classList.remove("current");    
+              }
+            } else {
+              link.classList.add("current");
+            }
+          } else {
+            link.classList.remove("current");
+          }
+        });
+      });
+
+    </script>
+  </body>
+</html>

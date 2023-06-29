@@ -1,0 +1,237 @@
+<html>
+  <head>
+    <meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>G、Pikachu 问题转化+换根dp | jyf111</title>
+<link rel="shortcut icon" href="https://jyf111.github.io/favicon.ico?v=1688054387335">
+<link href="https://cdn.jsdelivr.net/npm/remixicon@2.3.0/fonts/remixicon.css" rel="stylesheet">
+<link rel="stylesheet" href="https://jyf111.github.io/styles/main.css">
+<link rel="alternate" type="application/atom+xml" title="G、Pikachu 问题转化+换根dp | jyf111 - Atom Feed" href="https://jyf111.github.io/atom.xml">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Droid+Serif:400,700">
+
+
+
+    <meta name="description" content="给定一棵n个点的树，定义一张完全图，w(u,v)=dis(u,v)w(u, v) = dis(u, v)w(u,v)=dis(u,v)，问你各对节点间的最大流的和
+n≤105n \leq 10^5n≤105
+最大流不好想，转化成最小割，那么..." />
+    <meta name="keywords" content="算法" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.10.0/katex.min.css">
+    <script src="https://cdn.bootcss.com/highlight.js/9.12.0/highlight.min.js"></script>
+  </head>
+  <body>
+    <div class="main">
+      <div class="main-content">
+        <div class="site-header">
+  <a href="https://jyf111.github.io">
+  <img class="avatar" src="https://jyf111.github.io/images/avatar.png?v=1688054387335" alt="">
+  </a>
+  <h1 class="site-title">
+    jyf111
+  </h1>
+  <p class="site-description">
+    温故而知新
+  </p>
+  <div class="menu-container">
+    
+      
+        <a href="https://jyf111.github.io" class="menu">
+          首页
+        </a>
+      
+    
+      
+        <a href="/archives" class="menu">
+          归档
+        </a>
+      
+    
+      
+        <a href="https://jyf111.github.io/tags" class="menu">
+          分类
+        </a>
+      
+    
+  </div>
+  <div class="social-container">
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+  </div>
+</div>
+
+        <div class="post-detail">
+          <article class="post">
+            <h2 class="post-title">
+              G、Pikachu 问题转化+换根dp
+            </h2>
+            <div class="post-info">
+              <span>
+                2020-09-03
+              </span>
+              <span>
+                4 min read
+              </span>
+              
+                <a href="https://jyf111.github.io/tag/HKuTllKYu/" class="post-tag">
+                  # 算法
+                </a>
+              
+            </div>
+            
+            <div class="post-content-wrapper">
+              <div class="post-content">
+                <p>给定一棵n个点的树，定义一张完全图，<span class="katex"><span class="katex-mathml"><math><semantics><mrow><mi>w</mi><mo>(</mo><mi>u</mi><mo separator="true">,</mo><mi>v</mi><mo>)</mo><mo>=</mo><mi>d</mi><mi>i</mi><mi>s</mi><mo>(</mo><mi>u</mi><mo separator="true">,</mo><mi>v</mi><mo>)</mo></mrow><annotation encoding="application/x-tex">w(u, v) = dis(u, v)</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathdefault" style="margin-right:0.02691em;">w</span><span class="mopen">(</span><span class="mord mathdefault">u</span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.16666666666666666em;"></span><span class="mord mathdefault" style="margin-right:0.03588em;">v</span><span class="mclose">)</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span></span><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathdefault">d</span><span class="mord mathdefault">i</span><span class="mord mathdefault">s</span><span class="mopen">(</span><span class="mord mathdefault">u</span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.16666666666666666em;"></span><span class="mord mathdefault" style="margin-right:0.03588em;">v</span><span class="mclose">)</span></span></span></span>，问你各对节点间的最大流的和<br>
+<span class="katex"><span class="katex-mathml"><math><semantics><mrow><mi>n</mi><mo>≤</mo><mn>1</mn><msup><mn>0</mn><mn>5</mn></msup></mrow><annotation encoding="application/x-tex">n \leq 10^5</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.7719400000000001em;vertical-align:-0.13597em;"></span><span class="mord mathdefault">n</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span><span class="mrel">≤</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span></span><span class="base"><span class="strut" style="height:0.8141079999999999em;vertical-align:0em;"></span><span class="mord">1</span><span class="mord"><span class="mord">0</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.8141079999999999em;"><span style="top:-3.063em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight">5</span></span></span></span></span></span></span></span></span></span></span><br>
+最大流不好想，转化成最小割，那么s到t的最小割就是将完全图分成两个不连通的完全图，其中一个包含s，另一个包含t，然后要最大化这两个完全图内部的边权和。容易发现当其中一个点为孤立点，另一个为n-1个点的完全图是最优，相当于割去孤立点与其他n-1个点间的所有边。所以s与t间的最大流等于min(s与其他所有点在树上的距离和，t与其他所有点在树上的距离和)。<br>
+我们可以通过换根dp求出每个节点与其他所有点在树上的距离和，然后从大到小排序后，每个的贡献就是(rank-1)次，粗略估算可以发现答案需要用__int128存储</p>
+<pre><code class="language-cpp">#include &lt;bits/stdc++.h&gt;
+#define fi first
+#define se second
+using namespace std;
+using pii = pair&lt;int, int&gt;;
+using ll = long long;
+const int N = 1e5 + 5;
+int n, sz[N];
+vector&lt;pii&gt; G[N];
+ll dp[N][2];
+void dfs(int u, int fa)
+{
+	sz[u] = 1;
+	for(auto it : G[u])
+	{
+		int v = it.fi, w = it.se;
+		if(v==fa) continue;
+		dfs(v, u);
+		sz[u] += sz[v];
+		dp[u][0] += dp[v][0] + w*sz[v];
+	}
+}
+void dfs2(int u, int fa)
+{
+	for(auto it : G[u])
+	{
+		int v = it.fi, w = it.se;
+		if(v==fa) continue;
+		dp[v][1] = dp[u][0] - dp[v][0] - w*sz[v] + w*(sz[u] - sz[v]) + dp[u][1] + w*(n - sz[u]);
+		dfs2(v, u);
+	}
+}
+void print(__int128 x)
+{
+	static int buf[70], tp;
+	tp = 0;
+	if(!x) buf[tp = 1] = 0;
+	while(x)
+	{
+		buf[++tp] = x%10;
+		x /= 10;
+	}
+	for(int i=tp; i&gt;=1; i--) printf(&quot;%d&quot;, buf[i]);
+}
+void solve(int kase)
+{
+	scanf(&quot;%d&quot;, &amp;n);
+	for(int i=1; i&lt;=n; i++) G[i].clear(), dp[i][0] = dp[i][1] = 0;
+	for(int i=1; i&lt;n; i++)
+	{
+		int u, v, w;
+		scanf(&quot;%d%d%d&quot;, &amp;u, &amp;v, &amp;w);
+		G[u].emplace_back(v, w); G[v].emplace_back(u, w);
+	}
+	dfs(1, 0); dfs2(1, 0);
+	vector&lt;ll&gt; alldis(n, 0);
+	for(int i=1; i&lt;=n; i++) alldis[i-1] = dp[i][0] + dp[i][1]; //cout &lt;&lt; '!' &lt;&lt; i &lt;&lt; ' ' &lt;&lt; dp[i][0] &lt;&lt; ' ' &lt;&lt; dp[i][1] &lt;&lt; ' ' &lt;&lt; alldis[i-1] &lt;&lt; '\n'; 
+	sort(begin(alldis), end(alldis)); reverse(begin(alldis), end(alldis));
+	__int128 ans = 0;
+	for(int i=1; i&lt;n; i++) ans += (__int128)i*alldis[i];
+	printf(&quot;Case #%d: &quot;, kase); print(ans); puts(&quot;&quot;);
+}
+int main()
+{
+	int _; scanf(&quot;%d&quot;, &amp;_);
+	for(int kase=1; kase&lt;=_; ++kase) solve(kase);
+	return 0;
+}
+</code></pre>
+
+              </div>
+              <div class="toc-container">
+                
+              </div>
+            </div>
+          </article>
+        </div>
+
+        
+          <div class="next-post">
+            <div class="next">下一篇</div>
+            <a href="https://jyf111.github.io/post/cache-friendly/">
+              <h3 class="post-title">
+                cache friendly
+              </h3>
+            </a>
+          </div>
+        
+
+        
+
+        <div class="site-footer">
+  
+  <a class="rss" href="https://jyf111.github.io/atom.xml" target="_blank">
+    <i class="ri-rss-line"></i> RSS
+  </a>
+</div>
+
+      </div>
+    </div>
+
+    <script>
+      hljs.initHighlightingOnLoad()
+
+      let mainNavLinks = document.querySelectorAll(".markdownIt-TOC a");
+
+      // This should probably be throttled.
+      // Especially because it triggers during smooth scrolling.
+      // https://lodash.com/docs/4.17.10#throttle
+      // You could do like...
+      // window.addEventListener("scroll", () => {
+      //    _.throttle(doThatStuff, 100);
+      // });
+      // Only not doing it here to keep this Pen dependency-free.
+
+      window.addEventListener("scroll", event => {
+        let fromTop = window.scrollY;
+
+        mainNavLinks.forEach((link, index) => {
+          let section = document.getElementById(decodeURI(link.hash).substring(1));
+          let nextSection = null
+          if (mainNavLinks[index + 1]) {
+            nextSection = document.getElementById(decodeURI(mainNavLinks[index + 1].hash).substring(1));
+          }
+          if (section.offsetTop <= fromTop) {
+            if (nextSection) {
+              if (nextSection.offsetTop > fromTop) {
+                link.classList.add("current");
+              } else {
+                link.classList.remove("current");    
+              }
+            } else {
+              link.classList.add("current");
+            }
+          } else {
+            link.classList.remove("current");
+          }
+        });
+      });
+
+    </script>
+  </body>
+</html>

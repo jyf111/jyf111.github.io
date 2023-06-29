@@ -1,0 +1,366 @@
+<html>
+  <head>
+    <meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>平面图 | jyf111</title>
+<link rel="shortcut icon" href="https://jyf111.github.io/favicon.ico?v=1688054387335">
+<link href="https://cdn.jsdelivr.net/npm/remixicon@2.3.0/fonts/remixicon.css" rel="stylesheet">
+<link rel="stylesheet" href="https://jyf111.github.io/styles/main.css">
+<link rel="alternate" type="application/atom+xml" title="平面图 | jyf111 - Atom Feed" href="https://jyf111.github.io/atom.xml">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Droid+Serif:400,700">
+
+
+
+    <meta name="description" content="定义
+画在平面上，任意两条边除顶点外无交点
+包围一个面的边的条数称为该面的次数
+性质
+欧拉公式：
+n - m + r = 2
+点数-边数+面数=2
+点数n≥3n \geq 3n≥3的平面图的边数m≤3n−6m \leq 3n-6m≤3n−6..." />
+    <meta name="keywords" content="算法" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.10.0/katex.min.css">
+    <script src="https://cdn.bootcss.com/highlight.js/9.12.0/highlight.min.js"></script>
+  </head>
+  <body>
+    <div class="main">
+      <div class="main-content">
+        <div class="site-header">
+  <a href="https://jyf111.github.io">
+  <img class="avatar" src="https://jyf111.github.io/images/avatar.png?v=1688054387335" alt="">
+  </a>
+  <h1 class="site-title">
+    jyf111
+  </h1>
+  <p class="site-description">
+    温故而知新
+  </p>
+  <div class="menu-container">
+    
+      
+        <a href="https://jyf111.github.io" class="menu">
+          首页
+        </a>
+      
+    
+      
+        <a href="/archives" class="menu">
+          归档
+        </a>
+      
+    
+      
+        <a href="https://jyf111.github.io/tags" class="menu">
+          分类
+        </a>
+      
+    
+  </div>
+  <div class="social-container">
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+  </div>
+</div>
+
+        <div class="post-detail">
+          <article class="post">
+            <h2 class="post-title">
+              平面图
+            </h2>
+            <div class="post-info">
+              <span>
+                2020-08-13
+              </span>
+              <span>
+                7 min read
+              </span>
+              
+                <a href="https://jyf111.github.io/tag/HKuTllKYu/" class="post-tag">
+                  # 算法
+                </a>
+              
+            </div>
+            
+            <div class="post-content-wrapper">
+              <div class="post-content">
+                <h3 id="定义">定义</h3>
+<p>画在平面上，任意两条边除顶点外无交点<br>
+包围一个面的边的条数称为该面的次数</p>
+<h3 id="性质">性质</h3>
+<p>欧拉公式：<br>
+n - m + r = 2<br>
+点数-边数+面数=2<br>
+点数<span class="katex"><span class="katex-mathml"><math><semantics><mrow><mi>n</mi><mo>≥</mo><mn>3</mn></mrow><annotation encoding="application/x-tex">n \geq 3</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.7719400000000001em;vertical-align:-0.13597em;"></span><span class="mord mathdefault">n</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span><span class="mrel">≥</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span></span><span class="base"><span class="strut" style="height:0.64444em;vertical-align:0em;"></span><span class="mord">3</span></span></span></span>的平面图的边数<span class="katex"><span class="katex-mathml"><math><semantics><mrow><mi>m</mi><mo>≤</mo><mn>3</mn><mi>n</mi><mo>−</mo><mn>6</mn></mrow><annotation encoding="application/x-tex">m \leq 3n-6</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.7719400000000001em;vertical-align:-0.13597em;"></span><span class="mord mathdefault">m</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span><span class="mrel">≤</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span></span><span class="base"><span class="strut" style="height:0.72777em;vertical-align:-0.08333em;"></span><span class="mord">3</span><span class="mord mathdefault">n</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span><span class="mbin">−</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span></span><span class="base"><span class="strut" style="height:0.64444em;vertical-align:0em;"></span><span class="mord">6</span></span></span></span> (边数是线性的)</p>
+<h3 id="对偶图">对偶图</h3>
+<p>每个面为一个顶点，对于平面图上的每条边（一定只与两个面相连），用边连接这两个面对应的顶点<br>
+平面图最小割=对偶图最短路<br>
+（对偶图的边权相当于割掉平面图一条边的代价，所以维护对偶图的连通性，等价于维护平面图的非连通性）<br>
+G的面数等于G*的点数， G与G*的边数相同(每个面为一个点，每条边也对应了一条边)</p>
+<h3 id="p4001-icpc-beijing-2006狼抓兔子">P4001 [ICPC-Beijing 2006]狼抓兔子</h3>
+<p>求网格图的最小割<br>
+网格图显然是平面图，转成对偶图后跑最短路即可<br>
+<s>然后对偶图难建还比网络流慢</s></p>
+<pre><code class="language-cpp">#include &lt;bits/stdc++.h&gt;
+#define fi first
+#define se second
+#define mp make_pair
+using namespace std;
+using ll = long long;
+using pii = pair&lt;int, int&gt;;
+using pli = pair&lt;ll, int&gt;;
+const int N = 1e3 + 5;
+constexpr ll LINF = 0x3f3f3f3f3f3f3f3f;
+int n, m, S, T;
+vector&lt;pii&gt; G[2*N*N];
+ll dis[2*N*N];
+bool vis[2*N*N];
+void Dijkstra(int s) 
+{
+	memset(dis, 0x3f, (T+1)*sizeof(ll)); 
+	memset(vis, 0, (T+1)*sizeof(bool));
+	dis[s] = 0;
+	priority_queue&lt;pli,vector&lt;pli&gt;,greater&lt;pli&gt;&gt; q; 
+	q.push(mp(0, s));
+	while(!q.empty())
+	{
+		int u = q.top().se; q.pop(); 
+		if(vis[u]) continue;
+		vis[u] = 1;
+		for(auto it : G[u])
+		{
+			int v = it.fi, w = it.se;
+			if(dis[v]&gt;dis[u]+w)
+			{
+				dis[v] = dis[u] + w;
+				q.push(mp(dis[v], v));
+			}
+		}
+	}
+}
+int main()
+{
+	scanf(&quot;%d%d&quot;, &amp;n, &amp;m);
+	S = 0, T = (2*n-2)*(m-1) + 1;
+	auto id = [&amp;](int x, int y) {
+		if(x==0||y==m) return S;
+		if(x==2*n-1||y==0) return T; 
+		return (x-1)*(m-1) + y;
+	};
+	for(int i=1; i&lt;=n; i++)
+		for(int j=1; j&lt;m; j++)
+		{
+			int u = id(2*i-2, j), v = id(2*i-1, j), w; scanf(&quot;%d&quot;, &amp;w);
+			G[u].emplace_back(v, w); G[v].emplace_back(u, w);
+		}
+	for(int i=1; i&lt;n; i++)
+		for(int j=1; j&lt;=m; j++)
+		{
+			int u = id(2*i-1, j-1), v = id(2*i, j), w; scanf(&quot;%d&quot;, &amp;w);
+			G[u].emplace_back(v, w); G[v].emplace_back(u, w);
+		}
+	for(int i=1; i&lt;n; i++)
+		for(int j=1; j&lt;m; j++)
+		{
+			int u = id(2*i-1, j), v = id(2*i, j), w; scanf(&quot;%d&quot;, &amp;w);
+			G[u].emplace_back(v, w); G[v].emplace_back(u, w);
+		}
+	Dijkstra(S);
+	printf(&quot;%lld\n&quot;, dis[T]);
+	return 0;
+}
+</code></pre>
+<h3 id="牛客多校2-interval">牛客多校2 Interval</h3>
+<p>初始有一个区间<span class="katex"><span class="katex-mathml"><math><semantics><mrow><mo>[</mo><mn>1</mn><mo separator="true">,</mo><mi>n</mi><mo>]</mo></mrow><annotation encoding="application/x-tex">[1,n]</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mopen">[</span><span class="mord">1</span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.16666666666666666em;"></span><span class="mord mathdefault">n</span><span class="mclose">]</span></span></span></span><br>
+对于一个区间<span class="katex"><span class="katex-mathml"><math><semantics><mrow><mo>[</mo><mi>l</mi><mo separator="true">,</mo><mi>r</mi><mo>]</mo><mo>(</mo><mi>l</mi><mo>&lt;</mo><mi>r</mi><mo>)</mo></mrow><annotation encoding="application/x-tex">[l,r](l&lt;r)</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mopen">[</span><span class="mord mathdefault" style="margin-right:0.01968em;">l</span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.16666666666666666em;"></span><span class="mord mathdefault" style="margin-right:0.02778em;">r</span><span class="mclose">]</span><span class="mopen">(</span><span class="mord mathdefault" style="margin-right:0.01968em;">l</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span><span class="mrel">&lt;</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span></span><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathdefault" style="margin-right:0.02778em;">r</span><span class="mclose">)</span></span></span></span>，可以变换成<span class="katex"><span class="katex-mathml"><math><semantics><mrow><mo>[</mo><mi>l</mi><mo>+</mo><mn>1</mn><mo separator="true">,</mo><mi>r</mi><mo>]</mo></mrow><annotation encoding="application/x-tex">[l+1,r]</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mopen">[</span><span class="mord mathdefault" style="margin-right:0.01968em;">l</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span><span class="mbin">+</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span></span><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord">1</span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.16666666666666666em;"></span><span class="mord mathdefault" style="margin-right:0.02778em;">r</span><span class="mclose">]</span></span></span></span>,<span class="katex"><span class="katex-mathml"><math><semantics><mrow><mo>[</mo><mi>l</mi><mo separator="true">,</mo><mi>r</mi><mo>−</mo><mn>1</mn><mo>]</mo></mrow><annotation encoding="application/x-tex">[l,r-1]</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mopen">[</span><span class="mord mathdefault" style="margin-right:0.01968em;">l</span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.16666666666666666em;"></span><span class="mord mathdefault" style="margin-right:0.02778em;">r</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span><span class="mbin">−</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span></span><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord">1</span><span class="mclose">]</span></span></span></span>,<span class="katex"><span class="katex-mathml"><math><semantics><mrow><mo>[</mo><mi>l</mi><mo>−</mo><mn>1</mn><mo separator="true">,</mo><mi>r</mi><mo>]</mo></mrow><annotation encoding="application/x-tex">[l-1,r]</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mopen">[</span><span class="mord mathdefault" style="margin-right:0.01968em;">l</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span><span class="mbin">−</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span></span><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord">1</span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.16666666666666666em;"></span><span class="mord mathdefault" style="margin-right:0.02778em;">r</span><span class="mclose">]</span></span></span></span>,<span class="katex"><span class="katex-mathml"><math><semantics><mrow><mo>[</mo><mi>l</mi><mo separator="true">,</mo><mi>r</mi><mo>+</mo><mn>1</mn><mo>]</mo></mrow><annotation encoding="application/x-tex">[l,r+1]</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mopen">[</span><span class="mord mathdefault" style="margin-right:0.01968em;">l</span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.16666666666666666em;"></span><span class="mord mathdefault" style="margin-right:0.02778em;">r</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span><span class="mbin">+</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span></span><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord">1</span><span class="mclose">]</span></span></span></span><br>
+现在给定m种方式，可以花费一定的代价限制某种变换，问最少花费多少代价使得区间<span class="katex"><span class="katex-mathml"><math><semantics><mrow><mo>[</mo><mn>1</mn><mo separator="true">,</mo><mi>n</mi><mo>]</mo></mrow><annotation encoding="application/x-tex">[1,n]</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mopen">[</span><span class="mord">1</span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.16666666666666666em;"></span><span class="mord mathdefault">n</span><span class="mclose">]</span></span></span></span>无法变换成长度为1的区间<br>
+<span class="katex"><span class="katex-mathml"><math><semantics><mrow><mi>n</mi><mo>≤</mo><mn>500</mn></mrow><annotation encoding="application/x-tex">n \leq 500</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.7719400000000001em;vertical-align:-0.13597em;"></span><span class="mord mathdefault">n</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span><span class="mrel">≤</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span></span><span class="base"><span class="strut" style="height:0.64444em;vertical-align:0em;"></span><span class="mord">5</span><span class="mord">0</span><span class="mord">0</span></span></span></span></p>
+<h4 id="做法">做法</h4>
+<p>考虑网络流最小割建图，对每个区间建一个点，每种变换连边流量为INF，如果某种变换被限制，则连边流量为cost，表示割掉这条边的代价。<br>
+点数是<span class="katex"><span class="katex-mathml"><math><semantics><mrow><msup><mi>n</mi><mn>2</mn></msup></mrow><annotation encoding="application/x-tex">n^2</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.8141079999999999em;vertical-align:0em;"></span><span class="mord"><span class="mord mathdefault">n</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.8141079999999999em;"><span style="top:-3.063em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight">2</span></span></span></span></span></span></span></span></span></span></span>,边数也是<span class="katex"><span class="katex-mathml"><math><semantics><mrow><msup><mi>n</mi><mn>2</mn></msup></mrow><annotation encoding="application/x-tex">n^2</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.8141079999999999em;vertical-align:0em;"></span><span class="mord"><span class="mord mathdefault">n</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.8141079999999999em;"><span style="top:-3.063em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight">2</span></span></span></span></span></span></span></span></span></span></span>的<br>
+发现这是一个平面图，所以转成对偶图跑最短路就可以了</p>
+<pre><code class="language-cpp">#include &lt;bits/stdc++.h&gt;
+#define mp make_pair
+#define pb push_back
+#define sz(x) (int)x.size()
+#define all(x) begin(x), end(x)
+#define fi first
+#define se second
+#define debug(x) cerr &lt;&lt; #x &lt;&lt; &quot; &quot; &lt;&lt; x &lt;&lt; '\n'
+using namespace std;
+using ll = long long;
+using pil = pair&lt;int,ll&gt;;
+using pli = pair&lt;ll,int&gt;;
+const int N = 505;
+constexpr ll LINF = 0x3f3f3f3f3f3f3f3f;
+constexpr int mod = 1e9 + 7;
+int n, m, S, T, idx[N][N], tot;
+ll dis[N*N];
+bool vis[N*N];
+vector&lt;pil&gt; G[N*N];
+inline void addedge(int u, int v, ll w)
+{
+	//cout &lt;&lt; u &lt;&lt; ' ' &lt;&lt; v &lt;&lt; ' ' &lt;&lt; w &lt;&lt; '\n';
+	G[u].emplace_back(v, w);
+	G[v].emplace_back(u, w);
+}
+void Dijkstra(int s) 
+{
+	memset(dis, 0x3f, (tot+1)*sizeof(ll)); 
+	memset(vis, 0, (tot+1)*sizeof(bool));
+	dis[s] = 0;
+	priority_queue&lt;pli,vector&lt;pli&gt;,greater&lt;pli&gt;&gt; q; 
+	q.push(mp(0, s));
+	while(!q.empty())
+	{
+		int u = q.top().se; q.pop(); 
+		if(vis[u]) continue;
+		vis[u] = 1;
+		for(auto it : G[u])
+		{
+			int v = it.fi; ll w = it.se;
+			if(dis[v]&gt;dis[u]+w)
+			{
+				dis[v] = dis[u] + w;
+				q.push(mp(dis[v], v));
+			}
+		}
+	}
+}
+int main()
+{
+	ios::sync_with_stdio(false);
+	cin.tie(nullptr);
+	cin &gt;&gt; n &gt;&gt; m;
+	for(int i=1; i&lt;n; i++)
+		for(int j=i; j&lt;n; j++)
+			idx[i][j] = ++tot;
+	S = 0; T = ++tot;
+	auto id = [&amp;](int x, int y)
+	{
+		if(x==0) return S;
+		if(y==n) return T;
+		return idx[x][y];
+	};
+	for(int i=1; i&lt;n; i++)
+		for(int j=i; j&lt;n; j++)
+		{
+			addedge(id(i-1, j), id(i, j), LINF);
+			addedge(id(i, j), id(i, j+1), LINF);
+		}
+	for(int i=1; i&lt;=n; i++) addedge(id(i, i), id(i-1, i-1), LINF);
+	for(int i=1; i&lt;=m; i++)
+	{
+		int l, r, c;
+		char dir;
+		cin &gt;&gt; l &gt;&gt; r &gt;&gt; dir &gt;&gt; c;
+		if(dir=='L') addedge(id(l, r-1), id(l, r), c);
+		else addedge(id(l-1, r-1), id(l, r-1), c);
+	}
+	Dijkstra(S);
+	cout &lt;&lt; (dis[T]&gt;=LINF ? -1 : dis[T]) &lt;&lt; '\n';
+	return 0;
+}
+</code></pre>
+
+              </div>
+              <div class="toc-container">
+                <ul class="markdownIt-TOC">
+<li>
+<ul>
+<li>
+<ul>
+<li><a href="#%E5%AE%9A%E4%B9%89">定义</a></li>
+<li><a href="#%E6%80%A7%E8%B4%A8">性质</a></li>
+<li><a href="#%E5%AF%B9%E5%81%B6%E5%9B%BE">对偶图</a></li>
+<li><a href="#p4001-icpc-beijing-2006%E7%8B%BC%E6%8A%93%E5%85%94%E5%AD%90">P4001 [ICPC-Beijing 2006]狼抓兔子</a></li>
+<li><a href="#%E7%89%9B%E5%AE%A2%E5%A4%9A%E6%A0%A12-interval">牛客多校2 Interval</a>
+<ul>
+<li><a href="#%E5%81%9A%E6%B3%95">做法</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+              </div>
+            </div>
+          </article>
+        </div>
+
+        
+          <div class="next-post">
+            <div class="next">下一篇</div>
+            <a href="https://jyf111.github.io/post/xian-xing-gui-hua-dan-chun-xing-suan-fa/">
+              <h3 class="post-title">
+                线性规划 单纯型算法
+              </h3>
+            </a>
+          </div>
+        
+
+        
+
+        <div class="site-footer">
+  
+  <a class="rss" href="https://jyf111.github.io/atom.xml" target="_blank">
+    <i class="ri-rss-line"></i> RSS
+  </a>
+</div>
+
+      </div>
+    </div>
+
+    <script>
+      hljs.initHighlightingOnLoad()
+
+      let mainNavLinks = document.querySelectorAll(".markdownIt-TOC a");
+
+      // This should probably be throttled.
+      // Especially because it triggers during smooth scrolling.
+      // https://lodash.com/docs/4.17.10#throttle
+      // You could do like...
+      // window.addEventListener("scroll", () => {
+      //    _.throttle(doThatStuff, 100);
+      // });
+      // Only not doing it here to keep this Pen dependency-free.
+
+      window.addEventListener("scroll", event => {
+        let fromTop = window.scrollY;
+
+        mainNavLinks.forEach((link, index) => {
+          let section = document.getElementById(decodeURI(link.hash).substring(1));
+          let nextSection = null
+          if (mainNavLinks[index + 1]) {
+            nextSection = document.getElementById(decodeURI(mainNavLinks[index + 1].hash).substring(1));
+          }
+          if (section.offsetTop <= fromTop) {
+            if (nextSection) {
+              if (nextSection.offsetTop > fromTop) {
+                link.classList.add("current");
+              } else {
+                link.classList.remove("current");    
+              }
+            } else {
+              link.classList.add("current");
+            }
+          } else {
+            link.classList.remove("current");
+          }
+        });
+      });
+
+    </script>
+  </body>
+</html>

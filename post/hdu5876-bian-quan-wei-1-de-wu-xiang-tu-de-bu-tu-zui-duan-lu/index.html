@@ -1,0 +1,236 @@
+<html>
+  <head>
+    <meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>hdu5876 边权为1的无向图的补图最短路 | jyf111</title>
+<link rel="shortcut icon" href="https://jyf111.github.io/favicon.ico?v=1688054387335">
+<link href="https://cdn.jsdelivr.net/npm/remixicon@2.3.0/fonts/remixicon.css" rel="stylesheet">
+<link rel="stylesheet" href="https://jyf111.github.io/styles/main.css">
+<link rel="alternate" type="application/atom+xml" title="hdu5876 边权为1的无向图的补图最短路 | jyf111 - Atom Feed" href="https://jyf111.github.io/atom.xml">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Droid+Serif:400,700">
+
+
+
+    <meta name="description" content="做法
+因为边权是1,所以考虑bfs.
+用set s1存储当前还未访问过的点,对于队首u,枚举其出点v,若v在s1中,则将其从s1erase,并insert入s2,则此时在s1中的所有点都和u在补图中直接相连,所以将它们入队即可.
+#incl..." />
+    <meta name="keywords" content="算法" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.10.0/katex.min.css">
+    <script src="https://cdn.bootcss.com/highlight.js/9.12.0/highlight.min.js"></script>
+  </head>
+  <body>
+    <div class="main">
+      <div class="main-content">
+        <div class="site-header">
+  <a href="https://jyf111.github.io">
+  <img class="avatar" src="https://jyf111.github.io/images/avatar.png?v=1688054387335" alt="">
+  </a>
+  <h1 class="site-title">
+    jyf111
+  </h1>
+  <p class="site-description">
+    温故而知新
+  </p>
+  <div class="menu-container">
+    
+      
+        <a href="https://jyf111.github.io" class="menu">
+          首页
+        </a>
+      
+    
+      
+        <a href="/archives" class="menu">
+          归档
+        </a>
+      
+    
+      
+        <a href="https://jyf111.github.io/tags" class="menu">
+          分类
+        </a>
+      
+    
+  </div>
+  <div class="social-container">
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+  </div>
+</div>
+
+        <div class="post-detail">
+          <article class="post">
+            <h2 class="post-title">
+              hdu5876 边权为1的无向图的补图最短路
+            </h2>
+            <div class="post-info">
+              <span>
+                2020-05-03
+              </span>
+              <span>
+                3 min read
+              </span>
+              
+                <a href="https://jyf111.github.io/tag/HKuTllKYu/" class="post-tag">
+                  # 算法
+                </a>
+              
+            </div>
+            
+            <div class="post-content-wrapper">
+              <div class="post-content">
+                <h1 id="做法">做法</h1>
+<p>因为边权是1,所以考虑bfs.<br>
+用set s1存储当前还未访问过的点,对于队首u,枚举其出点v,若v在s1中,则将其从s1erase,并insert入s2,则此时在s1中的所有点都和u在补图中直接相连,所以将它们入队即可.</p>
+<pre><code class="language-cpp">#include &lt;bits/stdc++.h&gt;
+#define mp make_pair
+#define pb push_back
+#define sz(x) (int)x.size()
+#define all(x) begin(x), end(x)
+#define fi first
+#define se second
+#define debug(x) cerr &lt;&lt; #x &lt;&lt; &quot; &quot; &lt;&lt; x &lt;&lt; '\n'
+using namespace std;
+using ll = long long;
+using pii = pair&lt;int,int&gt;;
+using pli = pair&lt;ll,int&gt;;
+const int INF = 0x3f3f3f3f, N = 2e5 + 5;
+const ll LINF = 1e18 + 5;
+constexpr int mod = 1e9 + 7;
+int n, m, s, dis[N];
+vector&lt;int&gt; G[N];
+void init() { for(int i=1; i&lt;=n; i++) G[i].clear(); }
+void bfs(int s)
+{
+    for(int i=1; i&lt;=n; i++) dis[i] = -1;
+    dis[s] = 0;
+    set &lt;int&gt; s1, s2;
+    for(int i=1; i&lt;=n; i++) if(i!=s) s1.insert(i);
+    queue &lt;int&gt; q; q.push(s);
+    while(sz(q))
+    {
+        int u = q.front(); q.pop();
+        for(int v : G[u])
+        {
+            auto it = s1.find(v);
+            if(it!=s1.end())
+            {
+                s2.insert(v);
+                s1.erase(it);
+            }
+        }
+        for(auto it : s1) dis[it] = dis[u] + 1, q.push(it);
+        swap(s1, s2); s2.clear();
+    }
+}
+void solve()
+{
+    scanf(&quot;%d%d&quot;, &amp;n, &amp;m);
+    init();
+    for(int i=1; i&lt;=m; i++)
+    {
+        int u, v; scanf(&quot;%d%d&quot;, &amp;u, &amp;v);
+        G[u].pb(v); G[v].pb(u);
+    }
+    scanf(&quot;%d&quot;, &amp;s);
+    bfs(s);
+    for(int i=1,j=0; i&lt;=n; i++)
+        if(i!=s) 
+        {
+            j++;
+            printf(&quot;%d%c&quot;, dis[i], &quot; \n&quot;[j==n-1]);
+        }
+}
+int main()
+{
+    int T; scanf(&quot;%d&quot;, &amp;T);
+    while(T--) solve();
+    return 0;
+}</code></pre>
+
+              </div>
+              <div class="toc-container">
+                <ul class="markdownIt-TOC">
+<li><a href="#%E5%81%9A%E6%B3%95">做法</a></li>
+</ul>
+
+              </div>
+            </div>
+          </article>
+        </div>
+
+        
+          <div class="next-post">
+            <div class="next">下一篇</div>
+            <a href="https://jyf111.github.io/post/codeforces1348-e-dp/">
+              <h3 class="post-title">
+                codeforces1348 E dp
+              </h3>
+            </a>
+          </div>
+        
+
+        
+
+        <div class="site-footer">
+  
+  <a class="rss" href="https://jyf111.github.io/atom.xml" target="_blank">
+    <i class="ri-rss-line"></i> RSS
+  </a>
+</div>
+
+      </div>
+    </div>
+
+    <script>
+      hljs.initHighlightingOnLoad()
+
+      let mainNavLinks = document.querySelectorAll(".markdownIt-TOC a");
+
+      // This should probably be throttled.
+      // Especially because it triggers during smooth scrolling.
+      // https://lodash.com/docs/4.17.10#throttle
+      // You could do like...
+      // window.addEventListener("scroll", () => {
+      //    _.throttle(doThatStuff, 100);
+      // });
+      // Only not doing it here to keep this Pen dependency-free.
+
+      window.addEventListener("scroll", event => {
+        let fromTop = window.scrollY;
+
+        mainNavLinks.forEach((link, index) => {
+          let section = document.getElementById(decodeURI(link.hash).substring(1));
+          let nextSection = null
+          if (mainNavLinks[index + 1]) {
+            nextSection = document.getElementById(decodeURI(mainNavLinks[index + 1].hash).substring(1));
+          }
+          if (section.offsetTop <= fromTop) {
+            if (nextSection) {
+              if (nextSection.offsetTop > fromTop) {
+                link.classList.add("current");
+              } else {
+                link.classList.remove("current");    
+              }
+            } else {
+              link.classList.add("current");
+            }
+          } else {
+            link.classList.remove("current");
+          }
+        });
+      });
+
+    </script>
+  </body>
+</html>

@@ -1,0 +1,240 @@
+<html>
+  <head>
+    <meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>#525. 【美团杯2020】平行四边形 | jyf111</title>
+<link rel="shortcut icon" href="https://jyf111.github.io/favicon.ico?v=1688054387335">
+<link href="https://cdn.jsdelivr.net/npm/remixicon@2.3.0/fonts/remixicon.css" rel="stylesheet">
+<link rel="stylesheet" href="https://jyf111.github.io/styles/main.css">
+<link rel="alternate" type="application/atom+xml" title="#525. 【美团杯2020】平行四边形 | jyf111 - Atom Feed" href="https://jyf111.github.io/atom.xml">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Droid+Serif:400,700">
+
+
+
+    <meta name="description" content="给定n*n的棋盘,要求放置n个棋子,满足:
+
+x和y都是一个1-n的排列
+任意四个棋子不构成平行四边形
+其中n+1是一个质数
+
+考虑n+1的原根g,则g,g2,g3...gn{g, g^2, g^3 ... g^n}g,g2,g3...gn..." />
+    <meta name="keywords" content="算法" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.10.0/katex.min.css">
+    <script src="https://cdn.bootcss.com/highlight.js/9.12.0/highlight.min.js"></script>
+  </head>
+  <body>
+    <div class="main">
+      <div class="main-content">
+        <div class="site-header">
+  <a href="https://jyf111.github.io">
+  <img class="avatar" src="https://jyf111.github.io/images/avatar.png?v=1688054387335" alt="">
+  </a>
+  <h1 class="site-title">
+    jyf111
+  </h1>
+  <p class="site-description">
+    温故而知新
+  </p>
+  <div class="menu-container">
+    
+      
+        <a href="https://jyf111.github.io" class="menu">
+          首页
+        </a>
+      
+    
+      
+        <a href="/archives" class="menu">
+          归档
+        </a>
+      
+    
+      
+        <a href="https://jyf111.github.io/tags" class="menu">
+          分类
+        </a>
+      
+    
+  </div>
+  <div class="social-container">
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+  </div>
+</div>
+
+        <div class="post-detail">
+          <article class="post">
+            <h2 class="post-title">
+              #525. 【美团杯2020】平行四边形
+            </h2>
+            <div class="post-info">
+              <span>
+                2020-05-18
+              </span>
+              <span>
+                2 min read
+              </span>
+              
+                <a href="https://jyf111.github.io/tag/HKuTllKYu/" class="post-tag">
+                  # 算法
+                </a>
+              
+            </div>
+            
+            <div class="post-content-wrapper">
+              <div class="post-content">
+                <p>给定n*n的棋盘,要求放置n个棋子,满足:</p>
+<ul>
+<li>x和y都是一个1-n的排列</li>
+<li>任意四个棋子不构成平行四边形<br>
+其中n+1是一个质数</li>
+</ul>
+<p>考虑n+1的原根g,则<span class="katex"><span class="katex-mathml"><math><semantics><mrow><mi>g</mi><mo separator="true">,</mo><msup><mi>g</mi><mn>2</mn></msup><mo separator="true">,</mo><msup><mi>g</mi><mn>3</mn></msup><mi mathvariant="normal">.</mi><mi mathvariant="normal">.</mi><mi mathvariant="normal">.</mi><msup><mi>g</mi><mi>n</mi></msup></mrow><annotation encoding="application/x-tex">{g, g^2, g^3 ... g^n}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1.008548em;vertical-align:-0.19444em;"></span><span class="mord"><span class="mord mathdefault" style="margin-right:0.03588em;">g</span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.16666666666666666em;"></span><span class="mord"><span class="mord mathdefault" style="margin-right:0.03588em;">g</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.8141079999999999em;"><span style="top:-3.063em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight">2</span></span></span></span></span></span></span></span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.16666666666666666em;"></span><span class="mord"><span class="mord mathdefault" style="margin-right:0.03588em;">g</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.8141079999999999em;"><span style="top:-3.063em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight">3</span></span></span></span></span></span></span></span><span class="mord">.</span><span class="mord">.</span><span class="mord">.</span><span class="mord"><span class="mord mathdefault" style="margin-right:0.03588em;">g</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.664392em;"><span style="top:-3.063em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathdefault mtight">n</span></span></span></span></span></span></span></span></span></span></span></span>%(n+1)各不相同<br>
+(1,g)...(n,<span class="katex"><span class="katex-mathml"><math><semantics><mrow><msup><mi>g</mi><mi>n</mi></msup></mrow><annotation encoding="application/x-tex">g^n</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.858832em;vertical-align:-0.19444em;"></span><span class="mord"><span class="mord mathdefault" style="margin-right:0.03588em;">g</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.664392em;"><span style="top:-3.063em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathdefault mtight">n</span></span></span></span></span></span></span></span></span></span></span>%(n+1))即为答案<br>
+无证明</p>
+<pre><code class="language-cpp">#include &lt;bits/stdc++.h&gt;
+using namespace std;
+int powmod(int a, int b, int m)
+{
+	int ans = 1;
+	while(b)
+	{
+		if(b&amp;1) ans = 1ll*ans*a%m;
+		a = 1ll*a*a%m;
+		b &gt;&gt;= 1;
+	}
+	return ans;
+}
+int phi(int x) 
+{
+	int ans = x;
+	for(int i=2; i*i&lt;=x; i++)
+	{
+		if(x%i==0) 
+		{
+			ans -= ans / i;
+			while(x%i==0) x /= i;
+		}
+	}
+	if(x&gt;1) ans -= ans / x;
+	return ans;
+}
+void solve()
+{
+	int n;
+	scanf(&quot;%d&quot;, &amp;n);
+	int c = phi(n+1), g = 0;
+	bool ok = 0;
+	while(++g)
+	{
+		ok = (powmod(g, c, n+1)==1);
+		int tmpc = c;
+		for(int i=2; i*i&lt;=tmpc&amp;&amp;ok; i++)
+		{
+			if(tmpc%i==0)
+			{
+				while(tmpc%i==0) tmpc /= i;
+				if(powmod(g, c/i, n+1)==1) ok = 0;
+			}
+		}
+		if(tmpc&gt;1&amp;&amp;powmod(g, c/tmpc, n+1)==1) ok = 0;
+		if(ok) break;
+	}
+	int ans = g; 
+	for(int i=1; i&lt;=n; i++)
+	{
+		printf(&quot;%d %d\n&quot;, i, ans);
+		ans = ans*g%(n+1);
+	}
+}
+int main()
+{
+	int t;
+	scanf(&quot;%d&quot;, &amp;t);
+	while(t--) solve();
+	return 0;
+}
+</code></pre>
+
+              </div>
+              <div class="toc-container">
+                
+              </div>
+            </div>
+          </article>
+        </div>
+
+        
+          <div class="next-post">
+            <div class="next">下一篇</div>
+            <a href="https://jyf111.github.io/post/niu-ke-tiao-zhan-sai-40/">
+              <h3 class="post-title">
+                牛客挑战赛40
+              </h3>
+            </a>
+          </div>
+        
+
+        
+
+        <div class="site-footer">
+  
+  <a class="rss" href="https://jyf111.github.io/atom.xml" target="_blank">
+    <i class="ri-rss-line"></i> RSS
+  </a>
+</div>
+
+      </div>
+    </div>
+
+    <script>
+      hljs.initHighlightingOnLoad()
+
+      let mainNavLinks = document.querySelectorAll(".markdownIt-TOC a");
+
+      // This should probably be throttled.
+      // Especially because it triggers during smooth scrolling.
+      // https://lodash.com/docs/4.17.10#throttle
+      // You could do like...
+      // window.addEventListener("scroll", () => {
+      //    _.throttle(doThatStuff, 100);
+      // });
+      // Only not doing it here to keep this Pen dependency-free.
+
+      window.addEventListener("scroll", event => {
+        let fromTop = window.scrollY;
+
+        mainNavLinks.forEach((link, index) => {
+          let section = document.getElementById(decodeURI(link.hash).substring(1));
+          let nextSection = null
+          if (mainNavLinks[index + 1]) {
+            nextSection = document.getElementById(decodeURI(mainNavLinks[index + 1].hash).substring(1));
+          }
+          if (section.offsetTop <= fromTop) {
+            if (nextSection) {
+              if (nextSection.offsetTop > fromTop) {
+                link.classList.add("current");
+              } else {
+                link.classList.remove("current");    
+              }
+            } else {
+              link.classList.add("current");
+            }
+          } else {
+            link.classList.remove("current");
+          }
+        });
+      });
+
+    </script>
+  </body>
+</html>

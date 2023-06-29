@@ -1,0 +1,342 @@
+<html>
+  <head>
+    <meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>2020秦皇岛 J Jewel Splitting | jyf111</title>
+<link rel="shortcut icon" href="https://jyf111.github.io/favicon.ico?v=1688054387335">
+<link href="https://cdn.jsdelivr.net/npm/remixicon@2.3.0/fonts/remixicon.css" rel="stylesheet">
+<link rel="stylesheet" href="https://jyf111.github.io/styles/main.css">
+<link rel="alternate" type="application/atom+xml" title="2020秦皇岛 J Jewel Splitting | jyf111 - Atom Feed" href="https://jyf111.github.io/atom.xml">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Droid+Serif:400,700">
+
+
+
+    <meta name="description" content="题意
+一个长度为n的字符串，让你排成长为d，宽为⌊nd⌋\lfloor \frac{n}{d} \rfloor⌊dn​⌋的矩形，即将连续的长度d的子串作为一行，多余的n%d个丢弃，问有多少种不同的矩形，mod 998244353
+n≤3×1..." />
+    <meta name="keywords" content="算法" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.10.0/katex.min.css">
+    <script src="https://cdn.bootcss.com/highlight.js/9.12.0/highlight.min.js"></script>
+  </head>
+  <body>
+    <div class="main">
+      <div class="main-content">
+        <div class="site-header">
+  <a href="https://jyf111.github.io">
+  <img class="avatar" src="https://jyf111.github.io/images/avatar.png?v=1688054387335" alt="">
+  </a>
+  <h1 class="site-title">
+    jyf111
+  </h1>
+  <p class="site-description">
+    温故而知新
+  </p>
+  <div class="menu-container">
+    
+      
+        <a href="https://jyf111.github.io" class="menu">
+          首页
+        </a>
+      
+    
+      
+        <a href="/archives" class="menu">
+          归档
+        </a>
+      
+    
+      
+        <a href="https://jyf111.github.io/tags" class="menu">
+          分类
+        </a>
+      
+    
+  </div>
+  <div class="social-container">
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+  </div>
+</div>
+
+        <div class="post-detail">
+          <article class="post">
+            <h2 class="post-title">
+              2020秦皇岛 J Jewel Splitting
+            </h2>
+            <div class="post-info">
+              <span>
+                2020-12-03
+              </span>
+              <span>
+                8 min read
+              </span>
+              
+                <a href="https://jyf111.github.io/tag/HKuTllKYu/" class="post-tag">
+                  # 算法
+                </a>
+              
+            </div>
+            
+            <div class="post-content-wrapper">
+              <div class="post-content">
+                <h3 id="题意">题意</h3>
+<p>一个长度为n的字符串，让你排成长为d，宽为<span class="katex"><span class="katex-mathml"><math><semantics><mrow><mo>⌊</mo><mfrac><mi>n</mi><mi>d</mi></mfrac><mo>⌋</mo></mrow><annotation encoding="application/x-tex">\lfloor \frac{n}{d} \rfloor</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1.095em;vertical-align:-0.345em;"></span><span class="mopen">⌊</span><span class="mord"><span class="mopen nulldelimiter"></span><span class="mfrac"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.695392em;"><span style="top:-2.6550000000000002em;"><span class="pstrut" style="height:3em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathdefault mtight">d</span></span></span></span><span style="top:-3.23em;"><span class="pstrut" style="height:3em;"></span><span class="frac-line" style="border-bottom-width:0.04em;"></span></span><span style="top:-3.394em;"><span class="pstrut" style="height:3em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathdefault mtight">n</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.345em;"><span></span></span></span></span></span><span class="mclose nulldelimiter"></span></span><span class="mclose">⌋</span></span></span></span>的矩形，即将连续的长度d的子串作为一行，多余的n%d个丢弃，问有多少种不同的矩形，mod 998244353<br>
+<span class="katex"><span class="katex-mathml"><math><semantics><mrow><mi>n</mi><mo>≤</mo><mn>3</mn><mo>×</mo><mn>1</mn><msup><mn>0</mn><mn>5</mn></msup></mrow><annotation encoding="application/x-tex">n \leq 3 \times 10^5</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.7719400000000001em;vertical-align:-0.13597em;"></span><span class="mord mathdefault">n</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span><span class="mrel">≤</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span></span><span class="base"><span class="strut" style="height:0.72777em;vertical-align:-0.08333em;"></span><span class="mord">3</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span><span class="mbin">×</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span></span><span class="base"><span class="strut" style="height:0.8141079999999999em;vertical-align:0em;"></span><span class="mord">1</span><span class="mord"><span class="mord">0</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.8141079999999999em;"><span style="top:-3.063em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight">5</span></span></span></span></span></span></span></span></span></span></span></p>
+<h3 id="做法">做法</h3>
+<p>显然不同的d互不影响，可以分开做<br>
+当<span class="katex"><span class="katex-mathml"><math><semantics><mrow><mi>d</mi><mo>∣</mo><mi>n</mi></mrow><annotation encoding="application/x-tex">d \mid n</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathdefault">d</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span><span class="mrel">∣</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span></span><span class="base"><span class="strut" style="height:0.43056em;vertical-align:0em;"></span><span class="mord mathdefault">n</span></span></span></span>，就是一个可重集排列，用map来维护每种hash值出现的个数<br>
+当<span class="katex"><span class="katex-mathml"><math><semantics><mrow><mi>d</mi><mo>∤</mo><mi>n</mi></mrow><annotation encoding="application/x-tex">d \nmid n</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.99253em;vertical-align:-0.25142em;"></span><span class="mord mathdefault">d</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span><span class="mrel amsrm">∤</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span></span><span class="base"><span class="strut" style="height:0.43056em;vertical-align:0em;"></span><span class="mord mathdefault">n</span></span></span></span>，那么我们可能会丢弃<span class="katex"><span class="katex-mathml"><math><semantics><mrow><mo>[</mo><mn>1</mn><mo separator="true">,</mo><mi>n</mi><mi mathvariant="normal">%</mi><mi>d</mi><mo>]</mo><mo separator="true">,</mo><mo>[</mo><mi>d</mi><mo>+</mo><mn>1</mn><mo separator="true">,</mo><mi>d</mi><mo>+</mo><mi>n</mi><mi mathvariant="normal">%</mi><mi>d</mi><mo>]</mo><mi mathvariant="normal">.</mi><mi mathvariant="normal">.</mi><mi mathvariant="normal">.</mi></mrow><annotation encoding="application/x-tex">[1,n\%d],[d+1,d+n\%d]...</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mopen">[</span><span class="mord">1</span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.16666666666666666em;"></span><span class="mord mathdefault">n</span><span class="mord">%</span><span class="mord mathdefault">d</span><span class="mclose">]</span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.16666666666666666em;"></span><span class="mopen">[</span><span class="mord mathdefault">d</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span><span class="mbin">+</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span></span><span class="base"><span class="strut" style="height:0.8888799999999999em;vertical-align:-0.19444em;"></span><span class="mord">1</span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.16666666666666666em;"></span><span class="mord mathdefault">d</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span><span class="mbin">+</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span></span><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathdefault">n</span><span class="mord">%</span><span class="mord mathdefault">d</span><span class="mclose">]</span><span class="mord">.</span><span class="mord">.</span><span class="mord">.</span></span></span></span>，容易发现相邻两种只有两个字符串是不同的，因此动态维护即可。有个问题是，丢弃不同的区间，剩余的串的类型是一模一样的，即这个状态的map是一样的，这时候不能重复算，因此还要对每个时刻的map状态进行hash。<br>
+思路不难，但是卡常。不双hash会wa，双hash又tle🤡</p>
+<p>字符串的rolling hash的本质其实就是将这个字符串用base进制的数来表示，然后可以O(1)的求每个子区间的hash值（我好像到现在才明白字符串hash就是用base进制数来表示。。。）<br>
+考虑map的状态怎么求，就相对于有很多pairs，（hash，cnt）。<br>
+我的做法是把hash值丢到map里然后映射成小的编号，然后cnt就可以用数组来存了，然后map的状态就相当于第id[hash]位的值为cnt，用cnt*pw[id[hash]]来表示即可。<br>
+如果只要整个串的hash值，各个位的值用异或也是可以，这样可以快点。<br>
+然后就是双hash的值，用pair的话肯定会慢，这里用int存，然后高低位合并成一个ull即可。</p>
+<p>通过这题测了一下各种map和set<br>
+unordered_set很没用，set和map比较稳定，unordered_map有时快有时慢，加了手写hash也慢，很不稳定。<br>
+所以一般情况下还是用set和map就行了，稳定log，unordered容易卡成n<br>
+如果要实现无序的set，不推荐unordered_set。<br>
+如果可以离线，那就vector<br>
+此外pbds的gp_hash_table很快，被卡map可以用这个代替unordered_map</p>
+<pre><code class="language-cpp">#include &lt;ext/pb_ds/assoc_container.hpp&gt;
+using namespace __gnu_pbds;
+gp_hash_table&lt;ull, int&gt; id;
+gp_hash_table&lt;ull, bool&gt; vis;
+gp_hash_table&lt;ull, null_type&gt; vis;
+</code></pre>
+<p>无序set也可以用下面两个，测出来bool快一点，null_type内存小点<br>
+gp_hash_table封装的函数不多，只有下标、insert<br>
+要实现count，要靠find==end<br>
+所以最好开局部，不要开全局</p>
+<p>map：2700ms<br>
+gp_hash_table：1700ms</p>
+<pre><code class="language-cpp">#include &lt;bits/stdc++.h&gt;
+#include &lt;ext/pb_ds/assoc_container.hpp&gt;
+using namespace __gnu_pbds;
+using namespace std;
+using ull = uint64_t;
+const int N = 3e5 + 5;
+const int mod = 998244353, mod2 = 1e9 + 9, base = 19260817;
+int kase;
+int n, fac[N&lt;&lt;1], ifac[N&lt;&lt;1], cnt[N&lt;&lt;1], ans, tot;
+int HSH, HSH2;
+//map&lt;ull, int&gt; id;
+gp_hash_table&lt;ull, int&gt; id;
+gp_hash_table&lt;ull, bool&gt; vis;
+//map&lt;int, bool&gt; vis;
+//set&lt;int&gt; st;
+char s[N];
+int pw[N&lt;&lt;1], pw2[N&lt;&lt;1];
+int hsh[N], hsh2[N];
+void Add(int &amp;x, int y) { x += y; if(x&gt;=mod) x -= mod; }
+int Pow(int a, int b)
+{
+	int ans = 1;
+	while(b)
+	{
+		if(b&amp;1) ans = 1ll*ans*a%mod;
+		a = 1ll*a*a%mod;
+		b &gt;&gt;= 1;
+	}
+	return ans;
+}
+void pre(int n)
+{
+	pw[0] = pw2[0] = fac[0] = 1;
+	for(int i=1; i&lt;=2*n; i++)
+	{
+		pw[i] = 1ll*pw[i-1]*base%mod;
+		pw2[i] = 1ll*pw2[i-1]*base%mod2;
+		fac[i] = 1ll*fac[i-1]*i%mod;
+	}
+	ifac[n] = Pow(fac[n], mod-2);
+	for(int i=n-1; i&gt;=0; i--) ifac[i] = 1ll*ifac[i+1]*(i+1)%mod;
+}
+void init()
+{
+	for(int i=1; i&lt;=n; i++) 
+	{
+		hsh[i] = (1ll*hsh[i-1]*base%mod + s[i])%mod;
+		hsh2[i] = (1ll*hsh2[i-1]*base%mod2 + s[i])%mod2;
+	}
+}
+inline int Sub(int x, int y) { x -= y; if(x&lt;0) x += mod; return x; }
+inline int Sub2(int x, int y) { x -= y; if(x&lt;0) x += mod2; return x; }
+int get(int l, int r) { return Sub(hsh[r], 1ll*hsh[l-1]*pw[r-l+1]%mod); }
+int get2(int l, int r) { return Sub2(hsh2[r], 1ll*hsh2[l-1]*pw2[r-l+1]%mod2); }
+void upd(int l, int r, int v)
+{
+	ull hv = (ull)get(l, r)&lt;&lt;32|get2(l, r), p = 0;
+	auto it = id.find(hv);
+	if(it==id.end()) p = id[hv] = ++tot;
+	else p = it-&gt;second;
+	HSH ^= 1ll*pw[p]*cnt[p]%mod;
+	HSH2 ^= 1ll*pw2[p]*cnt[p]%mod2;
+	ans = 1ll*ans*fac[cnt[p]]%mod*ifac[cnt[p] + v]%mod;
+	cnt[p] += v;
+	HSH ^= 1ll*pw[p]*cnt[p]%mod;
+	HSH2 ^= 1ll*pw2[p]*cnt[p]%mod2;
+}
+void clear(gp_hash_table&lt;ull, int&gt; &amp;table)
+{
+	gp_hash_table&lt;ull, int&gt; tmp;
+	table.swap(tmp);
+}
+void clear(gp_hash_table&lt;ull, bool&gt; &amp;table)
+{
+	gp_hash_table&lt;ull, bool&gt; tmp;
+	table.swap(tmp);
+}
+int work(int d)
+{
+	for(int i=1; i&lt;=tot; i++) cnt[i] = 0;
+	//st.clear();
+	clear(id); clear(vis);
+	tot = HSH = HSH2 = 0;
+	int sum = 0;
+	ans = fac[n/d];
+	for(int i=n%d+1; i&lt;=n; i+=d) upd(i, i+d-1, 1);
+	//vector&lt;pair&lt;ull, int&gt;&gt; lsh;
+	//lsh.push_back({(ull)HSH&lt;&lt;32|HSH2, ans});
+	Add(sum, ans); vis.insert({(ull)HSH&lt;&lt;32|HSH2, 1});
+	if(n%d)
+	{
+		int m = n/d*d;
+		for(int i=1; i&lt;m; i+=d)
+		{
+			upd(i, i+d-1, 1);
+			upd(i+n%d, i+n%d+d-1, -1);
+			//lsh.push_back({(ull)HSH&lt;&lt;32|HSH2, ans});
+			if(vis.find((ull)HSH&lt;&lt;32|HSH2)==vis.end()) Add(sum, ans), vis.insert({(ull)HSH&lt;&lt;32|HSH2, 1});
+		}
+	}
+	/*
+	sort(begin(lsh), end(lsh));
+	for(int i=0; i&lt;(int)lsh.size(); )
+	{
+		int j = i + 1;
+		while(j&lt;(int)lsh.size() &amp;&amp; lsh[j]==lsh[i]) 
+		{
+			//assert(lsh[j].second==lsh[i].second);
+			++j;
+		}
+		Add(sum, lsh[i].second);
+		i = j;
+	}
+	*/
+	return sum;
+}
+void solve()
+{
+	scanf(&quot;%s&quot;, s+1);
+	//for(int i=1; i&lt;=300000; i++) s[i] = char('a'+i%26);
+	//s[300001] = 0;
+	n = strlen(s+1);
+	init();
+	int res = 0;
+	for(int d=1; d&lt;=n; d++) Add(res, work(d));
+	printf(&quot;Case #%d: %d\n&quot;, ++kase, res);
+}
+int main()
+{
+	pre(N-5);
+	int _; scanf(&quot;%d&quot;, &amp;_);
+	while(_--) solve();
+	return 0;
+}
+</code></pre>
+
+              </div>
+              <div class="toc-container">
+                <ul class="markdownIt-TOC">
+<li>
+<ul>
+<li>
+<ul>
+<li><a href="#%E9%A2%98%E6%84%8F">题意</a></li>
+<li><a href="#%E5%81%9A%E6%B3%95">做法</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+              </div>
+            </div>
+          </article>
+        </div>
+
+        
+          <div class="next-post">
+            <div class="next">下一篇</div>
+            <a href="https://jyf111.github.io/post/codechef-counting-spaghetti-shu-xue/">
+              <h3 class="post-title">
+                codechef Counting Spaghetti 数学
+              </h3>
+            </a>
+          </div>
+        
+
+        
+
+        <div class="site-footer">
+  
+  <a class="rss" href="https://jyf111.github.io/atom.xml" target="_blank">
+    <i class="ri-rss-line"></i> RSS
+  </a>
+</div>
+
+      </div>
+    </div>
+
+    <script>
+      hljs.initHighlightingOnLoad()
+
+      let mainNavLinks = document.querySelectorAll(".markdownIt-TOC a");
+
+      // This should probably be throttled.
+      // Especially because it triggers during smooth scrolling.
+      // https://lodash.com/docs/4.17.10#throttle
+      // You could do like...
+      // window.addEventListener("scroll", () => {
+      //    _.throttle(doThatStuff, 100);
+      // });
+      // Only not doing it here to keep this Pen dependency-free.
+
+      window.addEventListener("scroll", event => {
+        let fromTop = window.scrollY;
+
+        mainNavLinks.forEach((link, index) => {
+          let section = document.getElementById(decodeURI(link.hash).substring(1));
+          let nextSection = null
+          if (mainNavLinks[index + 1]) {
+            nextSection = document.getElementById(decodeURI(mainNavLinks[index + 1].hash).substring(1));
+          }
+          if (section.offsetTop <= fromTop) {
+            if (nextSection) {
+              if (nextSection.offsetTop > fromTop) {
+                link.classList.add("current");
+              } else {
+                link.classList.remove("current");    
+              }
+            } else {
+              link.classList.add("current");
+            }
+          } else {
+            link.classList.remove("current");
+          }
+        });
+      });
+
+    </script>
+  </body>
+</html>

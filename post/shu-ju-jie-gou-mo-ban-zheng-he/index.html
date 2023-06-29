@@ -1,0 +1,613 @@
+<html>
+  <head>
+    <meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>数据结构模板整合 | jyf111</title>
+<link rel="shortcut icon" href="https://jyf111.github.io/favicon.ico?v=1688054387335">
+<link href="https://cdn.jsdelivr.net/npm/remixicon@2.3.0/fonts/remixicon.css" rel="stylesheet">
+<link rel="stylesheet" href="https://jyf111.github.io/styles/main.css">
+<link rel="alternate" type="application/atom+xml" title="数据结构模板整合 | jyf111 - Atom Feed" href="https://jyf111.github.io/atom.xml">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Droid+Serif:400,700">
+
+
+
+    <meta name="description" content="替罪羊树
+维护权值
+const int N = 1e5 + 5;
+const double alpha = 0.7;
+struct node
+{
+	int ls, rs;
+	int val, sz, cnt;
+}t[N];
+int rt, ..." />
+    <meta name="keywords" content="算法" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.10.0/katex.min.css">
+    <script src="https://cdn.bootcss.com/highlight.js/9.12.0/highlight.min.js"></script>
+  </head>
+  <body>
+    <div class="main">
+      <div class="main-content">
+        <div class="site-header">
+  <a href="https://jyf111.github.io">
+  <img class="avatar" src="https://jyf111.github.io/images/avatar.png?v=1688054387335" alt="">
+  </a>
+  <h1 class="site-title">
+    jyf111
+  </h1>
+  <p class="site-description">
+    温故而知新
+  </p>
+  <div class="menu-container">
+    
+      
+        <a href="https://jyf111.github.io" class="menu">
+          首页
+        </a>
+      
+    
+      
+        <a href="/archives" class="menu">
+          归档
+        </a>
+      
+    
+      
+        <a href="https://jyf111.github.io/tags" class="menu">
+          分类
+        </a>
+      
+    
+  </div>
+  <div class="social-container">
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+  </div>
+</div>
+
+        <div class="post-detail">
+          <article class="post">
+            <h2 class="post-title">
+              数据结构模板整合
+            </h2>
+            <div class="post-info">
+              <span>
+                2020-12-16
+              </span>
+              <span>
+                13 min read
+              </span>
+              
+                <a href="https://jyf111.github.io/tag/HKuTllKYu/" class="post-tag">
+                  # 算法
+                </a>
+              
+            </div>
+            
+            <div class="post-content-wrapper">
+              <div class="post-content">
+                <h3 id="替罪羊树">替罪羊树</h3>
+<p>维护权值</p>
+<pre><code class="language-cpp">const int N = 1e5 + 5;
+const double alpha = 0.7;
+struct node
+{
+	int ls, rs;
+	int val, sz, cnt;
+}t[N];
+int rt, tot;
+void up(int p) { t[p].sz = t[t[p].ls].sz + t[t[p].rs].sz + t[p].cnt; }
+bool bad(int p) { return t[p].cnt &amp;&amp; t[p].sz*alpha&lt;max(t[t[p].ls].sz, t[t[p].rs].sz); }
+int ord[N], top;
+void dfs(int p)
+{
+	if(!p) return;
+	dfs(t[p].ls);
+	if(t[p].cnt) ord[++top] = p;
+	dfs(t[p].rs);
+}
+int build(int l, int r)
+{
+	if(l&gt;r) return 0;
+	int mid = (l+r)&gt;&gt;1, p = ord[mid];
+	t[p].ls = build(l, mid-1);
+	t[p].rs = build(mid+1, r);
+	up(p); 
+	return p;
+}
+void rebuild(int &amp;p)
+{
+	top = 0;
+	dfs(p);
+	p = build(1, top);
+}
+void newnode(int &amp;p, int v)
+{
+	p = ++tot;
+	t[p].val = v, t[p].ls = t[p].rs = 0;
+	t[p].cnt = t[p].sz = 1;
+}
+void ins(int &amp;p, int v)
+{
+	if(!p) newnode(p, v);
+	else
+	{
+		if(v==t[p].val) t[p].cnt++;
+		else if(v&lt;t[p].val) ins(t[p].ls, v);
+		else ins(t[p].rs, v);
+		up(p);
+		if(bad(p)) rebuild(p);
+	}
+}
+void del(int &amp;p, int v)
+{
+	if(v==t[p].val) t[p].cnt--;
+	else if(v&lt;t[p].val) del(t[p].ls, v);
+	else del(t[p].rs, v);
+	up(p);
+	if(bad(p)) rebuild(p);
+}
+int Less(int p, int v, bool eq)
+{
+	if(!p) return 0;
+	if(t[p].cnt&amp;&amp;v==t[p].val) return t[t[p].ls].sz + t[p].cnt*eq;
+	else if(v&lt;t[p].val) return Less(t[p].ls, v, eq);
+	else return t[t[p].ls].sz + t[p].cnt + Less(t[p].rs, v, eq);
+}
+int kth(int p, int k)
+{
+	if(k&lt;=t[t[p].ls].sz) return kth(t[p].ls, k);
+	else if(t[t[p].ls].sz+t[p].cnt&gt;=k) return t[p].val;
+	else return kth(t[p].rs, k-t[p].cnt-t[t[p].ls].sz);
+}
+</code></pre>
+<h3 id="fhq-treap">fhq treap</h3>
+<p>维护区间的（按size分裂），带有up、down以及fa的维护</p>
+<pre><code class="language-cpp">int rt, tot;
+int rnd() { return rand()&lt;&lt;15|rand(); }
+struct node
+{
+	int ls, rs;
+	int fa, key, sz;
+}t[N];
+int newnode(int c)
+{
+	int p = ++tot;
+	t[p].ls = t[p].rs = t[p].fa = 0;
+	t[p].key = rnd();
+	t[p].sz = 1;
+	return p;
+}
+void up(int p)
+{
+	t[p].sz = t[t[p].ls].sz + t[t[p].rs].sz + 1;
+}
+void down(int p)
+{
+}
+void split(int p, int &amp;x, int &amp;y, int k, int fx=0, int fy=0)
+{
+	if(!p) { x = y = 0; return; }
+	down(p);
+	if(k&lt;=t[t[p].ls].sz) 
+	{ 
+		y = p; 
+		split(t[p].ls, x, t[p].ls, k, fx, p); 
+	}
+	else 
+	{ 
+		x = p; 
+		split(t[p].rs, t[p].rs, y, k-t[t[p].ls].sz-1, p, fy); 
+	}
+	if(x) t[x].fa = fx;
+	if(y) t[y].fa = fy;
+	up(p);
+}
+void merge(int &amp;p, int x, int y)
+{
+	if(!x||!y) { p = x|y; return; }
+	if(t[x].key&lt;t[y].key)
+	{
+		down(x);
+		p = x;
+		merge(t[p].rs, t[p].rs, y);
+		t[t[p].rs].fa = p;
+	}
+	else
+	{
+		down(y);
+		p = y;
+		merge(t[p].ls, x, t[p].ls);
+		t[t[p].ls].fa = p;
+	}
+	up(p);
+}
+void downall(int p)
+{
+	if(!p) return;
+	downall(t[p].fa);
+	down(p);
+}
+int get(int p)
+{
+	downall(p);
+	int rk = t[t[p].ls].sz + 1;
+	while(t[p].fa)
+	{
+		if(t[t[p].fa].rs==p) rk += t[t[p].fa].sz - t[p].sz;
+		p = t[p].fa;
+	}
+	return rk;
+}
+int kth(int p, int k)
+{
+	down(p);
+	if(k&lt;=t[t[p].ls].sz) return kth(t[p].ls, k);
+	else if(k==t[t[p].ls].sz+1) return t[p].c;
+	else return kth(t[p].rs, k-t[t[p].ls].sz-1);
+}
+</code></pre>
+<h3 id="splay">splay</h3>
+<p>维护区间，注意及时up，只需要在kth中down即可</p>
+<pre><code class="language-cpp">int rt;
+int ch[N][2], sz[N], fa[N];
+bool rs(int x) { return ch[fa[x]][1]==x; }
+void up(int p) 
+{
+	if(!p) return;
+	int l = ch[p][0], r = ch[p][1];
+}
+void down(int p)
+{
+}
+void build(int l, int r, int f)
+{
+	if(l&gt;r) return;
+	int p = (l+r)&gt;&gt;1;
+	sz[p] = 1, fa[p] = f, ch[f][p&gt;f] = p;
+	if(l==r) return;
+	build(l, p-1, p); build(p+1, r, p);
+	up(p);
+}
+void rotate(int x)
+{
+    int y = fa[x], z = fa[y], k = rs(x), w = ch[x][k^1];
+    ch[y][k] = w; fa[w] = y;
+    ch[z][rs(y)] = x; fa[x] = z;
+    ch[x][k^1] = y; fa[y] = x;
+    up(y); up(x);
+}
+void splay(int x, int g=0)
+{
+    while(fa[x]!=g)
+    {
+        int y = fa[x];
+        if(fa[y]!=g) (rs(x)==rs(y) ? rotate(y) : rotate(x));
+        rotate(x);
+    }
+    if(!g) rt = x;
+}
+int kth(int p, int k)
+{
+    down(p);
+    if(ch[p][0]&amp;&amp;sz[ch[p][0]]&gt;=k) return kth(ch[p][0], k);
+    else if(sz[ch[p][0]]+1==k) return p;
+    else return kth(ch[p][1], k-sz[ch[p][0]]-1); 
+}
+int split(int l, int r)
+{
+	int x = kth(rt, l-1), y = kth(rt, r+1);
+	splay(x); splay(y, x);
+	return ch[y][0];
+}
+</code></pre>
+<h3 id="lct">LCT</h3>
+<p>维护边权：拆点<br>
+维护边双：每次加边，如果两端点已经连通，则用并查集缩起来，然后在access的时候，x=fa[x]=find(fa[x])</p>
+<pre><code class="language-cpp">int ch[N][2], fa[N], rev[N];
+bool rs(int x) { return ch[fa[x]][1]==x; }
+int notrt(int x) { return ch[fa[x]][0]==x || ch[fa[x]][1]==x; }
+void up(int x) 
+{ 
+}
+void reverse(int x)
+{
+	swap(ch[x][0], ch[x][1]);
+	rev[x] ^= 1;
+}
+void down(int x)
+{
+	if(rev[x])
+	{
+		if(ch[x][0]) reverse(ch[x][0]);
+		if(ch[x][1]) reverse(ch[x][1]);
+		rev[x] = 0;
+	}
+}
+void pushall(int x)
+{
+	if(notrt(x)) pushall(fa[x]);
+	down(x);
+}
+void rotate(int x)
+{
+	int y = fa[x], z = fa[y], k = rs(x);
+    if(notrt(y)) ch[z][ch[z][1]==y] = x;
+    ch[y][k] = ch[x][!k]; fa[ch[x][!k]] = y;
+    ch[x][!k] = y, fa[y] = x, fa[x] = z;
+    up(y), up(x), up(z);
+}
+void splay(int x)
+{
+	pushall(x);
+	for(int f=fa[x]; f=fa[x], notrt(x); rotate(x))
+		if(notrt(f)) rotate(rs(x) == rs(f) ? f : x);
+}
+void access(int x)
+{
+	for(int y=0; x; y=x, x=fa[x])
+		splay(x), ch[x][1] = y, up(x);
+}
+void makert(int x)
+{
+	access(x); splay(x);
+	reverse(x);
+}
+int findrt(int x)
+{
+	access(x); splay(x);
+	while(ch[x][0]) down(x), x = ch[x][0];
+	splay(x);
+	return x;
+}
+void split(int x, int y)
+{
+	makert(x);
+	access(y); splay(y);
+}
+void link(int x, int y)
+{
+	makert(x);
+	if(findrt(y)!=x) fa[x] = y;
+}
+void cut(int x, int y)
+{
+	makert(x);
+	if(findrt(y)==x&amp;&amp;fa[y]==x&amp;&amp;!ch[y][0])
+	{
+		fa[y] = ch[x][1] = 0;
+		up(x);
+	}
+}
+</code></pre>
+<p>哈希表</p>
+<pre><code class="language-cpp">const int M = 2174729;
+struct HashTable 
+{
+	struct node { int next, v; ull k; }e[M+5];
+	int head[M], st[N], tp, sz;
+	int f(ull k) { return k % M; }
+	void clear() { sz = 0; while(tp) head[st[tp--]] = 0; }
+	int get(ull k) 
+	{
+		int t = f(k);
+		for(int p = head[t]; p; p = e[p].next)
+			if(e[p].k==k) return e[p].v;
+		++sz; 
+		e[sz] = {head[t], sz, k};
+		head[t] = sz; st[++tp] = t;
+		return sz;
+	}
+};
+</code></pre>
+<p>哈希set</p>
+<pre><code class="language-cpp">struct HashSet
+{
+	struct node { int next; ull k; }e[M+5];
+	int head[M], st[N], tp, sz;
+	int f(ull k) { return k % M; }
+	void clear() { sz = 0; while(tp) head[st[tp--]] = 0; }
+	bool get(ull k) 
+	{
+		for(int p = head[f(k)]; p; p = e[p].next)
+			if(e[p].k==k) return true;
+		return false;
+	}
+	void ins(ull k)
+	{
+		if(get(k)) return;
+		int t = f(k);
+		e[++sz] = {head[t], k};
+		head[t] = sz; st[++tp] = t;
+	}
+};
+</code></pre>
+<p>gp_hash</p>
+<pre><code class="language-cpp">#include &lt;ext/pb_ds/assoc_container.hpp&gt;
+using namespace __gnu_pbds;
+struct custom_hash {
+    size_t operator()(uint64_t x) const {
+        static const uint64_t FIXED_RANDOM = chrono::steady_clock::now().time_since_epoch().count();
+        return x + FIXED_RANDOM;
+    }
+};
+struct custom_hash {
+    static uint64_t splitmix64(uint64_t x) {
+        // http://xorshift.di.unimi.it/splitmix64.c
+        x += 0x9e3779b97f4a7c15;
+        x = (x ^ (x &gt;&gt; 30)) * 0xbf58476d1ce4e5b9;
+        x = (x ^ (x &gt;&gt; 27)) * 0x94d049bb133111eb;
+        return x ^ (x &gt;&gt; 31);
+    }
+
+    size_t operator()(uint64_t x) const {
+        static const uint64_t FIXED_RANDOM = chrono::steady_clock::now().time_since_epoch().count();
+        return splitmix64(x + FIXED_RANDOM);
+    }
+};
+gp_hash_table&lt;ull, int, custom_hash&gt;
+gp_hash_table&lt;ull, bool&gt;
+gp_hash_table&lt;ull, null_type&gt;
+</code></pre>
+<p>bitset压位(64位和32位速度差不多)</p>
+<pre><code class="language-cpp">struct Bitset
+{
+	using uint = uint32_t;
+	static const int B = 32;
+	static const uint up = numeric_limits&lt;uint&gt;::max(); 
+	vector&lt;uint&gt; b; int sz;
+	Bitset(int _sz=0) { sz = _sz; b.resize((sz+B-1)/B, 0); }
+	Bitset operator | (const Bitset &amp;oth) const
+	{
+		Bitset res(sz);
+		int i;
+		for(i=0; i+3&lt;(int)b.size(); i+=4)
+		{
+			res.b[i] = b[i] | oth.b[i];
+			res.b[i+1] = b[i+1] | oth.b[i+1];
+			res.b[i+2] = b[i+2] | oth.b[i+2];
+			res.b[i+3] = b[i+3] | oth.b[i+3];
+		}
+		while(i&lt;(int)b.size()) 
+			res.b[i] = b[i] | oth.b[i], i++;
+		return res;
+	}
+	void set(int p) { b[p/B] |= (1ull&lt;&lt;(p%B)); }
+	void reset(int p) { b[p/B] &amp;= (up^(1ull&lt;&lt;(p%B))); }
+	void setv(int p, int v) { (v ? set(p) : reset(p)); }
+	bool get(uint x, int bit) { return (x&gt;&gt;bit)&amp;1; }
+	int getf0(uint x) { for(int i=0; i&lt;B; i++) if(!get(x, i)) return i; }
+	int getf1(uint x) { for(int i=0; i&lt;B; i++) if(get(x, i)) return i; }
+	int getl0(uint x) { for(int i=B-1; i&gt;=0; i--) if(!get(x, i)) return i; }
+	int getl1(uint x) { for(int i=B-1; i&gt;=0; i--) if(get(x, i)) return i; }
+	int findr0(int x)
+	{
+		int p = x/B, q = x%B;
+		for(int i=q; i&lt;B; i++) if(!get(b[p], i)) return x+i-q; 
+		for(int i=p+1; i&lt;(int)b.size(); i++) 
+			if(b[i]!=up) return x+B-1-q+(i-p-1)*B+getf0(b[i])+1; 
+		return sz + 1;
+	}
+	int findr1(int x)
+	{
+		int p = x/B, q = x%B;
+		for(int i=q; i&lt;B; i++) if(get(b[p], i)) return x+i-q;
+		for(int i=p+1; i&lt;(int)b.size(); i++)
+			if(b[i]) return x+B-1-q+(i-p-1)*B+getf1(b[i])+1;
+		return sz + 1;
+	}
+	int findl0(int x)
+	{
+		int p = x/B, q = x%B;
+		for(int i=q; i&gt;=0; i--) if(!get(b[p], i)) return x+i-q; 
+		for(int i=p-1; i&gt;=0; i--) 
+			if(b[i]!=up) return x-q-(p-1-i)*B-(B-getl0(b[i])); 
+		return -1;
+	}
+	int findl1(int x)
+	{
+		int p = x/B, q = x%B;
+		for(int i=q; i&gt;=0; i--) if(get(b[p], i)) return x+i-q;
+		for(int i=p-1; i&gt;=0; i--) 
+			if(b[i]) return x-q-(p-1-i)*B-(B-getl1(b[i])); 
+		return -1;
+	}
+};
+</code></pre>
+
+              </div>
+              <div class="toc-container">
+                <ul class="markdownIt-TOC">
+<li>
+<ul>
+<li>
+<ul>
+<li><a href="#%E6%9B%BF%E7%BD%AA%E7%BE%8A%E6%A0%91">替罪羊树</a></li>
+<li><a href="#fhq-treap">fhq treap</a></li>
+<li><a href="#splay">splay</a></li>
+<li><a href="#lct">LCT</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+              </div>
+            </div>
+          </article>
+        </div>
+
+        
+          <div class="next-post">
+            <div class="next">下一篇</div>
+            <a href="https://jyf111.github.io/post/rope-kuai-zhuang-lian-biao-shi-xian-de-stl-rong-qi/">
+              <h3 class="post-title">
+                rope 块状链表实现的STL容器
+              </h3>
+            </a>
+          </div>
+        
+
+        
+
+        <div class="site-footer">
+  
+  <a class="rss" href="https://jyf111.github.io/atom.xml" target="_blank">
+    <i class="ri-rss-line"></i> RSS
+  </a>
+</div>
+
+      </div>
+    </div>
+
+    <script>
+      hljs.initHighlightingOnLoad()
+
+      let mainNavLinks = document.querySelectorAll(".markdownIt-TOC a");
+
+      // This should probably be throttled.
+      // Especially because it triggers during smooth scrolling.
+      // https://lodash.com/docs/4.17.10#throttle
+      // You could do like...
+      // window.addEventListener("scroll", () => {
+      //    _.throttle(doThatStuff, 100);
+      // });
+      // Only not doing it here to keep this Pen dependency-free.
+
+      window.addEventListener("scroll", event => {
+        let fromTop = window.scrollY;
+
+        mainNavLinks.forEach((link, index) => {
+          let section = document.getElementById(decodeURI(link.hash).substring(1));
+          let nextSection = null
+          if (mainNavLinks[index + 1]) {
+            nextSection = document.getElementById(decodeURI(mainNavLinks[index + 1].hash).substring(1));
+          }
+          if (section.offsetTop <= fromTop) {
+            if (nextSection) {
+              if (nextSection.offsetTop > fromTop) {
+                link.classList.add("current");
+              } else {
+                link.classList.remove("current");    
+              }
+            } else {
+              link.classList.add("current");
+            }
+          } else {
+            link.classList.remove("current");
+          }
+        });
+      });
+
+    </script>
+  </body>
+</html>

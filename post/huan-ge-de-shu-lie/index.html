@@ -1,0 +1,297 @@
+<html>
+  <head>
+    <meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title> 环鸽的数列 | jyf111</title>
+<link rel="shortcut icon" href="https://jyf111.github.io/favicon.ico?v=1688054387335">
+<link href="https://cdn.jsdelivr.net/npm/remixicon@2.3.0/fonts/remixicon.css" rel="stylesheet">
+<link rel="stylesheet" href="https://jyf111.github.io/styles/main.css">
+<link rel="alternate" type="application/atom+xml" title=" 环鸽的数列 | jyf111 - Atom Feed" href="https://jyf111.github.io/atom.xml">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Droid+Serif:400,700">
+
+
+
+    <meta name="description" content="区间加广义斐波那契数列
+大概有三种做法
+1.用特征方程求出通项,跑出根号的二次剩余后代入,变成区间加等比数列,线段树维护即可
+2.矩阵
+3.利用性质
+#include &lt;bits/stdc++.h&gt;
+#define mp mak..." />
+    <meta name="keywords" content="算法" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.10.0/katex.min.css">
+    <script src="https://cdn.bootcss.com/highlight.js/9.12.0/highlight.min.js"></script>
+  </head>
+  <body>
+    <div class="main">
+      <div class="main-content">
+        <div class="site-header">
+  <a href="https://jyf111.github.io">
+  <img class="avatar" src="https://jyf111.github.io/images/avatar.png?v=1688054387335" alt="">
+  </a>
+  <h1 class="site-title">
+    jyf111
+  </h1>
+  <p class="site-description">
+    温故而知新
+  </p>
+  <div class="menu-container">
+    
+      
+        <a href="https://jyf111.github.io" class="menu">
+          首页
+        </a>
+      
+    
+      
+        <a href="/archives" class="menu">
+          归档
+        </a>
+      
+    
+      
+        <a href="https://jyf111.github.io/tags" class="menu">
+          分类
+        </a>
+      
+    
+  </div>
+  <div class="social-container">
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+  </div>
+</div>
+
+        <div class="post-detail">
+          <article class="post">
+            <h2 class="post-title">
+               环鸽的数列
+            </h2>
+            <div class="post-info">
+              <span>
+                2020-05-19
+              </span>
+              <span>
+                5 min read
+              </span>
+              
+                <a href="https://jyf111.github.io/tag/HKuTllKYu/" class="post-tag">
+                  # 算法
+                </a>
+              
+            </div>
+            
+            <div class="post-content-wrapper">
+              <div class="post-content">
+                <p>区间加广义斐波那契数列<br>
+大概有三种做法<br>
+1.用特征方程求出通项,跑出根号的二次剩余后代入,变成区间加等比数列,线段树维护即可<br>
+2.矩阵<br>
+3.利用性质</p>
+<pre><code class="language-cpp">#include &lt;bits/stdc++.h&gt;
+#define mp make_pair
+#define pb push_back
+#define sz(x) (int)x.size()
+#define all(x) begin(x), end(x)
+#define fi first
+#define se second
+#define debug(x) cerr &lt;&lt; #x &lt;&lt; &quot; &quot; &lt;&lt; x &lt;&lt; '\n'
+using namespace std;
+using ll = long long;
+using pii = pair&lt;int,int&gt;;
+using pli = pair&lt;ll,int&gt;;
+const int INF = 0x3f3f3f3f, N = 3e5 + 5;
+const ll LINF = 1e18 + 5;
+constexpr int mod = 1e9 + 9, a = 276601605, b = 691504013, c = 308495997;
+int sum[N];
+int n, m, x[N];
+inline void mul(int &amp;a, int b) { a = 1ll*a*b%mod; }
+inline int Mul(int a, int b) { return 1ll*a*b%mod; }
+inline void add(int &amp;a, int b) { a+=b; if(a&gt;=mod) a-=mod; }
+inline int Add(int a, int b) { a+=b; if(a&gt;=mod) return a-mod; return a; }
+inline void sub(int &amp;a, int b) { a-=b; if(a&lt;0) a+=mod; }
+inline int Sub(int a, int b) { a-=b; if(a&lt;0) return a+mod; return a; }
+int powmod(int a, int b)
+{
+	int ans = 1;
+	while(b)
+	{
+		if(b&amp;1) ans = Mul(ans, a);
+		a = Mul(a, a);
+		b &gt;&gt;= 1;
+	}
+	return ans;
+}
+struct SegTree
+{
+	#define ls (p&lt;&lt;1)
+	#define rs (p&lt;&lt;1|1)
+	int inv, pw[N]; 
+	struct seg
+	{
+		int l, r, sum, tag;
+	}t[N&lt;&lt;2];
+	void init(int q)
+	{
+		pw[0] = 1;
+		for(int i=1; i&lt;=n; i++) pw[i] = Mul(pw[i-1], q)%mod;
+		inv = powmod(q-1, mod-2);
+	}
+	void setval(int p, int v)
+	{
+		add(t[p].sum, Mul(Mul(v, Sub(pw[t[p].r-t[p].l+1], 1)), inv));
+		add(t[p].tag, v);
+	}
+	void pushup(int p)
+	{
+		t[p].sum = Add(t[ls].sum, t[rs].sum);
+	}
+	void pushdown(int p)
+	{
+		setval(ls, t[p].tag); setval(rs, Mul(t[p].tag, pw[t[rs].l-t[ls].l]));
+		t[p].tag = 0;
+	}
+	void build(int p, int l, int r)
+	{
+		t[p].l = l, t[p].r = r;
+		if(l==r) return;
+		int mid = (l+r)&gt;&gt;1;
+		build(ls, l, mid); build(rs, mid+1, r);
+		pushup(p);
+	}
+	void upd(int p, int x, int y)
+	{
+		int l = t[p].l, r = t[p].r;
+		if(l&gt;=x &amp;&amp; r&lt;=y) 
+		{
+			setval(p, pw[l-x+1]);
+			return;
+		}
+		if(t[p].tag) pushdown(p);
+		int mid = (l+r)&gt;&gt;1;
+		if(x&lt;=mid) upd(ls, x, y);
+		if(y&gt;mid) upd(rs, x, y);
+		pushup(p);
+	}
+	int ask(int p, int x, int y)
+	{
+		int l = t[p].l, r = t[p].r;
+		if(l&gt;=x &amp;&amp; r&lt;=y) return t[p].sum;
+		if(t[p].tag) pushdown(p);
+		int mid = (l+r)&gt;&gt;1, ans = 0;
+		if(x&lt;=mid) add(ans, ask(ls, x, y));
+		if(y&gt;mid) add(ans, ask(rs, x, y));
+		return ans;
+	}
+	#undef ls
+	#undef rs
+}T1, T2;
+int main()
+{
+	scanf(&quot;%d%d&quot;, &amp;n, &amp;m);
+	for(int i=1; i&lt;=n; i++) scanf(&quot;%d&quot;, x+i);
+	for(int i=1; i&lt;=n; i++) sum[i] = Add(sum[i-1], x[i]);
+	T1.init(b); T2.init(c);
+	T1.build(1, 1, n); T2.build(1, 1, n);
+	while(m--)
+	{
+		int op, l, r;
+		scanf(&quot;%d%d%d&quot;, &amp;op, &amp;l, &amp;r);
+		if(op==1)
+		{
+			T1.upd(1, l, r);
+			T2.upd(1, l, r);
+		}
+		else
+		{
+			int ans = Mul(Sub(T1.ask(1, l, r), T2.ask(1, l, r)), a);
+			add(ans, Sub(sum[r], sum[l-1]));
+			printf(&quot;%d\n&quot;, ans);
+		}
+	}
+	return 0;
+}
+</code></pre>
+
+              </div>
+              <div class="toc-container">
+                
+              </div>
+            </div>
+          </article>
+        </div>
+
+        
+          <div class="next-post">
+            <div class="next">下一篇</div>
+            <a href="https://jyf111.github.io/post/525-mei-tuan-bei-2020-ping-xing-si-bian-xing/">
+              <h3 class="post-title">
+                #525. 【美团杯2020】平行四边形
+              </h3>
+            </a>
+          </div>
+        
+
+        
+
+        <div class="site-footer">
+  
+  <a class="rss" href="https://jyf111.github.io/atom.xml" target="_blank">
+    <i class="ri-rss-line"></i> RSS
+  </a>
+</div>
+
+      </div>
+    </div>
+
+    <script>
+      hljs.initHighlightingOnLoad()
+
+      let mainNavLinks = document.querySelectorAll(".markdownIt-TOC a");
+
+      // This should probably be throttled.
+      // Especially because it triggers during smooth scrolling.
+      // https://lodash.com/docs/4.17.10#throttle
+      // You could do like...
+      // window.addEventListener("scroll", () => {
+      //    _.throttle(doThatStuff, 100);
+      // });
+      // Only not doing it here to keep this Pen dependency-free.
+
+      window.addEventListener("scroll", event => {
+        let fromTop = window.scrollY;
+
+        mainNavLinks.forEach((link, index) => {
+          let section = document.getElementById(decodeURI(link.hash).substring(1));
+          let nextSection = null
+          if (mainNavLinks[index + 1]) {
+            nextSection = document.getElementById(decodeURI(mainNavLinks[index + 1].hash).substring(1));
+          }
+          if (section.offsetTop <= fromTop) {
+            if (nextSection) {
+              if (nextSection.offsetTop > fromTop) {
+                link.classList.add("current");
+              } else {
+                link.classList.remove("current");    
+              }
+            } else {
+              link.classList.add("current");
+            }
+          } else {
+            link.classList.remove("current");
+          }
+        });
+      });
+
+    </script>
+  </body>
+</html>

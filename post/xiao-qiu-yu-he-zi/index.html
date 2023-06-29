@@ -1,0 +1,196 @@
+<html>
+  <head>
+    <meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>小球与盒子 | jyf111</title>
+<link rel="shortcut icon" href="https://jyf111.github.io/favicon.ico?v=1688054387335">
+<link href="https://cdn.jsdelivr.net/npm/remixicon@2.3.0/fonts/remixicon.css" rel="stylesheet">
+<link rel="stylesheet" href="https://jyf111.github.io/styles/main.css">
+<link rel="alternate" type="application/atom+xml" title="小球与盒子 | jyf111 - Atom Feed" href="https://jyf111.github.io/atom.xml">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Droid+Serif:400,700">
+
+
+
+    <meta name="description" content="n个球放进k个盒子，根据球是否相同、盒子是否相同、盒子是否可以为空，可以总结出8个模型。
+前置芝士：组合数、斯特林数、快速幂、贝尔数、整数拆分等
+球不同，盒子相同（不同），不能空盒
+盒子相同时为第二类斯特林数，不同时再乘以k！即可
+可以nk..." />
+    <meta name="keywords" content="算法" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.10.0/katex.min.css">
+    <script src="https://cdn.bootcss.com/highlight.js/9.12.0/highlight.min.js"></script>
+  </head>
+  <body>
+    <div class="main">
+      <div class="main-content">
+        <div class="site-header">
+  <a href="https://jyf111.github.io">
+  <img class="avatar" src="https://jyf111.github.io/images/avatar.png?v=1688054387335" alt="">
+  </a>
+  <h1 class="site-title">
+    jyf111
+  </h1>
+  <p class="site-description">
+    温故而知新
+  </p>
+  <div class="menu-container">
+    
+      
+        <a href="https://jyf111.github.io" class="menu">
+          首页
+        </a>
+      
+    
+      
+        <a href="/archives" class="menu">
+          归档
+        </a>
+      
+    
+      
+        <a href="https://jyf111.github.io/tags" class="menu">
+          分类
+        </a>
+      
+    
+  </div>
+  <div class="social-container">
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+  </div>
+</div>
+
+        <div class="post-detail">
+          <article class="post">
+            <h2 class="post-title">
+              小球与盒子
+            </h2>
+            <div class="post-info">
+              <span>
+                2020-05-25
+              </span>
+              <span>
+                2 min read
+              </span>
+              
+                <a href="https://jyf111.github.io/tag/HKuTllKYu/" class="post-tag">
+                  # 算法
+                </a>
+              
+            </div>
+            
+            <div class="post-content-wrapper">
+              <div class="post-content">
+                <p>n个球放进k个盒子，根据球是否相同、盒子是否相同、盒子是否可以为空，可以总结出8个模型。<br>
+前置芝士：组合数、斯特林数、快速幂、贝尔数、整数拆分等</p>
+<h1 id="球不同盒子相同不同不能空盒">球不同，盒子相同（不同），不能空盒</h1>
+<p>盒子相同时为第二类斯特林数，不同时再乘以k！即可<br>
+可以nk递推，可以容斥</p>
+<h1 id="球不同盒子不同可以空盒">球不同，盒子不同，可以空盒</h1>
+<p>每个球有k种方法 <span class="katex"><span class="katex-mathml"><math><semantics><mrow><msup><mi>k</mi><mi>n</mi></msup></mrow><annotation encoding="application/x-tex">k^n</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.69444em;vertical-align:0em;"></span><span class="mord"><span class="mord mathdefault" style="margin-right:0.03148em;">k</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.664392em;"><span style="top:-3.063em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathdefault mtight">n</span></span></span></span></span></span></span></span></span></span></span></p>
+<h1 id="球不同盒子相同可以空盒">球不同，盒子相同，可以空盒</h1>
+<p>枚举空盒的数量，答案为第二类斯特林数一行求和<br>
+也相当与是贝尔数</p>
+<h1 id="球相同盒子不同不能空盒">球相同，盒子不同，不能空盒</h1>
+<p>x1+x2+...+xn = k的正整数解个数<br>
+C(n-1, k-1)</p>
+<h1 id="球相同盒子不同可以空盒">球相同，盒子不同，可以空盒</h1>
+<p>x1+x2+...+xn = k的非负整数解个数<br>
+C(n+k-1, k-1)</p>
+<h1 id="球相同盒子相同不能空盒">球相同，盒子相同，不能空盒</h1>
+<p>整数n拆分成k份=用最大数为k拆分n<br>
+D(n-k, k) 将n-k用&lt;=k的数拆分</p>
+<h1 id="球相同盒子相同可以空盒">球相同，盒子相同，可以空盒</h1>
+<p>D(n, k) = D(n, k-1) + D(n-k, k)</p>
+
+              </div>
+              <div class="toc-container">
+                <ul class="markdownIt-TOC">
+<li><a href="#%E7%90%83%E4%B8%8D%E5%90%8C%E7%9B%92%E5%AD%90%E7%9B%B8%E5%90%8C%E4%B8%8D%E5%90%8C%E4%B8%8D%E8%83%BD%E7%A9%BA%E7%9B%92">球不同，盒子相同（不同），不能空盒</a></li>
+<li><a href="#%E7%90%83%E4%B8%8D%E5%90%8C%E7%9B%92%E5%AD%90%E4%B8%8D%E5%90%8C%E5%8F%AF%E4%BB%A5%E7%A9%BA%E7%9B%92">球不同，盒子不同，可以空盒</a></li>
+<li><a href="#%E7%90%83%E4%B8%8D%E5%90%8C%E7%9B%92%E5%AD%90%E7%9B%B8%E5%90%8C%E5%8F%AF%E4%BB%A5%E7%A9%BA%E7%9B%92">球不同，盒子相同，可以空盒</a></li>
+<li><a href="#%E7%90%83%E7%9B%B8%E5%90%8C%E7%9B%92%E5%AD%90%E4%B8%8D%E5%90%8C%E4%B8%8D%E8%83%BD%E7%A9%BA%E7%9B%92">球相同，盒子不同，不能空盒</a></li>
+<li><a href="#%E7%90%83%E7%9B%B8%E5%90%8C%E7%9B%92%E5%AD%90%E4%B8%8D%E5%90%8C%E5%8F%AF%E4%BB%A5%E7%A9%BA%E7%9B%92">球相同，盒子不同，可以空盒</a></li>
+<li><a href="#%E7%90%83%E7%9B%B8%E5%90%8C%E7%9B%92%E5%AD%90%E7%9B%B8%E5%90%8C%E4%B8%8D%E8%83%BD%E7%A9%BA%E7%9B%92">球相同，盒子相同，不能空盒</a></li>
+<li><a href="#%E7%90%83%E7%9B%B8%E5%90%8C%E7%9B%92%E5%AD%90%E7%9B%B8%E5%90%8C%E5%8F%AF%E4%BB%A5%E7%A9%BA%E7%9B%92">球相同，盒子相同，可以空盒</a></li>
+</ul>
+
+              </div>
+            </div>
+          </article>
+        </div>
+
+        
+          <div class="next-post">
+            <div class="next">下一篇</div>
+            <a href="https://jyf111.github.io/post/xian-duan-shu-wei-hu-qian-zhui-zui-zhi-wen-ti/">
+              <h3 class="post-title">
+                线段树维护前缀最值问题
+              </h3>
+            </a>
+          </div>
+        
+
+        
+
+        <div class="site-footer">
+  
+  <a class="rss" href="https://jyf111.github.io/atom.xml" target="_blank">
+    <i class="ri-rss-line"></i> RSS
+  </a>
+</div>
+
+      </div>
+    </div>
+
+    <script>
+      hljs.initHighlightingOnLoad()
+
+      let mainNavLinks = document.querySelectorAll(".markdownIt-TOC a");
+
+      // This should probably be throttled.
+      // Especially because it triggers during smooth scrolling.
+      // https://lodash.com/docs/4.17.10#throttle
+      // You could do like...
+      // window.addEventListener("scroll", () => {
+      //    _.throttle(doThatStuff, 100);
+      // });
+      // Only not doing it here to keep this Pen dependency-free.
+
+      window.addEventListener("scroll", event => {
+        let fromTop = window.scrollY;
+
+        mainNavLinks.forEach((link, index) => {
+          let section = document.getElementById(decodeURI(link.hash).substring(1));
+          let nextSection = null
+          if (mainNavLinks[index + 1]) {
+            nextSection = document.getElementById(decodeURI(mainNavLinks[index + 1].hash).substring(1));
+          }
+          if (section.offsetTop <= fromTop) {
+            if (nextSection) {
+              if (nextSection.offsetTop > fromTop) {
+                link.classList.add("current");
+              } else {
+                link.classList.remove("current");    
+              }
+            } else {
+              link.classList.add("current");
+            }
+          } else {
+            link.classList.remove("current");
+          }
+        });
+      });
+
+    </script>
+  </body>
+</html>

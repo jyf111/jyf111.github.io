@@ -1,0 +1,255 @@
+<html>
+  <head>
+    <meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>bzoj2724 蒲公英 区间众数+强制在线 | jyf111</title>
+<link rel="shortcut icon" href="https://jyf111.github.io/favicon.ico?v=1688054387335">
+<link href="https://cdn.jsdelivr.net/npm/remixicon@2.3.0/fonts/remixicon.css" rel="stylesheet">
+<link rel="stylesheet" href="https://jyf111.github.io/styles/main.css">
+<link rel="alternate" type="application/atom+xml" title="bzoj2724 蒲公英 区间众数+强制在线 | jyf111 - Atom Feed" href="https://jyf111.github.io/atom.xml">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Droid+Serif:400,700">
+
+
+
+    <meta name="description" content="可以离线的话怎么做？
+首先想到的肯定是莫队，不过删除操作有点棘手。目前只有两个想法：1.无脑上回滚莫队。2.再加一个分块来维护出现次数，移动O(1)，查询O(n)O(\sqrt n)O(n​)。不过感觉都没有在线简单
+分块之后，如果维护的信..." />
+    <meta name="keywords" content="算法" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.10.0/katex.min.css">
+    <script src="https://cdn.bootcss.com/highlight.js/9.12.0/highlight.min.js"></script>
+  </head>
+  <body>
+    <div class="main">
+      <div class="main-content">
+        <div class="site-header">
+  <a href="https://jyf111.github.io">
+  <img class="avatar" src="https://jyf111.github.io/images/avatar.png?v=1688054387335" alt="">
+  </a>
+  <h1 class="site-title">
+    jyf111
+  </h1>
+  <p class="site-description">
+    温故而知新
+  </p>
+  <div class="menu-container">
+    
+      
+        <a href="https://jyf111.github.io" class="menu">
+          首页
+        </a>
+      
+    
+      
+        <a href="/archives" class="menu">
+          归档
+        </a>
+      
+    
+      
+        <a href="https://jyf111.github.io/tags" class="menu">
+          分类
+        </a>
+      
+    
+  </div>
+  <div class="social-container">
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+  </div>
+</div>
+
+        <div class="post-detail">
+          <article class="post">
+            <h2 class="post-title">
+              bzoj2724 蒲公英 区间众数+强制在线
+            </h2>
+            <div class="post-info">
+              <span>
+                2021-09-03
+              </span>
+              <span>
+                5 min read
+              </span>
+              
+                <a href="https://jyf111.github.io/tag/HKuTllKYu/" class="post-tag">
+                  # 算法
+                </a>
+              
+            </div>
+            
+            <div class="post-content-wrapper">
+              <div class="post-content">
+                <p>可以离线的话怎么做？<br>
+首先想到的肯定是莫队，不过删除操作有点棘手。目前只有两个想法：1.无脑上回滚莫队。2.再加一个分块来维护出现次数，移动O(1)，查询<span class="katex"><span class="katex-mathml"><math><semantics><mrow><mi>O</mi><mo>(</mo><msqrt><mi>n</mi></msqrt><mo>)</mo></mrow><annotation encoding="application/x-tex">O(\sqrt n)</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1.05028em;vertical-align:-0.25em;"></span><span class="mord mathdefault" style="margin-right:0.02778em;">O</span><span class="mopen">(</span><span class="mord sqrt"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.8002800000000001em;"><span class="svg-align" style="top:-3em;"><span class="pstrut" style="height:3em;"></span><span class="mord mathdefault" style="padding-left:0.833em;">n</span></span><span style="top:-2.76028em;"><span class="pstrut" style="height:3em;"></span><span class="hide-tail" style="min-width:0.853em;height:1.08em;"><svg width='400em' height='1.08em' viewBox='0 0 400000 1080' preserveAspectRatio='xMinYMin slice'><path d='M95,702c-2.7,0,-7.17,-2.7,-13.5,-8c-5.8,-5.3,-9.5,
+-10,-9.5,-14c0,-2,0.3,-3.3,1,-4c1.3,-2.7,23.83,-20.7,67.5,-54c44.2,-33.3,65.8,
+-50.3,66.5,-51c1.3,-1.3,3,-2,5,-2c4.7,0,8.7,3.3,12,10s173,378,173,378c0.7,0,
+35.3,-71,104,-213c68.7,-142,137.5,-285,206.5,-429c69,-144,104.5,-217.7,106.5,
+-221c5.3,-9.3,12,-14,20,-14H400000v40H845.2724s-225.272,467,-225.272,467
+s-235,486,-235,486c-2.7,4.7,-9,7,-19,7c-6,0,-10,-1,-12,-3s-194,-422,-194,-422
+s-65,47,-65,47z M834 80H400000v40H845z'/></svg></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.23972em;"><span></span></span></span></span></span><span class="mclose">)</span></span></span></span>。不过感觉都没有在线简单</p>
+<p>分块之后，如果维护的信息可以递推，我们可以很方便的维护出任意两个块之间的信息。本题就是任意两个块之间的众数，这是很容易的，而且是<span class="katex"><span class="katex-mathml"><math><semantics><mrow><mi>O</mi><mo>(</mo><mfrac><msup><mi>N</mi><mn>2</mn></msup><mi>B</mi></mfrac><mo>)</mo></mrow><annotation encoding="application/x-tex">O(\frac{N^2}{B})</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1.36292em;vertical-align:-0.345em;"></span><span class="mord mathdefault" style="margin-right:0.02778em;">O</span><span class="mopen">(</span><span class="mord"><span class="mopen nulldelimiter"></span><span class="mfrac"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:1.01792em;"><span style="top:-2.6550000000000002em;"><span class="pstrut" style="height:3em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathdefault mtight" style="margin-right:0.05017em;">B</span></span></span></span><span style="top:-3.23em;"><span class="pstrut" style="height:3em;"></span><span class="frac-line" style="border-bottom-width:0.04em;"></span></span><span style="top:-3.394em;"><span class="pstrut" style="height:3em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mtight"><span class="mord mathdefault mtight" style="margin-right:0.10903em;">N</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.8913142857142857em;"><span style="top:-2.931em;margin-right:0.07142857142857144em;"><span class="pstrut" style="height:2.5em;"></span><span class="sizing reset-size3 size1 mtight"><span class="mord mtight">2</span></span></span></span></span></span></span></span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.345em;"><span></span></span></span></span></span><span class="mclose nulldelimiter"></span></span><span class="mclose">)</span></span></span></span>的。<br>
+可以发现答案肯定要么是上面这个，要么是两个边缘块中出现的数字。所以我们只需要枚举边缘块的数字来进行更新即可。一种显然的想法就是对每个数字进行二分来求解出现次数，这样是<span class="katex"><span class="katex-mathml"><math><semantics><mrow><mi>O</mi><mo>(</mo><mi>M</mi><mi>B</mi><mi>log</mi><mo>⁡</mo><mi>N</mi><mo>)</mo></mrow><annotation encoding="application/x-tex">O(MB\log N)</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathdefault" style="margin-right:0.02778em;">O</span><span class="mopen">(</span><span class="mord mathdefault" style="margin-right:0.10903em;">M</span><span class="mord mathdefault" style="margin-right:0.05017em;">B</span><span class="mspace" style="margin-right:0.16666666666666666em;"></span><span class="mop">lo<span style="margin-right:0.01389em;">g</span></span><span class="mspace" style="margin-right:0.16666666666666666em;"></span><span class="mord mathdefault" style="margin-right:0.10903em;">N</span><span class="mclose">)</span></span></span></span>的，需要对B进行权衡。另外一种很妙的思路，考虑到两个边缘块对答案的贡献最多是<span class="katex"><span class="katex-mathml"><math><semantics><mrow><mn>2</mn><mi>B</mi></mrow><annotation encoding="application/x-tex">2B</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.68333em;vertical-align:0em;"></span><span class="mord">2</span><span class="mord mathdefault" style="margin-right:0.05017em;">B</span></span></span></span>，那我直接O(1)去check贡献能不能再+1，这样就是<span class="katex"><span class="katex-mathml"><math><semantics><mrow><mi>O</mi><mo>(</mo><mi>M</mi><mi>B</mi><mo>)</mo></mrow><annotation encoding="application/x-tex">O(MB)</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathdefault" style="margin-right:0.02778em;">O</span><span class="mopen">(</span><span class="mord mathdefault" style="margin-right:0.10903em;">M</span><span class="mord mathdefault" style="margin-right:0.05017em;">B</span><span class="mclose">)</span></span></span></span>的了(<mark>注：M是询问次数，N是数字个数，B是块大小</mark>，根据均值不等式使两个复杂度相等，选择最优的B即可，当然具体实现时只要大致估计一个常数即可)</p>
+<pre><code class="language-cpp">#include &lt;bits/stdc++.h&gt;
+using namespace std;
+const int N = 4e4 + 5, B = 250;
+int n, m, a[N], v[N], tot;
+int f[B][B], g[B][B], cnt[N];
+int blo, num, bl[N], l[B], r[B], pos[N];
+vector&lt;int&gt; p[N];
+void lsh() {
+    static int tmp[N];
+    for(int i=1; i&lt;=n; i++) tmp[i] = a[i];
+    sort(tmp+1, tmp+n+1);
+    tot = unique(tmp+1, tmp+n+1) - tmp - 1;
+    for(int i=1; i&lt;=n; i++) {
+        int pre = a[i];
+        a[i] = lower_bound(tmp+1, tmp+tot+1, a[i]) - tmp;
+        v[a[i]] = pre;
+    }
+}
+void build(int x) {
+    int res = 0;
+    for(int i=1; i&lt;=tot; i++) cnt[i] = 0;
+    for(int y=x; y&lt;=num; y++) {
+        for(int i=l[y]; i&lt;=r[y]; i++) {
+            int cur = a[i];
+            cnt[cur]++;
+            if(!res || cnt[cur]&gt;cnt[res] || (cnt[cur]==cnt[res] &amp;&amp; cur&lt;res)) {
+                res = cur;
+            }
+        }
+        f[x][y] = res;
+        g[x][y] = cnt[res];
+    }
+}
+void init() {
+    blo = sqrt(n); 
+    num = (n+blo-1)/blo;
+    for(int i=1; i&lt;=n; i++) bl[i] = (i-1)/blo + 1;
+    for(int i=1; i&lt;=num; i++) l[i] = (i-1)*blo + 1, r[i] = i*blo;   
+    r[num] = n;
+    for(int i=1; i&lt;=num; i++) build(i);
+    for(int i=1; i&lt;=n; i++) {
+        p[a[i]].push_back(i);
+        pos[i] = (int)p[a[i]].size() - 1;
+    }
+}
+int qry(int x, int y) {
+    int res = 0, cnt = 0;
+    if(bl[x]+1&lt;=bl[y]-1) res = f[bl[x]+1][bl[y]-1], cnt = g[bl[x]+1][bl[y]-1]; 
+    for(int i=x; i&lt;=min(r[bl[x]], y); i++) {
+        int nxt = (a[i]&lt;res ? cnt : cnt+1);
+        while(pos[i]+nxt-1&lt;(int)p[a[i]].size() &amp;&amp; p[a[i]][pos[i]+nxt-1]&lt;=y) {
+            res = a[i];
+            cnt = nxt++;
+        }
+    }
+    if(bl[x]!=bl[y]) {
+        for(int i=l[bl[y]]; i&lt;=y; i++) {
+            int nxt = (a[i]&lt;res ? cnt : cnt+1);
+            while(pos[i]-nxt+1&gt;=0 &amp;&amp; p[a[i]][pos[i]-nxt+1]&gt;=x) {
+                res = a[i];
+                cnt = nxt++;
+            }
+        }
+    }
+    return res;
+}
+int main() {
+    scanf(&quot;%d%d&quot;, &amp;n, &amp;m);
+    for(int i=1; i&lt;=n; i++) scanf(&quot;%d&quot;, a+i);
+    lsh();
+    init();
+    int lstans = 0;
+    while(m--) {
+        int l, r;
+        scanf(&quot;%d%d&quot;, &amp;l, &amp;r);
+        l = (l + lstans - 1)%n + 1, r = (r + lstans - 1)%n + 1;
+        if(l&gt;r) swap(l, r);
+        printf(&quot;%d\n&quot;, lstans = v[qry(l, r)]);
+    }
+    return 0;
+}</code></pre>
+
+              </div>
+              <div class="toc-container">
+                
+              </div>
+            </div>
+          </article>
+        </div>
+
+        
+          <div class="next-post">
+            <div class="next">下一篇</div>
+            <a href="https://jyf111.github.io/post/ji-lu-yi-xia-ge-chong-ruan-jian-de-pei-zhi/">
+              <h3 class="post-title">
+                记录一下各种软件的配置
+              </h3>
+            </a>
+          </div>
+        
+
+        
+
+        <div class="site-footer">
+  
+  <a class="rss" href="https://jyf111.github.io/atom.xml" target="_blank">
+    <i class="ri-rss-line"></i> RSS
+  </a>
+</div>
+
+      </div>
+    </div>
+
+    <script>
+      hljs.initHighlightingOnLoad()
+
+      let mainNavLinks = document.querySelectorAll(".markdownIt-TOC a");
+
+      // This should probably be throttled.
+      // Especially because it triggers during smooth scrolling.
+      // https://lodash.com/docs/4.17.10#throttle
+      // You could do like...
+      // window.addEventListener("scroll", () => {
+      //    _.throttle(doThatStuff, 100);
+      // });
+      // Only not doing it here to keep this Pen dependency-free.
+
+      window.addEventListener("scroll", event => {
+        let fromTop = window.scrollY;
+
+        mainNavLinks.forEach((link, index) => {
+          let section = document.getElementById(decodeURI(link.hash).substring(1));
+          let nextSection = null
+          if (mainNavLinks[index + 1]) {
+            nextSection = document.getElementById(decodeURI(mainNavLinks[index + 1].hash).substring(1));
+          }
+          if (section.offsetTop <= fromTop) {
+            if (nextSection) {
+              if (nextSection.offsetTop > fromTop) {
+                link.classList.add("current");
+              } else {
+                link.classList.remove("current");    
+              }
+            } else {
+              link.classList.add("current");
+            }
+          } else {
+            link.classList.remove("current");
+          }
+        });
+      });
+
+    </script>
+  </body>
+</html>

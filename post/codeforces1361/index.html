@@ -1,0 +1,263 @@
+<html>
+  <head>
+    <meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>codeforces1361 | jyf111</title>
+<link rel="shortcut icon" href="https://jyf111.github.io/favicon.ico?v=1688054387335">
+<link href="https://cdn.jsdelivr.net/npm/remixicon@2.3.0/fonts/remixicon.css" rel="stylesheet">
+<link rel="stylesheet" href="https://jyf111.github.io/styles/main.css">
+<link rel="alternate" type="application/atom+xml" title="codeforces1361 | jyf111 - Atom Feed" href="https://jyf111.github.io/atom.xml">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Droid+Serif:400,700">
+
+
+
+    <meta name="description" content="A
+给定一张无向图，每个点有一个权值，如果访问u点，产生的价值是与u相连的所有点的点权的mex，给定价值序列，让你求访问顺序
+显然只要按照权值从小到大访问，然后模拟一遍看是否合法即可。
+我TM在排序里用了等于号，一直re，人快没了 sort..." />
+    <meta name="keywords" content="算法" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.10.0/katex.min.css">
+    <script src="https://cdn.bootcss.com/highlight.js/9.12.0/highlight.min.js"></script>
+  </head>
+  <body>
+    <div class="main">
+      <div class="main-content">
+        <div class="site-header">
+  <a href="https://jyf111.github.io">
+  <img class="avatar" src="https://jyf111.github.io/images/avatar.png?v=1688054387335" alt="">
+  </a>
+  <h1 class="site-title">
+    jyf111
+  </h1>
+  <p class="site-description">
+    温故而知新
+  </p>
+  <div class="menu-container">
+    
+      
+        <a href="https://jyf111.github.io" class="menu">
+          首页
+        </a>
+      
+    
+      
+        <a href="/archives" class="menu">
+          归档
+        </a>
+      
+    
+      
+        <a href="https://jyf111.github.io/tags" class="menu">
+          分类
+        </a>
+      
+    
+  </div>
+  <div class="social-container">
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+  </div>
+</div>
+
+        <div class="post-detail">
+          <article class="post">
+            <h2 class="post-title">
+              codeforces1361
+            </h2>
+            <div class="post-info">
+              <span>
+                2020-06-06
+              </span>
+              <span>
+                5 min read
+              </span>
+              
+                <a href="https://jyf111.github.io/tag/HKuTllKYu/" class="post-tag">
+                  # 算法
+                </a>
+              
+            </div>
+            
+            <div class="post-content-wrapper">
+              <div class="post-content">
+                <h3 id="a">A</h3>
+<p>给定一张无向图，每个点有一个权值，如果访问u点，产生的价值是与u相连的所有点的点权的mex，给定价值序列，让你求访问顺序</p>
+<p>显然只要按照权值从小到大访问，然后模拟一遍看是否合法即可。<br>
+<s>我TM在排序里用了等于号，一直re，人快没了</s> sort的比较函数必须是偏序的</p>
+<h3 id="b">B</h3>
+<p>每个物品的权值为<span class="katex"><span class="katex-mathml"><math><semantics><mrow><msup><mi>p</mi><msub><mi>k</mi><mi>i</mi></msub></msup></mrow><annotation encoding="application/x-tex">p^{k_i}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1.043548em;vertical-align:-0.19444em;"></span><span class="mord"><span class="mord mathdefault">p</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.849108em;"><span style="top:-3.063em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mtight"><span class="mord mathdefault mtight" style="margin-right:0.03148em;">k</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.3280857142857143em;"><span style="top:-2.357em;margin-left:-0.03148em;margin-right:0.07142857142857144em;"><span class="pstrut" style="height:2.5em;"></span><span class="sizing reset-size3 size1 mtight"><span class="mord mathdefault mtight">i</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.143em;"><span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span>，给定<span class="katex"><span class="katex-mathml"><math><semantics><mrow><mi>p</mi></mrow><annotation encoding="application/x-tex">p</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.625em;vertical-align:-0.19444em;"></span><span class="mord mathdefault">p</span></span></span></span>和<span class="katex"><span class="katex-mathml"><math><semantics><mrow><msub><mi>k</mi><mi>i</mi></msub></mrow><annotation encoding="application/x-tex">k_i</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.84444em;vertical-align:-0.15em;"></span><span class="mord"><span class="mord mathdefault" style="margin-right:0.03148em;">k</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.31166399999999994em;"><span style="top:-2.5500000000000003em;margin-left:-0.03148em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathdefault mtight">i</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span></span></span></span>，问将物品分成两堆，使权值和的差最小，问最小值。</p>
+<p>可以看成一个p进制的数，每次将当前最高位丢入第一堆，然后用后面的数不断补给第二堆，直到与第一堆相等，然后重复即可。记录两堆相差的p的幂次即可，细节较多<br>
+感觉最近写题的正确率有点低，总是犯些奇奇怪怪的错误，导致调的时候也很烦</p>
+<h3 id="c">C</h3>
+<p>用n个线段，每个线段的端点有权值a和b，要求将它们串成一个环，定义两条线段连接点处的权值为<span class="katex"><span class="katex-mathml"><math><semantics><mrow><mi>h</mi><mi>i</mi><mi>g</mi><mi>h</mi><mi>b</mi><mi>i</mi><mi>t</mi><mo>(</mo><msup><mi>a</mi><mi>b</mi></msup><mo>)</mo></mrow><annotation encoding="application/x-tex">highbit(a^b)</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1.099108em;vertical-align:-0.25em;"></span><span class="mord mathdefault">h</span><span class="mord mathdefault">i</span><span class="mord mathdefault" style="margin-right:0.03588em;">g</span><span class="mord mathdefault">h</span><span class="mord mathdefault">b</span><span class="mord mathdefault">i</span><span class="mord mathdefault">t</span><span class="mopen">(</span><span class="mord"><span class="mord mathdefault">a</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.849108em;"><span style="top:-3.063em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathdefault mtight">b</span></span></span></span></span></span></span></span><span class="mclose">)</span></span></span></span>，环的价值为所有连接点处价值的最小值，问环的价值最大是多少</p>
+<p>显然二分价值（由于只有20，直接从大到小枚举即可，考虑如何check。如果价值为x，说明连接点处两点权值的低x位是相同的，所以按照<span class='katex-error' title='ParseError: KaTeX parse error: Expected &#039;EOF&#039;, got &#039;&amp;&#039; at position 2: a&amp;̲((1&lt;&lt;k)-1) -- b…'>a&amp;((1&lt;&lt;k)-1) -- b&amp;((1&lt;&lt;k)-1)</span>建图，看是否存在欧拉回路即可<br>
+我貌似不会欧拉回路怎么记录。。。<br>
+随便从一点出发找出欧拉路径，看其长度是否为n，再看<strong>首尾连接点处的权值是否满足要求</strong>，注意在找路径前要先利用度数进行判断，否则找的路径会出问题（我也不知道为什么）<br>
+对于欧拉图（存在欧拉回路），所有点度数一定都是偶数，且为连通图（可以不判断，因为如果找到的欧拉路径&lt;n就说明不连通）</p>
+<pre><code class="language-cpp">#include &lt;bits/stdc++.h&gt;
+#define mp make_pair
+#define pb push_back
+#define sz(x) (int)x.size()
+#define all(x) begin(x), end(x)
+#define fi first
+#define se second
+#define debug(x) cerr &lt;&lt; #x &lt;&lt; &quot; &quot; &lt;&lt; x &lt;&lt; '\n'
+using namespace std;
+using ll = long long;
+using pii = pair&lt;int,int&gt;;
+using pli = pair&lt;ll,int&gt;;
+const int INF = 0x3f3f3f3f, N = (1&lt;&lt;20) + 5;
+const ll LINF = 1e18 + 5;
+constexpr int mod = 1e9 + 7;
+int n, a[N], b[N], cur[N], in[N], out[N];
+vector&lt;int&gt; path;
+vector&lt;pii&gt; G[N];
+bool vis[N];
+void dfs(int u, int pre) //找欧拉路径的板子
+{
+	while(cur[u]&lt;sz(G[u]))
+	{
+		int v = G[u][cur[u]].fi, id = G[u][cur[u]].se;
+		++cur[u];
+		if(!vis[id]) 
+		{
+			vis[id] = vis[id^1] = 1; //每条边正向和反向选其1，所以走了一个后，另一个也要标记
+			dfs(v, id);
+		}
+	}
+	if(pre!=-1) path.pb(pre);
+}
+int main()
+{
+	ios::sync_with_stdio(false);
+	cin.tie(nullptr);
+	cin &gt;&gt; n;
+	for(int i=1; i&lt;=n; i++) cin &gt;&gt; a[i] &gt;&gt; b[i];
+	for(int k=20; k&gt;=0; k--)
+	{
+		int c = (1&lt;&lt;k) - 1;
+		for(int i=0; i&lt;=c; i++) G[i].clear(), cur[i] = 0, in[i] = 0;
+		for(int i=2; i&lt;=2*n+1; i++) vis[i] = 0;
+		for(int i=1; i&lt;=n; i++)
+		{
+			G[a[i]&amp;c].emplace_back(b[i]&amp;c, 2*i);
+			G[b[i]&amp;c].emplace_back(a[i]&amp;c, 2*i+1);
+			in[a[i]&amp;c]++, in[b[i]&amp;c]++;
+		}
+		bool ok = 1;
+		for(int i=0; i&lt;=c&amp;&amp;ok; i++)
+			if(in[i]&amp;1) ok = 0;
+		if(!ok) continue;
+		path.clear();
+		dfs(a[1]&amp;c, -1);
+		if(sz(path)&lt;n) continue;
+		if(path[0]%2&amp;&amp;(a[(path[0]-1)/2]&amp;c)!=(a[1]&amp;c)) continue;
+		if(path[0]%2==0&amp;&amp;(b[path[0]/2]&amp;c)!=(a[1]&amp;c)) continue;
+		cout &lt;&lt; k &lt;&lt; '\n';
+		for(int x : path)
+		{
+			if(x&amp;1) cout &lt;&lt; x-2 &lt;&lt; ' ' &lt;&lt; x-1 &lt;&lt; ' ';
+			else cout &lt;&lt; x &lt;&lt; ' ' &lt;&lt; x-1 &lt;&lt; ' ';
+		}
+		cout &lt;&lt; '\n';
+		break;
+	}
+	return 0;
+}
+</code></pre>
+
+              </div>
+              <div class="toc-container">
+                <ul class="markdownIt-TOC">
+<li>
+<ul>
+<li>
+<ul>
+<li><a href="#a">A</a></li>
+<li><a href="#b">B</a></li>
+<li><a href="#c">C</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+              </div>
+            </div>
+          </article>
+        </div>
+
+        
+          <div class="next-post">
+            <div class="next">下一篇</div>
+            <a href="https://jyf111.github.io/post/lyndon-fen-jie/">
+              <h3 class="post-title">
+                Lyndon 分解
+              </h3>
+            </a>
+          </div>
+        
+
+        
+
+        <div class="site-footer">
+  
+  <a class="rss" href="https://jyf111.github.io/atom.xml" target="_blank">
+    <i class="ri-rss-line"></i> RSS
+  </a>
+</div>
+
+      </div>
+    </div>
+
+    <script>
+      hljs.initHighlightingOnLoad()
+
+      let mainNavLinks = document.querySelectorAll(".markdownIt-TOC a");
+
+      // This should probably be throttled.
+      // Especially because it triggers during smooth scrolling.
+      // https://lodash.com/docs/4.17.10#throttle
+      // You could do like...
+      // window.addEventListener("scroll", () => {
+      //    _.throttle(doThatStuff, 100);
+      // });
+      // Only not doing it here to keep this Pen dependency-free.
+
+      window.addEventListener("scroll", event => {
+        let fromTop = window.scrollY;
+
+        mainNavLinks.forEach((link, index) => {
+          let section = document.getElementById(decodeURI(link.hash).substring(1));
+          let nextSection = null
+          if (mainNavLinks[index + 1]) {
+            nextSection = document.getElementById(decodeURI(mainNavLinks[index + 1].hash).substring(1));
+          }
+          if (section.offsetTop <= fromTop) {
+            if (nextSection) {
+              if (nextSection.offsetTop > fromTop) {
+                link.classList.add("current");
+              } else {
+                link.classList.remove("current");    
+              }
+            } else {
+              link.classList.add("current");
+            }
+          } else {
+            link.classList.remove("current");
+          }
+        });
+      });
+
+    </script>
+  </body>
+</html>

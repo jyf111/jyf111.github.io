@@ -1,0 +1,224 @@
+<html>
+  <head>
+    <meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>圆方树 | jyf111</title>
+<link rel="shortcut icon" href="https://jyf111.github.io/favicon.ico?v=1688054387335">
+<link href="https://cdn.jsdelivr.net/npm/remixicon@2.3.0/fonts/remixicon.css" rel="stylesheet">
+<link rel="stylesheet" href="https://jyf111.github.io/styles/main.css">
+<link rel="alternate" type="application/atom+xml" title="圆方树 | jyf111 - Atom Feed" href="https://jyf111.github.io/atom.xml">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Droid+Serif:400,700">
+
+
+
+    <meta name="description" content="概念
+点双联通分量:不存在割点/任意两点间有至少两条点不重复路径
+特殊:两个点一条边
+每条边属于一个点双,每个割点可以属于多个点双
+圆方树中原图的每个点对应一个圆点,一个点双对应一个方点
+对于每一个点双连通分量，它对应的方点向这个点双连通分..." />
+    <meta name="keywords" content="算法" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.10.0/katex.min.css">
+    <script src="https://cdn.bootcss.com/highlight.js/9.12.0/highlight.min.js"></script>
+  </head>
+  <body>
+    <div class="main">
+      <div class="main-content">
+        <div class="site-header">
+  <a href="https://jyf111.github.io">
+  <img class="avatar" src="https://jyf111.github.io/images/avatar.png?v=1688054387335" alt="">
+  </a>
+  <h1 class="site-title">
+    jyf111
+  </h1>
+  <p class="site-description">
+    温故而知新
+  </p>
+  <div class="menu-container">
+    
+      
+        <a href="https://jyf111.github.io" class="menu">
+          首页
+        </a>
+      
+    
+      
+        <a href="/archives" class="menu">
+          归档
+        </a>
+      
+    
+      
+        <a href="https://jyf111.github.io/tags" class="menu">
+          分类
+        </a>
+      
+    
+  </div>
+  <div class="social-container">
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+  </div>
+</div>
+
+        <div class="post-detail">
+          <article class="post">
+            <h2 class="post-title">
+              圆方树
+            </h2>
+            <div class="post-info">
+              <span>
+                2020-05-15
+              </span>
+              <span>
+                2 min read
+              </span>
+              
+                <a href="https://jyf111.github.io/tag/HKuTllKYu/" class="post-tag">
+                  # 算法
+                </a>
+              
+            </div>
+            
+            <div class="post-content-wrapper">
+              <div class="post-content">
+                <h2 id="概念">概念</h2>
+<p>点双联通分量:不存在割点/任意两点间有至少两条点不重复路径<br>
+特殊:两个点一条边<br>
+每条边属于一个点双,每个割点可以属于多个点双<br>
+圆方树中原图的每个点对应一个圆点,一个点双对应一个方点<br>
+对于每一个点双连通分量，它对应的方点向这个点双连通分量中的每个圆点连边<br>
+每个点双形成一个“菊花图”，多个“菊花图”通过原图中的割点连接在一起(因为点双的分隔点是割点)</p>
+<h2 id="性质">性质:</h2>
+<p>圆点只和方点相连,方点只和圆点相连<br>
+度数大于1的圆点是原图的割点<br>
+圆方树是无根树,无论取哪个点为根开始dfs见树,形态都一样</p>
+<h2 id="建树">建树</h2>
+<p>注意两倍空间<br>
+建完树栈中可能还有点,注意多组数据清空</p>
+<pre><code class="language-cpp">vector&lt;int&gt; G[N], T[N&lt;&lt;1];
+void tarjan(int u, int fa)
+{
+	low[u] = dfn[u] = ++clk;
+	stk[++top] = u;
+	for(int v : G[u])
+	{
+		if(!dfn[v])
+		{
+			tarjan(v, u);
+			low[u] = min(low[u], low[v]);
+			if(low[v]&gt;=dfn[u])
+			{
+				++cnt;
+				for(int x=0; x!=v; top--)
+				{
+					x = stk[top];
+					T[cnt].pb(x);
+					T[x].pb(cnt);
+				}
+				T[cnt].pb(u);
+				T[u].pb(cnt);
+			}
+		}
+		else if(v!=fa) low[u] = min(low[u], dfn[v]);
+	}
+}
+</code></pre>
+<h2 id="应用">应用</h2>
+<p>圆方树会损失掉原图中所有的边的信息,但是在维护点的信息的时候有较好的性质<br>
+P5058 [ZJOI2004]嗅探器<br>
+求无向图中两点间的编号最小的割点<br>
+建出圆方树,那么两点在树上路径中的割点(度数大于1的圆点)取编号最小的即可</p>
+
+              </div>
+              <div class="toc-container">
+                <ul class="markdownIt-TOC">
+<li>
+<ul>
+<li><a href="#%E6%A6%82%E5%BF%B5">概念</a></li>
+<li><a href="#%E6%80%A7%E8%B4%A8">性质:</a></li>
+<li><a href="#%E5%BB%BA%E6%A0%91">建树</a></li>
+<li><a href="#%E5%BA%94%E7%94%A8">应用</a></li>
+</ul>
+</li>
+</ul>
+
+              </div>
+            </div>
+          </article>
+        </div>
+
+        
+          <div class="next-post">
+            <div class="next">下一篇</div>
+            <a href="https://jyf111.github.io/post/p5495-dirichlet-qian-zhui-he/">
+              <h3 class="post-title">
+                P5495 Dirichlet 前缀和
+              </h3>
+            </a>
+          </div>
+        
+
+        
+
+        <div class="site-footer">
+  
+  <a class="rss" href="https://jyf111.github.io/atom.xml" target="_blank">
+    <i class="ri-rss-line"></i> RSS
+  </a>
+</div>
+
+      </div>
+    </div>
+
+    <script>
+      hljs.initHighlightingOnLoad()
+
+      let mainNavLinks = document.querySelectorAll(".markdownIt-TOC a");
+
+      // This should probably be throttled.
+      // Especially because it triggers during smooth scrolling.
+      // https://lodash.com/docs/4.17.10#throttle
+      // You could do like...
+      // window.addEventListener("scroll", () => {
+      //    _.throttle(doThatStuff, 100);
+      // });
+      // Only not doing it here to keep this Pen dependency-free.
+
+      window.addEventListener("scroll", event => {
+        let fromTop = window.scrollY;
+
+        mainNavLinks.forEach((link, index) => {
+          let section = document.getElementById(decodeURI(link.hash).substring(1));
+          let nextSection = null
+          if (mainNavLinks[index + 1]) {
+            nextSection = document.getElementById(decodeURI(mainNavLinks[index + 1].hash).substring(1));
+          }
+          if (section.offsetTop <= fromTop) {
+            if (nextSection) {
+              if (nextSection.offsetTop > fromTop) {
+                link.classList.add("current");
+              } else {
+                link.classList.remove("current");    
+              }
+            } else {
+              link.classList.add("current");
+            }
+          } else {
+            link.classList.remove("current");
+          }
+        });
+      });
+
+    </script>
+  </body>
+</html>

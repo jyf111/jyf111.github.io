@@ -1,0 +1,318 @@
+<html>
+  <head>
+    <meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>p4148 简单题 kdtree | jyf111</title>
+<link rel="shortcut icon" href="https://jyf111.github.io/favicon.ico?v=1688054387335">
+<link href="https://cdn.jsdelivr.net/npm/remixicon@2.3.0/fonts/remixicon.css" rel="stylesheet">
+<link rel="stylesheet" href="https://jyf111.github.io/styles/main.css">
+<link rel="alternate" type="application/atom+xml" title="p4148 简单题 kdtree | jyf111 - Atom Feed" href="https://jyf111.github.io/atom.xml">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Droid+Serif:400,700">
+
+
+
+    <meta name="description" content="维护矩形,支持加点,询问矩形和,强制在线
+做法
+不强制在线可以cdq,强制在线就只能kdtree了
+每个节点维护最大矩形,以及子树内所有点权值的和
+对于询问,如果当前节点的最大矩形在询问矩形内部,直接返回sum,如果不相交,返回0,否则继续..." />
+    <meta name="keywords" content="算法" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.10.0/katex.min.css">
+    <script src="https://cdn.bootcss.com/highlight.js/9.12.0/highlight.min.js"></script>
+  </head>
+  <body>
+    <div class="main">
+      <div class="main-content">
+        <div class="site-header">
+  <a href="https://jyf111.github.io">
+  <img class="avatar" src="https://jyf111.github.io/images/avatar.png?v=1688054387335" alt="">
+  </a>
+  <h1 class="site-title">
+    jyf111
+  </h1>
+  <p class="site-description">
+    温故而知新
+  </p>
+  <div class="menu-container">
+    
+      
+        <a href="https://jyf111.github.io" class="menu">
+          首页
+        </a>
+      
+    
+      
+        <a href="/archives" class="menu">
+          归档
+        </a>
+      
+    
+      
+        <a href="https://jyf111.github.io/tags" class="menu">
+          分类
+        </a>
+      
+    
+  </div>
+  <div class="social-container">
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+  </div>
+</div>
+
+        <div class="post-detail">
+          <article class="post">
+            <h2 class="post-title">
+              p4148 简单题 kdtree
+            </h2>
+            <div class="post-info">
+              <span>
+                2020-05-14
+              </span>
+              <span>
+                6 min read
+              </span>
+              
+                <a href="https://jyf111.github.io/tag/HKuTllKYu/" class="post-tag">
+                  # 算法
+                </a>
+              
+            </div>
+            
+            <div class="post-content-wrapper">
+              <div class="post-content">
+                <p>维护矩形,支持加点,询问矩形和,强制在线</p>
+<h1 id="做法">做法</h1>
+<p>不强制在线可以cdq,强制在线就只能kdtree了<br>
+每个节点维护最大矩形,以及子树内所有点权值的和<br>
+对于询问,如果当前节点的最大矩形在询问矩形内部,直接返回sum,如果不相交,返回0,否则继续递归</p>
+<pre><code class="language-cpp">#include &lt;bits/stdc++.h&gt;
+#define mp make_pair
+#define pb push_back
+#define sz(x) (int)x.size()
+#define all(x) begin(x), end(x)
+#define fi first
+#define se second
+#define debug(x) cerr &lt;&lt; #x &lt;&lt; &quot; &quot; &lt;&lt; x &lt;&lt; '\n'
+using namespace std;
+using ll = long long;
+using pii = pair&lt;int,int&gt;;
+using pli = pair&lt;ll,int&gt;;
+const int INF = 0x3f3f3f3f, N = 5e5 + 5;
+const ll LINF = 1e18 + 5;
+constexpr int mod = 1e9 + 7;
+const int MAXSIZE = 1 &lt;&lt; 20;
+char buf[MAXSIZE], *p1, *p2;
+inline char gc()
+{
+	return (p1==p2&amp;&amp;(p2=(p1=buf)+fread(buf,1,MAXSIZE,stdin),p1==p2) ? EOF : *p1++);
+}
+template &lt;class T&gt; 
+inline void read(T&amp; t)
+{
+	t = 0; int f = 1;
+	char c = gc();
+	while(c&gt;'9'||c&lt;'0') {if(c=='-') f = -f; c = gc();}
+	while(c&gt;='0'&amp;&amp;c&lt;='9') t = t*10 + c - 48, c = gc();
+	t *= f;
+}
+int n;
+constexpr int k = 2;
+constexpr double alph = 0.75;
+int rt, pool[N], top, tot, D;
+struct point
+{
+	int x[k], w;
+	bool operator &lt; (point &amp;oth) {
+		return x[D] &lt; oth.x[D];
+	} 
+}a[N], cur;
+struct node
+{
+	int l, r, mx[k], mn[k], sum, sz;
+	point tp;
+}t[N];
+int newnode()
+{
+	if(top) return pool[top--];
+	return ++tot;
+}
+void pushup(int p)
+{
+	int l = t[p].l, r = t[p].r;
+	for(int i=0; i&lt;k; i++)
+	{
+		t[p].mn[i] = t[p].mx[i] = t[p].tp.x[i];
+		if(l) t[p].mn[i] = min(t[p].mn[i], t[l].mn[i]), t[p].mx[i] = max(t[p].mx[i], t[l].mx[i]);
+		if(r) t[p].mn[i] = min(t[p].mn[i], t[r].mn[i]), t[p].mx[i] = max(t[p].mx[i], t[r].mx[i]);
+	}
+	t[p].sz = t[l].sz + t[r].sz + 1;
+	t[p].sum = t[l].sum + t[r].sum + t[p].tp.w;
+}
+int build(int l, int r, int d)
+{
+	if(l&gt;r) return 0;
+	int p = newnode(), mid = (l+r)&gt;&gt;1;
+	D = d;
+	nth_element(a+l, a+mid, a+r+1);
+	t[p].tp = a[mid];
+	t[p].l = build(l, mid-1, (d+1)%k);
+	t[p].r = build(mid+1, r, (d+1)%k);
+	pushup(p);
+	return p;
+}
+void rebuild(int p, int num)
+{
+	if(t[p].l) rebuild(t[p].l, num);
+	a[num+t[t[p].l].sz+1] = t[p].tp, pool[++top] = p;
+	if(t[p].r) rebuild(t[p].r, num+t[t[p].l].sz+1);
+}
+void test(int &amp;p, int d)
+{
+	if(alph*t[p].sz&lt;t[t[p].l].sz||alph*t[p].sz&lt;t[t[p].r].sz)
+		rebuild(p, 0), p = build(1, t[p].sz, d);
+}
+bool in(int x1, int y1, int x2, int y2, int X1, int Y1, int X2, int Y2)
+{
+	return X1&gt;=x1&amp;&amp;Y1&gt;=y1&amp;&amp;X2&lt;=x2&amp;&amp;Y2&lt;=y2;
+}
+bool out(int x1, int y1, int x2, int y2, int X1, int Y1, int X2, int Y2)
+{
+	return X2&lt;x1||X1&gt;x2||Y1&gt;y2||Y2&lt;y1;
+}
+int ask(int p, int x1, int y1, int x2, int y2)
+{
+	if(!p) return 0;
+	int ans = 0;
+	if(in(x1, y1, x2, y2, t[p].mn[0], t[p].mn[1], t[p].mx[0], t[p].mx[1])) return t[p].sum;
+	if(out(x1, y1, x2, y2, t[p].mn[0], t[p].mn[1], t[p].mx[0], t[p].mx[1])) return 0;
+	if(in(x1, y1, x2, y2, t[p].tp.x[0], t[p].tp.x[1], t[p].tp.x[0], t[p].tp.x[1])) ans += t[p].tp.w;
+	ans += ask(t[p].l, x1, y1, x2, y2) + ask(t[p].r, x1, y1, x2, y2);
+	return ans;
+}
+void insert(int &amp;p, int d)
+{
+	if(!p)
+	{
+		p = newnode();
+		t[p].tp = cur;
+		t[p].l = t[p].r = 0;
+		pushup(p);
+		return;
+	}
+	if(cur.x[d]&gt;t[p].tp.x[d]) insert(t[p].r, (d+1)%k);
+	else insert(t[p].l, (d+1)%k);
+	pushup(p); test(p, d);
+}
+int main()
+{
+	read(n);
+	int lstans = 0;
+	while(1)
+	{
+		int op;
+		read(op);
+		if(op==1)
+		{
+			read(cur.x[0]), read(cur.x[1]), read(cur.w);
+			cur.x[0] ^= lstans, cur.x[1] ^= lstans, cur.w ^= lstans;
+			insert(rt, 0);
+		}
+		else if(op==2)
+		{
+			int a, b, c, d;
+			read(a), read(b), read(c), read(d);
+			a ^= lstans, b ^= lstans, c ^= lstans, d ^= lstans;
+			printf(&quot;%d\n&quot;, lstans=ask(rt, a, b, c, d));
+		}
+		else break;
+	}
+	return 0;
+}
+</code></pre>
+
+              </div>
+              <div class="toc-container">
+                <ul class="markdownIt-TOC">
+<li><a href="#%E5%81%9A%E6%B3%95">做法</a></li>
+</ul>
+
+              </div>
+            </div>
+          </article>
+        </div>
+
+        
+          <div class="next-post">
+            <div class="next">下一篇</div>
+            <a href="https://jyf111.github.io/post/p4169-violettian-shi-wan-ou-sjy-bai-qi-zi-kdtree/">
+              <h3 class="post-title">
+                P4169 [Violet]天使玩偶/SJY摆棋子 kdtree
+              </h3>
+            </a>
+          </div>
+        
+
+        
+
+        <div class="site-footer">
+  
+  <a class="rss" href="https://jyf111.github.io/atom.xml" target="_blank">
+    <i class="ri-rss-line"></i> RSS
+  </a>
+</div>
+
+      </div>
+    </div>
+
+    <script>
+      hljs.initHighlightingOnLoad()
+
+      let mainNavLinks = document.querySelectorAll(".markdownIt-TOC a");
+
+      // This should probably be throttled.
+      // Especially because it triggers during smooth scrolling.
+      // https://lodash.com/docs/4.17.10#throttle
+      // You could do like...
+      // window.addEventListener("scroll", () => {
+      //    _.throttle(doThatStuff, 100);
+      // });
+      // Only not doing it here to keep this Pen dependency-free.
+
+      window.addEventListener("scroll", event => {
+        let fromTop = window.scrollY;
+
+        mainNavLinks.forEach((link, index) => {
+          let section = document.getElementById(decodeURI(link.hash).substring(1));
+          let nextSection = null
+          if (mainNavLinks[index + 1]) {
+            nextSection = document.getElementById(decodeURI(mainNavLinks[index + 1].hash).substring(1));
+          }
+          if (section.offsetTop <= fromTop) {
+            if (nextSection) {
+              if (nextSection.offsetTop > fromTop) {
+                link.classList.add("current");
+              } else {
+                link.classList.remove("current");    
+              }
+            } else {
+              link.classList.add("current");
+            }
+          } else {
+            link.classList.remove("current");
+          }
+        });
+      });
+
+    </script>
+  </body>
+</html>

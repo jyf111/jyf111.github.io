@@ -1,0 +1,230 @@
+<html>
+  <head>
+    <meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>rope 块状链表实现的STL容器 | jyf111</title>
+<link rel="shortcut icon" href="https://jyf111.github.io/favicon.ico?v=1688054387335">
+<link href="https://cdn.jsdelivr.net/npm/remixicon@2.3.0/fonts/remixicon.css" rel="stylesheet">
+<link rel="stylesheet" href="https://jyf111.github.io/styles/main.css">
+<link rel="alternate" type="application/atom+xml" title="rope 块状链表实现的STL容器 | jyf111 - Atom Feed" href="https://jyf111.github.io/atom.xml">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Droid+Serif:400,700">
+
+
+
+    <meta name="description" content="crope = rope（可以直接cin cout）
+#include &lt;ext/rope&gt; 
+using namespace __gnu_cxx;
+
+可以较快速的解决区间移动、区间插入删除、区间翻转问题
+rp.push_bac..." />
+    <meta name="keywords" content="算法" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.10.0/katex.min.css">
+    <script src="https://cdn.bootcss.com/highlight.js/9.12.0/highlight.min.js"></script>
+  </head>
+  <body>
+    <div class="main">
+      <div class="main-content">
+        <div class="site-header">
+  <a href="https://jyf111.github.io">
+  <img class="avatar" src="https://jyf111.github.io/images/avatar.png?v=1688054387335" alt="">
+  </a>
+  <h1 class="site-title">
+    jyf111
+  </h1>
+  <p class="site-description">
+    温故而知新
+  </p>
+  <div class="menu-container">
+    
+      
+        <a href="https://jyf111.github.io" class="menu">
+          首页
+        </a>
+      
+    
+      
+        <a href="/archives" class="menu">
+          归档
+        </a>
+      
+    
+      
+        <a href="https://jyf111.github.io/tags" class="menu">
+          分类
+        </a>
+      
+    
+  </div>
+  <div class="social-container">
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+  </div>
+</div>
+
+        <div class="post-detail">
+          <article class="post">
+            <h2 class="post-title">
+              rope 块状链表实现的STL容器
+            </h2>
+            <div class="post-info">
+              <span>
+                2020-12-13
+              </span>
+              <span>
+                2 min read
+              </span>
+              
+                <a href="https://jyf111.github.io/tag/HKuTllKYu/" class="post-tag">
+                  # 算法
+                </a>
+              
+            </div>
+            
+            <div class="post-content-wrapper">
+              <div class="post-content">
+                <p>crope = rope<char>（可以直接cin cout）</p>
+<pre><code class="language-cpp">#include &lt;ext/rope&gt; 
+using namespace __gnu_cxx;
+</code></pre>
+<p>可以较快速的解决区间移动、区间插入删除、区间翻转问题</p>
+<pre><code class="language-cpp">rp.push_back(x); // 在末尾插入 x
+rp.insert(pos, x); // 从pos 处插入一个数组x
+rp.erase(pos, x); // 从pos 处删除 x 个元素
+rp.length(); // 返回 rp 的大小
+rp.size(); // 同上
+rp.replace(pos, x); // 将 pos 处的元素替换成 x
+rp.substr(pos, x); // 从 pos 处开始提取 x 个元素
+rp.copy(pos, x, s); // 从 pos 处开始复制 x 个元素到 s(string or char*(末尾要手动加0)) 中
+rp[x]; // 访问第 x 个元素
+rp.at(x); // 同上
++ //拼接操作，很快速
+</code></pre>
+<pre><code class="language-cpp">#include&lt;bits/stdc++.h&gt;
+#include&lt;ext/rope&gt;
+using namespace std;
+using namespace __gnu_cxx;
+rope&lt;int&gt;s;
+int main()
+{
+    int n,m,k,l;
+    scanf(&quot;%d%d&quot;,&amp;n,&amp;m);
+    for(int i=1;i&lt;=n;++i)s.push_back(i);
+    while(m--)
+    {
+        scanf(&quot;%d%d&quot;,&amp;l,&amp;k);
+        s=s.substr(l-1,k)+s.substr(0,l-1)+s.substr(l+k-1,n+1-k-l);
+    }
+    for(auto c:s)
+        printf(&quot;%d &quot;,c);
+    puts(&quot;&quot;);
+}
+</code></pre>
+<pre><code class="language-cpp">
+#include&lt;iostream&gt;
+#include&lt;ext/rope&gt;
+using namespace std;
+using namespace __gnu_cxx;
+rope&lt;int&gt;a;
+int main(){
+    int n,m,x,y;
+    cin&gt;&gt;n&gt;&gt;m;
+    for(int i=1;i&lt;=n;i++){
+        a.push_back(i);
+    }
+    for(int i=0;i&lt;m;i++){
+        cin&gt;&gt;x&gt;&gt;y;
+        a.insert(0,a.substr(x-1,y));
+        a.erase(x+y-1,y);
+    }
+    for(int i=0;i&lt;n;i++){
+        if(i==0){
+            cout&lt;&lt;a[i];
+        }else{
+            cout&lt;&lt;&quot; &quot;&lt;&lt;a[i];
+        }
+    }
+    cout&lt;&lt;endl;
+}</code></pre>
+
+              </div>
+              <div class="toc-container">
+                
+              </div>
+            </div>
+          </article>
+        </div>
+
+        
+          <div class="next-post">
+            <div class="next">下一篇</div>
+            <a href="https://jyf111.github.io/post/honorable-mention-ping-heng-shu-shu-zhuang-shu-zu/">
+              <h3 class="post-title">
+                Honorable Mention 平衡树+树状数组
+              </h3>
+            </a>
+          </div>
+        
+
+        
+
+        <div class="site-footer">
+  
+  <a class="rss" href="https://jyf111.github.io/atom.xml" target="_blank">
+    <i class="ri-rss-line"></i> RSS
+  </a>
+</div>
+
+      </div>
+    </div>
+
+    <script>
+      hljs.initHighlightingOnLoad()
+
+      let mainNavLinks = document.querySelectorAll(".markdownIt-TOC a");
+
+      // This should probably be throttled.
+      // Especially because it triggers during smooth scrolling.
+      // https://lodash.com/docs/4.17.10#throttle
+      // You could do like...
+      // window.addEventListener("scroll", () => {
+      //    _.throttle(doThatStuff, 100);
+      // });
+      // Only not doing it here to keep this Pen dependency-free.
+
+      window.addEventListener("scroll", event => {
+        let fromTop = window.scrollY;
+
+        mainNavLinks.forEach((link, index) => {
+          let section = document.getElementById(decodeURI(link.hash).substring(1));
+          let nextSection = null
+          if (mainNavLinks[index + 1]) {
+            nextSection = document.getElementById(decodeURI(mainNavLinks[index + 1].hash).substring(1));
+          }
+          if (section.offsetTop <= fromTop) {
+            if (nextSection) {
+              if (nextSection.offsetTop > fromTop) {
+                link.classList.add("current");
+              } else {
+                link.classList.remove("current");    
+              }
+            } else {
+              link.classList.add("current");
+            }
+          } else {
+            link.classList.remove("current");
+          }
+        });
+      });
+
+    </script>
+  </body>
+</html>

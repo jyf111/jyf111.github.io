@@ -1,0 +1,267 @@
+<html>
+  <head>
+    <meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>平衡树之替罪羊树 | jyf111</title>
+<link rel="shortcut icon" href="https://jyf111.github.io/favicon.ico?v=1688054387335">
+<link href="https://cdn.jsdelivr.net/npm/remixicon@2.3.0/fonts/remixicon.css" rel="stylesheet">
+<link rel="stylesheet" href="https://jyf111.github.io/styles/main.css">
+<link rel="alternate" type="application/atom+xml" title="平衡树之替罪羊树 | jyf111 - Atom Feed" href="https://jyf111.github.io/atom.xml">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Droid+Serif:400,700">
+
+
+
+    <meta name="description" content="很简单的思路，在每次插入和删除的时候，检查一下左右子树是不是失衡，如果失衡就将整棵子树进行拍扁(中序遍历存到数组)，重构(每次以中心点为当前的根，然后递归左右区间)。
+失衡的判定：当左子树或者右子树的大小超过了整个子树大小的某个比例alph..." />
+    <meta name="keywords" content="算法" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.10.0/katex.min.css">
+    <script src="https://cdn.bootcss.com/highlight.js/9.12.0/highlight.min.js"></script>
+  </head>
+  <body>
+    <div class="main">
+      <div class="main-content">
+        <div class="site-header">
+  <a href="https://jyf111.github.io">
+  <img class="avatar" src="https://jyf111.github.io/images/avatar.png?v=1688054387335" alt="">
+  </a>
+  <h1 class="site-title">
+    jyf111
+  </h1>
+  <p class="site-description">
+    温故而知新
+  </p>
+  <div class="menu-container">
+    
+      
+        <a href="https://jyf111.github.io" class="menu">
+          首页
+        </a>
+      
+    
+      
+        <a href="/archives" class="menu">
+          归档
+        </a>
+      
+    
+      
+        <a href="https://jyf111.github.io/tags" class="menu">
+          分类
+        </a>
+      
+    
+  </div>
+  <div class="social-container">
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+  </div>
+</div>
+
+        <div class="post-detail">
+          <article class="post">
+            <h2 class="post-title">
+              平衡树之替罪羊树
+            </h2>
+            <div class="post-info">
+              <span>
+                2020-12-06
+              </span>
+              <span>
+                5 min read
+              </span>
+              
+                <a href="https://jyf111.github.io/tag/HKuTllKYu/" class="post-tag">
+                  # 算法
+                </a>
+              
+            </div>
+            
+            <div class="post-content-wrapper">
+              <div class="post-content">
+                <p>很简单的思路，在每次插入和删除的时候，检查一下左右子树是不是失衡，如果失衡就将整棵子树进行拍扁(中序遍历存到数组)，重构(每次以中心点为当前的根，然后递归左右区间)。<br>
+失衡的判定：当左子树或者右子树的大小超过了整个子树大小的某个比例alpha（一般定义在0.7~0.8）</p>
+<pre><code class="language-cpp">bool bad(int p) { return t[p].cnt &amp;&amp; t[p].sz*alpha&lt;max(t[t[p].ls].sz, t[t[p].rs].sz); }
+</code></pre>
+<p>几个细节：</p>
+<ul>
+<li>删除的实现采用最简单的惰性删除，找到对应的节点后让cnt--即可，即使等于0也没有关系，因为在拍扁重构的时候可以把等于0的节点直接丢弃掉</li>
+<li>由于插入删除的时候可能需要重构，因此一定要记得传引用</li>
+<li>这种平衡树最大的特点就是好写加常数小(均摊mlogn)</li>
+</ul>
+<p>记住拍扁重构的思想应该就很容易手写了吧</p>
+<p>前驱、后继、第k大、排名其实没必要每个都实现一个函数。只需要实现求第k大，然后求小于x的数的个数以及小于等于x的数的个数即可，只与后两者只有细微的差异，完全可以合并到一个函数中<br>
+洛谷模板p3369开O2 170ms：</p>
+<pre><code class="language-cpp">#include &lt;bits/stdc++.h&gt;
+using namespace std;
+const int N = 1e5 + 5;
+const double alpha = 0.7;
+struct node
+{
+	int ls, rs;
+	int val, sz, cnt;
+}t[N];
+int rt, tot;
+void up(int p) { t[p].sz = t[t[p].ls].sz + t[t[p].rs].sz + t[p].cnt; }
+bool bad(int p) { return t[p].cnt &amp;&amp; t[p].sz*alpha&lt;max(t[t[p].ls].sz, t[t[p].rs].sz); }
+int ord[N], top;
+void dfs(int p)
+{
+	if(!p) return;
+	dfs(t[p].ls);
+	if(t[p].cnt) ord[++top] = p;
+	dfs(t[p].rs);
+}
+int build(int l, int r)
+{
+	if(l&gt;r) return 0;
+	int mid = (l+r)&gt;&gt;1, p = ord[mid];
+	t[p].ls = build(l, mid-1);
+	t[p].rs = build(mid+1, r);
+	up(p); 
+	return p;
+}
+void rebuild(int &amp;p)
+{
+	top = 0;
+	dfs(p);
+	p = build(1, top);
+}
+void newnode(int &amp;p, int v)
+{
+	p = ++tot;
+	t[p].val = v, t[p].ls = t[p].rs = 0;
+	t[p].cnt = t[p].sz = 1;
+}
+void ins(int &amp;p, int v)
+{
+	if(!p) newnode(p, v);
+	else
+	{
+		if(v==t[p].val) t[p].cnt++;
+		else if(v&lt;t[p].val) ins(t[p].ls, v);
+		else ins(t[p].rs, v);
+		up(p);
+		if(bad(p)) rebuild(p);
+	}
+}
+void del(int &amp;p, int v)
+{
+	if(v==t[p].val) t[p].cnt--;
+	else if(v&lt;t[p].val) del(t[p].ls, v);
+	else del(t[p].rs, v);
+	up(p);
+	if(bad(p)) rebuild(p);
+}
+int Less(int p, int v, bool eq)
+{
+	if(!p) return 0;
+	if(t[p].cnt&amp;&amp;v==t[p].val) return t[t[p].ls].sz + t[p].cnt*eq;
+	else if(v&lt;t[p].val) return Less(t[p].ls, v, eq);
+	else return t[t[p].ls].sz + t[p].cnt + Less(t[p].rs, v, eq);
+}
+int kth(int p, int k)
+{
+	if(k&lt;=t[t[p].ls].sz) return kth(t[p].ls, k);
+	else if(t[t[p].ls].sz+t[p].cnt&gt;=k) return t[p].val;
+	else return kth(t[p].rs, k-t[p].cnt-t[t[p].ls].sz);
+}
+int main()
+{
+	int n; scanf(&quot;%d&quot;, &amp;n);
+	while(n--)
+	{
+		int t, x;
+		scanf(&quot;%d%d&quot;, &amp;t, &amp;x);
+        if(t==1) ins(rt, x);
+        else if(t==2) del(rt, x);
+        else if(t==3) printf(&quot;%d\n&quot;, Less(rt, x, 0)+1);
+        else if(t==4) printf(&quot;%d\n&quot;, kth(rt, x));
+        else if(t==5) printf(&quot;%d\n&quot;, kth(rt, Less(rt, x, 0)));
+        else printf(&quot;%d\n&quot;, kth(rt, Less(rt, x, 1)+1));
+	}
+	return 0;
+}
+</code></pre>
+
+              </div>
+              <div class="toc-container">
+                
+              </div>
+            </div>
+          </article>
+        </div>
+
+        
+          <div class="next-post">
+            <div class="next">下一篇</div>
+            <a href="https://jyf111.github.io/post/ecpc-2019-kickoff/">
+              <h3 class="post-title">
+                ECPC 2019 Kickoff
+              </h3>
+            </a>
+          </div>
+        
+
+        
+
+        <div class="site-footer">
+  
+  <a class="rss" href="https://jyf111.github.io/atom.xml" target="_blank">
+    <i class="ri-rss-line"></i> RSS
+  </a>
+</div>
+
+      </div>
+    </div>
+
+    <script>
+      hljs.initHighlightingOnLoad()
+
+      let mainNavLinks = document.querySelectorAll(".markdownIt-TOC a");
+
+      // This should probably be throttled.
+      // Especially because it triggers during smooth scrolling.
+      // https://lodash.com/docs/4.17.10#throttle
+      // You could do like...
+      // window.addEventListener("scroll", () => {
+      //    _.throttle(doThatStuff, 100);
+      // });
+      // Only not doing it here to keep this Pen dependency-free.
+
+      window.addEventListener("scroll", event => {
+        let fromTop = window.scrollY;
+
+        mainNavLinks.forEach((link, index) => {
+          let section = document.getElementById(decodeURI(link.hash).substring(1));
+          let nextSection = null
+          if (mainNavLinks[index + 1]) {
+            nextSection = document.getElementById(decodeURI(mainNavLinks[index + 1].hash).substring(1));
+          }
+          if (section.offsetTop <= fromTop) {
+            if (nextSection) {
+              if (nextSection.offsetTop > fromTop) {
+                link.classList.add("current");
+              } else {
+                link.classList.remove("current");    
+              }
+            } else {
+              link.classList.add("current");
+            }
+          } else {
+            link.classList.remove("current");
+          }
+        });
+      });
+
+    </script>
+  </body>
+</html>

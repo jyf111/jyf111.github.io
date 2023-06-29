@@ -1,0 +1,257 @@
+<html>
+  <head>
+    <meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>p5903 树上k级祖先 | jyf111</title>
+<link rel="shortcut icon" href="https://jyf111.github.io/favicon.ico?v=1688054387335">
+<link href="https://cdn.jsdelivr.net/npm/remixicon@2.3.0/fonts/remixicon.css" rel="stylesheet">
+<link rel="stylesheet" href="https://jyf111.github.io/styles/main.css">
+<link rel="alternate" type="application/atom+xml" title="p5903 树上k级祖先 | jyf111 - Atom Feed" href="https://jyf111.github.io/atom.xml">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Droid+Serif:400,700">
+
+
+
+    <meta name="description" content="使用倍增每次可以在logn的时间内解决，而使用长链剖分，可以在O(nlogn)预处理后，O(1)回答询问，虽然在实践中相差无几，也不太可能要求O(1),但是长剖的这种做法以及预处理的方法还是很巧妙的
+
+预处理出倍增数组，长链的长度以及链顶节..." />
+    <meta name="keywords" content="算法" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.10.0/katex.min.css">
+    <script src="https://cdn.bootcss.com/highlight.js/9.12.0/highlight.min.js"></script>
+  </head>
+  <body>
+    <div class="main">
+      <div class="main-content">
+        <div class="site-header">
+  <a href="https://jyf111.github.io">
+  <img class="avatar" src="https://jyf111.github.io/images/avatar.png?v=1688054387335" alt="">
+  </a>
+  <h1 class="site-title">
+    jyf111
+  </h1>
+  <p class="site-description">
+    温故而知新
+  </p>
+  <div class="menu-container">
+    
+      
+        <a href="https://jyf111.github.io" class="menu">
+          首页
+        </a>
+      
+    
+      
+        <a href="/archives" class="menu">
+          归档
+        </a>
+      
+    
+      
+        <a href="https://jyf111.github.io/tags" class="menu">
+          分类
+        </a>
+      
+    
+  </div>
+  <div class="social-container">
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+  </div>
+</div>
+
+        <div class="post-detail">
+          <article class="post">
+            <h2 class="post-title">
+              p5903 树上k级祖先
+            </h2>
+            <div class="post-info">
+              <span>
+                2020-05-30
+              </span>
+              <span>
+                4 min read
+              </span>
+              
+                <a href="https://jyf111.github.io/tag/HKuTllKYu/" class="post-tag">
+                  # 算法
+                </a>
+              
+            </div>
+            
+            <div class="post-content-wrapper">
+              <div class="post-content">
+                <p>使用倍增每次可以在logn的时间内解决，而使用长链剖分，可以在O(nlogn)预处理后，O(1)回答询问，虽然在实践中相差无几，也不太可能要求O(1),但是长剖的这种做法以及预处理的方法还是很巧妙的</p>
+<ul>
+<li>预处理出倍增数组，长链的长度以及链顶节点，再预处理出每个数字的最高二级制位hb[i]，如果当前节点为链顶节点，预处理出其向上(跳fa)和向下(跳son)len[u]-1个节点</li>
+<li>处理询问时，先利用倍增数组跳到(1&lt;&lt;hb[i])的祖先处，此时<span class="katex"><span class="katex-mathml"><math><semantics><mrow><msup><mi>k</mi><mo mathvariant="normal">′</mo></msup><mo>=</mo><mi>k</mi><mo>−</mo><mo>(</mo><mn>1</mn><mo>&lt;</mo><mo>&lt;</mo><mi>h</mi><mi>b</mi><mo>[</mo><mi>i</mi><mo>]</mo><mo>)</mo><mo>&lt;</mo><mo>(</mo><mn>1</mn><mo>&lt;</mo><mo>&lt;</mo><mi>h</mi><mi>b</mi><mo>[</mo><mi>i</mi><mo>]</mo><mo>)</mo></mrow><annotation encoding="application/x-tex">k&#x27; = k-(1&lt;&lt;hb[i]) &lt; (1&lt;&lt;hb[i])</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.751892em;vertical-align:0em;"></span><span class="mord"><span class="mord mathdefault" style="margin-right:0.03148em;">k</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.751892em;"><span style="top:-3.063em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mtight">′</span></span></span></span></span></span></span></span></span><span class="mspace" style="margin-right:0.2777777777777778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span></span><span class="base"><span class="strut" style="height:0.77777em;vertical-align:-0.08333em;"></span><span class="mord mathdefault" style="margin-right:0.03148em;">k</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span><span class="mbin">−</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span></span><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mopen">(</span><span class="mord">1</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span><span class="mrel">&lt;</span></span><span class="base"><span class="strut" style="height:0.5782em;vertical-align:-0.0391em;"></span><span class="mrel">&lt;</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span></span><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathdefault">h</span><span class="mord mathdefault">b</span><span class="mopen">[</span><span class="mord mathdefault">i</span><span class="mclose">]</span><span class="mclose">)</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span><span class="mrel">&lt;</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span></span><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mopen">(</span><span class="mord">1</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span><span class="mrel">&lt;</span></span><span class="base"><span class="strut" style="height:0.5782em;vertical-align:-0.0391em;"></span><span class="mrel">&lt;</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span></span><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathdefault">h</span><span class="mord mathdefault">b</span><span class="mopen">[</span><span class="mord mathdefault">i</span><span class="mclose">]</span><span class="mclose">)</span></span></span></span></li>
+<li>当前所在的长链的长度一定是大于k'的，所以考虑跳到链顶，而后根据剩余的k选择向上还是向下跳，此时利用预处理出的up，dwn数组即可实现O(1)</li>
+</ul>
+<pre><code class="language-cpp">#include &lt;bits/stdc++.h&gt;
+#define mp make_pair
+#define pb push_back
+#define sz(x) (int)x.size()
+#define all(x) begin(x), end(x)
+#define fi first
+#define se second
+#define debug(x) cerr &lt;&lt; #x &lt;&lt; &quot; &quot; &lt;&lt; x &lt;&lt; '\n'
+using namespace std;
+using ll = long long;
+using pii = pair&lt;int,int&gt;;
+using pli = pair&lt;ll,int&gt;;
+const int INF = 0x3f3f3f3f, N = 5e5 + 5;
+const ll LINF = 1e18 + 5;
+constexpr int mod = 1e9 + 7;
+int n, q, hb[N], fa[N][22], rt;
+int len[N], dep[N], top[N], son[N];
+unsigned int s;
+vector&lt;int&gt; G[N], up[N], dwn[N];
+inline unsigned int get(unsigned int x) 
+{
+	x ^= x &lt;&lt; 13;
+	x ^= x &gt;&gt; 17;
+	x ^= x &lt;&lt; 5;
+	return s = x; 
+}
+void dfs1(int u) 
+{
+	dep[u] = dep[fa[u][0]] + 1;
+	for(int v : G[u])
+	{
+		if(v==fa[u][0]) continue;
+		for(int i=0; fa[v][i]; i++) fa[v][i+1] = fa[fa[v][i]][i];
+		dfs1(v);
+		if(len[v]&gt;len[son[u]]) son[u] = v;
+	}
+	len[u] = len[son[u]] + 1;
+}
+void dfs2(int u, int t)
+{
+	top[u] = t;
+	if(u==t)
+	{
+		for(int i=0, j=u; i&lt;len[u]; i++)
+			up[u].pb(j), j = fa[j][0];
+		for(int i=0, j=u; i&lt;len[u]; i++)
+			dwn[u].pb(j), j = son[j];
+	}
+	if(son[u]) dfs2(son[u], t);
+	for(int v : G[u])
+		if(v!=son[u])
+			dfs2(v, v);
+	return;
+}
+int ask(int x, int k)
+{
+	if(!k) return x;
+	x = fa[x][hb[k]], k -= (1&lt;&lt;hb[k]);
+	k -= dep[x] - dep[top[x]], x = top[x];
+	return k&gt;=0 ? up[x][k] : dwn[x][-k];
+}
+int main()
+{
+	ios::sync_with_stdio(false);
+	cin.tie(nullptr);
+	cin &gt;&gt; n &gt;&gt; q &gt;&gt; s;
+	hb[0] = -1;
+	for(int i=1; i&lt;=n; i++)
+	{
+		cin &gt;&gt; fa[i][0];
+		if(!fa[i][0]) rt = i;
+		else G[fa[i][0]].pb(i);
+		hb[i] = hb[i&gt;&gt;1] + 1;
+	}
+	dfs1(rt); dfs2(rt, rt);
+	int ans = 0;
+	ll res = 0;
+	for(int i=1; i&lt;=q; i++)
+	{
+		int x = (get(s)^ans)%n + 1;
+		int k = (get(s)^ans)%dep[x];
+		res ^= 1ll*i*(ans=ask(x, k));
+	}
+	cout &lt;&lt; res &lt;&lt; '\n';
+	return 0;
+}
+</code></pre>
+
+              </div>
+              <div class="toc-container">
+                
+              </div>
+            </div>
+          </article>
+        </div>
+
+        
+          <div class="next-post">
+            <div class="next">下一篇</div>
+            <a href="https://jyf111.github.io/post/xiao-v-he-gcd-shu-dai-xiu-zhu-xi-shu-shu-pou-trick/">
+              <h3 class="post-title">
+                小V和gcd树 带修主席树+树剖trick
+              </h3>
+            </a>
+          </div>
+        
+
+        
+
+        <div class="site-footer">
+  
+  <a class="rss" href="https://jyf111.github.io/atom.xml" target="_blank">
+    <i class="ri-rss-line"></i> RSS
+  </a>
+</div>
+
+      </div>
+    </div>
+
+    <script>
+      hljs.initHighlightingOnLoad()
+
+      let mainNavLinks = document.querySelectorAll(".markdownIt-TOC a");
+
+      // This should probably be throttled.
+      // Especially because it triggers during smooth scrolling.
+      // https://lodash.com/docs/4.17.10#throttle
+      // You could do like...
+      // window.addEventListener("scroll", () => {
+      //    _.throttle(doThatStuff, 100);
+      // });
+      // Only not doing it here to keep this Pen dependency-free.
+
+      window.addEventListener("scroll", event => {
+        let fromTop = window.scrollY;
+
+        mainNavLinks.forEach((link, index) => {
+          let section = document.getElementById(decodeURI(link.hash).substring(1));
+          let nextSection = null
+          if (mainNavLinks[index + 1]) {
+            nextSection = document.getElementById(decodeURI(mainNavLinks[index + 1].hash).substring(1));
+          }
+          if (section.offsetTop <= fromTop) {
+            if (nextSection) {
+              if (nextSection.offsetTop > fromTop) {
+                link.classList.add("current");
+              } else {
+                link.classList.remove("current");    
+              }
+            } else {
+              link.classList.add("current");
+            }
+          } else {
+            link.classList.remove("current");
+          }
+        });
+      });
+
+    </script>
+  </body>
+</html>

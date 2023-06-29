@@ -1,0 +1,373 @@
+<html>
+  <head>
+    <meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Boruvka生成树算法 | jyf111</title>
+<link rel="shortcut icon" href="https://jyf111.github.io/favicon.ico?v=1688054387335">
+<link href="https://cdn.jsdelivr.net/npm/remixicon@2.3.0/fonts/remixicon.css" rel="stylesheet">
+<link rel="stylesheet" href="https://jyf111.github.io/styles/main.css">
+<link rel="alternate" type="application/atom+xml" title="Boruvka生成树算法 | jyf111 - Atom Feed" href="https://jyf111.github.io/atom.xml">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Droid+Serif:400,700">
+
+
+
+    <meta name="description" content="核心:每次从所有当前的连通块向其他连通块扩展出最小边,直至剩下一个连通块
+每进行一次操作,连通块数量减半 O(mlogn) 取决于计算最小边的代价
+codechef spanning tree
+交互题,每次可以给出两个点集A,B进行询问,会..." />
+    <meta name="keywords" content="算法" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.10.0/katex.min.css">
+    <script src="https://cdn.bootcss.com/highlight.js/9.12.0/highlight.min.js"></script>
+  </head>
+  <body>
+    <div class="main">
+      <div class="main-content">
+        <div class="site-header">
+  <a href="https://jyf111.github.io">
+  <img class="avatar" src="https://jyf111.github.io/images/avatar.png?v=1688054387335" alt="">
+  </a>
+  <h1 class="site-title">
+    jyf111
+  </h1>
+  <p class="site-description">
+    温故而知新
+  </p>
+  <div class="menu-container">
+    
+      
+        <a href="https://jyf111.github.io" class="menu">
+          首页
+        </a>
+      
+    
+      
+        <a href="/archives" class="menu">
+          归档
+        </a>
+      
+    
+      
+        <a href="https://jyf111.github.io/tags" class="menu">
+          分类
+        </a>
+      
+    
+  </div>
+  <div class="social-container">
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+  </div>
+</div>
+
+        <div class="post-detail">
+          <article class="post">
+            <h2 class="post-title">
+              Boruvka生成树算法
+            </h2>
+            <div class="post-info">
+              <span>
+                2020-05-22
+              </span>
+              <span>
+                7 min read
+              </span>
+              
+                <a href="https://jyf111.github.io/tag/HKuTllKYu/" class="post-tag">
+                  # 算法
+                </a>
+              
+            </div>
+            
+            <div class="post-content-wrapper">
+              <div class="post-content">
+                <p>核心:每次从所有当前的连通块向其他连通块扩展出最小边,直至剩下一个连通块<br>
+每进行一次操作,连通块数量减半 O(mlogn) 取决于计算最小边的代价</p>
+<h1 id="codechef-spanning-tree">codechef spanning tree</h1>
+<p>交互题,每次可以给出两个点集A,B进行询问,会返回两个集合间的最小边,要求询问的<span class="katex"><span class="katex-mathml"><math><semantics><mrow><mo>∑</mo><mi mathvariant="normal">∣</mi><mi>A</mi><mi mathvariant="normal">∣</mi><mo>&lt;</mo><mo>=</mo><mn>1</mn><mi>e</mi><mn>4</mn><mo separator="true">,</mo><mo>∑</mo><mi mathvariant="normal">∣</mi><mi>A</mi><mi mathvariant="normal">∣</mi><mo>+</mo><mi mathvariant="normal">∣</mi><mi>B</mi><mi mathvariant="normal">∣</mi><mo>&lt;</mo><mo>=</mo><mn>2</mn><mi>e</mi><mn>6</mn></mrow><annotation encoding="application/x-tex">\sum |A|&lt;=1e4, \sum |A|+|B|&lt;=2e6</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1.00001em;vertical-align:-0.25001em;"></span><span class="mop op-symbol small-op" style="position:relative;top:-0.0000050000000000050004em;">∑</span><span class="mspace" style="margin-right:0.16666666666666666em;"></span><span class="mord">∣</span><span class="mord mathdefault">A</span><span class="mord">∣</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span><span class="mrel">&lt;</span></span><span class="base"><span class="strut" style="height:0.36687em;vertical-align:0em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span></span><span class="base"><span class="strut" style="height:1.00001em;vertical-align:-0.25001em;"></span><span class="mord">1</span><span class="mord mathdefault">e</span><span class="mord">4</span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.16666666666666666em;"></span><span class="mop op-symbol small-op" style="position:relative;top:-0.0000050000000000050004em;">∑</span><span class="mspace" style="margin-right:0.16666666666666666em;"></span><span class="mord">∣</span><span class="mord mathdefault">A</span><span class="mord">∣</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span><span class="mbin">+</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span></span><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord">∣</span><span class="mord mathdefault" style="margin-right:0.05017em;">B</span><span class="mord">∣</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span><span class="mrel">&lt;</span></span><span class="base"><span class="strut" style="height:0.36687em;vertical-align:0em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span></span><span class="base"><span class="strut" style="height:0.64444em;vertical-align:0em;"></span><span class="mord">2</span><span class="mord mathdefault">e</span><span class="mord">6</span></span></span></span>,n&lt;=1e3,最后输出该图的最小生成树的权值和<br>
+按照上述算法询问即可</p>
+<pre><code class="language-cpp">#include &lt;bits/stdc++.h&gt;
+#define mp make_pair
+#define pb push_back
+#define sz(x) (int)x.size()
+#define all(x) begin(x), end(x)
+#define fi first
+#define se second
+#define debug(x) cerr &lt;&lt; #x &lt;&lt; &quot; &quot; &lt;&lt; x &lt;&lt; '\n'
+using namespace std;
+using ll = long long;
+using pii = pair&lt;int,int&gt;;
+using pli = pair&lt;ll,int&gt;;
+const int INF = 0x3f3f3f3f, N = 1e3 + 5;
+const ll LINF = 1e18 + 5;
+constexpr int mod = 1e9 + 7;
+int n, fa[N], idx[N], mncost;
+pii mn[N];
+vector&lt;int&gt; scc[N];
+bool vis[N];
+int find(int x)
+{
+	if(x==fa[x]) return x;
+	return fa[x] = find(fa[x]);
+}
+bool merge(int u, int v)
+{
+	u = find(u), v = find(v);
+	if(u!=v)
+	{
+		fa[u] = v;
+		return true;
+	}
+	return false;
+}
+pii ask(vector&lt;int&gt; &amp;a)
+{
+	for(int i=1; i&lt;=n; i++) vis[i] = 0;
+	cout &lt;&lt; 1 &lt;&lt; ' ' &lt;&lt; sz(a) &lt;&lt; ' ' &lt;&lt; n-sz(a) &lt;&lt; endl;
+	for(int x : a) 
+	{
+		cout &lt;&lt; x &lt;&lt; ' ';
+		vis[x] = 1;
+	}
+	cout &lt;&lt; endl;
+	for(int i=1; i&lt;=n; i++) if(!vis[i]) cout &lt;&lt; i &lt;&lt; ' ';
+	cout &lt;&lt; endl;
+	int u, v, w; cin &gt;&gt; u &gt;&gt; v &gt;&gt; w;
+	return mp(v, w);
+}
+int main()
+{
+	cin &gt;&gt; n;
+	for(int i=1; i&lt;=n; i++) fa[i] = i;
+	while(true)
+	{
+		int cnt = 0;
+		for(int i=1; i&lt;=n; i++)
+			if(fa[i]==i) idx[i] = ++cnt;
+		if(cnt==1) break;
+		for(int i=1; i&lt;=n; i++)
+			scc[idx[find(i)]].pb(i);
+		for(int i=1; i&lt;=cnt; i++) mn[i] = {-1, 0};
+		for(int i=1; i&lt;=cnt; i++)
+		{
+			auto cur = ask(scc[i]);
+			if(mn[i].fi==-1) mn[i] = {cur.se, cur.fi};
+			else if(cur.se&lt;mn[i].fi) mn[i] = {cur.se, cur.fi};
+			scc[i].clear();
+		}
+		for(int i=1; i&lt;=n; i++)
+			if(fa[i]==i &amp;&amp; merge(i, mn[idx[i]].se))
+				mncost += mn[idx[i]].fi;
+	}
+	cout &lt;&lt; 2 &lt;&lt; ' ' &lt;&lt; mncost &lt;&lt; endl;
+	return 0;
+}
+</code></pre>
+<h1 id="cf888g-xormst">cf888G xormst</h1>
+<p>一张完全图,点数2e5,每个点有点权<span class="katex"><span class="katex-mathml"><math><semantics><mrow><msub><mi>a</mi><mi>i</mi></msub></mrow><annotation encoding="application/x-tex">a_i</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.58056em;vertical-align:-0.15em;"></span><span class="mord"><span class="mord mathdefault">a</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.31166399999999994em;"><span style="top:-2.5500000000000003em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathdefault mtight">i</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span></span></span></span>,边<span class="katex"><span class="katex-mathml"><math><semantics><mrow><mo>(</mo><mi>i</mi><mo separator="true">,</mo><mi>j</mi><mo>)</mo></mrow><annotation encoding="application/x-tex">(i,j)</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mopen">(</span><span class="mord mathdefault">i</span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.16666666666666666em;"></span><span class="mord mathdefault" style="margin-right:0.05724em;">j</span><span class="mclose">)</span></span></span></span>的权值为<span class="katex"><span class="katex-mathml"><math><semantics><mrow><msub><mi>a</mi><mi>i</mi></msub><mi>x</mi><mi>o</mi><mi>r</mi><msub><mi>a</mi><mi>j</mi></msub></mrow><annotation encoding="application/x-tex">a_i xor a_j</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.716668em;vertical-align:-0.286108em;"></span><span class="mord"><span class="mord mathdefault">a</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.31166399999999994em;"><span style="top:-2.5500000000000003em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathdefault mtight">i</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mord mathdefault">x</span><span class="mord mathdefault">o</span><span class="mord mathdefault" style="margin-right:0.02778em;">r</span><span class="mord"><span class="mord mathdefault">a</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.311664em;"><span style="top:-2.5500000000000003em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathdefault mtight" style="margin-right:0.05724em;">j</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.286108em;"><span></span></span></span></span></span></span></span></span></span>,求该图的mst<br>
+思考如何求出当前集合与其他集合的最小边权:<br>
+建出01trie,每次把该集合的点权删除,然后逐个询问与该点权xor后的最小值取小,最后再插入还原即可</p>
+<pre><code class="language-cpp">#include &lt;bits/stdc++.h&gt;
+#pragma GCC optimize(&quot;Ofast&quot;)
+#pragma GCC optimize (&quot;unroll-loops&quot;)
+#pragma GCC target(&quot;sse,sse2,sse3,ssse3,sse4,popcnt,abm,mmx,avx,tune=native&quot;)
+#define mp make_pair
+#define pb push_back
+#define sz(x) (int)x.size()
+#define all(x) begin(x), end(x)
+#define fi first
+#define se second
+#define debug(x) cerr &lt;&lt; #x &lt;&lt; &quot; &quot; &lt;&lt; x &lt;&lt; '\n'
+using namespace std;
+using ll = long long;
+using pii = pair&lt;int,int&gt;;
+using pli = pair&lt;ll,int&gt;;
+const int INF = 0x3f3f3f3f, N = 2e5 + 5;
+const ll LINF = 1e18 + 5;
+constexpr int mod = 1e9 + 7;
+int n, a[N];
+int fa[N], idx[N], cnt, mnto[N], mnval[N];
+vector&lt;int&gt; scc[N];
+int find(int x)
+{
+	if(x==fa[x]) return x;
+	return fa[x] = find(fa[x]);
+}
+bool merge(int u, int v)
+{
+	u = find(u), v = find(v);
+	if(u!=v)
+	{
+		fa[u] = v;
+		return true;
+	}
+	return false;
+}
+int tot, nxt[N*29][2], sz[N*29][2], id[N*29]; 
+void upd(int x, int v, int idx)
+{
+	int now = 0;
+	for(int i=29; i&gt;=0; i--)
+	{
+		int k = (x&gt;&gt;i)&amp;1;
+		if(!nxt[now][k]) nxt[now][k] = ++tot;
+		sz[now][k] += v;
+		now = nxt[now][k];
+	}
+	if(v==1) id[now] = idx;
+}
+pii ask(int x) 
+{
+	int ans = 0, now = 0;
+	for(int i=29; i&gt;=0; i--)
+	{
+		int k = (x&gt;&gt;i)&amp;1;
+		if(sz[now][k]) now = nxt[now][k];
+		else now = nxt[now][k^1], ans |= (1&lt;&lt;i);
+	}
+	return {ans, id[now]};
+}
+int main()
+{
+	double startTime = (double)clock();
+	//mt19937 rnd(chrono::high_resolution_clock::now().time_since_epoch().count());
+	scanf(&quot;%d&quot;, &amp;n);
+	//n = 2e5;
+	for(int i=1; i&lt;=n; i++)
+	{
+		fa[i] = i;
+		scanf(&quot;%d&quot;, a+i);
+		//a[i] = abs(rnd()%(1&lt;&lt;30));
+	}
+	sort(a+1, a+n+1);
+	n = unique(a+1, a+n+1) - a - 1;
+	for(int i=1; i&lt;=n; i++) upd(a[i], 1, i);
+	ll ans = 0;
+	while(true)
+	{
+		cnt = 0;
+		for(int i=1; i&lt;=n; i++)
+			if(fa[i]==i)
+			{
+				idx[i] = ++cnt;
+				mnto[cnt] = mnval[cnt] = -1;
+			}
+		//debug(cnt);
+		if(cnt==1) break;
+		for(int i=1; i&lt;=n; i++)
+			scc[idx[find(i)]].pb(i);
+		for(int i=1; i&lt;=cnt; i++)
+		{
+			for(int x : scc[i]) upd(a[x], -1, x);
+			for(int x : scc[i])
+			{
+				auto cur = ask(a[x]);
+				if(mnto[i]==-1)
+				{
+					mnval[i] = cur.fi;
+					mnto[i] = cur.se; 
+				}
+				else if(cur.fi&lt;mnval[i])
+				{
+					mnval[i] = cur.fi;
+					mnto[i] = cur.se;
+				}
+			}
+			for(int x : scc[i]) upd(a[x], 1, x);
+			scc[i].clear();
+		}
+		for(int i=1; i&lt;=n; i++)
+			if(fa[i]==i &amp;&amp; merge(i, mnto[idx[i]]))
+				ans += mnval[idx[i]];
+	}
+	printf(&quot;%lld\n&quot;, ans);
+	cerr &lt;&lt; ((double)clock() - startTime) / CLOCKS_PER_SEC &lt;&lt; endl;
+	return 0;
+}
+</code></pre>
+
+              </div>
+              <div class="toc-container">
+                <ul class="markdownIt-TOC">
+<li><a href="#codechef-spanning-tree">codechef spanning tree</a></li>
+<li><a href="#cf888g-xormst">cf888G xormst</a></li>
+</ul>
+
+              </div>
+            </div>
+          </article>
+        </div>
+
+        
+          <div class="next-post">
+            <div class="next">下一篇</div>
+            <a href="https://jyf111.github.io/post/huan-ge-de-shu-lie/">
+              <h3 class="post-title">
+                 环鸽的数列
+              </h3>
+            </a>
+          </div>
+        
+
+        
+
+        <div class="site-footer">
+  
+  <a class="rss" href="https://jyf111.github.io/atom.xml" target="_blank">
+    <i class="ri-rss-line"></i> RSS
+  </a>
+</div>
+
+      </div>
+    </div>
+
+    <script>
+      hljs.initHighlightingOnLoad()
+
+      let mainNavLinks = document.querySelectorAll(".markdownIt-TOC a");
+
+      // This should probably be throttled.
+      // Especially because it triggers during smooth scrolling.
+      // https://lodash.com/docs/4.17.10#throttle
+      // You could do like...
+      // window.addEventListener("scroll", () => {
+      //    _.throttle(doThatStuff, 100);
+      // });
+      // Only not doing it here to keep this Pen dependency-free.
+
+      window.addEventListener("scroll", event => {
+        let fromTop = window.scrollY;
+
+        mainNavLinks.forEach((link, index) => {
+          let section = document.getElementById(decodeURI(link.hash).substring(1));
+          let nextSection = null
+          if (mainNavLinks[index + 1]) {
+            nextSection = document.getElementById(decodeURI(mainNavLinks[index + 1].hash).substring(1));
+          }
+          if (section.offsetTop <= fromTop) {
+            if (nextSection) {
+              if (nextSection.offsetTop > fromTop) {
+                link.classList.add("current");
+              } else {
+                link.classList.remove("current");    
+              }
+            } else {
+              link.classList.add("current");
+            }
+          } else {
+            link.classList.remove("current");
+          }
+        });
+      });
+
+    </script>
+  </body>
+</html>

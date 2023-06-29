@@ -1,0 +1,309 @@
+<html>
+  <head>
+    <meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>牛客挑战赛41 D买糖果 折半 多点求值 | jyf111</title>
+<link rel="shortcut icon" href="https://jyf111.github.io/favicon.ico?v=1688054387335">
+<link href="https://cdn.jsdelivr.net/npm/remixicon@2.3.0/fonts/remixicon.css" rel="stylesheet">
+<link rel="stylesheet" href="https://jyf111.github.io/styles/main.css">
+<link rel="alternate" type="application/atom+xml" title="牛客挑战赛41 D买糖果 折半 多点求值 | jyf111 - Atom Feed" href="https://jyf111.github.io/atom.xml">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Droid+Serif:400,700">
+
+
+
+    <meta name="description" content="给定n个数，求所有非空子集的和的乘积mod998244353mod 998244353mod998244353
+n≤32n \leq 32n≤32
+考虑折半L，R，很容易状压求出两部分内部各自的贡献，两部分共同的贡献可以用∏i=1(1&lt..." />
+    <meta name="keywords" content="算法" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.10.0/katex.min.css">
+    <script src="https://cdn.bootcss.com/highlight.js/9.12.0/highlight.min.js"></script>
+  </head>
+  <body>
+    <div class="main">
+      <div class="main-content">
+        <div class="site-header">
+  <a href="https://jyf111.github.io">
+  <img class="avatar" src="https://jyf111.github.io/images/avatar.png?v=1688054387335" alt="">
+  </a>
+  <h1 class="site-title">
+    jyf111
+  </h1>
+  <p class="site-description">
+    温故而知新
+  </p>
+  <div class="menu-container">
+    
+      
+        <a href="https://jyf111.github.io" class="menu">
+          首页
+        </a>
+      
+    
+      
+        <a href="/archives" class="menu">
+          归档
+        </a>
+      
+    
+      
+        <a href="https://jyf111.github.io/tags" class="menu">
+          分类
+        </a>
+      
+    
+  </div>
+  <div class="social-container">
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+  </div>
+</div>
+
+        <div class="post-detail">
+          <article class="post">
+            <h2 class="post-title">
+              牛客挑战赛41 D买糖果 折半 多点求值
+            </h2>
+            <div class="post-info">
+              <span>
+                2020-09-23
+              </span>
+              <span>
+                8 min read
+              </span>
+              
+                <a href="https://jyf111.github.io/tag/HKuTllKYu/" class="post-tag">
+                  # 算法
+                </a>
+              
+            </div>
+            
+            <div class="post-content-wrapper">
+              <div class="post-content">
+                <p>给定n个数，求所有非空子集的和的乘积<span class="katex"><span class="katex-mathml"><math><semantics><mrow><mi>m</mi><mi>o</mi><mi>d</mi><mn>998244353</mn></mrow><annotation encoding="application/x-tex">mod 998244353</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.69444em;vertical-align:0em;"></span><span class="mord mathdefault">m</span><span class="mord mathdefault">o</span><span class="mord mathdefault">d</span><span class="mord">9</span><span class="mord">9</span><span class="mord">8</span><span class="mord">2</span><span class="mord">4</span><span class="mord">4</span><span class="mord">3</span><span class="mord">5</span><span class="mord">3</span></span></span></span><br>
+<span class="katex"><span class="katex-mathml"><math><semantics><mrow><mi>n</mi><mo>≤</mo><mn>32</mn></mrow><annotation encoding="application/x-tex">n \leq 32</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.7719400000000001em;vertical-align:-0.13597em;"></span><span class="mord mathdefault">n</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span><span class="mrel">≤</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span></span><span class="base"><span class="strut" style="height:0.64444em;vertical-align:0em;"></span><span class="mord">3</span><span class="mord">2</span></span></span></span></p>
+<p>考虑折半L，R，很容易状压求出两部分内部各自的贡献，两部分共同的贡献可以用<span class="katex"><span class="katex-mathml"><math><semantics><mrow><msubsup><mo>∏</mo><mrow><mi>i</mi><mo>=</mo><mn>1</mn></mrow><mrow><mo>(</mo><mn>1</mn><mo>&lt;</mo><mo>&lt;</mo><mi>L</mi><mo>)</mo><mo>−</mo><mn>1</mn></mrow></msubsup><msubsup><mo>∏</mo><mrow><mi>j</mi><mo>=</mo><mn>1</mn></mrow><mrow><mo>(</mo><mn>1</mn><mo>&lt;</mo><mo>&lt;</mo><mi>R</mi><mo>)</mo><mo>−</mo><mn>1</mn></mrow></msubsup><mo>(</mo><msub><mi>c</mi><mi>i</mi></msub><mo>+</mo><msub><mi>d</mi><mi>j</mi></msub><mo>)</mo></mrow><annotation encoding="application/x-tex">\prod \limits_{i=1}^{(1&lt;&lt;L)-1} \prod \limits_{j=1}^{(1&lt;&lt;R)-1} (c_i + d_j)</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:2.774782em;vertical-align:-1.113777em;"></span><span class="mop op-limits"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:1.6610050000000003em;"><span style="top:-2.122331em;margin-left:0em;"><span class="pstrut" style="height:3em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathdefault mtight">i</span><span class="mrel mtight">=</span><span class="mord mtight">1</span></span></span></span><span style="top:-3.0000050000000003em;"><span class="pstrut" style="height:3em;"></span><span><span class="mop op-symbol small-op">∏</span></span></span><span style="top:-4.036005em;margin-left:0em;"><span class="pstrut" style="height:3em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mopen mtight">(</span><span class="mord mtight">1</span><span class="mrel mtight">&lt;</span><span class="mrel mtight">&lt;</span><span class="mord mathdefault mtight">L</span><span class="mclose mtight">)</span><span class="mbin mtight">−</span><span class="mord mtight">1</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.9776689999999999em;"><span></span></span></span></span></span><span class="mspace" style="margin-right:0.16666666666666666em;"></span><span class="mop op-limits"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:1.6610050000000003em;"><span style="top:-2.122331em;margin-left:0em;"><span class="pstrut" style="height:3em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathdefault mtight" style="margin-right:0.05724em;">j</span><span class="mrel mtight">=</span><span class="mord mtight">1</span></span></span></span><span style="top:-3.0000050000000003em;"><span class="pstrut" style="height:3em;"></span><span><span class="mop op-symbol small-op">∏</span></span></span><span style="top:-4.036005em;margin-left:0em;"><span class="pstrut" style="height:3em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mopen mtight">(</span><span class="mord mtight">1</span><span class="mrel mtight">&lt;</span><span class="mrel mtight">&lt;</span><span class="mord mathdefault mtight" style="margin-right:0.00773em;">R</span><span class="mclose mtight">)</span><span class="mbin mtight">−</span><span class="mord mtight">1</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:1.113777em;"><span></span></span></span></span></span><span class="mopen">(</span><span class="mord"><span class="mord mathdefault">c</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.31166399999999994em;"><span style="top:-2.5500000000000003em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathdefault mtight">i</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mspace" style="margin-right:0.2222222222222222em;"></span><span class="mbin">+</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span></span><span class="base"><span class="strut" style="height:1.036108em;vertical-align:-0.286108em;"></span><span class="mord"><span class="mord mathdefault">d</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.311664em;"><span style="top:-2.5500000000000003em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathdefault mtight" style="margin-right:0.05724em;">j</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.286108em;"><span></span></span></span></span></span></span><span class="mclose">)</span></span></span></span><br>
+令<span class="katex"><span class="katex-mathml"><math><semantics><mrow><mi>f</mi><mo>(</mo><mi>x</mi><mo>)</mo><mo>=</mo><msubsup><mo>∏</mo><mrow><mi>j</mi><mo>=</mo><mn>1</mn></mrow><mrow><mo>(</mo><mn>1</mn><mo>&lt;</mo><mo>&lt;</mo><mi>R</mi><mo>)</mo><mo>−</mo><mn>1</mn></mrow></msubsup><mo>(</mo><mi>x</mi><mo>+</mo><msub><mi>d</mi><mi>j</mi></msub><mo>)</mo></mrow><annotation encoding="application/x-tex">f(x) = \prod \limits_{j=1}^{(1&lt;&lt;R)-1} (x+d_j)</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathdefault" style="margin-right:0.10764em;">f</span><span class="mopen">(</span><span class="mord mathdefault">x</span><span class="mclose">)</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span></span><span class="base"><span class="strut" style="height:2.774782em;vertical-align:-1.113777em;"></span><span class="mop op-limits"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:1.6610050000000003em;"><span style="top:-2.122331em;margin-left:0em;"><span class="pstrut" style="height:3em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathdefault mtight" style="margin-right:0.05724em;">j</span><span class="mrel mtight">=</span><span class="mord mtight">1</span></span></span></span><span style="top:-3.0000050000000003em;"><span class="pstrut" style="height:3em;"></span><span><span class="mop op-symbol small-op">∏</span></span></span><span style="top:-4.036005em;margin-left:0em;"><span class="pstrut" style="height:3em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mopen mtight">(</span><span class="mord mtight">1</span><span class="mrel mtight">&lt;</span><span class="mrel mtight">&lt;</span><span class="mord mathdefault mtight" style="margin-right:0.00773em;">R</span><span class="mclose mtight">)</span><span class="mbin mtight">−</span><span class="mord mtight">1</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:1.113777em;"><span></span></span></span></span></span><span class="mopen">(</span><span class="mord mathdefault">x</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span><span class="mbin">+</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span></span><span class="base"><span class="strut" style="height:1.036108em;vertical-align:-0.286108em;"></span><span class="mord"><span class="mord mathdefault">d</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.311664em;"><span style="top:-2.5500000000000003em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathdefault mtight" style="margin-right:0.05724em;">j</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.286108em;"><span></span></span></span></span></span></span><span class="mclose">)</span></span></span></span>，显然可以用分治NTT求得该多项式，然后只要对每个<span class="katex"><span class="katex-mathml"><math><semantics><mrow><msub><mi>c</mi><mi>i</mi></msub></mrow><annotation encoding="application/x-tex">c_i</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.58056em;vertical-align:-0.15em;"></span><span class="mord"><span class="mord mathdefault">c</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.31166399999999994em;"><span style="top:-2.5500000000000003em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathdefault mtight">i</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span></span></span></span>求值后乘积即可，多点求值板子</p>
+<pre><code class="language-cpp">#include &lt;bits/stdc++.h&gt;
+using namespace std;
+const int mod = 998244353, G = 3;
+const int N = (1&lt;&lt;17) + 5;
+int up, w[N], rev[N], inv[N];
+int fpw(int a, int b)
+{
+	int ans = 1;
+	while(b)
+	{
+		if(b&amp;1) ans = 1ll*ans*a%mod;
+		a = 1ll*a*a%mod;
+		b &gt;&gt;= 1;
+	}
+	return ans;
+}
+namespace poly
+{
+	void init(int n)
+	{
+		inv[0] = inv[1] = 1;
+		for(int i=2; i&lt;=n; i++) inv[i] = 1ll*(mod-mod/i)*inv[mod%i]%mod;
+		up = 1; int l = 0;
+		while(up&lt;=n) up &lt;&lt;= 1, l++;
+		for(int i=0; i&lt;up; i++) rev[i] = (rev[i&gt;&gt;1]&gt;&gt;1)|((i&amp;1)&lt;&lt;(l-1));
+		int wn = fpw(G, mod&gt;&gt;l); w[up&gt;&gt;1] = 1;
+		for(int i=(up&gt;&gt;1)+1; i&lt;up; i++) w[i] = 1ll*w[i-1]*wn%mod;
+		for(int i=(up&gt;&gt;1)-1; i&gt;=1; i--) w[i] = w[i&lt;&lt;1];
+	}
+	void clear(int *a, int n) { memset(a, 0, n&lt;&lt;2); }
+	int getlen(int n) { return 1&lt;&lt;(32-__builtin_clz(n)); }
+	inline void mul(int *a, int n, int x, int *b) { while(n--) *b++ = 1ll**a++*x%mod; }
+	inline void dot(int *a, int *b, int n, int *c) { while(n--) *c++ = 1ll**a++**b++%mod; }
+	void DFT(int *a, int l)
+	{
+		static unsigned long long tmp[N];
+		int u = __builtin_ctz(up/l), t;
+		for(int i=0; i&lt;l; i++) tmp[i] = a[rev[i]&gt;&gt;u];
+		for(int i=1; i^l; i&lt;&lt;=1)
+			for(int j=0, d=i&lt;&lt;1; j^l; j+=d)
+				for(int k=0; k&lt;i; k++)
+					t = tmp[i|j|k]*w[i|k]%mod, tmp[i|j|k] = tmp[j|k]+mod-t, tmp[j|k] += t;
+		for(int i=0; i&lt;l; i++) a[i] = tmp[i]%mod;
+	}
+	void IDFT(int *a, int l)
+	{
+		reverse(a+1, a+l); DFT(a, l);
+		mul(a, l, mod-mod/l, a);
+	}
+	inline void conv(int *a, int *b, int l) { DFT(a, l); DFT(b, l); dot(a, b, l, a); IDFT(a, l); }
+    void Inv(const int *a, int *b, int n)
+	{
+		static int c[N], l;
+		if(n==0) { b[0] = fpw(a[0], mod-2); return; }
+		Inv(a, b, n&gt;&gt;1); l = getlen(n&lt;&lt;1);
+		for(int i=0; i&lt;=n; i++) c[i] = a[i];
+		for(int i=n+1; i&lt;l; i++) c[i] = 0;
+		DFT(c, l); DFT(b, l);
+		for(int i=0; i&lt;l; i++) b[i] = (2ll-1ll*c[i]*b[i]%mod+mod)%mod*b[i]%mod;
+		IDFT(b, l);
+		for(int i=n+1; i&lt;l; i++) b[i] = 0;
+	}
+    int *f[N], *g[N], buf[N&lt;&lt;5], *np(buf);
+    void mul(int *a, int n, int *b, int m, int *c, int deg, int st)
+    {
+        static int A[N], B[N], l;
+        l = getlen(deg), copy(a, a+n+1, A), copy(b, b+m+1, B);
+        conv(A, B, l); copy(A+st, A+deg+1, c);
+        clear(A, l), clear(B, l);
+    }
+    void eval_init(int p, int l, int r, int *a)
+    {
+        g[p] = np, np += r-l+2, f[p] = np, np += r-l+2;
+        if(l==r) { g[p][0] = (mod-a[l])%mod, g[p][1] = 1; return; } 
+        int lc = p&lt;&lt;1, rc = lc|1, mid = (l+r)&gt;&gt;1, up1 = mid-l+1, up2 = r-mid;
+        eval_init(lc, l, mid, a); eval_init(rc, mid+1, r, a);
+        mul(g[lc], up1, g[rc], up2, g[p], up1+up2, 0);
+    }
+    void eval_work(int p, int l, int r, int *a)
+    {
+        if(l==r) { a[l] = f[p][0]; return; }
+        int lc = p&lt;&lt;1, rc = lc|1, mid = (l+r)&gt;&gt;1, up1 = mid-l+1, up2 = r-mid;
+        mul(f[p], r-l, g[rc], up2, f[lc], r-l, up2);
+        eval_work(lc, l, mid, a);
+        mul(f[p], r-l, g[lc], up1, f[rc], r-l, up1);
+        eval_work(rc, mid+1, r, a);
+    }
+    void eval(int *a, int n, int *b, int m, int *c)
+    {
+        static int invg[N], q[N];
+        eval_init(1, 1, m, b);
+        reverse(g[1], g[1]+m+1);
+        Inv(g[1], invg, m);
+        reverse(invg, invg+m+1);
+        mul(a, n, invg, m, q, n+m, 0);
+        copy(q+n+1, q+n+m+1, f[1]); 
+        eval_work(1, 1, m, c);
+        for(int i=1; i&lt;=m; i++) c[i] = (1ll*c[i]*b[i]%mod+a[0])%mod;
+    }
+} 
+int n, a[35];
+int c[N], d[N], v[N];
+int *f[N], pool[N&lt;&lt;5], *ptr(pool);
+void solve(int p, int l, int r)
+{
+    f[p] = ptr, ptr += r-l+2;
+    if(l==r) { f[p][0] = d[l], f[p][1] = 1; return; }
+    int lc = p&lt;&lt;1, rc = lc|1, mid = (l+r)&gt;&gt;1;
+    solve(lc, l, mid); solve(rc, mid+1, r);
+    poly::mul(f[lc], mid-l+1, f[rc], r-mid, f[p], r-l+1, 0);
+}
+int main()
+{
+    ios_base::sync_with_stdio(false); cin.tie(nullptr);
+    cin &gt;&gt; n;
+    for(int i=0; i&lt;n; i++) cin &gt;&gt; a[i];
+    int L = n/2, R = n - L, ans = 1;
+    poly::init((1&lt;&lt;(R+1))-1);
+    for(int i=1; i&lt;(1&lt;&lt;L); i++)
+    {
+        int cur = 0;
+        for(int j=0; j&lt;L; j++)
+            if((i&gt;&gt;j)&amp;1) cur += a[j];
+        ans = 1ll*ans*cur%mod;
+        c[i] = cur;
+    }
+    for(int i=1; i&lt;(1&lt;&lt;R); i++)
+    {
+        int cur = 0;
+        for(int j=0; j&lt;R; j++)
+            if((i&gt;&gt;j)&amp;1) cur += a[L+j];
+        ans = 1ll*ans*cur%mod;
+        d[i] = cur;
+    }
+    solve(1, 1, (1&lt;&lt;R)-1);
+    poly::eval(f[1], (1&lt;&lt;R)-1, c, (1&lt;&lt;R)-1, v);
+    for(int i=1; i&lt;(1&lt;&lt;L); i++) ans = 1ll*ans*v[i]%mod;
+    cout &lt;&lt; ans &lt;&lt; '\n';
+    return 0;
+}
+</code></pre>
+
+              </div>
+              <div class="toc-container">
+                
+              </div>
+            </div>
+          </article>
+        </div>
+
+        
+          <div class="next-post">
+            <div class="next">下一篇</div>
+            <a href="https://jyf111.github.io/post/di-li-ke-lei-juan-ji-xiang-guan/">
+              <h3 class="post-title">
+                狄利克雷卷积相关
+              </h3>
+            </a>
+          </div>
+        
+
+        
+
+        <div class="site-footer">
+  
+  <a class="rss" href="https://jyf111.github.io/atom.xml" target="_blank">
+    <i class="ri-rss-line"></i> RSS
+  </a>
+</div>
+
+      </div>
+    </div>
+
+    <script>
+      hljs.initHighlightingOnLoad()
+
+      let mainNavLinks = document.querySelectorAll(".markdownIt-TOC a");
+
+      // This should probably be throttled.
+      // Especially because it triggers during smooth scrolling.
+      // https://lodash.com/docs/4.17.10#throttle
+      // You could do like...
+      // window.addEventListener("scroll", () => {
+      //    _.throttle(doThatStuff, 100);
+      // });
+      // Only not doing it here to keep this Pen dependency-free.
+
+      window.addEventListener("scroll", event => {
+        let fromTop = window.scrollY;
+
+        mainNavLinks.forEach((link, index) => {
+          let section = document.getElementById(decodeURI(link.hash).substring(1));
+          let nextSection = null
+          if (mainNavLinks[index + 1]) {
+            nextSection = document.getElementById(decodeURI(mainNavLinks[index + 1].hash).substring(1));
+          }
+          if (section.offsetTop <= fromTop) {
+            if (nextSection) {
+              if (nextSection.offsetTop > fromTop) {
+                link.classList.add("current");
+              } else {
+                link.classList.remove("current");    
+              }
+            } else {
+              link.classList.add("current");
+            }
+          } else {
+            link.classList.remove("current");
+          }
+        });
+      });
+
+    </script>
+  </body>
+</html>

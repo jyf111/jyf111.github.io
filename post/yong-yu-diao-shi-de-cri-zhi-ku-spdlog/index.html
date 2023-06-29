@@ -1,0 +1,289 @@
+<html>
+  <head>
+    <meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>用于调试的c++日志库-spdlog | jyf111</title>
+<link rel="shortcut icon" href="https://jyf111.github.io/favicon.ico?v=1688054387335">
+<link href="https://cdn.jsdelivr.net/npm/remixicon@2.3.0/fonts/remixicon.css" rel="stylesheet">
+<link rel="stylesheet" href="https://jyf111.github.io/styles/main.css">
+<link rel="alternate" type="application/atom+xml" title="用于调试的c++日志库-spdlog | jyf111 - Atom Feed" href="https://jyf111.github.io/atom.xml">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Droid+Serif:400,700">
+
+
+
+    <meta name="description" content="使用
+git clone --depth 1 https://github.com/gabime/spdlog.git
+
+header-only 所以直接include头文件即可，当然也可以install成静态库
+target_includ..." />
+    <meta name="keywords" content="工具" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.10.0/katex.min.css">
+    <script src="https://cdn.bootcss.com/highlight.js/9.12.0/highlight.min.js"></script>
+  </head>
+  <body>
+    <div class="main">
+      <div class="main-content">
+        <div class="site-header">
+  <a href="https://jyf111.github.io">
+  <img class="avatar" src="https://jyf111.github.io/images/avatar.png?v=1688054387335" alt="">
+  </a>
+  <h1 class="site-title">
+    jyf111
+  </h1>
+  <p class="site-description">
+    温故而知新
+  </p>
+  <div class="menu-container">
+    
+      
+        <a href="https://jyf111.github.io" class="menu">
+          首页
+        </a>
+      
+    
+      
+        <a href="/archives" class="menu">
+          归档
+        </a>
+      
+    
+      
+        <a href="https://jyf111.github.io/tags" class="menu">
+          分类
+        </a>
+      
+    
+  </div>
+  <div class="social-container">
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+  </div>
+</div>
+
+        <div class="post-detail">
+          <article class="post">
+            <h2 class="post-title">
+              用于调试的c++日志库-spdlog
+            </h2>
+            <div class="post-info">
+              <span>
+                2022-05-20
+              </span>
+              <span>
+                4 min read
+              </span>
+              
+                <a href="https://jyf111.github.io/tag/75Sf1FiMA/" class="post-tag">
+                  # 工具
+                </a>
+              
+            </div>
+            
+            <div class="post-content-wrapper">
+              <div class="post-content">
+                <h5 id="使用">使用</h5>
+<pre><code class="language-shell">git clone --depth 1 https://github.com/gabime/spdlog.git
+</code></pre>
+<p>header-only 所以直接include头文件即可，当然也可以install成静态库</p>
+<pre><code class="language-shell">target_include_directories(xxx
+PRIVATE
+  spdlog/include
+)
+</code></pre>
+<p>日志级别：info、warn、error、critical</p>
+<p>mt后缀表示多线程（multi threaded），st后缀表示单线程</p>
+<blockquote>
+<p>spdlog takes the &quot;include what you need&quot; approach - your code should include the features that actually needed.</p>
+</blockquote>
+<p>输出使用fmt库，类似python</p>
+<p>编译器log过滤</p>
+<pre><code class="language-cpp">#define SPDLOG_ACTIVE_LEVEL SPDLOG_LEVEL_DEBUG
+
+spdlog::set_level(spdlog::level::debug); // or spdlog::set_level(spdlog::level::trace); 
+
+SPDLOG_LOGGER_TRACE(file_logger , &quot;Some trace message that will not be evaluated.{} ,{}&quot;, 1, 3.23);
+SPDLOG_LOGGER_DEBUG(file_logger , &quot;Some Debug message that will be evaluated.. {} ,{}&quot;, 1, 3.23);
+SPDLOG_DEBUG(&quot;Some debug message to default logger that will be evaluated&quot;); 
+</code></pre>
+<p>set level</p>
+<pre><code class="language-cpp">spdlog::set_level(spdlog::level::info); // Set global log level to info
+spdlog::debug(&quot;This message should not be displayed!&quot;);
+spdlog::set_level(spdlog::level::trace); // Set specific logger's log level
+spdlog::debug(&quot;This message should be displayed..&quot;);
+</code></pre>
+<p>backtrace</p>
+<pre><code class="language-cpp">// Backtrace support
+// Loggers can store in a ring buffer all messages (including debug/trace) for later inspection.
+// When needed, call dump_backtrace() to see what happened:
+spdlog::enable_backtrace(10); // create ring buffer with capacity of 10 messages
+for (int i = 0; i &lt; 100; i++) {
+    spdlog::debug(&quot;Backtrace message {}&quot;, i); // not logged..
+}
+// e.g. if some error happened:
+spdlog::dump_backtrace(); // log them now!
+</code></pre>
+<p>shutdown</p>
+<pre><code class="language-cpp">// Release all spdlog resources, and drop all loggers in the registry.
+// This is optional (only mandatory if using windows + async log).
+spdlog::shutdown();
+</code></pre>
+<h5 id="logger">logger</h5>
+<blockquote>
+<p>Each logger contains a vector of one or more <code>std::shared_ptr&lt;spdlog::sink&gt;</code>.</p>
+<p>On each log call (if the log level is right) the logger will call the <code>sink(log_msg)</code> function on each of them.</p>
+</blockquote>
+<p>spdlog会默认创建一个全局的logger（stdout、color、mt），直接使用<code>spdlog::info(..)</code>调用的就是该logger</p>
+<pre><code class="language-cpp">spdlog::set_default_logger(some_other_logger);
+spdlog::info(&quot;Use the new default logger&quot;);
+
+auto console = spdlog::stdout_color_mt(&quot;some_unique_name&quot;); // create logger
+
+auto file_logger = spdlog::rotating_logger_mt(&quot;file_logger&quot;, &quot;logs/mylogfile&quot;, 1048576 * 5, 3); // rotate 3个文件循环log
+
+auto sink = std::make_shared&lt;spdlog::sinks::stdout_sink_mt&gt;(); 
+auto my_logger= std::make_shared&lt;spdlog::logger&gt;(&quot;mylogger&quot;, sink); // manually,不会register
+
+std::vector&lt;spdlog::sink_ptr&gt; sinks;
+sinks.push_back(std::make_shared&lt;spdlog::sinks::stdout_sink_st&gt;());
+sinks.push_back(std::make_shared&lt;spdlog::sinks::daily_file_sink_st&gt;(&quot;logfile&quot;, 23, 59));
+auto combined_logger = std::make_shared&lt;spdlog::logger&gt;(&quot;name&quot;, begin(sinks), end(sinks)); // one log and multiple sink
+//register it if you need to access it globally
+spdlog::register_logger(combined_logger);
+</code></pre>
+<h5 id="sink">sink</h5>
+<p>log和sink都分别由st和mt</p>
+<p>logger的功能由sink决定</p>
+<pre><code class="language-cpp">logger：
+spdlog::rotating_logger_mt
+spdlog::daily_logger_mt
+spdlog::basic_logger_mt
+spdlog::stdout_logger_mt
+spdlog::stderr_logger_st
+spdlog::stdout_color_mt
+spdlog::stderr_color_st
+-----------------------
+sink：
+example：spdlog::sinks::rotating_file_sink_mt
+</code></pre>
+<h5 id="register">register</h5>
+<blockquote>
+<p>spdlog maintains a global (per process) registry of the created loggers.</p>
+<p>The purpose is for loggers to be accessed easily from anywhere in the project without passing them around.（避免参数传递）</p>
+</blockquote>
+<pre><code class="language-cpp">spdlog::get(&quot;logger_name&quot;); // 内部有lock，最好使用一个变量保存
+spdlog::register_logger(some_logger);
+spdlog::drop(&quot;logger_name&quot;);
+//or remove them all
+spdlog::drop_all()
+</code></pre>
+<h5 id="format">format</h5>
+<pre><code class="language-cpp">spdlog::set_pattern(&quot;*** [%H:%M:%S %z] [thread %t] %v ***&quot;); // global to all
+some_logger-&gt;set_pattern(&quot;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt; %H:%M:%S %z %v &lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&quot;);
+some_logger-&gt;sinks()[0]-&gt;set_pattern(&quot;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt; %H:%M:%S %z %v &lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&quot;);
+</code></pre>
+
+              </div>
+              <div class="toc-container">
+                <ul class="markdownIt-TOC">
+<li>
+<ul>
+<li>
+<ul>
+<li>
+<ul>
+<li>
+<ul>
+<li><a href="#%E4%BD%BF%E7%94%A8">使用</a></li>
+<li><a href="#logger">logger</a></li>
+<li><a href="#sink">sink</a></li>
+<li><a href="#register">register</a></li>
+<li><a href="#format">format</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+              </div>
+            </div>
+          </article>
+        </div>
+
+        
+          <div class="next-post">
+            <div class="next">下一篇</div>
+            <a href="https://jyf111.github.io/post/google-benchmark/">
+              <h3 class="post-title">
+                google benchmark
+              </h3>
+            </a>
+          </div>
+        
+
+        
+
+        <div class="site-footer">
+  
+  <a class="rss" href="https://jyf111.github.io/atom.xml" target="_blank">
+    <i class="ri-rss-line"></i> RSS
+  </a>
+</div>
+
+      </div>
+    </div>
+
+    <script>
+      hljs.initHighlightingOnLoad()
+
+      let mainNavLinks = document.querySelectorAll(".markdownIt-TOC a");
+
+      // This should probably be throttled.
+      // Especially because it triggers during smooth scrolling.
+      // https://lodash.com/docs/4.17.10#throttle
+      // You could do like...
+      // window.addEventListener("scroll", () => {
+      //    _.throttle(doThatStuff, 100);
+      // });
+      // Only not doing it here to keep this Pen dependency-free.
+
+      window.addEventListener("scroll", event => {
+        let fromTop = window.scrollY;
+
+        mainNavLinks.forEach((link, index) => {
+          let section = document.getElementById(decodeURI(link.hash).substring(1));
+          let nextSection = null
+          if (mainNavLinks[index + 1]) {
+            nextSection = document.getElementById(decodeURI(mainNavLinks[index + 1].hash).substring(1));
+          }
+          if (section.offsetTop <= fromTop) {
+            if (nextSection) {
+              if (nextSection.offsetTop > fromTop) {
+                link.classList.add("current");
+              } else {
+                link.classList.remove("current");    
+              }
+            } else {
+              link.classList.add("current");
+            }
+          } else {
+            link.classList.remove("current");
+          }
+        });
+      });
+
+    </script>
+  </body>
+</html>

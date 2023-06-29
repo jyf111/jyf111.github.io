@@ -1,0 +1,266 @@
+<html>
+  <head>
+    <meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>[YsOI2020]幼儿园 思维 | jyf111</title>
+<link rel="shortcut icon" href="https://jyf111.github.io/favicon.ico?v=1688054387335">
+<link href="https://cdn.jsdelivr.net/npm/remixicon@2.3.0/fonts/remixicon.css" rel="stylesheet">
+<link rel="stylesheet" href="https://jyf111.github.io/styles/main.css">
+<link rel="alternate" type="application/atom+xml" title="[YsOI2020]幼儿园 思维 | jyf111 - Atom Feed" href="https://jyf111.github.io/atom.xml">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Droid+Serif:400,700">
+
+
+
+    <meta name="description" content="题意
+给定有向图，n个点m条边，每条边有权值i，且恰好是1-m的一个排列，多次询问从x点只走[l,r][l, r][l,r]的边，且边权严格单调下降能否到达1号点，强制在线
+做法
+限制了边权的范围[l,r][l, r][l,r]，我们可以先..." />
+    <meta name="keywords" content="算法" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.10.0/katex.min.css">
+    <script src="https://cdn.bootcss.com/highlight.js/9.12.0/highlight.min.js"></script>
+  </head>
+  <body>
+    <div class="main">
+      <div class="main-content">
+        <div class="site-header">
+  <a href="https://jyf111.github.io">
+  <img class="avatar" src="https://jyf111.github.io/images/avatar.png?v=1688054387335" alt="">
+  </a>
+  <h1 class="site-title">
+    jyf111
+  </h1>
+  <p class="site-description">
+    温故而知新
+  </p>
+  <div class="menu-container">
+    
+      
+        <a href="https://jyf111.github.io" class="menu">
+          首页
+        </a>
+      
+    
+      
+        <a href="/archives" class="menu">
+          归档
+        </a>
+      
+    
+      
+        <a href="https://jyf111.github.io/tags" class="menu">
+          分类
+        </a>
+      
+    
+  </div>
+  <div class="social-container">
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+  </div>
+</div>
+
+        <div class="post-detail">
+          <article class="post">
+            <h2 class="post-title">
+              [YsOI2020]幼儿园 思维
+            </h2>
+            <div class="post-info">
+              <span>
+                2020-06-02
+              </span>
+              <span>
+                5 min read
+              </span>
+              
+                <a href="https://jyf111.github.io/tag/HKuTllKYu/" class="post-tag">
+                  # 算法
+                </a>
+              
+            </div>
+            
+            <div class="post-content-wrapper">
+              <div class="post-content">
+                <h3 id="题意">题意</h3>
+<p>给定有向图，n个点m条边，每条边有权值i，且恰好是1-m的一个排列，多次询问从x点只走<span class="katex"><span class="katex-mathml"><math><semantics><mrow><mo>[</mo><mi>l</mi><mo separator="true">,</mo><mi>r</mi><mo>]</mo></mrow><annotation encoding="application/x-tex">[l, r]</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mopen">[</span><span class="mord mathdefault" style="margin-right:0.01968em;">l</span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.16666666666666666em;"></span><span class="mord mathdefault" style="margin-right:0.02778em;">r</span><span class="mclose">]</span></span></span></span>的边，且边权严格单调下降能否到达1号点，强制在线</p>
+<h3 id="做法">做法</h3>
+<p>限制了边权的范围<span class="katex"><span class="katex-mathml"><math><semantics><mrow><mo>[</mo><mi>l</mi><mo separator="true">,</mo><mi>r</mi><mo>]</mo></mrow><annotation encoding="application/x-tex">[l, r]</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mopen">[</span><span class="mord mathdefault" style="margin-right:0.01968em;">l</span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.16666666666666666em;"></span><span class="mord mathdefault" style="margin-right:0.02778em;">r</span><span class="mclose">]</span></span></span></span>，我们可以先考虑<span class="katex"><span class="katex-mathml"><math><semantics><mrow><mo>[</mo><mn>1</mn><mo separator="true">,</mo><mi>r</mi><mo>]</mo></mrow><annotation encoding="application/x-tex">[1, r]</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mopen">[</span><span class="mord">1</span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.16666666666666666em;"></span><span class="mord mathdefault" style="margin-right:0.02778em;">r</span><span class="mclose">]</span></span></span></span>的时候怎么做，考虑dp[u]表示u号点与1连通需要的最小边权，从小到大枚举每一条边，如果该点与1相连，则dp[u]=w，否则如果dp[v]有值，则dp[u]=i，然后只要看dp[u]是不是小于r即可<br>
+加入下界限制后，将dp[u]转化为与1连通时需要经过的最小边权<strong>最大</strong>是多少，如果该点与1相连，则dp[u]=i，否则dp[u]=max(dp[u],dp[v])，随着从小到大枚举边权dp，dp[u]是不断变大的，考虑按照枚举顺序建立主席树，每次单点更新u点的值，询问只要查询rt[r]版本的主席树中x点的值是否&gt;=l即可。<br>
+相当于每个点处有很多单调递增的二维点（x坐标为边权，y坐标为dp），我们对每个点用vector<pair>存这些点，那么只要看x&lt;=r的最后一个点的y是否&gt;=l。</p>
+<h3 id="思考">思考</h3>
+<p>严格单调下降的限制只要通过从小到大的顺序dp即可解决，对于既有上界又有下界的限制，考虑枚举上界，然后最大化下界即可</p>
+<p>主席树写法</p>
+<pre><code class="language-cpp">#include &lt;bits/stdc++.h&gt;
+#define mp make_pair
+#define pb push_back
+#define sz(x) (int)x.size()
+#define all(x) begin(x), end(x)
+#define fi first
+#define se second
+#define debug(x) cerr &lt;&lt; #x &lt;&lt; &quot; &quot; &lt;&lt; x &lt;&lt; '\n'
+using namespace std;
+using ll = long long;
+using pii = pair&lt;int,int&gt;;
+using pli = pair&lt;ll,int&gt;;
+const int INF = 0x3f3f3f3f, N = 2e5 + 5;
+const ll LINF = 1e18 + 5;
+constexpr int mod = 1e9 + 7;
+int n, m, k, w, dp[N];
+pii edges[N];
+namespace PSegTree 
+{
+	#define ls(x) t[x].l
+	#define rs(x) t[x].r
+	int rt[N], tot;
+	struct node
+	{
+		int l, r, mx;
+	}t[N&lt;&lt;5];
+	inline void newnode(int &amp;p)
+	{
+		t[++tot] = t[p];
+		p = tot; 
+	}
+	void upd(int &amp;p, int l, int r, int x, int v)
+	{
+		newnode(p);
+		if(l==r) 
+		{
+			t[p].mx = max(t[p].mx, v);
+			return;
+		}
+		int mid = (l+r) &gt;&gt; 1;
+		if(x&lt;=mid) upd(ls(p), l, mid, x, v);
+		else upd(rs(p), mid+1, r, x, v);
+		t[p].mx = max(t[ls(p)].mx, t[rs(p)].mx);
+	}
+	int ask(int p, int l, int r, int x) 
+	{
+		if(l==r) return t[p].mx;
+		int mid = (l+r) &gt;&gt; 1;
+		if(x&lt;=mid) return ask(ls(p), l, mid, x);
+		else return ask(rs(p), mid+1, r, x);
+	}
+	#undef ls
+	#undef rs
+}
+using namespace PSegTree;
+int main()
+{
+	scanf(&quot;%d%d%d%d&quot;, &amp;n, &amp;m, &amp;k, &amp;w);
+	for(int i=1; i&lt;=m; i++) scanf(&quot;%d%d&quot;, &amp;edges[i].fi, &amp;edges[i].se);
+	for(int i=1; i&lt;=m; i++)
+	{
+		int u = edges[i].fi, v = edges[i].se;
+		if(v==1) dp[u] = i;
+		else dp[u] = max(dp[u], dp[v]);
+		rt[i] = rt[i-1];
+		upd(rt[i], 1, m, u, dp[u]);
+	}
+	int L = 0;
+	for(int i=1; i&lt;=k; i++)
+	{
+		int x, l, r;
+		scanf(&quot;%d%d%d&quot;, &amp;x, &amp;l, &amp;r);
+		if(w) x ^= L, l ^= L, r ^= L;
+		if(x==1||ask(rt[r], 1, m, x)&gt;=l) ++L, puts(&quot;1&quot;);
+		else puts(&quot;0&quot;);
+	}
+	return 0;
+}
+</code></pre>
+
+              </div>
+              <div class="toc-container">
+                <ul class="markdownIt-TOC">
+<li>
+<ul>
+<li>
+<ul>
+<li><a href="#%E9%A2%98%E6%84%8F">题意</a></li>
+<li><a href="#%E5%81%9A%E6%B3%95">做法</a></li>
+<li><a href="#%E6%80%9D%E8%80%83">思考</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+              </div>
+            </div>
+          </article>
+        </div>
+
+        
+          <div class="next-post">
+            <div class="next">下一篇</div>
+            <a href="https://jyf111.github.io/post/cf893f-subtree-minimum-query-zhu-xi-shu-trick/">
+              <h3 class="post-title">
+                CF893F Subtree Minimum Query 主席树trick
+              </h3>
+            </a>
+          </div>
+        
+
+        
+
+        <div class="site-footer">
+  
+  <a class="rss" href="https://jyf111.github.io/atom.xml" target="_blank">
+    <i class="ri-rss-line"></i> RSS
+  </a>
+</div>
+
+      </div>
+    </div>
+
+    <script>
+      hljs.initHighlightingOnLoad()
+
+      let mainNavLinks = document.querySelectorAll(".markdownIt-TOC a");
+
+      // This should probably be throttled.
+      // Especially because it triggers during smooth scrolling.
+      // https://lodash.com/docs/4.17.10#throttle
+      // You could do like...
+      // window.addEventListener("scroll", () => {
+      //    _.throttle(doThatStuff, 100);
+      // });
+      // Only not doing it here to keep this Pen dependency-free.
+
+      window.addEventListener("scroll", event => {
+        let fromTop = window.scrollY;
+
+        mainNavLinks.forEach((link, index) => {
+          let section = document.getElementById(decodeURI(link.hash).substring(1));
+          let nextSection = null
+          if (mainNavLinks[index + 1]) {
+            nextSection = document.getElementById(decodeURI(mainNavLinks[index + 1].hash).substring(1));
+          }
+          if (section.offsetTop <= fromTop) {
+            if (nextSection) {
+              if (nextSection.offsetTop > fromTop) {
+                link.classList.add("current");
+              } else {
+                link.classList.remove("current");    
+              }
+            } else {
+              link.classList.add("current");
+            }
+          } else {
+            link.classList.remove("current");
+          }
+        });
+      });
+
+    </script>
+  </body>
+</html>

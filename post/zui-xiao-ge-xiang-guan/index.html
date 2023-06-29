@@ -1,0 +1,365 @@
+<html>
+  <head>
+    <meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>最小割相关 | jyf111</title>
+<link rel="shortcut icon" href="https://jyf111.github.io/favicon.ico?v=1688054387335">
+<link href="https://cdn.jsdelivr.net/npm/remixicon@2.3.0/fonts/remixicon.css" rel="stylesheet">
+<link rel="stylesheet" href="https://jyf111.github.io/styles/main.css">
+<link rel="alternate" type="application/atom+xml" title="最小割相关 | jyf111 - Atom Feed" href="https://jyf111.github.io/atom.xml">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Droid+Serif:400,700">
+
+
+
+    <meta name="description" content="最小割的方案
+跑一遍最大流，记录从s出发能到达的点集S，不能到达的点集为T，则跨越S和T的满流边（残留网络中容量=0）是最小割中的边
+可行边与必须边
+可行边：属于所有可能的最小割集的并集中的边
+必须边：属于所有可能的最小割集的交集中的边
+跑..." />
+    <meta name="keywords" content="算法" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.10.0/katex.min.css">
+    <script src="https://cdn.bootcss.com/highlight.js/9.12.0/highlight.min.js"></script>
+  </head>
+  <body>
+    <div class="main">
+      <div class="main-content">
+        <div class="site-header">
+  <a href="https://jyf111.github.io">
+  <img class="avatar" src="https://jyf111.github.io/images/avatar.png?v=1688054387335" alt="">
+  </a>
+  <h1 class="site-title">
+    jyf111
+  </h1>
+  <p class="site-description">
+    温故而知新
+  </p>
+  <div class="menu-container">
+    
+      
+        <a href="https://jyf111.github.io" class="menu">
+          首页
+        </a>
+      
+    
+      
+        <a href="/archives" class="menu">
+          归档
+        </a>
+      
+    
+      
+        <a href="https://jyf111.github.io/tags" class="menu">
+          分类
+        </a>
+      
+    
+  </div>
+  <div class="social-container">
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+  </div>
+</div>
+
+        <div class="post-detail">
+          <article class="post">
+            <h2 class="post-title">
+              最小割相关
+            </h2>
+            <div class="post-info">
+              <span>
+                2020-08-16
+              </span>
+              <span>
+                7 min read
+              </span>
+              
+                <a href="https://jyf111.github.io/tag/HKuTllKYu/" class="post-tag">
+                  # 算法
+                </a>
+              
+            </div>
+            
+            <div class="post-content-wrapper">
+              <div class="post-content">
+                <h4 id="最小割的方案">最小割的方案</h4>
+<p>跑一遍最大流，记录从s出发能到达的点集S，不能到达的点集为T，则跨越S和T的满流边（残留网络中容量=0）是最小割中的边</p>
+<h4 id="可行边与必须边">可行边与必须边</h4>
+<p>可行边：属于所有可能的最小割集的并集中的边<br>
+必须边：属于所有可能的最小割集的交集中的边<br>
+跑一遍最大流，然后对残余网络（容量大于0的边）跑一遍tarjan<br>
+如果该边还有容量，不属于最小割集，所以既不是可行边也不是必须边<br>
+如果某条边连接的两个点分属于两个scc，则为可行边<br>
+如果某条边连接的两个点一个与S同在一个scc，一个与T同在一个scc，则为必须边</p>
+<h4 id="求边数最少的最小割">求边数最少的最小割</h4>
+<p>设原图总边数=M<br>
+让原图的每一条边的权值w变成<span class="katex"><span class="katex-mathml"><math><semantics><mrow><mo>(</mo><mi>M</mi><mo>+</mo><mn>1</mn><mo>)</mo><mi>w</mi><mo>+</mo><mn>1</mn></mrow><annotation encoding="application/x-tex">(M+1)w+1</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mopen">(</span><span class="mord mathdefault" style="margin-right:0.10903em;">M</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span><span class="mbin">+</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span></span><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord">1</span><span class="mclose">)</span><span class="mord mathdefault" style="margin-right:0.02691em;">w</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span><span class="mbin">+</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span></span><span class="base"><span class="strut" style="height:0.64444em;vertical-align:0em;"></span><span class="mord">1</span></span></span></span><br>
+再跑最大流即可</p>
+<h4 id="每条边有两个权值在最小化第一个权值的割后找一个第二个权值字典序最小的割">每条边有两个权值，在最小化第一个权值的割后，找一个第二个权值字典序最小的割</h4>
+<p>先随便求一个最小割，将这些边按照第二个权值排序，判断该边是否是可行边，如果是就选择，割掉一条边需要利用退流操作，具体做法是对于边(u,v)，让u向S跑一遍最大流，再让T向v跑一遍最大流，最后让(u,v)这条边及其反边的残余流量置0，即w=0</p>
+<h4 id="最小割树">最小割树</h4>
+<p>求任意两点间的最小割<br>
+本质只有<span class="katex"><span class="katex-mathml"><math><semantics><mrow><mi>O</mi><mo>(</mo><mi>n</mi><mo>)</mo></mrow><annotation encoding="application/x-tex">O(n)</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathdefault" style="margin-right:0.02778em;">O</span><span class="mopen">(</span><span class="mord mathdefault">n</span><span class="mclose">)</span></span></span></span>种，建出最小割树后，u，v两点的最小割等于路径上的最小边权<br>
+建树方法：跑n次最大流<br>
+每次随机取两个点，求它们的最小割，将图分为两部分，在这两个集合间连一条边权为最小割的边，然后分治处理两个集合。这样最后会得到一棵树。则两个点之间的最小割大小为其树上唯一路径的最小值。<br>
+每次网络流的流量要复原，所以用变量fw记录每条边已经流过的流量，变量w记录容量保持不变，当fw=w时说明该边满流，复原只需要清零fw即可<br>
+求路径最小值没必要倍增，因为点数不会很大，直接建出树，以每个点为根bfs一次即可</p>
+<pre><code class="language-cpp">#include &lt;bits/stdc++.h&gt;
+#define mp make_pair
+#define pb push_back
+#define sz(x) (int)x.size()
+#define all(x) begin(x), end(x)
+#define fi first
+#define se second
+#define debug(x) cerr &lt;&lt; #x &lt;&lt; &quot; &quot; &lt;&lt; x &lt;&lt; '\n'
+using namespace std;
+using ll = long long;
+using pii = pair&lt;int,int&gt;;
+using pli = pair&lt;ll,int&gt;;
+const int INF = 0x3f3f3f3f;
+const ll LINF = 1e18 + 5;
+constexpr int mod = 1e9 + 7;
+const int N = 505, M = 2e3 + 5; 
+int n, m;
+int cnt, head[N];
+struct node
+{
+	int next, to, w, fw;
+}e[M&lt;&lt;1];
+inline void add(int u, int v, int w)
+{
+	e[++cnt] = {head[u], v, w, 0};
+	head[u] = cnt;
+}
+struct Dinic
+{
+	int n, m, s, t;
+	int dep[N], cur[N]; 
+	void init(int n)
+	{
+		this-&gt;n = n;
+		cnt = 1, m = 0;
+		memset(head,0,(n+1)*sizeof(int));
+	}
+	void addedge(int u,int v,int cap) 
+	{
+		add(u, v, cap); 
+		add(v, u, cap);
+		m += 2;
+	}
+	bool bfs()
+	{
+		memset(dep,0,(n+1)*sizeof(int));
+		memcpy(cur,head,(n+1)*sizeof(int));
+		queue &lt;int&gt; q;
+		q.push(s); dep[s] = 1;
+		while(!q.empty())
+		{
+			int u = q.front(); q.pop();
+			for(int i=head[u];i;i=e[i].next)
+			{
+				int v = e[i].to;
+				if(!dep[v]&amp;&amp;e[i].fw&lt;e[i].w)
+				{
+					dep[v] = dep[u] + 1;
+					q.push(v);
+				}
+			}
+		}
+		return dep[t];
+	}
+	int dfs(int u,int flow)
+	{
+		if(u==t||!flow) return flow;
+		int used = flow;
+		for(int i=cur[u];i;i=e[i].next)
+		{
+			cur[u] = i;
+			int v = e[i].to;
+			if(dep[v]==dep[u]+1)
+			{
+				int low = dfs(v,min(flow,e[i].w-e[i].fw));
+				e[i].fw += low; e[i^1].fw -= low;
+				flow -= low;
+				if(!flow) break;
+			}
+		}
+		return used - flow;
+	}
+	int go(int x, int y)
+	{
+		int maxflow = 0; s = x, t = y;
+		for(int i=2; i&lt;=cnt; i++) e[i].fw = 0;
+		while(bfs()) maxflow += dfs(s,INF);
+		return maxflow;
+	}
+}MF;
+struct GHT
+{
+	int pt[N], col[N], tmpt[N], cnt, cut[N][N];
+	vector&lt;pii&gt; G[N];
+	void dfs(int u)
+	{
+		col[u] = cnt;
+		for(int i=head[u]; i; i=e[i].next)
+			if(e[i].fw&lt;e[i].w &amp;&amp; col[e[i].to]!=cnt)
+				dfs(e[i].to);
+	}
+	void build(int l, int r)
+	{
+		if(l&gt;=r) return;
+		int x = pt[l], y = pt[l+1];
+		int cutw = MF.go(x, y);
+		++cnt; dfs(x); int p = l, q = r;
+		for(int i=l; i&lt;=r; i++)
+			if(col[pt[i]]==cnt) tmpt[p++] = pt[i];
+			else tmpt[q--] = pt[i];
+		for(int i=l; i&lt;=r; i++) pt[i] = tmpt[i];
+		G[x].pb({y, cutw}); G[y].pb({x, cutw});
+		build(l, p-1); build(q+1, r); 
+	}
+	void bfs(int s, int *dis)
+	{
+		for(int i=1; i&lt;=n; i++) dis[i] = -1;
+		dis[s] = INF;
+		queue&lt;int&gt; q; q.push(s);
+		while(sz(q))
+		{
+			int u = q.front(); q.pop();
+			for(auto it : G[u])
+			{
+				int v = it.fi, w = it.se;
+				if(~dis[v]) continue;
+				dis[v] = min(dis[u], w);
+				q.push(v);
+			}
+		}
+	}
+}T;
+int main()
+{
+	ios::sync_with_stdio(false);
+	cin.tie(nullptr);
+	cin &gt;&gt; n &gt;&gt; m;
+	MF.init(n);
+	for(int i=1; i&lt;=m; i++)
+	{
+		int u, v, w;
+		cin &gt;&gt; u &gt;&gt; v &gt;&gt; w;
+		MF.addedge(u, v, w);
+	}
+	iota(T.pt+1, T.pt+n+1, 1);
+	T.build(1, n);
+	for(int i=1; i&lt;=n; i++) T.bfs(i, T.cut[i]);
+	int q; cin &gt;&gt; q;
+	while(q--)
+	{
+		int u, v;
+		cin &gt;&gt; u &gt;&gt; v;
+		cout &lt;&lt; T.cut[u][v] &lt;&lt; '\n';
+	}
+	return 0;
+}
+</code></pre>
+
+              </div>
+              <div class="toc-container">
+                <ul class="markdownIt-TOC">
+<li>
+<ul>
+<li>
+<ul>
+<li>
+<ul>
+<li><a href="#%E6%9C%80%E5%B0%8F%E5%89%B2%E7%9A%84%E6%96%B9%E6%A1%88">最小割的方案</a></li>
+<li><a href="#%E5%8F%AF%E8%A1%8C%E8%BE%B9%E4%B8%8E%E5%BF%85%E9%A1%BB%E8%BE%B9">可行边与必须边</a></li>
+<li><a href="#%E6%B1%82%E8%BE%B9%E6%95%B0%E6%9C%80%E5%B0%91%E7%9A%84%E6%9C%80%E5%B0%8F%E5%89%B2">求边数最少的最小割</a></li>
+<li><a href="#%E6%AF%8F%E6%9D%A1%E8%BE%B9%E6%9C%89%E4%B8%A4%E4%B8%AA%E6%9D%83%E5%80%BC%E5%9C%A8%E6%9C%80%E5%B0%8F%E5%8C%96%E7%AC%AC%E4%B8%80%E4%B8%AA%E6%9D%83%E5%80%BC%E7%9A%84%E5%89%B2%E5%90%8E%E6%89%BE%E4%B8%80%E4%B8%AA%E7%AC%AC%E4%BA%8C%E4%B8%AA%E6%9D%83%E5%80%BC%E5%AD%97%E5%85%B8%E5%BA%8F%E6%9C%80%E5%B0%8F%E7%9A%84%E5%89%B2">每条边有两个权值，在最小化第一个权值的割后，找一个第二个权值字典序最小的割</a></li>
+<li><a href="#%E6%9C%80%E5%B0%8F%E5%89%B2%E6%A0%91">最小割树</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+              </div>
+            </div>
+          </article>
+        </div>
+
+        
+          <div class="next-post">
+            <div class="next">下一篇</div>
+            <a href="https://jyf111.github.io/post/zheng-shu-chai-fen/">
+              <h3 class="post-title">
+                整数拆分
+              </h3>
+            </a>
+          </div>
+        
+
+        
+
+        <div class="site-footer">
+  
+  <a class="rss" href="https://jyf111.github.io/atom.xml" target="_blank">
+    <i class="ri-rss-line"></i> RSS
+  </a>
+</div>
+
+      </div>
+    </div>
+
+    <script>
+      hljs.initHighlightingOnLoad()
+
+      let mainNavLinks = document.querySelectorAll(".markdownIt-TOC a");
+
+      // This should probably be throttled.
+      // Especially because it triggers during smooth scrolling.
+      // https://lodash.com/docs/4.17.10#throttle
+      // You could do like...
+      // window.addEventListener("scroll", () => {
+      //    _.throttle(doThatStuff, 100);
+      // });
+      // Only not doing it here to keep this Pen dependency-free.
+
+      window.addEventListener("scroll", event => {
+        let fromTop = window.scrollY;
+
+        mainNavLinks.forEach((link, index) => {
+          let section = document.getElementById(decodeURI(link.hash).substring(1));
+          let nextSection = null
+          if (mainNavLinks[index + 1]) {
+            nextSection = document.getElementById(decodeURI(mainNavLinks[index + 1].hash).substring(1));
+          }
+          if (section.offsetTop <= fromTop) {
+            if (nextSection) {
+              if (nextSection.offsetTop > fromTop) {
+                link.classList.add("current");
+              } else {
+                link.classList.remove("current");    
+              }
+            } else {
+              link.classList.add("current");
+            }
+          } else {
+            link.classList.remove("current");
+          }
+        });
+      });
+
+    </script>
+  </body>
+</html>

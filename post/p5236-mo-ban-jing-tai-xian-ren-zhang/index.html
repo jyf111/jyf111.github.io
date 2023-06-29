@@ -1,0 +1,310 @@
+<html>
+  <head>
+    <meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>P5236 【模板】静态仙人掌 | jyf111</title>
+<link rel="shortcut icon" href="https://jyf111.github.io/favicon.ico?v=1688054387335">
+<link href="https://cdn.jsdelivr.net/npm/remixicon@2.3.0/fonts/remixicon.css" rel="stylesheet">
+<link rel="stylesheet" href="https://jyf111.github.io/styles/main.css">
+<link rel="alternate" type="application/atom+xml" title="P5236 【模板】静态仙人掌 | jyf111 - Atom Feed" href="https://jyf111.github.io/atom.xml">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Droid+Serif:400,700">
+
+
+
+    <meta name="description" content="每条边最多在一个简单环上的图
+每个环都是一个点双(方点),可以很方便的用圆方树来维护
+求仙人掌图上两点间的最短路
+注意仙人掌上的圆方树的建法:
+每个简单环新建一个方点,环上每个点与方点连边,权值为到起点的最短距离,如果u是割点,向v连边权值..." />
+    <meta name="keywords" content="算法" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.10.0/katex.min.css">
+    <script src="https://cdn.bootcss.com/highlight.js/9.12.0/highlight.min.js"></script>
+  </head>
+  <body>
+    <div class="main">
+      <div class="main-content">
+        <div class="site-header">
+  <a href="https://jyf111.github.io">
+  <img class="avatar" src="https://jyf111.github.io/images/avatar.png?v=1688054387335" alt="">
+  </a>
+  <h1 class="site-title">
+    jyf111
+  </h1>
+  <p class="site-description">
+    温故而知新
+  </p>
+  <div class="menu-container">
+    
+      
+        <a href="https://jyf111.github.io" class="menu">
+          首页
+        </a>
+      
+    
+      
+        <a href="/archives" class="menu">
+          归档
+        </a>
+      
+    
+      
+        <a href="https://jyf111.github.io/tags" class="menu">
+          分类
+        </a>
+      
+    
+  </div>
+  <div class="social-container">
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+  </div>
+</div>
+
+        <div class="post-detail">
+          <article class="post">
+            <h2 class="post-title">
+              P5236 【模板】静态仙人掌
+            </h2>
+            <div class="post-info">
+              <span>
+                2020-05-15
+              </span>
+              <span>
+                5 min read
+              </span>
+              
+                <a href="https://jyf111.github.io/tag/HKuTllKYu/" class="post-tag">
+                  # 算法
+                </a>
+              
+            </div>
+            
+            <div class="post-content-wrapper">
+              <div class="post-content">
+                <p>每条边最多在一个简单环上的图<br>
+每个环都是一个点双(方点),可以很方便的用圆方树来维护</p>
+<p>求仙人掌图上两点间的最短路<br>
+注意仙人掌上的圆方树的建法:<br>
+每个简单环新建一个方点,环上每个点与方点连边,权值为到起点的最短距离,如果u是割点,向v连边权值为原图的边权(两个圆点连边)</p>
+<h1 id="做法">做法</h1>
+<p>先建出圆方树<br>
+考虑u和v在树上的LCA:p</p>
+<ul>
+<li>p为圆点,则答案就是树上两点的距离</li>
+<li>p为方点,找出p的两个儿子a(u的祖先),b(v的祖先),a和b处在一个环上,答案是<span class="katex"><span class="katex-mathml"><math><semantics><mrow><mi>d</mi><mi>i</mi><mi>s</mi><mo>(</mo><mi>a</mi><mo separator="true">,</mo><mi>b</mi><mo>)</mo><mo>+</mo><mi>d</mi><mi>i</mi><mi>s</mi><mo>(</mo><mi>a</mi><mo separator="true">,</mo><mi>u</mi><mo>)</mo><mo>+</mo><mi>d</mi><mi>i</mi><mi>s</mi><mo>(</mo><mi>b</mi><mo separator="true">,</mo><mi>v</mi><mo>)</mo></mrow><annotation encoding="application/x-tex">dis(a,b)+dis(a,u)+dis(b,v)</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathdefault">d</span><span class="mord mathdefault">i</span><span class="mord mathdefault">s</span><span class="mopen">(</span><span class="mord mathdefault">a</span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.16666666666666666em;"></span><span class="mord mathdefault">b</span><span class="mclose">)</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span><span class="mbin">+</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span></span><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathdefault">d</span><span class="mord mathdefault">i</span><span class="mord mathdefault">s</span><span class="mopen">(</span><span class="mord mathdefault">a</span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.16666666666666666em;"></span><span class="mord mathdefault">u</span><span class="mclose">)</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span><span class="mbin">+</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span></span><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathdefault">d</span><span class="mord mathdefault">i</span><span class="mord mathdefault">s</span><span class="mopen">(</span><span class="mord mathdefault">b</span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.16666666666666666em;"></span><span class="mord mathdefault" style="margin-right:0.03588em;">v</span><span class="mclose">)</span></span></span></span>,注意dis(a,b)要取min</li>
+</ul>
+<pre><code class="language-cpp">#include &lt;bits/stdc++.h&gt;
+#define mp make_pair
+#define pb push_back
+#define sz(x) (int)x.size()
+#define all(x) begin(x), end(x)
+#define fi first
+#define se second
+#define debug(x) cerr &lt;&lt; #x &lt;&lt; &quot; &quot; &lt;&lt; x &lt;&lt; '\n'
+using namespace std;
+using ll = long long;
+using pii = pair&lt;int,int&gt;;
+using pli = pair&lt;ll,int&gt;;
+const int INF = 0x3f3f3f3f, N = 2e5 + 5;
+const ll LINF = 1e18 + 5;
+constexpr int mod = 1e9 + 7;
+int dfn[N], low[N], clk, cnt, s[N], sum[N];
+vector&lt;pii&gt; G[N], T[N];
+int n, m, q;
+constexpr int LOG = 16;
+int fa[N][20], dep[N], dis[N]; 
+void dfs(int u)
+{	
+	for(int i=1; i&lt;=LOG; i++) 
+		fa[u][i] = fa[fa[u][i-1]][i-1];
+	for(auto it : T[u])
+	{
+		int v = it.fi, w = it.se;
+		if(v==fa[u][0]) continue;
+		dis[v] = dis[u] + w;
+		dep[v] = dep[u] + 1;
+		fa[v][0] = u; 
+		dfs(v);
+	}
+}
+int LCA(int x,int y) 
+{
+	if(dep[x]&gt;dep[y]) swap(x,y);
+	for(int i=LOG; i&gt;=0; i--)
+		if(dep[fa[y][i]]&gt;=dep[x]) y = fa[y][i];
+	if(x==y) return x;
+	for(int i=LOG; i&gt;=0; i--)
+		if(fa[x][i]!=fa[y][i]) x = fa[x][i], y = fa[y][i]; 
+	return fa[x][0]; 
+}
+void findcir(int u, int v, int w)
+{
+	++cnt;
+	int x = v, pre = w, pw = 0;
+	while(x!=fa[u][0])
+	{
+		sum[x] = pre;
+		pre += s[x];
+		x = fa[x][0];
+	}
+	sum[cnt] = sum[u];
+	sum[u] = 0;
+	x = v;
+	while(x!=fa[u][0])
+	{
+		pw = min(sum[x], sum[cnt]-sum[x]);
+		T[cnt].pb({x, pw});
+		T[x].pb({cnt, pw});
+		x = fa[x][0];
+	}
+}
+void tarjan(int u, int f)
+{
+	dfn[u] = low[u] = ++clk;
+	for(auto it : G[u])
+	{
+		int v = it.fi, w = it.se;
+		if(v==f) continue;
+		if(!dfn[v])
+		{
+			fa[v][0] = u;
+			s[v] = w;
+			tarjan(v, u);
+			low[u] = min(low[u], low[v]);
+		}
+		else low[u] = min(low[u], dfn[v]);
+		if(low[v]&gt;dfn[u]) 
+		{
+			T[u].pb({v, w});
+			T[v].pb({u, w});
+		}
+	}
+	for(auto it : G[u])
+	{
+		int v = it.fi, w = it.se;
+		if(fa[v][0]==u||dfn[v]&lt;=dfn[u]) continue;
+		findcir(u, v, w);
+	}
+}
+int find(int x, int y)
+{
+	int t = x;
+	for(int i=LOG; i&gt;=0; i--)
+		if(dep[fa[fa[t][i]][0]]&gt;=dep[y]) t = fa[t][i];
+	return t;
+}
+int main()
+{
+	scanf(&quot;%d%d%d&quot;, &amp;n, &amp;m, &amp;q);
+	cnt = n;
+	for(int i=1; i&lt;=m; i++)
+	{
+		int u, v, w;
+		scanf(&quot;%d%d%d&quot;, &amp;u, &amp;v, &amp;w);
+		G[u].pb({v, w}); G[v].pb({u, w});
+	}
+	tarjan(1, 0);
+	dep[1] = 1; dfs(1);
+	while(q--)
+	{
+		int u, v;
+		scanf(&quot;%d%d&quot;, &amp;u, &amp;v);
+		int z = LCA(u, v);
+		if(z&lt;=n) printf(&quot;%d\n&quot;, dis[u]+dis[v]-2*dis[z]);
+		else
+		{
+			int x = find(u, z), y = find(v, z);
+			if(sum[x]&gt;sum[y]) swap(x, y);
+			int ans = dis[u]-dis[x]+dis[v]-dis[y]+min(sum[y]-sum[x], sum[x]+sum[z]-sum[y]);
+			printf(&quot;%d\n&quot;, ans);
+		}
+	}
+	return 0;
+}
+</code></pre>
+
+              </div>
+              <div class="toc-container">
+                <ul class="markdownIt-TOC">
+<li><a href="#%E5%81%9A%E6%B3%95">做法</a></li>
+</ul>
+
+              </div>
+            </div>
+          </article>
+        </div>
+
+        
+          <div class="next-post">
+            <div class="next">下一篇</div>
+            <a href="https://jyf111.github.io/post/yuan-fang-shu/">
+              <h3 class="post-title">
+                圆方树
+              </h3>
+            </a>
+          </div>
+        
+
+        
+
+        <div class="site-footer">
+  
+  <a class="rss" href="https://jyf111.github.io/atom.xml" target="_blank">
+    <i class="ri-rss-line"></i> RSS
+  </a>
+</div>
+
+      </div>
+    </div>
+
+    <script>
+      hljs.initHighlightingOnLoad()
+
+      let mainNavLinks = document.querySelectorAll(".markdownIt-TOC a");
+
+      // This should probably be throttled.
+      // Especially because it triggers during smooth scrolling.
+      // https://lodash.com/docs/4.17.10#throttle
+      // You could do like...
+      // window.addEventListener("scroll", () => {
+      //    _.throttle(doThatStuff, 100);
+      // });
+      // Only not doing it here to keep this Pen dependency-free.
+
+      window.addEventListener("scroll", event => {
+        let fromTop = window.scrollY;
+
+        mainNavLinks.forEach((link, index) => {
+          let section = document.getElementById(decodeURI(link.hash).substring(1));
+          let nextSection = null
+          if (mainNavLinks[index + 1]) {
+            nextSection = document.getElementById(decodeURI(mainNavLinks[index + 1].hash).substring(1));
+          }
+          if (section.offsetTop <= fromTop) {
+            if (nextSection) {
+              if (nextSection.offsetTop > fromTop) {
+                link.classList.add("current");
+              } else {
+                link.classList.remove("current");    
+              }
+            } else {
+              link.classList.add("current");
+            }
+          } else {
+            link.classList.remove("current");
+          }
+        });
+      });
+
+    </script>
+  </body>
+</html>

@@ -1,0 +1,254 @@
+<html>
+  <head>
+    <meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>poj2821 循环卷积 bluestein算法 | jyf111</title>
+<link rel="shortcut icon" href="https://jyf111.github.io/favicon.ico?v=1688054387335">
+<link href="https://cdn.jsdelivr.net/npm/remixicon@2.3.0/fonts/remixicon.css" rel="stylesheet">
+<link rel="stylesheet" href="https://jyf111.github.io/styles/main.css">
+<link rel="alternate" type="application/atom+xml" title="poj2821 循环卷积 bluestein算法 | jyf111 - Atom Feed" href="https://jyf111.github.io/atom.xml">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Droid+Serif:400,700">
+
+
+
+    <meta name="description" content="已知多项式A*B=C,其中*为循环卷积，给出B和C求A
+对B和C进行任意长度的DFT（bluestein，狭义的CZT），然后点值相除再变换回去即可
+ij=(i+j2)−(i2)−(j2)ij = \binom{i+j}{2} - \bin..." />
+    <meta name="keywords" content="算法" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.10.0/katex.min.css">
+    <script src="https://cdn.bootcss.com/highlight.js/9.12.0/highlight.min.js"></script>
+  </head>
+  <body>
+    <div class="main">
+      <div class="main-content">
+        <div class="site-header">
+  <a href="https://jyf111.github.io">
+  <img class="avatar" src="https://jyf111.github.io/images/avatar.png?v=1688054387335" alt="">
+  </a>
+  <h1 class="site-title">
+    jyf111
+  </h1>
+  <p class="site-description">
+    温故而知新
+  </p>
+  <div class="menu-container">
+    
+      
+        <a href="https://jyf111.github.io" class="menu">
+          首页
+        </a>
+      
+    
+      
+        <a href="/archives" class="menu">
+          归档
+        </a>
+      
+    
+      
+        <a href="https://jyf111.github.io/tags" class="menu">
+          分类
+        </a>
+      
+    
+  </div>
+  <div class="social-container">
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+  </div>
+</div>
+
+        <div class="post-detail">
+          <article class="post">
+            <h2 class="post-title">
+              poj2821 循环卷积 bluestein算法
+            </h2>
+            <div class="post-info">
+              <span>
+                2020-09-25
+              </span>
+              <span>
+                5 min read
+              </span>
+              
+                <a href="https://jyf111.github.io/tag/HKuTllKYu/" class="post-tag">
+                  # 算法
+                </a>
+              
+            </div>
+            
+            <div class="post-content-wrapper">
+              <div class="post-content">
+                <p>已知多项式A*B=C,其中*为循环卷积，给出B和C求A<br>
+对B和C进行任意长度的DFT（bluestein，狭义的CZT），然后点值相除再变换回去即可<br>
+<span class="katex"><span class="katex-mathml"><math><semantics><mrow><mi>i</mi><mi>j</mi><mo>=</mo><mrow><mo fence="true">(</mo><mfrac linethickness="0px"><mrow><mi>i</mi><mo>+</mo><mi>j</mi></mrow><mn>2</mn></mfrac><mo fence="true">)</mo></mrow><mo>−</mo><mrow><mo fence="true">(</mo><mfrac linethickness="0px"><mi>i</mi><mn>2</mn></mfrac><mo fence="true">)</mo></mrow><mo>−</mo><mrow><mo fence="true">(</mo><mfrac linethickness="0px"><mi>j</mi><mn>2</mn></mfrac><mo fence="true">)</mo></mrow></mrow><annotation encoding="application/x-tex">ij = \binom{i+j}{2} - \binom{i}{2} - \binom{j}{2}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.85396em;vertical-align:-0.19444em;"></span><span class="mord mathdefault">i</span><span class="mord mathdefault" style="margin-right:0.05724em;">j</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span></span><span class="base"><span class="strut" style="height:1.255674em;vertical-align:-0.35001em;"></span><span class="mord"><span class="mopen delimcenter" style="top:0em;"><span class="delimsizing size1">(</span></span><span class="mfrac"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.9056639999999999em;"><span style="top:-2.3550000000000004em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mtight">2</span></span></span></span><span style="top:-3.144em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathdefault mtight">i</span><span class="mbin mtight">+</span><span class="mord mathdefault mtight" style="margin-right:0.05724em;">j</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.345em;"><span></span></span></span></span></span><span class="mclose delimcenter" style="top:0em;"><span class="delimsizing size1">)</span></span></span><span class="mspace" style="margin-right:0.2222222222222222em;"></span><span class="mbin">−</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span></span><span class="base"><span class="strut" style="height:1.255674em;vertical-align:-0.35001em;"></span><span class="mord"><span class="mopen delimcenter" style="top:0em;"><span class="delimsizing size1">(</span></span><span class="mfrac"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.9056639999999999em;"><span style="top:-2.3550000000000004em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mtight">2</span></span></span></span><span style="top:-3.144em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathdefault mtight">i</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.345em;"><span></span></span></span></span></span><span class="mclose delimcenter" style="top:0em;"><span class="delimsizing size1">)</span></span></span><span class="mspace" style="margin-right:0.2222222222222222em;"></span><span class="mbin">−</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span></span><span class="base"><span class="strut" style="height:1.255674em;vertical-align:-0.35001em;"></span><span class="mord"><span class="mopen delimcenter" style="top:0em;"><span class="delimsizing size1">(</span></span><span class="mfrac"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.9056639999999999em;"><span style="top:-2.3550000000000004em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mtight">2</span></span></span></span><span style="top:-3.144em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathdefault mtight" style="margin-right:0.05724em;">j</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.345em;"><span></span></span></span></span></span><span class="mclose delimcenter" style="top:0em;"><span class="delimsizing size1">)</span></span></span></span></span></span></p>
+<pre><code class="language-cpp">#include &lt;cstdio&gt;
+#include &lt;cmath&gt;
+#include &lt;cstring&gt;
+#include &lt;iostream&gt;
+#include &lt;algorithm&gt;
+using namespace std;
+const int N = (1&lt;&lt;19) + 5;
+#define db double
+struct cp
+{
+	db x, y;
+	cp() {}
+	cp(db _x, db _y): x(_x), y(_y) {}
+	cp operator + (cp &amp;oth) { return cp(x+oth.x, y+oth.y); }
+	cp operator - (cp &amp;oth) { return cp(x-oth.x, y-oth.y); }
+	cp operator * (cp &amp;oth) { return cp(x*oth.x-y*oth.y, x*oth.y+y*oth.x); }
+	cp operator / (cp &amp;oth) { return cp((x*oth.x+y*oth.y)/(oth.x*oth.x+oth.y*oth.y), (y*oth.x-x*oth.y)/(oth.x*oth.x+oth.y*oth.y)); }
+};
+int up, rev[N];
+cp w[N], pw[N];
+const db pi = acos(-1.0);
+void init(int n)
+{
+	up = 1; int l = 0;
+	while(up&lt;=n) up &lt;&lt;= 1, l++;
+	for(int i=0; i&lt;up; i++) rev[i] = (rev[i&gt;&gt;1]&gt;&gt;1)|((i&amp;1)&lt;&lt;(l-1));
+	for(int i=1; i&lt;up; i&lt;&lt;=1) 
+		for(int j=0; j&lt;i; j++) 
+			w[i+j] = cp(cos(pi*j/i), sin(pi*j/i));
+}
+void DFT(cp *a, int l)
+{
+	static cp t;
+	for(int i=0; i&lt;l; i++) if(i&lt;rev[i]) swap(a[i], a[rev[i]]);
+	for(int i=1; i^l; i&lt;&lt;=1)
+		for(int j=0, d=i&lt;&lt;1; j^l; j+=d)
+			for(int k=0; k&lt;i; k++)
+				t = a[i|j|k]*w[i|k], a[i|j|k] = a[j|k]-t, a[j|k] = a[j|k]+t;
+}
+void IDFT(cp *a, int l)
+{
+	reverse(a+1, a+l); DFT(a, l);
+	for(int i=0; i&lt;l; i++) a[i].x /= l, a[i].y /= l;
+}
+int n;
+cp a[N], b[N], c[N];
+int comb(int x)
+{
+	return 1ll*x*(x-1)/2%n;
+}
+void bluestein(cp *a, int n)
+{
+	static cp x[N], y[N];
+	for(int i=0; i&lt;up; i++) x[i].x = x[i].y = y[i].x = y[i].y = 0.0;
+	for(int i=0; i&lt;n; i++) x[i] = pw[n-comb(i)]*a[i];
+	for(int i=0; i&lt;2*n-1; i++) y[i] = pw[comb(i)];
+	reverse(x, x+n);
+	DFT(x, up); DFT(y, up);
+	for(int i=0; i&lt;up; i++) x[i] = x[i]*y[i];
+	IDFT(x, up);
+	for(int i=n-1; i&lt;=2*n-2; i++) a[i-n+1] = x[i]*pw[n-comb(i-n+1)];
+}
+void Ibluestein(cp *a, int n)
+{
+	reverse(a+1, a+n); bluestein(a, n);
+	for(int i=0; i&lt;n; i++) a[i].x /= n, a[i].y /= n;
+}
+void div(cp *a, cp * b, cp * c, int n)
+{
+	bluestein(a, n);
+	bluestein(b, n);
+	for(int i=0; i&lt;n; i++) c[i] = a[i]/b[i];
+	Ibluestein(c, n);
+}
+int main()
+{
+	scanf(&quot;%d&quot;, &amp;n);
+	for(int i=0; i&lt;n; i++) scanf(&quot;%lf&quot;, &amp;b[i].x);
+	for(int i=0; i&lt;n; i++) scanf(&quot;%lf&quot;, &amp;c[i].x);
+	init(3*n-3);
+	pw[0] = cp(1, 0); pw[1] = cp(cos(2*pi/n), sin(2*pi/n));
+	for(int i=2; i&lt;=n; i++) pw[i] = pw[i-1]*pw[1];
+	div(c, b, a, n);
+	for(int i=0; i&lt;n; i++) printf(&quot;%.4f\n&quot;, a[i].x);
+	return 0;
+}
+</code></pre>
+
+              </div>
+              <div class="toc-container">
+                
+              </div>
+            </div>
+          </article>
+        </div>
+
+        
+          <div class="next-post">
+            <div class="next">下一篇</div>
+            <a href="https://jyf111.github.io/post/niu-ke-dao-yi-dao-lai-bu-ni-ci-qiu-dao-gong-shi/">
+              <h3 class="post-title">
+                牛客 导一导 莱布尼茨求导公式
+              </h3>
+            </a>
+          </div>
+        
+
+        
+
+        <div class="site-footer">
+  
+  <a class="rss" href="https://jyf111.github.io/atom.xml" target="_blank">
+    <i class="ri-rss-line"></i> RSS
+  </a>
+</div>
+
+      </div>
+    </div>
+
+    <script>
+      hljs.initHighlightingOnLoad()
+
+      let mainNavLinks = document.querySelectorAll(".markdownIt-TOC a");
+
+      // This should probably be throttled.
+      // Especially because it triggers during smooth scrolling.
+      // https://lodash.com/docs/4.17.10#throttle
+      // You could do like...
+      // window.addEventListener("scroll", () => {
+      //    _.throttle(doThatStuff, 100);
+      // });
+      // Only not doing it here to keep this Pen dependency-free.
+
+      window.addEventListener("scroll", event => {
+        let fromTop = window.scrollY;
+
+        mainNavLinks.forEach((link, index) => {
+          let section = document.getElementById(decodeURI(link.hash).substring(1));
+          let nextSection = null
+          if (mainNavLinks[index + 1]) {
+            nextSection = document.getElementById(decodeURI(mainNavLinks[index + 1].hash).substring(1));
+          }
+          if (section.offsetTop <= fromTop) {
+            if (nextSection) {
+              if (nextSection.offsetTop > fromTop) {
+                link.classList.add("current");
+              } else {
+                link.classList.remove("current");    
+              }
+            } else {
+              link.classList.add("current");
+            }
+          } else {
+            link.classList.remove("current");
+          }
+        });
+      });
+
+    </script>
+  </body>
+</html>

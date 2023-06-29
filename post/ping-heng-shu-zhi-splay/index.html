@@ -1,0 +1,210 @@
+<html>
+  <head>
+    <meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>平衡树之splay | jyf111</title>
+<link rel="shortcut icon" href="https://jyf111.github.io/favicon.ico?v=1688054387335">
+<link href="https://cdn.jsdelivr.net/npm/remixicon@2.3.0/fonts/remixicon.css" rel="stylesheet">
+<link rel="stylesheet" href="https://jyf111.github.io/styles/main.css">
+<link rel="alternate" type="application/atom+xml" title="平衡树之splay | jyf111 - Atom Feed" href="https://jyf111.github.io/atom.xml">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Droid+Serif:400,700">
+
+
+
+    <meta name="description" content="伸展树的核心操作就是splay了，将每次访问的点splay到根节点（类似输入法，频繁打的词会比较靠前）。而正确的splay操作可以保证在将x旋转到根节点的过程中，沿途的所有父节点的深度都会至少减少一半，这种自我调整的特性保证了splay树在..." />
+    <meta name="keywords" content="算法" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.10.0/katex.min.css">
+    <script src="https://cdn.bootcss.com/highlight.js/9.12.0/highlight.min.js"></script>
+  </head>
+  <body>
+    <div class="main">
+      <div class="main-content">
+        <div class="site-header">
+  <a href="https://jyf111.github.io">
+  <img class="avatar" src="https://jyf111.github.io/images/avatar.png?v=1688054387335" alt="">
+  </a>
+  <h1 class="site-title">
+    jyf111
+  </h1>
+  <p class="site-description">
+    温故而知新
+  </p>
+  <div class="menu-container">
+    
+      
+        <a href="https://jyf111.github.io" class="menu">
+          首页
+        </a>
+      
+    
+      
+        <a href="/archives" class="menu">
+          归档
+        </a>
+      
+    
+      
+        <a href="https://jyf111.github.io/tags" class="menu">
+          分类
+        </a>
+      
+    
+  </div>
+  <div class="social-container">
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+  </div>
+</div>
+
+        <div class="post-detail">
+          <article class="post">
+            <h2 class="post-title">
+              平衡树之splay
+            </h2>
+            <div class="post-info">
+              <span>
+                2020-12-11
+              </span>
+              <span>
+                3 min read
+              </span>
+              
+                <a href="https://jyf111.github.io/tag/HKuTllKYu/" class="post-tag">
+                  # 算法
+                </a>
+              
+            </div>
+            
+            <div class="post-content-wrapper">
+              <div class="post-content">
+                <p>伸展树的核心操作就是splay了，将每次访问的点splay到根节点（类似输入法，频繁打的词会比较靠前）。而正确的splay操作可以保证在将x旋转到根节点的过程中，沿途的所有父节点的深度都会至少减少一半，这种自我调整的特性保证了splay树在各种操作下均摊<span class="katex"><span class="katex-mathml"><math><semantics><mrow><mi>O</mi><mo>(</mo><mi>l</mi><mi>o</mi><mi>g</mi><mi>n</mi><mo>)</mo></mrow><annotation encoding="application/x-tex">O(logn)</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathdefault" style="margin-right:0.02778em;">O</span><span class="mopen">(</span><span class="mord mathdefault" style="margin-right:0.01968em;">l</span><span class="mord mathdefault">o</span><span class="mord mathdefault" style="margin-right:0.03588em;">g</span><span class="mord mathdefault">n</span><span class="mclose">)</span></span></span></span><br>
+rotate需要分3种情况，splay需要分6种情况比较麻烦，不再赘述（<s>其实是不会</s>），只给出代码实现：</p>
+<pre><code class="language-cpp">void rotate(int x)
+{
+    int y = fa[x], z = fa[y], k = rs(x), w = ch[x][k^1];
+    ch[y][k] = w; fa[w] = y;
+    ch[z][rs(y)] = x; fa[x] = z;
+    ch[x][k^1] = y; fa[y] = x;
+    up(y); up(x);
+}
+void splay(int x, int g=0)
+{
+    while(fa[x]!=g)
+    {
+        int y = fa[x];
+        if(fa[y]!=g) (rs(x)==rs(y) ? rotate(y) : rotate(x));
+        rotate(x);
+    }
+    if(!g) rt = x;
+}
+</code></pre>
+<p>splay(x,g)表示将x旋转到g的儿子处，当g=0时即将x旋转到根。用splay来维护权值大小我觉得很麻烦，码量和常数都比较大，一般情况下用pbds或者fhq treap替代即可。但是用splay来维护区间还是需要只要的。做法也很简单，如果要维护[l,r]，先把l-1旋转到根，再把r+1旋转到l-1的儿子，那么此时r+1的左子树就是要操作的[l,r]部分，直接对这个根节点打上相应的标记即可：</p>
+<pre><code class="language-cpp">int split(int l, int r)
+{
+	int x = kth(rt, l-1), y = kth(rt, r+1);
+	splay(x); splay(y, x);
+	return ch[y][0];
+}
+</code></pre>
+<p>pushdown操作只需要在kth函数中进行即可：</p>
+<pre><code class="language-cpp">int kth(int p, int k)
+{
+    down(p);
+    if(ch[p][0]&amp;&amp;sz[ch[p][0]]&gt;=k) return kth(ch[p][0], k);
+    else if(sz[ch[p][0]]+1==k) return p;
+    else return kth(ch[p][1], k-sz[ch[p][0]]-1); 
+}
+</code></pre>
+<p>而pushup操作在每次进行split区间操作后都要执行，假设split返回的节点是x，那么就要pushup(y)以及pushup(fa[y])：</p>
+<pre><code class="language-cpp">void replace(int l, int r, int v)
+{
+	int x = split(l, r), y = fa[x];
+	setv(x, v);
+	up(y); up(fa[y]);
+}
+</code></pre>
+<p>其实splay的所有操作都可以用fhq treap来替代，不过在区间操作中要找到区间下标x的点这一功能还是splay方便，只需要把这个点splay到根就可以了，而treap则需要额外维护父亲，而自下而上找。<br>
+当然splay无可替代的地方就是LCT了，如果用treap就会多一个log。</p>
+
+              </div>
+              <div class="toc-container">
+                
+              </div>
+            </div>
+          </article>
+        </div>
+
+        
+          <div class="next-post">
+            <div class="next">下一篇</div>
+            <a href="https://jyf111.github.io/post/p5217-pin-qiong-fhq-treap/">
+              <h3 class="post-title">
+                P5217 贫穷 fhq treap
+              </h3>
+            </a>
+          </div>
+        
+
+        
+
+        <div class="site-footer">
+  
+  <a class="rss" href="https://jyf111.github.io/atom.xml" target="_blank">
+    <i class="ri-rss-line"></i> RSS
+  </a>
+</div>
+
+      </div>
+    </div>
+
+    <script>
+      hljs.initHighlightingOnLoad()
+
+      let mainNavLinks = document.querySelectorAll(".markdownIt-TOC a");
+
+      // This should probably be throttled.
+      // Especially because it triggers during smooth scrolling.
+      // https://lodash.com/docs/4.17.10#throttle
+      // You could do like...
+      // window.addEventListener("scroll", () => {
+      //    _.throttle(doThatStuff, 100);
+      // });
+      // Only not doing it here to keep this Pen dependency-free.
+
+      window.addEventListener("scroll", event => {
+        let fromTop = window.scrollY;
+
+        mainNavLinks.forEach((link, index) => {
+          let section = document.getElementById(decodeURI(link.hash).substring(1));
+          let nextSection = null
+          if (mainNavLinks[index + 1]) {
+            nextSection = document.getElementById(decodeURI(mainNavLinks[index + 1].hash).substring(1));
+          }
+          if (section.offsetTop <= fromTop) {
+            if (nextSection) {
+              if (nextSection.offsetTop > fromTop) {
+                link.classList.add("current");
+              } else {
+                link.classList.remove("current");    
+              }
+            } else {
+              link.classList.add("current");
+            }
+          } else {
+            link.classList.remove("current");
+          }
+        });
+      });
+
+    </script>
+  </body>
+</html>

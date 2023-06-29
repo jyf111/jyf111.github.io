@@ -1,0 +1,277 @@
+<html>
+  <head>
+    <meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title> Sorting Vases 思维 | jyf111</title>
+<link rel="shortcut icon" href="https://jyf111.github.io/favicon.ico?v=1688054387335">
+<link href="https://cdn.jsdelivr.net/npm/remixicon@2.3.0/fonts/remixicon.css" rel="stylesheet">
+<link rel="stylesheet" href="https://jyf111.github.io/styles/main.css">
+<link rel="alternate" type="application/atom+xml" title=" Sorting Vases 思维 | jyf111 - Atom Feed" href="https://jyf111.github.io/atom.xml">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Droid+Serif:400,700">
+
+
+
+    <meta name="description" content="给定一个n的排列p,每次可以任意交换两个位置,花费为1,然后又给定m组交换,花费为0(可以任意次使用),问使该排列p有序的最小花费.(n&lt;=18, m&lt;=18)
+做法
+先考虑m=0,此时只要让每个数直接向目标位置交换即可,答案为..." />
+    <meta name="keywords" content="算法" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.10.0/katex.min.css">
+    <script src="https://cdn.bootcss.com/highlight.js/9.12.0/highlight.min.js"></script>
+  </head>
+  <body>
+    <div class="main">
+      <div class="main-content">
+        <div class="site-header">
+  <a href="https://jyf111.github.io">
+  <img class="avatar" src="https://jyf111.github.io/images/avatar.png?v=1688054387335" alt="">
+  </a>
+  <h1 class="site-title">
+    jyf111
+  </h1>
+  <p class="site-description">
+    温故而知新
+  </p>
+  <div class="menu-container">
+    
+      
+        <a href="https://jyf111.github.io" class="menu">
+          首页
+        </a>
+      
+    
+      
+        <a href="/archives" class="menu">
+          归档
+        </a>
+      
+    
+      
+        <a href="https://jyf111.github.io/tags" class="menu">
+          分类
+        </a>
+      
+    
+  </div>
+  <div class="social-container">
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+  </div>
+</div>
+
+        <div class="post-detail">
+          <article class="post">
+            <h2 class="post-title">
+               Sorting Vases 思维
+            </h2>
+            <div class="post-info">
+              <span>
+                2020-05-11
+              </span>
+              <span>
+                4 min read
+              </span>
+              
+                <a href="https://jyf111.github.io/tag/HKuTllKYu/" class="post-tag">
+                  # 算法
+                </a>
+              
+            </div>
+            
+            <div class="post-content-wrapper">
+              <div class="post-content">
+                <p>给定一个n的排列p,每次可以任意交换两个位置,花费为1,然后又给定m组交换,花费为0(可以任意次使用),问使该排列p有序的最小花费.(n&lt;=18, m&lt;=18)</p>
+<h1 id="做法">做法</h1>
+<p>先考虑m=0,此时只要让每个数直接向目标位置交换即可,答案为n-环的个数<br>
+再考虑m,既然可以任意交换,那就相当于这些位置是等价的,可以维护出每个等价的集合,然后直接全排列枚举每个集合,让p通过m=0的方式转换成该排列,最后取最小值.这样交的话其实只会tle一个点.<br>
+如果某个集合的大小&gt;10,全排列枚举显然t.但是我们并不需要枚举每个集合的排列,因为前几个数归位后,最后一个集合的数自然就归位了.所以我们不枚举最大的集合就可以了,这样我们枚举的集合的大小最多只有9,9!(362 880)完全可以接受.</p>
+<pre><code class="language-cpp">#include &lt;bits/stdc++.h&gt;
+#define mp make_pair
+#define pb push_back
+#define sz(x) (int)x.size()
+#define all(x) begin(x), end(x)
+#define fi first
+#define se second
+#define debug(x) cerr &lt;&lt; #x &lt;&lt; &quot; &quot; &lt;&lt; x &lt;&lt; '\n'
+using namespace std;
+using ll = long long;
+using pii = pair&lt;int,int&gt;;
+using pli = pair&lt;ll,int&gt;;
+const int INF = 0x3f3f3f3f, N = 20;
+const ll LINF = 1e18 + 5;
+constexpr int mod = 1e9 + 7;
+int n, m, p[N], pos[N], x[N], y[N];
+int tmpp[N];
+int f[N], ans;
+vector&lt;vector&lt;int&gt;&gt; vec;
+vector&lt;int&gt; rt[N];
+int find(int x)
+{
+	if(x==f[x]) return x;
+	return f[x] = find(f[x]);
+}
+void merge(int x, int y)
+{
+	x = find(x), y = find(y);
+	if(x==y) return;
+	f[x] = y;
+}
+int cal()
+{	
+	int cnt = 0;
+	for(int i=1; i&lt;=n; i++) 
+		tmpp[i] = p[i];
+	for(int i=1; i&lt;=n; i++)
+	{
+		int j = i;
+		while(pos[tmpp[j]]&amp;&amp;pos[tmpp[j]]!=j) 
+		{
+			cnt++;
+			swap(tmpp[j], tmpp[pos[tmpp[j]]]);
+		}
+	}
+	return cnt;
+}
+void dfs(int x)
+{
+	if(x==sz(vec))
+	{
+		ans = min(ans, cal());
+		return;
+	}
+	vector&lt;int&gt; idx(sz(vec[x]));
+	iota(all(idx), 0);
+	do {
+		for(int i=0; i&lt;sz(vec[x]); i++)
+			pos[vec[x][i]] = vec[x][idx[i]];
+		dfs(x+1);
+	}while(next_permutation(all(idx)));
+}
+void solve()
+{
+	scanf(&quot;%d%d&quot;, &amp;n, &amp;m);
+	ans = n - 1;
+	vec.clear();
+	for(int i=1; i&lt;=n; i++) 
+	{
+		scanf(&quot;%d&quot;, p+i);
+		f[i] = i;
+		pos[i] = 0;
+		rt[i].clear();
+	}
+	for(int i=1; i&lt;=m; i++) 
+	{
+		scanf(&quot;%d%d&quot;, x+i, y+i);
+		merge(x[i], y[i]);
+	}
+	int mx = 0;
+	for(int i=1; i&lt;=n; i++)
+	{
+		int r = find(i);
+		rt[r].pb(i);
+		mx = max(mx, sz(rt[r]));
+	}
+	bool tag = 0;
+	for(int i=1; i&lt;=n; i++)
+		if(f[i]==i &amp;&amp; sz(rt[i])&lt;mx) vec.pb(rt[i]);
+		else if(f[i]==i &amp;&amp; sz(rt[i])==mx)
+		{
+			if(!tag) tag = 1;
+			else vec.pb(rt[i]);
+		}
+	dfs(0);
+	printf(&quot;%d\n&quot;, ans);
+}
+int main()
+{
+	int T;
+	scanf(&quot;%d&quot;, &amp;T);
+	while(T--) solve();
+	return 0;
+}
+</code></pre>
+
+              </div>
+              <div class="toc-container">
+                <ul class="markdownIt-TOC">
+<li><a href="#%E5%81%9A%E6%B3%95">做法</a></li>
+</ul>
+
+              </div>
+            </div>
+          </article>
+        </div>
+
+        
+          <div class="next-post">
+            <div class="next">下一篇</div>
+            <a href="https://jyf111.github.io/post/chef-and-bitwise-product-tan-xin-wei-yun-suan/">
+              <h3 class="post-title">
+                Chef and Bitwise Product 贪心+位运算
+              </h3>
+            </a>
+          </div>
+        
+
+        
+
+        <div class="site-footer">
+  
+  <a class="rss" href="https://jyf111.github.io/atom.xml" target="_blank">
+    <i class="ri-rss-line"></i> RSS
+  </a>
+</div>
+
+      </div>
+    </div>
+
+    <script>
+      hljs.initHighlightingOnLoad()
+
+      let mainNavLinks = document.querySelectorAll(".markdownIt-TOC a");
+
+      // This should probably be throttled.
+      // Especially because it triggers during smooth scrolling.
+      // https://lodash.com/docs/4.17.10#throttle
+      // You could do like...
+      // window.addEventListener("scroll", () => {
+      //    _.throttle(doThatStuff, 100);
+      // });
+      // Only not doing it here to keep this Pen dependency-free.
+
+      window.addEventListener("scroll", event => {
+        let fromTop = window.scrollY;
+
+        mainNavLinks.forEach((link, index) => {
+          let section = document.getElementById(decodeURI(link.hash).substring(1));
+          let nextSection = null
+          if (mainNavLinks[index + 1]) {
+            nextSection = document.getElementById(decodeURI(mainNavLinks[index + 1].hash).substring(1));
+          }
+          if (section.offsetTop <= fromTop) {
+            if (nextSection) {
+              if (nextSection.offsetTop > fromTop) {
+                link.classList.add("current");
+              } else {
+                link.classList.remove("current");    
+              }
+            } else {
+              link.classList.add("current");
+            }
+          } else {
+            link.classList.remove("current");
+          }
+        });
+      });
+
+    </script>
+  </body>
+</html>

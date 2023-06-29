@@ -1,0 +1,288 @@
+<html>
+  <head>
+    <meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>oneTBB 并行编程框架 | jyf111</title>
+<link rel="shortcut icon" href="https://jyf111.github.io/favicon.ico?v=1688054387335">
+<link href="https://cdn.jsdelivr.net/npm/remixicon@2.3.0/fonts/remixicon.css" rel="stylesheet">
+<link rel="stylesheet" href="https://jyf111.github.io/styles/main.css">
+<link rel="alternate" type="application/atom+xml" title="oneTBB 并行编程框架 | jyf111 - Atom Feed" href="https://jyf111.github.io/atom.xml">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Droid+Serif:400,700">
+
+
+
+    <meta name="description" content="安装
+git clone --depth 1 https://github.com/oneapi-src/oneTBB.git
+
+mkdir build &amp;&amp; cd build
+cmake ..
+make -j 4
+make..." />
+    <meta name="keywords" content="工具" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.10.0/katex.min.css">
+    <script src="https://cdn.bootcss.com/highlight.js/9.12.0/highlight.min.js"></script>
+  </head>
+  <body>
+    <div class="main">
+      <div class="main-content">
+        <div class="site-header">
+  <a href="https://jyf111.github.io">
+  <img class="avatar" src="https://jyf111.github.io/images/avatar.png?v=1688054387335" alt="">
+  </a>
+  <h1 class="site-title">
+    jyf111
+  </h1>
+  <p class="site-description">
+    温故而知新
+  </p>
+  <div class="menu-container">
+    
+      
+        <a href="https://jyf111.github.io" class="menu">
+          首页
+        </a>
+      
+    
+      
+        <a href="/archives" class="menu">
+          归档
+        </a>
+      
+    
+      
+        <a href="https://jyf111.github.io/tags" class="menu">
+          分类
+        </a>
+      
+    
+  </div>
+  <div class="social-container">
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+  </div>
+</div>
+
+        <div class="post-detail">
+          <article class="post">
+            <h2 class="post-title">
+              oneTBB 并行编程框架
+            </h2>
+            <div class="post-info">
+              <span>
+                2022-05-21
+              </span>
+              <span>
+                5 min read
+              </span>
+              
+                <a href="https://jyf111.github.io/tag/75Sf1FiMA/" class="post-tag">
+                  # 工具
+                </a>
+              
+            </div>
+            
+            <div class="post-content-wrapper">
+              <div class="post-content">
+                <h5 id="安装">安装</h5>
+<pre><code class="language-git">git clone --depth 1 https://github.com/oneapi-src/oneTBB.git
+</code></pre>
+<pre><code class="language-shell">mkdir build &amp;&amp; cd build
+cmake ..
+make -j 4
+make install
+</code></pre>
+<p>make过程中可能出现如下问题</p>
+<pre><code class="language-shell">c++: fatal error: Killed signal terminated program cc1plus
+compilation terminated.
+</code></pre>
+<p>原因就是内存太小了，减小并行度或者临时换页（https://blog.csdn.net/weixin_44796670/article/details/121234446）</p>
+<h5 id="计时">计时</h5>
+<pre><code class="language-cpp">tbb::tick_count::now();
+tick_count t0 = tick_count::now();
+tick_count t1 = tick_count::now();
+printf(“work took %g seconds\n”,(t1-t0).seconds());
+
+auto start = std::chrono::steady_clock::now();
+auto end = std::chrono::steady_clock::now();
+std::cerr &lt;&lt; std::chrono::duration&lt;double, std::milli&gt;(end - start).count() &lt;&lt; '\n';
+</code></pre>
+<p>只记时一次，容易出现波动</p>
+<p>使用<code>google benchmark</code>，可以跑多次求平均值</p>
+<h2 id="控制运行的线程数">控制运行的线程数</h2>
+<p>Thread local storage：<code>thread_local</code>表明该变量的作用域是线程，每个线程都有一份拷贝。</p>
+<p>对于TBB而言，你不知道任务和线程之间的对应关系。</p>
+<p><code>enumerable_thread_specific</code>：provides thread local storage that acts like an STL container with one element per thread. The container permits iterating over the elements using the usual STL iteration idioms. Any thread can iterate over all the local copies, seeing the other threads local data.（每个线程有一份拷贝，并且所有拷贝被组织成一个容器，可以顺序遍历容器来结合最终结果）</p>
+<pre><code class="language-cpp">using ets_vector_t = enumerable_thread_specific&lt;vector&lt;int&gt;&gt;;
+ets_vector_t partial(N);
+parallel_for(0, 10, [&amp;](int i) {
+    ets_vector_t::reference local = partial.local();
+    for (int&amp; x : local) x = 20;
+});
+vector&lt;int&gt; sum(N);
+for (auto&amp; it : partial)
+    for (int j = 0; j &lt; N; ++j) sum[j] += it[j];
+</code></pre>
+<p>用法就是包装一个tbb::enumerable_thread_specific，然后在内部使用local得到自己的那份拷贝，此外可以遍历整个容器，得到每一份拷贝。（如果该线程第一次调用local，就会创建一份，否则会使用自己已经创建的那份）</p>
+<p>可以使用<code>size()</code>得到有几个拷贝，但是该容器只支持顺序遍历，不能随机访问(不支持<code>[]</code>)。所以如果指定线程想查看对方的私有拷贝，这是不行的，你既不知道它的下标，也没办法直接访问</p>
+<p><code>combinable</code>：provides thread local storage for holding per-thread subcomputations that will later be reduced to a single result. Each thread can only see its local data or, after calling combine, the combined data. （用于存储中间结果，只能看到自己的数据）</p>
+<pre><code class="language-cpp">combinable&lt;vector&lt;int&gt;&gt; partial{[](){return vector&lt;int&gt;(N); }};
+parallel_for(0, 10, [&amp;](int i) {
+    auto&amp; local = partial.local();
+});
+vector&lt;int&gt; sum(N);
+partial.combine_each([&amp;](const vector&lt;int&gt;&amp; a) {
+    for (int i = 0; i &lt; N; ++i) sum[i] += a[i];
+});
+</code></pre>
+<p>combinable需要传入一个lambda，在local中会调用，用于初始化。</p>
+<p>通过combine_each将每份拷贝的结果合并起来。</p>
+<p>note：个人感觉这两者差不多，combine_each其实就等价于顺序遍历拷贝构成的容器</p>
+<hr>
+<p>Task</p>
+<p><code>parallel_invoke(f1,f2...)</code>（隐式的task spawning和barrier）</p>
+<pre><code class="language-cpp">task_group g;
+g.run(f1);
+g.run(f2);
+...
+g.wait();
+</code></pre>
+<p><code>run_and_wait(f)</code>：we avoid the overhead of enqueueing-schedulingdequeuing steps, and second, we avoid the potential stealing that can happen while the task is in the queue.</p>
+<p><code>cancel()</code></p>
+<p>如果有大量任务，线性spawn不如递归spawn（满二叉的形式）</p>
+<hr>
+<pre><code class="language-cpp">parallel_for(0, n, [](int i) {
+    
+});
+parallel_for(blocked_range&lt;int&gt;(0, n), [&amp;](const auto&amp; range r) {
+    for (int i = r.begin(); i != r.end(); ++i) {
+        
+    }
+});
+parallel_reduce(blocked_range&lt;int&gt;(0, n), init,  // 规约
+    [&amp;](const auto&amp; range r, auto pre) {
+        
+    },
+    [&amp;](auto x, auto y) { // combine
+        
+    };          
+);
+parallel_scan(blocked_range&lt;int&gt;(0, n), init,  // 前缀规约
+    [&amp;](const auto&amp; range r, auto pre, bool is_final_scan) {
+        if (is_final_scan) {
+            // write
+        }
+    },
+    [&amp;](auto x, auto y) { // combine
+        
+    };          
+);
+</code></pre>
+<p>并行过滤：考虑对一个vector执行一个过滤条件。我目前认为最好的写法是先resize足够大的空间，然后通过一个atomic记录结果vector的大小</p>
+<pre><code class="language-cpp">size_t local_base = res_size.fetch_add(local_size);
+for (size_t i = 0; i &lt; local_size; i++) res[local_base + i] = local_res[i];
+</code></pre>
+<p>POD_vector(?)：上述情况中必须先resize，不能reserve，而resize的一个问题是会对所有元素做一遍memset，有时候这是很多余的，所以可以通过一些trick避免这个初始化的过程。</p>
+
+              </div>
+              <div class="toc-container">
+                <ul class="markdownIt-TOC">
+<li>
+<ul>
+<li>
+<ul>
+<li>
+<ul>
+<li>
+<ul>
+<li><a href="#%E5%AE%89%E8%A3%85">安装</a></li>
+<li><a href="#%E8%AE%A1%E6%97%B6">计时</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><a href="#%E6%8E%A7%E5%88%B6%E8%BF%90%E8%A1%8C%E7%9A%84%E7%BA%BF%E7%A8%8B%E6%95%B0">控制运行的线程数</a></li>
+</ul>
+</li>
+</ul>
+
+              </div>
+            </div>
+          </article>
+        </div>
+
+        
+          <div class="next-post">
+            <div class="next">下一篇</div>
+            <a href="https://jyf111.github.io/post/yong-yu-diao-shi-de-cri-zhi-ku-spdlog/">
+              <h3 class="post-title">
+                用于调试的c++日志库-spdlog
+              </h3>
+            </a>
+          </div>
+        
+
+        
+
+        <div class="site-footer">
+  
+  <a class="rss" href="https://jyf111.github.io/atom.xml" target="_blank">
+    <i class="ri-rss-line"></i> RSS
+  </a>
+</div>
+
+      </div>
+    </div>
+
+    <script>
+      hljs.initHighlightingOnLoad()
+
+      let mainNavLinks = document.querySelectorAll(".markdownIt-TOC a");
+
+      // This should probably be throttled.
+      // Especially because it triggers during smooth scrolling.
+      // https://lodash.com/docs/4.17.10#throttle
+      // You could do like...
+      // window.addEventListener("scroll", () => {
+      //    _.throttle(doThatStuff, 100);
+      // });
+      // Only not doing it here to keep this Pen dependency-free.
+
+      window.addEventListener("scroll", event => {
+        let fromTop = window.scrollY;
+
+        mainNavLinks.forEach((link, index) => {
+          let section = document.getElementById(decodeURI(link.hash).substring(1));
+          let nextSection = null
+          if (mainNavLinks[index + 1]) {
+            nextSection = document.getElementById(decodeURI(mainNavLinks[index + 1].hash).substring(1));
+          }
+          if (section.offsetTop <= fromTop) {
+            if (nextSection) {
+              if (nextSection.offsetTop > fromTop) {
+                link.classList.add("current");
+              } else {
+                link.classList.remove("current");    
+              }
+            } else {
+              link.classList.add("current");
+            }
+          } else {
+            link.classList.remove("current");
+          }
+        });
+      });
+
+    </script>
+  </body>
+</html>

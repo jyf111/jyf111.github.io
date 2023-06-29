@@ -1,0 +1,424 @@
+<html>
+  <head>
+    <meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>平衡树之FHQ Treap | jyf111</title>
+<link rel="shortcut icon" href="https://jyf111.github.io/favicon.ico?v=1688054387335">
+<link href="https://cdn.jsdelivr.net/npm/remixicon@2.3.0/fonts/remixicon.css" rel="stylesheet">
+<link rel="stylesheet" href="https://jyf111.github.io/styles/main.css">
+<link rel="alternate" type="application/atom+xml" title="平衡树之FHQ Treap | jyf111 - Atom Feed" href="https://jyf111.github.io/atom.xml">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Droid+Serif:400,700">
+
+
+
+    <meta name="description" content="treap，顾名思义tree+heap
+既有平衡树的性质：左儿子权值&lt;本节点权值&lt;右儿子权值，中序遍历有序，且树高尽可能小
+又有heap的性质：键值满足小根堆，左儿子的键值和右儿子的键值都大于本节点的键值
+而FHQ Treap仅..." />
+    <meta name="keywords" content="算法" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.10.0/katex.min.css">
+    <script src="https://cdn.bootcss.com/highlight.js/9.12.0/highlight.min.js"></script>
+  </head>
+  <body>
+    <div class="main">
+      <div class="main-content">
+        <div class="site-header">
+  <a href="https://jyf111.github.io">
+  <img class="avatar" src="https://jyf111.github.io/images/avatar.png?v=1688054387335" alt="">
+  </a>
+  <h1 class="site-title">
+    jyf111
+  </h1>
+  <p class="site-description">
+    温故而知新
+  </p>
+  <div class="menu-container">
+    
+      
+        <a href="https://jyf111.github.io" class="menu">
+          首页
+        </a>
+      
+    
+      
+        <a href="/archives" class="menu">
+          归档
+        </a>
+      
+    
+      
+        <a href="https://jyf111.github.io/tags" class="menu">
+          分类
+        </a>
+      
+    
+  </div>
+  <div class="social-container">
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+  </div>
+</div>
+
+        <div class="post-detail">
+          <article class="post">
+            <h2 class="post-title">
+              平衡树之FHQ Treap
+            </h2>
+            <div class="post-info">
+              <span>
+                2020-12-06
+              </span>
+              <span>
+                11 min read
+              </span>
+              
+                <a href="https://jyf111.github.io/tag/HKuTllKYu/" class="post-tag">
+                  # 算法
+                </a>
+              
+            </div>
+            
+            <div class="post-content-wrapper">
+              <div class="post-content">
+                <p>treap，顾名思义tree+heap<br>
+既有平衡树的性质：左儿子权值&lt;本节点权值&lt;右儿子权值，中序遍历有序，且树高尽可能小<br>
+又有heap的性质：键值满足小根堆，左儿子的键值和右儿子的键值都大于本节点的键值<br>
+而FHQ Treap仅仅通过两个函数就能够进行维护，思想好懂，代码也很简洁。<br>
+更重要的是相比于之前的替罪羊树或者pbds这种只能维护大小关系的平衡树而言，它可以胜任splay拥有的维护区间的特质。<br>
+首先是普通的维护大小关系：<br>
+split函数，将一棵树按照给定的权值v划分成两棵树，并且保证第一棵树的权值均小于等于v，第二棵树的权值均大于v。<br>
+显然只要递归分裂的树，考虑当前节点的权值和给定的v的关系即可。<br>
+注意分裂的两个节点传引用。<br>
+merge函数，将两棵树合成一棵树，要求第一棵树的权值均小于等于第二棵树<br>
+同样是递归考虑，那么当前两棵树谁的根作为合并的树的根呢？按照权值来看都是可以的，但是为了保持平衡性，就要维护键值的小根堆性质，所以让键值小的那个节点作为根即可。<br>
+注意合并的那个节点要传引用。<br>
+由于split和merge都会改变父子关系，所以最后要pushup维护好子树的信息。<br>
+而对于普通平衡树所支持的插入、删除、第k大、排名、前驱、后继等等，只要基于split和merge两个函数就可以轻松实现，比较简单，<s>懒得写了</s><br>
+p6136：fhq treap 8.2s，替罪羊5.81s，不过fhq treap代码短点。当然两者都很好理解。一般情况下fhq treap足以应对所有情况（除了LCT以及重度卡常题（紫荆花之恋？听说），所以splay还是得懂）</p>
+<pre><code class="language-cpp">#include &lt;bits/stdc++.h&gt;
+using namespace std;
+const int N = 2e6 + 5;
+struct node
+{
+	int ls, rs;
+	int val, key, sz;
+}t[N];
+int tot, rt;
+void up(int p) { t[p].sz = t[t[p].ls].sz + t[t[p].rs].sz + 1; }
+int rnd() { return (rand()&lt;&lt;15)|rand(); }
+int newnode(int v)
+{
+	int p = ++tot;
+	t[p].val = v, t[p].sz = 1;
+	t[p].ls = t[p].rs = 0;
+	t[p].key = rnd();
+	return p;
+}
+void split(int p, int &amp;a, int &amp;b, int v)
+{
+	if(!p) { a = b = 0; return; }
+	if(t[p].val&lt;=v) { a = p; split(t[p].rs, t[a].rs, b, v); }
+	else { b = p; split(t[p].ls, a, t[b].ls, v); }
+	up(p);
+}
+void merge(int &amp;p, int a, int b)
+{
+	if(!a||!b) { p = a|b; return; }
+	if(t[a].key&lt;t[b].key) { p = a; merge(t[p].rs, t[a].rs, b); }
+	else { p = b; merge(t[p].ls, a, t[b].ls); }
+	up(p);
+}
+void ins(int &amp;p, int v)
+{
+	int x = 0, y = 0, z = newnode(v);
+	split(p, x, y, v);
+	merge(x, x, z); merge(p, x, y);
+}
+void del(int &amp;p, int v)
+{
+	int x = 0, y = 0, z = 0;
+	split(p, x, y, v); split(x, x, z, v-1);
+	merge(z, t[z].ls, t[z].rs);
+	merge(x, x, z); merge(p, x, y);
+}
+int kth(int p, int k)
+{
+	if(k&lt;=t[t[p].ls].sz) return kth(t[p].ls, k);
+	else if(k==t[t[p].ls].sz+1) return t[p].val;
+	else return kth(t[p].rs, k-t[t[p].ls].sz-1);
+}
+int Less(int &amp;p, int v, bool eq)
+{
+	int x = 0, y = 0;
+	split(p, x, y, v-1+eq);
+	int ans = t[x].sz;
+	merge(p, x, y);
+	return ans;
+}
+int main()
+{
+	srand(int(time(0)));
+	int n, m;
+ 	scanf(&quot;%d%d&quot;, &amp;n, &amp;m);
+ 	for(int i=1, x; i&lt;=n; i++)
+ 	{
+ 		scanf(&quot;%d&quot;, &amp;x);
+ 		ins(rt, x);
+ 	}
+ 	int last = 0, ans = 0;
+ 	for(int i=1; i&lt;=m; i++)
+ 	{
+ 		int op, x;
+ 		scanf(&quot;%d%d&quot;, &amp;op, &amp;x);
+ 		x ^= last;
+ 		switch(op)
+ 		{
+ 			case 1: ins(rt, x); break;
+ 			case 2: del(rt, x); break;
+ 			case 3: last = Less(rt, x, 0) + 1; ans ^= last; break;
+ 			case 4: last = kth(rt, x); ans ^= last; break;
+ 			case 5: last = kth(rt, Less(rt, x, 0)); ans ^= last; break;
+ 			default: last = kth(rt, Less(rt, x, 1)+1); ans ^= last; 
+ 		}
+ 	}
+ 	printf(&quot;%d\n&quot;, ans);
+	return 0;
+}
+</code></pre>
+<p>然后是维护区间，也很简单，改一下split和merge的定义即可。<br>
+split，给定一个树，把一棵树的前k个节点划分给一棵树，剩余节点划分给另一棵树<br>
+merge，将两棵树合并成一棵树，需要保证一棵树完全处在另一棵树的前面<br>
+写法和上面类似，不再赘述<br>
+考虑对区间[l,r]的操作怎么做：<br>
+先把rt的前r个节点split给x，其他的丢给y<br>
+再把x的前l-1个节点split给z<br>
+此时x就是[l,r]区间内所有节点构成的treap的根了，直接在根上打标记即可。<br>
+最后按照顺序z，x，y进行merge。<br>
+考虑pushup和pushdown在什么时候进行。<br>
+pushup是要维护当前子树的信息，因此需要在左右儿子改变后调用，而pushdown是为了下放赖在当前节点上的懒标记，所以要在左右儿子改变前调用，想清楚这两点就知道了，应该在split和merge进入子树前pushdown，在回溯上来之后再pushup。<br>
+p3391 文艺平衡树，区间翻转，显然只要把要操作的区间split出来然后在根上打一个翻转标记即可。</p>
+<pre><code class="language-cpp">#include &lt;bits/stdc++.h&gt;
+using namespace std;
+const int N = 1e5 + 5;
+int n, m;
+int rnd() { return rand()&lt;&lt;15|rand(); }
+int rt, tot;
+struct node
+{
+	int ls, rs;
+	int val, key, sz;
+	bool tag;
+}t[N];
+void up(int p) { t[p].sz = t[t[p].ls].sz + t[t[p].rs].sz + 1; }
+void down(int p)
+{
+	swap(t[p].ls, t[p].rs);
+	if(t[p].ls) t[t[p].ls].tag ^= 1;
+	if(t[p].rs) t[t[p].rs].tag ^= 1;
+	t[p].tag = 0;
+}
+int newnode(int v)
+{
+	int p = ++tot;
+	t[p].val = v;
+	t[p].sz = 1; t[p].tag = 0;
+	t[p].ls = t[p].rs = 0;
+	t[p].key = rnd();
+	return p;
+}
+void split(int p, int &amp;x, int &amp;y, int k)
+{
+	if(!p) { x = y = 0; return; }
+	if(t[p].tag) down(p);
+	if(k&lt;=t[t[p].ls].sz) { y = p; split(t[p].ls, x, t[p].ls, k); }
+	else { x = p, split(t[p].rs, t[p].rs, y, k-t[t[p].ls].sz-1); }
+	up(p);
+}
+void merge(int &amp;p, int x, int y)
+{
+	if(!x||!y) { p = x|y; return; }
+	if(t[x].key&lt;t[y].key) 
+	{
+		if(t[x].tag) down(x);
+		p = x;
+		merge(t[p].rs, t[x].rs, y);
+	}
+	else 
+	{
+		if(t[y].tag) down(y);
+		p = y;
+		merge(t[p].ls, x, t[y].ls);
+	}
+	up(p);
+}
+void ins(int &amp;p, int v)
+{
+	int x = newnode(v);
+	merge(p, p, x);
+}
+void rev(int l, int r)
+{
+	int x, y, z;
+	split(rt, x, y, r);
+	split(x, z, x, l-1);
+	t[x].tag ^= 1;
+	merge(x, z, x);
+	merge(rt, x, y);
+}
+void print(int p)
+{
+	if(!p) return;
+	if(t[p].tag) down(p);
+	print(t[p].ls);
+	printf(&quot;%d &quot;, t[p].val);
+	print(t[p].rs);
+}
+int main()
+{
+	srand(int(time(0)));
+	scanf(&quot;%d%d&quot;, &amp;n, &amp;m);
+	for(int i=1; i&lt;=n; i++) ins(rt, i);
+	for(int i=1; i&lt;=m; i++)
+	{
+		int l, r;
+		scanf(&quot;%d%d&quot;, &amp;l, &amp;r);
+		rev(l, r);
+	}
+	print(rt);
+	return 0;
+}
+</code></pre>
+<p>维护区间信息的时候，一定要注意平衡树和线段树是不一样的，线段树只要左右儿子取优即可（因为本节点维护的区间是左右儿子维护的区间的并），而平衡树左右儿子维护的信息是不包含本节点的，所以还需要维护本节点的值，和该值再取优。<br>
+在维护区间的时候，就丧失了权值大小的比较了，那么如何知道编号为i的节点在区间中的哪个位置呢？<br>
+显然从根开始是不知道该走左还是右的。但是如果我们从i节点不断跳父亲直至根，然后不断维护小于你的节点个数就可以了，而treap的树高是<span class="katex"><span class="katex-mathml"><math><semantics><mrow><mi>log</mi><mo>⁡</mo><mi>n</mi></mrow><annotation encoding="application/x-tex">\log n</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.8888799999999999em;vertical-align:-0.19444em;"></span><span class="mop">lo<span style="margin-right:0.01389em;">g</span></span><span class="mspace" style="margin-right:0.16666666666666666em;"></span><span class="mord mathdefault">n</span></span></span></span>级别的，复杂度没问题。<br>
+要维护节点的父亲，一种简单的做法是在pushup的时候维护一下p的左右儿子的父亲为p，但这样子是有问题的，根节点的fa值是错误的，没法及时清零，当然如果只有一棵treap，且知道根节点的编号，就可以通过==rt来判断，否则就应该在split和merge中维护fa：</p>
+<pre><code class="language-cpp">void split(int p, int &amp;x, int &amp;y, int fx, int fy, int k)
+{
+	if(!p) { x = y = 0; return; }
+	if(k&lt;=t[t[p].ls].sz)
+	{
+		y = p;
+		split(t[p].ls, x, t[p].ls, fx, p, k);
+	}
+	else
+	{
+		x = p;
+		split(t[p].rs, t[p].rs, y, p, fy, k-t[t[p].ls].sz-1);
+	}
+	if(x) t[x].fa = fx;
+	if(y) t[y].fa = fy;
+	up(p);
+}
+void merge(int &amp;p, int x, int y)
+{
+	if(!x||!y) { p = x|y; return; }
+	if(t[x].key&lt;t[y].key)
+	{
+		p = x;
+		merge(t[p].rs, t[p].rs, y);
+		t[t[p].rs].fa = p;
+	}
+	else
+	{
+		p = y;
+		merge(t[p].ls, x, t[p].ls);
+		t[t[p].ls].fa = p;
+	}
+	up(p);
+}
+</code></pre>
+<p>返回编号为p的节点所在treap的根节点，以及在原数组中的下标：</p>
+<pre><code class="language-cpp">pair&lt;int, int&gt; get(int p)
+{
+	int rk = t[t[p].ls].sz + 1;
+	while(t[p].fa)
+	{
+		if(p==t[t[p].fa].rs) rk += t[t[p].fa].sz - t[p].sz; 
+		p = t[p].fa;
+	}
+	return make_pair(p, rk);
+}
+</code></pre>
+
+              </div>
+              <div class="toc-container">
+                
+              </div>
+            </div>
+          </article>
+        </div>
+
+        
+          <div class="next-post">
+            <div class="next">下一篇</div>
+            <a href="https://jyf111.github.io/post/ping-heng-shu-zhi-ti-zui-yang-shu/">
+              <h3 class="post-title">
+                平衡树之替罪羊树
+              </h3>
+            </a>
+          </div>
+        
+
+        
+
+        <div class="site-footer">
+  
+  <a class="rss" href="https://jyf111.github.io/atom.xml" target="_blank">
+    <i class="ri-rss-line"></i> RSS
+  </a>
+</div>
+
+      </div>
+    </div>
+
+    <script>
+      hljs.initHighlightingOnLoad()
+
+      let mainNavLinks = document.querySelectorAll(".markdownIt-TOC a");
+
+      // This should probably be throttled.
+      // Especially because it triggers during smooth scrolling.
+      // https://lodash.com/docs/4.17.10#throttle
+      // You could do like...
+      // window.addEventListener("scroll", () => {
+      //    _.throttle(doThatStuff, 100);
+      // });
+      // Only not doing it here to keep this Pen dependency-free.
+
+      window.addEventListener("scroll", event => {
+        let fromTop = window.scrollY;
+
+        mainNavLinks.forEach((link, index) => {
+          let section = document.getElementById(decodeURI(link.hash).substring(1));
+          let nextSection = null
+          if (mainNavLinks[index + 1]) {
+            nextSection = document.getElementById(decodeURI(mainNavLinks[index + 1].hash).substring(1));
+          }
+          if (section.offsetTop <= fromTop) {
+            if (nextSection) {
+              if (nextSection.offsetTop > fromTop) {
+                link.classList.add("current");
+              } else {
+                link.classList.remove("current");    
+              }
+            } else {
+              link.classList.add("current");
+            }
+          } else {
+            link.classList.remove("current");
+          }
+        });
+      });
+
+    </script>
+  </body>
+</html>

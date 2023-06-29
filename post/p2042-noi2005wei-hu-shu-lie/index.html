@@ -1,0 +1,341 @@
+<html>
+  <head>
+    <meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>P2042 [NOI2005]维护数列 | jyf111</title>
+<link rel="shortcut icon" href="https://jyf111.github.io/favicon.ico?v=1688054387335">
+<link href="https://cdn.jsdelivr.net/npm/remixicon@2.3.0/fonts/remixicon.css" rel="stylesheet">
+<link rel="stylesheet" href="https://jyf111.github.io/styles/main.css">
+<link rel="alternate" type="application/atom+xml" title="P2042 [NOI2005]维护数列 | jyf111 - Atom Feed" href="https://jyf111.github.io/atom.xml">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Droid+Serif:400,700">
+
+
+
+    <meta name="description" content="大毒瘤题
+区间插入，区间删除，区间覆盖，区间翻转，区间和，区间最大子段和
+只说一下splay的话，区间插入和删除怎么做
+插入：先把插入的所有节点按照中序遍历建成一棵平衡树，然后把l转到根，l+1转到l的儿子，那么直接把这颗平衡树的根作为l+..." />
+    <meta name="keywords" content="算法" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.10.0/katex.min.css">
+    <script src="https://cdn.bootcss.com/highlight.js/9.12.0/highlight.min.js"></script>
+  </head>
+  <body>
+    <div class="main">
+      <div class="main-content">
+        <div class="site-header">
+  <a href="https://jyf111.github.io">
+  <img class="avatar" src="https://jyf111.github.io/images/avatar.png?v=1688054387335" alt="">
+  </a>
+  <h1 class="site-title">
+    jyf111
+  </h1>
+  <p class="site-description">
+    温故而知新
+  </p>
+  <div class="menu-container">
+    
+      
+        <a href="https://jyf111.github.io" class="menu">
+          首页
+        </a>
+      
+    
+      
+        <a href="/archives" class="menu">
+          归档
+        </a>
+      
+    
+      
+        <a href="https://jyf111.github.io/tags" class="menu">
+          分类
+        </a>
+      
+    
+  </div>
+  <div class="social-container">
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+  </div>
+</div>
+
+        <div class="post-detail">
+          <article class="post">
+            <h2 class="post-title">
+              P2042 [NOI2005]维护数列
+            </h2>
+            <div class="post-info">
+              <span>
+                2020-12-11
+              </span>
+              <span>
+                7 min read
+              </span>
+              
+                <a href="https://jyf111.github.io/tag/HKuTllKYu/" class="post-tag">
+                  # 算法
+                </a>
+              
+            </div>
+            
+            <div class="post-content-wrapper">
+              <div class="post-content">
+                <p>大毒瘤题<br>
+区间插入，区间删除，区间覆盖，区间翻转，区间和，区间最大子段和</p>
+<p>只说一下splay的话，区间插入和删除怎么做<br>
+插入：先把插入的所有节点按照中序遍历建成一棵平衡树，然后把l转到根，l+1转到l的儿子，那么直接把这颗平衡树的根作为l+1的左儿子即可<br>
+删除：同样的，把l-1转到根，r+1转到l-1的儿子，然后直接把r的左儿子变成0即可。这道题操作比较多，需要考虑空间回收。很简单，只要把这课丢掉的树遍历一下每个节点的编号塞到一个数组中，然后每次新开节点的时候，如果数组中有编号就直接取一个，否则再新开节点，不过复用节点要注意信息的清空。</p>
+<pre><code class="language-cpp">#include &lt;bits/stdc++.h&gt;
+using namespace std;
+const int N = 5e6 + 5, inf = 1e9;
+int n, m, a[N], id[N];
+int buc[N], tp;
+int rt, tot;
+int newnode() { return (tp ? buc[tp--] : ++tot); }
+int ch[N][2], sz[N], val[N], sum[N], mx[N], lx[N], rx[N], fa[N];
+bool same[N], rev[N];
+bool rs(int x) { return ch[fa[x]][1]==x; }
+void up(int p)
+{
+	if(!p) return;
+	int l = ch[p][0], r = ch[p][1];
+	sum[p] = sum[l] + sum[r] + val[p];
+	sz[p] = sz[l] + sz[r] + 1;
+	mx[p] = max({mx[l], mx[r], rx[l]+lx[r]+val[p]});
+	lx[p] = max(lx[l], sum[l]+val[p]+lx[r]);
+	rx[p] = max(rx[r], sum[r]+val[p]+rx[l]);
+}
+void setv(int p, int v)
+{
+	if(!p) return;
+	val[p] = v, sum[p] = v*sz[p];
+	lx[p] = rx[p] = (sum[p]&gt;0 ? sum[p] : 0);
+	mx[p] = (sum[p]&gt;0 ? sum[p] : val[p]);
+}
+void setrev(int p)
+{
+	if(!p) return;
+	swap(ch[p][0], ch[p][1]);
+	swap(lx[p], rx[p]);
+}
+void down(int p)
+{
+	int l = ch[p][0], r = ch[p][1];
+	if(same[p])
+	{
+		same[l] = 1, setv(l, val[p]);
+		same[r] = 1, setv(r, val[p]);
+		same[p] = 0;
+	}
+	if(rev[p])
+	{
+		rev[l] ^= 1, setrev(l);
+		rev[r] ^= 1, setrev(r);
+		rev[p] = 0;
+	}
+}
+void rotate(int x)
+{
+    int y = fa[x], z = fa[y], k = rs(x), w = ch[x][k^1];
+    ch[y][k] = w; fa[w] = y;
+    ch[z][rs(y)] = x; fa[x] = z;
+    ch[x][k^1] = y; fa[y] = x;
+    up(y); up(x);
+}
+void splay(int x, int g=0)
+{
+    while(fa[x]!=g)
+    {
+        int y = fa[x], z = fa[y];
+        if(z!=g) (rs(x)==rs(y) ? rotate(y) : rotate(x));
+        rotate(x);
+    }
+    if(!g) rt = x;
+}
+int kth(int p, int k)
+{
+    down(p);
+    if(ch[p][0]&amp;&amp;sz[ch[p][0]]&gt;=k) return kth(ch[p][0], k);
+    else if(sz[ch[p][0]]+1==k) return p;
+    else return kth(ch[p][1], k-sz[ch[p][0]]-1); 
+}
+int split(int l, int r)
+{
+	int x = kth(rt, l-1), y = kth(rt, r+1);
+	splay(x); splay(y, x);
+	return ch[y][0];
+}
+void makesame(int l, int r, int v)
+{
+	int x = split(l, r), y = fa[x];
+	setv(x, v), same[x] = 1;
+	up(y); up(fa[y]);
+}
+void reverse(int l, int r)
+{
+	int x = split(l, r), y = fa[x];
+	setrev(x), rev[x] ^= 1;
+	up(y); up(fa[y]);
+}
+void rec(int x)
+{
+	if(!x) return;
+	int l = ch[x][0], r = ch[x][1];
+	rec(l); rec(r);
+	buc[++tp] = x;
+	fa[x] = ch[x][0] = ch[x][1] = 0, rev[x] = same[x] = 0;
+	sz[x] = val[x] = sum[x] = mx[x] = lx[x] = rx[x] = 0;
+}
+void del(int l, int r)
+{
+	int x = split(l, r), y = fa[x];
+	rec(ch[y][0]); ch[y][0] = 0;
+	up(y); up(fa[y]);
+}
+void bld(int l, int r, int f)
+{
+	if(l&gt;r) return;
+	int mid = (l+r)&gt;&gt;1, p = id[mid]; 
+	val[p] = a[mid];
+	if(f) fa[p] = id[f], ch[id[f]][mid&gt;f] = p;
+	if(l==r)
+	{
+		mx[p] = sum[p] = a[l];
+		same[p] = rev[p] = 0;
+		lx[p] = rx[p] = max(a[l], 0);
+		sz[p] = 1; 
+		ch[p][0] = ch[p][1] = 0;
+	}
+	bld(l, mid-1, mid);
+	bld(mid+1, r, mid);
+	up(p);
+}
+void ins(int l, int r)
+{
+	for(int i=1; i&lt;=r-l+1; i++) 
+	{
+		scanf(&quot;%d&quot;, &amp;a[i]);
+		id[i] = newnode();
+	}
+	bld(1, r-l+1, 0);
+	int x = kth(rt, l), y = kth(rt, l+1);
+	splay(x); splay(y, x);
+	int z = id[(r-l+2)&gt;&gt;1];
+	fa[z] = y, ch[y][0] = z;
+	up(y); up(x);
+}
+int main()
+{
+	scanf(&quot;%d%d&quot;, &amp;n, &amp;m);
+	mx[0] = -inf, a[1] = -inf, a[n+2] = inf;
+	for(int i=1; i&lt;=n; i++) scanf(&quot;%d&quot;, &amp;a[i+1]);
+	for(int i=1; i&lt;=n+2; i++) id[i] = newnode();
+	bld(1, n+2, 0);
+	rt = (n+3)&gt;&gt;1;
+	while(m--)
+	{
+		static char com[10];
+		scanf(&quot;%s&quot;, com);
+		int l, r;
+		if(com[0]!='M'||com[2]!='X') scanf(&quot;%d%d&quot;, &amp;l, &amp;r);
+		++l, r = l + r - 1;
+		if(com[0]=='I') ins(l, r);
+		if(com[0]=='D') del(l, r);
+		if(com[0]=='M')
+		{
+			if(com[2]=='X') printf(&quot;%d\n&quot;, mx[split(2, sz[rt]-1)]);
+			else
+			{
+				int v; scanf(&quot;%d&quot;, &amp;v);
+				makesame(l, r, v);
+			}
+		} 
+		if(com[0]=='R') reverse(l, r);
+		if(com[0]=='G') printf(&quot;%d\n&quot;, sum[split(l, r)]);
+	}
+	return 0;
+}
+</code></pre>
+
+              </div>
+              <div class="toc-container">
+                
+              </div>
+            </div>
+          </article>
+        </div>
+
+        
+          <div class="next-post">
+            <div class="next">下一篇</div>
+            <a href="https://jyf111.github.io/post/p3215-hnoi2011gua-hao-xiu-fu-jsoi2011gua-hao-xu-lie/">
+              <h3 class="post-title">
+                P3215 [HNOI2011]括号修复 / [JSOI2011]括号序列
+              </h3>
+            </a>
+          </div>
+        
+
+        
+
+        <div class="site-footer">
+  
+  <a class="rss" href="https://jyf111.github.io/atom.xml" target="_blank">
+    <i class="ri-rss-line"></i> RSS
+  </a>
+</div>
+
+      </div>
+    </div>
+
+    <script>
+      hljs.initHighlightingOnLoad()
+
+      let mainNavLinks = document.querySelectorAll(".markdownIt-TOC a");
+
+      // This should probably be throttled.
+      // Especially because it triggers during smooth scrolling.
+      // https://lodash.com/docs/4.17.10#throttle
+      // You could do like...
+      // window.addEventListener("scroll", () => {
+      //    _.throttle(doThatStuff, 100);
+      // });
+      // Only not doing it here to keep this Pen dependency-free.
+
+      window.addEventListener("scroll", event => {
+        let fromTop = window.scrollY;
+
+        mainNavLinks.forEach((link, index) => {
+          let section = document.getElementById(decodeURI(link.hash).substring(1));
+          let nextSection = null
+          if (mainNavLinks[index + 1]) {
+            nextSection = document.getElementById(decodeURI(mainNavLinks[index + 1].hash).substring(1));
+          }
+          if (section.offsetTop <= fromTop) {
+            if (nextSection) {
+              if (nextSection.offsetTop > fromTop) {
+                link.classList.add("current");
+              } else {
+                link.classList.remove("current");    
+              }
+            } else {
+              link.classList.add("current");
+            }
+          } else {
+            link.classList.remove("current");
+          }
+        });
+      });
+
+    </script>
+  </body>
+</html>

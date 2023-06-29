@@ -1,0 +1,466 @@
+<html>
+  <head>
+    <meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>牛客练习赛65 | jyf111</title>
+<link rel="shortcut icon" href="https://jyf111.github.io/favicon.ico?v=1688054387335">
+<link href="https://cdn.jsdelivr.net/npm/remixicon@2.3.0/fonts/remixicon.css" rel="stylesheet">
+<link rel="stylesheet" href="https://jyf111.github.io/styles/main.css">
+<link rel="alternate" type="application/atom+xml" title="牛客练习赛65 | jyf111 - Atom Feed" href="https://jyf111.github.io/atom.xml">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Droid+Serif:400,700">
+
+
+
+    <meta name="description" content="C 二维动点
+题意
+平面上有n个点，每次可以选择一个与当前不重合的点，然后移动到两者直线上的任意一点，多次询问从原点到(x, y)最少的移动次数
+做法
+大力分类讨论：
+
+(0, 0）是没有用的，如果出现需要去掉
+如果平面上所有点到原点的连线..." />
+    <meta name="keywords" content="算法" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.10.0/katex.min.css">
+    <script src="https://cdn.bootcss.com/highlight.js/9.12.0/highlight.min.js"></script>
+  </head>
+  <body>
+    <div class="main">
+      <div class="main-content">
+        <div class="site-header">
+  <a href="https://jyf111.github.io">
+  <img class="avatar" src="https://jyf111.github.io/images/avatar.png?v=1688054387335" alt="">
+  </a>
+  <h1 class="site-title">
+    jyf111
+  </h1>
+  <p class="site-description">
+    温故而知新
+  </p>
+  <div class="menu-container">
+    
+      
+        <a href="https://jyf111.github.io" class="menu">
+          首页
+        </a>
+      
+    
+      
+        <a href="/archives" class="menu">
+          归档
+        </a>
+      
+    
+      
+        <a href="https://jyf111.github.io/tags" class="menu">
+          分类
+        </a>
+      
+    
+  </div>
+  <div class="social-container">
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+  </div>
+</div>
+
+        <div class="post-detail">
+          <article class="post">
+            <h2 class="post-title">
+              牛客练习赛65
+            </h2>
+            <div class="post-info">
+              <span>
+                2020-06-18
+              </span>
+              <span>
+                11 min read
+              </span>
+              
+                <a href="https://jyf111.github.io/tag/HKuTllKYu/" class="post-tag">
+                  # 算法
+                </a>
+              
+            </div>
+            
+            <div class="post-content-wrapper">
+              <div class="post-content">
+                <h3 id="c-二维动点">C 二维动点</h3>
+<h4 id="题意">题意</h4>
+<p>平面上有n个点，每次可以选择一个与当前不重合的点，然后移动到两者<strong>直线</strong>上的任意一点，多次询问从原点到(x, y)最少的移动次数</p>
+<h4 id="做法">做法</h4>
+<p>大力分类讨论：</p>
+<ul>
+<li>(0, 0）是没有用的，如果出现需要去掉</li>
+<li>如果平面上所有点到原点的连线是相同的，且询问点不在该连线上，输出-1</li>
+<li>如果询问点与原点连成的直线上存在平面上的n个点中的至少一个，输出1，可以利用pair来存斜率，注意归约化处理</li>
+<li>如果点数&gt;=3，输出2，只要有两条直线相交，就可以先移到交点，再移过去</li>
+<li>当只有2个点时，考虑一种特殊情况（样例已经提示），原点+这2个点+询问点构成平行四边形，此时需要3次，先随便移到某个点处，再按上一条的做法</li>
+</ul>
+<pre><code class="language-cpp">#include &lt;bits/stdc++.h&gt;
+#define mp make_pair
+#define pb push_back
+#define sz(x) (int)x.size()
+#define all(x) begin(x), end(x)
+#define fi first
+#define se second
+#define debug(x) cerr &lt;&lt; #x &lt;&lt; &quot; &quot; &lt;&lt; x &lt;&lt; '\n'
+using namespace std;
+using ll = long long;
+using pii = pair&lt;int,int&gt;;
+using pli = pair&lt;ll,int&gt;;
+const int INF = 0x3f3f3f3f, N = 2e5 + 5;
+const ll LINF = 1e18 + 5;
+constexpr int mod = 1e9 + 7;
+int n, q, x[N], y[N];
+map&lt;pii, int&gt; cnt;
+int gcd(int a, int b)
+{
+	if(!b) return a;
+	return gcd(b, a%b);
+}
+int sgn(int x) { return (x&gt;0 ? 1 : -1); }
+pii cal(int a, int b, int c, int d)
+{
+	int x = c - a, y = d - b;
+	assert(x || y);
+	if(!x) return mp(0, 1);
+	if(!y) return mp(1, 0);
+	int f = sgn(x)*sgn(y);
+	int t = gcd(abs(x), abs(y));
+	return mp(f*x/t, y/t);
+}
+int main()
+{
+	ios::sync_with_stdio(false);
+	cin.tie(nullptr);
+	cin &gt;&gt; n &gt;&gt; q;
+	int m = n;
+	for(int i=1; i&lt;=n; i++)
+	{
+		cin &gt;&gt; x[i] &gt;&gt; y[i];
+		if(!x[i]&amp;&amp;!y[i]) 
+		{
+			m--;
+			continue;
+		}
+		cnt[cal(0, 0, x[i], y[i])]++;
+	}
+	while(q--)
+	{
+		int a, b; 
+		cin &gt;&gt; a &gt;&gt; b;
+		if(!a&amp;&amp;!b) cout &lt;&lt; 0 &lt;&lt; '\n';
+		else if(cnt.count(cal(0, 0, a, b))) cout &lt;&lt; 1 &lt;&lt; '\n';
+		else if(sz(cnt)&lt;=1) cout &lt;&lt; -1 &lt;&lt; '\n';
+		else if(m&gt;=3) cout &lt;&lt; 2 &lt;&lt; '\n';
+		else if(m==2)
+		{
+			if(cal(0, 0, x[1], y[1])==cal(x[2], y[2], a, b) &amp;&amp; cal(0, 0, x[2], y[2])==cal(x[1], y[1], a, b)) cout &lt;&lt; 3 &lt;&lt; '\n';
+			else cout &lt;&lt; 2 &lt;&lt; '\n';
+		}
+		else cout &lt;&lt; -1 &lt;&lt; '\n';
+	}
+	return 0;
+}
+</code></pre>
+<h3 id="d-最小公倍数">D 最小公倍数</h3>
+<h4 id="题意-2">题意</h4>
+<p>给出一个数n，要求拆分成k个数，定义拆分后的价值为该序列的所有子序列的lcm的<strong>种类数</strong>，注意空序列的lcm=1</p>
+<h4 id="做法-2">做法</h4>
+<p>因为答案要取模，所以感觉没法比较大小，所以在做题的时候以为是个构造。。。然后其实就是dp<br>
+考虑数x=<span class="katex"><span class="katex-mathml"><math><semantics><mrow><msub><mi>p</mi><mn>1</mn></msub><mo>∗</mo><msub><mi>p</mi><mn>2</mn></msub></mrow><annotation encoding="application/x-tex">p_1*p_2</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.6597200000000001em;vertical-align:-0.19444em;"></span><span class="mord"><span class="mord mathdefault">p</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.30110799999999993em;"><span style="top:-2.5500000000000003em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight">1</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mspace" style="margin-right:0.2222222222222222em;"></span><span class="mbin">∗</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span></span><span class="base"><span class="strut" style="height:0.625em;vertical-align:-0.19444em;"></span><span class="mord"><span class="mord mathdefault">p</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.30110799999999993em;"><span style="top:-2.5500000000000003em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight">2</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span></span></span></span>，显然没有拆成<span class="katex"><span class="katex-mathml"><math><semantics><mrow><msub><mi>p</mi><mn>1</mn></msub><mo separator="true">,</mo><msub><mi>p</mi><mn>2</mn></msub></mrow><annotation encoding="application/x-tex">p_1, p_2</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.625em;vertical-align:-0.19444em;"></span><span class="mord"><span class="mord mathdefault">p</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.30110799999999993em;"><span style="top:-2.5500000000000003em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight">1</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.16666666666666666em;"></span><span class="mord"><span class="mord mathdefault">p</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.30110799999999993em;"><span style="top:-2.5500000000000003em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight">2</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span></span></span></span>两个数优，因为它们的贡献是一样的，但是后者更小。<br>
+所以最后一定是拆成若干个素数的幂次。<br>
+考虑进行背包dp，因为各个素数的贡献其实是一样的，所以一定是从小往大选，前100多个素数的和就超过<span class="katex"><span class="katex-mathml"><math><semantics><mrow><mn>1</mn><msup><mn>0</mn><mn>5</mn></msup></mrow><annotation encoding="application/x-tex">10^5</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.8141079999999999em;vertical-align:0em;"></span><span class="mord">1</span><span class="mord"><span class="mord">0</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.8141079999999999em;"><span style="top:-3.063em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight">5</span></span></span></span></span></span></span></span></span></span></span>了，如果当前这个素数选了k个，即选择了<span class="katex"><span class="katex-mathml"><math><semantics><mrow><msub><mi>p</mi><mn>1</mn></msub><mo separator="true">,</mo><msub><mi>p</mi><mn>2</mn></msub><mi mathvariant="normal">.</mi><mi mathvariant="normal">.</mi><mi mathvariant="normal">.</mi><msub><mi>p</mi><mi>k</mi></msub></mrow><annotation encoding="application/x-tex">p_1, p_2 ... p_k</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.625em;vertical-align:-0.19444em;"></span><span class="mord"><span class="mord mathdefault">p</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.30110799999999993em;"><span style="top:-2.5500000000000003em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight">1</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.16666666666666666em;"></span><span class="mord"><span class="mord mathdefault">p</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.30110799999999993em;"><span style="top:-2.5500000000000003em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight">2</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mord">.</span><span class="mord">.</span><span class="mord">.</span><span class="mord"><span class="mord mathdefault">p</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.33610799999999996em;"><span style="top:-2.5500000000000003em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathdefault mtight" style="margin-right:0.03148em;">k</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span></span></span></span>，假设之前有x个不同的种类，那现在就有(k+1)*x个不同的种类。<br>
+下面的问题是由于要取模，没法比较最后的大小了（毒瘤），一种方法是用double来存价值，并记录转移路径，最后在回溯的时候用longlong，并且取模，另一种是用<span class="katex"><span class="katex-mathml"><math><semantics><mrow><mi>P</mi><mi>a</mi><mi>i</mi><mi>r</mi><mo>&lt;</mo><mi>d</mi><mi>o</mi><mi>u</mi><mi>b</mi><mi>l</mi><mi>e</mi><mo separator="true">,</mo><mi>l</mi><mi>o</mi><mi>n</mi><mi>g</mi><mi>l</mi><mi>o</mi><mi>n</mi><mi>g</mi><mo>&gt;</mo></mrow><annotation encoding="application/x-tex">Pair&lt;double, long long&gt;</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.72243em;vertical-align:-0.0391em;"></span><span class="mord mathdefault" style="margin-right:0.13889em;">P</span><span class="mord mathdefault">a</span><span class="mord mathdefault">i</span><span class="mord mathdefault" style="margin-right:0.02778em;">r</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span><span class="mrel">&lt;</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span></span><span class="base"><span class="strut" style="height:0.8888799999999999em;vertical-align:-0.19444em;"></span><span class="mord mathdefault">d</span><span class="mord mathdefault">o</span><span class="mord mathdefault">u</span><span class="mord mathdefault">b</span><span class="mord mathdefault" style="margin-right:0.01968em;">l</span><span class="mord mathdefault">e</span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.16666666666666666em;"></span><span class="mord mathdefault" style="margin-right:0.01968em;">l</span><span class="mord mathdefault">o</span><span class="mord mathdefault">n</span><span class="mord mathdefault" style="margin-right:0.03588em;">g</span><span class="mord mathdefault" style="margin-right:0.01968em;">l</span><span class="mord mathdefault">o</span><span class="mord mathdefault">n</span><span class="mord mathdefault" style="margin-right:0.03588em;">g</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span><span class="mrel">&gt;</span></span></span></span>， 前者利用log函数将乘法转为加法，后者存答案，即取模后的值，由于pair已经封装好了，所以直接取max即可。</p>
+<pre><code class="language-cpp">#include &lt;bits/stdc++.h&gt;
+#define mp make_pair
+#define pb push_back
+#define sz(x) (int)x.size()
+#define all(x) begin(x), end(x)
+#define fi first
+#define se second
+#define debug(x) cerr &lt;&lt; #x &lt;&lt; &quot; &quot; &lt;&lt; x &lt;&lt; '\n'
+using namespace std;
+using ll = long long;
+using pii = pair&lt;int,int&gt;;
+using pli = pair&lt;ll,int&gt;;
+const int INF = 0x3f3f3f3f, N = 1e5 + 5;
+const ll LINF = 1e18 + 5;
+constexpr int mod = 1e9 + 7;
+int n, prime[N];
+bool vis[N];
+pair&lt;double,ll&gt; dp[N];
+void getprime(int x) 
+{
+	vis[1] = 1;
+	for(int i=2; i&lt;=x; i++)
+	{
+		if(!vis[i]) prime[++prime[0]] = i;
+		for(int j=1; j&lt;=prime[0]&amp;&amp;1ll*prime[j]*i&lt;=x; j++) 
+		{
+			vis[prime[j]*i] = 1; 
+			if(i%prime[j]==0) break;
+		} 
+	}
+}
+int main()
+{
+	scanf(&quot;%d&quot;, &amp;n);
+	getprime(n);
+	int cur = 0, tot = 1;
+	while(tot&lt;=prime[0]&amp;&amp;cur+prime[tot]&lt;=n) cur += prime[tot++];
+	dp[0].se = 1;
+	for(int i=1; i&lt;tot; i++)
+		for(int j=n; j&gt;=prime[i]; j--)
+		{
+			ll t = prime[i], s = t; 
+			for(int k=1; s&lt;=j; s += (t*=prime[i]), k++)
+				dp[j] = max(dp[j], mp(dp[j-s].fi+log2(k+1), dp[j-s].se*(k+1)%mod));
+		}
+	pair&lt;double, ll&gt; ans = {0.0, 0};
+	for(int i=0; i&lt;=n; i++) ans = max(ans, dp[i]);
+	cout &lt;&lt; ans.se &lt;&lt; '\n';
+	return 0;
+}
+</code></pre>
+<h3 id="e-游走配对">E 游走配对</h3>
+<h4 id="题意-3">题意</h4>
+<p>无向图上，有q个蓝点，q个红点，要求将蓝点和红点进行配对，每次配对产生的费用是他们路径上经过的所有点权的和，此外一个点如果被经过了k次，那么它的点权是<span class="katex"><span class="katex-mathml"><math><semantics><mrow><msub><mi>a</mi><mi>i</mi></msub><mo>+</mo><mo>(</mo><mi>k</mi><mo>−</mo><mn>1</mn><mo>)</mo><mo>∗</mo><msub><mi>b</mi><mi>i</mi></msub></mrow><annotation encoding="application/x-tex">a_i + (k-1)*b_i</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.73333em;vertical-align:-0.15em;"></span><span class="mord"><span class="mord mathdefault">a</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.31166399999999994em;"><span style="top:-2.5500000000000003em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathdefault mtight">i</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mspace" style="margin-right:0.2222222222222222em;"></span><span class="mbin">+</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span></span><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mopen">(</span><span class="mord mathdefault" style="margin-right:0.03148em;">k</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span><span class="mbin">−</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span></span><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord">1</span><span class="mclose">)</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span><span class="mbin">∗</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span></span><span class="base"><span class="strut" style="height:0.84444em;vertical-align:-0.15em;"></span><span class="mord"><span class="mord mathdefault">b</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.31166399999999994em;"><span style="top:-2.5500000000000003em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathdefault mtight">i</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span></span></span></span>，问最小的配对费用</p>
+<h4 id="做法-3">做法</h4>
+<p>数据量较小，MCMF。<br>
+由于是点权，我们拆成入点和出点，点权放在入点到出点的边上，并且拆除q条边，每条边流量为1，费用为第i次经过产生的费用，再将源点与q个蓝点的入点相连，q个红点的出点与汇相连，原图的m条边，则将u的出点和v的入点相连，v的出点和u的入点相连，然后跑最小费用最大流<br>
+算是网络流基础题了</p>
+<pre><code class="language-cpp">#include &lt;bits/stdc++.h&gt;
+#define mp make_pair
+#define pb push_back
+#define sz(x) (int)x.size()
+#define all(x) begin(x), end(x)
+#define fi first
+#define se second
+#define debug(x) cerr &lt;&lt; #x &lt;&lt; &quot; &quot; &lt;&lt; x &lt;&lt; '\n'
+using namespace std;
+using ll = long long;
+using pii = pair&lt;int,int&gt;;
+using pli = pair&lt;ll,int&gt;;
+const int INF = 0x3f3f3f3f;
+const ll LINF = 1e18 + 5;
+constexpr int mod = 1e9 + 7;
+const int N = 1e3 + 5, M = 1e6 + 5;
+int n, q, m, x[N], y[N];
+int cnt, head[N];
+struct node
+{
+	int next, to, w, f;	
+}e[M&lt;&lt;1];
+void add(int u,int v,int w,int f)
+{
+	e[++cnt] = {head[u],v,w,f};
+	head[u] = cnt;
+}
+struct MCMF
+{
+	int n, m, s, t;
+	int flow, cost;
+	bool inq[N];
+	int d[N], p[N], a[N];
+	void init(int n,int s,int t)
+	{
+		this-&gt;n = n, this-&gt;s = s, this-&gt;t = t;
+		cnt = 1, m = 0, flow = cost = 0;
+		memset(head,0,(n+1)*sizeof(int));
+	}
+	void addedge(int u,int v,int cap,int cost)
+	{
+		add(u,v,cap,cost);
+		add(v,u,0,-cost);
+		m += 2;
+	}
+	bool spfa()
+	{
+		memset(d,0x3f,(n+1)*sizeof(int));
+		memset(inq,0,(n+1)*sizeof(bool));
+		queue&lt;int&gt; q;
+		q.push(s);
+		d[s] = 0, a[s] = INF;
+		while(!q.empty())
+		{
+			int u = q.front(); q.pop();
+			inq[u] = 0;
+			if(u==t) continue;
+			for(int i=head[u];i;i=e[i].next)
+			{
+				int v = e[i].to;
+				if(e[i].w&amp;&amp;d[v]&gt;d[u]+e[i].f)
+				{
+					d[v] = d[u] + e[i].f;
+					p[v] = i;
+					a[v] = min(a[u],e[i].w);
+					if(!inq[v])
+					{
+						q.push(v);
+						inq[v] = 1;
+					}
+				}
+			}
+		}
+		return d[t] != INF;
+	}
+	void go()
+	{
+		while(spfa())
+		{
+			flow += a[t];
+			cost += a[t] * d[t];
+			int u = t;
+			while(u!=s)
+			{
+				e[p[u]].w -= a[t];
+				e[p[u]^1].w += a[t];
+				u = e[p[u]^1].to;
+			}
+		}
+	}
+}MM;
+int main()
+{
+	ios::sync_with_stdio(false);
+	cin.tie(nullptr);
+	cin &gt;&gt; n &gt;&gt; m &gt;&gt; q;
+	MM.init(2*n+2, 0, 2*n+1);
+	for(int i=1; i&lt;=n; i++) 
+	{
+		int a, b;
+		cin &gt;&gt; a &gt;&gt; b;
+		for(int j=1; j&lt;=q; j++)
+			MM.addedge(i, n+i, 1, (j-1)*b+a);
+	}
+	for(int i=1; i&lt;=m; i++)
+	{
+		int c, d;
+		cin &gt;&gt; c &gt;&gt; d;
+		MM.addedge(c+n, d, q, 0);
+		MM.addedge(d+n, c, q, 0);
+	}
+	for(int i=1; i&lt;=q; i++) cin &gt;&gt; x[i];
+	for(int i=1; i&lt;=q; i++) cin &gt;&gt; y[i];
+	for(int i=1; i&lt;=q; i++)
+	{
+		MM.addedge(MM.s, x[i], 1, 0);
+		MM.addedge(y[i]+n, MM.t, 1, 0);
+	}
+	MM.go();
+	cout &lt;&lt; MM.cost &lt;&lt; '\n';
+	return 0;
+}
+</code></pre>
+
+              </div>
+              <div class="toc-container">
+                <ul class="markdownIt-TOC">
+<li>
+<ul>
+<li>
+<ul>
+<li><a href="#c-%E4%BA%8C%E7%BB%B4%E5%8A%A8%E7%82%B9">C 二维动点</a>
+<ul>
+<li><a href="#%E9%A2%98%E6%84%8F">题意</a></li>
+<li><a href="#%E5%81%9A%E6%B3%95">做法</a></li>
+</ul>
+</li>
+<li><a href="#d-%E6%9C%80%E5%B0%8F%E5%85%AC%E5%80%8D%E6%95%B0">D 最小公倍数</a>
+<ul>
+<li><a href="#%E9%A2%98%E6%84%8F-2">题意</a></li>
+<li><a href="#%E5%81%9A%E6%B3%95-2">做法</a></li>
+</ul>
+</li>
+<li><a href="#e-%E6%B8%B8%E8%B5%B0%E9%85%8D%E5%AF%B9">E 游走配对</a>
+<ul>
+<li><a href="#%E9%A2%98%E6%84%8F-3">题意</a></li>
+<li><a href="#%E5%81%9A%E6%B3%95-3">做法</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+              </div>
+            </div>
+          </article>
+        </div>
+
+        
+          <div class="next-post">
+            <div class="next">下一篇</div>
+            <a href="https://jyf111.github.io/post/codeforces1361/">
+              <h3 class="post-title">
+                codeforces1361
+              </h3>
+            </a>
+          </div>
+        
+
+        
+
+        <div class="site-footer">
+  
+  <a class="rss" href="https://jyf111.github.io/atom.xml" target="_blank">
+    <i class="ri-rss-line"></i> RSS
+  </a>
+</div>
+
+      </div>
+    </div>
+
+    <script>
+      hljs.initHighlightingOnLoad()
+
+      let mainNavLinks = document.querySelectorAll(".markdownIt-TOC a");
+
+      // This should probably be throttled.
+      // Especially because it triggers during smooth scrolling.
+      // https://lodash.com/docs/4.17.10#throttle
+      // You could do like...
+      // window.addEventListener("scroll", () => {
+      //    _.throttle(doThatStuff, 100);
+      // });
+      // Only not doing it here to keep this Pen dependency-free.
+
+      window.addEventListener("scroll", event => {
+        let fromTop = window.scrollY;
+
+        mainNavLinks.forEach((link, index) => {
+          let section = document.getElementById(decodeURI(link.hash).substring(1));
+          let nextSection = null
+          if (mainNavLinks[index + 1]) {
+            nextSection = document.getElementById(decodeURI(mainNavLinks[index + 1].hash).substring(1));
+          }
+          if (section.offsetTop <= fromTop) {
+            if (nextSection) {
+              if (nextSection.offsetTop > fromTop) {
+                link.classList.add("current");
+              } else {
+                link.classList.remove("current");    
+              }
+            } else {
+              link.classList.add("current");
+            }
+          } else {
+            link.classList.remove("current");
+          }
+        });
+      });
+
+    </script>
+  </body>
+</html>

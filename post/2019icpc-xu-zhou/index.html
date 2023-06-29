@@ -1,0 +1,305 @@
+<html>
+  <head>
+    <meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>2019ICPC 徐州 | jyf111</title>
+<link rel="shortcut icon" href="https://jyf111.github.io/favicon.ico?v=1688054387335">
+<link href="https://cdn.jsdelivr.net/npm/remixicon@2.3.0/fonts/remixicon.css" rel="stylesheet">
+<link rel="stylesheet" href="https://jyf111.github.io/styles/main.css">
+<link rel="alternate" type="application/atom+xml" title="2019ICPC 徐州 | jyf111 - Atom Feed" href="https://jyf111.github.io/atom.xml">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Droid+Serif:400,700">
+
+
+
+    <meta name="description" content="F
+暴力打表即可，不过在我电脑上跑的挺慢的。。
+C
+素数密度是不断变小的
+A
+利用连续整数异或和的trick即可，只要小范围枚举左右两端点，中间一大段大概率可以是0
+E
+求出Y!∏ai\frac{Y!} {\prod {a_i}}∏ai​Y..." />
+    <meta name="keywords" content="算法" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.10.0/katex.min.css">
+    <script src="https://cdn.bootcss.com/highlight.js/9.12.0/highlight.min.js"></script>
+  </head>
+  <body>
+    <div class="main">
+      <div class="main-content">
+        <div class="site-header">
+  <a href="https://jyf111.github.io">
+  <img class="avatar" src="https://jyf111.github.io/images/avatar.png?v=1688054387335" alt="">
+  </a>
+  <h1 class="site-title">
+    jyf111
+  </h1>
+  <p class="site-description">
+    温故而知新
+  </p>
+  <div class="menu-container">
+    
+      
+        <a href="https://jyf111.github.io" class="menu">
+          首页
+        </a>
+      
+    
+      
+        <a href="/archives" class="menu">
+          归档
+        </a>
+      
+    
+      
+        <a href="https://jyf111.github.io/tags" class="menu">
+          分类
+        </a>
+      
+    
+  </div>
+  <div class="social-container">
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+  </div>
+</div>
+
+        <div class="post-detail">
+          <article class="post">
+            <h2 class="post-title">
+              2019ICPC 徐州
+            </h2>
+            <div class="post-info">
+              <span>
+                2020-05-31
+              </span>
+              <span>
+                5 min read
+              </span>
+              
+                <a href="https://jyf111.github.io/tag/HKuTllKYu/" class="post-tag">
+                  # 算法
+                </a>
+              
+            </div>
+            
+            <div class="post-content-wrapper">
+              <div class="post-content">
+                <h3 id="f">F</h3>
+<p>暴力打表即可，不过在我电脑上跑的挺慢的。。</p>
+<h3 id="c">C</h3>
+<p>素数密度是不断变小的</p>
+<h3 id="a">A</h3>
+<p>利用连续整数异或和的trick即可，只要小范围枚举左右两端点，中间一大段大概率可以是0</p>
+<h3 id="e">E</h3>
+<p>求出<span class="katex"><span class="katex-mathml"><math><semantics><mrow><mfrac><mrow><mi>Y</mi><mo>!</mo></mrow><mrow><mo>∏</mo><msub><mi>a</mi><mi>i</mi></msub></mrow></mfrac></mrow><annotation encoding="application/x-tex">\frac{Y!} {\prod {a_i}}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1.400115em;vertical-align:-0.520007em;"></span><span class="mord"><span class="mopen nulldelimiter"></span><span class="mfrac"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.8801079999999999em;"><span style="top:-2.655em;"><span class="pstrut" style="height:3em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mop op-symbol small-op mtight" style="position:relative;top:-0.0000050000000000050004em;">∏</span><span class="mspace mtight" style="margin-right:0.19516666666666668em;"></span><span class="mord mtight"><span class="mord mtight"><span class="mord mathdefault mtight">a</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.3280857142857143em;"><span style="top:-2.357em;margin-left:0em;margin-right:0.07142857142857144em;"><span class="pstrut" style="height:2.5em;"></span><span class="sizing reset-size3 size1 mtight"><span class="mord mathdefault mtight">i</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.143em;"><span></span></span></span></span></span></span></span></span></span></span><span style="top:-3.23em;"><span class="pstrut" style="height:3em;"></span><span class="frac-line" style="border-bottom-width:0.04em;"></span></span><span style="top:-3.394em;"><span class="pstrut" style="height:3em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathdefault mtight" style="margin-right:0.22222em;">Y</span><span class="mclose mtight">!</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.520007em;"><span></span></span></span></span></span><span class="mclose nulldelimiter"></span></span></span></span></span>是X的多少次方的倍数<br>
+利用pollardrho求解X的所有素因子，然后求出各个阶乘中各素因子幂次的数量，乘法+，除法-，最后每个素因子取个min，注意负数和正数上下取整的问题</p>
+<h3 id="h">H</h3>
+<p>单点修改，区间询问该段区间最小的不能被表示的数<br>
+洛谷p4587+修改<br>
+先考虑不带修改的情况，对[l,r]内的数从小到大考虑，假设当前能够表示出[1,cur]的范围，如果询问[1,cur+1]的值等于cur，说明剩余的值都是大于等于cur+2的，此时cur+1是无法被表示出来的，所以break，容易发现该操作中cur的增长速度是fibnacci级别的，利用主席树完成二维数点问题。<br>
+至于修改，在外层套一个树状数组即可，复杂度<span class="katex"><span class="katex-mathml"><math><semantics><mrow><mi>O</mi><mo>(</mo><mi>n</mi><mi>l</mi><mi>o</mi><msup><mi>g</mi><mn>3</mn></msup><mi>n</mi><mo>)</mo></mrow><annotation encoding="application/x-tex">O(n log^3 n)</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1.064108em;vertical-align:-0.25em;"></span><span class="mord mathdefault" style="margin-right:0.02778em;">O</span><span class="mopen">(</span><span class="mord mathdefault">n</span><span class="mord mathdefault" style="margin-right:0.01968em;">l</span><span class="mord mathdefault">o</span><span class="mord"><span class="mord mathdefault" style="margin-right:0.03588em;">g</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.8141079999999999em;"><span style="top:-3.063em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight">3</span></span></span></span></span></span></span></span><span class="mord mathdefault">n</span><span class="mclose">)</span></span></span></span></p>
+<pre><code class="language-cpp">#include &lt;bits/stdc++.h&gt;
+#define mp make_pair
+#define pb push_back
+#define sz(x) (int)x.size()
+#define all(x) begin(x), end(x)
+#define fi first
+#define se second
+#define debug(x) cerr &lt;&lt; #x &lt;&lt; &quot; &quot; &lt;&lt; x &lt;&lt; '\n'
+using namespace std;
+using ll = long long;
+using pii = pair&lt;int,int&gt;;
+using pli = pair&lt;ll,int&gt;;
+const int INF = 0x3f3f3f3f, N = 2e5 + 5, up = 2e5;
+const ll LINF = 1e18 + 5;
+constexpr int mod = 1e9 + 7;
+int n, q, a[N];
+namespace PSegTree 
+{
+	#define ls(x) t[x].l
+	#define rs(x) t[x].r
+	int rt[N], tot;
+	int lrt[N], rrt[N], lc, rc;
+	struct node
+	{
+	    int l, r;
+	    ll sum;
+	}t[N*128];
+	void insert(int &amp;p, int l, int r, int x, int v)
+	{
+	   	if(!p) p = ++tot;
+	   	t[p].sum += x*v;
+	    if(l==r) return;
+	    int mid = (l+r) &gt;&gt; 1;
+	    if(x&lt;=mid) insert(ls(p), l, mid, x, v);
+	    else insert(rs(p), mid+1, r, x, v);
+	}
+	ll ask(int l, int r, int x) 
+	{
+		if(l==r) 
+		{
+			ll ans = 0;
+			for(int i=1; i&lt;=lc; i++) ans -= t[lrt[i]].sum;
+			for(int i=1; i&lt;=rc; i++) ans += t[rrt[i]].sum;
+			return ans;
+		}
+		int mid = (l+r) &gt;&gt; 1; 
+		if(x&lt;=mid) 
+		{
+			for(int i=1; i&lt;=lc; i++) lrt[i] = ls(lrt[i]);
+			for(int i=1; i&lt;=rc; i++) rrt[i] = ls(rrt[i]);
+			return ask(l, mid, x);
+		}	
+		else
+		{
+			ll ans = 0;
+			for(int i=1; i&lt;=lc; i++) ans -= t[ls(lrt[i])].sum;
+			for(int i=1; i&lt;=rc; i++) ans += t[ls(rrt[i])].sum;
+			for(int i=1; i&lt;=lc; i++) lrt[i] = rs(lrt[i]);
+			for(int i=1; i&lt;=rc; i++) rrt[i] = rs(rrt[i]);
+			return ans + ask(mid+1, r, x);
+		}
+	}
+	#undef ls
+	#undef rs
+}
+using namespace PSegTree;
+void upd(int x, int v)
+{
+	for(int i=x; i&lt;=n; i+=(i&amp;-i)) insert(rt[i], 1, up, a[x], v);
+}
+ll query(int l, int r, int x)
+{
+	lc = rc = 0;
+	for(int i=l-1; i&gt;0; i-=(i&amp;-i)) lrt[++lc] = rt[i];
+	for(int i=r; i&gt;0; i-=(i&amp;-i)) rrt[++rc] = rt[i];
+	return ask(1, up, x);
+}
+int main()
+{
+	scanf(&quot;%d%d&quot;, &amp;n, &amp;q);
+	for(int i=1; i&lt;=n; i++) scanf(&quot;%d&quot;, a+i);
+	for(int i=1; i&lt;=n; i++) upd(i, 1);
+	while(q--)
+	{
+		int op, x, y;
+		scanf(&quot;%d%d%d&quot;, &amp;op, &amp;x, &amp;y);
+		if(op==1)
+		{
+			upd(x, -1);
+			a[x] = y;
+			upd(x, 1);
+		}
+		else
+		{
+			ll cur = 0;
+			while(true)
+			{
+				ll sum = query(x, y, min((ll)up, cur+1));
+				if(sum==cur) break;
+				cur = sum;
+			}
+			printf(&quot;%lld\n&quot;, cur+1);
+		}
+	}
+	return 0;
+}
+</code></pre>
+
+              </div>
+              <div class="toc-container">
+                <ul class="markdownIt-TOC">
+<li>
+<ul>
+<li>
+<ul>
+<li><a href="#f">F</a></li>
+<li><a href="#c">C</a></li>
+<li><a href="#a">A</a></li>
+<li><a href="#e">E</a></li>
+<li><a href="#h">H</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+              </div>
+            </div>
+          </article>
+        </div>
+
+        
+          <div class="next-post">
+            <div class="next">下一篇</div>
+            <a href="https://jyf111.github.io/post/sha-men-da-xue-wang-su-bei-17-jie-cheng-xu-she-ji-jing-sai-jue-sai/">
+              <h3 class="post-title">
+                厦门大学“网宿杯“17届程序设计竞赛决赛
+              </h3>
+            </a>
+          </div>
+        
+
+        
+
+        <div class="site-footer">
+  
+  <a class="rss" href="https://jyf111.github.io/atom.xml" target="_blank">
+    <i class="ri-rss-line"></i> RSS
+  </a>
+</div>
+
+      </div>
+    </div>
+
+    <script>
+      hljs.initHighlightingOnLoad()
+
+      let mainNavLinks = document.querySelectorAll(".markdownIt-TOC a");
+
+      // This should probably be throttled.
+      // Especially because it triggers during smooth scrolling.
+      // https://lodash.com/docs/4.17.10#throttle
+      // You could do like...
+      // window.addEventListener("scroll", () => {
+      //    _.throttle(doThatStuff, 100);
+      // });
+      // Only not doing it here to keep this Pen dependency-free.
+
+      window.addEventListener("scroll", event => {
+        let fromTop = window.scrollY;
+
+        mainNavLinks.forEach((link, index) => {
+          let section = document.getElementById(decodeURI(link.hash).substring(1));
+          let nextSection = null
+          if (mainNavLinks[index + 1]) {
+            nextSection = document.getElementById(decodeURI(mainNavLinks[index + 1].hash).substring(1));
+          }
+          if (section.offsetTop <= fromTop) {
+            if (nextSection) {
+              if (nextSection.offsetTop > fromTop) {
+                link.classList.add("current");
+              } else {
+                link.classList.remove("current");    
+              }
+            } else {
+              link.classList.add("current");
+            }
+          } else {
+            link.classList.remove("current");
+          }
+        });
+      });
+
+    </script>
+  </body>
+</html>

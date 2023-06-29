@@ -1,0 +1,296 @@
+<html>
+  <head>
+    <meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Honorable Mention 平衡树+树状数组 | jyf111</title>
+<link rel="shortcut icon" href="https://jyf111.github.io/favicon.ico?v=1688054387335">
+<link href="https://cdn.jsdelivr.net/npm/remixicon@2.3.0/fonts/remixicon.css" rel="stylesheet">
+<link rel="stylesheet" href="https://jyf111.github.io/styles/main.css">
+<link rel="alternate" type="application/atom+xml" title="Honorable Mention 平衡树+树状数组 | jyf111 - Atom Feed" href="https://jyf111.github.io/atom.xml">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Droid+Serif:400,700">
+
+
+
+    <meta name="description" content="给定一个排列pip_ipi​，表示第i个人的排名，要求支持两种操作：
+
+第x个人的排名上升到y，显然原来y~rank(x)-1的人的排名就要下降1
+问第x到第y个人中有多少人的排名在后40%
+
+我们发现第一个操作需要以排名为下标进行维护，而..." />
+    <meta name="keywords" content="算法" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.10.0/katex.min.css">
+    <script src="https://cdn.bootcss.com/highlight.js/9.12.0/highlight.min.js"></script>
+  </head>
+  <body>
+    <div class="main">
+      <div class="main-content">
+        <div class="site-header">
+  <a href="https://jyf111.github.io">
+  <img class="avatar" src="https://jyf111.github.io/images/avatar.png?v=1688054387335" alt="">
+  </a>
+  <h1 class="site-title">
+    jyf111
+  </h1>
+  <p class="site-description">
+    温故而知新
+  </p>
+  <div class="menu-container">
+    
+      
+        <a href="https://jyf111.github.io" class="menu">
+          首页
+        </a>
+      
+    
+      
+        <a href="/archives" class="menu">
+          归档
+        </a>
+      
+    
+      
+        <a href="https://jyf111.github.io/tags" class="menu">
+          分类
+        </a>
+      
+    
+  </div>
+  <div class="social-container">
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+  </div>
+</div>
+
+        <div class="post-detail">
+          <article class="post">
+            <h2 class="post-title">
+              Honorable Mention 平衡树+树状数组
+            </h2>
+            <div class="post-info">
+              <span>
+                2020-12-13
+              </span>
+              <span>
+                5 min read
+              </span>
+              
+                <a href="https://jyf111.github.io/tag/HKuTllKYu/" class="post-tag">
+                  # 算法
+                </a>
+              
+            </div>
+            
+            <div class="post-content-wrapper">
+              <div class="post-content">
+                <p>给定一个排列<span class="katex"><span class="katex-mathml"><math><semantics><mrow><msub><mi>p</mi><mi>i</mi></msub></mrow><annotation encoding="application/x-tex">p_i</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.625em;vertical-align:-0.19444em;"></span><span class="mord"><span class="mord mathdefault">p</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.31166399999999994em;"><span style="top:-2.5500000000000003em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathdefault mtight">i</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span></span></span></span>，表示第i个人的排名，要求支持两种操作：</p>
+<ul>
+<li>第x个人的排名上升到y，显然原来y~rank(x)-1的人的排名就要下降1</li>
+<li>问第x到第y个人中有多少人的排名在后40%</li>
+</ul>
+<p>我们发现第一个操作需要以排名为下标进行维护，而第二个操作又需要以编号为下标进行维护。似乎不太可做。<br>
+但是仔细想想，对于后40%，我们并不关心谁在前谁在后，我们只需要知道哪些人是在后40%<br>
+那么用一个树状数组，以编号为下标维护哪些人是后40%<br>
+然后用一个平衡树，以排名为下标来维护第一个操作。<br>
+当x的排名原先在后40%，然后提升后不再后40%，就需要对树状数组的x-1，然后对原来排名40%的那个在树状数组中+1。然后只需要将x这个节点删掉，再插到排名为y节点的前面就可以了。<br>
+还有一个问题，x的排名怎么求，我们以排名为下标怎么求排名呢。<br>
+容易发现对于每个编号在平衡树中的节点是一一对应的，所以我们用数组保存x是平衡树中的哪个节点，然后把它splay到根，则左儿子的size+1就是排名了。<br>
+最后不要忘记在splay中前后各插入一个哨兵！！</p>
+<pre><code class="language-cpp">#include &lt;bits/stdc++.h&gt;
+using namespace std;
+const int N = 5e4 + 5;
+int n, q, p[N], rp[N];
+int c[N];
+void upd(int x, int v)
+{
+	for(int i=x; i&lt;=n; i+=(i&amp;-i)) c[i] += v;
+}
+int ask(int x)
+{
+	int ans = 0;
+	for(int i=x; i&gt;0; i-=(i&amp;-i)) ans += c[i];
+	return ans;
+}
+int rt;
+int ch[N][2], sz[N], val[N], fa[N], id[N];
+bool rs(int x) { return ch[fa[x]][1]==x; }
+void up(int p) { if(p) sz[p] = sz[ch[p][0]] + sz[ch[p][1]] + 1; }
+void bld(int l, int r, int f)
+{
+	if(l&gt;r) return;
+	int p = (l+r)&gt;&gt;1;
+	sz[p] = 1;
+	ch[p][0] = ch[p][1] = 0;
+	if(p&gt;=2&amp;&amp;p&lt;=n+1)
+	{
+		val[p] = rp[p-1];
+		id[rp[p-1]] = p;
+	}
+	fa[p] = f, ch[f][p&gt;f] = p;
+	if(l==r) return;
+	bld(l, p-1, p); bld(p+1, r, p);
+	up(p);
+}
+void rotate(int x)
+{
+    int y = fa[x], z = fa[y], k = rs(x), w = ch[x][k^1];
+    ch[y][k] = w; fa[w] = y;
+    ch[z][rs(y)] = x; fa[x] = z;
+    ch[x][k^1] = y; fa[y] = x;
+    up(y); up(x);
+}
+void splay(int x, int g=0)
+{
+    while(fa[x]!=g)
+    {
+        int y = fa[x];
+        if(fa[y]!=g) (rs(x)==rs(y) ? rotate(y) : rotate(x));
+        rotate(x);
+    }
+    if(!g) rt = x;
+}
+int kth(int p, int k)
+{
+    if(ch[p][0]&amp;&amp;sz[ch[p][0]]&gt;=k) return kth(ch[p][0], k);
+    else if(sz[ch[p][0]]+1==k) return p;
+    else return kth(ch[p][1], k-sz[ch[p][0]]-1); 
+}
+int rnk(int p)
+{
+	splay(p);
+	return sz[ch[p][0]] + 1;
+}
+void ins(int l, int r)
+{
+	int x = kth(rt, l-1), y = kth(rt, l+1);
+	splay(x); splay(y, x);
+	int z = ch[y][0];
+	ch[y][0] = 0; fa[z] = 0;
+	up(y); up(fa[y]);
+	int x2 = kth(rt, r-1), y2 = kth(rt, r);
+	splay(x2); splay(y2, x2);
+	ch[y2][0] = z; fa[z] = y2;
+	up(y2); up(fa[y2]);
+}
+void solve()
+{
+	scanf(&quot;%d&quot;, &amp;n);
+	for(int i=1; i&lt;=n; i++) 
+	{
+		scanf(&quot;%d&quot;, p+i);
+		rp[p[i]] = i;
+	}
+	scanf(&quot;%d&quot;, &amp;q);
+	int lim = n*0.6;
+	for(int i=1; i&lt;=n; i++) c[i] = 0;
+	for(int i=lim+1; i&lt;=n; i++) upd(rp[i], 1);
+	bld(1, n+2, 0);
+	rt = (n+3)&gt;&gt;1;
+	while(q--)
+	{
+		int op, x, y; scanf(&quot;%d%d%d&quot;, &amp;op, &amp;x, &amp;y);
+		if(op==1)
+		{
+			if(y&lt;=lim)
+			{
+				int rkx = rnk(id[x]) - 1;
+				if(rkx&gt;lim)
+				{
+					upd(x, -1);
+					upd(val[kth(rt, lim+1)], 1);
+				}
+				ins(rkx+1, y+1);
+			}
+		}
+		else printf(&quot;%d\n&quot;, ask(y)-ask(x-1));
+	}
+}
+int main()
+{
+	int _; scanf(&quot;%d&quot;, &amp;_);
+	while(_--) solve();
+	return 0;
+}
+</code></pre>
+
+              </div>
+              <div class="toc-container">
+                
+              </div>
+            </div>
+          </article>
+        </div>
+
+        
+          <div class="next-post">
+            <div class="next">下一篇</div>
+            <a href="https://jyf111.github.io/post/cshuffle-cards-qu-jian-yi-wei-splay/">
+              <h3 class="post-title">
+                C、Shuffle Cards 区间移位 splay
+              </h3>
+            </a>
+          </div>
+        
+
+        
+
+        <div class="site-footer">
+  
+  <a class="rss" href="https://jyf111.github.io/atom.xml" target="_blank">
+    <i class="ri-rss-line"></i> RSS
+  </a>
+</div>
+
+      </div>
+    </div>
+
+    <script>
+      hljs.initHighlightingOnLoad()
+
+      let mainNavLinks = document.querySelectorAll(".markdownIt-TOC a");
+
+      // This should probably be throttled.
+      // Especially because it triggers during smooth scrolling.
+      // https://lodash.com/docs/4.17.10#throttle
+      // You could do like...
+      // window.addEventListener("scroll", () => {
+      //    _.throttle(doThatStuff, 100);
+      // });
+      // Only not doing it here to keep this Pen dependency-free.
+
+      window.addEventListener("scroll", event => {
+        let fromTop = window.scrollY;
+
+        mainNavLinks.forEach((link, index) => {
+          let section = document.getElementById(decodeURI(link.hash).substring(1));
+          let nextSection = null
+          if (mainNavLinks[index + 1]) {
+            nextSection = document.getElementById(decodeURI(mainNavLinks[index + 1].hash).substring(1));
+          }
+          if (section.offsetTop <= fromTop) {
+            if (nextSection) {
+              if (nextSection.offsetTop > fromTop) {
+                link.classList.add("current");
+              } else {
+                link.classList.remove("current");    
+              }
+            } else {
+              link.classList.add("current");
+            }
+          } else {
+            link.classList.remove("current");
+          }
+        });
+      });
+
+    </script>
+  </body>
+</html>

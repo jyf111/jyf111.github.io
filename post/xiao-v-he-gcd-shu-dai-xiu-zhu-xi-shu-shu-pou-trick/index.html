@@ -1,0 +1,360 @@
+<html>
+  <head>
+    <meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>小V和gcd树 带修主席树+树剖trick | jyf111</title>
+<link rel="shortcut icon" href="https://jyf111.github.io/favicon.ico?v=1688054387335">
+<link href="https://cdn.jsdelivr.net/npm/remixicon@2.3.0/fonts/remixicon.css" rel="stylesheet">
+<link rel="stylesheet" href="https://jyf111.github.io/styles/main.css">
+<link rel="alternate" type="application/atom+xml" title="小V和gcd树 带修主席树+树剖trick | jyf111 - Atom Feed" href="https://jyf111.github.io/atom.xml">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Droid+Serif:400,700">
+
+
+
+    <meta name="description" content="题意
+给定一颗无根树，点有点权aia_iai​，边有边权gcd(ai,aj)gcd(a_i, a_j)gcd(ai​,aj​),要求支持两种操作：
+
+修改一个点的点权，相应边权也会更改
+询问u-&gt;v路径上边权&lt;=k的数量
+
+做法..." />
+    <meta name="keywords" content="算法" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.10.0/katex.min.css">
+    <script src="https://cdn.bootcss.com/highlight.js/9.12.0/highlight.min.js"></script>
+  </head>
+  <body>
+    <div class="main">
+      <div class="main-content">
+        <div class="site-header">
+  <a href="https://jyf111.github.io">
+  <img class="avatar" src="https://jyf111.github.io/images/avatar.png?v=1688054387335" alt="">
+  </a>
+  <h1 class="site-title">
+    jyf111
+  </h1>
+  <p class="site-description">
+    温故而知新
+  </p>
+  <div class="menu-container">
+    
+      
+        <a href="https://jyf111.github.io" class="menu">
+          首页
+        </a>
+      
+    
+      
+        <a href="/archives" class="menu">
+          归档
+        </a>
+      
+    
+      
+        <a href="https://jyf111.github.io/tags" class="menu">
+          分类
+        </a>
+      
+    
+  </div>
+  <div class="social-container">
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+  </div>
+</div>
+
+        <div class="post-detail">
+          <article class="post">
+            <h2 class="post-title">
+              小V和gcd树 带修主席树+树剖trick
+            </h2>
+            <div class="post-info">
+              <span>
+                2020-05-26
+              </span>
+              <span>
+                7 min read
+              </span>
+              
+                <a href="https://jyf111.github.io/tag/HKuTllKYu/" class="post-tag">
+                  # 算法
+                </a>
+              
+            </div>
+            
+            <div class="post-content-wrapper">
+              <div class="post-content">
+                <h2 id="题意">题意</h2>
+<p>给定一颗无根树，点有点权<span class="katex"><span class="katex-mathml"><math><semantics><mrow><msub><mi>a</mi><mi>i</mi></msub></mrow><annotation encoding="application/x-tex">a_i</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.58056em;vertical-align:-0.15em;"></span><span class="mord"><span class="mord mathdefault">a</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.31166399999999994em;"><span style="top:-2.5500000000000003em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathdefault mtight">i</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span></span></span></span>，边有边权<span class="katex"><span class="katex-mathml"><math><semantics><mrow><mi>g</mi><mi>c</mi><mi>d</mi><mo>(</mo><msub><mi>a</mi><mi>i</mi></msub><mo separator="true">,</mo><msub><mi>a</mi><mi>j</mi></msub><mo>)</mo></mrow><annotation encoding="application/x-tex">gcd(a_i, a_j)</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1.036108em;vertical-align:-0.286108em;"></span><span class="mord mathdefault" style="margin-right:0.03588em;">g</span><span class="mord mathdefault">c</span><span class="mord mathdefault">d</span><span class="mopen">(</span><span class="mord"><span class="mord mathdefault">a</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.31166399999999994em;"><span style="top:-2.5500000000000003em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathdefault mtight">i</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.16666666666666666em;"></span><span class="mord"><span class="mord mathdefault">a</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.311664em;"><span style="top:-2.5500000000000003em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathdefault mtight" style="margin-right:0.05724em;">j</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.286108em;"><span></span></span></span></span></span></span><span class="mclose">)</span></span></span></span>,要求支持两种操作：</p>
+<ul>
+<li>修改一个点的点权，相应边权也会更改</li>
+<li>询问u-&gt;v路径上边权&lt;=k的数量</li>
+</ul>
+<h2 id="做法">做法</h2>
+<p>因为修改某个点的点权，同时会修改其所有出边，直观的想法是考虑bfs树，然后转化为区间修改，但是每个儿子的修改是不同的，区间每个数对x取gcd（做不了）<br>
+下面就需要一种树剖的trick，每次修改的时候，我们只修改父亲和重儿子的信息，而在询问的时候，对于一整条重链，可以保证信息是正确的，而每次跳到链顶，再修改一下该点（轻儿子）与父亲的信息即可，这样就转化为简单的单点修改了。<br>
+考虑本题，可以将边权下放到深度大的点上，套用上述做法即可，而区间询问&lt;=k的数量就用带修主席树维护。</p>
+<h2 id="流程">流程</h2>
+<p>modify:<br>
+upd: u-&gt;fa[u] son[u]-&gt;u<br>
+query<br>
+ask: u-&gt;top[u] upd: top[u]-&gt;fa[top[u]]<br>
+u = fa[top[u]]<br>
+ask: u-&gt;v(是重链)<br>
+注意本题是把边权下放到了点权，所以u这个点的值应该去掉，所以询问的是<span class="katex"><span class="katex-mathml"><math><semantics><mrow><mi>d</mi><mi>f</mi><mi>n</mi><mo>[</mo><mi>u</mi><mo>]</mo><mo>+</mo><mn>1</mn><mo>−</mo><mo>&gt;</mo><mi>d</mi><mi>f</mi><mi>n</mi><mo>[</mo><mi>v</mi><mo>]</mo></mrow><annotation encoding="application/x-tex">dfn[u]+1 -&gt; dfn[v]</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathdefault">d</span><span class="mord mathdefault" style="margin-right:0.10764em;">f</span><span class="mord mathdefault">n</span><span class="mopen">[</span><span class="mord mathdefault">u</span><span class="mclose">]</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span><span class="mbin">+</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span></span><span class="base"><span class="strut" style="height:0.72777em;vertical-align:-0.08333em;"></span><span class="mord">1</span><span class="mord">−</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span><span class="mrel">&gt;</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span></span><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathdefault">d</span><span class="mord mathdefault" style="margin-right:0.10764em;">f</span><span class="mord mathdefault">n</span><span class="mopen">[</span><span class="mord mathdefault" style="margin-right:0.03588em;">v</span><span class="mclose">]</span></span></span></span></p>
+<pre><code class="language-cpp">#include &lt;bits/stdc++.h&gt;
+#define mp make_pair
+#define pb push_back
+#define sz(x) (int)x.size()
+#define all(x) begin(x), end(x)
+#define fi first
+#define se second
+#define debug(x) cerr &lt;&lt; #x &lt;&lt; &quot; &quot; &lt;&lt; x &lt;&lt; '\n'
+using namespace std;
+using ll = long long;
+using pii = pair&lt;int,int&gt;;
+using pli = pair&lt;ll,int&gt;;
+const int INF = 0x3f3f3f3f, N = 2e4 + 5, M = 1e6 + 5, up = 1e6;
+const ll LINF = 1e18 + 5;
+constexpr int mod = 1e9 + 7;
+int n, q, a[N], b[N];
+vector&lt;int&gt; G[N];
+int sz[N], top[N], son[N], dep[N], fa[N], dfn[N], idfn[N], tot; 
+void dfs1(int u, int f) 
+{
+	dep[u] = dep[f] + 1; fa[u] = f;
+	sz[u] = 1;
+	for(int v : G[u])
+	{
+		if(v!=f)
+		{
+			dfs1(v, u);
+			sz[u] += sz[v];
+			if(sz[v]&gt;sz[son[u]]) son[u] = v;
+		}
+	}
+}
+void dfs2(int u, int t) 
+{
+	top[u] = t;
+	dfn[u] = ++tot;
+	idfn[tot] = u;
+	if(!son[u]) return;
+	dfs2(son[u], t);
+	for(int v : G[u])
+		if(v!=son[u]&amp;&amp;v!=fa[u]) dfs2(v, v);
+}
+namespace PSegTree 
+{
+	#define ls(x) t[x].l
+	#define rs(x) t[x].r
+	int rt[N], tot;
+	int lrt[N], rrt[N], lc, rc;
+	struct node
+	{
+		int l, r, cnt;
+	}t[M*32];
+	void insert(int &amp;p, int l, int r, int x, int v)
+	{
+		if(!p) p = ++tot;
+		t[p].cnt += v;
+		if(l==r) return;
+		int mid = (l+r) &gt;&gt; 1;
+		if(x&lt;=mid) insert(ls(p), l, mid, x, v);
+		else insert(rs(p), mid+1, r, x, v);
+	}
+	int ask(int l, int r, int k) 
+	{
+		if(l==r) 
+		{
+			if(l&gt;k) return 0;
+			int cnt = 0;
+			for(int i=1; i&lt;=lc; i++) cnt -= t[lrt[i]].cnt;
+			for(int i=1; i&lt;=rc; i++) cnt += t[rrt[i]].cnt;
+			return cnt;
+		}
+		int mid = (l+r) &gt;&gt; 1;
+		if(k&lt;=mid) 
+		{
+			for(int i=1; i&lt;=lc; i++) lrt[i] = ls(lrt[i]);
+			for(int i=1; i&lt;=rc; i++) rrt[i] = ls(rrt[i]);
+			return ask(l, mid, k);
+		}
+		else 
+		{
+			int lcnt = 0;
+			for(int i=1; i&lt;=lc; i++) lcnt -= t[ls(lrt[i])].cnt;
+			for(int i=1; i&lt;=rc; i++) lcnt += t[ls(rrt[i])].cnt;
+			for(int i=1; i&lt;=lc; i++) lrt[i] = rs(lrt[i]);
+			for(int i=1; i&lt;=rc; i++) rrt[i] = rs(rrt[i]);
+			return lcnt + ask(mid+1, r, k);
+		}
+	}
+	#undef ls
+	#undef rs
+}
+using namespace PSegTree;
+void upd(int x, int val, int v)
+{
+	for(int i=x; i&lt;=n; i+=(i&amp;-i)) insert(rt[i], 1, up, val, v);
+}
+int query(int l, int r, int k)
+{
+	lc = 0, rc = 0;
+	for(int i=l-1; i&gt;0; i-=(i&amp;-i)) lrt[++lc] = rt[i];
+	for(int i=r; i&gt;0; i-=(i&amp;-i)) rrt[++rc] = rt[i];
+	return ask(1, up, k);
+}
+int queryt(int x, int y, int k)
+{
+	int ans = 0;
+	while(top[x]!=top[y])
+	{
+		if(dep[top[x]]&lt;dep[top[y]]) swap(x,y);
+		int tmp = top[x];
+		if(fa[tmp]&amp;&amp;b[tmp]!=__gcd(a[tmp], a[fa[tmp]]))
+		{
+			upd(dfn[tmp], b[tmp], -1);
+			upd(dfn[tmp], b[tmp]=__gcd(a[tmp], a[fa[tmp]]), 1);
+		}
+		ans += query(dfn[top[x]], dfn[x], k); 
+		x = fa[top[x]];
+	}
+	if(dep[x]&gt;dep[y]) swap(x,y);
+	if(x!=y) ans += query(dfn[x]+1, dfn[y], k);
+	return ans;
+}
+int main()
+{
+	scanf(&quot;%d%d&quot;, &amp;n, &amp;q);
+	for(int i=1; i&lt;=n; i++) scanf(&quot;%d&quot;, a+i);
+	for(int i=1; i&lt;n; i++)
+	{
+		int u, v;
+		scanf(&quot;%d%d&quot;, &amp;u, &amp;v);
+		G[u].pb(v); G[v].pb(u);
+	}
+	dfs1(1, 0); dfs2(1, 1);
+	for(int u=2; u&lt;=n; u++) 
+		upd(dfn[u], b[u]=__gcd(a[u], a[fa[u]]), 1);
+	for(int i=1; i&lt;=q; i++)
+	{
+		int op;
+		scanf(&quot;%d&quot;, &amp;op);
+		if(op==1)
+		{
+			int u, x;
+			scanf(&quot;%d%d&quot;, &amp;u, &amp;x);
+			if(fa[u])
+			{
+				upd(dfn[u], b[u], -1);
+				upd(dfn[u], b[u]=__gcd(x, a[fa[u]]), 1);
+			}
+			if(son[u])
+			{
+				upd(dfn[son[u]], b[son[u]], -1);
+				upd(dfn[son[u]], b[son[u]]=__gcd(x, a[son[u]]), 1);
+			}
+			a[u] = x;
+		}
+		else 
+		{
+			int u, v, k;
+			scanf(&quot;%d%d%d&quot;, &amp;u, &amp;v, &amp;k);
+			printf(&quot;%d\n&quot;, queryt(u, v, k));
+		}
+	}
+	return 0;
+}
+</code></pre>
+
+              </div>
+              <div class="toc-container">
+                <ul class="markdownIt-TOC">
+<li>
+<ul>
+<li><a href="#%E9%A2%98%E6%84%8F">题意</a></li>
+<li><a href="#%E5%81%9A%E6%B3%95">做法</a></li>
+<li><a href="#%E6%B5%81%E7%A8%8B">流程</a></li>
+</ul>
+</li>
+</ul>
+
+              </div>
+            </div>
+          </article>
+        </div>
+
+        
+          <div class="next-post">
+            <div class="next">下一篇</div>
+            <a href="https://jyf111.github.io/post/xiao-qiu-yu-he-zi/">
+              <h3 class="post-title">
+                小球与盒子
+              </h3>
+            </a>
+          </div>
+        
+
+        
+
+        <div class="site-footer">
+  
+  <a class="rss" href="https://jyf111.github.io/atom.xml" target="_blank">
+    <i class="ri-rss-line"></i> RSS
+  </a>
+</div>
+
+      </div>
+    </div>
+
+    <script>
+      hljs.initHighlightingOnLoad()
+
+      let mainNavLinks = document.querySelectorAll(".markdownIt-TOC a");
+
+      // This should probably be throttled.
+      // Especially because it triggers during smooth scrolling.
+      // https://lodash.com/docs/4.17.10#throttle
+      // You could do like...
+      // window.addEventListener("scroll", () => {
+      //    _.throttle(doThatStuff, 100);
+      // });
+      // Only not doing it here to keep this Pen dependency-free.
+
+      window.addEventListener("scroll", event => {
+        let fromTop = window.scrollY;
+
+        mainNavLinks.forEach((link, index) => {
+          let section = document.getElementById(decodeURI(link.hash).substring(1));
+          let nextSection = null
+          if (mainNavLinks[index + 1]) {
+            nextSection = document.getElementById(decodeURI(mainNavLinks[index + 1].hash).substring(1));
+          }
+          if (section.offsetTop <= fromTop) {
+            if (nextSection) {
+              if (nextSection.offsetTop > fromTop) {
+                link.classList.add("current");
+              } else {
+                link.classList.remove("current");    
+              }
+            } else {
+              link.classList.add("current");
+            }
+          } else {
+            link.classList.remove("current");
+          }
+        });
+      });
+
+    </script>
+  </body>
+</html>

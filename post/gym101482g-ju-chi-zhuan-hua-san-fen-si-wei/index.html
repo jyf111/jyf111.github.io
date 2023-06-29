@@ -1,0 +1,262 @@
+<html>
+  <head>
+    <meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>gym101482G 距离转化 三分 思维 | jyf111</title>
+<link rel="shortcut icon" href="https://jyf111.github.io/favicon.ico?v=1688054387335">
+<link href="https://cdn.jsdelivr.net/npm/remixicon@2.3.0/fonts/remixicon.css" rel="stylesheet">
+<link rel="stylesheet" href="https://jyf111.github.io/styles/main.css">
+<link rel="alternate" type="application/atom+xml" title="gym101482G 距离转化 三分 思维 | jyf111 - Atom Feed" href="https://jyf111.github.io/atom.xml">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Droid+Serif:400,700">
+
+
+
+    <meta name="description" content="给定二维平面上n个点的坐标，让你找一个点，最小化所有点到这个点的曼哈顿距离之和，并且要求每个点到该点的曼哈顿距离不能超过d
+n≤100000,d≤2×109n \leq 100000,d \leq 2\times 10^9n≤100000,..." />
+    <meta name="keywords" content="算法" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.10.0/katex.min.css">
+    <script src="https://cdn.bootcss.com/highlight.js/9.12.0/highlight.min.js"></script>
+  </head>
+  <body>
+    <div class="main">
+      <div class="main-content">
+        <div class="site-header">
+  <a href="https://jyf111.github.io">
+  <img class="avatar" src="https://jyf111.github.io/images/avatar.png?v=1688054387335" alt="">
+  </a>
+  <h1 class="site-title">
+    jyf111
+  </h1>
+  <p class="site-description">
+    温故而知新
+  </p>
+  <div class="menu-container">
+    
+      
+        <a href="https://jyf111.github.io" class="menu">
+          首页
+        </a>
+      
+    
+      
+        <a href="/archives" class="menu">
+          归档
+        </a>
+      
+    
+      
+        <a href="https://jyf111.github.io/tags" class="menu">
+          分类
+        </a>
+      
+    
+  </div>
+  <div class="social-container">
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+  </div>
+</div>
+
+        <div class="post-detail">
+          <article class="post">
+            <h2 class="post-title">
+              gym101482G 距离转化 三分 思维
+            </h2>
+            <div class="post-info">
+              <span>
+                2020-08-29
+              </span>
+              <span>
+                4 min read
+              </span>
+              
+                <a href="https://jyf111.github.io/tag/HKuTllKYu/" class="post-tag">
+                  # 算法
+                </a>
+              
+            </div>
+            
+            <div class="post-content-wrapper">
+              <div class="post-content">
+                <p>给定二维平面上n个点的坐标，让你找一个点，最小化所有点到这个点的曼哈顿距离之和，并且要求每个点到该点的曼哈顿距离不能超过d<br>
+<span class="katex"><span class="katex-mathml"><math><semantics><mrow><mi>n</mi><mo>≤</mo><mn>100000</mn><mo separator="true">,</mo><mi>d</mi><mo>≤</mo><mn>2</mn><mo>×</mo><mn>1</mn><msup><mn>0</mn><mn>9</mn></msup></mrow><annotation encoding="application/x-tex">n \leq 100000,d \leq 2\times 10^9</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.7719400000000001em;vertical-align:-0.13597em;"></span><span class="mord mathdefault">n</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span><span class="mrel">≤</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span></span><span class="base"><span class="strut" style="height:0.8888799999999999em;vertical-align:-0.19444em;"></span><span class="mord">1</span><span class="mord">0</span><span class="mord">0</span><span class="mord">0</span><span class="mord">0</span><span class="mord">0</span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.16666666666666666em;"></span><span class="mord mathdefault">d</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span><span class="mrel">≤</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span></span><span class="base"><span class="strut" style="height:0.72777em;vertical-align:-0.08333em;"></span><span class="mord">2</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span><span class="mbin">×</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span></span><span class="base"><span class="strut" style="height:0.8141079999999999em;vertical-align:0em;"></span><span class="mord">1</span><span class="mord"><span class="mord">0</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.8141079999999999em;"><span style="top:-3.063em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight">9</span></span></span></span></span></span></span></span></span></span></span></p>
+<h4 id="做法">做法</h4>
+<p>如果没有d的限制，答案就是这n个点x坐标的中位数和y坐标的中位数。<br>
+加上d的限制后，对于每个点都有一个菱形的限制区域，所以最后的可行域就是这n个点限制的菱形区域的并，菱形不好处理，我们转化成切比雪夫距离后就变成了正方形，维护L，R，D，U，那么两个正方形的并就是max(L)，min(R)，max(D)，min(U)。曼哈顿距离中x、y两维是独立的，而每一维又是一个凹函数，所以在可行域范围内三分套三分即可。<br>
+给定一个点的坐标，计算n个点到这个点的曼哈顿距离和可以通过二分<span class="katex"><span class="katex-mathml"><math><semantics><mrow><mi>O</mi><mo>(</mo><mi>l</mi><mi>o</mi><mi>g</mi><mi>n</mi><mo>)</mo></mrow><annotation encoding="application/x-tex">O(logn)</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathdefault" style="margin-right:0.02778em;">O</span><span class="mopen">(</span><span class="mord mathdefault" style="margin-right:0.01968em;">l</span><span class="mord mathdefault">o</span><span class="mord mathdefault" style="margin-right:0.03588em;">g</span><span class="mord mathdefault">n</span><span class="mclose">)</span></span></span></span>解决。<br>
+(x,y) -&gt; (x+y,x-y) 原坐标系的曼哈顿距离-&gt;新坐标系的切比雪夫距离<br>
+(x,y) -&gt; ((x+y)/2,(x-y)/2) 原坐标系的切比雪夫距离-&gt;新坐标系的曼哈顿距离<br>
+我们维护的LRDU是在切比雪夫坐标系中，而三分的范围是在曼哈顿坐标中的，所以x的三分范围应该是[(L+D)/2,(R+U)/2]，确定了x后，<span class="katex"><span class="katex-mathml"><math><semantics><mrow><mi>L</mi><mo>≤</mo><mi>x</mi><mo>+</mo><mi>y</mi><mo>≤</mo><mi>R</mi><mo separator="true">,</mo><mi>D</mi><mo>≤</mo><mi>x</mi><mo>−</mo><mi>y</mi><mo>≤</mo><mi>U</mi></mrow><annotation encoding="application/x-tex">L\leq x+y \leq R,D\leq x-y \leq U</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.8193em;vertical-align:-0.13597em;"></span><span class="mord mathdefault">L</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span><span class="mrel">≤</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span></span><span class="base"><span class="strut" style="height:0.66666em;vertical-align:-0.08333em;"></span><span class="mord mathdefault">x</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span><span class="mbin">+</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span></span><span class="base"><span class="strut" style="height:0.8304100000000001em;vertical-align:-0.19444em;"></span><span class="mord mathdefault" style="margin-right:0.03588em;">y</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span><span class="mrel">≤</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span></span><span class="base"><span class="strut" style="height:0.8777699999999999em;vertical-align:-0.19444em;"></span><span class="mord mathdefault" style="margin-right:0.00773em;">R</span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.16666666666666666em;"></span><span class="mord mathdefault" style="margin-right:0.02778em;">D</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span><span class="mrel">≤</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span></span><span class="base"><span class="strut" style="height:0.66666em;vertical-align:-0.08333em;"></span><span class="mord mathdefault">x</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span><span class="mbin">−</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span></span><span class="base"><span class="strut" style="height:0.8304100000000001em;vertical-align:-0.19444em;"></span><span class="mord mathdefault" style="margin-right:0.03588em;">y</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span><span class="mrel">≤</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span></span><span class="base"><span class="strut" style="height:0.68333em;vertical-align:0em;"></span><span class="mord mathdefault" style="margin-right:0.10903em;">U</span></span></span></span>，那么y的三分范围就是[max(L-x,x-U),min(R-x,x-D)]了</p>
+<pre><code class="language-cpp">#include &lt;bits/stdc++.h&gt;
+using namespace std;
+using ll = long long;
+const int N = 1e5 + 5;
+const ll LINF = 1e18 + 5;
+int n, x[N], y[N], d;
+ll U, D, L, R, prex[N], prey[N];
+ll f(ll a, ll b)
+{
+    int p = upper_bound(x+1, x+n+1, a) - x - 1, q = upper_bound(y+1, y+n+1, b) - y - 1;
+    return a*p - prex[p] + b*q - prey[q] - (n-p)*a + (prex[n] - prex[p]) - (n-q)*b + (prey[n] - prey[q]);
+}
+ll cal(ll x)
+{
+    ll l = max(x-U, L-x), r = min(x-D, R-x), ans = LINF;
+    while(l&lt;=r)
+    {
+        ll mid = (2*l+r)/3, mmid = (2*r+l+2)/3;
+        ll fmid = f(x, mid), fmmid = f(x, mmid);
+        if(fmid&lt;=fmmid)
+        {
+            ans = min(ans, fmid);
+            r = mmid - 1;
+        }
+        else
+        {
+            ans = min(ans, fmmid);
+            l = mid + 1;
+        }
+    }
+    return ans;
+}
+int main()
+{
+    while(~scanf(&quot;%d&quot;, &amp;n))
+    {
+        for(int i=1; i&lt;=n; i++) scanf(&quot;%d%d&quot;, x+i, y+i);
+        scanf(&quot;%d&quot;, &amp;d);
+        U = LINF, D = -LINF, L = -LINF, R = LINF;
+        for(int i=1; i&lt;=n; i++)
+        {
+            ll cx = x[i] + y[i], cy = x[i] - y[i];
+            U = min(U, cy+d);
+            D = max(D, cy-d);
+            L = max(L, cx-d);
+            R = min(R, cx+d);
+        }
+        if(D&gt;U||L&gt;R)
+        {
+            puts(&quot;impossible&quot;);
+            continue;
+        }
+        sort(x+1, x+n+1); sort(y+1, y+n+1);
+        for(int i=1; i&lt;=n; i++) prex[i] = prex[i-1] + x[i], prey[i] = prey[i-1] + y[i];
+        ll l = (L+D)/2, r = (R+U)/2, ans = LINF;
+        while(l&lt;=r)
+        {
+            ll mid = (2*l+r)/3, mmid = (2*r+l+2)/3;
+            ll fmid = cal(mid), fmmid = cal(mmid);
+            if(fmid&lt;=fmmid)
+            {
+                ans = min(ans, fmid);
+                r = mmid - 1;
+            }
+            else
+            {
+                ans = min(ans, fmmid);
+                l = mid + 1;
+            }
+        }
+        printf(&quot;%lld\n&quot;, ans);
+    }
+    return 0;
+}
+</code></pre>
+
+              </div>
+              <div class="toc-container">
+                <ul class="markdownIt-TOC">
+<li>
+<ul>
+<li>
+<ul>
+<li>
+<ul>
+<li><a href="#%E5%81%9A%E6%B3%95">做法</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+              </div>
+            </div>
+          </article>
+        </div>
+
+        
+          <div class="next-post">
+            <div class="next">下一篇</div>
+            <a href="https://jyf111.github.io/post/min_25-shai/">
+              <h3 class="post-title">
+                min_25筛
+              </h3>
+            </a>
+          </div>
+        
+
+        
+
+        <div class="site-footer">
+  
+  <a class="rss" href="https://jyf111.github.io/atom.xml" target="_blank">
+    <i class="ri-rss-line"></i> RSS
+  </a>
+</div>
+
+      </div>
+    </div>
+
+    <script>
+      hljs.initHighlightingOnLoad()
+
+      let mainNavLinks = document.querySelectorAll(".markdownIt-TOC a");
+
+      // This should probably be throttled.
+      // Especially because it triggers during smooth scrolling.
+      // https://lodash.com/docs/4.17.10#throttle
+      // You could do like...
+      // window.addEventListener("scroll", () => {
+      //    _.throttle(doThatStuff, 100);
+      // });
+      // Only not doing it here to keep this Pen dependency-free.
+
+      window.addEventListener("scroll", event => {
+        let fromTop = window.scrollY;
+
+        mainNavLinks.forEach((link, index) => {
+          let section = document.getElementById(decodeURI(link.hash).substring(1));
+          let nextSection = null
+          if (mainNavLinks[index + 1]) {
+            nextSection = document.getElementById(decodeURI(mainNavLinks[index + 1].hash).substring(1));
+          }
+          if (section.offsetTop <= fromTop) {
+            if (nextSection) {
+              if (nextSection.offsetTop > fromTop) {
+                link.classList.add("current");
+              } else {
+                link.classList.remove("current");    
+              }
+            } else {
+              link.classList.add("current");
+            }
+          } else {
+            link.classList.remove("current");
+          }
+        });
+      });
+
+    </script>
+  </body>
+</html>

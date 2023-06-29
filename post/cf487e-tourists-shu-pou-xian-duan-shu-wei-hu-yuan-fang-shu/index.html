@@ -1,0 +1,324 @@
+<html>
+  <head>
+    <meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>cf487E tourists 树剖+线段树维护圆方树 | jyf111</title>
+<link rel="shortcut icon" href="https://jyf111.github.io/favicon.ico?v=1688054387335">
+<link href="https://cdn.jsdelivr.net/npm/remixicon@2.3.0/fonts/remixicon.css" rel="stylesheet">
+<link rel="stylesheet" href="https://jyf111.github.io/styles/main.css">
+<link rel="alternate" type="application/atom+xml" title="cf487E tourists 树剖+线段树维护圆方树 | jyf111 - Atom Feed" href="https://jyf111.github.io/atom.xml">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Droid+Serif:400,700">
+
+
+
+    <meta name="description" content="给定无向图，每个点有点权，多次询问两点间所有简单路径上的点权的最小值，并要求支持修改点权
+考虑建出圆方树，将方点的点权置为所有相邻圆点的点权的最小值，那答案就是两个点在圆方树上的路径上的点权最小值。但是如果一个圆点和多个方点相邻，在修改的时..." />
+    <meta name="keywords" content="算法" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.10.0/katex.min.css">
+    <script src="https://cdn.bootcss.com/highlight.js/9.12.0/highlight.min.js"></script>
+  </head>
+  <body>
+    <div class="main">
+      <div class="main-content">
+        <div class="site-header">
+  <a href="https://jyf111.github.io">
+  <img class="avatar" src="https://jyf111.github.io/images/avatar.png?v=1688054387335" alt="">
+  </a>
+  <h1 class="site-title">
+    jyf111
+  </h1>
+  <p class="site-description">
+    温故而知新
+  </p>
+  <div class="menu-container">
+    
+      
+        <a href="https://jyf111.github.io" class="menu">
+          首页
+        </a>
+      
+    
+      
+        <a href="/archives" class="menu">
+          归档
+        </a>
+      
+    
+      
+        <a href="https://jyf111.github.io/tags" class="menu">
+          分类
+        </a>
+      
+    
+  </div>
+  <div class="social-container">
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+  </div>
+</div>
+
+        <div class="post-detail">
+          <article class="post">
+            <h2 class="post-title">
+              cf487E tourists 树剖+线段树维护圆方树
+            </h2>
+            <div class="post-info">
+              <span>
+                2020-10-09
+              </span>
+              <span>
+                6 min read
+              </span>
+              
+                <a href="https://jyf111.github.io/tag/HKuTllKYu/" class="post-tag">
+                  # 算法
+                </a>
+              
+            </div>
+            
+            <div class="post-content-wrapper">
+              <div class="post-content">
+                <p>给定无向图，每个点有点权，多次询问两点间所有简单路径上的点权的最小值，并要求支持修改点权</p>
+<p>考虑建出圆方树，将方点的点权置为所有相邻圆点的点权的最小值，那答案就是两个点在圆方树上的路径上的点权最小值。但是如果一个圆点和多个方点相邻，在修改的时候复杂度就炸了。<br>
+此时的trick是让1为根，方点维护所有儿子的圆点的权值最小值，这样在修改时圆点只需要单点修改其父亲即可，而在查询时，如果lca是一个方点，再统计一下方点的父亲这个圆点的答案即可。<br>
+树剖，线段树支持单点修改，区间查询最小值</p>
+<pre><code class="language-cpp">#include &lt;bits/stdc++.h&gt;
+using namespace std;
+const int N = 1e5 + 5, inf = 0x3f3f3f3f;
+int n, m, q;
+int low[N], dfn[N], stk[N], clk, top, cnt;
+int val[N];
+vector&lt;int&gt; G[N], T[N&lt;&lt;1];
+void tarjan(int u, int fa)
+{
+	low[u] = dfn[u] = ++clk;
+	stk[++top] = u;
+	for(int v : G[u])
+	{
+		if(!dfn[v])
+		{
+			tarjan(v, u);
+			low[u] = min(low[u], low[v]);
+			if(low[v]&gt;=dfn[u])
+			{
+				++cnt;
+				for(int x=0; x!=v; top--)
+				{
+					x = stk[top];
+					T[cnt].push_back(x);
+					T[x].push_back(cnt);
+				}
+				T[cnt].push_back(u);
+				T[u].push_back(cnt);
+			}
+		}
+		else if(v!=fa) low[u] = min(low[u], dfn[v]);
+	}
+}
+const int M = N&lt;&lt;1;
+multiset&lt;int&gt; mst[M]; 
+namespace HLD
+{
+	int sz[M], top[M], son[M], dep[M], fa[M], dfn[M], idfn[M], tot;
+	void dfs1(int u, int f) 
+	{
+		dep[u] = dep[f] + 1; fa[u] = f;
+		sz[u] = 1;
+		if(u&lt;=n) mst[u].insert(val[u]);
+		for(int v : T[u])
+		{
+			if(v!=f)
+			{
+				if(u&gt;n) mst[u].insert(val[v]);
+				dfs1(v, u);
+				sz[u] += sz[v];
+				if(sz[v]&gt;sz[son[u]]) son[u] = v;
+			}
+		}
+	}
+	void dfs2(int u, int t) 
+	{
+		top[u] = t;
+		dfn[u] = ++tot;
+		idfn[tot] = u;
+		if(!son[u]) return;
+		dfs2(son[u], t);
+		for(int v : T[u])
+			if(v!=son[u]&amp;&amp;v!=fa[u]) dfs2(v, v);
+	}
+}
+using HLD::fa;
+using HLD::idfn;
+using HLD::dep;
+struct seg
+{
+	int l, r, mn;
+}t[M&lt;&lt;2];
+void pull(int p) { t[p].mn = min(t[p&lt;&lt;1].mn, t[p&lt;&lt;1|1].mn); }
+void build(int p, int l, int r)
+{
+	t[p].l = l, t[p].r = r;
+	if(l==r) 
+	{
+		t[p].mn = *mst[idfn[l]].begin();
+		return;
+	}
+	int mid = (l+r)&gt;&gt;1;
+	build(p&lt;&lt;1, l, mid); build(p&lt;&lt;1|1, mid+1, r);
+	pull(p);
+}
+void upd(int p, int x, int y)
+{
+	int l = t[p].l, r = t[p].r;
+	if(l==r) 
+	{
+		t[p].mn = y;
+		return;
+	}
+	int mid = (l+r)&gt;&gt;1;
+	if(x&lt;=mid) upd(p&lt;&lt;1, x, y);
+	else upd(p&lt;&lt;1|1, x, y);
+	pull(p);
+}
+int ask(int p, int x, int y)
+{
+	int l = t[p].l, r = t[p].r;
+	if(l&gt;=x &amp;&amp; r&lt;=y) return t[p].mn;
+	int mid = (l+r)&gt;&gt;1, ans = inf;
+	if(x&lt;=mid) ans = min(ans, ask(p&lt;&lt;1, x, y));
+	if(y&gt;mid) ans = min(ans, ask(p&lt;&lt;1|1, x, y));
+	return ans;
+}
+int askt(int x, int y)
+{
+	int ans = inf;
+	while(HLD::top[x]!=HLD::top[y])
+	{
+		if(dep[HLD::top[x]]&lt;dep[HLD::top[y]]) swap(x,y);
+		ans = min(ans, ask(1, HLD::dfn[HLD::top[x]], HLD::dfn[x])); 
+		x = fa[HLD::top[x]];
+	}
+	if(dep[x]&gt;dep[y]) swap(x,y);
+	ans = min(ans, ask(1, HLD::dfn[x], HLD::dfn[y]));
+	if(x&gt;n) ans = min(ans, val[fa[x]]); 
+	return ans;
+}
+int main()
+{
+	ios::sync_with_stdio(false);
+	cin.tie(nullptr);
+	cin &gt;&gt; n &gt;&gt; m &gt;&gt; q;
+	for(int i=1; i&lt;=n; i++) cin &gt;&gt; val[i];
+	for(int i=1; i&lt;=m; i++)
+	{
+		int u, v; cin &gt;&gt; u &gt;&gt; v; 
+		G[u].push_back(v); G[v].push_back(u);
+	}
+	cnt = n; tarjan(1, 0);
+	HLD::dfs1(1, 0), HLD::dfs2(1, 1);
+	build(1, 1, 2*n);
+	while(q--)
+	{
+		char op; int x, y;
+		cin &gt;&gt; op &gt;&gt; x &gt;&gt; y;
+		if(op=='C')
+		{
+			if(fa[x])
+			{
+				int pre = *mst[fa[x]].begin();
+				mst[fa[x]].erase(mst[fa[x]].find(val[x]));
+				mst[fa[x]].insert(y);
+				int cur = *mst[fa[x]].begin();
+				if(pre!=cur) upd(1, HLD::dfn[fa[x]], cur);
+			}
+			val[x] = y;
+			upd(1, HLD::dfn[x], y);
+		}
+		else cout &lt;&lt; askt(x, y) &lt;&lt; '\n';
+	}
+	return 0;
+}
+</code></pre>
+
+              </div>
+              <div class="toc-container">
+                
+              </div>
+            </div>
+          </article>
+        </div>
+
+        
+          <div class="next-post">
+            <div class="next">下一篇</div>
+            <a href="https://jyf111.github.io/post/capture-stars-yuan-de-fan-yan/">
+              <h3 class="post-title">
+                Capture Stars 圆的反演
+              </h3>
+            </a>
+          </div>
+        
+
+        
+
+        <div class="site-footer">
+  
+  <a class="rss" href="https://jyf111.github.io/atom.xml" target="_blank">
+    <i class="ri-rss-line"></i> RSS
+  </a>
+</div>
+
+      </div>
+    </div>
+
+    <script>
+      hljs.initHighlightingOnLoad()
+
+      let mainNavLinks = document.querySelectorAll(".markdownIt-TOC a");
+
+      // This should probably be throttled.
+      // Especially because it triggers during smooth scrolling.
+      // https://lodash.com/docs/4.17.10#throttle
+      // You could do like...
+      // window.addEventListener("scroll", () => {
+      //    _.throttle(doThatStuff, 100);
+      // });
+      // Only not doing it here to keep this Pen dependency-free.
+
+      window.addEventListener("scroll", event => {
+        let fromTop = window.scrollY;
+
+        mainNavLinks.forEach((link, index) => {
+          let section = document.getElementById(decodeURI(link.hash).substring(1));
+          let nextSection = null
+          if (mainNavLinks[index + 1]) {
+            nextSection = document.getElementById(decodeURI(mainNavLinks[index + 1].hash).substring(1));
+          }
+          if (section.offsetTop <= fromTop) {
+            if (nextSection) {
+              if (nextSection.offsetTop > fromTop) {
+                link.classList.add("current");
+              } else {
+                link.classList.remove("current");    
+              }
+            } else {
+              link.classList.add("current");
+            }
+          } else {
+            link.classList.remove("current");
+          }
+        });
+      });
+
+    </script>
+  </body>
+</html>

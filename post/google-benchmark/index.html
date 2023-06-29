@@ -1,0 +1,231 @@
+<html>
+  <head>
+    <meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>google benchmark | jyf111</title>
+<link rel="shortcut icon" href="https://jyf111.github.io/favicon.ico?v=1688054387335">
+<link href="https://cdn.jsdelivr.net/npm/remixicon@2.3.0/fonts/remixicon.css" rel="stylesheet">
+<link rel="stylesheet" href="https://jyf111.github.io/styles/main.css">
+<link rel="alternate" type="application/atom+xml" title="google benchmark | jyf111 - Atom Feed" href="https://jyf111.github.io/atom.xml">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Droid+Serif:400,700">
+
+
+
+    <meta name="description" content="安装
+git clone --depth 1 https://github.com/google/benchmark.git
+cd benchmark
+cmake -E make_directory &quot;build&quot;
+cm..." />
+    <meta name="keywords" content="工具" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.10.0/katex.min.css">
+    <script src="https://cdn.bootcss.com/highlight.js/9.12.0/highlight.min.js"></script>
+  </head>
+  <body>
+    <div class="main">
+      <div class="main-content">
+        <div class="site-header">
+  <a href="https://jyf111.github.io">
+  <img class="avatar" src="https://jyf111.github.io/images/avatar.png?v=1688054387335" alt="">
+  </a>
+  <h1 class="site-title">
+    jyf111
+  </h1>
+  <p class="site-description">
+    温故而知新
+  </p>
+  <div class="menu-container">
+    
+      
+        <a href="https://jyf111.github.io" class="menu">
+          首页
+        </a>
+      
+    
+      
+        <a href="/archives" class="menu">
+          归档
+        </a>
+      
+    
+      
+        <a href="https://jyf111.github.io/tags" class="menu">
+          分类
+        </a>
+      
+    
+  </div>
+  <div class="social-container">
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+  </div>
+</div>
+
+        <div class="post-detail">
+          <article class="post">
+            <h2 class="post-title">
+              google benchmark
+            </h2>
+            <div class="post-info">
+              <span>
+                2022-05-07
+              </span>
+              <span>
+                2 min read
+              </span>
+              
+                <a href="https://jyf111.github.io/tag/75Sf1FiMA/" class="post-tag">
+                  # 工具
+                </a>
+              
+            </div>
+            
+            <div class="post-content-wrapper">
+              <div class="post-content">
+                <h5 id="安装">安装</h5>
+<pre><code class="language-shell">git clone --depth 1 https://github.com/google/benchmark.git
+cd benchmark
+cmake -E make_directory &quot;build&quot;
+cmake -E chdir &quot;build&quot; cmake -DBENCHMARK_DOWNLOAD_DEPENDENCIES=on -DCMAKE_BUILD_TYPE=Release ../
+cmake --build &quot;build&quot; --config Release
+
+cmake -E chdir &quot;build&quot; ctest --build-config Release
+
+sudo cmake --build &quot;build&quot; --config Release --target install
+</code></pre>
+<h5 id="cmake">cmake</h5>
+<pre><code class="language-shell">find_package(benchmark REQUIRED)
+target_link_libraries(xxx
+PRIVATE
+  benchmark::benchmark
+)
+</code></pre>
+<h5 id="使用">使用</h5>
+<pre><code class="language-cpp">void SomeFunction(int a, int b) {
+    return std::max(a, b);
+}
+static void BM_SomeFunction(benchmark::State&amp; state) { // a wrapper
+    for (auto _ : state) {
+        SumeFunction(1, 2);
+    }
+}
+
+BENCHMARK(BM_SomeFunction);
+
+BENCHMARK_MAIN();
+</code></pre>
+<p>也可以自己定义main函数，只需要在最后加上以下两行</p>
+<pre><code class="language-cpp">::benchmark::Initialize(&amp;argc, argv);
+::benchmark::RunSpecifiedBenchmarks();
+</code></pre>
+<p>官方对整型变量的支持比较好，有各种range的传参方式。<br>
+如果需要传入其他变量，需要使用CAPTURE，传参方式类似emplace_back之类的<br>
+Iterations可以指定迭代次数<br>
+Unit指定时间单位（默认是ns）</p>
+<pre><code class="language-cpp">BENCHMARK_CAPTURE(BM_xxx, xxx_test, arg)
+  -&gt;Iterations(5)
+  -&gt;Unit(benchmark::kMillisecond);
+</code></pre>
+
+              </div>
+              <div class="toc-container">
+                <ul class="markdownIt-TOC">
+<li>
+<ul>
+<li>
+<ul>
+<li>
+<ul>
+<li>
+<ul>
+<li><a href="#%E5%AE%89%E8%A3%85">安装</a></li>
+<li><a href="#cmake">cmake</a></li>
+<li><a href="#%E4%BD%BF%E7%94%A8">使用</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+              </div>
+            </div>
+          </article>
+        </div>
+
+        
+          <div class="next-post">
+            <div class="next">下一篇</div>
+            <a href="https://jyf111.github.io/post/gu-ding-qu-jian-zui-zhi-cha-xun/">
+              <h3 class="post-title">
+                固定区间最值查询
+              </h3>
+            </a>
+          </div>
+        
+
+        
+
+        <div class="site-footer">
+  
+  <a class="rss" href="https://jyf111.github.io/atom.xml" target="_blank">
+    <i class="ri-rss-line"></i> RSS
+  </a>
+</div>
+
+      </div>
+    </div>
+
+    <script>
+      hljs.initHighlightingOnLoad()
+
+      let mainNavLinks = document.querySelectorAll(".markdownIt-TOC a");
+
+      // This should probably be throttled.
+      // Especially because it triggers during smooth scrolling.
+      // https://lodash.com/docs/4.17.10#throttle
+      // You could do like...
+      // window.addEventListener("scroll", () => {
+      //    _.throttle(doThatStuff, 100);
+      // });
+      // Only not doing it here to keep this Pen dependency-free.
+
+      window.addEventListener("scroll", event => {
+        let fromTop = window.scrollY;
+
+        mainNavLinks.forEach((link, index) => {
+          let section = document.getElementById(decodeURI(link.hash).substring(1));
+          let nextSection = null
+          if (mainNavLinks[index + 1]) {
+            nextSection = document.getElementById(decodeURI(mainNavLinks[index + 1].hash).substring(1));
+          }
+          if (section.offsetTop <= fromTop) {
+            if (nextSection) {
+              if (nextSection.offsetTop > fromTop) {
+                link.classList.add("current");
+              } else {
+                link.classList.remove("current");    
+              }
+            } else {
+              link.classList.add("current");
+            }
+          } else {
+            link.classList.remove("current");
+          }
+        });
+      });
+
+    </script>
+  </body>
+</html>

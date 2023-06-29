@@ -1,0 +1,453 @@
+<html>
+  <head>
+    <meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>四维偏序 cdq套cdq | jyf111</title>
+<link rel="shortcut icon" href="https://jyf111.github.io/favicon.ico?v=1688054387335">
+<link href="https://cdn.jsdelivr.net/npm/remixicon@2.3.0/fonts/remixicon.css" rel="stylesheet">
+<link rel="stylesheet" href="https://jyf111.github.io/styles/main.css">
+<link rel="alternate" type="application/atom+xml" title="四维偏序 cdq套cdq | jyf111 - Atom Feed" href="https://jyf111.github.io/atom.xml">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Droid+Serif:400,700">
+
+
+
+    <meta name="description" content="问题
+求解&lt;=a&amp;&amp;&lt;=b&amp;&amp;&lt;=c&amp;&amp;&lt;=d的四元组数量
+过程
+1.有四元组相同需要先合并(unique)
+2.对第一维排序
+3.cdq1,先把左半部分标记为LEFT..." />
+    <meta name="keywords" content="算法" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.10.0/katex.min.css">
+    <script src="https://cdn.bootcss.com/highlight.js/9.12.0/highlight.min.js"></script>
+  </head>
+  <body>
+    <div class="main">
+      <div class="main-content">
+        <div class="site-header">
+  <a href="https://jyf111.github.io">
+  <img class="avatar" src="https://jyf111.github.io/images/avatar.png?v=1688054387335" alt="">
+  </a>
+  <h1 class="site-title">
+    jyf111
+  </h1>
+  <p class="site-description">
+    温故而知新
+  </p>
+  <div class="menu-container">
+    
+      
+        <a href="https://jyf111.github.io" class="menu">
+          首页
+        </a>
+      
+    
+      
+        <a href="/archives" class="menu">
+          归档
+        </a>
+      
+    
+      
+        <a href="https://jyf111.github.io/tags" class="menu">
+          分类
+        </a>
+      
+    
+  </div>
+  <div class="social-container">
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+  </div>
+</div>
+
+        <div class="post-detail">
+          <article class="post">
+            <h2 class="post-title">
+              四维偏序 cdq套cdq
+            </h2>
+            <div class="post-info">
+              <span>
+                2020-05-13
+              </span>
+              <span>
+                11 min read
+              </span>
+              
+                <a href="https://jyf111.github.io/tag/HKuTllKYu/" class="post-tag">
+                  # 算法
+                </a>
+              
+            </div>
+            
+            <div class="post-content-wrapper">
+              <div class="post-content">
+                <h1 id="问题">问题</h1>
+<p>求解&lt;=a&amp;&amp;&lt;=b&amp;&amp;&lt;=c&amp;&amp;&lt;=d的四元组数量</p>
+<h1 id="过程">过程</h1>
+<p>1.有四元组相同需要先合并(unique)<br>
+2.对第一维排序<br>
+3.cdq1,<strong>先把左半部分标记为LEFT,右半部分标记为RIGHT</strong>,然后对第二维按序归并<br>
+4.cdq2,对第三维按序归并,第四维用数据结构(如bit)维护,<strong>只对左边标记为LEFT的进行修改,对右边标记为RIGHT的进行查询</strong><br>
+注:有时也可以直接sort,多一个log<br>
+cdq1中的归并数组最好和cdq2不同,否则在cdq2结束后记得还原为cdq1中的顺序<br>
+排序一定要彻底,否则会wa</p>
+<h1 id="例题">例题</h1>
+<p>hdu5126<br>
+立方体加点,立方体数点<br>
+把加点看作修改操作,数点利用容斥拆成8个询问.<br>
+修改和查询按照时间有序,是一个四维偏序.</p>
+<pre><code class="language-cpp">#include &lt;bits/stdc++.h&gt;
+#define mp make_pair
+#define pb push_back
+#define sz(x) (int)x.size()
+#define all(x) begin(x), end(x)
+#define fi first
+#define se second
+#define debug(x) cerr &lt;&lt; #x &lt;&lt; &quot; &quot; &lt;&lt; x &lt;&lt; '\n'
+using namespace std;
+using ll = long long;
+using pii = pair&lt;int,int&gt;;
+using pli = pair&lt;ll,int&gt;;
+const int INF = 0x3f3f3f3f, N = 4e5 + 5;
+const ll LINF = 1e18 + 5;
+constexpr int mod = 1e9 + 7;
+int q, c[N], tot, ans[N], id[N];
+bool isq[N];
+void upd(int x, int v)
+{
+    for(int i=x; i&lt;=tot; i+=(i&amp;-i)) c[i] += v;
+}
+int ask(int x)
+{
+    int ans = 0;
+    for(int i=x; i&gt;0; i-=(i&amp;-i)) ans += c[i];
+    return ans;
+}
+struct item
+{
+    int x, y, z, t, coef;
+    bool tag;
+}p[N], tmp[N], tmp2[N];
+bool cmp(item a, item b)
+{
+    if(a.x==b.x)
+    {
+        if(a.y==b.y) return a.z==b.z ? a.t &lt; b.t : a.z &lt; b.z;
+        return a.y &lt; b.y;
+    }
+    return a.x &lt; b.x;
+}
+void CDQ2(int l, int r)
+{
+    if(l==r) return;
+    int mid = (l+r)&gt;&gt;1;
+    CDQ2(l, mid); CDQ2(mid+1, r);
+    int i = l, j = mid+1, k = l;
+    while(i&lt;=mid&amp;&amp;j&lt;=r)
+    {
+        if(tmp[i].z&lt;=tmp[j].z)
+        {
+            if(!tmp[i].tag&amp;&amp;!tmp[i].coef) upd(tmp[i].t, 1);
+            tmp2[k++] = tmp[i++];
+        }
+        else
+        {
+            if(tmp[j].tag&amp;&amp;tmp[j].coef) ans[tmp[j].t] += ask(tmp[j].t-1)*tmp[j].coef; 
+            tmp2[k++] = tmp[j++];
+        }
+    }
+    while(i&lt;=mid) 
+    { 
+    	if(!tmp[i].tag&amp;&amp;!tmp[i].coef) upd(tmp[i].t, 1); 
+    	tmp2[k++] = tmp[i++]; 
+    }
+    while(j&lt;=r) 
+    { 
+    	if(tmp[j].tag&amp;&amp;tmp[j].coef) ans[tmp[j].t] += ask(tmp[j].t-1)*tmp[j].coef; 
+    	tmp2[k++] = tmp[j++]; 
+    }
+    for(int i=l; i&lt;=mid; i++) if(!tmp[i].tag&amp;&amp;!tmp[i].coef) upd(tmp[i].t, -1);
+    for(int i=l; i&lt;=r; i++) tmp[i] = tmp2[i]; 
+}
+void CDQ1(int l, int r)
+{
+    if(l==r) return;
+    int mid = (l+r)&gt;&gt;1;
+    CDQ1(l, mid); CDQ1(mid+1, r);
+    for(int i=l; i&lt;=mid; i++) p[i].tag = 0;
+    for(int i=mid+1; i&lt;=r; i++) p[i].tag = 1;
+    int i = l, j = mid+1, k = l;
+    while(i&lt;=mid&amp;&amp;j&lt;=r)
+    {
+        if(p[i].y&lt;=p[j].y) tmp[k++] = p[i++];
+        else tmp[k++] = p[j++];
+    }
+    while(i&lt;=mid) tmp[k++] = p[i++];
+    while(j&lt;=r) tmp[k++] = p[j++];
+    for(int i=l; i&lt;=r; i++) p[i] = tmp[i]; 
+    CDQ2(l, r);
+}
+void solve()
+{
+    scanf(&quot;%d&quot;, &amp;q);
+    tot = 0;
+    for(int i=1; i&lt;=q; i++)
+    {
+        int op; scanf(&quot;%d&quot;, &amp;op);
+        ans[i] = isq[i] = 0;
+        if(op==1)
+        {
+            int x, y, z;
+            scanf(&quot;%d%d%d&quot;, &amp;x, &amp;y, &amp;z);
+            p[++tot] = {x, y, z, i, 0};
+        }
+        else
+        {
+            int x1, y1, z1, x2, y2, z2;
+            scanf(&quot;%d%d%d%d%d%d&quot;, &amp;x1, &amp;y1, &amp;z1, &amp;x2, &amp;y2, &amp;z2);
+            isq[i] = 1;
+            p[++tot] = {x2, y2, z2, i, 1};
+            p[++tot] = {x1-1, y2, z2, i, -1};
+            p[++tot] = {x2, y1-1, z2, i, -1};
+            p[++tot] = {x2, y2, z1-1, i, -1};
+            p[++tot] = {x1-1, y1-1, z2, i, 1};
+            p[++tot] = {x2, y1-1, z1-1, i, 1};
+            p[++tot] = {x1-1, y2, z1-1, i, 1};
+            p[++tot] = {x1-1, y1-1, z1-1, i, -1};
+        }
+    }
+    sort(p+1, p+tot+1, cmp);
+    CDQ1(1, tot);
+    for(int i=1; i&lt;=q; i++)
+        if(isq[i]) printf(&quot;%d\n&quot;, ans[i]);
+}
+int main()
+{
+    int T; scanf(&quot;%d&quot;, &amp;T);
+    while(T--) solve();
+    return 0;
+}
+</code></pre>
+<p>p5621<br>
+四维LIS<br>
+树状数组维护第四维的dp前缀max,第四维要离散化,同时相同的四元组要合并<br>
+<strong>注意</strong><br>
+此题要先cdq左半部分,然后统计左对右的答案,再cdq右半部分.<br>
+而上一题是先cdq左右,最后再统计答案(其实也可以按本题的流程,但本题不可以这样,因为本质是一个dp,必须从左到右,而统计没这个要求).</p>
+<pre><code class="language-cpp">#include &lt;bits/stdc++.h&gt;
+#define mp make_pair
+#define pb push_back
+#define sz(x) (int)x.size()
+#define all(x) begin(x), end(x)
+#define fi first
+#define se second
+#define debug(x) cerr &lt;&lt; #x &lt;&lt; &quot; &quot; &lt;&lt; x &lt;&lt; '\n'
+using namespace std;
+using ll = long long;
+using pii = pair&lt;int,int&gt;;
+using pli = pair&lt;ll,int&gt;;
+const int INF = 0x3f3f3f3f, N = 5e4 + 5;
+const ll LINF = 1e18 + 5;
+constexpr int mod = 1e9 + 7;
+int n, m;
+int id[N], lsh[N];
+ll c[N];
+void upd(int x, ll v)
+{
+	for(int i=x; i&lt;=m; i+=(i&amp;-i)) c[i] = max(c[i], v);
+}
+void clear(int x)
+{
+	for(int i=x; i&lt;=m; i+=(i&amp;-i)) c[i] = 0;
+}
+ll ask(int x)
+{
+	ll ans = 0;
+	for(int i=x; i&gt;0; i-=(i&amp;-i)) ans = max(ans, c[i]);
+	return ans;
+}
+struct item
+{
+	int a, b, c, d, id;
+	bool t;
+	ll mx, val;
+}p[N], tmp[N];
+bool cmp1(item x, item y)
+{
+	if(x.a==y.a) 
+	{
+		if(x.b==y.b) return x.c==y.c ? x.d &lt; y.d : x.c &lt; y.c;
+		return x.b &lt; y.b;
+	}
+	return x.a &lt; y.a;
+}
+bool cmp2(item x, item y)
+{
+    if(x.b==y.b&amp;&amp;x.c==y.c&amp;&amp;x.d==y.d) return x.a &lt; y.a;
+	if(x.b==y.b) return x.c==y.c ? x.d &lt; y.d : x.c &lt; y.c;
+	return x.b &lt; y.b;
+}
+bool cmp3(item x, item y)
+{
+    if(x.c==y.c&amp;&amp;x.d==y.d) return x.a==y.a ? x.b &lt; y.b : x.a &lt; y.a;
+	return x.c==y.c ? x.d &lt; y.d : x.c &lt; y.c;
+}
+void CDQ2(int l, int r)
+{
+	if(l==r) return;
+	int mid = (l+r)&gt;&gt;1;
+	CDQ2(l, mid);
+	sort(p+l, p+mid+1, cmp3);
+	sort(p+mid+1, p+r+1, cmp3);
+	int i = l, j = mid+1;
+	while(j&lt;=r)
+	{
+		while(i&lt;=mid &amp;&amp; p[i].c&lt;=p[j].c)
+		{
+			if(!p[i].t) upd(p[i].d, p[i].mx);
+			i++;
+		}
+		if(p[j].t) p[j].mx = max(p[j].mx, ask(p[j].d)+p[j].val);
+		j++;
+	}
+	for(int i=l; i&lt;=mid; i++) if(!p[i].t) clear(p[i].d);
+	for(int i=l; i&lt;=r; i++) tmp[id[p[i].id]] = p[i];
+	for(int i=l; i&lt;=r; i++) p[i] = tmp[i];
+	CDQ2(mid+1, r);
+}
+void CDQ1(int l, int r)
+{
+	if(l==r) return;
+	int mid = (l+r)&gt;&gt;1;
+	CDQ1(l, mid);
+	for(int i=l; i&lt;=mid; i++) p[i].t = 0;
+	for(int i=mid+1; i&lt;=r; i++) p[i].t = 1;
+	sort(p+l, p+r+1, cmp2);
+	for(int i=l; i&lt;=r; i++) id[p[i].id] = i;
+	CDQ2(l, r);
+	for(int i=l; i&lt;=r; i++) tmp[p[i].id] = p[i];
+	for(int i=l; i&lt;=r; i++) p[i] = tmp[i];
+	CDQ1(mid+1, r);
+}
+int main()
+{
+	scanf(&quot;%d&quot;, &amp;n);
+	for(int i=1; i&lt;=n; i++)
+	{
+		scanf(&quot;%d%d%d%d&quot;, &amp;p[i].a, &amp;p[i].b, &amp;p[i].c, &amp;p[i].d);
+		scanf(&quot;%lld&quot;, &amp;p[i].val);
+		lsh[i] = p[i].d;
+	}
+	sort(lsh+1, lsh+n+1);
+	m = unique(lsh+1, lsh+n+1) - lsh - 1;
+	for(int i=1; i&lt;=n; i++)
+		p[i].d = lower_bound(lsh+1, lsh+m+1, p[i].d) - lsh;
+	int tot = 1;
+	sort(p+1, p+n+1, cmp1);
+	for(int i=2; i&lt;=n; i++)
+	{
+		if(p[i].a!=p[i-1].a||p[i].b!=p[i-1].b||p[i].c!=p[i-1].c||p[i].d!=p[i-1].d) p[++tot] = p[i];
+		else p[tot].val += max(p[i].val, 0ll);
+	}
+	n = tot;
+	for(int i=1; i&lt;=n; i++) 
+	{
+		p[i].id = i;
+		p[i].mx = p[i].val;
+	}
+	CDQ1(1, n);
+	ll ans = 0;
+	for(int i=1; i&lt;=n; i++) ans = max(ans, p[i].mx);
+	printf(&quot;%lld\n&quot;, ans);
+	return 0;
+}
+</code></pre>
+
+              </div>
+              <div class="toc-container">
+                <ul class="markdownIt-TOC">
+<li><a href="#%E9%97%AE%E9%A2%98">问题</a></li>
+<li><a href="#%E8%BF%87%E7%A8%8B">过程</a></li>
+<li><a href="#%E4%BE%8B%E9%A2%98">例题</a></li>
+</ul>
+
+              </div>
+            </div>
+          </article>
+        </div>
+
+        
+          <div class="next-post">
+            <div class="next">下一篇</div>
+            <a href="https://jyf111.github.io/post/p5107-ju-zhen-kuai-su-mi-bei-zeng-qia-chang/">
+              <h3 class="post-title">
+                p5107 矩阵快速幂+倍增+卡常
+              </h3>
+            </a>
+          </div>
+        
+
+        
+
+        <div class="site-footer">
+  
+  <a class="rss" href="https://jyf111.github.io/atom.xml" target="_blank">
+    <i class="ri-rss-line"></i> RSS
+  </a>
+</div>
+
+      </div>
+    </div>
+
+    <script>
+      hljs.initHighlightingOnLoad()
+
+      let mainNavLinks = document.querySelectorAll(".markdownIt-TOC a");
+
+      // This should probably be throttled.
+      // Especially because it triggers during smooth scrolling.
+      // https://lodash.com/docs/4.17.10#throttle
+      // You could do like...
+      // window.addEventListener("scroll", () => {
+      //    _.throttle(doThatStuff, 100);
+      // });
+      // Only not doing it here to keep this Pen dependency-free.
+
+      window.addEventListener("scroll", event => {
+        let fromTop = window.scrollY;
+
+        mainNavLinks.forEach((link, index) => {
+          let section = document.getElementById(decodeURI(link.hash).substring(1));
+          let nextSection = null
+          if (mainNavLinks[index + 1]) {
+            nextSection = document.getElementById(decodeURI(mainNavLinks[index + 1].hash).substring(1));
+          }
+          if (section.offsetTop <= fromTop) {
+            if (nextSection) {
+              if (nextSection.offsetTop > fromTop) {
+                link.classList.add("current");
+              } else {
+                link.classList.remove("current");    
+              }
+            } else {
+              link.classList.add("current");
+            }
+          } else {
+            link.classList.remove("current");
+          }
+        });
+      });
+
+    </script>
+  </body>
+</html>

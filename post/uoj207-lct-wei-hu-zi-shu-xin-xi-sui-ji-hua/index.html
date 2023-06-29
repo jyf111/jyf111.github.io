@@ -1,0 +1,328 @@
+<html>
+  <head>
+    <meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>uoj207 LCT维护子树信息+随机化 | jyf111</title>
+<link rel="shortcut icon" href="https://jyf111.github.io/favicon.ico?v=1688054387335">
+<link href="https://cdn.jsdelivr.net/npm/remixicon@2.3.0/fonts/remixicon.css" rel="stylesheet">
+<link rel="stylesheet" href="https://jyf111.github.io/styles/main.css">
+<link rel="alternate" type="application/atom+xml" title="uoj207 LCT维护子树信息+随机化 | jyf111 - Atom Feed" href="https://jyf111.github.io/atom.xml">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Droid+Serif:400,700">
+
+
+
+    <meta name="description" content="给定一棵树,要求支持加边删边,并维护一个点对集合,支持加入和删除点对,并询问一条边是否在所有集合中的点对间的路径上.
+做法
+考虑询问路径x和y:当x为根且集合中每个点对的其中一个都在y子树内时合法.给子树内每个点对随机一个权值,然后维护子树..." />
+    <meta name="keywords" content="算法" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.10.0/katex.min.css">
+    <script src="https://cdn.bootcss.com/highlight.js/9.12.0/highlight.min.js"></script>
+  </head>
+  <body>
+    <div class="main">
+      <div class="main-content">
+        <div class="site-header">
+  <a href="https://jyf111.github.io">
+  <img class="avatar" src="https://jyf111.github.io/images/avatar.png?v=1688054387335" alt="">
+  </a>
+  <h1 class="site-title">
+    jyf111
+  </h1>
+  <p class="site-description">
+    温故而知新
+  </p>
+  <div class="menu-container">
+    
+      
+        <a href="https://jyf111.github.io" class="menu">
+          首页
+        </a>
+      
+    
+      
+        <a href="/archives" class="menu">
+          归档
+        </a>
+      
+    
+      
+        <a href="https://jyf111.github.io/tags" class="menu">
+          分类
+        </a>
+      
+    
+  </div>
+  <div class="social-container">
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+  </div>
+</div>
+
+        <div class="post-detail">
+          <article class="post">
+            <h2 class="post-title">
+              uoj207 LCT维护子树信息+随机化
+            </h2>
+            <div class="post-info">
+              <span>
+                2020-04-29
+              </span>
+              <span>
+                5 min read
+              </span>
+              
+                <a href="https://jyf111.github.io/tag/HKuTllKYu/" class="post-tag">
+                  # 算法
+                </a>
+              
+            </div>
+            
+            <div class="post-content-wrapper">
+              <div class="post-content">
+                <p>给定一棵树,要求支持加边删边,并维护一个点对集合,支持加入和删除点对,并询问一条边是否在所有集合中的点对间的路径上.</p>
+<h1 id="做法">做法</h1>
+<p>考虑询问路径x和y:当x为根且集合中每个点对的其中一个都在y子树内时合法.给子树内每个点对随机一个权值,然后维护子树的异或和信息,当y子树内的异或和等于整个集合的异或和时合法.由于动态加边和删边所以用lct维护,对于子树信息,只要额外维护一下每个点虚儿子的异或和信息即可.</p>
+<pre><code class="language-cpp">#include &lt;bits/stdc++.h&gt;
+#define mp make_pair
+#define pb push_back
+#define sz(x) (int)x.size()
+#define all(x) begin(x), end(x)
+#define fi first
+#define se second
+#define debug(x) cerr &lt;&lt; #x &lt;&lt; &quot; &quot; &lt;&lt; x &lt;&lt; '\n'
+using namespace std;
+using ll = long long;
+using pii = pair&lt;int,int&gt;;
+using pli = pair&lt;ll,int&gt;;
+const int INF = 0x3f3f3f3f, N = 3e5 + 5;
+const ll LINF = 1e18 + 5;
+constexpr int mod = 1e9 + 7;
+int id, n, m, tot, w[N];
+pii p[N];
+struct LCT
+{
+	int ch[N][2], fa[N], rev[N];
+	int sum[N], sum2[N], val[N];
+	void clear(int x)
+	{
+		ch[x][0] = ch[x][1] = fa[x] = rev[x] = 0;
+		sum[x] = sum2[x] = val[x] = 0;
+	}
+	int getch(int x) { return ch[fa[x]][1]==x; }
+	int noroot(int x) { return ch[fa[x]][0]==x || ch[fa[x]][1]==x; }
+	void pushup(int x)
+	{
+		if(x) sum[x] = sum[ch[x][0]] ^ sum[ch[x][1]] ^ sum2[x] ^ val[x];
+	}
+	void reverse(int x)
+	{
+		swap(ch[x][0], ch[x][1]);
+		rev[x] ^= 1;
+	}
+	void pushdown(int x)
+	{
+		if(rev[x])
+		{
+			if(ch[x][0]) reverse(ch[x][0]);
+			if(ch[x][1]) reverse(ch[x][1]);
+			rev[x] = 0;
+		}
+	}
+	void pushall(int x)
+	{
+		if(noroot(x)) pushall(fa[x]);
+		pushdown(x);
+	}
+	void rotate(int x)
+	{
+		int y = fa[x], z = fa[y], chx = getch(x), chy = getch(y);
+		fa[x] = z;
+		if(noroot(y)) ch[z][chy] = x;
+		ch[y][chx] = ch[x][chx^1];
+		fa[ch[x][chx^1]] = y;
+		ch[x][chx^1] = y;
+		fa[y] = x;
+		pushup(y);
+		pushup(x);
+		pushup(z);
+	}
+	void splay(int x)
+	{
+		pushall(x);
+		for(int f=fa[x]; f=fa[x], noroot(x); rotate(x))
+			if(noroot(f)) rotate(getch(x) == getch(f) ? f : x);
+	}
+	void access(int x)
+	{
+		for(int y=0; x; x=fa[y=x])
+		{
+			splay(x);
+			sum2[x] ^= sum[ch[x][1]] ^ sum[y];
+			ch[x][1] = y;
+			pushup(x);
+		}
+	}
+	void makeroot(int x)
+	{
+		access(x); splay(x);
+		reverse(x);
+	}
+	int findroot(int x)
+	{
+		access(x); splay(x);
+		while(ch[x][0]) pushdown(x), x = ch[x][0];
+		splay(x);
+		return x;
+	}
+	void split(int x,int y)
+	{
+		makeroot(x);
+		access(y); splay(y);
+	}
+	void link(int x,int y) 
+	{
+		makeroot(x);
+		makeroot(y);
+		fa[x] = y;
+		sum2[y] ^= sum[x];
+	}
+	void cut(int x,int y)
+	{
+		split(x,y);
+		fa[x] = ch[y][0]=0;
+		pushup(y);
+	}
+}T;
+int all;
+int main()
+{
+	srand(114514);
+	scanf(&quot;%d%d%d&quot;, &amp;id, &amp;n, &amp;m);
+	for(int i=1; i&lt;n; i++)
+	{
+		int u, v; scanf(&quot;%d%d&quot;, &amp;u, &amp;v);
+		T.link(u, v);
+	}
+	while(m--)
+	{
+		int op, x;
+		scanf(&quot;%d%d&quot;, &amp;op, &amp;x);
+		if(op==1)
+		{
+			int y, u, v;
+			scanf(&quot;%d%d%d&quot;, &amp;y, &amp;u, &amp;v);
+			T.cut(x, y); T.link(u, v);
+		}
+		else if(op==2)
+		{
+			int y;
+			scanf(&quot;%d&quot;, &amp;y);
+			p[++tot] = {x, y};
+			w[tot] = rand();
+			T.makeroot(x); T.val[x] ^= w[tot];
+			T.makeroot(y); T.val[y] ^= w[tot];
+			all ^= w[tot];
+		}
+		else if(op==3)
+		{
+			T.makeroot(p[x].fi); T.val[p[x].fi] ^= w[x];
+			T.makeroot(p[x].se); T.val[p[x].se] ^= w[x];
+			all ^= w[x];
+		}
+		else
+		{
+			int y;
+			scanf(&quot;%d&quot;, &amp;y);
+			T.split(x, y);
+			if(T.sum[x]==all) puts(&quot;YES&quot;);
+			else puts(&quot;NO&quot;);
+		}
+	}
+	return 0;
+}</code></pre>
+
+              </div>
+              <div class="toc-container">
+                <ul class="markdownIt-TOC">
+<li><a href="#%E5%81%9A%E6%B3%95">做法</a></li>
+</ul>
+
+              </div>
+            </div>
+          </article>
+        </div>
+
+        
+          <div class="next-post">
+            <div class="next">下一篇</div>
+            <a href="https://jyf111.github.io/post/codeforces1307f/">
+              <h3 class="post-title">
+                codeforces1307F
+              </h3>
+            </a>
+          </div>
+        
+
+        
+
+        <div class="site-footer">
+  
+  <a class="rss" href="https://jyf111.github.io/atom.xml" target="_blank">
+    <i class="ri-rss-line"></i> RSS
+  </a>
+</div>
+
+      </div>
+    </div>
+
+    <script>
+      hljs.initHighlightingOnLoad()
+
+      let mainNavLinks = document.querySelectorAll(".markdownIt-TOC a");
+
+      // This should probably be throttled.
+      // Especially because it triggers during smooth scrolling.
+      // https://lodash.com/docs/4.17.10#throttle
+      // You could do like...
+      // window.addEventListener("scroll", () => {
+      //    _.throttle(doThatStuff, 100);
+      // });
+      // Only not doing it here to keep this Pen dependency-free.
+
+      window.addEventListener("scroll", event => {
+        let fromTop = window.scrollY;
+
+        mainNavLinks.forEach((link, index) => {
+          let section = document.getElementById(decodeURI(link.hash).substring(1));
+          let nextSection = null
+          if (mainNavLinks[index + 1]) {
+            nextSection = document.getElementById(decodeURI(mainNavLinks[index + 1].hash).substring(1));
+          }
+          if (section.offsetTop <= fromTop) {
+            if (nextSection) {
+              if (nextSection.offsetTop > fromTop) {
+                link.classList.add("current");
+              } else {
+                link.classList.remove("current");    
+              }
+            } else {
+              link.classList.add("current");
+            }
+          } else {
+            link.classList.remove("current");
+          }
+        });
+      });
+
+    </script>
+  </body>
+</html>

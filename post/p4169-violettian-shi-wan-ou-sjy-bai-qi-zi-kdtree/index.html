@@ -1,0 +1,320 @@
+<html>
+  <head>
+    <meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>P4169 [Violet]天使玩偶/SJY摆棋子 kdtree | jyf111</title>
+<link rel="shortcut icon" href="https://jyf111.github.io/favicon.ico?v=1688054387335">
+<link href="https://cdn.jsdelivr.net/npm/remixicon@2.3.0/fonts/remixicon.css" rel="stylesheet">
+<link rel="stylesheet" href="https://jyf111.github.io/styles/main.css">
+<link rel="alternate" type="application/atom+xml" title="P4169 [Violet]天使玩偶/SJY摆棋子 kdtree | jyf111 - Atom Feed" href="https://jyf111.github.io/atom.xml">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Droid+Serif:400,700">
+
+
+
+    <meta name="description" content="要求维护二维平面,支持插点,询问点集中两点的最小曼哈顿距离
+做法
+kdtree维护
+不断循环按照其中一维构建二叉树
+每个点维护子树中的最大最小坐标(最大矩形),然后大力剪枝
+本题有插入操作,所以可能会退化为链,需要定期重构
+#include..." />
+    <meta name="keywords" content="算法" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.10.0/katex.min.css">
+    <script src="https://cdn.bootcss.com/highlight.js/9.12.0/highlight.min.js"></script>
+  </head>
+  <body>
+    <div class="main">
+      <div class="main-content">
+        <div class="site-header">
+  <a href="https://jyf111.github.io">
+  <img class="avatar" src="https://jyf111.github.io/images/avatar.png?v=1688054387335" alt="">
+  </a>
+  <h1 class="site-title">
+    jyf111
+  </h1>
+  <p class="site-description">
+    温故而知新
+  </p>
+  <div class="menu-container">
+    
+      
+        <a href="https://jyf111.github.io" class="menu">
+          首页
+        </a>
+      
+    
+      
+        <a href="/archives" class="menu">
+          归档
+        </a>
+      
+    
+      
+        <a href="https://jyf111.github.io/tags" class="menu">
+          分类
+        </a>
+      
+    
+  </div>
+  <div class="social-container">
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+  </div>
+</div>
+
+        <div class="post-detail">
+          <article class="post">
+            <h2 class="post-title">
+              P4169 [Violet]天使玩偶/SJY摆棋子 kdtree
+            </h2>
+            <div class="post-info">
+              <span>
+                2020-05-14
+              </span>
+              <span>
+                5 min read
+              </span>
+              
+                <a href="https://jyf111.github.io/tag/HKuTllKYu/" class="post-tag">
+                  # 算法
+                </a>
+              
+            </div>
+            
+            <div class="post-content-wrapper">
+              <div class="post-content">
+                <p>要求维护二维平面,支持插点,询问点集中两点的最小曼哈顿距离</p>
+<h1 id="做法">做法</h1>
+<p>kdtree维护<br>
+不断循环按照其中一维构建二叉树<br>
+每个点维护子树中的最大最小坐标(最大矩形),然后大力剪枝<br>
+本题有插入操作,所以可能会退化为链,需要定期重构</p>
+<pre><code class="language-cpp">#include &lt;bits/stdc++.h&gt;
+using namespace std;
+const int INF = 2e6;
+const int N = 6e5 + 5;
+const int MAXSIZE = 1 &lt;&lt; 20;
+char buf[MAXSIZE], *p1, *p2;
+inline char gc()
+{
+	return (p1==p2&amp;&amp;(p2=(p1=buf)+fread(buf,1,MAXSIZE,stdin),p1==p2) ? EOF : *p1++);
+}
+template &lt;class T&gt; 
+inline void read(T&amp; t)
+{
+	t = 0; int f = 1;
+	char c = gc();
+	while(c&gt;'9'||c&lt;'0') {if(c=='-') f = -f; c = gc();}
+	while(c&gt;='0'&amp;&amp;c&lt;='9') t = t*10 + c - 48, c = gc();
+	t *= f;
+}
+int n, m, rt, ans;
+constexpr int k = 2;
+constexpr double alpha = 0.75; 
+int D, pool[N], top, tot;
+struct point
+{
+	int x[k];
+	bool operator &lt; (const point &amp;oth) const { 
+		return x[D] &lt; oth.x[D];
+	}
+}a[N], cur;
+struct node
+{
+	int mx[k], mn[k];
+	int l, r, sz;
+	point tp;
+}t[N];
+int newnode()
+{
+	if(top) return pool[top--];
+	return ++tot;
+}
+void pushup(int p)
+{
+	int l = t[p].l, r = t[p].r;
+	for(int i=0; i&lt;k; i++)
+	{
+		t[p].mn[i] = t[p].mx[i] = t[p].tp.x[i];
+		if(l) t[p].mn[i] = min(t[p].mn[i], t[l].mn[i]), t[p].mx[i] = max(t[p].mx[i], t[l].mx[i]);
+		if(r) t[p].mn[i] = min(t[p].mn[i], t[r].mn[i]), t[p].mx[i] = max(t[p].mx[i], t[r].mx[i]);
+	}
+	t[p].sz = t[l].sz + t[r].sz + 1;
+}
+int build(int l, int r, int d) 
+{
+	if(l&gt;r) return 0;
+	int p = newnode(), mid = (l+r)&gt;&gt;1;
+	D = d;
+	nth_element(a+l, a+mid, a+r+1);
+	t[p].tp = a[mid];
+	t[p].l = build(l, mid-1, (d+1)%k);
+	t[p].r = build(mid+1, r, (d+1)%k);
+	pushup(p);
+	return p;
+}
+void rebuild(int p, int num)
+{
+	if(t[p].l) rebuild(t[p].l, num);
+	a[num+t[t[p].l].sz+1] = t[p].tp, pool[++top] = p;
+	if(t[p].r) rebuild(t[p].r, num+t[t[p].l].sz+1);
+}
+void test(int &amp;p, int d)
+{
+	if(alpha*t[p].sz&lt;t[t[p].l].sz||alpha*t[p].sz&lt;t[t[p].r].sz)
+		rebuild(p, 0), p = build(1, t[p].sz, d);
+}
+void insert(int &amp;p, int d)
+{
+	if(!p)
+	{
+		p = newnode();
+		t[p].tp = cur;
+		t[p].l = t[p].r = 0;
+		pushup(p);
+		return;
+	}
+	if(cur.x[d]&gt;t[p].tp.x[d]) insert(t[p].r, (d+1)%k);
+	else insert(t[p].l, (d+1)%k);
+	pushup(p); test(p, d);
+}
+int getdis(int p) 
+{
+	int ans = 0;
+	for(int i=0; i&lt;k; i++)
+	{
+		if(cur.x[i]&lt;t[p].mn[i]) ans += (t[p].mn[i]-cur.x[i]);
+		if(cur.x[i]&gt;t[p].mx[i]) ans += (cur.x[i]-t[p].mx[i]);
+	}
+	return ans;
+}
+int dis(point a, point b) 
+{
+	int ans = 0;
+	for(int i=0; i&lt;k; i++)
+		ans += abs(a.x[i]-b.x[i]);
+	return ans;
+}
+void ask(int p) 
+{
+	ans = min(ans, dis(t[p].tp, cur));
+	int dl = INF, dr = INF;
+	if(t[p].l) dl = getdis(t[p].l);
+	if(t[p].r) dr = getdis(t[p].r);
+	if(dl&lt;dr)
+	{
+		if(dl&lt;ans) ask(t[p].l);
+		if(dr&lt;ans) ask(t[p].r);
+	}
+	else
+	{
+		if(dr&lt;ans) ask(t[p].r);
+		if(dl&lt;ans) ask(t[p].l);
+	}
+}
+int main()
+{
+	read(n); read(m);
+	for(int i=1; i&lt;=n; i++) read(a[i].x[0]), read(a[i].x[1]);
+	rt = build(1, n, 0);
+	for(int i=1; i&lt;=m; i++)
+	{
+		int op;
+		read(op); read(cur.x[0]); read(cur.x[1]);
+		if(op==1) insert(rt, 0);
+		else
+		{
+			ans = INF;
+			ask(rt);
+			printf(&quot;%d\n&quot;, ans);
+		}
+	}
+	return 0;
+}
+</code></pre>
+
+              </div>
+              <div class="toc-container">
+                <ul class="markdownIt-TOC">
+<li><a href="#%E5%81%9A%E6%B3%95">做法</a></li>
+</ul>
+
+              </div>
+            </div>
+          </article>
+        </div>
+
+        
+          <div class="next-post">
+            <div class="next">下一篇</div>
+            <a href="https://jyf111.github.io/post/p4211-lca-chi-xian-shu-pou/">
+              <h3 class="post-title">
+                p4211 LCA 离线+树剖
+              </h3>
+            </a>
+          </div>
+        
+
+        
+
+        <div class="site-footer">
+  
+  <a class="rss" href="https://jyf111.github.io/atom.xml" target="_blank">
+    <i class="ri-rss-line"></i> RSS
+  </a>
+</div>
+
+      </div>
+    </div>
+
+    <script>
+      hljs.initHighlightingOnLoad()
+
+      let mainNavLinks = document.querySelectorAll(".markdownIt-TOC a");
+
+      // This should probably be throttled.
+      // Especially because it triggers during smooth scrolling.
+      // https://lodash.com/docs/4.17.10#throttle
+      // You could do like...
+      // window.addEventListener("scroll", () => {
+      //    _.throttle(doThatStuff, 100);
+      // });
+      // Only not doing it here to keep this Pen dependency-free.
+
+      window.addEventListener("scroll", event => {
+        let fromTop = window.scrollY;
+
+        mainNavLinks.forEach((link, index) => {
+          let section = document.getElementById(decodeURI(link.hash).substring(1));
+          let nextSection = null
+          if (mainNavLinks[index + 1]) {
+            nextSection = document.getElementById(decodeURI(mainNavLinks[index + 1].hash).substring(1));
+          }
+          if (section.offsetTop <= fromTop) {
+            if (nextSection) {
+              if (nextSection.offsetTop > fromTop) {
+                link.classList.add("current");
+              } else {
+                link.classList.remove("current");    
+              }
+            } else {
+              link.classList.add("current");
+            }
+          } else {
+            link.classList.remove("current");
+          }
+        });
+      });
+
+    </script>
+  </body>
+</html>

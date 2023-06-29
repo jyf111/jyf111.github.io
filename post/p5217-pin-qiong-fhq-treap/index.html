@@ -1,0 +1,353 @@
+<html>
+  <head>
+    <meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>P5217 贫穷 fhq treap | jyf111</title>
+<link rel="shortcut icon" href="https://jyf111.github.io/favicon.ico?v=1688054387335">
+<link href="https://cdn.jsdelivr.net/npm/remixicon@2.3.0/fonts/remixicon.css" rel="stylesheet">
+<link rel="stylesheet" href="https://jyf111.github.io/styles/main.css">
+<link rel="alternate" type="application/atom+xml" title="P5217 贫穷 fhq treap | jyf111 - Atom Feed" href="https://jyf111.github.io/atom.xml">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Droid+Serif:400,700">
+
+
+
+    <meta name="description" content="给定一个字符串序列
+要求支持以下操作
+
+在x位置后插入一个字母
+删除x位置的字母
+翻转区间[x,y]
+输出初始字符串序列第x个字母当前位置
+输出当前字符串序列第x个字母
+输出区间[x,y]字母种类数
+
+前三个很简单。
+第四个要查节点号为x的..." />
+    <meta name="keywords" content="算法" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.10.0/katex.min.css">
+    <script src="https://cdn.bootcss.com/highlight.js/9.12.0/highlight.min.js"></script>
+  </head>
+  <body>
+    <div class="main">
+      <div class="main-content">
+        <div class="site-header">
+  <a href="https://jyf111.github.io">
+  <img class="avatar" src="https://jyf111.github.io/images/avatar.png?v=1688054387335" alt="">
+  </a>
+  <h1 class="site-title">
+    jyf111
+  </h1>
+  <p class="site-description">
+    温故而知新
+  </p>
+  <div class="menu-container">
+    
+      
+        <a href="https://jyf111.github.io" class="menu">
+          首页
+        </a>
+      
+    
+      
+        <a href="/archives" class="menu">
+          归档
+        </a>
+      
+    
+      
+        <a href="https://jyf111.github.io/tags" class="menu">
+          分类
+        </a>
+      
+    
+  </div>
+  <div class="social-container">
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+  </div>
+</div>
+
+        <div class="post-detail">
+          <article class="post">
+            <h2 class="post-title">
+              P5217 贫穷 fhq treap
+            </h2>
+            <div class="post-info">
+              <span>
+                2020-12-07
+              </span>
+              <span>
+                5 min read
+              </span>
+              
+                <a href="https://jyf111.github.io/tag/HKuTllKYu/" class="post-tag">
+                  # 算法
+                </a>
+              
+            </div>
+            
+            <div class="post-content-wrapper">
+              <div class="post-content">
+                <p>给定一个字符串序列<br>
+要求支持以下操作</p>
+<ul>
+<li>在x位置后插入一个字母</li>
+<li>删除x位置的字母</li>
+<li>翻转区间[x,y]</li>
+<li>输出初始字符串序列第x个字母当前位置</li>
+<li>输出当前字符串序列第x个字母</li>
+<li>输出区间[x,y]字母种类数</li>
+</ul>
+<p>前三个很简单。<br>
+第四个要查节点号为x的字母的位置，由于是维护区间，按size分裂，所以自上而下找不了，只能额外维护父亲，然后自下而上找。由于第三个区间翻转操作，导致左右儿子可能会改变，所以要先到根节点把所有懒标记pushdown下来，再自下而上找才能正确<br>
+第五个就是查第k大（区间意义下），直接split和merge比较好，如果是从根递归着走，不要忘记pushdown<br>
+第六个状压维护一下</p>
+<pre><code class="language-cpp">#include &lt;bits/stdc++.h&gt;
+using namespace std;
+const int N = 2e5 + 5;
+char s[N];
+int n, m;
+int rt, tot;
+int rnd() { return rand()&lt;&lt;15|rand(); }
+struct node
+{
+	int ls, rs;
+	int mask, sz, fa, key, c;
+	bool rev;
+}t[N];
+int newnode(int c)
+{
+	int p = ++tot;
+	t[p].ls = t[p].rs = t[p].fa = 0;
+	t[p].mask = 1&lt;&lt;c, t[p].c = c, t[p].key = rnd();
+	t[p].sz = 1;
+	t[p].rev = 0;
+	return p;
+}
+void up(int p)
+{
+	t[p].sz = t[t[p].ls].sz + t[t[p].rs].sz + 1;
+	t[p].mask = t[t[p].ls].mask | t[t[p].rs].mask | (1&lt;&lt;t[p].c);
+}
+void down(int p)
+{
+	if(t[p].rev)
+	{
+		swap(t[p].ls, t[p].rs);
+		t[t[p].ls].rev ^= 1;
+		t[t[p].rs].rev ^= 1;
+		t[p].rev = 0;
+	}
+}
+void split(int p, int &amp;x, int &amp;y, int k, int fx=0, int fy=0)
+{
+	if(!p) { x = y = 0; return; }
+	down(p);
+	if(k&lt;=t[t[p].ls].sz) 
+	{ 
+		y = p; 
+		split(t[p].ls, x, t[p].ls, k, fx, p); 
+	}
+	else 
+	{ 
+		x = p; 
+		split(t[p].rs, t[p].rs, y, k-t[t[p].ls].sz-1, p, fy); 
+	}
+	if(x) t[x].fa = fx;
+	if(y) t[y].fa = fy;
+	up(p);
+}
+void merge(int &amp;p, int x, int y)
+{
+	if(!x||!y) { p = x|y; return; }
+	if(t[x].key&lt;t[y].key)
+	{
+		down(x);
+		p = x;
+		merge(t[p].rs, t[p].rs, y);
+		t[t[p].rs].fa = p;
+	}
+	else
+	{
+		down(y);
+		p = y;
+		merge(t[p].ls, x, t[p].ls);
+		t[t[p].ls].fa = p;
+	}
+	up(p);
+}
+void downall(int p)
+{
+	if(!p) return;
+	downall(t[p].fa);
+	down(p);
+}
+int get(int p)
+{
+	downall(p);
+	int rk = t[t[p].ls].sz + 1;
+	while(t[p].fa)
+	{
+		if(t[t[p].fa].rs==p) rk += t[t[p].fa].sz - t[p].sz;
+		p = t[p].fa;
+	}
+	return rk*(p==rt);
+}
+int kth(int p, int k)
+{
+	down(p);
+	if(k&lt;=t[t[p].ls].sz) return kth(t[p].ls, k);
+	else if(k==t[t[p].ls].sz+1) return t[p].c;
+	else return kth(t[p].rs, k-t[t[p].ls].sz-1);
+}
+int main()
+{
+	scanf(&quot;%d%d&quot;, &amp;n, &amp;m);
+	scanf(&quot;%s&quot;, s+1);
+	for(int i=1; i&lt;=n; i++)
+	{
+		int x = newnode(s[i]-'a');
+		merge(rt, rt, x);
+	}
+	while(m--)
+	{
+		static char opt[2], c[2];
+		scanf(&quot;%s&quot;, opt);
+		if(opt[0]=='I')
+		{
+			int k;
+			scanf(&quot;%d%s&quot;, &amp;k, c);
+			int x, y, z;
+			split(rt, x, y, k);
+			z = newnode(c[0]-'a');
+			merge(x, x, z);
+			merge(rt, x, y);
+		}
+		else if(opt[0]=='D')
+		{
+			int k;
+			scanf(&quot;%d&quot;, &amp;k);
+			int x, y, z;
+			split(rt, x, y, k);
+			split(x, x, z, k-1);
+			merge(rt, x, y);
+		}
+		else if(opt[0]=='R')
+		{
+			int l, r; scanf(&quot;%d%d&quot;, &amp;l, &amp;r);
+			int x, y, z;
+			split(rt, x, y, r);
+			split(x, z, x, l-1);
+			t[x].rev ^= 1;
+			merge(x, z, x);
+			merge(rt, x, y);
+		}
+		else if(opt[0]=='P')
+		{
+			int k;
+			scanf(&quot;%d&quot;, &amp;k);
+			printf(&quot;%d\n&quot;, get(k));
+		}
+		else if(opt[0]=='T')
+		{
+			int k;
+			scanf(&quot;%d&quot;, &amp;k);
+			printf(&quot;%c\n&quot;, char(kth(rt, k)+'a'));
+		}
+		else
+		{
+			int l, r; scanf(&quot;%d%d&quot;, &amp;l, &amp;r);
+			int x, y, z;
+			split(rt, x, y, r);
+			split(x, z, x, l-1);
+			printf(&quot;%d\n&quot;, __builtin_popcount(t[x].mask));
+			merge(x, z, x);
+			merge(rt, x, y);
+		}
+	}
+	return 0;
+}
+</code></pre>
+
+              </div>
+              <div class="toc-container">
+                
+              </div>
+            </div>
+          </article>
+        </div>
+
+        
+          <div class="next-post">
+            <div class="next">下一篇</div>
+            <a href="https://jyf111.github.io/post/ping-heng-shu-zhi-fhq-treap/">
+              <h3 class="post-title">
+                平衡树之FHQ Treap
+              </h3>
+            </a>
+          </div>
+        
+
+        
+
+        <div class="site-footer">
+  
+  <a class="rss" href="https://jyf111.github.io/atom.xml" target="_blank">
+    <i class="ri-rss-line"></i> RSS
+  </a>
+</div>
+
+      </div>
+    </div>
+
+    <script>
+      hljs.initHighlightingOnLoad()
+
+      let mainNavLinks = document.querySelectorAll(".markdownIt-TOC a");
+
+      // This should probably be throttled.
+      // Especially because it triggers during smooth scrolling.
+      // https://lodash.com/docs/4.17.10#throttle
+      // You could do like...
+      // window.addEventListener("scroll", () => {
+      //    _.throttle(doThatStuff, 100);
+      // });
+      // Only not doing it here to keep this Pen dependency-free.
+
+      window.addEventListener("scroll", event => {
+        let fromTop = window.scrollY;
+
+        mainNavLinks.forEach((link, index) => {
+          let section = document.getElementById(decodeURI(link.hash).substring(1));
+          let nextSection = null
+          if (mainNavLinks[index + 1]) {
+            nextSection = document.getElementById(decodeURI(mainNavLinks[index + 1].hash).substring(1));
+          }
+          if (section.offsetTop <= fromTop) {
+            if (nextSection) {
+              if (nextSection.offsetTop > fromTop) {
+                link.classList.add("current");
+              } else {
+                link.classList.remove("current");    
+              }
+            } else {
+              link.classList.add("current");
+            }
+          } else {
+            link.classList.remove("current");
+          }
+        });
+      });
+
+    </script>
+  </body>
+</html>

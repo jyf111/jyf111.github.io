@@ -1,0 +1,227 @@
+<html>
+  <head>
+    <meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Capture Stars 圆的反演 | jyf111</title>
+<link rel="shortcut icon" href="https://jyf111.github.io/favicon.ico?v=1688054387335">
+<link href="https://cdn.jsdelivr.net/npm/remixicon@2.3.0/fonts/remixicon.css" rel="stylesheet">
+<link rel="stylesheet" href="https://jyf111.github.io/styles/main.css">
+<link rel="alternate" type="application/atom+xml" title="Capture Stars 圆的反演 | jyf111 - Atom Feed" href="https://jyf111.github.io/atom.xml">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Droid+Serif:400,700">
+
+
+
+    <meta name="description" content="https://ac.nowcoder.com/acm/contest/7830/D
+有一个大圆和一个小圆，两者内切于原点，然后再大圆内小圆外有若干个点，现在让你找一个圆使其和小圆外切，大圆内切，并且最大化该圆覆盖的点数
+这种多个圆有相切关..." />
+    <meta name="keywords" content="算法" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.10.0/katex.min.css">
+    <script src="https://cdn.bootcss.com/highlight.js/9.12.0/highlight.min.js"></script>
+  </head>
+  <body>
+    <div class="main">
+      <div class="main-content">
+        <div class="site-header">
+  <a href="https://jyf111.github.io">
+  <img class="avatar" src="https://jyf111.github.io/images/avatar.png?v=1688054387335" alt="">
+  </a>
+  <h1 class="site-title">
+    jyf111
+  </h1>
+  <p class="site-description">
+    温故而知新
+  </p>
+  <div class="menu-container">
+    
+      
+        <a href="https://jyf111.github.io" class="menu">
+          首页
+        </a>
+      
+    
+      
+        <a href="/archives" class="menu">
+          归档
+        </a>
+      
+    
+      
+        <a href="https://jyf111.github.io/tags" class="menu">
+          分类
+        </a>
+      
+    
+  </div>
+  <div class="social-container">
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+  </div>
+</div>
+
+        <div class="post-detail">
+          <article class="post">
+            <h2 class="post-title">
+              Capture Stars 圆的反演
+            </h2>
+            <div class="post-info">
+              <span>
+                2020-10-08
+              </span>
+              <span>
+                3 min read
+              </span>
+              
+                <a href="https://jyf111.github.io/tag/HKuTllKYu/" class="post-tag">
+                  # 算法
+                </a>
+              
+            </div>
+            
+            <div class="post-content-wrapper">
+              <div class="post-content">
+                <p><a href="https://ac.nowcoder.com/acm/contest/7830/D">https://ac.nowcoder.com/acm/contest/7830/D</a><br>
+有一个大圆和一个小圆，两者内切于原点，然后再大圆内小圆外有若干个点，现在让你找一个圆使其和小圆外切，大圆内切，并且最大化该圆覆盖的点数<br>
+这种多个圆有相切关系的题，考虑圆的反演<br>
+反演：一个反演点O，一个反演半径R，在O的同侧有两个点P和P'，若满足|OP||OP'|=R*R，则P和P'互为反演点<br>
+不经过反演点的圆的反演仍然是一个圆<br>
+经过反演点的圆的反演是一条直线<br>
+点反演还是点</p>
+<p>再考虑本题，以小圆和大圆的内切点即原点为反演点，反演半径任意，这样就变成了两条直线，而要找的圆在反演后就是相切于这两条直线的圆，点反演后仍为点<br>
+对于每个点，仅当圆心的纵坐标处于一个区间内才能覆盖，全部求出后差分前缀和即可</p>
+<pre><code class="language-cpp">#include &lt;bits/stdc++.h&gt;
+using namespace std;
+const int N = 1e4 + 5;
+using db = double;
+using pdi = pair&lt;db, int&gt;;
+const db eps = 1e-8;
+int sgn(db x) { return (x&lt;-eps ? -1 : x&gt;eps); }
+db sqr(db x) { return x*x; }
+int n;
+db R, r, invr;
+struct P
+{
+	db x, y;
+	P() {}
+	P(db _x, db _y) : x(_x), y(_y) {}
+	P operator * (const db k) { return P(k*x, k*y); }
+}p[N];
+void solve()
+{
+	cin &gt;&gt; n &gt;&gt; R &gt;&gt; r;
+	invr = 2*R;
+	db xl = 0.5*sqr(invr)/R, xr = 0.5*sqr(invr)/r;
+	db O = (xl+xr)/2, Or = (xr-xl)/2;
+	vector&lt;pdi&gt; seg;
+	for(int i=1; i&lt;=n; i++) 
+	{
+		cin &gt;&gt; p[i].x &gt;&gt; p[i].y;
+		db d = sqrt(sqr(p[i].x) + sqr(p[i].y));
+		db dd = sqr(invr)/d;
+		p[i] = p[i]*(dd/d);
+		db t = fabs(O-p[i].x);
+		if(sgn(Or-t)&lt;0) continue;
+		db delta = sqrt(sqr(Or)-sqr(t));
+		seg.push_back({p[i].y-delta, 1});
+		seg.push_back({p[i].y+delta+eps, -1});
+	}
+	sort(begin(seg), end(seg));
+	int ans = 0, cur = 0;
+	for(auto it : seg) 
+	{
+		cur += it.second;
+		if(cur&gt;ans) ans = cur;
+	}
+	cout &lt;&lt; ans &lt;&lt; '\n';
+}
+int main()
+{
+	ios::sync_with_stdio(false);
+	cin.tie(nullptr);
+	int _; cin &gt;&gt; _;
+	while(_--) solve();
+	return 0;
+}
+</code></pre>
+
+              </div>
+              <div class="toc-container">
+                
+              </div>
+            </div>
+          </article>
+        </div>
+
+        
+          <div class="next-post">
+            <div class="next">下一篇</div>
+            <a href="https://jyf111.github.io/post/naomi-with-graph-zui-xiao-ge/">
+              <h3 class="post-title">
+                Naomi with Graph 最小割
+              </h3>
+            </a>
+          </div>
+        
+
+        
+
+        <div class="site-footer">
+  
+  <a class="rss" href="https://jyf111.github.io/atom.xml" target="_blank">
+    <i class="ri-rss-line"></i> RSS
+  </a>
+</div>
+
+      </div>
+    </div>
+
+    <script>
+      hljs.initHighlightingOnLoad()
+
+      let mainNavLinks = document.querySelectorAll(".markdownIt-TOC a");
+
+      // This should probably be throttled.
+      // Especially because it triggers during smooth scrolling.
+      // https://lodash.com/docs/4.17.10#throttle
+      // You could do like...
+      // window.addEventListener("scroll", () => {
+      //    _.throttle(doThatStuff, 100);
+      // });
+      // Only not doing it here to keep this Pen dependency-free.
+
+      window.addEventListener("scroll", event => {
+        let fromTop = window.scrollY;
+
+        mainNavLinks.forEach((link, index) => {
+          let section = document.getElementById(decodeURI(link.hash).substring(1));
+          let nextSection = null
+          if (mainNavLinks[index + 1]) {
+            nextSection = document.getElementById(decodeURI(mainNavLinks[index + 1].hash).substring(1));
+          }
+          if (section.offsetTop <= fromTop) {
+            if (nextSection) {
+              if (nextSection.offsetTop > fromTop) {
+                link.classList.add("current");
+              } else {
+                link.classList.remove("current");    
+              }
+            } else {
+              link.classList.add("current");
+            }
+          } else {
+            link.classList.remove("current");
+          }
+        });
+      });
+
+    </script>
+  </body>
+</html>

@@ -1,0 +1,279 @@
+<html>
+  <head>
+    <meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>shift-and/or 字符串匹配算法 | jyf111</title>
+<link rel="shortcut icon" href="https://jyf111.github.io/favicon.ico?v=1688054387335">
+<link href="https://cdn.jsdelivr.net/npm/remixicon@2.3.0/fonts/remixicon.css" rel="stylesheet">
+<link rel="stylesheet" href="https://jyf111.github.io/styles/main.css">
+<link rel="alternate" type="application/atom+xml" title="shift-and/or 字符串匹配算法 | jyf111 - Atom Feed" href="https://jyf111.github.io/atom.xml">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Droid+Serif:400,700">
+
+
+
+    <meta name="description" content="shift-and
+在串s中查找串t
+规定串s的长度为n，串t的长度为m，字符串下标从0开始
+bitset&lt;m&gt; B[26];
+预处理字符集中每个字母在串t中的出现的位置，各用一个bitset表示。B[s[i]-'a']表示的是..." />
+    <meta name="keywords" content="算法" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.10.0/katex.min.css">
+    <script src="https://cdn.bootcss.com/highlight.js/9.12.0/highlight.min.js"></script>
+  </head>
+  <body>
+    <div class="main">
+      <div class="main-content">
+        <div class="site-header">
+  <a href="https://jyf111.github.io">
+  <img class="avatar" src="https://jyf111.github.io/images/avatar.png?v=1688054387335" alt="">
+  </a>
+  <h1 class="site-title">
+    jyf111
+  </h1>
+  <p class="site-description">
+    温故而知新
+  </p>
+  <div class="menu-container">
+    
+      
+        <a href="https://jyf111.github.io" class="menu">
+          首页
+        </a>
+      
+    
+      
+        <a href="/archives" class="menu">
+          归档
+        </a>
+      
+    
+      
+        <a href="https://jyf111.github.io/tags" class="menu">
+          分类
+        </a>
+      
+    
+  </div>
+  <div class="social-container">
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+  </div>
+</div>
+
+        <div class="post-detail">
+          <article class="post">
+            <h2 class="post-title">
+              shift-and/or 字符串匹配算法
+            </h2>
+            <div class="post-info">
+              <span>
+                2020-07-22
+              </span>
+              <span>
+                6 min read
+              </span>
+              
+                <a href="https://jyf111.github.io/tag/HKuTllKYu/" class="post-tag">
+                  # 算法
+                </a>
+              
+            </div>
+            
+            <div class="post-content-wrapper">
+              <div class="post-content">
+                <h3 id="shift-and">shift-and</h3>
+<p>在串s中查找串t<br>
+规定串s的长度为n，串t的长度为m，字符串下标从0开始<br>
+bitset&lt;m&gt; B[26];<br>
+预处理字符集中每个字母在串t中的出现的位置，各用一个bitset表示。B[s[i]-'a']表示的是s串中i位置与t串中哪些位置可以匹配<br>
+bitset&lt;m&gt; D;<br>
+在s中枚举位置i，D[j]=1仅当串t的前缀t[0...j]是串s的后缀s[i-j...i]<br>
+当D[m-1]=1时表示一次匹配<br>
+当枚举位置i+1，就要更新D<br>
+D = (D&lt;&lt;1|1)&amp;B[s[i+1]-'a'];<br>
+复杂度<span class="katex"><span class="katex-mathml"><math><semantics><mrow><mi>O</mi><mo>(</mo><mfrac><mrow><mi>n</mi><mi>m</mi></mrow><mn>32</mn></mfrac><mo>)</mo></mrow><annotation encoding="application/x-tex">O(\frac{nm}{32})</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1.095em;vertical-align:-0.345em;"></span><span class="mord mathdefault" style="margin-right:0.02778em;">O</span><span class="mopen">(</span><span class="mord"><span class="mopen nulldelimiter"></span><span class="mfrac"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.695392em;"><span style="top:-2.6550000000000002em;"><span class="pstrut" style="height:3em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mtight">3</span><span class="mord mtight">2</span></span></span></span><span style="top:-3.23em;"><span class="pstrut" style="height:3em;"></span><span class="frac-line" style="border-bottom-width:0.04em;"></span></span><span style="top:-3.394em;"><span class="pstrut" style="height:3em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathdefault mtight">n</span><span class="mord mathdefault mtight">m</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.345em;"><span></span></span></span></span></span><span class="mclose nulldelimiter"></span></span><span class="mclose">)</span></span></span></span></p>
+<pre><code class="language-cpp">int shift_and()
+{
+	int n = strlen(s), m = strlen(t);
+	for(int i=0; i&lt;n; i++) 
+		B[s[i]-'A'].set(i);
+	int cnt = 0;
+	for(int i=0; i&lt;m; i++)
+	{
+		D &lt;&lt;= 1; D.set(0);
+		D &amp;= B[t[i]-'A'];
+		if(D[n-1]) cnt++;
+	}
+	return cnt;
+}
+</code></pre>
+<h3 id="shift-or">shift-or</h3>
+<p>与shiftand的B和D含义都相反，B=0表示存在，D=0表示匹配，所以初始时B和D全为1，每次转移D = (D&lt;&lt;1|B[s[i]-'a'])</p>
+<p>在普通的字符串匹配中这两者的作用显然没有kmp强，复杂度劣势<br>
+但是在可选字符匹配中很有用<br>
+规定每个位置可以与多个字符相匹配，此时只要让这些字符的B的那个位置都置1即可</p>
+<ul>
+<li>hdu 5972 输出的时候令s[n+1]=0,然后puts(s[i-n+1])，再还原s[n+1]。如果先记录匹配位置最后双重for会T</li>
+<li>hdu 5716</li>
+<li>牛客多校2G题<br>
+给定长度为n的数组a和长度为m的数组b，询问数组a中每一位都严格大于数组b的子段个数<br>
+可以把这个问题当成一个可选字符匹配问题，对于每个a[i]可以与所有&lt;=a[i]的b[j]相匹配。<br>
+考虑预处理出bitset&lt;M&gt; B[N]，表示a的每一位可以与b的哪些位相匹配，然后跑一遍shift-and即可。<br>
+这样会MLE，随着a的增大，能够匹配的位置不断增加，所以本质不同的bitset只有m个，开成bitset&lt;M&gt; B[M]即可。</li>
+</ul>
+<pre><code class="language-cpp">#include &lt;bits/stdc++.h&gt;
+#define fi first
+#define se second
+using namespace std;
+using pii = pair&lt;int, int&gt;;
+const int N = 1.5e5 + 5, M = 4e4 + 5;
+int n, m, idx[N];
+pii a[N], b[M];
+bitset&lt;M&gt; B[M], D;
+int main()
+{
+	scanf(&quot;%d%d&quot;, &amp;n, &amp;m);
+	for(int i=1; i&lt;=n; i++) scanf(&quot;%d&quot;, &amp;a[i].fi), a[i].se = i;
+	for(int i=1; i&lt;=m; i++) scanf(&quot;%d&quot;, &amp;b[i].fi), b[i].se = i;
+	sort(a+1, a+n+1); sort(b+1, b+m+1);
+	for(int i=1; i&lt;=m; i++)
+		B[i] = B[i-1], B[i].set(b[i].se);
+	for(int i=1, j=1; i&lt;=n; i++)
+	{
+		while(j&lt;=m &amp;&amp; a[i].fi&gt;=b[j].fi) ++j;
+		idx[a[i].se] = j-1;
+	}
+	int ans = 0;
+	for(int i=1; i&lt;=n; i++)
+	{
+		D &lt;&lt;= 1; D.set(1);
+		D &amp;= B[idx[i]];
+		if(D[m]) ++ans;
+	}
+	printf(&quot;%d\n&quot;, ans);
+	return 0;
+}
+</code></pre>
+<p>考虑预处理bitset&lt;N&gt; B[i]表示b数组中第i位可以与a数组中哪些位相匹配。然后用一个全1的bitset&lt;N&gt; D，当D[i]=1时表示a数组中以i下标起始的长度为m的子段可以与b数组相匹配。只要枚举b数组中的所有位置让D &amp;= (B[i]&gt;&gt;(i-1))即可，如果B[i][j]=0，那么D[j-i+1]起始的子段就不可能与b数组相匹配，因为a[j]!=b[i]。<br>
+以上方法也可以用于字符串匹配。<br>
+在牛客多校这题中，利用该方法可以仅开一个bitset&lt;N&gt; B，因为在这里b数组下标的枚举顺序是任意的，所以我们可以对b排序后再枚举，然后利用尺取实现B的滚动。</p>
+<pre><code class="language-cpp">#include &lt;bits/stdc++.h&gt;
+#define fi first
+#define se second
+using namespace std;
+using pii = pair&lt;int, int&gt;;
+const int N = 1.5e5 + 5, M = 4e4 + 5;
+int n, m, idx[N];
+pii a[N], b[M];
+bitset&lt;N&gt; B, D;
+int main()
+{
+    scanf(&quot;%d%d&quot;, &amp;n, &amp;m);
+    for(int i=1; i&lt;=n; i++) scanf(&quot;%d&quot;, &amp;a[i].fi), a[i].se = i;
+    for(int i=1; i&lt;=m; i++) scanf(&quot;%d&quot;, &amp;b[i].fi), b[i].se = i;
+    sort(a+1, a+n+1); sort(b+1, b+m+1);
+    for(int i=1; i&lt;=n-m+1; i++) D.set(i);
+    for(int i=m, j=n; i; i--)
+    {
+        while(j &amp;&amp; a[j].fi&gt;=b[i].fi) B.set(a[j--].se);
+        D &amp;= (B&gt;&gt;(b[i].se-1));
+    }
+    printf(&quot;%d\n&quot;, (int)D.count());
+    return 0;
+}
+</code></pre>
+
+              </div>
+              <div class="toc-container">
+                <ul class="markdownIt-TOC">
+<li>
+<ul>
+<li>
+<ul>
+<li><a href="#shift-and">shift-and</a></li>
+<li><a href="#shift-or">shift-or</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+              </div>
+            </div>
+          </article>
+        </div>
+
+        
+          <div class="next-post">
+            <div class="next">下一篇</div>
+            <a href="https://jyf111.github.io/post/hou-zhui-zi-dong-ji-he-guang-yi-hou-zhui-zi-dong-ji-de-yi-xie-yi-wen/">
+              <h3 class="post-title">
+                后缀自动机和广义后缀自动机的一些疑问
+              </h3>
+            </a>
+          </div>
+        
+
+        
+
+        <div class="site-footer">
+  
+  <a class="rss" href="https://jyf111.github.io/atom.xml" target="_blank">
+    <i class="ri-rss-line"></i> RSS
+  </a>
+</div>
+
+      </div>
+    </div>
+
+    <script>
+      hljs.initHighlightingOnLoad()
+
+      let mainNavLinks = document.querySelectorAll(".markdownIt-TOC a");
+
+      // This should probably be throttled.
+      // Especially because it triggers during smooth scrolling.
+      // https://lodash.com/docs/4.17.10#throttle
+      // You could do like...
+      // window.addEventListener("scroll", () => {
+      //    _.throttle(doThatStuff, 100);
+      // });
+      // Only not doing it here to keep this Pen dependency-free.
+
+      window.addEventListener("scroll", event => {
+        let fromTop = window.scrollY;
+
+        mainNavLinks.forEach((link, index) => {
+          let section = document.getElementById(decodeURI(link.hash).substring(1));
+          let nextSection = null
+          if (mainNavLinks[index + 1]) {
+            nextSection = document.getElementById(decodeURI(mainNavLinks[index + 1].hash).substring(1));
+          }
+          if (section.offsetTop <= fromTop) {
+            if (nextSection) {
+              if (nextSection.offsetTop > fromTop) {
+                link.classList.add("current");
+              } else {
+                link.classList.remove("current");    
+              }
+            } else {
+              link.classList.add("current");
+            }
+          } else {
+            link.classList.remove("current");
+          }
+        });
+      });
+
+    </script>
+  </body>
+</html>

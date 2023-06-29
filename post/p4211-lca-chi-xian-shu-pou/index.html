@@ -1,0 +1,331 @@
+<html>
+  <head>
+    <meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>p4211 LCA 离线+树剖 | jyf111</title>
+<link rel="shortcut icon" href="https://jyf111.github.io/favicon.ico?v=1688054387335">
+<link href="https://cdn.jsdelivr.net/npm/remixicon@2.3.0/fonts/remixicon.css" rel="stylesheet">
+<link rel="stylesheet" href="https://jyf111.github.io/styles/main.css">
+<link rel="alternate" type="application/atom+xml" title="p4211 LCA 离线+树剖 | jyf111 - Atom Feed" href="https://jyf111.github.io/atom.xml">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Droid+Serif:400,700">
+
+
+
+    <meta name="description" content="给定一棵1为根的树, 多次查询∑i=lrdep[LCA(i,z)]\sum_{i=l}^{r} dep[LCA(i, z)]∑i=lr​dep[LCA(i,z)]
+做法
+只需把l-r的每个点到根的路径+1,然后查询z到根的路径的和即可
+考虑..." />
+    <meta name="keywords" content="算法" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.10.0/katex.min.css">
+    <script src="https://cdn.bootcss.com/highlight.js/9.12.0/highlight.min.js"></script>
+  </head>
+  <body>
+    <div class="main">
+      <div class="main-content">
+        <div class="site-header">
+  <a href="https://jyf111.github.io">
+  <img class="avatar" src="https://jyf111.github.io/images/avatar.png?v=1688054387335" alt="">
+  </a>
+  <h1 class="site-title">
+    jyf111
+  </h1>
+  <p class="site-description">
+    温故而知新
+  </p>
+  <div class="menu-container">
+    
+      
+        <a href="https://jyf111.github.io" class="menu">
+          首页
+        </a>
+      
+    
+      
+        <a href="/archives" class="menu">
+          归档
+        </a>
+      
+    
+      
+        <a href="https://jyf111.github.io/tags" class="menu">
+          分类
+        </a>
+      
+    
+  </div>
+  <div class="social-container">
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+  </div>
+</div>
+
+        <div class="post-detail">
+          <article class="post">
+            <h2 class="post-title">
+              p4211 LCA 离线+树剖
+            </h2>
+            <div class="post-info">
+              <span>
+                2020-05-14
+              </span>
+              <span>
+                6 min read
+              </span>
+              
+                <a href="https://jyf111.github.io/tag/HKuTllKYu/" class="post-tag">
+                  # 算法
+                </a>
+              
+            </div>
+            
+            <div class="post-content-wrapper">
+              <div class="post-content">
+                <p>给定一棵1为根的树, 多次查询<span class="katex"><span class="katex-mathml"><math><semantics><mrow><msubsup><mo>∑</mo><mrow><mi>i</mi><mo>=</mo><mi>l</mi></mrow><mi>r</mi></msubsup><mi>d</mi><mi>e</mi><mi>p</mi><mo>[</mo><mi>L</mi><mi>C</mi><mi>A</mi><mo>(</mo><mi>i</mi><mo separator="true">,</mo><mi>z</mi><mo>)</mo><mo>]</mo></mrow><annotation encoding="application/x-tex">\sum_{i=l}^{r} dep[LCA(i, z)]</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1.104002em;vertical-align:-0.29971000000000003em;"></span><span class="mop"><span class="mop op-symbol small-op" style="position:relative;top:-0.0000050000000000050004em;">∑</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.804292em;"><span style="top:-2.40029em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathdefault mtight">i</span><span class="mrel mtight">=</span><span class="mord mathdefault mtight" style="margin-right:0.01968em;">l</span></span></span></span><span style="top:-3.2029em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathdefault mtight" style="margin-right:0.02778em;">r</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.29971000000000003em;"><span></span></span></span></span></span></span><span class="mspace" style="margin-right:0.16666666666666666em;"></span><span class="mord mathdefault">d</span><span class="mord mathdefault">e</span><span class="mord mathdefault">p</span><span class="mopen">[</span><span class="mord mathdefault">L</span><span class="mord mathdefault" style="margin-right:0.07153em;">C</span><span class="mord mathdefault">A</span><span class="mopen">(</span><span class="mord mathdefault">i</span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.16666666666666666em;"></span><span class="mord mathdefault" style="margin-right:0.04398em;">z</span><span class="mclose">)</span><span class="mclose">]</span></span></span></span></p>
+<h1 id="做法">做法</h1>
+<p>只需把l-r的每个点到根的路径+1,然后查询z到根的路径的和即可<br>
+考虑离线差分询问并按右端点排序</p>
+<pre><code class="language-cpp">#include &lt;bits/stdc++.h&gt;
+#define mp make_pair
+#define pb push_back
+#define sz(x) (int)x.size()
+#define all(x) begin(x), end(x)
+#define fi first
+#define se second
+#define debug(x) cerr &lt;&lt; #x &lt;&lt; &quot; &quot; &lt;&lt; x &lt;&lt; '\n'
+using namespace std;
+using ll = long long;
+using pii = pair&lt;int,int&gt;;
+using pli = pair&lt;ll,int&gt;;
+const int INF = 0x3f3f3f3f, N = 1e5 + 5;
+const ll LINF = 1e18 + 5;
+constexpr int mod = 201314;
+int n, m, ans[N];
+struct qry
+{
+	int r, coef, z, id;
+	bool operator &lt; (const qry &amp;oth) {
+		return r &lt; oth.r;
+	}
+}q[N];
+inline void add(int &amp;u, int v)
+{
+	u += v;
+	if(u&gt;=mod) u -= mod;
+}
+vector&lt;int&gt; G[N];
+int sz[N], top[N], son[N], dep[N], fa[N], dfn[N], idfn[N], tot; 
+struct seg
+{
+	int l, r, sum, tag;
+}t[N&lt;&lt;2];
+void setval(int p, int v)
+{
+	add(t[p].sum, v*(t[p].r-t[p].l+1));
+	add(t[p].tag, v);
+}
+void pushup(int p)
+{
+	t[p].sum = t[p&lt;&lt;1].sum;
+	add(t[p].sum, t[p&lt;&lt;1|1].sum);
+}
+void pushdown(int p)
+{
+	setval(p&lt;&lt;1, t[p].tag); setval(p&lt;&lt;1|1, t[p].tag);
+	t[p].tag = 0;
+}
+void build(int p, int l, int r)
+{
+	t[p].l = l, t[p].r = r;
+	if(l==r) return;
+	int mid = (l+r)&gt;&gt;1;
+	build(p&lt;&lt;1, l, mid); build(p&lt;&lt;1|1, mid+1, r);
+	pushup(p);
+}
+void upd(int p, int x, int y, int v)
+{
+	int l = t[p].l, r = t[p].r;
+	if(l&gt;=x &amp;&amp; r&lt;=y) 
+	{
+		setval(p, v);
+		return;
+	}
+	if(t[p].tag) pushdown(p);
+	int mid = (l+r)&gt;&gt;1;
+	if(x&lt;=mid) upd(p&lt;&lt;1, x, y, v);
+	if(y&gt;mid) upd(p&lt;&lt;1|1, x, y, v);
+	pushup(p);
+}
+int ask(int p, int x, int y)
+{
+	int l = t[p].l, r = t[p].r;
+	if(l&gt;=x &amp;&amp; r&lt;=y) return t[p].sum;
+	if(t[p].tag) pushdown(p);
+	int mid = (l+r)&gt;&gt;1, ans = 0;
+	if(x&lt;=mid) add(ans, ask(p&lt;&lt;1, x, y));
+	if(y&gt;mid) add(ans, ask(p&lt;&lt;1|1, x, y));
+	return ans;
+}
+void dfs1(int u, int f) 
+{
+	dep[u] = dep[f] + 1; fa[u] = f;
+	sz[u] = 1;
+	for(int v : G[u])
+	{
+		dfs1(v, u);
+		sz[u] += sz[v];
+		if(sz[v]&gt;sz[son[u]]) son[u] = v;
+	}
+}
+void dfs2(int u, int t) 
+{
+	top[u] = t;
+	dfn[u] = ++tot;
+	idfn[tot] = u;
+	if(!son[u]) return;
+	dfs2(son[u], t);
+	for(int v : G[u])
+		if(v!=son[u]) dfs2(v, v);
+}
+void updt(int x, int y, int v)
+{
+	while(top[x]!=top[y])
+	{
+		if(dep[top[x]]&lt;dep[top[y]]) swap(x,y);
+		upd(1, dfn[top[x]], dfn[x], v); 
+		x = fa[top[x]];
+	}
+	if(dep[x]&gt;dep[y]) swap(x,y);
+	upd(1, dfn[x], dfn[y], v);
+}
+int askt(int x, int y)
+{
+	int ans = 0;
+	while(top[x]!=top[y])
+	{
+		if(dep[top[x]]&lt;dep[top[y]]) swap(x,y);
+		add(ans, ask(1, dfn[top[x]], dfn[x])); 
+		x = fa[top[x]];
+	}
+	if(dep[x]&gt;dep[y]) swap(x,y);
+	add(ans, ask(1, dfn[x], dfn[y]));
+	return ans;
+}
+int main()
+{
+	scanf(&quot;%d%d&quot;, &amp;n, &amp;m);
+	for(int i=2; i&lt;=n; i++)
+	{
+		int u; scanf(&quot;%d&quot;, &amp;u);
+		G[u+1].pb(i);
+	}
+	dfs1(1, 0); dfs2(1, 1);
+	build(1, 1, n);
+	int tot = 0;
+	for(int i=1; i&lt;=m; i++)
+	{
+		int l, r, z; scanf(&quot;%d%d%d&quot;, &amp;l, &amp;r, &amp;z);
+		q[++tot] = {l, -1, z+1, i};
+		q[++tot] = {r+1, 1, z+1, i}; 
+	}
+	sort(q+1, q+tot+1);
+	upd(1, dfn[1], dfn[2], 1);
+	int pre = 1;
+	for(int i=1; i&lt;=tot; i++)
+	{
+		while(pre&lt;=q[i].r)
+		{
+			updt(1, pre, 1);
+			++pre;
+		}
+		add(ans[q[i].id], q[i].coef*askt(1, q[i].z));
+	}
+	for(int i=1; i&lt;=m; i++) printf(&quot;%d\n&quot;, (ans[i]+mod)%mod);
+	return 0;
+}
+</code></pre>
+
+              </div>
+              <div class="toc-container">
+                <ul class="markdownIt-TOC">
+<li><a href="#%E5%81%9A%E6%B3%95">做法</a></li>
+</ul>
+
+              </div>
+            </div>
+          </article>
+        </div>
+
+        
+          <div class="next-post">
+            <div class="next">下一篇</div>
+            <a href="https://jyf111.github.io/post/si-wei-pian-xu-cdq-tao-cdq/">
+              <h3 class="post-title">
+                四维偏序 cdq套cdq
+              </h3>
+            </a>
+          </div>
+        
+
+        
+
+        <div class="site-footer">
+  
+  <a class="rss" href="https://jyf111.github.io/atom.xml" target="_blank">
+    <i class="ri-rss-line"></i> RSS
+  </a>
+</div>
+
+      </div>
+    </div>
+
+    <script>
+      hljs.initHighlightingOnLoad()
+
+      let mainNavLinks = document.querySelectorAll(".markdownIt-TOC a");
+
+      // This should probably be throttled.
+      // Especially because it triggers during smooth scrolling.
+      // https://lodash.com/docs/4.17.10#throttle
+      // You could do like...
+      // window.addEventListener("scroll", () => {
+      //    _.throttle(doThatStuff, 100);
+      // });
+      // Only not doing it here to keep this Pen dependency-free.
+
+      window.addEventListener("scroll", event => {
+        let fromTop = window.scrollY;
+
+        mainNavLinks.forEach((link, index) => {
+          let section = document.getElementById(decodeURI(link.hash).substring(1));
+          let nextSection = null
+          if (mainNavLinks[index + 1]) {
+            nextSection = document.getElementById(decodeURI(mainNavLinks[index + 1].hash).substring(1));
+          }
+          if (section.offsetTop <= fromTop) {
+            if (nextSection) {
+              if (nextSection.offsetTop > fromTop) {
+                link.classList.add("current");
+              } else {
+                link.classList.remove("current");    
+              }
+            } else {
+              link.classList.add("current");
+            }
+          } else {
+            link.classList.remove("current");
+          }
+        });
+      });
+
+    </script>
+  </body>
+</html>

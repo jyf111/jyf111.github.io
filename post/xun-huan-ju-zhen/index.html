@@ -1,0 +1,323 @@
+<html>
+  <head>
+    <meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>循环矩阵 | jyf111</title>
+<link rel="shortcut icon" href="https://jyf111.github.io/favicon.ico?v=1688054387335">
+<link href="https://cdn.jsdelivr.net/npm/remixicon@2.3.0/fonts/remixicon.css" rel="stylesheet">
+<link rel="stylesheet" href="https://jyf111.github.io/styles/main.css">
+<link rel="alternate" type="application/atom+xml" title="循环矩阵 | jyf111 - Atom Feed" href="https://jyf111.github.io/atom.xml">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Droid+Serif:400,700">
+
+
+
+    <meta name="description" content="矩阵的第i行是其上一行循环右移的结果
+性质
+循环矩阵的线性运算及乘积仍是循环矩阵
+循环矩阵的逆矩阵以及转置矩阵仍是循环矩阵
+循环矩阵乘法满足交换律
+优势
+由于两个循环矩阵的乘法的结果仍然是一个循环矩阵，所以可以O(n2)O(n^2)O(n2..." />
+    <meta name="keywords" content="算法" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.10.0/katex.min.css">
+    <script src="https://cdn.bootcss.com/highlight.js/9.12.0/highlight.min.js"></script>
+  </head>
+  <body>
+    <div class="main">
+      <div class="main-content">
+        <div class="site-header">
+  <a href="https://jyf111.github.io">
+  <img class="avatar" src="https://jyf111.github.io/images/avatar.png?v=1688054387335" alt="">
+  </a>
+  <h1 class="site-title">
+    jyf111
+  </h1>
+  <p class="site-description">
+    温故而知新
+  </p>
+  <div class="menu-container">
+    
+      
+        <a href="https://jyf111.github.io" class="menu">
+          首页
+        </a>
+      
+    
+      
+        <a href="/archives" class="menu">
+          归档
+        </a>
+      
+    
+      
+        <a href="https://jyf111.github.io/tags" class="menu">
+          分类
+        </a>
+      
+    
+  </div>
+  <div class="social-container">
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+  </div>
+</div>
+
+        <div class="post-detail">
+          <article class="post">
+            <h2 class="post-title">
+              循环矩阵
+            </h2>
+            <div class="post-info">
+              <span>
+                2020-08-25
+              </span>
+              <span>
+                5 min read
+              </span>
+              
+                <a href="https://jyf111.github.io/tag/HKuTllKYu/" class="post-tag">
+                  # 算法
+                </a>
+              
+            </div>
+            
+            <div class="post-content-wrapper">
+              <div class="post-content">
+                <p>矩阵的第i行是其上一行循环右移的结果</p>
+<h4 id="性质">性质</h4>
+<p>循环矩阵的线性运算及乘积仍是循环矩阵<br>
+循环矩阵的逆矩阵以及转置矩阵仍是循环矩阵<br>
+循环矩阵乘法满足交换律</p>
+<h4 id="优势">优势</h4>
+<p>由于两个循环矩阵的乘法的结果仍然是一个循环矩阵，所以可以<span class="katex"><span class="katex-mathml"><math><semantics><mrow><mi>O</mi><mo>(</mo><msup><mi>n</mi><mn>2</mn></msup><mo>)</mo></mrow><annotation encoding="application/x-tex">O(n^2)</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1.064108em;vertical-align:-0.25em;"></span><span class="mord mathdefault" style="margin-right:0.02778em;">O</span><span class="mopen">(</span><span class="mord"><span class="mord mathdefault">n</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.8141079999999999em;"><span style="top:-3.063em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight">2</span></span></span></span></span></span></span></span><span class="mclose">)</span></span></span></span>求得结果的第一行，这样就可以得到其他各行的结果，将矩阵乘法的复杂度下降了一级<br>
+若下标从0开始：<span class="katex"><span class="katex-mathml"><math><semantics><mrow><mi>c</mi><mo>[</mo><mn>1</mn><mo>]</mo><mo>[</mo><mo>(</mo><mi>i</mi><mo>+</mo><mi>j</mi><mo>)</mo><mi mathvariant="normal">%</mi><mi>n</mi><mo>]</mo><mo>+</mo><mo>=</mo><mi>a</mi><mo>[</mo><mn>1</mn><mo>]</mo><mo>[</mo><mi>i</mi><mo>]</mo><mo>∗</mo><mi>b</mi><mo>[</mo><mn>1</mn><mo>]</mo><mo>[</mo><mi>j</mi><mo>]</mo></mrow><annotation encoding="application/x-tex">c[1][(i+j)\%n] += a[1][i] * b[1][j]</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathdefault">c</span><span class="mopen">[</span><span class="mord">1</span><span class="mclose">]</span><span class="mopen">[</span><span class="mopen">(</span><span class="mord mathdefault">i</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span><span class="mbin">+</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span></span><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathdefault" style="margin-right:0.05724em;">j</span><span class="mclose">)</span><span class="mord">%</span><span class="mord mathdefault">n</span><span class="mclose">]</span><span class="mord">+</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span></span><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathdefault">a</span><span class="mopen">[</span><span class="mord">1</span><span class="mclose">]</span><span class="mopen">[</span><span class="mord mathdefault">i</span><span class="mclose">]</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span><span class="mbin">∗</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span></span><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathdefault">b</span><span class="mopen">[</span><span class="mord">1</span><span class="mclose">]</span><span class="mopen">[</span><span class="mord mathdefault" style="margin-right:0.05724em;">j</span><span class="mclose">]</span></span></span></span><br>
+若下标从1开始：<span class="katex"><span class="katex-mathml"><math><semantics><mrow><mi>c</mi><mo>[</mo><mn>1</mn><mo>]</mo><mo>[</mo><mo>(</mo><mi>i</mi><mo>+</mo><mi>j</mi><mo>−</mo><mn>2</mn><mo>)</mo><mi mathvariant="normal">%</mi><mi>n</mi><mo>+</mo><mn>1</mn><mo>]</mo><mo>+</mo><mo>=</mo><mi>a</mi><mo>[</mo><mn>1</mn><mo>]</mo><mo>[</mo><mi>i</mi><mo>]</mo><mo>∗</mo><mi>b</mi><mo>[</mo><mn>1</mn><mo>]</mo><mo>[</mo><mi>j</mi><mo>]</mo></mrow><annotation encoding="application/x-tex">c[1][(i+j-2)\%n+1] += a[1][i] * b[1][j]</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathdefault">c</span><span class="mopen">[</span><span class="mord">1</span><span class="mclose">]</span><span class="mopen">[</span><span class="mopen">(</span><span class="mord mathdefault">i</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span><span class="mbin">+</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span></span><span class="base"><span class="strut" style="height:0.85396em;vertical-align:-0.19444em;"></span><span class="mord mathdefault" style="margin-right:0.05724em;">j</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span><span class="mbin">−</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span></span><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord">2</span><span class="mclose">)</span><span class="mord">%</span><span class="mord mathdefault">n</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span><span class="mbin">+</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span></span><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord">1</span><span class="mclose">]</span><span class="mord">+</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span></span><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathdefault">a</span><span class="mopen">[</span><span class="mord">1</span><span class="mclose">]</span><span class="mopen">[</span><span class="mord mathdefault">i</span><span class="mclose">]</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span><span class="mbin">∗</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span></span><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathdefault">b</span><span class="mopen">[</span><span class="mord">1</span><span class="mclose">]</span><span class="mopen">[</span><span class="mord mathdefault" style="margin-right:0.05724em;">j</span><span class="mclose">]</span></span></span></span></p>
+<pre><code class="language-cpp">struct cirmat
+{
+	int mat[N];
+    cirmat() {}
+	cirmat(int _) : n(_) { memset(mat, 0, sizeof(mat)); }
+	cirmat() { memset(mat, 0, sizeof(mat)); }
+	void one() { mat[0] = 1; }
+};
+cirmat operator * (cirmat a, cirmat b)
+{
+	cirmat res;
+	for(int i=1; i&lt;=n; i++)
+		for(int j=1; j&lt;=n; j++)
+			(res.mat[(i+j-2)%n+1] += 1ll*a.mat[i]*b.mat[j]%mod) %= mod;
+	return res;
+}
+cirmat operator ^ (cirmat a, ll x) 
+{
+	cirmat res; res.one();
+	while(x)
+	{
+		if(x&amp;1) res = res * a;
+		a = a * a;
+		x &gt;&gt;= 1;
+	}
+	return res;
+}
+</code></pre>
+<h4 id="bzoj2510-弱题">bzoj2510 弱题</h4>
+<p>有m个带标号球，标号范围为1-n，每次操作等概率选择一个球，使得该球的标号加1（如果是n，就变成1）<br>
+问k次操作后，各个标号球的个数的期望<br>
+<span class="katex"><span class="katex-mathml"><math><semantics><mrow><mi>n</mi><mo>≤</mo><mn>1000</mn><mo separator="true">,</mo><mi>m</mi><mo>≤</mo><mn>1</mn><msup><mn>0</mn><mn>9</mn></msup><mo separator="true">,</mo><mi>k</mi><mo>≤</mo><mi>I</mi><mi>N</mi><mi>T</mi><mi mathvariant="normal">_</mi><mi>M</mi><mi>A</mi><mi>X</mi></mrow><annotation encoding="application/x-tex">n \leq 1000,m \leq 10^9,k \leq INT\_MAX</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.7719400000000001em;vertical-align:-0.13597em;"></span><span class="mord mathdefault">n</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span><span class="mrel">≤</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span></span><span class="base"><span class="strut" style="height:0.8388800000000001em;vertical-align:-0.19444em;"></span><span class="mord">1</span><span class="mord">0</span><span class="mord">0</span><span class="mord">0</span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.16666666666666666em;"></span><span class="mord mathdefault">m</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span><span class="mrel">≤</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span></span><span class="base"><span class="strut" style="height:1.008548em;vertical-align:-0.19444em;"></span><span class="mord">1</span><span class="mord"><span class="mord">0</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.8141079999999999em;"><span style="top:-3.063em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight">9</span></span></span></span></span></span></span></span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.16666666666666666em;"></span><span class="mord mathdefault" style="margin-right:0.03148em;">k</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span><span class="mrel">≤</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span></span><span class="base"><span class="strut" style="height:0.99333em;vertical-align:-0.31em;"></span><span class="mord mathdefault" style="margin-right:0.07847em;">I</span><span class="mord mathdefault" style="margin-right:0.10903em;">N</span><span class="mord mathdefault" style="margin-right:0.13889em;">T</span><span class="mord" style="margin-right:0.02778em;">_</span><span class="mord mathdefault" style="margin-right:0.10903em;">M</span><span class="mord mathdefault">A</span><span class="mord mathdefault" style="margin-right:0.07847em;">X</span></span></span></span><br>
+转移矩阵是一个循环矩阵</p>
+<pre><code class="language-cpp">#include &lt;bits/stdc++.h&gt;
+using namespace std;
+const int N = 1e3 + 5;
+int n, m, k;
+struct cirmat
+{
+	double mat[N];
+	cirmat() { memset(mat, 0, sizeof(mat)); }
+	void one() { mat[0] = 1.0; }
+}a, b;
+cirmat operator * (cirmat a, cirmat b)
+{
+	cirmat res;
+	for(int i=0; i&lt;n; i++)
+		for(int j=0; j&lt;n; j++)
+			res.mat[(i+j)%n] += a.mat[i]*b.mat[j];
+	return res;
+}
+cirmat operator ^ (cirmat a, int x) 
+{
+	cirmat res; res.one();
+	while(x)
+	{
+		if(x&amp;1) res = res * a;
+		a = a * a;
+		x &gt;&gt;= 1;
+	}
+	return res;
+}
+int main()
+{
+	scanf(&quot;%d%d%d&quot;, &amp;n, &amp;m, &amp;k);
+	for(int i=0; i&lt;n; i++) scanf(&quot;%lf&quot;, &amp;a.mat[i]);
+	b.mat[0] = 1.0 - 1.0/m, b.mat[1] = 1.0/m;
+	b = b ^ k;
+	a = a * b;
+	for(int i=0; i&lt;n; i++) printf(&quot;%.3f\n&quot;, a.mat[i]); 
+	return 0;
+}
+</code></pre>
+<h4 id="牛客14532-没有名字">牛客14532 没有名字</h4>
+<p>转移是一个循环矩阵</p>
+<pre><code class="language-cpp">#include &lt;bits/stdc++.h&gt;
+using ll = long long;
+using namespace std;
+const int mod = 1e9 + 7, N = 205;
+int n, k;
+ll m;
+struct cirmat
+{
+	int mat[N];
+	cirmat() { memset(mat, 0, sizeof(mat)); }
+	void one() { mat[1] = 1; }
+}a, b;
+cirmat operator * (cirmat a, cirmat b)
+{
+	cirmat res;
+	for(int i=1; i&lt;=n; i++)
+		for(int j=1; j&lt;=n; j++)
+			(res.mat[(i+j-2)%n+1] += 1ll*a.mat[i]*b.mat[j]%mod) %= mod;
+	return res;
+}
+cirmat operator ^ (cirmat a, ll x) 
+{
+	cirmat res; res.one();
+	while(x)
+	{
+		if(x&amp;1) res = res * a;
+		a = a * a;
+		x &gt;&gt;= 1;
+	}
+	return res;
+}
+void solve()
+{
+	scanf(&quot;%d%lld%d&quot;, &amp;n, &amp;m, &amp;k);
+	for(int i=1; i&lt;=n; i++) scanf(&quot;%d&quot;, &amp;a.mat[i]);
+	for(int i=1; i&lt;=n; i++)
+	{
+		int dis = min(i-1, n+1-i);
+		if(i==1 || dis&gt;=k) b.mat[i] = 0;
+		else b.mat[i] = k - dis;
+	}
+	b = b ^ m;
+	a = a * b;
+	for(int i=1; i&lt;=n; i++) printf(&quot;%d%c&quot;, a.mat[i], &quot; \n&quot;[i==n]);
+}
+int main()
+{
+	int _; scanf(&quot;%d&quot;, &amp;_);
+	while(_--) solve();
+	return 0;
+}
+</code></pre>
+<p>另外，利用FFT还可以将循环矩阵乘法优化到<span class="katex"><span class="katex-mathml"><math><semantics><mrow><mi>O</mi><mo>(</mo><mi>n</mi><mi>l</mi><mi>o</mi><mi>g</mi><mi>n</mi><mo>)</mo></mrow><annotation encoding="application/x-tex">O(nlogn)</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathdefault" style="margin-right:0.02778em;">O</span><span class="mopen">(</span><span class="mord mathdefault">n</span><span class="mord mathdefault" style="margin-right:0.01968em;">l</span><span class="mord mathdefault">o</span><span class="mord mathdefault" style="margin-right:0.03588em;">g</span><span class="mord mathdefault">n</span><span class="mclose">)</span></span></span></span>，还不会，先咕</p>
+
+              </div>
+              <div class="toc-container">
+                <ul class="markdownIt-TOC">
+<li>
+<ul>
+<li>
+<ul>
+<li>
+<ul>
+<li><a href="#%E6%80%A7%E8%B4%A8">性质</a></li>
+<li><a href="#%E4%BC%98%E5%8A%BF">优势</a></li>
+<li><a href="#bzoj2510-%E5%BC%B1%E9%A2%98">bzoj2510 弱题</a></li>
+<li><a href="#%E7%89%9B%E5%AE%A214532-%E6%B2%A1%E6%9C%89%E5%90%8D%E5%AD%97">牛客14532 没有名字</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+              </div>
+            </div>
+          </article>
+        </div>
+
+        
+          <div class="next-post">
+            <div class="next">下一篇</div>
+            <a href="https://jyf111.github.io/post/zui-xiao-ge-xiang-guan/">
+              <h3 class="post-title">
+                最小割相关
+              </h3>
+            </a>
+          </div>
+        
+
+        
+
+        <div class="site-footer">
+  
+  <a class="rss" href="https://jyf111.github.io/atom.xml" target="_blank">
+    <i class="ri-rss-line"></i> RSS
+  </a>
+</div>
+
+      </div>
+    </div>
+
+    <script>
+      hljs.initHighlightingOnLoad()
+
+      let mainNavLinks = document.querySelectorAll(".markdownIt-TOC a");
+
+      // This should probably be throttled.
+      // Especially because it triggers during smooth scrolling.
+      // https://lodash.com/docs/4.17.10#throttle
+      // You could do like...
+      // window.addEventListener("scroll", () => {
+      //    _.throttle(doThatStuff, 100);
+      // });
+      // Only not doing it here to keep this Pen dependency-free.
+
+      window.addEventListener("scroll", event => {
+        let fromTop = window.scrollY;
+
+        mainNavLinks.forEach((link, index) => {
+          let section = document.getElementById(decodeURI(link.hash).substring(1));
+          let nextSection = null
+          if (mainNavLinks[index + 1]) {
+            nextSection = document.getElementById(decodeURI(mainNavLinks[index + 1].hash).substring(1));
+          }
+          if (section.offsetTop <= fromTop) {
+            if (nextSection) {
+              if (nextSection.offsetTop > fromTop) {
+                link.classList.add("current");
+              } else {
+                link.classList.remove("current");    
+              }
+            } else {
+              link.classList.add("current");
+            }
+          } else {
+            link.classList.remove("current");
+          }
+        });
+      });
+
+    </script>
+  </body>
+</html>

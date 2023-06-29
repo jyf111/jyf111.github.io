@@ -1,0 +1,346 @@
+<html>
+  <head>
+    <meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>线段树维护前缀最值问题 | jyf111</title>
+<link rel="shortcut icon" href="https://jyf111.github.io/favicon.ico?v=1688054387335">
+<link href="https://cdn.jsdelivr.net/npm/remixicon@2.3.0/fonts/remixicon.css" rel="stylesheet">
+<link rel="stylesheet" href="https://jyf111.github.io/styles/main.css">
+<link rel="alternate" type="application/atom+xml" title="线段树维护前缀最值问题 | jyf111 - Atom Feed" href="https://jyf111.github.io/atom.xml">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Droid+Serif:400,700">
+
+
+
+    <meta name="description" content="楼房重建
+有n栋房屋,问从1号楼往后看,最多能看到几栋楼,要求支持单点修改
+例:(1,3,2,5,4)(1, 3, 2, 5, 4)(1,3,2,5,4) 答案为3:(1,3,5)3:(1, 3, 5)3:(1,3,5)
+答案就是从1开始的..." />
+    <meta name="keywords" content="算法" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.10.0/katex.min.css">
+    <script src="https://cdn.bootcss.com/highlight.js/9.12.0/highlight.min.js"></script>
+  </head>
+  <body>
+    <div class="main">
+      <div class="main-content">
+        <div class="site-header">
+  <a href="https://jyf111.github.io">
+  <img class="avatar" src="https://jyf111.github.io/images/avatar.png?v=1688054387335" alt="">
+  </a>
+  <h1 class="site-title">
+    jyf111
+  </h1>
+  <p class="site-description">
+    温故而知新
+  </p>
+  <div class="menu-container">
+    
+      
+        <a href="https://jyf111.github.io" class="menu">
+          首页
+        </a>
+      
+    
+      
+        <a href="/archives" class="menu">
+          归档
+        </a>
+      
+    
+      
+        <a href="https://jyf111.github.io/tags" class="menu">
+          分类
+        </a>
+      
+    
+  </div>
+  <div class="social-container">
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+  </div>
+</div>
+
+        <div class="post-detail">
+          <article class="post">
+            <h2 class="post-title">
+              线段树维护前缀最值问题
+            </h2>
+            <div class="post-info">
+              <span>
+                2020-05-23
+              </span>
+              <span>
+                8 min read
+              </span>
+              
+                <a href="https://jyf111.github.io/tag/HKuTllKYu/" class="post-tag">
+                  # 算法
+                </a>
+              
+            </div>
+            
+            <div class="post-content-wrapper">
+              <div class="post-content">
+                <h1 id="楼房重建">楼房重建</h1>
+<p>有n栋房屋,问从1号楼往后看,最多能看到几栋楼,要求支持单点修改<br>
+例:<span class="katex"><span class="katex-mathml"><math><semantics><mrow><mo>(</mo><mn>1</mn><mo separator="true">,</mo><mn>3</mn><mo separator="true">,</mo><mn>2</mn><mo separator="true">,</mo><mn>5</mn><mo separator="true">,</mo><mn>4</mn><mo>)</mo></mrow><annotation encoding="application/x-tex">(1, 3, 2, 5, 4)</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mopen">(</span><span class="mord">1</span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.16666666666666666em;"></span><span class="mord">3</span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.16666666666666666em;"></span><span class="mord">2</span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.16666666666666666em;"></span><span class="mord">5</span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.16666666666666666em;"></span><span class="mord">4</span><span class="mclose">)</span></span></span></span> 答案为<span class="katex"><span class="katex-mathml"><math><semantics><mrow><mn>3</mn><mo>:</mo><mo>(</mo><mn>1</mn><mo separator="true">,</mo><mn>3</mn><mo separator="true">,</mo><mn>5</mn><mo>)</mo></mrow><annotation encoding="application/x-tex">3:(1, 3, 5)</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.64444em;vertical-align:0em;"></span><span class="mord">3</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span><span class="mrel">:</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span></span><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mopen">(</span><span class="mord">1</span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.16666666666666666em;"></span><span class="mord">3</span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.16666666666666666em;"></span><span class="mord">5</span><span class="mclose">)</span></span></span></span><br>
+答案就是从1开始的严格前缀最大值的长度,考虑线段树维护,但是在pushup的时候,如果简单的将左右子树的答案相加,是不对的,因为左边的楼房高度会影响到右边.<br>
+不妨考虑递归的进行pushup(也是某种启发,因为pushup一般都是O(1)合并的,但logn合并未尝不可?)<br>
+线段树每个节点维护<span class="katex"><span class="katex-mathml"><math><semantics><mrow><mi>m</mi><mi>x</mi><mo separator="true">,</mo><mi>l</mi><mi>e</mi><mi>n</mi></mrow><annotation encoding="application/x-tex">mx,len</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.8888799999999999em;vertical-align:-0.19444em;"></span><span class="mord mathdefault">m</span><span class="mord mathdefault">x</span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.16666666666666666em;"></span><span class="mord mathdefault" style="margin-right:0.01968em;">l</span><span class="mord mathdefault">e</span><span class="mord mathdefault">n</span></span></span></span>分别表示区间最大值(用于剪枝),<strong>只考虑</strong>该区间时的答案<br>
+添加函数merge(v, p) 表示线段树上编号p节点管辖的区间在左边最大值为v的影响下产生的答案<br>
+以下考虑几种情况:</p>
+<ul>
+<li><span class="katex"><span class="katex-mathml"><math><semantics><mrow><mi>t</mi><mo>[</mo><mi>p</mi><mo>]</mo></mrow><annotation encoding="application/x-tex">t[p]</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathdefault">t</span><span class="mopen">[</span><span class="mord mathdefault">p</span><span class="mclose">]</span></span></span></span>的最大值是小于v 此时没有贡献, <span class="katex"><span class="katex-mathml"><math><semantics><mrow><mi>r</mi><mi>e</mi><mi>t</mi><mi>u</mi><mi>r</mi><mi>n</mi><mtext> </mtext><mn>0</mn></mrow><annotation encoding="application/x-tex">return \,0</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.64444em;vertical-align:0em;"></span><span class="mord mathdefault" style="margin-right:0.02778em;">r</span><span class="mord mathdefault">e</span><span class="mord mathdefault">t</span><span class="mord mathdefault">u</span><span class="mord mathdefault" style="margin-right:0.02778em;">r</span><span class="mord mathdefault">n</span><span class="mspace" style="margin-right:0.16666666666666666em;"></span><span class="mord">0</span></span></span></span>即可</li>
+<li>p是叶子节点<span class="katex"><span class="katex-mathml"><math><semantics><mrow><mi>r</mi><mi>e</mi><mi>t</mi><mi>u</mi><mi>r</mi><mi>n</mi><mtext> </mtext><mi>t</mi><mo>[</mo><mi>p</mi><mo>]</mo><mi mathvariant="normal">.</mi><mi>m</mi><mi>x</mi><mo>&gt;</mo><mi>v</mi></mrow><annotation encoding="application/x-tex">return \, t[p].mx&gt;v</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathdefault" style="margin-right:0.02778em;">r</span><span class="mord mathdefault">e</span><span class="mord mathdefault">t</span><span class="mord mathdefault">u</span><span class="mord mathdefault" style="margin-right:0.02778em;">r</span><span class="mord mathdefault">n</span><span class="mspace" style="margin-right:0.16666666666666666em;"></span><span class="mord mathdefault">t</span><span class="mopen">[</span><span class="mord mathdefault">p</span><span class="mclose">]</span><span class="mord">.</span><span class="mord mathdefault">m</span><span class="mord mathdefault">x</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span><span class="mrel">&gt;</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span></span><span class="base"><span class="strut" style="height:0.43056em;vertical-align:0em;"></span><span class="mord mathdefault" style="margin-right:0.03588em;">v</span></span></span></span>返回该节点代表的值与v的大小关系即可</li>
+<li>考虑左右儿子为ls, rs 若<span class="katex"><span class="katex-mathml"><math><semantics><mrow><mi>t</mi><mo>[</mo><mi>l</mi><mi>s</mi><mo>]</mo><mi mathvariant="normal">.</mi><mi>m</mi><mi>x</mi><mo>&lt;</mo><mo>=</mo><mi>v</mi></mrow><annotation encoding="application/x-tex">t[ls].mx&lt;=v</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathdefault">t</span><span class="mopen">[</span><span class="mord mathdefault" style="margin-right:0.01968em;">l</span><span class="mord mathdefault">s</span><span class="mclose">]</span><span class="mord">.</span><span class="mord mathdefault">m</span><span class="mord mathdefault">x</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span><span class="mrel">&lt;</span></span><span class="base"><span class="strut" style="height:0.36687em;vertical-align:0em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span></span><span class="base"><span class="strut" style="height:0.43056em;vertical-align:0em;"></span><span class="mord mathdefault" style="margin-right:0.03588em;">v</span></span></span></span>此时左区间无贡献,递归右区间即可,<span class="katex"><span class="katex-mathml"><math><semantics><mrow><mi>r</mi><mi>e</mi><mi>t</mi><mi>u</mi><mi>r</mi><mi>n</mi><mtext> </mtext><mi>m</mi><mi>e</mi><mi>r</mi><mi>g</mi><mi>e</mi><mo>(</mo><mi>v</mi><mo separator="true">,</mo><mi>r</mi><mi>s</mi><mo>)</mo></mrow><annotation encoding="application/x-tex">return \,merge(v, rs)</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathdefault" style="margin-right:0.02778em;">r</span><span class="mord mathdefault">e</span><span class="mord mathdefault">t</span><span class="mord mathdefault">u</span><span class="mord mathdefault" style="margin-right:0.02778em;">r</span><span class="mord mathdefault">n</span><span class="mspace" style="margin-right:0.16666666666666666em;"></span><span class="mord mathdefault">m</span><span class="mord mathdefault">e</span><span class="mord mathdefault" style="margin-right:0.02778em;">r</span><span class="mord mathdefault" style="margin-right:0.03588em;">g</span><span class="mord mathdefault">e</span><span class="mopen">(</span><span class="mord mathdefault" style="margin-right:0.03588em;">v</span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.16666666666666666em;"></span><span class="mord mathdefault" style="margin-right:0.02778em;">r</span><span class="mord mathdefault">s</span><span class="mclose">)</span></span></span></span>.否则递归左区间,那么右区间的贡献是<span class="katex"><span class="katex-mathml"><math><semantics><mrow><mi>t</mi><mo>[</mo><mi>p</mi><mo>]</mo><mi mathvariant="normal">.</mi><mi>l</mi><mi>e</mi><mi>n</mi><mo>−</mo><mi>t</mi><mo>[</mo><mi>l</mi><mi>s</mi><mo>]</mo><mi mathvariant="normal">.</mi><mi>l</mi><mi>e</mi><mi>n</mi></mrow><annotation encoding="application/x-tex">t[p].len-t[ls].len</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathdefault">t</span><span class="mopen">[</span><span class="mord mathdefault">p</span><span class="mclose">]</span><span class="mord">.</span><span class="mord mathdefault" style="margin-right:0.01968em;">l</span><span class="mord mathdefault">e</span><span class="mord mathdefault">n</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span><span class="mbin">−</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span></span><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathdefault">t</span><span class="mopen">[</span><span class="mord mathdefault" style="margin-right:0.01968em;">l</span><span class="mord mathdefault">s</span><span class="mclose">]</span><span class="mord">.</span><span class="mord mathdefault" style="margin-right:0.01968em;">l</span><span class="mord mathdefault">e</span><span class="mord mathdefault">n</span></span></span></span>(注意不是t[rs].len)<br>
+在pushup的时候,维护好mx,并让t[p].len = t[ls].len + merge(t[ls].mx, rs)即可</li>
+</ul>
+<h1 id="最简单的一道题">最简单的一道题</h1>
+<p>西邮新生赛的一题,没人过<br>
+我看到的时候就发现是跟楼房重建一样的trick,然而<s>调bug调了半天,wa了无数发</s><br>
+给定n个数,询问从第x个数往后的非严格前缀最小值的长度,要求支持区间加<br>
+做法跟上题类似,注意在merge里面也要加上pushdown,在每次要访问一个点的左右儿子的时候,就应该下放该点的lazytag<br>
+上一题的询问都是从1开始的,所以答案就是t[1].len,但本题是从x开始的,我的做法是把<span class="katex"><span class="katex-mathml"><math><semantics><mrow><mo>[</mo><mi>x</mi><mo separator="true">,</mo><mi>n</mi><mo>]</mo></mrow><annotation encoding="application/x-tex">[x,n]</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mopen">[</span><span class="mord mathdefault">x</span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.16666666666666666em;"></span><span class="mord mathdefault">n</span><span class="mclose">]</span></span></span></span>在线段树上的区间提取出来,然后从左往右合并,区间数是log段,合并也是log的,复杂度是O(<span class="katex"><span class="katex-mathml"><math><semantics><mrow><mi>n</mi><mo>(</mo><mi>l</mi><mi>o</mi><mi>g</mi><mi>n</mi><msup><mo>)</mo><mn>2</mn></msup><mo>)</mo></mrow><annotation encoding="application/x-tex">n(logn) ^ 2)</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1.064108em;vertical-align:-0.25em;"></span><span class="mord mathdefault">n</span><span class="mopen">(</span><span class="mord mathdefault" style="margin-right:0.01968em;">l</span><span class="mord mathdefault">o</span><span class="mord mathdefault" style="margin-right:0.03588em;">g</span><span class="mord mathdefault">n</span><span class="mclose"><span class="mclose">)</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.8141079999999999em;"><span style="top:-3.063em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight">2</span></span></span></span></span></span></span></span><span class="mclose">)</span></span></span></span>)</p>
+<pre><code class="language-cpp">#include &lt;bits/stdc++.h&gt;
+#define mp make_pair
+#define pb push_back
+#define sz(x) (int)x.size()
+#define all(x) begin(x), end(x)
+#define fi first
+#define se second
+#define debug(x) cerr &lt;&lt; #x &lt;&lt; &quot; &quot; &lt;&lt; x &lt;&lt; '\n'
+using namespace std;
+using ll = long long;
+using pii = pair&lt;int,int&gt;;
+using pli = pair&lt;ll,int&gt;;
+const int INF = 0x3f3f3f3f, N = 2e5 + 5;
+const ll LINF = 1e18 + 5;
+constexpr int mod = 1e9 + 7;
+int a[N];
+int n, m, pos[N];
+vector&lt;int&gt; vec;
+namespace SegTree
+{
+	#define ls (p&lt;&lt;1)
+	#define rs (p&lt;&lt;1|1)
+	struct seg
+	{
+		int l, r, len;
+		ll mn, tag;
+	}t[N&lt;&lt;2];
+	void setval(int p, ll v)
+	{
+		t[p].mn += v;
+		t[p].tag += v;
+	}
+	void pushdown(int p)
+	{
+		setval(ls, t[p].tag); setval(rs, t[p].tag);
+		t[p].tag = 0;
+	}
+	int merge(int v, int p) //重点
+	{
+		int l = t[p].l, r = t[p].r;
+		if(t[p].mn&gt;v) return 0;
+		if(l==r) return t[p].mn&lt;=v;
+		if(t[p].tag) pushdown(p);
+		if(t[ls].mn&gt;v) return merge(v, rs);
+		else return merge(v, ls) + t[p].len - t[ls].len;
+	}
+	void pushup(int p)
+	{
+		t[p].mn = min(t[ls].mn, t[rs].mn);
+		t[p].len = t[ls].len + merge(t[ls].mn, rs);
+	}
+	void build(int p, int l, int r)
+	{
+		t[p].l = l, t[p].r = r;
+		if(l==r) 
+		{
+			t[p].mn = a[l];
+			t[p].len = 1;
+			pos[l] = p;
+			return;
+		}
+		int mid = (l+r)&gt;&gt;1;
+		build(ls, l, mid); build(rs, mid+1, r);
+		pushup(p);
+	}
+	void upd(int p, int x, int y, int v)
+	{
+		int l = t[p].l, r = t[p].r;
+		if(l&gt;=x &amp;&amp; r&lt;=y) 
+		{
+			setval(p, v);
+			return;
+		}
+		if(t[p].tag) pushdown(p);
+		int mid = (l+r)&gt;&gt;1;
+		if(x&lt;=mid) upd(ls, x, y, v);
+		if(y&gt;mid) upd(rs, x, y, v);
+		pushup(p);
+	}
+	void ask(int p, int x, int y)
+	{
+		int l = t[p].l, r = t[p].r;
+		if(l&gt;=x &amp;&amp; r&lt;=y) 
+		{
+			vec.pb(p);
+			return;
+		}
+		if(t[p].tag) pushdown(p);
+		int mid = (l+r)&gt;&gt;1;
+		if(x&lt;=mid) ask(ls, x, y);
+		if(y&gt;mid) ask(rs, x, y);
+	}
+	#undef ls
+	#undef rs
+}
+using namespace SegTree;
+char op[2];
+int main()
+{
+	scanf(&quot;%d%d&quot;, &amp;n, &amp;m);
+	for(int i=1; i&lt;=n; i++) scanf(&quot;%d&quot;, a+i);
+	build(1, 1, n);
+	for(int i=1; i&lt;=m; i++)
+	{	
+		scanf(&quot;%s&quot;, op);
+		if(op[0]=='c')
+		{
+			int l, r, k;
+			scanf(&quot;%d%d%d&quot;, &amp;l, &amp;r, &amp;k);
+			upd(1, l, r, k);
+		}
+		else
+		{
+			int x;
+			scanf(&quot;%d&quot;, &amp;x);
+			vec.clear();
+			ask(1, x, n);
+			int ans = t[vec[0]].len;
+			ll mn = t[vec[0]].mn;
+			for(int i=1; i&lt;sz(vec); i++)
+			{
+				ans += merge(mn, vec[i]);
+				mn = min(mn, t[vec[i]].mn);
+			}
+			printf(&quot;%d\n&quot;, ans-1);
+		}
+	}
+	return 0;
+}
+</code></pre>
+<p>copy自小粉兔:</p>
+<blockquote>
+<p>但是，我们注意到一个很关键的性质：<br>
+当v小于左子树的最大值时，右子树对当前节点的贡献，是通过减法计算的<br>
+也就是说这个信息要满足一定程度上的可减性<br>
+但是有很多信息是不满足可减性的，比如 max,min、按位与、按位或等<br>
+为了能让这种线段树适应更一般的情况，我们修改维护的信息的意义：<br>
+仍然维护这个区间中的最大值。<br>
+此时并不是维护区间的答案，而是<span class="katex"><span class="katex-mathml"><math><semantics><mrow><mi mathvariant="normal">仅</mi><mi mathvariant="normal">考</mi><mi mathvariant="normal">虑</mi><mi mathvariant="normal">该</mi><mi mathvariant="normal">区</mi><mi mathvariant="normal">间</mi><mi mathvariant="normal">的</mi><mi mathvariant="normal">影</mi><mi mathvariant="normal">响</mi><mi mathvariant="normal">后</mi><mi mathvariant="normal">，</mi><mi mathvariant="normal">却</mi><mi mathvariant="normal">又</mi><mi mathvariant="normal">只</mi><mi mathvariant="normal">统</mi><mi mathvariant="normal">计</mi><mi mathvariant="normal">右</mi><mi mathvariant="normal">子</mi><mi mathvariant="normal">树</mi><mi mathvariant="normal">的</mi><mi mathvariant="normal">答</mi><mi mathvariant="normal">案</mi></mrow><annotation encoding="application/x-tex">仅考虑该区间的影响后，却又只统计右子树的答案</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0em;vertical-align:0em;"></span><span class="mord cjk_fallback">仅</span><span class="mord cjk_fallback">考</span><span class="mord cjk_fallback">虑</span><span class="mord cjk_fallback">该</span><span class="mord cjk_fallback">区</span><span class="mord cjk_fallback">间</span><span class="mord cjk_fallback">的</span><span class="mord cjk_fallback">影</span><span class="mord cjk_fallback">响</span><span class="mord cjk_fallback">后</span><span class="mord cjk_fallback">，</span><span class="mord cjk_fallback">却</span><span class="mord cjk_fallback">又</span><span class="mord cjk_fallback">只</span><span class="mord cjk_fallback">统</span><span class="mord cjk_fallback">计</span><span class="mord cjk_fallback">右</span><span class="mord cjk_fallback">子</span><span class="mord cjk_fallback">树</span><span class="mord cjk_fallback">的</span><span class="mord cjk_fallback">答</span><span class="mord cjk_fallback">案</span></span></span></span>。<br>
+也就是说令当前节点对应的区间为 [l,r]，区间中点为 mid，则：<br>
+维护的答案是，只考虑 [l,r] 时，在区间 [mid+1,r] 中的答案。</p>
+</blockquote>
+<p>线段树每个节点仍然维护mx[i], len[i],但对于叶节点len[i]无意义,再考虑merge(v, p)函数</p>
+<pre><code class="language-cpp">void pushup(int p)
+{
+  t[p].mx = max(t[ls].mx, t[rs].mx);
+  t[p].len = merge(t[ls].mx, rs);
+}
+int merge(int v, int p) 
+{
+  int l = t[p].l, r = t[p].r;
+  if(t[p].mx&lt;=v) return 0;
+  if(l==r) return t[p].mn&gt;v;
+  if(t[ls].mx&lt;=v) return merge(v, rs);
+  else return merge(v, ls) + t[p].len; //避免了区间维护信息不可减的问题
+}
+</code></pre>
+
+              </div>
+              <div class="toc-container">
+                <ul class="markdownIt-TOC">
+<li><a href="#%E6%A5%BC%E6%88%BF%E9%87%8D%E5%BB%BA">楼房重建</a></li>
+<li><a href="#%E6%9C%80%E7%AE%80%E5%8D%95%E7%9A%84%E4%B8%80%E9%81%93%E9%A2%98">最简单的一道题</a></li>
+</ul>
+
+              </div>
+            </div>
+          </article>
+        </div>
+
+        
+          <div class="next-post">
+            <div class="next">下一篇</div>
+            <a href="https://jyf111.github.io/post/boruvka-sheng-cheng-shu-suan-fa/">
+              <h3 class="post-title">
+                Boruvka生成树算法
+              </h3>
+            </a>
+          </div>
+        
+
+        
+
+        <div class="site-footer">
+  
+  <a class="rss" href="https://jyf111.github.io/atom.xml" target="_blank">
+    <i class="ri-rss-line"></i> RSS
+  </a>
+</div>
+
+      </div>
+    </div>
+
+    <script>
+      hljs.initHighlightingOnLoad()
+
+      let mainNavLinks = document.querySelectorAll(".markdownIt-TOC a");
+
+      // This should probably be throttled.
+      // Especially because it triggers during smooth scrolling.
+      // https://lodash.com/docs/4.17.10#throttle
+      // You could do like...
+      // window.addEventListener("scroll", () => {
+      //    _.throttle(doThatStuff, 100);
+      // });
+      // Only not doing it here to keep this Pen dependency-free.
+
+      window.addEventListener("scroll", event => {
+        let fromTop = window.scrollY;
+
+        mainNavLinks.forEach((link, index) => {
+          let section = document.getElementById(decodeURI(link.hash).substring(1));
+          let nextSection = null
+          if (mainNavLinks[index + 1]) {
+            nextSection = document.getElementById(decodeURI(mainNavLinks[index + 1].hash).substring(1));
+          }
+          if (section.offsetTop <= fromTop) {
+            if (nextSection) {
+              if (nextSection.offsetTop > fromTop) {
+                link.classList.add("current");
+              } else {
+                link.classList.remove("current");    
+              }
+            } else {
+              link.classList.add("current");
+            }
+          } else {
+            link.classList.remove("current");
+          }
+        });
+      });
+
+    </script>
+  </body>
+</html>

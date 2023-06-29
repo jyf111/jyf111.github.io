@@ -1,0 +1,278 @@
+<html>
+  <head>
+    <meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>JOI2019 Final 独特的城市 思维+长剖 | jyf111</title>
+<link rel="shortcut icon" href="https://jyf111.github.io/favicon.ico?v=1688054387335">
+<link href="https://cdn.jsdelivr.net/npm/remixicon@2.3.0/fonts/remixicon.css" rel="stylesheet">
+<link rel="stylesheet" href="https://jyf111.github.io/styles/main.css">
+<link rel="alternate" type="application/atom+xml" title="JOI2019 Final 独特的城市 思维+长剖 | jyf111 - Atom Feed" href="https://jyf111.github.io/atom.xml">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Droid+Serif:400,700">
+
+
+
+    <meta name="description" content="给定一棵树,定义城市y为x的独特城市,当且仅当对于任意的z,dis(x,y)!=dis(x,z)dis(x, y) != dis(x, z)dis(x,y)!=dis(x,z),每个点有个值,问对于每个城市的所有独特城市的值的种类数.
+做法..." />
+    <meta name="keywords" content="算法" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.10.0/katex.min.css">
+    <script src="https://cdn.bootcss.com/highlight.js/9.12.0/highlight.min.js"></script>
+  </head>
+  <body>
+    <div class="main">
+      <div class="main-content">
+        <div class="site-header">
+  <a href="https://jyf111.github.io">
+  <img class="avatar" src="https://jyf111.github.io/images/avatar.png?v=1688054387335" alt="">
+  </a>
+  <h1 class="site-title">
+    jyf111
+  </h1>
+  <p class="site-description">
+    温故而知新
+  </p>
+  <div class="menu-container">
+    
+      
+        <a href="https://jyf111.github.io" class="menu">
+          首页
+        </a>
+      
+    
+      
+        <a href="/archives" class="menu">
+          归档
+        </a>
+      
+    
+      
+        <a href="https://jyf111.github.io/tags" class="menu">
+          分类
+        </a>
+      
+    
+  </div>
+  <div class="social-container">
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+  </div>
+</div>
+
+        <div class="post-detail">
+          <article class="post">
+            <h2 class="post-title">
+              JOI2019 Final 独特的城市 思维+长剖
+            </h2>
+            <div class="post-info">
+              <span>
+                2020-04-30
+              </span>
+              <span>
+                4 min read
+              </span>
+              
+                <a href="https://jyf111.github.io/tag/HKuTllKYu/" class="post-tag">
+                  # 算法
+                </a>
+              
+            </div>
+            
+            <div class="post-content-wrapper">
+              <div class="post-content">
+                <p>给定一棵树,定义城市y为x的独特城市,当且仅当对于任意的z,<span class="katex"><span class="katex-mathml"><math><semantics><mrow><mi>d</mi><mi>i</mi><mi>s</mi><mo>(</mo><mi>x</mi><mo separator="true">,</mo><mi>y</mi><mo>)</mo><mo>!</mo><mo>=</mo><mi>d</mi><mi>i</mi><mi>s</mi><mo>(</mo><mi>x</mi><mo separator="true">,</mo><mi>z</mi><mo>)</mo></mrow><annotation encoding="application/x-tex">dis(x, y) != dis(x, z)</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathdefault">d</span><span class="mord mathdefault">i</span><span class="mord mathdefault">s</span><span class="mopen">(</span><span class="mord mathdefault">x</span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.16666666666666666em;"></span><span class="mord mathdefault" style="margin-right:0.03588em;">y</span><span class="mclose">)</span><span class="mclose">!</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span></span><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathdefault">d</span><span class="mord mathdefault">i</span><span class="mord mathdefault">s</span><span class="mopen">(</span><span class="mord mathdefault">x</span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.16666666666666666em;"></span><span class="mord mathdefault" style="margin-right:0.04398em;">z</span><span class="mclose">)</span></span></span></span>,每个点有个值,问对于每个城市的所有独特城市的值的种类数.</p>
+<h1 id="做法">做法</h1>
+<p>x的所有独特的城市一定位于距离x最远的点到x的链上(直径的某个端点).所以考虑以直径的两个端点各求解一次(取max)<br>
+在dfs的过程中用栈存储对于当前点u合法的答案.在u点时,栈中所有与u距离&lt;=u的<em>次长链</em>的答案都不合法,直接弹出,再将u入栈,利用长链剖分,先解决重儿子.长链解决后,栈中所有与u距离&lt;=该长链的点弹出.然后依次解决u的各个轻儿子即可(注意如果u不在栈中,要加入u).u子树解决后,如果u在栈中,弹出.<br>
+每次入栈和出栈用一个桶来统计答案即可.</p>
+<pre><code class="language-cpp">#include &lt;bits/stdc++.h&gt;
+#define mp make_pair
+#define pb push_back
+#define sz(x) (int)x.size()
+#define all(x) begin(x), end(x)
+#define fi first
+#define se second
+#define debug(x) cerr &lt;&lt; #x &lt;&lt; &quot; &quot; &lt;&lt; x &lt;&lt; '\n'
+using namespace std;
+using ll = long long;
+using pii = pair&lt;int,int&gt;;
+using pli = pair&lt;ll,int&gt;;
+const int INF = 0x3f3f3f3f, N = 2e5 + 5;
+const ll LINF = 1e18 + 5;
+constexpr int mod = 1e9 + 7;
+int n, m, c[N], cnt[N], cur;
+int s, t, mxlen, son[N], son2[N], len[N], dep[N];
+int sta[N], top, ans[N];
+int head[N], tot;
+struct node
+{
+	int to, next;
+}e[N&lt;&lt;1];
+void addedge(int u, int v)
+{
+	e[++tot].next = head[u];
+	e[tot].to = v;
+	head[u] = tot;
+}
+void dfs(int u, int fa, int dis)
+{
+	if(dis&gt;mxlen) 
+	{
+		mxlen = dis; 
+		t = u;
+	}
+	for(int i=head[u]; i; i=e[i].next)
+	{
+		int v = e[i].to;
+		if(v==fa) continue; 
+		dfs(v, u, dis+1);
+	}
+}
+void find()
+{
+	dfs(1, 0, 0);
+	s = t;
+	mxlen = t = 0;
+	dfs(s, 0, 0); 
+}
+void dfs2(int u, int fa)
+{
+	dep[u] = dep[fa] + 1;
+	son[u] = son2[u] = 0;
+	for(int i=head[u]; i; i=e[i].next)
+	{
+		int v = e[i].to;
+		if(v==fa) continue;
+		dfs2(v, u);
+		if(len[v]&gt;len[son[u]]) son2[u] = son[u], son[u] = v;
+		else if(len[v]&gt;len[son2[u]]) son2[u] = v;
+	}
+	len[u] = len[son[u]] + 1;
+}
+void add(int u)
+{
+	cnt[c[u]]++;
+	if(cnt[c[u]]==1) cur++;
+}
+void del(int u)
+{
+	cnt[c[u]]--;
+	if(!cnt[c[u]]) cur--;
+}
+void dfs3(int u, int fa)
+{
+	while(top &amp;&amp; dep[u]-dep[sta[top]]&lt;=len[son2[u]]) del(sta[top--]);
+	add(sta[++top]=u);
+	if(son[u]) dfs3(son[u], u);
+	while(top &amp;&amp; dep[u]-dep[sta[top]]&lt;=len[son[u]]) del(sta[top--]);
+	ans[u] = max(ans[u], cur);
+	for(int i=head[u]; i; i=e[i].next)
+	{
+		int v = e[i].to;
+		if(v==fa || v==son[u]) continue;
+		if(sta[top]!=u) add(sta[++top]=u);
+		dfs3(v, u);
+	}
+	if(sta[top]==u) del(sta[top--]);
+}
+int main()
+{
+	scanf(&quot;%d%d&quot;, &amp;n, &amp;m);
+	for(int i=1; i&lt;n; i++) 
+	{
+		int u, v;
+		scanf(&quot;%d%d&quot;, &amp;u, &amp;v);
+		addedge(u, v); addedge(v, u);
+	}
+	for(int i=1; i&lt;=n; i++) scanf(&quot;%d&quot;, c+i);
+	find();
+	dfs2(s, 0); dfs3(s, 0);
+	dfs2(t, 0); dfs3(t, 0);
+	for(int i=1; i&lt;=n; i++) printf(&quot;%d\n&quot;, ans[i]);
+	return 0;
+}
+</code></pre>
+
+              </div>
+              <div class="toc-container">
+                <ul class="markdownIt-TOC">
+<li><a href="#%E5%81%9A%E6%B3%95">做法</a></li>
+</ul>
+
+              </div>
+            </div>
+          </article>
+        </div>
+
+        
+          <div class="next-post">
+            <div class="next">下一篇</div>
+            <a href="https://jyf111.github.io/post/uoj207-lct-wei-hu-zi-shu-xin-xi-sui-ji-hua/">
+              <h3 class="post-title">
+                uoj207 LCT维护子树信息+随机化
+              </h3>
+            </a>
+          </div>
+        
+
+        
+
+        <div class="site-footer">
+  
+  <a class="rss" href="https://jyf111.github.io/atom.xml" target="_blank">
+    <i class="ri-rss-line"></i> RSS
+  </a>
+</div>
+
+      </div>
+    </div>
+
+    <script>
+      hljs.initHighlightingOnLoad()
+
+      let mainNavLinks = document.querySelectorAll(".markdownIt-TOC a");
+
+      // This should probably be throttled.
+      // Especially because it triggers during smooth scrolling.
+      // https://lodash.com/docs/4.17.10#throttle
+      // You could do like...
+      // window.addEventListener("scroll", () => {
+      //    _.throttle(doThatStuff, 100);
+      // });
+      // Only not doing it here to keep this Pen dependency-free.
+
+      window.addEventListener("scroll", event => {
+        let fromTop = window.scrollY;
+
+        mainNavLinks.forEach((link, index) => {
+          let section = document.getElementById(decodeURI(link.hash).substring(1));
+          let nextSection = null
+          if (mainNavLinks[index + 1]) {
+            nextSection = document.getElementById(decodeURI(mainNavLinks[index + 1].hash).substring(1));
+          }
+          if (section.offsetTop <= fromTop) {
+            if (nextSection) {
+              if (nextSection.offsetTop > fromTop) {
+                link.classList.add("current");
+              } else {
+                link.classList.remove("current");    
+              }
+            } else {
+              link.classList.add("current");
+            }
+          } else {
+            link.classList.remove("current");
+          }
+        });
+      });
+
+    </script>
+  </body>
+</html>
