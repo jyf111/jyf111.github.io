@@ -1,0 +1,334 @@
+<!DOCTYPE html>
+<html lang=zh>
+<head>
+    <!-- so meta -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="HandheldFriendly" content="True">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=5" />
+    <meta name="description" content="若竞赛图存在环，则一定存在三元环。 大小为$n$($n&gt;1$)的强连通块，大小为$[3,n]$的简单环均存在。 任意竞赛图都有哈密顿路径（经过每个点一次的路径，不要求回到出发点）。 增量构造：对于第$i$个点，要么放在第一个，要么从后往前找到第一个满足$j\rightarrow i$的，然后插在$j$的后面。 竞赛图存在哈密顿回路的充要条件是强联通。 先构造哈密顿路径，然后构造哈密顿回路。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="竞赛图">
+<meta property="og:url" content="http://example.com/2022/06/20/jing-sai-tu/index.html">
+<meta property="og:site_name" content="jyf111&#39;s blog">
+<meta property="og:description" content="若竞赛图存在环，则一定存在三元环。 大小为$n$($n&gt;1$)的强连通块，大小为$[3,n]$的简单环均存在。 任意竞赛图都有哈密顿路径（经过每个点一次的路径，不要求回到出发点）。 增量构造：对于第$i$个点，要么放在第一个，要么从后往前找到第一个满足$j\rightarrow i$的，然后插在$j$的后面。 竞赛图存在哈密顿回路的充要条件是强联通。 先构造哈密顿路径，然后构造哈密顿回路。">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2022-06-20T05:33:44.000Z">
+<meta property="article:modified_time" content="2023-08-24T08:56:21.227Z">
+<meta property="article:author" content="jyf111">
+<meta property="article:tag" content="算法">
+<meta name="twitter:card" content="summary">
+    
+    
+      
+        
+          <link rel="shortcut icon" href="/images/favicon.ico">
+        
+      
+      
+        
+          <link rel="icon" type="image/png" href="/images/favicon-192x192.png" sizes="192x192">
+        
+      
+      
+        
+          <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png">
+        
+      
+    
+    <!-- title -->
+    <title>竞赛图</title>
+    <!-- async scripts -->
+    <!-- Google Analytics -->
+
+
+    <!-- Umami Analytics -->
+
+
+    <!-- styles -->
+    
+<link rel="stylesheet" href="/css/style.css">
+
+    <!-- persian styles -->
+    
+    <!-- rss -->
+    
+    
+	<!-- mathjax -->
+	
+		<script type="text/x-mathjax-config">
+		  MathJax.Hub.Config({
+			tex2jax: {
+			  skipTags: ['script', 'noscript', 'style', 'textarea', 'pre'],
+			  inlineMath: [['$','$']]
+			}
+		  });
+		</script>
+		<script src='https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-MML-AM_CHTML' async></script>
+	
+<meta name="generator" content="Hexo 6.3.0"></head>
+
+<body class="max-width mx-auto px3 ltr">
+    
+      <div id="header-post">
+  <a id="menu-icon" href="#" aria-label="目录"><i class="fa-solid fa-bars fa-lg"></i></a>
+  <a id="menu-icon-tablet" href="#" aria-label="目录"><i class="fa-solid fa-bars fa-lg"></i></a>
+  <a id="top-icon-tablet" href="#" aria-label="顶部" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');" style="display:none;"><i class="fa-solid fa-chevron-up fa-lg"></i></a>
+  <span id="menu">
+    <span id="nav">
+      <ul>
+        <!--
+       --><li><a href="/">首页</a></li><!--
+     --><!--
+       --><li><a href="/archives/">归档</a></li><!--
+     --><!--
+       --><li><a href="/tags/">标签</a></li><!--
+     --><!--
+       --><li><a href="/search/">搜索</a></li><!--
+     -->
+      </ul>
+    </span>
+    <br/>
+    <span id="actions">
+      <ul>
+        
+        
+        <li><a class="icon" aria-label="下一篇" href="/2022/05/21/onetbb-bing-xing-bian-cheng-kuang-jia/"><i class="fa-solid fa-chevron-right" aria-hidden="true" onmouseover="$('#i-next').toggle();" onmouseout="$('#i-next').toggle();"></i></a></li>
+        
+        <li><a class="icon" aria-label="返回顶部" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fa-solid fa-chevron-up" aria-hidden="true" onmouseover="$('#i-top').toggle();" onmouseout="$('#i-top').toggle();"></i></a></li>
+        <li><a class="icon" aria-label="分享文章" href="#"><i class="fa-solid fa-share-alt" aria-hidden="true" onmouseover="$('#i-share').toggle();" onmouseout="$('#i-share').toggle();" onclick="$('#share').toggle();return false;"></i></a></li>
+      </ul>
+      <span id="i-prev" class="info" style="display:none;">上一篇</span>
+      <span id="i-next" class="info" style="display:none;">下一篇</span>
+      <span id="i-top" class="info" style="display:none;">返回顶部</span>
+      <span id="i-share" class="info" style="display:none;">分享文章</span>
+    </span>
+    <br/>
+    <div id="share" style="display: none">
+      <ul>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.facebook.com/sharer.php?u=http://example.com/2022/06/20/jing-sai-tu/"><i class="fab fa-facebook " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=http://example.com/2022/06/20/jing-sai-tu/&text=竞赛图"><i class="fab fa-twitter " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.linkedin.com/shareArticle?url=http://example.com/2022/06/20/jing-sai-tu/&title=竞赛图"><i class="fab fa-linkedin " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://pinterest.com/pin/create/bookmarklet/?url=http://example.com/2022/06/20/jing-sai-tu/&is_video=false&description=竞赛图"><i class="fab fa-pinterest " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=竞赛图&body=Check out this article: http://example.com/2022/06/20/jing-sai-tu/"><i class="fa-solid fa-envelope " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://getpocket.com/save?url=http://example.com/2022/06/20/jing-sai-tu/&title=竞赛图"><i class="fab fa-get-pocket " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://reddit.com/submit?url=http://example.com/2022/06/20/jing-sai-tu/&title=竞赛图"><i class="fab fa-reddit " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.stumbleupon.com/submit?url=http://example.com/2022/06/20/jing-sai-tu/&title=竞赛图"><i class="fab fa-stumbleupon " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://digg.com/submit?url=http://example.com/2022/06/20/jing-sai-tu/&title=竞赛图"><i class="fab fa-digg " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.tumblr.com/share/link?url=http://example.com/2022/06/20/jing-sai-tu/&name=竞赛图&description="><i class="fab fa-tumblr " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://news.ycombinator.com/submitlink?u=http://example.com/2022/06/20/jing-sai-tu/&t=竞赛图"><i class="fab fa-hacker-news " aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+    
+    
+  </span>
+</div>
+
+    
+    <div class="content index py4 ">
+        
+        <article class="post h-entry" itemscope itemtype="http://schema.org/BlogPosting">
+  <header>
+    
+    <h1 class="posttitle p-name" itemprop="name headline">
+        竞赛图
+    </h1>
+
+
+
+    <div class="meta">
+      <span class="author p-author h-card" itemprop="author" itemscope itemtype="http://schema.org/Person">
+        <span class="p-name" itemprop="name">jyf111</span>
+      </span>
+      
+    <div class="postdate">
+      
+        <time datetime="2022-06-20T05:33:44.000Z" class="dt-published" itemprop="datePublished">2022-06-20</time>
+        
+        (Updated: <time datetime="2023-08-24T08:56:21.227Z" class="dt-updated" itemprop="dateModified">2023-08-24</time>)
+        
+      
+    </div>
+
+
+      
+
+      
+    <div class="article-tag">
+        <i class="fa-solid fa-tag"></i>
+        <a class="p-category" href="/tags/%E7%AE%97%E6%B3%95/" rel="tag">算法</a>
+    </div>
+
+
+      
+        <span class=count-symbol-post> 
+          <i class="fa-solid fa-hourglass"></i>
+          
+            7 mins to read
+          
+        </span>
+      
+    </div>
+  </header>
+  
+
+  <div class="content e-content" itemprop="articleBody">
+    <p>若竞赛图存在环，则一定存在三元环。</p>
+<p>大小为$n$($n&gt;1$)的强连通块，大小为$[3,n]$的简单环均存在。</p>
+<p>任意竞赛图都有哈密顿路径（经过每个点一次的路径，不要求回到出发点）。</p>
+<p><strong>增量构造</strong>：对于第$i$个点，要么放在第一个，要么从后往前找到第一个满足$j\rightarrow i$的，然后插在$j$的后面。</p>
+<p>竞赛图存在哈密顿回路的充要条件是强联通。</p>
+<p>先构造哈密顿路径，然后构造哈密顿回路。</p>
+<p>维护链$v_1,\dots,v_k,\dots,v_i$​，其中$v_k\rightarrow<br>v_1$​，然后考虑扩展到节点$i+1$来扩大环：</p>
+<ol>
+<li>$v_{i+1}\rightarrow v_1$​，直接扩大</li>
+<li>找到最小的$j$，满足$v_{i+1}\rightarrow v_{j} (j\le k)$，然后修改路径为$v_{i+1},v_j,\dots,v_k,v_1,\dots,v_{j-1},v_{k+1},\dots,v_i$</li>
+<li>直接考虑下一个节点</li>
+</ol>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="type">void</span> <span class="title">gao</span><span class="params">(vector&lt;<span class="type">int</span>&gt;&amp; path)</span> </span>&#123;</span><br><span class="line">  vector&lt;<span class="type">int</span>&gt; npath;</span><br><span class="line">  <span class="comment">// 哈密顿路</span></span><br><span class="line">  npath.<span class="built_in">push_back</span>(path.<span class="built_in">front</span>());</span><br><span class="line">  <span class="type">int</span> sz = path.<span class="built_in">size</span>();</span><br><span class="line">  <span class="keyword">for</span> (<span class="type">int</span> i=<span class="number">1</span>; i&lt;sz; i++) &#123;</span><br><span class="line">    <span class="keyword">if</span> (G[path[i]][npath.<span class="built_in">front</span>()]) npath.<span class="built_in">insert</span>(npath.<span class="built_in">begin</span>(), path[i]);</span><br><span class="line">    <span class="keyword">else</span> &#123;</span><br><span class="line">      <span class="keyword">for</span> (<span class="type">int</span> j=(<span class="type">int</span>)npath.<span class="built_in">size</span>()<span class="number">-1</span>; j&gt;=<span class="number">0</span>; j--) &#123;</span><br><span class="line">        <span class="keyword">if</span> (G[npath[j]][path[i]]) &#123;</span><br><span class="line">          npath.<span class="built_in">insert</span>(npath.<span class="built_in">begin</span>()+j+<span class="number">1</span>, path[i]);</span><br><span class="line">          <span class="keyword">break</span>;</span><br><span class="line">        &#125;</span><br><span class="line">      &#125;</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="comment">// 哈密顿回路</span></span><br><span class="line">  <span class="type">int</span> k = <span class="number">0</span>;</span><br><span class="line">  <span class="keyword">for</span> (<span class="type">int</span> i=<span class="number">1</span>; i&lt;sz; i++) &#123;</span><br><span class="line">    <span class="keyword">if</span> (G[npath[i]][npath[<span class="number">0</span>]]) k = i;</span><br><span class="line">    <span class="keyword">else</span> &#123;</span><br><span class="line">      <span class="keyword">for</span> (<span class="type">int</span> j=<span class="number">1</span>; j&lt;=k; j++) &#123;</span><br><span class="line">        <span class="keyword">if</span> (G[npath[i]][npath[j]]) &#123;</span><br><span class="line">          vector&lt;<span class="type">int</span>&gt; tmp;</span><br><span class="line">          tmp.<span class="built_in">push_back</span>(npath[i]);</span><br><span class="line">          tmp.<span class="built_in">insert</span>(tmp.<span class="built_in">end</span>(), npath.<span class="built_in">begin</span>()+j, npath.<span class="built_in">begin</span>()+k+<span class="number">1</span>);</span><br><span class="line">          tmp.<span class="built_in">insert</span>(tmp.<span class="built_in">end</span>(), npath.<span class="built_in">begin</span>(), npath.<span class="built_in">begin</span>()+j);</span><br><span class="line">          tmp.<span class="built_in">insert</span>(tmp.<span class="built_in">end</span>(), npath.<span class="built_in">begin</span>()+k+<span class="number">1</span>, npath.<span class="built_in">begin</span>()+i);</span><br><span class="line">          tmp.<span class="built_in">insert</span>(tmp.<span class="built_in">end</span>(), npath.<span class="built_in">begin</span>()+i+<span class="number">1</span>, npath.<span class="built_in">end</span>());</span><br><span class="line">          <span class="built_in">swap</span>(tmp, npath);</span><br><span class="line">          k = i;</span><br><span class="line">          <span class="keyword">break</span>;</span><br><span class="line">        &#125;</span><br><span class="line">      &#125;</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="built_in">swap</span>(path, npath);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>强连通缩点后呈链状，拓扑序小的点向所有拓扑序大的点连边（因此可以直接根据强连通分量判断任意两点间的可达性）。</p>
+<p><strong>Dirac定理</strong>：$n$阶($n\ge3$)<strong>无向</strong>简单图，任意不相邻的两个顶点$v_i,v_j$​，均有$d(v_i)+d(v_j)\ge<br>n$，则存在哈密顿回路。</p>
+<p>先不断从首尾扩展，得到极大的路径$s,v_1,\dots,v_k,t$，若$s$和$t$有边则得到回路，否则一定存在$s\rightarrow<br>v_{i+1},t\rightarrow<br>v_i$​（鸽巢原理），构造得到回路$s,v_{i+1},\dots,t,v_i,\dots,s$。如果该回路长度小于$n$，剩余点一定与回路中的某个点有边相连，从该处将环断开，然后重复扩展即可。</p>
+<p>$n$阶($n\ge2$)<strong>无向</strong>简单图，任意不相邻的两个顶点$v_i,v_j$​，均有$d(v_i)+d(v_j)\ge<br>n-1$，则存在哈密顿通路。</p>
+<p>$n$阶($n\ge3$)<strong>无向</strong>简单图，任意顶点$v_i$​，均有$d(v_i)\ge<br>\frac{n}{2}$​，则存在哈密顿回路。</p>
+<p><strong>兰道定理</strong>：将竞赛图的出度从小到大排序得到比分序列$s$，满足以下条件则合法：</p>
+<p>$\forall 1\leq k \leq n,\sum \limits_{i&#x3D;1}^k s_i \geq<br>\binom{k}{2}$，且$k&#x3D;n$时必须取等号。</p>
+<p>先构造序列$a&#x3D;(0,1,\dots,n-1)$，此时$a$的前缀小于$s$，后缀大于$s$（因为$a$和$s$的总和相同），然后找到第一个$a_l&lt;<br>s_l$​，以及最后一个$a_u&#x3D;a_l$​（为了保证修改后$a$仍然有序），再找到第一个$a_v&gt;<br>s_v$​，则$a_u&lt;s_u\le s_v&lt;a_v$​，即$a_v\ge<br>a_u+2$，若$v\rightarrow u$，或$v\rightarrow p,p\rightarrow<br>u$，就将相应边进行翻转，这样不断调整，最终$a&#x3D;s$。</p>
+<p>强连图竞赛图计数：$g_i&#x3D;f_i-\sum_{j&#x3D;1}^{i-1}\binom{i}{j}g_jf_{i-j}$​，即枚举拓扑序最小的强连通分量的大小。</p>
+
+  </div>
+</article>
+
+
+
+        
+          <div id="footer-post-container">
+  <div id="footer-post">
+
+    <div id="nav-footer" style="display: none">
+      <ul>
+        
+          <li><a href="/">首页</a></li>
+        
+          <li><a href="/archives/">归档</a></li>
+        
+          <li><a href="/tags/">标签</a></li>
+        
+          <li><a href="/search/">搜索</a></li>
+        
+      </ul>
+    </div>
+
+    
+    
+
+    <div id="share-footer" style="display: none">
+      <ul>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.facebook.com/sharer.php?u=http://example.com/2022/06/20/jing-sai-tu/"><i class="fab fa-facebook fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=http://example.com/2022/06/20/jing-sai-tu/&text=竞赛图"><i class="fab fa-twitter fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.linkedin.com/shareArticle?url=http://example.com/2022/06/20/jing-sai-tu/&title=竞赛图"><i class="fab fa-linkedin fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://pinterest.com/pin/create/bookmarklet/?url=http://example.com/2022/06/20/jing-sai-tu/&is_video=false&description=竞赛图"><i class="fab fa-pinterest fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=竞赛图&body=Check out this article: http://example.com/2022/06/20/jing-sai-tu/"><i class="fa-solid fa-envelope fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://getpocket.com/save?url=http://example.com/2022/06/20/jing-sai-tu/&title=竞赛图"><i class="fab fa-get-pocket fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://reddit.com/submit?url=http://example.com/2022/06/20/jing-sai-tu/&title=竞赛图"><i class="fab fa-reddit fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.stumbleupon.com/submit?url=http://example.com/2022/06/20/jing-sai-tu/&title=竞赛图"><i class="fab fa-stumbleupon fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://digg.com/submit?url=http://example.com/2022/06/20/jing-sai-tu/&title=竞赛图"><i class="fab fa-digg fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.tumblr.com/share/link?url=http://example.com/2022/06/20/jing-sai-tu/&name=竞赛图&description="><i class="fab fa-tumblr fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://news.ycombinator.com/submitlink?u=http://example.com/2022/06/20/jing-sai-tu/&t=竞赛图"><i class="fab fa-hacker-news fa-lg" aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+
+    <div id="actions-footer">
+        <a id="menu" class="icon" href="#" onclick="$('#nav-footer').toggle();return false;"><i class="fa-solid fa-bars fa-lg" aria-hidden="true"></i> 菜单</a>
+        
+        <a id="share" class="icon" href="#" onclick="$('#share-footer').toggle();return false;"><i class="fa-solid fa-share-alt fa-lg" aria-hidden="true"></i> 分享</a>
+        <a id="top" style="display:none" class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fa-solid fa-chevron-up fa-lg" aria-hidden="true"></i> 返回顶部</a>
+    </div>
+
+  </div>
+</div>
+
+        
+        <footer id="footer">
+  <div class="footer-left">
+    Copyright &copy;
+    
+    
+    2020-2023
+    jyf111
+  </div>
+  <div class="footer-right">
+    <nav>
+      <ul>
+        <!--
+       --><li><a href="/">首页</a></li><!--
+     --><!--
+       --><li><a href="/archives/">归档</a></li><!--
+     --><!--
+       --><li><a href="/tags/">标签</a></li><!--
+     --><!--
+       --><li><a href="/search/">搜索</a></li><!--
+     -->
+      </ul>
+    </nav>
+  </div>
+</footer>
+
+    </div>
+    <!-- styles -->
+
+
+
+  <link rel="preload" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" crossorigin="anonymous" onload="this.onload=null;this.rel='stylesheet'"/>
+
+
+    <!-- jquery -->
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js" crossorigin="anonymous"></script>
+
+
+
+
+<!-- clipboard -->
+
+  
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.7/clipboard.min.js" crossorigin="anonymous"></script>
+  
+  <script type="text/javascript">
+  $(function() {
+    // copy-btn HTML
+    var btn = "<span class=\"btn-copy tooltipped tooltipped-sw\" aria-label=\"复制到粘贴板！\">";
+    btn += '<i class="fa-regular fa-clone"></i>';
+    btn += '</span>';
+    // mount it!
+    $(".highlight table").before(btn);
+    var clip = new ClipboardJS('.btn-copy', {
+      text: function(trigger) {
+        return Array.from(trigger.nextElementSibling.querySelectorAll('.code')).reduce((str,it)=>str+it.innerText+'\n','')
+      }
+    });
+    clip.on('success', function(e) {
+      e.trigger.setAttribute('aria-label', "复制成功！");
+      e.clearSelection();
+    })
+  })
+  </script>
+
+
+<script src="/js/main.js"></script>
+
+<!-- search -->
+
+<!-- Baidu Analytics -->
+
+<!-- Cloudflare Analytics -->
+
+<!-- Disqus Comments -->
+
+<!-- utterances Comments -->
+
+</body>
+</html>

@@ -1,0 +1,339 @@
+<!DOCTYPE html>
+<html lang=zh>
+<head>
+    <!-- so meta -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="HandheldFriendly" content="True">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=5" />
+    <meta name="description" content="除了两道题没什么人过外比较简单 A小学数学 B初中物理 C模拟题，带一点点推理 D给定a,b，让你求一个x，满足$a^x&#x3D;x^b$其中$2\leq a,b \leq 10000$容易想到x可以表示$a^t$的形式考虑$t\geq 1$的情况$a^t &#x3D; tb$可以直接暴力枚举t，幂次的增速是迅速的考虑$t\le 1$的情况小数没法枚举了，但是可以找到a的因子d，使得d的幂次&amp;#">
+<meta property="og:type" content="article">
+<meta property="og:title" content="ICPC Central Russia Regional Contest (CRRC 19) gym102780">
+<meta property="og:url" content="http://example.com/2021/01/09/icpc-central-russia-regional-contest-crrc-19-gym102780/index.html">
+<meta property="og:site_name" content="jyf111&#39;s blog">
+<meta property="og:description" content="除了两道题没什么人过外比较简单 A小学数学 B初中物理 C模拟题，带一点点推理 D给定a,b，让你求一个x，满足$a^x&#x3D;x^b$其中$2\leq a,b \leq 10000$容易想到x可以表示$a^t$的形式考虑$t\geq 1$的情况$a^t &#x3D; tb$可以直接暴力枚举t，幂次的增速是迅速的考虑$t\le 1$的情况小数没法枚举了，但是可以找到a的因子d，使得d的幂次&amp;#">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2021-01-09T05:33:44.000Z">
+<meta property="article:modified_time" content="2023-08-24T10:17:42.976Z">
+<meta property="article:author" content="jyf111">
+<meta property="article:tag" content="算法">
+<meta name="twitter:card" content="summary">
+    
+    
+      
+        
+          <link rel="shortcut icon" href="/images/favicon.ico">
+        
+      
+      
+        
+          <link rel="icon" type="image/png" href="/images/favicon-192x192.png" sizes="192x192">
+        
+      
+      
+        
+          <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png">
+        
+      
+    
+    <!-- title -->
+    <title>ICPC Central Russia Regional Contest (CRRC 19) gym102780</title>
+    <!-- async scripts -->
+    <!-- Google Analytics -->
+
+
+    <!-- Umami Analytics -->
+
+
+    <!-- styles -->
+    
+<link rel="stylesheet" href="/css/style.css">
+
+    <!-- persian styles -->
+    
+    <!-- rss -->
+    
+    
+	<!-- mathjax -->
+	
+		<script type="text/x-mathjax-config">
+		  MathJax.Hub.Config({
+			tex2jax: {
+			  skipTags: ['script', 'noscript', 'style', 'textarea', 'pre'],
+			  inlineMath: [['$','$']]
+			}
+		  });
+		</script>
+		<script src='https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-MML-AM_CHTML' async></script>
+	
+<meta name="generator" content="Hexo 6.3.0"></head>
+
+<body class="max-width mx-auto px3 ltr">
+    
+      <div id="header-post">
+  <a id="menu-icon" href="#" aria-label="目录"><i class="fa-solid fa-bars fa-lg"></i></a>
+  <a id="menu-icon-tablet" href="#" aria-label="目录"><i class="fa-solid fa-bars fa-lg"></i></a>
+  <a id="top-icon-tablet" href="#" aria-label="顶部" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');" style="display:none;"><i class="fa-solid fa-chevron-up fa-lg"></i></a>
+  <span id="menu">
+    <span id="nav">
+      <ul>
+        <!--
+       --><li><a href="/">首页</a></li><!--
+     --><!--
+       --><li><a href="/archives/">归档</a></li><!--
+     --><!--
+       --><li><a href="/tags/">标签</a></li><!--
+     --><!--
+       --><li><a href="/search/">搜索</a></li><!--
+     -->
+      </ul>
+    </span>
+    <br/>
+    <span id="actions">
+      <ul>
+        
+        <li><a class="icon" aria-label="上一篇" href="/2021/01/09/codeforces-round-695-div-2/"><i class="fa-solid fa-chevron-left" aria-hidden="true" onmouseover="$('#i-prev').toggle();" onmouseout="$('#i-prev').toggle();"></i></a></li>
+        
+        
+        <li><a class="icon" aria-label="下一篇" href="/2020/12/23/di-qia-er-shu/"><i class="fa-solid fa-chevron-right" aria-hidden="true" onmouseover="$('#i-next').toggle();" onmouseout="$('#i-next').toggle();"></i></a></li>
+        
+        <li><a class="icon" aria-label="返回顶部" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fa-solid fa-chevron-up" aria-hidden="true" onmouseover="$('#i-top').toggle();" onmouseout="$('#i-top').toggle();"></i></a></li>
+        <li><a class="icon" aria-label="分享文章" href="#"><i class="fa-solid fa-share-alt" aria-hidden="true" onmouseover="$('#i-share').toggle();" onmouseout="$('#i-share').toggle();" onclick="$('#share').toggle();return false;"></i></a></li>
+      </ul>
+      <span id="i-prev" class="info" style="display:none;">上一篇</span>
+      <span id="i-next" class="info" style="display:none;">下一篇</span>
+      <span id="i-top" class="info" style="display:none;">返回顶部</span>
+      <span id="i-share" class="info" style="display:none;">分享文章</span>
+    </span>
+    <br/>
+    <div id="share" style="display: none">
+      <ul>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.facebook.com/sharer.php?u=http://example.com/2021/01/09/icpc-central-russia-regional-contest-crrc-19-gym102780/"><i class="fab fa-facebook " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=http://example.com/2021/01/09/icpc-central-russia-regional-contest-crrc-19-gym102780/&text=ICPC Central Russia Regional Contest (CRRC 19) gym102780"><i class="fab fa-twitter " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.linkedin.com/shareArticle?url=http://example.com/2021/01/09/icpc-central-russia-regional-contest-crrc-19-gym102780/&title=ICPC Central Russia Regional Contest (CRRC 19) gym102780"><i class="fab fa-linkedin " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://pinterest.com/pin/create/bookmarklet/?url=http://example.com/2021/01/09/icpc-central-russia-regional-contest-crrc-19-gym102780/&is_video=false&description=ICPC Central Russia Regional Contest (CRRC 19) gym102780"><i class="fab fa-pinterest " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=ICPC Central Russia Regional Contest (CRRC 19) gym102780&body=Check out this article: http://example.com/2021/01/09/icpc-central-russia-regional-contest-crrc-19-gym102780/"><i class="fa-solid fa-envelope " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://getpocket.com/save?url=http://example.com/2021/01/09/icpc-central-russia-regional-contest-crrc-19-gym102780/&title=ICPC Central Russia Regional Contest (CRRC 19) gym102780"><i class="fab fa-get-pocket " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://reddit.com/submit?url=http://example.com/2021/01/09/icpc-central-russia-regional-contest-crrc-19-gym102780/&title=ICPC Central Russia Regional Contest (CRRC 19) gym102780"><i class="fab fa-reddit " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.stumbleupon.com/submit?url=http://example.com/2021/01/09/icpc-central-russia-regional-contest-crrc-19-gym102780/&title=ICPC Central Russia Regional Contest (CRRC 19) gym102780"><i class="fab fa-stumbleupon " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://digg.com/submit?url=http://example.com/2021/01/09/icpc-central-russia-regional-contest-crrc-19-gym102780/&title=ICPC Central Russia Regional Contest (CRRC 19) gym102780"><i class="fab fa-digg " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.tumblr.com/share/link?url=http://example.com/2021/01/09/icpc-central-russia-regional-contest-crrc-19-gym102780/&name=ICPC Central Russia Regional Contest (CRRC 19) gym102780&description="><i class="fab fa-tumblr " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://news.ycombinator.com/submitlink?u=http://example.com/2021/01/09/icpc-central-russia-regional-contest-crrc-19-gym102780/&t=ICPC Central Russia Regional Contest (CRRC 19) gym102780"><i class="fab fa-hacker-news " aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+    
+    
+      <div id="toc">
+        <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#A"><span class="toc-number">1.</span> <span class="toc-text">A</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#B"><span class="toc-number">2.</span> <span class="toc-text">B</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#C"><span class="toc-number">3.</span> <span class="toc-text">C</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#D"><span class="toc-number">4.</span> <span class="toc-text">D</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#F"><span class="toc-number">5.</span> <span class="toc-text">F</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#H"><span class="toc-number">6.</span> <span class="toc-text">H</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#I"><span class="toc-number">7.</span> <span class="toc-text">I</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#J"><span class="toc-number">8.</span> <span class="toc-text">J</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#K"><span class="toc-number">9.</span> <span class="toc-text">K</span></a></li></ol>
+      </div>
+    
+  </span>
+</div>
+
+    
+    <div class="content index py4 ">
+        
+        <article class="post h-entry" itemscope itemtype="http://schema.org/BlogPosting">
+  <header>
+    
+    <h1 class="posttitle p-name" itemprop="name headline">
+        ICPC Central Russia Regional Contest (CRRC 19) gym102780
+    </h1>
+
+
+
+    <div class="meta">
+      <span class="author p-author h-card" itemprop="author" itemscope itemtype="http://schema.org/Person">
+        <span class="p-name" itemprop="name">jyf111</span>
+      </span>
+      
+    <div class="postdate">
+      
+        <time datetime="2021-01-09T05:33:44.000Z" class="dt-published" itemprop="datePublished">2021-01-09</time>
+        
+        (Updated: <time datetime="2023-08-24T10:17:42.976Z" class="dt-updated" itemprop="dateModified">2023-08-24</time>)
+        
+      
+    </div>
+
+
+      
+
+      
+    <div class="article-tag">
+        <i class="fa-solid fa-tag"></i>
+        <a class="p-category" href="/tags/%E7%AE%97%E6%B3%95/" rel="tag">算法</a>
+    </div>
+
+
+      
+        <span class=count-symbol-post> 
+          <i class="fa-solid fa-hourglass"></i>
+          
+            2 mins to read
+          
+        </span>
+      
+    </div>
+  </header>
+  
+
+  <div class="content e-content" itemprop="articleBody">
+    <p>除了两道题没什么人过外比较简单</p>
+<h2 id="A"><a href="#A" class="headerlink" title="A"></a>A</h2><p>小学数学</p>
+<h2 id="B"><a href="#B" class="headerlink" title="B"></a>B</h2><p>初中物理</p>
+<h2 id="C"><a href="#C" class="headerlink" title="C"></a>C</h2><p>模拟题，带一点点推理</p>
+<h2 id="D"><a href="#D" class="headerlink" title="D"></a>D</h2><p>给定a,b，让你求一个x，满足$a^x&#x3D;x^b$<br>其中$2\leq a,b \leq 10000$<br>容易想到x可以表示$a^t$的形式<br>考虑$t\geq 1$的情况<br>$a^t &#x3D; tb$<br>可以直接暴力枚举t，幂次的增速是迅速的<br>考虑$t\le 1$的情况<br>小数没法枚举了，但是可以找到a的因子d，使得d的幂次&#x3D;a，转而用d的幂次去表示x即可</p>
+<h2 id="F"><a href="#F" class="headerlink" title="F"></a>F</h2><p>给定一个字符串，两个人轮流操作，每次操作可以选择一种字母，然后删除一个或者二个或者全部，问谁赢。<br>可以把每种字母想成一堆石子，那就是一个只能取1个或2个或全部的NIM游戏，跑一下sg即可，其实直接手推也行</p>
+<h2 id="H"><a href="#H" class="headerlink" title="H"></a>H</h2><p>一个数n，两个轮流让其减1，减5，或者减13，问谁赢<br>跟F差不多，跑一下dp即可</p>
+<h2 id="I"><a href="#I" class="headerlink" title="I"></a>I</h2><p>有一个$n \times n的网格，现在有一个特殊点，然后每次你可以进行三种询问</p>
+<ul>
+<li>询问某个点是不是特殊点</li>
+<li>询问某条线段是否包含特殊点</li>
+<li>询问某个三角形是否包含特殊点</li>
+</ul>
+<p>$n \leq 10^8$，询问次数不超过60<br>看到这个数据范围和询问次数就想到二分，x和y可以分开做，那么我们相当于要通过一次询问判断这个特殊点的坐标是小于x还是大于x。这边有个条件就是询问的点的坐标可以超过n，在$10^9$以内就行，那就很简单了，每次问一个右边的特别大的三角形，保证可以盖住大于x的这块矩形就可以了</p>
+<h2 id="J"><a href="#J" class="headerlink" title="J"></a>J</h2><p>让你用不超过5个数，使得它们的立方和等于x<br>$x\leq 10^{100000}$<br>考虑$(x-1)^3 + (x+1)^3 &#x3D; 2x^3 + 6x$<br>那如果x是6的倍数，让y&#x3D;x&#x2F;6，然后用y-1，y+1，-y, -y这四个数就可以表示出x了<br>其余按照%6讨论一下即可<br>比如x%6&#x3D;2，就先表示出x-8，再加个$2^3$即可</p>
+<h2 id="K"><a href="#K" class="headerlink" title="K"></a>K</h2><p>给定n个不同的数，每次可以交换相邻的两个数，问你最少交换几次，使得这n个数先减后增<br>从大到小考虑每个数，最大的数只能放在最左边或者最右边，然后似乎就有种$n^2$的dp了，但是仔细思考可以发现最大的数放在左边还是右边是不影响次大的数的，所以每个数贪心的放就行了</p>
+
+  </div>
+</article>
+
+
+
+        
+          <div id="footer-post-container">
+  <div id="footer-post">
+
+    <div id="nav-footer" style="display: none">
+      <ul>
+        
+          <li><a href="/">首页</a></li>
+        
+          <li><a href="/archives/">归档</a></li>
+        
+          <li><a href="/tags/">标签</a></li>
+        
+          <li><a href="/search/">搜索</a></li>
+        
+      </ul>
+    </div>
+
+    
+    
+      <div id="toc-footer" style="display: none">
+        <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#A"><span class="toc-number">1.</span> <span class="toc-text">A</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#B"><span class="toc-number">2.</span> <span class="toc-text">B</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#C"><span class="toc-number">3.</span> <span class="toc-text">C</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#D"><span class="toc-number">4.</span> <span class="toc-text">D</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#F"><span class="toc-number">5.</span> <span class="toc-text">F</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#H"><span class="toc-number">6.</span> <span class="toc-text">H</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#I"><span class="toc-number">7.</span> <span class="toc-text">I</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#J"><span class="toc-number">8.</span> <span class="toc-text">J</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#K"><span class="toc-number">9.</span> <span class="toc-text">K</span></a></li></ol>
+      </div>
+    
+
+    <div id="share-footer" style="display: none">
+      <ul>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.facebook.com/sharer.php?u=http://example.com/2021/01/09/icpc-central-russia-regional-contest-crrc-19-gym102780/"><i class="fab fa-facebook fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=http://example.com/2021/01/09/icpc-central-russia-regional-contest-crrc-19-gym102780/&text=ICPC Central Russia Regional Contest (CRRC 19) gym102780"><i class="fab fa-twitter fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.linkedin.com/shareArticle?url=http://example.com/2021/01/09/icpc-central-russia-regional-contest-crrc-19-gym102780/&title=ICPC Central Russia Regional Contest (CRRC 19) gym102780"><i class="fab fa-linkedin fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://pinterest.com/pin/create/bookmarklet/?url=http://example.com/2021/01/09/icpc-central-russia-regional-contest-crrc-19-gym102780/&is_video=false&description=ICPC Central Russia Regional Contest (CRRC 19) gym102780"><i class="fab fa-pinterest fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=ICPC Central Russia Regional Contest (CRRC 19) gym102780&body=Check out this article: http://example.com/2021/01/09/icpc-central-russia-regional-contest-crrc-19-gym102780/"><i class="fa-solid fa-envelope fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://getpocket.com/save?url=http://example.com/2021/01/09/icpc-central-russia-regional-contest-crrc-19-gym102780/&title=ICPC Central Russia Regional Contest (CRRC 19) gym102780"><i class="fab fa-get-pocket fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://reddit.com/submit?url=http://example.com/2021/01/09/icpc-central-russia-regional-contest-crrc-19-gym102780/&title=ICPC Central Russia Regional Contest (CRRC 19) gym102780"><i class="fab fa-reddit fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.stumbleupon.com/submit?url=http://example.com/2021/01/09/icpc-central-russia-regional-contest-crrc-19-gym102780/&title=ICPC Central Russia Regional Contest (CRRC 19) gym102780"><i class="fab fa-stumbleupon fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://digg.com/submit?url=http://example.com/2021/01/09/icpc-central-russia-regional-contest-crrc-19-gym102780/&title=ICPC Central Russia Regional Contest (CRRC 19) gym102780"><i class="fab fa-digg fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.tumblr.com/share/link?url=http://example.com/2021/01/09/icpc-central-russia-regional-contest-crrc-19-gym102780/&name=ICPC Central Russia Regional Contest (CRRC 19) gym102780&description="><i class="fab fa-tumblr fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://news.ycombinator.com/submitlink?u=http://example.com/2021/01/09/icpc-central-russia-regional-contest-crrc-19-gym102780/&t=ICPC Central Russia Regional Contest (CRRC 19) gym102780"><i class="fab fa-hacker-news fa-lg" aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+
+    <div id="actions-footer">
+        <a id="menu" class="icon" href="#" onclick="$('#nav-footer').toggle();return false;"><i class="fa-solid fa-bars fa-lg" aria-hidden="true"></i> 菜单</a>
+        
+          <a id="toc" class="icon" href="#" onclick="$('#toc-footer').toggle();return false;"><i class="fa-solid fa-list fa-lg" aria-hidden="true"></i> 目录</a>
+        
+        <a id="share" class="icon" href="#" onclick="$('#share-footer').toggle();return false;"><i class="fa-solid fa-share-alt fa-lg" aria-hidden="true"></i> 分享</a>
+        <a id="top" style="display:none" class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fa-solid fa-chevron-up fa-lg" aria-hidden="true"></i> 返回顶部</a>
+    </div>
+
+  </div>
+</div>
+
+        
+        <footer id="footer">
+  <div class="footer-left">
+    Copyright &copy;
+    
+    
+    2020-2023
+    jyf111
+  </div>
+  <div class="footer-right">
+    <nav>
+      <ul>
+        <!--
+       --><li><a href="/">首页</a></li><!--
+     --><!--
+       --><li><a href="/archives/">归档</a></li><!--
+     --><!--
+       --><li><a href="/tags/">标签</a></li><!--
+     --><!--
+       --><li><a href="/search/">搜索</a></li><!--
+     -->
+      </ul>
+    </nav>
+  </div>
+</footer>
+
+    </div>
+    <!-- styles -->
+
+
+
+  <link rel="preload" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" crossorigin="anonymous" onload="this.onload=null;this.rel='stylesheet'"/>
+
+
+    <!-- jquery -->
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js" crossorigin="anonymous"></script>
+
+
+
+
+<!-- clipboard -->
+
+  
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.7/clipboard.min.js" crossorigin="anonymous"></script>
+  
+  <script type="text/javascript">
+  $(function() {
+    // copy-btn HTML
+    var btn = "<span class=\"btn-copy tooltipped tooltipped-sw\" aria-label=\"复制到粘贴板！\">";
+    btn += '<i class="fa-regular fa-clone"></i>';
+    btn += '</span>';
+    // mount it!
+    $(".highlight table").before(btn);
+    var clip = new ClipboardJS('.btn-copy', {
+      text: function(trigger) {
+        return Array.from(trigger.nextElementSibling.querySelectorAll('.code')).reduce((str,it)=>str+it.innerText+'\n','')
+      }
+    });
+    clip.on('success', function(e) {
+      e.trigger.setAttribute('aria-label', "复制成功！");
+      e.clearSelection();
+    })
+  })
+  </script>
+
+
+<script src="/js/main.js"></script>
+
+<!-- search -->
+
+<!-- Baidu Analytics -->
+
+<!-- Cloudflare Analytics -->
+
+<!-- Disqus Comments -->
+
+<!-- utterances Comments -->
+
+</body>
+</html>

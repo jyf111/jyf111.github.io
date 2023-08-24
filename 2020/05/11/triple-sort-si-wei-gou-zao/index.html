@@ -1,0 +1,412 @@
+<!DOCTYPE html>
+<html lang=zh>
+<head>
+    <!-- so meta -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="HandheldFriendly" content="True">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=5" />
+    <meta name="description" content="给定一个排列p,定义一种操作方式是,选择三个下标a,b,c,然后让p[c]&#x3D;p[b],p[b]&#x3D;p[a],p[a]&#x3D;p[c]p[c]&#x3D;p[b],p[b]&#x3D;p[a],p[a]&#x3D;p[c]p[c]&#x3D;p[b],p[b]&#x3D;p[a],p[a]&#x3D;pc,下标a,b,c的大小关系任意,但必须两两不同.要求用k次操作让p有序,输">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Triple Sort 思维+构造">
+<meta property="og:url" content="http://example.com/2020/05/11/triple-sort-si-wei-gou-zao/index.html">
+<meta property="og:site_name" content="jyf111&#39;s blog">
+<meta property="og:description" content="给定一个排列p,定义一种操作方式是,选择三个下标a,b,c,然后让p[c]&#x3D;p[b],p[b]&#x3D;p[a],p[a]&#x3D;p[c]p[c]&#x3D;p[b],p[b]&#x3D;p[a],p[a]&#x3D;p[c]p[c]&#x3D;p[b],p[b]&#x3D;p[a],p[a]&#x3D;pc,下标a,b,c的大小关系任意,但必须两两不同.要求用k次操作让p有序,输">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2020-05-11T05:33:44.000Z">
+<meta property="article:modified_time" content="2023-08-24T08:43:19.627Z">
+<meta property="article:author" content="jyf111">
+<meta property="article:tag" content="算法">
+<meta name="twitter:card" content="summary">
+    
+    
+      
+        
+          <link rel="shortcut icon" href="/images/favicon.ico">
+        
+      
+      
+        
+          <link rel="icon" type="image/png" href="/images/favicon-192x192.png" sizes="192x192">
+        
+      
+      
+        
+          <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png">
+        
+      
+    
+    <!-- title -->
+    <title>Triple Sort 思维+构造</title>
+    <!-- async scripts -->
+    <!-- Google Analytics -->
+
+
+    <!-- Umami Analytics -->
+
+
+    <!-- styles -->
+    
+<link rel="stylesheet" href="/css/style.css">
+
+    <!-- persian styles -->
+    
+    <!-- rss -->
+    
+    
+	<!-- mathjax -->
+	
+		<script type="text/x-mathjax-config">
+		  MathJax.Hub.Config({
+			tex2jax: {
+			  skipTags: ['script', 'noscript', 'style', 'textarea', 'pre'],
+			  inlineMath: [['$','$']]
+			}
+		  });
+		</script>
+		<script src='https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-MML-AM_CHTML' async></script>
+	
+<meta name="generator" content="Hexo 6.3.0"></head>
+
+<body class="max-width mx-auto px3 ltr">
+    
+      <div id="header-post">
+  <a id="menu-icon" href="#" aria-label="目录"><i class="fa-solid fa-bars fa-lg"></i></a>
+  <a id="menu-icon-tablet" href="#" aria-label="目录"><i class="fa-solid fa-bars fa-lg"></i></a>
+  <a id="top-icon-tablet" href="#" aria-label="顶部" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');" style="display:none;"><i class="fa-solid fa-chevron-up fa-lg"></i></a>
+  <span id="menu">
+    <span id="nav">
+      <ul>
+        <!--
+       --><li><a href="/">首页</a></li><!--
+     --><!--
+       --><li><a href="/archives/">归档</a></li><!--
+     --><!--
+       --><li><a href="/tags/">标签</a></li><!--
+     --><!--
+       --><li><a href="/search/">搜索</a></li><!--
+     -->
+      </ul>
+    </span>
+    <br/>
+    <span id="actions">
+      <ul>
+        
+        <li><a class="icon" aria-label="上一篇" href="/2020/05/11/sorting-vases-si-wei/"><i class="fa-solid fa-chevron-left" aria-hidden="true" onmouseover="$('#i-prev').toggle();" onmouseout="$('#i-prev').toggle();"></i></a></li>
+        
+        
+        <li><a class="icon" aria-label="下一篇" href="/2020/05/06/niu-ke-suan-fa-zhou-zhou-lian-5/"><i class="fa-solid fa-chevron-right" aria-hidden="true" onmouseover="$('#i-next').toggle();" onmouseout="$('#i-next').toggle();"></i></a></li>
+        
+        <li><a class="icon" aria-label="返回顶部" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fa-solid fa-chevron-up" aria-hidden="true" onmouseover="$('#i-top').toggle();" onmouseout="$('#i-top').toggle();"></i></a></li>
+        <li><a class="icon" aria-label="分享文章" href="#"><i class="fa-solid fa-share-alt" aria-hidden="true" onmouseover="$('#i-share').toggle();" onmouseout="$('#i-share').toggle();" onclick="$('#share').toggle();return false;"></i></a></li>
+      </ul>
+      <span id="i-prev" class="info" style="display:none;">上一篇</span>
+      <span id="i-next" class="info" style="display:none;">下一篇</span>
+      <span id="i-top" class="info" style="display:none;">返回顶部</span>
+      <span id="i-share" class="info" style="display:none;">分享文章</span>
+    </span>
+    <br/>
+    <div id="share" style="display: none">
+      <ul>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.facebook.com/sharer.php?u=http://example.com/2020/05/11/triple-sort-si-wei-gou-zao/"><i class="fab fa-facebook " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=http://example.com/2020/05/11/triple-sort-si-wei-gou-zao/&text=Triple Sort 思维+构造"><i class="fab fa-twitter " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.linkedin.com/shareArticle?url=http://example.com/2020/05/11/triple-sort-si-wei-gou-zao/&title=Triple Sort 思维+构造"><i class="fab fa-linkedin " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://pinterest.com/pin/create/bookmarklet/?url=http://example.com/2020/05/11/triple-sort-si-wei-gou-zao/&is_video=false&description=Triple Sort 思维+构造"><i class="fab fa-pinterest " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=Triple Sort 思维+构造&body=Check out this article: http://example.com/2020/05/11/triple-sort-si-wei-gou-zao/"><i class="fa-solid fa-envelope " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://getpocket.com/save?url=http://example.com/2020/05/11/triple-sort-si-wei-gou-zao/&title=Triple Sort 思维+构造"><i class="fab fa-get-pocket " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://reddit.com/submit?url=http://example.com/2020/05/11/triple-sort-si-wei-gou-zao/&title=Triple Sort 思维+构造"><i class="fab fa-reddit " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.stumbleupon.com/submit?url=http://example.com/2020/05/11/triple-sort-si-wei-gou-zao/&title=Triple Sort 思维+构造"><i class="fab fa-stumbleupon " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://digg.com/submit?url=http://example.com/2020/05/11/triple-sort-si-wei-gou-zao/&title=Triple Sort 思维+构造"><i class="fab fa-digg " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.tumblr.com/share/link?url=http://example.com/2020/05/11/triple-sort-si-wei-gou-zao/&name=Triple Sort 思维+构造&description="><i class="fab fa-tumblr " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://news.ycombinator.com/submitlink?u=http://example.com/2020/05/11/triple-sort-si-wei-gou-zao/&t=Triple Sort 思维+构造"><i class="fab fa-hacker-news " aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+    
+    
+      <div id="toc">
+        <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#%E5%81%9A%E6%B3%95"><span class="toc-number">1.</span> <span class="toc-text">做法</span></a></li></ol>
+      </div>
+    
+  </span>
+</div>
+
+    
+    <div class="content index py4 ">
+        
+        <article class="post h-entry" itemscope itemtype="http://schema.org/BlogPosting">
+  <header>
+    
+    <h1 class="posttitle p-name" itemprop="name headline">
+        Triple Sort 思维+构造
+    </h1>
+
+
+
+    <div class="meta">
+      <span class="author p-author h-card" itemprop="author" itemscope itemtype="http://schema.org/Person">
+        <span class="p-name" itemprop="name">jyf111</span>
+      </span>
+      
+    <div class="postdate">
+      
+        <time datetime="2020-05-11T05:33:44.000Z" class="dt-published" itemprop="datePublished">2020-05-11</time>
+        
+        (Updated: <time datetime="2023-08-24T08:43:19.627Z" class="dt-updated" itemprop="dateModified">2023-08-24</time>)
+        
+      
+    </div>
+
+
+      
+
+      
+    <div class="article-tag">
+        <i class="fa-solid fa-tag"></i>
+        <a class="p-category" href="/tags/%E7%AE%97%E6%B3%95/" rel="tag">算法</a>
+    </div>
+
+
+      
+        <span class=count-symbol-post> 
+          <i class="fa-solid fa-hourglass"></i>
+          
+            3 mins to read
+          
+        </span>
+      
+    </div>
+  </header>
+  
+
+  <div class="content e-content" itemprop="articleBody">
+    <p>给定一个排列p,定义一种操作方式是,选择三个下标a,b,c,然后让p[c]&#x3D;p[b],p[b]&#x3D;p[a],p[a]&#x3D;p[c]p[c]&#x3D;p[b],p[b]&#x3D;p[a],p[a]&#x3D;p[c]p[c]&#x3D;p[b],p[b]&#x3D;p[a],p[a]&#x3D;p<a href="%E5%BE%AA%E7%8E%AF%E5%8F%B3%E7%A7%BB%E4%B8%80%E4%BD%8D">c</a>,下标a,b,c的大小关系任意,但必须两两不同.要求用k次操作让p有序,输出一种合法解(不要求最小化),无解输出-1<br>n&lt;&#x3D;2e5,k&lt;&#x3D;⌊n2⌋n&lt;&#x3D;2e5, k&lt;&#x3D;\lfloor \frac{n}{2} \rfloorn&lt;&#x3D;2e5,k&lt;&#x3D;⌊2n​⌋</p>
+<h1 id="做法"><a href="#做法" class="headerlink" title="做法"></a>做法</h1><p>先考虑一下n&#x3D;3的时候,可以发现该操作会形成两个等价类,{(1, 2, 3), (3, 1, 2), (2, 3, 1)}、 {(3, 2, 1), (1,<br>3, 2), (2, 1, 3)},因此第二个集合中的排列就不可能排成有序. <del>然而这好像没什么用</del>.<br>从k的大小入手,k&lt;&#x3D;n&#x2F;2,说明每次操作至少要让两个元素归位,每次只要操作(i,p[i],p[p[i]])(i, p[i],<br>p[p[i]])(i,p[i],p[p[i]])即可,但是有可能i&#x3D;&#x3D;p[p[i]]i&#x3D;&#x3D;p[p[i]]i&#x3D;&#x3D;p[p[i]],即为一个二元环.<br>下面考虑2,1,4,3{2, 1, 4, 3}2,1,4,3这个排列,它由两个二元环组成,可以发现只要操作(2,3,4),(1,2,3)(2, 3,<br>4),(1, 2, 3)(2,3,4),(1,2,3)即可,就是说两个二元环可以通过两次操作排成有序.<br>所以我们只要先对长度大于2的环进行操作,然后把二元环存起来.最后如果二元环有偶数个,两两解决,否则无解.如果二元环有奇数个,则逆序对数有奇数个,而可以发现该操作每次只能变化偶数个逆序对,其实就对应了上面的两个等价类.</p>
+<pre><code>#include &lt;bits/stdc++.h&gt;
+#define mp make_pair
+#define pb push_back
+#define sz(x) (int)x.size()
+#define all(x) begin(x), end(x)
+#define fi first
+#define se second
+#define debug(x) cerr &lt;&lt; #x &lt;&lt; &quot; &quot; &lt;&lt; x &lt;&lt; &#39;\n&#39;
+using namespace std;
+using ll = long long;
+using pii = pair&lt;int,int&gt;;
+using pli = pair&lt;ll,int&gt;;
+const int INF = 0x3f3f3f3f, N = 2e5 + 5;
+const ll LINF = 1e18 + 5;
+constexpr int mod = 1e9 + 7;
+int n, k, a[N], p[N], b[N];
+bool vis[N];
+void upd(int x, int y, int z)
+&#123;
+    assert(x!=y); assert(y!=z); assert(x!=z);
+    int tmp = a[z];
+    a[z] = a[y];
+    p[a[y]] = z; 
+    a[y] = a[x]; 
+    p[a[x]] = y;
+    a[x] = tmp;
+    p[tmp] = x;
+&#125;
+void solve()
+&#123;
+    scanf(&quot;%d%d&quot;, &amp;n, &amp;k);
+    for(int i=1; i&lt;=n; i++) 
+    &#123;
+        scanf(&quot;%d&quot;, a+i);
+        p[a[i]] = i;
+    &#125;
+    vector &lt;array&lt;int,3&gt;&gt; op;
+    for(int i=1; i&lt;=n; i++)
+    &#123;
+        vis[i] = 0;
+        if(i!=p[i])
+        &#123;
+            int x = p[i], y = i, z = a[i];
+            if(z==x) continue;
+            op.pb(&#123;y, z, x&#125;);
+            upd(y, z, x);
+        &#125;
+    &#125;
+    vector &lt;pii&gt; loop;
+    for(int i=1; i&lt;=n; i++)
+    &#123;
+        if(i!=p[i] &amp;&amp; p[i]==a[i] &amp;&amp; !vis[p[i]])
+        &#123;
+            loop.pb(&#123;i, p[i]&#125;);
+            vis[i] = vis[p[i]] = 1;
+        &#125;
+    &#125;
+    if(sz(loop)&amp;1) 
+    &#123;
+        puts(&quot;-1&quot;);
+        return;
+    &#125;
+    for(int i=0; i&lt;sz(loop); i+=2)
+    &#123;
+        int a = loop[i].fi, b = loop[i].se, c = loop[i+1].fi, d = loop[i+1].se;
+        op.pb(&#123;b, c, d&#125;);
+        upd(b, c, d);
+        op.pb(&#123;a, b, c&#125;);
+        upd(a, b, c);
+    &#125;
+    if(sz(op)&gt;k || !is_sorted(a+1, a+n+1)) puts(&quot;-1&quot;);
+    else
+    &#123;
+        cout &lt;&lt; sz(op) &lt;&lt; &#39;\n&#39;;
+        for(auto it : op) printf(&quot;%d %d %d\n&quot;, it[0], it[1], it[2]);
+    &#125;
+&#125;
+int main()
+&#123;
+    int T; scanf(&quot;%d&quot;, &amp;T);
+    while(T--) solve();
+    return 0;
+&#125;
+</code></pre>
+<ul>
+<li>做法</li>
+</ul>
+
+  </div>
+</article>
+
+
+
+        
+          <div id="footer-post-container">
+  <div id="footer-post">
+
+    <div id="nav-footer" style="display: none">
+      <ul>
+        
+          <li><a href="/">首页</a></li>
+        
+          <li><a href="/archives/">归档</a></li>
+        
+          <li><a href="/tags/">标签</a></li>
+        
+          <li><a href="/search/">搜索</a></li>
+        
+      </ul>
+    </div>
+
+    
+    
+      <div id="toc-footer" style="display: none">
+        <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#%E5%81%9A%E6%B3%95"><span class="toc-number">1.</span> <span class="toc-text">做法</span></a></li></ol>
+      </div>
+    
+
+    <div id="share-footer" style="display: none">
+      <ul>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.facebook.com/sharer.php?u=http://example.com/2020/05/11/triple-sort-si-wei-gou-zao/"><i class="fab fa-facebook fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=http://example.com/2020/05/11/triple-sort-si-wei-gou-zao/&text=Triple Sort 思维+构造"><i class="fab fa-twitter fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.linkedin.com/shareArticle?url=http://example.com/2020/05/11/triple-sort-si-wei-gou-zao/&title=Triple Sort 思维+构造"><i class="fab fa-linkedin fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://pinterest.com/pin/create/bookmarklet/?url=http://example.com/2020/05/11/triple-sort-si-wei-gou-zao/&is_video=false&description=Triple Sort 思维+构造"><i class="fab fa-pinterest fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=Triple Sort 思维+构造&body=Check out this article: http://example.com/2020/05/11/triple-sort-si-wei-gou-zao/"><i class="fa-solid fa-envelope fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://getpocket.com/save?url=http://example.com/2020/05/11/triple-sort-si-wei-gou-zao/&title=Triple Sort 思维+构造"><i class="fab fa-get-pocket fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://reddit.com/submit?url=http://example.com/2020/05/11/triple-sort-si-wei-gou-zao/&title=Triple Sort 思维+构造"><i class="fab fa-reddit fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.stumbleupon.com/submit?url=http://example.com/2020/05/11/triple-sort-si-wei-gou-zao/&title=Triple Sort 思维+构造"><i class="fab fa-stumbleupon fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://digg.com/submit?url=http://example.com/2020/05/11/triple-sort-si-wei-gou-zao/&title=Triple Sort 思维+构造"><i class="fab fa-digg fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.tumblr.com/share/link?url=http://example.com/2020/05/11/triple-sort-si-wei-gou-zao/&name=Triple Sort 思维+构造&description="><i class="fab fa-tumblr fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://news.ycombinator.com/submitlink?u=http://example.com/2020/05/11/triple-sort-si-wei-gou-zao/&t=Triple Sort 思维+构造"><i class="fab fa-hacker-news fa-lg" aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+
+    <div id="actions-footer">
+        <a id="menu" class="icon" href="#" onclick="$('#nav-footer').toggle();return false;"><i class="fa-solid fa-bars fa-lg" aria-hidden="true"></i> 菜单</a>
+        
+          <a id="toc" class="icon" href="#" onclick="$('#toc-footer').toggle();return false;"><i class="fa-solid fa-list fa-lg" aria-hidden="true"></i> 目录</a>
+        
+        <a id="share" class="icon" href="#" onclick="$('#share-footer').toggle();return false;"><i class="fa-solid fa-share-alt fa-lg" aria-hidden="true"></i> 分享</a>
+        <a id="top" style="display:none" class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fa-solid fa-chevron-up fa-lg" aria-hidden="true"></i> 返回顶部</a>
+    </div>
+
+  </div>
+</div>
+
+        
+        <footer id="footer">
+  <div class="footer-left">
+    Copyright &copy;
+    
+    
+    2020-2023
+    jyf111
+  </div>
+  <div class="footer-right">
+    <nav>
+      <ul>
+        <!--
+       --><li><a href="/">首页</a></li><!--
+     --><!--
+       --><li><a href="/archives/">归档</a></li><!--
+     --><!--
+       --><li><a href="/tags/">标签</a></li><!--
+     --><!--
+       --><li><a href="/search/">搜索</a></li><!--
+     -->
+      </ul>
+    </nav>
+  </div>
+</footer>
+
+    </div>
+    <!-- styles -->
+
+
+
+  <link rel="preload" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" crossorigin="anonymous" onload="this.onload=null;this.rel='stylesheet'"/>
+
+
+    <!-- jquery -->
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js" crossorigin="anonymous"></script>
+
+
+
+
+<!-- clipboard -->
+
+  
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.7/clipboard.min.js" crossorigin="anonymous"></script>
+  
+  <script type="text/javascript">
+  $(function() {
+    // copy-btn HTML
+    var btn = "<span class=\"btn-copy tooltipped tooltipped-sw\" aria-label=\"复制到粘贴板！\">";
+    btn += '<i class="fa-regular fa-clone"></i>';
+    btn += '</span>';
+    // mount it!
+    $(".highlight table").before(btn);
+    var clip = new ClipboardJS('.btn-copy', {
+      text: function(trigger) {
+        return Array.from(trigger.nextElementSibling.querySelectorAll('.code')).reduce((str,it)=>str+it.innerText+'\n','')
+      }
+    });
+    clip.on('success', function(e) {
+      e.trigger.setAttribute('aria-label', "复制成功！");
+      e.clearSelection();
+    })
+  })
+  </script>
+
+
+<script src="/js/main.js"></script>
+
+<!-- search -->
+
+<!-- Baidu Analytics -->
+
+<!-- Cloudflare Analytics -->
+
+<!-- Disqus Comments -->
+
+<!-- utterances Comments -->
+
+</body>
+</html>

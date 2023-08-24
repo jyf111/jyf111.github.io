@@ -1,0 +1,344 @@
+<!DOCTYPE html>
+<html lang=zh>
+<head>
+    <!-- so meta -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="HandheldFriendly" content="True">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=5" />
+    <meta name="description" content="前五题不难（银），第六题（B or H）都不会 A真签到 D初中题，有点烦有两种情况，懒得写了 E很容易打表找到规律 F很直白的bfs，需要对给出的图进行一些转化（我的转化方法不太好，导致有点难写） I横轴上有n个点，让你选择k个点，最大化他们两两之间距离的和k从1~n都回答一遍两个点一定是取最左和最右，三个点随便再取一个，四个点一定是取最左两个和最右两个，那么结论就很显然了 H给定n个数，定义一">
+<meta property="og:type" content="article">
+<meta property="og:title" content="2018-2019 ACM-ICPC, Asia Jiaozuo Regional Contest gym102028">
+<meta property="og:url" content="http://example.com/2021/01/09/2018-2019-acm-icpc-asia-jiaozuo-regional-contest-gym102028/index.html">
+<meta property="og:site_name" content="jyf111&#39;s blog">
+<meta property="og:description" content="前五题不难（银），第六题（B or H）都不会 A真签到 D初中题，有点烦有两种情况，懒得写了 E很容易打表找到规律 F很直白的bfs，需要对给出的图进行一些转化（我的转化方法不太好，导致有点难写） I横轴上有n个点，让你选择k个点，最大化他们两两之间距离的和k从1~n都回答一遍两个点一定是取最左和最右，三个点随便再取一个，四个点一定是取最左两个和最右两个，那么结论就很显然了 H给定n个数，定义一">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2021-01-09T05:33:44.000Z">
+<meta property="article:modified_time" content="2023-08-24T10:10:29.226Z">
+<meta property="article:author" content="jyf111">
+<meta property="article:tag" content="算法">
+<meta name="twitter:card" content="summary">
+    
+    
+      
+        
+          <link rel="shortcut icon" href="/images/favicon.ico">
+        
+      
+      
+        
+          <link rel="icon" type="image/png" href="/images/favicon-192x192.png" sizes="192x192">
+        
+      
+      
+        
+          <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png">
+        
+      
+    
+    <!-- title -->
+    <title>2018-2019 ACM-ICPC, Asia Jiaozuo Regional Contest gym102028</title>
+    <!-- async scripts -->
+    <!-- Google Analytics -->
+
+
+    <!-- Umami Analytics -->
+
+
+    <!-- styles -->
+    
+<link rel="stylesheet" href="/css/style.css">
+
+    <!-- persian styles -->
+    
+    <!-- rss -->
+    
+    
+	<!-- mathjax -->
+	
+		<script type="text/x-mathjax-config">
+		  MathJax.Hub.Config({
+			tex2jax: {
+			  skipTags: ['script', 'noscript', 'style', 'textarea', 'pre'],
+			  inlineMath: [['$','$']]
+			}
+		  });
+		</script>
+		<script src='https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-MML-AM_CHTML' async></script>
+	
+<meta name="generator" content="Hexo 6.3.0"></head>
+
+<body class="max-width mx-auto px3 ltr">
+    
+      <div id="header-post">
+  <a id="menu-icon" href="#" aria-label="目录"><i class="fa-solid fa-bars fa-lg"></i></a>
+  <a id="menu-icon-tablet" href="#" aria-label="目录"><i class="fa-solid fa-bars fa-lg"></i></a>
+  <a id="top-icon-tablet" href="#" aria-label="顶部" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');" style="display:none;"><i class="fa-solid fa-chevron-up fa-lg"></i></a>
+  <span id="menu">
+    <span id="nav">
+      <ul>
+        <!--
+       --><li><a href="/">首页</a></li><!--
+     --><!--
+       --><li><a href="/archives/">归档</a></li><!--
+     --><!--
+       --><li><a href="/tags/">标签</a></li><!--
+     --><!--
+       --><li><a href="/search/">搜索</a></li><!--
+     -->
+      </ul>
+    </span>
+    <br/>
+    <span id="actions">
+      <ul>
+        
+        <li><a class="icon" aria-label="上一篇" href="/2021/01/10/atcoder-regular-contest-111/"><i class="fa-solid fa-chevron-left" aria-hidden="true" onmouseover="$('#i-prev').toggle();" onmouseout="$('#i-prev').toggle();"></i></a></li>
+        
+        
+        <li><a class="icon" aria-label="下一篇" href="/2021/01/09/codeforces-round-695-div-2/"><i class="fa-solid fa-chevron-right" aria-hidden="true" onmouseover="$('#i-next').toggle();" onmouseout="$('#i-next').toggle();"></i></a></li>
+        
+        <li><a class="icon" aria-label="返回顶部" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fa-solid fa-chevron-up" aria-hidden="true" onmouseover="$('#i-top').toggle();" onmouseout="$('#i-top').toggle();"></i></a></li>
+        <li><a class="icon" aria-label="分享文章" href="#"><i class="fa-solid fa-share-alt" aria-hidden="true" onmouseover="$('#i-share').toggle();" onmouseout="$('#i-share').toggle();" onclick="$('#share').toggle();return false;"></i></a></li>
+      </ul>
+      <span id="i-prev" class="info" style="display:none;">上一篇</span>
+      <span id="i-next" class="info" style="display:none;">下一篇</span>
+      <span id="i-top" class="info" style="display:none;">返回顶部</span>
+      <span id="i-share" class="info" style="display:none;">分享文章</span>
+    </span>
+    <br/>
+    <div id="share" style="display: none">
+      <ul>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.facebook.com/sharer.php?u=http://example.com/2021/01/09/2018-2019-acm-icpc-asia-jiaozuo-regional-contest-gym102028/"><i class="fab fa-facebook " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=http://example.com/2021/01/09/2018-2019-acm-icpc-asia-jiaozuo-regional-contest-gym102028/&text=2018-2019 ACM-ICPC, Asia Jiaozuo Regional Contest gym102028"><i class="fab fa-twitter " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.linkedin.com/shareArticle?url=http://example.com/2021/01/09/2018-2019-acm-icpc-asia-jiaozuo-regional-contest-gym102028/&title=2018-2019 ACM-ICPC, Asia Jiaozuo Regional Contest gym102028"><i class="fab fa-linkedin " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://pinterest.com/pin/create/bookmarklet/?url=http://example.com/2021/01/09/2018-2019-acm-icpc-asia-jiaozuo-regional-contest-gym102028/&is_video=false&description=2018-2019 ACM-ICPC, Asia Jiaozuo Regional Contest gym102028"><i class="fab fa-pinterest " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=2018-2019 ACM-ICPC, Asia Jiaozuo Regional Contest gym102028&body=Check out this article: http://example.com/2021/01/09/2018-2019-acm-icpc-asia-jiaozuo-regional-contest-gym102028/"><i class="fa-solid fa-envelope " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://getpocket.com/save?url=http://example.com/2021/01/09/2018-2019-acm-icpc-asia-jiaozuo-regional-contest-gym102028/&title=2018-2019 ACM-ICPC, Asia Jiaozuo Regional Contest gym102028"><i class="fab fa-get-pocket " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://reddit.com/submit?url=http://example.com/2021/01/09/2018-2019-acm-icpc-asia-jiaozuo-regional-contest-gym102028/&title=2018-2019 ACM-ICPC, Asia Jiaozuo Regional Contest gym102028"><i class="fab fa-reddit " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.stumbleupon.com/submit?url=http://example.com/2021/01/09/2018-2019-acm-icpc-asia-jiaozuo-regional-contest-gym102028/&title=2018-2019 ACM-ICPC, Asia Jiaozuo Regional Contest gym102028"><i class="fab fa-stumbleupon " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://digg.com/submit?url=http://example.com/2021/01/09/2018-2019-acm-icpc-asia-jiaozuo-regional-contest-gym102028/&title=2018-2019 ACM-ICPC, Asia Jiaozuo Regional Contest gym102028"><i class="fab fa-digg " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.tumblr.com/share/link?url=http://example.com/2021/01/09/2018-2019-acm-icpc-asia-jiaozuo-regional-contest-gym102028/&name=2018-2019 ACM-ICPC, Asia Jiaozuo Regional Contest gym102028&description="><i class="fab fa-tumblr " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://news.ycombinator.com/submitlink?u=http://example.com/2021/01/09/2018-2019-acm-icpc-asia-jiaozuo-regional-contest-gym102028/&t=2018-2019 ACM-ICPC, Asia Jiaozuo Regional Contest gym102028"><i class="fab fa-hacker-news " aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+    
+    
+      <div id="toc">
+        <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#A"><span class="toc-number">1.</span> <span class="toc-text">A</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#D"><span class="toc-number">2.</span> <span class="toc-text">D</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#E"><span class="toc-number">3.</span> <span class="toc-text">E</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#F"><span class="toc-number">4.</span> <span class="toc-text">F</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#I"><span class="toc-number">5.</span> <span class="toc-text">I</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#H"><span class="toc-number">6.</span> <span class="toc-text">H</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#B"><span class="toc-number">7.</span> <span class="toc-text">B</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#C"><span class="toc-number">8.</span> <span class="toc-text">C</span></a></li></ol>
+      </div>
+    
+  </span>
+</div>
+
+    
+    <div class="content index py4 ">
+        
+        <article class="post h-entry" itemscope itemtype="http://schema.org/BlogPosting">
+  <header>
+    
+    <h1 class="posttitle p-name" itemprop="name headline">
+        2018-2019 ACM-ICPC, Asia Jiaozuo Regional Contest gym102028
+    </h1>
+
+
+
+    <div class="meta">
+      <span class="author p-author h-card" itemprop="author" itemscope itemtype="http://schema.org/Person">
+        <span class="p-name" itemprop="name">jyf111</span>
+      </span>
+      
+    <div class="postdate">
+      
+        <time datetime="2021-01-09T05:33:44.000Z" class="dt-published" itemprop="datePublished">2021-01-09</time>
+        
+        (Updated: <time datetime="2023-08-24T10:10:29.226Z" class="dt-updated" itemprop="dateModified">2023-08-24</time>)
+        
+      
+    </div>
+
+
+      
+
+      
+    <div class="article-tag">
+        <i class="fa-solid fa-tag"></i>
+        <a class="p-category" href="/tags/%E7%AE%97%E6%B3%95/" rel="tag">算法</a>
+    </div>
+
+
+      
+        <span class=count-symbol-post> 
+          <i class="fa-solid fa-hourglass"></i>
+          
+            15 mins to read
+          
+        </span>
+      
+    </div>
+  </header>
+  
+
+  <div class="content e-content" itemprop="articleBody">
+    <p>前五题不难（银），第六题（B or H）都不会</p>
+<h2 id="A"><a href="#A" class="headerlink" title="A"></a>A</h2><p>真签到</p>
+<h2 id="D"><a href="#D" class="headerlink" title="D"></a>D</h2><p>初中题，有点烦<br>有两种情况，懒得写了</p>
+<h2 id="E"><a href="#E" class="headerlink" title="E"></a>E</h2><p>很容易打表找到规律</p>
+<h2 id="F"><a href="#F" class="headerlink" title="F"></a>F</h2><p>很直白的bfs，需要对给出的图进行一些转化（我的转化方法不太好，导致有点难写）</p>
+<h2 id="I"><a href="#I" class="headerlink" title="I"></a>I</h2><p>横轴上有n个点，让你选择k个点，最大化他们两两之间距离的和<br>k从1~n都回答一遍<br>两个点一定是取最左和最右，三个点随便再取一个，四个点一定是取最左两个和最右两个，那么结论就很显然了</p>
+<h2 id="H"><a href="#H" class="headerlink" title="H"></a>H</h2><p>给定n个数，定义一个子区间的值为该区间的最大值，让你求所有本质不同的子区间的值的和<br>没有本质不同那就很模板了，单调栈或者笛卡尔树即可<br>但是本质不同就很棘手，想了想后缀自动机感觉做不了，又想了想单调栈和笛卡尔树感觉也不行，哈希也没法搞。<br>看到题解的后缀数组后就知道了。忘了本质不同还可以后缀数组了。<br>先想一下后缀数组是怎么求本质不同的串的，就是求出$height_i$​，那么对于从位置i开始的后缀，他会多统计$height_{rk_i}$​​个前缀，即从i开始，以$i$ ~ $i+height_{rk_i}-1$结束的这些区间的值重复算了，减掉即可<br>令$r_i &#x3D; i+height_{rk_i}-1$<br>先建出笛卡尔树，对于当前点u，当前范围为[L,R],则左子树内所有$r_i$​大于等于u的，都要减掉$a_u$​的贡献<br>即要求出左子树(包括u)内$\sum_{i&#x3D;L}^u max(r_i-u+1,0) -<br>\sum_{i&#x3D;L}^u max(r_i-R,0)$<br>可以用线段树合并来维护</p>
+<p>这题发现了我sa板子的一个问题，在求height数组的时候要注意i+k和j+k的范围，否则在多组数据+数组是int的时候会挂掉</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">while</span>(i+k&lt;=n&amp;&amp;j+k&lt;=n&amp;&amp;a[i+k]==a[j+k]) k++;</span><br></pre></td></tr></table></figure>
+
+<h2 id="B"><a href="#B" class="headerlink" title="B"></a>B</h2><p>有两种怪物，血量攻击力分别为$HP_A,ATK_A,HP_B,ATK_B$<br>第i回合你会先受到活着的怪物的攻击，然后你可以选择一只怪物造成i的伤害，让你最小化自己所受的伤害的同时最小化攻击序列的字典序（尽可能优先打A）<br>先考虑怎么最小化自己受到的伤害<br>定义f(t)表示最小的x，使得$\sum_{i&#x3D;1}^x \geq t$<br>一定是在$f(HP_A+HP_B)$回合以内，先优先打死A，或者先优先打死B<br>考虑先打死A，如果前$f(HP_A)$回合都用来打A，剩余回合打B也能把B打死那这就是最优的，否则假设缺了x点伤害，打A富余了y点伤害，必然有关系$y\geq<br>x$，为了让B尽可能靠后，只要在第y回合改成打B即可<br>考虑先打死B，先在前$f(HP_B)$回合都打B，后面打A，如果打B富余了x点伤害，我们让前$f(x+1)-1$个回合改成打A即可，如果A还缺了x的伤害，那就让前面最后一下打A延迟x回合</p>
+<h2 id="C"><a href="#C" class="headerlink" title="C"></a>C</h2><p>一个$n \times n$的棋盘，每一列上都一个棋子（且都不同行），现在有四种操作和两种询问</p>
+<ul>
+<li>L K：所有棋子同时向左移动k步，如果碰到边界就不动</li>
+<li>R K：所有棋子同时向右移动k步，如果碰到边界就不动</li>
+<li>U K：所有棋子同时向上移动k步，如果碰到边界就不动</li>
+<li>D K：所有棋子同时向下移动k步，如果碰到边界就不动</li>
+<li>询问初始第i个棋子现在的位置</li>
+<li>询问有多少对棋子现在在同一个位置上</li>
+</ul>
+<p>$n \leq 3\times 10^5$<br>这种二维问题，一个想法就是行列分离做，这边显然也可以行列分离转成一维去思考<br>就考虑所有棋子在一条横轴上，可以同时左右移动k步<br>对于碰到过左边界的棋子，以后就永远在一起了，右边界也是这样<br>第一步左移k，那么1~k的棋子之后就相同了<br>另一个套路是n个棋子一起动不好维护，那么我们去维护边界，左移k，我们让左边界右移k就行了，这样$\leq$左边界的棋子都相当于是在左边界上，这样一来相当于是左右边界不断在向中间靠拢，因为不断移动下去合并的棋子就越来越多了。但是我们维护的并不是真实的左边界坐标，所以还需要维护一个变量d。左移就让d+k，右移就让d-k，则l-k和r-k就是真实的边界了，当然还需要保证真实边界在1~n范围内，因为碰到边界就不动了<br>这样横轴纵轴分别维护就可以解决第一个询问了，对于第二个询问，我们相当于是LRDU四个边界在不断的往中间压缩，由于初始行列均不同，要位于同一个格子，必须同在LR轴中的一个，UD轴的一个，用四个变量LD，LU，RD，RU分别维护一下，注意特判L&#x3D;R，D&#x3D;U的情况。具体维护的话，因为lrud这四个轴都是单调变化的，那么每次移动的时候判断一下当前碰到边界的点即可，注意不要重复统计。</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;bits/stdc++.h&gt;</span></span></span><br><span class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> std;</span><br><span class="line"><span class="keyword">using</span> ll = <span class="type">long</span> <span class="type">long</span>;</span><br><span class="line"><span class="type">const</span> <span class="type">int</span> N = <span class="number">3e5</span> + <span class="number">5</span>;</span><br><span class="line"><span class="type">int</span> n, m, ul, ur, dl, dr;</span><br><span class="line"><span class="type">bool</span> vis[N];</span><br><span class="line">ll C[N];</span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">check</span><span class="params">(<span class="type">int</span> id)</span></span>;</span><br><span class="line"><span class="keyword">struct</span> <span class="title class_">Bound</span></span><br><span class="line">&#123;</span><br><span class="line">  <span class="type">int</span> l, r, d;</span><br><span class="line">  <span class="type">int</span> p[N], id[N];</span><br><span class="line">  <span class="function"><span class="type">void</span> <span class="title">init</span><span class="params">(<span class="type">int</span> n)</span> </span>&#123; l = <span class="number">1</span>, r = n, d = <span class="number">0</span>; &#125;</span><br><span class="line">  <span class="function"><span class="type">void</span> <span class="title">set</span><span class="params">(<span class="type">int</span> x, <span class="type">int</span> y)</span> </span>&#123; p[x] = y, id[y] = x; &#125;</span><br><span class="line">  <span class="function"><span class="type">void</span> <span class="title">movel</span><span class="params">(<span class="type">int</span> k)</span></span></span><br><span class="line"><span class="function">  </span>&#123;</span><br><span class="line">    <span class="keyword">while</span>(l&lt;r &amp;&amp; l+d-k&lt;<span class="number">1</span>) <span class="built_in">check</span>(id[++l]);</span><br><span class="line">    <span class="keyword">if</span>(l+d-k&gt;=<span class="number">1</span>) d -= k;</span><br><span class="line">    <span class="keyword">else</span> d = <span class="number">1</span> - l;</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="function"><span class="type">void</span> <span class="title">mover</span><span class="params">(<span class="type">int</span> k)</span></span></span><br><span class="line"><span class="function">  </span>&#123;</span><br><span class="line">    <span class="keyword">while</span>(l&lt;r &amp;&amp; r+d+k&gt;n) <span class="built_in">check</span>(id[--r]);</span><br><span class="line">    <span class="keyword">if</span>(r+d+k&lt;=n) d += k;</span><br><span class="line">    <span class="keyword">else</span> d = n - r;</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="function"><span class="type">int</span> <span class="title">get</span><span class="params">(<span class="type">int</span> k)</span></span></span><br><span class="line"><span class="function">  </span>&#123;</span><br><span class="line">    <span class="keyword">if</span>(p[k]&lt;=l) <span class="keyword">return</span> l + d;</span><br><span class="line">    <span class="keyword">else</span> <span class="keyword">if</span>(p[k]&gt;=r) <span class="keyword">return</span> r + d;</span><br><span class="line">    <span class="keyword">return</span> p[k] + d;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;lr, ud;</span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">check</span><span class="params">(<span class="type">int</span> id)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">  <span class="keyword">if</span>(vis[id]) <span class="keyword">return</span>;</span><br><span class="line">  <span class="keyword">if</span>(lr.p[id]&lt;=lr.l &amp;&amp; ud.p[id]&lt;=ud.l) ul++, vis[id] = <span class="number">1</span>;</span><br><span class="line">  <span class="keyword">else</span> <span class="keyword">if</span>(lr.p[id]&lt;=lr.l &amp;&amp; ud.p[id]&gt;=ud.r) dl++, vis[id] = <span class="number">1</span>;</span><br><span class="line">  <span class="keyword">else</span> <span class="keyword">if</span>(lr.p[id]&gt;=lr.r &amp;&amp; ud.p[id]&lt;=ud.l) ur++, vis[id] = <span class="number">1</span>;</span><br><span class="line">  <span class="keyword">else</span> <span class="keyword">if</span>(lr.p[id]&gt;=lr.r &amp;&amp; ud.p[id]&gt;=ud.r) dr++, vis[id] = <span class="number">1</span>;</span><br><span class="line">&#125;</span><br><span class="line"><span class="function">ll <span class="title">ask</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">  <span class="keyword">if</span>(lr.l==lr.r &amp;&amp; ud.l==ud.r) <span class="keyword">return</span> C[ul+dl+ur+dr];</span><br><span class="line">  <span class="keyword">else</span> <span class="keyword">if</span>(lr.l==lr.r) <span class="keyword">return</span> C[ul+ur] + C[dl+dr];</span><br><span class="line">  <span class="keyword">else</span> <span class="keyword">if</span>(ud.l==ud.r) <span class="keyword">return</span> C[ul+dl] + C[ur+dr];</span><br><span class="line">  <span class="keyword">else</span> <span class="keyword">return</span> C[ul] + C[ur] + C[dl] + C[dr];</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">solve</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">  ul = ur = dl = dr = <span class="number">0</span>;</span><br><span class="line">  <span class="built_in">scanf</span>(<span class="string">&quot;%d%d&quot;</span>, &amp;n, &amp;m);</span><br><span class="line">  <span class="keyword">for</span>(<span class="type">int</span> i=<span class="number">1</span>; i&lt;=n; i++) vis[i] = <span class="number">0</span>;</span><br><span class="line">  lr.<span class="built_in">init</span>(n), ud.<span class="built_in">init</span>(n);</span><br><span class="line">  <span class="keyword">for</span>(<span class="type">int</span> i=<span class="number">1</span>; i&lt;=n; i++)</span><br><span class="line">  &#123;</span><br><span class="line">    <span class="type">int</span> x, y; <span class="built_in">scanf</span>(<span class="string">&quot;%d%d&quot;</span>, &amp;x, &amp;y);</span><br><span class="line">    lr.<span class="built_in">set</span>(i, y); ud.<span class="built_in">set</span>(i, x);</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="built_in">check</span>(lr.id[<span class="number">1</span>]), <span class="built_in">check</span>(lr.id[n]);</span><br><span class="line">  <span class="keyword">for</span>(<span class="type">int</span> i=<span class="number">1</span>; i&lt;=m; i++)</span><br><span class="line">  &#123;</span><br><span class="line">    <span class="type">static</span> <span class="type">char</span> op[<span class="number">2</span>];</span><br><span class="line">    <span class="built_in">scanf</span>(<span class="string">&quot;%s&quot;</span>, op);</span><br><span class="line">    <span class="keyword">if</span>(op[<span class="number">0</span>]==<span class="string">&#x27;?&#x27;</span>)</span><br><span class="line">    &#123;</span><br><span class="line">      <span class="type">int</span> k; <span class="built_in">scanf</span>(<span class="string">&quot;%d&quot;</span>, &amp;k);</span><br><span class="line">      <span class="built_in">printf</span>(<span class="string">&quot;%d %d\n&quot;</span>, ud.<span class="built_in">get</span>(k), lr.<span class="built_in">get</span>(k));</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">else</span> <span class="keyword">if</span>(op[<span class="number">0</span>]==<span class="string">&#x27;!&#x27;</span>) <span class="built_in">printf</span>(<span class="string">&quot;%lld\n&quot;</span>, <span class="built_in">ask</span>());</span><br><span class="line">    <span class="keyword">else</span></span><br><span class="line">    &#123;</span><br><span class="line">      <span class="type">int</span> k; <span class="built_in">scanf</span>(<span class="string">&quot;%d&quot;</span>, &amp;k);</span><br><span class="line">      <span class="keyword">if</span>(op[<span class="number">0</span>]==<span class="string">&#x27;L&#x27;</span>) lr.<span class="built_in">movel</span>(k);</span><br><span class="line">      <span class="keyword">else</span> <span class="keyword">if</span>(op[<span class="number">0</span>]==<span class="string">&#x27;R&#x27;</span>) lr.<span class="built_in">mover</span>(k);</span><br><span class="line">      <span class="keyword">else</span> <span class="keyword">if</span>(op[<span class="number">0</span>]==<span class="string">&#x27;U&#x27;</span>) ud.<span class="built_in">movel</span>(k);</span><br><span class="line">      <span class="keyword">else</span> ud.<span class="built_in">mover</span>(k);</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="type">int</span> <span class="title">main</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">  <span class="keyword">for</span>(<span class="type">int</span> i=<span class="number">1</span>; i&lt;N; i++) C[i] = <span class="number">1ll</span>*i*(i<span class="number">-1</span>)/<span class="number">2</span>;</span><br><span class="line">  <span class="type">int</span> _; <span class="built_in">scanf</span>(<span class="string">&quot;%d&quot;</span>, &amp;_);</span><br><span class="line">  <span class="keyword">while</span>(_--) <span class="built_in">solve</span>();</span><br><span class="line">  <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+  </div>
+</article>
+
+
+
+        
+          <div id="footer-post-container">
+  <div id="footer-post">
+
+    <div id="nav-footer" style="display: none">
+      <ul>
+        
+          <li><a href="/">首页</a></li>
+        
+          <li><a href="/archives/">归档</a></li>
+        
+          <li><a href="/tags/">标签</a></li>
+        
+          <li><a href="/search/">搜索</a></li>
+        
+      </ul>
+    </div>
+
+    
+    
+      <div id="toc-footer" style="display: none">
+        <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#A"><span class="toc-number">1.</span> <span class="toc-text">A</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#D"><span class="toc-number">2.</span> <span class="toc-text">D</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#E"><span class="toc-number">3.</span> <span class="toc-text">E</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#F"><span class="toc-number">4.</span> <span class="toc-text">F</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#I"><span class="toc-number">5.</span> <span class="toc-text">I</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#H"><span class="toc-number">6.</span> <span class="toc-text">H</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#B"><span class="toc-number">7.</span> <span class="toc-text">B</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#C"><span class="toc-number">8.</span> <span class="toc-text">C</span></a></li></ol>
+      </div>
+    
+
+    <div id="share-footer" style="display: none">
+      <ul>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.facebook.com/sharer.php?u=http://example.com/2021/01/09/2018-2019-acm-icpc-asia-jiaozuo-regional-contest-gym102028/"><i class="fab fa-facebook fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=http://example.com/2021/01/09/2018-2019-acm-icpc-asia-jiaozuo-regional-contest-gym102028/&text=2018-2019 ACM-ICPC, Asia Jiaozuo Regional Contest gym102028"><i class="fab fa-twitter fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.linkedin.com/shareArticle?url=http://example.com/2021/01/09/2018-2019-acm-icpc-asia-jiaozuo-regional-contest-gym102028/&title=2018-2019 ACM-ICPC, Asia Jiaozuo Regional Contest gym102028"><i class="fab fa-linkedin fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://pinterest.com/pin/create/bookmarklet/?url=http://example.com/2021/01/09/2018-2019-acm-icpc-asia-jiaozuo-regional-contest-gym102028/&is_video=false&description=2018-2019 ACM-ICPC, Asia Jiaozuo Regional Contest gym102028"><i class="fab fa-pinterest fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=2018-2019 ACM-ICPC, Asia Jiaozuo Regional Contest gym102028&body=Check out this article: http://example.com/2021/01/09/2018-2019-acm-icpc-asia-jiaozuo-regional-contest-gym102028/"><i class="fa-solid fa-envelope fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://getpocket.com/save?url=http://example.com/2021/01/09/2018-2019-acm-icpc-asia-jiaozuo-regional-contest-gym102028/&title=2018-2019 ACM-ICPC, Asia Jiaozuo Regional Contest gym102028"><i class="fab fa-get-pocket fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://reddit.com/submit?url=http://example.com/2021/01/09/2018-2019-acm-icpc-asia-jiaozuo-regional-contest-gym102028/&title=2018-2019 ACM-ICPC, Asia Jiaozuo Regional Contest gym102028"><i class="fab fa-reddit fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.stumbleupon.com/submit?url=http://example.com/2021/01/09/2018-2019-acm-icpc-asia-jiaozuo-regional-contest-gym102028/&title=2018-2019 ACM-ICPC, Asia Jiaozuo Regional Contest gym102028"><i class="fab fa-stumbleupon fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://digg.com/submit?url=http://example.com/2021/01/09/2018-2019-acm-icpc-asia-jiaozuo-regional-contest-gym102028/&title=2018-2019 ACM-ICPC, Asia Jiaozuo Regional Contest gym102028"><i class="fab fa-digg fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.tumblr.com/share/link?url=http://example.com/2021/01/09/2018-2019-acm-icpc-asia-jiaozuo-regional-contest-gym102028/&name=2018-2019 ACM-ICPC, Asia Jiaozuo Regional Contest gym102028&description="><i class="fab fa-tumblr fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://news.ycombinator.com/submitlink?u=http://example.com/2021/01/09/2018-2019-acm-icpc-asia-jiaozuo-regional-contest-gym102028/&t=2018-2019 ACM-ICPC, Asia Jiaozuo Regional Contest gym102028"><i class="fab fa-hacker-news fa-lg" aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+
+    <div id="actions-footer">
+        <a id="menu" class="icon" href="#" onclick="$('#nav-footer').toggle();return false;"><i class="fa-solid fa-bars fa-lg" aria-hidden="true"></i> 菜单</a>
+        
+          <a id="toc" class="icon" href="#" onclick="$('#toc-footer').toggle();return false;"><i class="fa-solid fa-list fa-lg" aria-hidden="true"></i> 目录</a>
+        
+        <a id="share" class="icon" href="#" onclick="$('#share-footer').toggle();return false;"><i class="fa-solid fa-share-alt fa-lg" aria-hidden="true"></i> 分享</a>
+        <a id="top" style="display:none" class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fa-solid fa-chevron-up fa-lg" aria-hidden="true"></i> 返回顶部</a>
+    </div>
+
+  </div>
+</div>
+
+        
+        <footer id="footer">
+  <div class="footer-left">
+    Copyright &copy;
+    
+    
+    2020-2023
+    jyf111
+  </div>
+  <div class="footer-right">
+    <nav>
+      <ul>
+        <!--
+       --><li><a href="/">首页</a></li><!--
+     --><!--
+       --><li><a href="/archives/">归档</a></li><!--
+     --><!--
+       --><li><a href="/tags/">标签</a></li><!--
+     --><!--
+       --><li><a href="/search/">搜索</a></li><!--
+     -->
+      </ul>
+    </nav>
+  </div>
+</footer>
+
+    </div>
+    <!-- styles -->
+
+
+
+  <link rel="preload" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" crossorigin="anonymous" onload="this.onload=null;this.rel='stylesheet'"/>
+
+
+    <!-- jquery -->
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js" crossorigin="anonymous"></script>
+
+
+
+
+<!-- clipboard -->
+
+  
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.7/clipboard.min.js" crossorigin="anonymous"></script>
+  
+  <script type="text/javascript">
+  $(function() {
+    // copy-btn HTML
+    var btn = "<span class=\"btn-copy tooltipped tooltipped-sw\" aria-label=\"复制到粘贴板！\">";
+    btn += '<i class="fa-regular fa-clone"></i>';
+    btn += '</span>';
+    // mount it!
+    $(".highlight table").before(btn);
+    var clip = new ClipboardJS('.btn-copy', {
+      text: function(trigger) {
+        return Array.from(trigger.nextElementSibling.querySelectorAll('.code')).reduce((str,it)=>str+it.innerText+'\n','')
+      }
+    });
+    clip.on('success', function(e) {
+      e.trigger.setAttribute('aria-label', "复制成功！");
+      e.clearSelection();
+    })
+  })
+  </script>
+
+
+<script src="/js/main.js"></script>
+
+<!-- search -->
+
+<!-- Baidu Analytics -->
+
+<!-- Cloudflare Analytics -->
+
+<!-- Disqus Comments -->
+
+<!-- utterances Comments -->
+
+</body>
+</html>

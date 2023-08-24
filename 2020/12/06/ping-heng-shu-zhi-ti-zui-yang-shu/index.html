@@ -1,0 +1,324 @@
+<!DOCTYPE html>
+<html lang=zh>
+<head>
+    <!-- so meta -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="HandheldFriendly" content="True">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=5" />
+    <meta name="description" content="很简单的思路，在每次插入和删除的时候，检查一下左右子树是不是失衡，如果失衡就将整棵子树进行拍扁(中序遍历存到数组)，重构(每次以中心点为当前的根，然后递归左右区间)。失衡的判定：当左子树或者右子树的大小超过了整个子树大小的某个比例alpha（一般定义在0.7~0.8） 1bool bad(int p) &amp;#123; return t[p].cnt &amp;&amp; t[p].sz*alpha&amp;">
+<meta property="og:type" content="article">
+<meta property="og:title" content="平衡树之替罪羊树">
+<meta property="og:url" content="http://example.com/2020/12/06/ping-heng-shu-zhi-ti-zui-yang-shu/index.html">
+<meta property="og:site_name" content="jyf111&#39;s blog">
+<meta property="og:description" content="很简单的思路，在每次插入和删除的时候，检查一下左右子树是不是失衡，如果失衡就将整棵子树进行拍扁(中序遍历存到数组)，重构(每次以中心点为当前的根，然后递归左右区间)。失衡的判定：当左子树或者右子树的大小超过了整个子树大小的某个比例alpha（一般定义在0.7~0.8） 1bool bad(int p) &amp;#123; return t[p].cnt &amp;&amp; t[p].sz*alpha&amp;">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2020-12-06T05:33:44.000Z">
+<meta property="article:modified_time" content="2023-08-24T11:38:15.275Z">
+<meta property="article:author" content="jyf111">
+<meta property="article:tag" content="算法">
+<meta name="twitter:card" content="summary">
+    
+    
+      
+        
+          <link rel="shortcut icon" href="/images/favicon.ico">
+        
+      
+      
+        
+          <link rel="icon" type="image/png" href="/images/favicon-192x192.png" sizes="192x192">
+        
+      
+      
+        
+          <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png">
+        
+      
+    
+    <!-- title -->
+    <title>平衡树之替罪羊树</title>
+    <!-- async scripts -->
+    <!-- Google Analytics -->
+
+
+    <!-- Umami Analytics -->
+
+
+    <!-- styles -->
+    
+<link rel="stylesheet" href="/css/style.css">
+
+    <!-- persian styles -->
+    
+    <!-- rss -->
+    
+    
+	<!-- mathjax -->
+	
+		<script type="text/x-mathjax-config">
+		  MathJax.Hub.Config({
+			tex2jax: {
+			  skipTags: ['script', 'noscript', 'style', 'textarea', 'pre'],
+			  inlineMath: [['$','$']]
+			}
+		  });
+		</script>
+		<script src='https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-MML-AM_CHTML' async></script>
+	
+<meta name="generator" content="Hexo 6.3.0"></head>
+
+<body class="max-width mx-auto px3 ltr">
+    
+      <div id="header-post">
+  <a id="menu-icon" href="#" aria-label="目录"><i class="fa-solid fa-bars fa-lg"></i></a>
+  <a id="menu-icon-tablet" href="#" aria-label="目录"><i class="fa-solid fa-bars fa-lg"></i></a>
+  <a id="top-icon-tablet" href="#" aria-label="顶部" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');" style="display:none;"><i class="fa-solid fa-chevron-up fa-lg"></i></a>
+  <span id="menu">
+    <span id="nav">
+      <ul>
+        <!--
+       --><li><a href="/">首页</a></li><!--
+     --><!--
+       --><li><a href="/archives/">归档</a></li><!--
+     --><!--
+       --><li><a href="/tags/">标签</a></li><!--
+     --><!--
+       --><li><a href="/search/">搜索</a></li><!--
+     -->
+      </ul>
+    </span>
+    <br/>
+    <span id="actions">
+      <ul>
+        
+        <li><a class="icon" aria-label="上一篇" href="/2020/12/06/ping-heng-shu-zhi-fhq-treap/"><i class="fa-solid fa-chevron-left" aria-hidden="true" onmouseover="$('#i-prev').toggle();" onmouseout="$('#i-prev').toggle();"></i></a></li>
+        
+        
+        <li><a class="icon" aria-label="下一篇" href="/2020/12/04/ecpc-2019-kickoff/"><i class="fa-solid fa-chevron-right" aria-hidden="true" onmouseover="$('#i-next').toggle();" onmouseout="$('#i-next').toggle();"></i></a></li>
+        
+        <li><a class="icon" aria-label="返回顶部" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fa-solid fa-chevron-up" aria-hidden="true" onmouseover="$('#i-top').toggle();" onmouseout="$('#i-top').toggle();"></i></a></li>
+        <li><a class="icon" aria-label="分享文章" href="#"><i class="fa-solid fa-share-alt" aria-hidden="true" onmouseover="$('#i-share').toggle();" onmouseout="$('#i-share').toggle();" onclick="$('#share').toggle();return false;"></i></a></li>
+      </ul>
+      <span id="i-prev" class="info" style="display:none;">上一篇</span>
+      <span id="i-next" class="info" style="display:none;">下一篇</span>
+      <span id="i-top" class="info" style="display:none;">返回顶部</span>
+      <span id="i-share" class="info" style="display:none;">分享文章</span>
+    </span>
+    <br/>
+    <div id="share" style="display: none">
+      <ul>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.facebook.com/sharer.php?u=http://example.com/2020/12/06/ping-heng-shu-zhi-ti-zui-yang-shu/"><i class="fab fa-facebook " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=http://example.com/2020/12/06/ping-heng-shu-zhi-ti-zui-yang-shu/&text=平衡树之替罪羊树"><i class="fab fa-twitter " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.linkedin.com/shareArticle?url=http://example.com/2020/12/06/ping-heng-shu-zhi-ti-zui-yang-shu/&title=平衡树之替罪羊树"><i class="fab fa-linkedin " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://pinterest.com/pin/create/bookmarklet/?url=http://example.com/2020/12/06/ping-heng-shu-zhi-ti-zui-yang-shu/&is_video=false&description=平衡树之替罪羊树"><i class="fab fa-pinterest " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=平衡树之替罪羊树&body=Check out this article: http://example.com/2020/12/06/ping-heng-shu-zhi-ti-zui-yang-shu/"><i class="fa-solid fa-envelope " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://getpocket.com/save?url=http://example.com/2020/12/06/ping-heng-shu-zhi-ti-zui-yang-shu/&title=平衡树之替罪羊树"><i class="fab fa-get-pocket " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://reddit.com/submit?url=http://example.com/2020/12/06/ping-heng-shu-zhi-ti-zui-yang-shu/&title=平衡树之替罪羊树"><i class="fab fa-reddit " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.stumbleupon.com/submit?url=http://example.com/2020/12/06/ping-heng-shu-zhi-ti-zui-yang-shu/&title=平衡树之替罪羊树"><i class="fab fa-stumbleupon " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://digg.com/submit?url=http://example.com/2020/12/06/ping-heng-shu-zhi-ti-zui-yang-shu/&title=平衡树之替罪羊树"><i class="fab fa-digg " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.tumblr.com/share/link?url=http://example.com/2020/12/06/ping-heng-shu-zhi-ti-zui-yang-shu/&name=平衡树之替罪羊树&description="><i class="fab fa-tumblr " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://news.ycombinator.com/submitlink?u=http://example.com/2020/12/06/ping-heng-shu-zhi-ti-zui-yang-shu/&t=平衡树之替罪羊树"><i class="fab fa-hacker-news " aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+    
+    
+  </span>
+</div>
+
+    
+    <div class="content index py4 ">
+        
+        <article class="post h-entry" itemscope itemtype="http://schema.org/BlogPosting">
+  <header>
+    
+    <h1 class="posttitle p-name" itemprop="name headline">
+        平衡树之替罪羊树
+    </h1>
+
+
+
+    <div class="meta">
+      <span class="author p-author h-card" itemprop="author" itemscope itemtype="http://schema.org/Person">
+        <span class="p-name" itemprop="name">jyf111</span>
+      </span>
+      
+    <div class="postdate">
+      
+        <time datetime="2020-12-06T05:33:44.000Z" class="dt-published" itemprop="datePublished">2020-12-06</time>
+        
+        (Updated: <time datetime="2023-08-24T11:38:15.275Z" class="dt-updated" itemprop="dateModified">2023-08-24</time>)
+        
+      
+    </div>
+
+
+      
+
+      
+    <div class="article-tag">
+        <i class="fa-solid fa-tag"></i>
+        <a class="p-category" href="/tags/%E7%AE%97%E6%B3%95/" rel="tag">算法</a>
+    </div>
+
+
+      
+        <span class=count-symbol-post> 
+          <i class="fa-solid fa-hourglass"></i>
+          
+            13 mins to read
+          
+        </span>
+      
+    </div>
+  </header>
+  
+
+  <div class="content e-content" itemprop="articleBody">
+    <p>很简单的思路，在每次插入和删除的时候，检查一下左右子树是不是失衡，如果失衡就将整棵子树进行拍扁(中序遍历存到数组)，重构(每次以中心点为当前的根，然后递归左右区间)。<br>失衡的判定：当左子树或者右子树的大小超过了整个子树大小的某个比例alpha（一般定义在0.7~0.8）</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="type">bool</span> <span class="title">bad</span><span class="params">(<span class="type">int</span> p)</span> </span>&#123; <span class="keyword">return</span> t[p].cnt &amp;&amp; t[p].sz*alpha&lt;<span class="built_in">max</span>(t[t[p].ls].sz, t[t[p].rs].sz); &#125;</span><br></pre></td></tr></table></figure>
+
+<p>几个细节：</p>
+<ul>
+<li>删除的实现采用最简单的惰性删除，找到对应的节点后让cnt–即可，即使等于0也没有关系，因为在拍扁重构的时候可以把等于0的节点直接丢弃掉</li>
+<li>由于插入删除的时候可能需要重构，因此一定要记得传引用</li>
+<li>这种平衡树最大的特点就是好写加常数小(均摊mlogn)</li>
+</ul>
+<p>记住拍扁重构的思想应该就很容易手写了吧</p>
+<p>前驱、后继、第k大、排名其实没必要每个都实现一个函数。只需要实现求第k大，然后求小于x的数的个数以及小于等于x的数的个数即可，只与后两者只有细微的差异，完全可以合并到一个函数中<br>洛谷模板p3369开O2 170ms：</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;bits/stdc++.h&gt;</span></span></span><br><span class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> std;</span><br><span class="line"><span class="type">const</span> <span class="type">int</span> N = <span class="number">1e5</span> + <span class="number">5</span>;</span><br><span class="line"><span class="type">const</span> <span class="type">double</span> alpha = <span class="number">0.7</span>;</span><br><span class="line"><span class="keyword">struct</span> <span class="title class_">node</span></span><br><span class="line">&#123;</span><br><span class="line">  <span class="type">int</span> ls, rs;</span><br><span class="line">  <span class="type">int</span> val, sz, cnt;</span><br><span class="line">&#125;t[N];</span><br><span class="line"><span class="type">int</span> rt, tot;</span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">up</span><span class="params">(<span class="type">int</span> p)</span> </span>&#123; t[p].sz = t[t[p].ls].sz + t[t[p].rs].sz + t[p].cnt; &#125;</span><br><span class="line"><span class="function"><span class="type">bool</span> <span class="title">bad</span><span class="params">(<span class="type">int</span> p)</span> </span>&#123; <span class="keyword">return</span> t[p].cnt &amp;&amp; t[p].sz*alpha&lt;<span class="built_in">max</span>(t[t[p].ls].sz, t[t[p].rs].sz); &#125;</span><br><span class="line"><span class="type">int</span> ord[N], top;</span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">dfs</span><span class="params">(<span class="type">int</span> p)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">  <span class="keyword">if</span>(!p) <span class="keyword">return</span>;</span><br><span class="line">  <span class="built_in">dfs</span>(t[p].ls);</span><br><span class="line">  <span class="keyword">if</span>(t[p].cnt) ord[++top] = p;</span><br><span class="line">  <span class="built_in">dfs</span>(t[p].rs);</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="type">int</span> <span class="title">build</span><span class="params">(<span class="type">int</span> l, <span class="type">int</span> r)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">  <span class="keyword">if</span>(l&gt;r) <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">  <span class="type">int</span> mid = (l+r)&gt;&gt;<span class="number">1</span>, p = ord[mid];</span><br><span class="line">  t[p].ls = <span class="built_in">build</span>(l, mid<span class="number">-1</span>);</span><br><span class="line">  t[p].rs = <span class="built_in">build</span>(mid+<span class="number">1</span>, r);</span><br><span class="line">  <span class="built_in">up</span>(p);</span><br><span class="line">  <span class="keyword">return</span> p;</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">rebuild</span><span class="params">(<span class="type">int</span> &amp;p)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">  top = <span class="number">0</span>;</span><br><span class="line">  <span class="built_in">dfs</span>(p);</span><br><span class="line">  p = <span class="built_in">build</span>(<span class="number">1</span>, top);</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">newnode</span><span class="params">(<span class="type">int</span> &amp;p, <span class="type">int</span> v)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">  p = ++tot;</span><br><span class="line">  t[p].val = v, t[p].ls = t[p].rs = <span class="number">0</span>;</span><br><span class="line">  t[p].cnt = t[p].sz = <span class="number">1</span>;</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">ins</span><span class="params">(<span class="type">int</span> &amp;p, <span class="type">int</span> v)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">  <span class="keyword">if</span>(!p) <span class="built_in">newnode</span>(p, v);</span><br><span class="line">  <span class="keyword">else</span></span><br><span class="line">  &#123;</span><br><span class="line">    <span class="keyword">if</span>(v==t[p].val) t[p].cnt++;</span><br><span class="line">    <span class="keyword">else</span> <span class="keyword">if</span>(v&lt;t[p].val) <span class="built_in">ins</span>(t[p].ls, v);</span><br><span class="line">    <span class="keyword">else</span> <span class="built_in">ins</span>(t[p].rs, v);</span><br><span class="line">    <span class="built_in">up</span>(p);</span><br><span class="line">    <span class="keyword">if</span>(<span class="built_in">bad</span>(p)) <span class="built_in">rebuild</span>(p);</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">del</span><span class="params">(<span class="type">int</span> &amp;p, <span class="type">int</span> v)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">  <span class="keyword">if</span>(v==t[p].val) t[p].cnt--;</span><br><span class="line">  <span class="keyword">else</span> <span class="keyword">if</span>(v&lt;t[p].val) <span class="built_in">del</span>(t[p].ls, v);</span><br><span class="line">  <span class="keyword">else</span> <span class="built_in">del</span>(t[p].rs, v);</span><br><span class="line">  <span class="built_in">up</span>(p);</span><br><span class="line">  <span class="keyword">if</span>(<span class="built_in">bad</span>(p)) <span class="built_in">rebuild</span>(p);</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="type">int</span> <span class="title">Less</span><span class="params">(<span class="type">int</span> p, <span class="type">int</span> v, <span class="type">bool</span> eq)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">  <span class="keyword">if</span>(!p) <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">  <span class="keyword">if</span>(t[p].cnt&amp;&amp;v==t[p].val) <span class="keyword">return</span> t[t[p].ls].sz + t[p].cnt*eq;</span><br><span class="line">  <span class="keyword">else</span> <span class="keyword">if</span>(v&lt;t[p].val) <span class="keyword">return</span> <span class="built_in">Less</span>(t[p].ls, v, eq);</span><br><span class="line">  <span class="keyword">else</span> <span class="keyword">return</span> t[t[p].ls].sz + t[p].cnt + <span class="built_in">Less</span>(t[p].rs, v, eq);</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="type">int</span> <span class="title">kth</span><span class="params">(<span class="type">int</span> p, <span class="type">int</span> k)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">  <span class="keyword">if</span>(k&lt;=t[t[p].ls].sz) <span class="keyword">return</span> <span class="built_in">kth</span>(t[p].ls, k);</span><br><span class="line">  <span class="keyword">else</span> <span class="keyword">if</span>(t[t[p].ls].sz+t[p].cnt&gt;=k) <span class="keyword">return</span> t[p].val;</span><br><span class="line">  <span class="keyword">else</span> <span class="keyword">return</span> <span class="built_in">kth</span>(t[p].rs, k-t[p].cnt-t[t[p].ls].sz);</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="type">int</span> <span class="title">main</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">  <span class="type">int</span> n; <span class="built_in">scanf</span>(<span class="string">&quot;%d&quot;</span>, &amp;n);</span><br><span class="line">  <span class="keyword">while</span>(n--)</span><br><span class="line">  &#123;</span><br><span class="line">    <span class="type">int</span> t, x;</span><br><span class="line">    <span class="built_in">scanf</span>(<span class="string">&quot;%d%d&quot;</span>, &amp;t, &amp;x);</span><br><span class="line">    <span class="keyword">if</span>(t==<span class="number">1</span>) <span class="built_in">ins</span>(rt, x);</span><br><span class="line">    <span class="keyword">else</span> <span class="keyword">if</span>(t==<span class="number">2</span>) <span class="built_in">del</span>(rt, x);</span><br><span class="line">    <span class="keyword">else</span> <span class="keyword">if</span>(t==<span class="number">3</span>) <span class="built_in">printf</span>(<span class="string">&quot;%d\n&quot;</span>, <span class="built_in">Less</span>(rt, x, <span class="number">0</span>)+<span class="number">1</span>);</span><br><span class="line">    <span class="keyword">else</span> <span class="keyword">if</span>(t==<span class="number">4</span>) <span class="built_in">printf</span>(<span class="string">&quot;%d\n&quot;</span>, <span class="built_in">kth</span>(rt, x));</span><br><span class="line">    <span class="keyword">else</span> <span class="keyword">if</span>(t==<span class="number">5</span>) <span class="built_in">printf</span>(<span class="string">&quot;%d\n&quot;</span>, <span class="built_in">kth</span>(rt, <span class="built_in">Less</span>(rt, x, <span class="number">0</span>)));</span><br><span class="line">    <span class="keyword">else</span> <span class="built_in">printf</span>(<span class="string">&quot;%d\n&quot;</span>, <span class="built_in">kth</span>(rt, <span class="built_in">Less</span>(rt, x, <span class="number">1</span>)+<span class="number">1</span>));</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+  </div>
+</article>
+
+
+
+        
+          <div id="footer-post-container">
+  <div id="footer-post">
+
+    <div id="nav-footer" style="display: none">
+      <ul>
+        
+          <li><a href="/">首页</a></li>
+        
+          <li><a href="/archives/">归档</a></li>
+        
+          <li><a href="/tags/">标签</a></li>
+        
+          <li><a href="/search/">搜索</a></li>
+        
+      </ul>
+    </div>
+
+    
+    
+
+    <div id="share-footer" style="display: none">
+      <ul>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.facebook.com/sharer.php?u=http://example.com/2020/12/06/ping-heng-shu-zhi-ti-zui-yang-shu/"><i class="fab fa-facebook fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=http://example.com/2020/12/06/ping-heng-shu-zhi-ti-zui-yang-shu/&text=平衡树之替罪羊树"><i class="fab fa-twitter fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.linkedin.com/shareArticle?url=http://example.com/2020/12/06/ping-heng-shu-zhi-ti-zui-yang-shu/&title=平衡树之替罪羊树"><i class="fab fa-linkedin fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://pinterest.com/pin/create/bookmarklet/?url=http://example.com/2020/12/06/ping-heng-shu-zhi-ti-zui-yang-shu/&is_video=false&description=平衡树之替罪羊树"><i class="fab fa-pinterest fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=平衡树之替罪羊树&body=Check out this article: http://example.com/2020/12/06/ping-heng-shu-zhi-ti-zui-yang-shu/"><i class="fa-solid fa-envelope fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://getpocket.com/save?url=http://example.com/2020/12/06/ping-heng-shu-zhi-ti-zui-yang-shu/&title=平衡树之替罪羊树"><i class="fab fa-get-pocket fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://reddit.com/submit?url=http://example.com/2020/12/06/ping-heng-shu-zhi-ti-zui-yang-shu/&title=平衡树之替罪羊树"><i class="fab fa-reddit fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.stumbleupon.com/submit?url=http://example.com/2020/12/06/ping-heng-shu-zhi-ti-zui-yang-shu/&title=平衡树之替罪羊树"><i class="fab fa-stumbleupon fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://digg.com/submit?url=http://example.com/2020/12/06/ping-heng-shu-zhi-ti-zui-yang-shu/&title=平衡树之替罪羊树"><i class="fab fa-digg fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.tumblr.com/share/link?url=http://example.com/2020/12/06/ping-heng-shu-zhi-ti-zui-yang-shu/&name=平衡树之替罪羊树&description="><i class="fab fa-tumblr fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://news.ycombinator.com/submitlink?u=http://example.com/2020/12/06/ping-heng-shu-zhi-ti-zui-yang-shu/&t=平衡树之替罪羊树"><i class="fab fa-hacker-news fa-lg" aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+
+    <div id="actions-footer">
+        <a id="menu" class="icon" href="#" onclick="$('#nav-footer').toggle();return false;"><i class="fa-solid fa-bars fa-lg" aria-hidden="true"></i> 菜单</a>
+        
+        <a id="share" class="icon" href="#" onclick="$('#share-footer').toggle();return false;"><i class="fa-solid fa-share-alt fa-lg" aria-hidden="true"></i> 分享</a>
+        <a id="top" style="display:none" class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fa-solid fa-chevron-up fa-lg" aria-hidden="true"></i> 返回顶部</a>
+    </div>
+
+  </div>
+</div>
+
+        
+        <footer id="footer">
+  <div class="footer-left">
+    Copyright &copy;
+    
+    
+    2020-2023
+    jyf111
+  </div>
+  <div class="footer-right">
+    <nav>
+      <ul>
+        <!--
+       --><li><a href="/">首页</a></li><!--
+     --><!--
+       --><li><a href="/archives/">归档</a></li><!--
+     --><!--
+       --><li><a href="/tags/">标签</a></li><!--
+     --><!--
+       --><li><a href="/search/">搜索</a></li><!--
+     -->
+      </ul>
+    </nav>
+  </div>
+</footer>
+
+    </div>
+    <!-- styles -->
+
+
+
+  <link rel="preload" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" crossorigin="anonymous" onload="this.onload=null;this.rel='stylesheet'"/>
+
+
+    <!-- jquery -->
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js" crossorigin="anonymous"></script>
+
+
+
+
+<!-- clipboard -->
+
+  
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.7/clipboard.min.js" crossorigin="anonymous"></script>
+  
+  <script type="text/javascript">
+  $(function() {
+    // copy-btn HTML
+    var btn = "<span class=\"btn-copy tooltipped tooltipped-sw\" aria-label=\"复制到粘贴板！\">";
+    btn += '<i class="fa-regular fa-clone"></i>';
+    btn += '</span>';
+    // mount it!
+    $(".highlight table").before(btn);
+    var clip = new ClipboardJS('.btn-copy', {
+      text: function(trigger) {
+        return Array.from(trigger.nextElementSibling.querySelectorAll('.code')).reduce((str,it)=>str+it.innerText+'\n','')
+      }
+    });
+    clip.on('success', function(e) {
+      e.trigger.setAttribute('aria-label', "复制成功！");
+      e.clearSelection();
+    })
+  })
+  </script>
+
+
+<script src="/js/main.js"></script>
+
+<!-- search -->
+
+<!-- Baidu Analytics -->
+
+<!-- Cloudflare Analytics -->
+
+<!-- Disqus Comments -->
+
+<!-- utterances Comments -->
+
+</body>
+</html>

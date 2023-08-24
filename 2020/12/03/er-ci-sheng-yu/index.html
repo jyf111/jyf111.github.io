@@ -1,0 +1,362 @@
+<!DOCTYPE html>
+<html lang=zh>
+<head>
+    <!-- so meta -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="HandheldFriendly" content="True">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=5" />
+    <meta name="description" content="给定n和奇素数p，求x满足x2≡n(mod p)x^2 \equiv n (mod \ p)x2≡n(mod p) 首先考虑有没有解，有解的n称为二次剩余，无解的n称为非二次剩余根据费马小定理，当p为质数时，满足np≡n(mod p)n^p \equiv n (mod \ p)np≡n(mod p)由于p是奇质数，则n2p−12≡1(mod p)n^{2\frac{p-1}{2}} \equiv">
+<meta property="og:type" content="article">
+<meta property="og:title" content="二次剩余">
+<meta property="og:url" content="http://example.com/2020/12/03/er-ci-sheng-yu/index.html">
+<meta property="og:site_name" content="jyf111&#39;s blog">
+<meta property="og:description" content="给定n和奇素数p，求x满足x2≡n(mod p)x^2 \equiv n (mod \ p)x2≡n(mod p) 首先考虑有没有解，有解的n称为二次剩余，无解的n称为非二次剩余根据费马小定理，当p为质数时，满足np≡n(mod p)n^p \equiv n (mod \ p)np≡n(mod p)由于p是奇质数，则n2p−12≡1(mod p)n^{2\frac{p-1}{2}} \equiv">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2020-12-03T05:33:44.000Z">
+<meta property="article:modified_time" content="2023-08-24T08:43:19.617Z">
+<meta property="article:author" content="jyf111">
+<meta property="article:tag" content="算法">
+<meta name="twitter:card" content="summary">
+    
+    
+      
+        
+          <link rel="shortcut icon" href="/images/favicon.ico">
+        
+      
+      
+        
+          <link rel="icon" type="image/png" href="/images/favicon-192x192.png" sizes="192x192">
+        
+      
+      
+        
+          <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png">
+        
+      
+    
+    <!-- title -->
+    <title>二次剩余</title>
+    <!-- async scripts -->
+    <!-- Google Analytics -->
+
+
+    <!-- Umami Analytics -->
+
+
+    <!-- styles -->
+    
+<link rel="stylesheet" href="/css/style.css">
+
+    <!-- persian styles -->
+    
+    <!-- rss -->
+    
+    
+	<!-- mathjax -->
+	
+		<script type="text/x-mathjax-config">
+		  MathJax.Hub.Config({
+			tex2jax: {
+			  skipTags: ['script', 'noscript', 'style', 'textarea', 'pre'],
+			  inlineMath: [['$','$']]
+			}
+		  });
+		</script>
+		<script src='https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-MML-AM_CHTML' async></script>
+	
+<meta name="generator" content="Hexo 6.3.0"></head>
+
+<body class="max-width mx-auto px3 ltr">
+    
+      <div id="header-post">
+  <a id="menu-icon" href="#" aria-label="目录"><i class="fa-solid fa-bars fa-lg"></i></a>
+  <a id="menu-icon-tablet" href="#" aria-label="目录"><i class="fa-solid fa-bars fa-lg"></i></a>
+  <a id="top-icon-tablet" href="#" aria-label="顶部" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');" style="display:none;"><i class="fa-solid fa-chevron-up fa-lg"></i></a>
+  <span id="menu">
+    <span id="nav">
+      <ul>
+        <!--
+       --><li><a href="/">首页</a></li><!--
+     --><!--
+       --><li><a href="/archives/">归档</a></li><!--
+     --><!--
+       --><li><a href="/tags/">标签</a></li><!--
+     --><!--
+       --><li><a href="/search/">搜索</a></li><!--
+     -->
+      </ul>
+    </span>
+    <br/>
+    <span id="actions">
+      <ul>
+        
+        <li><a class="icon" aria-label="上一篇" href="/2020/12/04/ecpc-2019-kickoff/"><i class="fa-solid fa-chevron-left" aria-hidden="true" onmouseover="$('#i-prev').toggle();" onmouseout="$('#i-prev').toggle();"></i></a></li>
+        
+        
+        <li><a class="icon" aria-label="下一篇" href="/2020/12/03/2020-qin-huang-dao-j-jewel-splitting/"><i class="fa-solid fa-chevron-right" aria-hidden="true" onmouseover="$('#i-next').toggle();" onmouseout="$('#i-next').toggle();"></i></a></li>
+        
+        <li><a class="icon" aria-label="返回顶部" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fa-solid fa-chevron-up" aria-hidden="true" onmouseover="$('#i-top').toggle();" onmouseout="$('#i-top').toggle();"></i></a></li>
+        <li><a class="icon" aria-label="分享文章" href="#"><i class="fa-solid fa-share-alt" aria-hidden="true" onmouseover="$('#i-share').toggle();" onmouseout="$('#i-share').toggle();" onclick="$('#share').toggle();return false;"></i></a></li>
+      </ul>
+      <span id="i-prev" class="info" style="display:none;">上一篇</span>
+      <span id="i-next" class="info" style="display:none;">下一篇</span>
+      <span id="i-top" class="info" style="display:none;">返回顶部</span>
+      <span id="i-share" class="info" style="display:none;">分享文章</span>
+    </span>
+    <br/>
+    <div id="share" style="display: none">
+      <ul>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.facebook.com/sharer.php?u=http://example.com/2020/12/03/er-ci-sheng-yu/"><i class="fab fa-facebook " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=http://example.com/2020/12/03/er-ci-sheng-yu/&text=二次剩余"><i class="fab fa-twitter " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.linkedin.com/shareArticle?url=http://example.com/2020/12/03/er-ci-sheng-yu/&title=二次剩余"><i class="fab fa-linkedin " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://pinterest.com/pin/create/bookmarklet/?url=http://example.com/2020/12/03/er-ci-sheng-yu/&is_video=false&description=二次剩余"><i class="fab fa-pinterest " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=二次剩余&body=Check out this article: http://example.com/2020/12/03/er-ci-sheng-yu/"><i class="fa-solid fa-envelope " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://getpocket.com/save?url=http://example.com/2020/12/03/er-ci-sheng-yu/&title=二次剩余"><i class="fab fa-get-pocket " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://reddit.com/submit?url=http://example.com/2020/12/03/er-ci-sheng-yu/&title=二次剩余"><i class="fab fa-reddit " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.stumbleupon.com/submit?url=http://example.com/2020/12/03/er-ci-sheng-yu/&title=二次剩余"><i class="fab fa-stumbleupon " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://digg.com/submit?url=http://example.com/2020/12/03/er-ci-sheng-yu/&title=二次剩余"><i class="fab fa-digg " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.tumblr.com/share/link?url=http://example.com/2020/12/03/er-ci-sheng-yu/&name=二次剩余&description="><i class="fab fa-tumblr " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://news.ycombinator.com/submitlink?u=http://example.com/2020/12/03/er-ci-sheng-yu/&t=二次剩余"><i class="fab fa-hacker-news " aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+    
+    
+  </span>
+</div>
+
+    
+    <div class="content index py4 ">
+        
+        <article class="post h-entry" itemscope itemtype="http://schema.org/BlogPosting">
+  <header>
+    
+    <h1 class="posttitle p-name" itemprop="name headline">
+        二次剩余
+    </h1>
+
+
+
+    <div class="meta">
+      <span class="author p-author h-card" itemprop="author" itemscope itemtype="http://schema.org/Person">
+        <span class="p-name" itemprop="name">jyf111</span>
+      </span>
+      
+    <div class="postdate">
+      
+        <time datetime="2020-12-03T05:33:44.000Z" class="dt-published" itemprop="datePublished">2020-12-03</time>
+        
+        (Updated: <time datetime="2023-08-24T08:43:19.617Z" class="dt-updated" itemprop="dateModified">2023-08-24</time>)
+        
+      
+    </div>
+
+
+      
+
+      
+    <div class="article-tag">
+        <i class="fa-solid fa-tag"></i>
+        <a class="p-category" href="/tags/%E7%AE%97%E6%B3%95/" rel="tag">算法</a>
+    </div>
+
+
+      
+        <span class=count-symbol-post> 
+          <i class="fa-solid fa-hourglass"></i>
+          
+            4 mins to read
+          
+        </span>
+      
+    </div>
+  </header>
+  
+
+  <div class="content e-content" itemprop="articleBody">
+    <p>给定n和奇素数p，求x满足x2≡n(mod p)x^2 \equiv n (mod \ p)x2≡n(mod p)</p>
+<p>首先考虑有没有解，有解的n称为二次剩余，无解的n称为非二次剩余<br>根据费马小定理，当p为质数时，满足np≡n(mod p)n^p \equiv n (mod \ p)np≡n(mod p)<br>由于p是奇质数，则n2p−12≡1(mod p)n^{2\frac{p-1}{2}} \equiv 1 (mod \ p)n22p−1​≡1(mod p)<br>即np−12n^{\frac{p-1}{2}}n2p−1​为1在模p意义下开根的结果，只有1和-1两种可能<br>有欧拉准则，当np−12≡1n^{\frac{p-1}{2}} \equiv 1n2p−1​≡1时，n是二次剩余，否则是非二次剩余。<br>当n是二次剩余时，易得x2p−12≡xp−1≡1x^{2\frac{p-1}{2}} \equiv x^{p-1} \equiv<br>1x22p−1​≡xp−1≡1成立，必要性得到。<br>充分性以及非二次剩余的证明鸽了。</p>
+<p>再考虑有解时有几个解，设两个不同的解x1,x2x_1,x_2x1​,x2​，则满足x12≡x22x_1^2 \equiv<br>x_2^2x12​≡x22​，即x12−x22≡(x1+x2)(x1−x2)≡0x_1^2-x_2^2 \equiv (x_1+x_2)(x_1-x_2)<br>\equiv 0x12​−x22​≡(x1​+x2​)(x1​−x2​)≡0，由于x1≠x2x_1 \neq<br>x_2x1​​&#x3D;x2​，只有可能x1和x2互为相反数，由于p是奇数，x1和x2的奇偶性一定不同，因此值一定不同。所以除0外每个二次剩余都对应两个解，且这两个解互为相反数。同样的，两个相反数对应了一个二次剩余，因此在[1,p−1][1,<br>p-1][1,p−1]中总共有p−12\frac{p-1}{2}2p−1​个二次剩余</p>
+<p>最后考虑有解时怎么求。先找到一个a，满足a2−na^2-na2−n是非二次剩余，随机找即可，一次有12\frac{1}{2}21​的概率找到<br>令i2≡a2−ni^2 \equiv a^2-ni2≡a2−n<br>有(a+i)p+1≡n(a+i)^{p+1} \equiv n(a+i)p+1≡n</p>
+<ul>
+<li><p>ip≡i(a2−n)p−12≡−ii^p \equiv i(a^2-n)^{\frac{p-1}{2}} \equiv -iip≡i(a2−n)2p−1​≡−i</p>
+</li>
+<li><p>(a+b)p≡ap+bp(a+b)^p \equiv a^p+b^p(a+b)p≡ap+bp 考虑二项式定理<br>(a+i)p+1≡(ap+ip)(a+i)≡(a−i)(a+i)≡n(a+i)^{p+1} \equiv (a^p+i^p)(a+i) \equiv<br>(a-i)(a+i) \equiv n(a+i)p+1≡(ap+ip)(a+i)≡(a−i)(a+i)≡n<br>那么(a+i)p+12(a+i)^{\frac{p+1}{2}}(a+i)2p+1​就是一个解<br>由于a2−na^2-na2−n是非二次剩余，因此iii实际不存在，但是我们可以类似复数一样定义，然后定义乘法即可计算快速幂了，定义形如a+bia+bia+bi，则a+ia+ia+i就是a+1ia+1ia+1i<br>(a+bi)(c+di)≡(ac+bdi2+adi+bci)(a+bi)(c+di) \equiv<br>(ac+bdi^2+adi+bci)(a+bi)(c+di)≡(ac+bdi2+adi+bci)，把i2i^2i2用a2−na^2-na2−n代替即可</p>
+<p>ll w, n, p;<br>struct Complex<br>{<br>ll x, y;<br>Complex(int _x,int _y) : x(_x), y(_y) {}<br>Complex operator * (const Complex &amp;b) const {<br>    return Complex(((x<em>b.x%p+y</em>b.y%p<em>w%p)%p+p)%p,((x</em>b.y%p+y<em>b.x%p)%p+p)%p);<br>}<br>};<br>ll powcp(Complex a,ll b,ll p)<br>{<br>Complex ans(1,0);<br>while(b)<br>{<br>    if(b&amp;1) ans &#x3D; ans</em>a;<br>    a &#x3D; a<em>a;<br>    b &gt;&gt;&#x3D; 1;<br>}<br>return ans.x;<br>}<br>ll solve(ll n,ll p)<br>{<br>n %&#x3D; p;<br>if(p&#x3D;&#x3D;2) return n;<br>if(powmod(n,(p-1)&#x2F;2,p)&#x3D;&#x3D;p-1) return -1; &#x2F;&#x2F;无解<br>ll a;<br>while(1)<br>{<br>    a &#x3D; rand()%p;<br>    w &#x3D; ((a</em>a%p-n)%p+p)%p;<br>    if(powmod(w,(p-1)&#x2F;2,p)&#x3D;&#x3D;p-1) break;<br>}<br>Complex x(a,1);<br>return powcp(x,(p+1)&#x2F;2,p);<br>}<br>srand(int(time(NULL)));<br>ll ans1 &#x3D; solve(n,p), ans2;<br>if(ans1&#x3D;&#x3D;-1) printf(“Hola!\n”);<br>else<br>{<br>ans2 &#x3D; p - ans1;<br>if(ans1&gt;ans2) swap(ans1,ans2);<br>if(ans1&#x3D;&#x3D;ans2) printf(“%lld\n”,ans1);<br>else printf(“%lld %lld\n”,ans1,ans2);<br>}</p>
+</li>
+</ul>
+<p>上述做法由于要手写一个复数类，比较麻烦，而且常数也大，还有一种ToneLLi_Shanks算法<br>原理鸽了</p>
+<pre><code>ll TS(ll n, ll p)
+&#123;
+    if(n==0) return 0;
+    if(p==2) return (n&amp;1) ? 1 : -1;
+    if(Pow(n, p&gt;&gt;1, p)!=1) return -1;
+    if(p&amp;2) return Pow(n, (p+1)&gt;&gt;2, p);
+    int s = __builtin_ctzll(p^1);
+    ll q = p&gt;&gt;s, z = 2;
+    for(; Pow(z, p&gt;&gt;1, p)==1; z++);
+    ll c = Pow(z, q, p);
+    ll r = Pow(n, (q+1)&gt;&gt;1, p);
+    ll t = Pow(n, q, p), tmp;
+    for(int m=s, i; t!=1; )
+    &#123;
+        for(i=0, tmp=t; tmp!=1; i++) tmp = tmp*tmp%p;
+        for(; i&lt;--m; ) c = c*c%p;
+        r = r*c%p;
+        c = c*c%p;
+        t = t*c%p;
+    &#125;
+    return r;
+&#125;
+void solve()
+&#123;
+    scanf(&quot;%d%d&quot;, &amp;n, &amp;p);
+    ll ans = TS(n, p);
+    if(ans==-1) puts(&quot;Hola!&quot;);
+    else if(!ans) puts(&quot;0&quot;);
+    else
+    &#123;
+        ll ans2 = p - ans;
+        if(ans&gt;ans2) swap(ans, ans2);
+        printf(&quot;%lld %lld\n&quot;, ans, ans2);
+    &#125;
+&#125;
+</code></pre>
+<p>补充：<br>对于三次剩余<br>若p%3&#x3D;2p % 3 &#x3D; 2p%3&#x3D;2，则每个数都是三次剩余，并且有唯一解n2p−13n^{\frac{2p-1}{3}}n32p−1​<br>若p%3&#x3D;1p % 3 &#x3D; 1p%3&#x3D;1，则有p−13\frac{p-1}{3}3p−1​的数是三次剩余，且每个数有三个解</p>
+
+  </div>
+</article>
+
+
+
+        
+          <div id="footer-post-container">
+  <div id="footer-post">
+
+    <div id="nav-footer" style="display: none">
+      <ul>
+        
+          <li><a href="/">首页</a></li>
+        
+          <li><a href="/archives/">归档</a></li>
+        
+          <li><a href="/tags/">标签</a></li>
+        
+          <li><a href="/search/">搜索</a></li>
+        
+      </ul>
+    </div>
+
+    
+    
+
+    <div id="share-footer" style="display: none">
+      <ul>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.facebook.com/sharer.php?u=http://example.com/2020/12/03/er-ci-sheng-yu/"><i class="fab fa-facebook fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=http://example.com/2020/12/03/er-ci-sheng-yu/&text=二次剩余"><i class="fab fa-twitter fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.linkedin.com/shareArticle?url=http://example.com/2020/12/03/er-ci-sheng-yu/&title=二次剩余"><i class="fab fa-linkedin fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://pinterest.com/pin/create/bookmarklet/?url=http://example.com/2020/12/03/er-ci-sheng-yu/&is_video=false&description=二次剩余"><i class="fab fa-pinterest fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=二次剩余&body=Check out this article: http://example.com/2020/12/03/er-ci-sheng-yu/"><i class="fa-solid fa-envelope fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://getpocket.com/save?url=http://example.com/2020/12/03/er-ci-sheng-yu/&title=二次剩余"><i class="fab fa-get-pocket fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://reddit.com/submit?url=http://example.com/2020/12/03/er-ci-sheng-yu/&title=二次剩余"><i class="fab fa-reddit fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.stumbleupon.com/submit?url=http://example.com/2020/12/03/er-ci-sheng-yu/&title=二次剩余"><i class="fab fa-stumbleupon fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://digg.com/submit?url=http://example.com/2020/12/03/er-ci-sheng-yu/&title=二次剩余"><i class="fab fa-digg fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.tumblr.com/share/link?url=http://example.com/2020/12/03/er-ci-sheng-yu/&name=二次剩余&description="><i class="fab fa-tumblr fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://news.ycombinator.com/submitlink?u=http://example.com/2020/12/03/er-ci-sheng-yu/&t=二次剩余"><i class="fab fa-hacker-news fa-lg" aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+
+    <div id="actions-footer">
+        <a id="menu" class="icon" href="#" onclick="$('#nav-footer').toggle();return false;"><i class="fa-solid fa-bars fa-lg" aria-hidden="true"></i> 菜单</a>
+        
+        <a id="share" class="icon" href="#" onclick="$('#share-footer').toggle();return false;"><i class="fa-solid fa-share-alt fa-lg" aria-hidden="true"></i> 分享</a>
+        <a id="top" style="display:none" class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fa-solid fa-chevron-up fa-lg" aria-hidden="true"></i> 返回顶部</a>
+    </div>
+
+  </div>
+</div>
+
+        
+        <footer id="footer">
+  <div class="footer-left">
+    Copyright &copy;
+    
+    
+    2020-2023
+    jyf111
+  </div>
+  <div class="footer-right">
+    <nav>
+      <ul>
+        <!--
+       --><li><a href="/">首页</a></li><!--
+     --><!--
+       --><li><a href="/archives/">归档</a></li><!--
+     --><!--
+       --><li><a href="/tags/">标签</a></li><!--
+     --><!--
+       --><li><a href="/search/">搜索</a></li><!--
+     -->
+      </ul>
+    </nav>
+  </div>
+</footer>
+
+    </div>
+    <!-- styles -->
+
+
+
+  <link rel="preload" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" crossorigin="anonymous" onload="this.onload=null;this.rel='stylesheet'"/>
+
+
+    <!-- jquery -->
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js" crossorigin="anonymous"></script>
+
+
+
+
+<!-- clipboard -->
+
+  
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.7/clipboard.min.js" crossorigin="anonymous"></script>
+  
+  <script type="text/javascript">
+  $(function() {
+    // copy-btn HTML
+    var btn = "<span class=\"btn-copy tooltipped tooltipped-sw\" aria-label=\"复制到粘贴板！\">";
+    btn += '<i class="fa-regular fa-clone"></i>';
+    btn += '</span>';
+    // mount it!
+    $(".highlight table").before(btn);
+    var clip = new ClipboardJS('.btn-copy', {
+      text: function(trigger) {
+        return Array.from(trigger.nextElementSibling.querySelectorAll('.code')).reduce((str,it)=>str+it.innerText+'\n','')
+      }
+    });
+    clip.on('success', function(e) {
+      e.trigger.setAttribute('aria-label', "复制成功！");
+      e.clearSelection();
+    })
+  })
+  </script>
+
+
+<script src="/js/main.js"></script>
+
+<!-- search -->
+
+<!-- Baidu Analytics -->
+
+<!-- Cloudflare Analytics -->
+
+<!-- Disqus Comments -->
+
+<!-- utterances Comments -->
+
+</body>
+</html>

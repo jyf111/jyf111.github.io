@@ -1,0 +1,393 @@
+<!DOCTYPE html>
+<html lang=zh>
+<head>
+    <!-- so meta -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="HandheldFriendly" content="True">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=5" />
+    <meta name="description" content="给出一个n项多项式P，要求出在c0,c1,…,cm−1c^0,c^1,…,c^{m-1}c0,c1,…,cm−1处多项式的值n≤106,m≤106n\leq 10^6,m\leq 10^6n≤106,m≤106 做法直接多点求值会tP(cm)&#x3D;∑i&#x3D;0n−1aicmiP(c^m) &#x3D; \sum \limits_{i&#x3D;0}^{n-1}a_ic^{mi}P(cm">
+<meta property="og:type" content="article">
+<meta property="og:title" content="P6800 【模板】Chirp-Z Transform">
+<meta property="og:url" content="http://example.com/2020/09/13/p6800-mo-ban-chirp-z-transform/index.html">
+<meta property="og:site_name" content="jyf111&#39;s blog">
+<meta property="og:description" content="给出一个n项多项式P，要求出在c0,c1,…,cm−1c^0,c^1,…,c^{m-1}c0,c1,…,cm−1处多项式的值n≤106,m≤106n\leq 10^6,m\leq 10^6n≤106,m≤106 做法直接多点求值会tP(cm)&#x3D;∑i&#x3D;0n−1aicmiP(c^m) &#x3D; \sum \limits_{i&#x3D;0}^{n-1}a_ic^{mi}P(cm">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2020-09-13T05:33:44.000Z">
+<meta property="article:modified_time" content="2023-08-24T08:43:19.627Z">
+<meta property="article:author" content="jyf111">
+<meta property="article:tag" content="算法">
+<meta name="twitter:card" content="summary">
+    
+    
+      
+        
+          <link rel="shortcut icon" href="/images/favicon.ico">
+        
+      
+      
+        
+          <link rel="icon" type="image/png" href="/images/favicon-192x192.png" sizes="192x192">
+        
+      
+      
+        
+          <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png">
+        
+      
+    
+    <!-- title -->
+    <title>P6800 【模板】Chirp-Z Transform</title>
+    <!-- async scripts -->
+    <!-- Google Analytics -->
+
+
+    <!-- Umami Analytics -->
+
+
+    <!-- styles -->
+    
+<link rel="stylesheet" href="/css/style.css">
+
+    <!-- persian styles -->
+    
+    <!-- rss -->
+    
+    
+	<!-- mathjax -->
+	
+		<script type="text/x-mathjax-config">
+		  MathJax.Hub.Config({
+			tex2jax: {
+			  skipTags: ['script', 'noscript', 'style', 'textarea', 'pre'],
+			  inlineMath: [['$','$']]
+			}
+		  });
+		</script>
+		<script src='https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-MML-AM_CHTML' async></script>
+	
+<meta name="generator" content="Hexo 6.3.0"></head>
+
+<body class="max-width mx-auto px3 ltr">
+    
+      <div id="header-post">
+  <a id="menu-icon" href="#" aria-label="目录"><i class="fa-solid fa-bars fa-lg"></i></a>
+  <a id="menu-icon-tablet" href="#" aria-label="目录"><i class="fa-solid fa-bars fa-lg"></i></a>
+  <a id="top-icon-tablet" href="#" aria-label="顶部" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');" style="display:none;"><i class="fa-solid fa-chevron-up fa-lg"></i></a>
+  <span id="menu">
+    <span id="nav">
+      <ul>
+        <!--
+       --><li><a href="/">首页</a></li><!--
+     --><!--
+       --><li><a href="/archives/">归档</a></li><!--
+     --><!--
+       --><li><a href="/tags/">标签</a></li><!--
+     --><!--
+       --><li><a href="/search/">搜索</a></li><!--
+     -->
+      </ul>
+    </span>
+    <br/>
+    <span id="actions">
+      <ul>
+        
+        <li><a class="icon" aria-label="上一篇" href="/2020/09/15/edu95/"><i class="fa-solid fa-chevron-left" aria-hidden="true" onmouseover="$('#i-prev').toggle();" onmouseout="$('#i-prev').toggle();"></i></a></li>
+        
+        
+        <li><a class="icon" aria-label="下一篇" href="/2020/09/03/gpikachu-wen-ti-zhuan-hua-huan-gen-dp/"><i class="fa-solid fa-chevron-right" aria-hidden="true" onmouseover="$('#i-next').toggle();" onmouseout="$('#i-next').toggle();"></i></a></li>
+        
+        <li><a class="icon" aria-label="返回顶部" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fa-solid fa-chevron-up" aria-hidden="true" onmouseover="$('#i-top').toggle();" onmouseout="$('#i-top').toggle();"></i></a></li>
+        <li><a class="icon" aria-label="分享文章" href="#"><i class="fa-solid fa-share-alt" aria-hidden="true" onmouseover="$('#i-share').toggle();" onmouseout="$('#i-share').toggle();" onclick="$('#share').toggle();return false;"></i></a></li>
+      </ul>
+      <span id="i-prev" class="info" style="display:none;">上一篇</span>
+      <span id="i-next" class="info" style="display:none;">下一篇</span>
+      <span id="i-top" class="info" style="display:none;">返回顶部</span>
+      <span id="i-share" class="info" style="display:none;">分享文章</span>
+    </span>
+    <br/>
+    <div id="share" style="display: none">
+      <ul>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.facebook.com/sharer.php?u=http://example.com/2020/09/13/p6800-mo-ban-chirp-z-transform/"><i class="fab fa-facebook " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=http://example.com/2020/09/13/p6800-mo-ban-chirp-z-transform/&text=P6800 【模板】Chirp-Z Transform"><i class="fab fa-twitter " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.linkedin.com/shareArticle?url=http://example.com/2020/09/13/p6800-mo-ban-chirp-z-transform/&title=P6800 【模板】Chirp-Z Transform"><i class="fab fa-linkedin " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://pinterest.com/pin/create/bookmarklet/?url=http://example.com/2020/09/13/p6800-mo-ban-chirp-z-transform/&is_video=false&description=P6800 【模板】Chirp-Z Transform"><i class="fab fa-pinterest " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=P6800 【模板】Chirp-Z Transform&body=Check out this article: http://example.com/2020/09/13/p6800-mo-ban-chirp-z-transform/"><i class="fa-solid fa-envelope " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://getpocket.com/save?url=http://example.com/2020/09/13/p6800-mo-ban-chirp-z-transform/&title=P6800 【模板】Chirp-Z Transform"><i class="fab fa-get-pocket " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://reddit.com/submit?url=http://example.com/2020/09/13/p6800-mo-ban-chirp-z-transform/&title=P6800 【模板】Chirp-Z Transform"><i class="fab fa-reddit " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.stumbleupon.com/submit?url=http://example.com/2020/09/13/p6800-mo-ban-chirp-z-transform/&title=P6800 【模板】Chirp-Z Transform"><i class="fab fa-stumbleupon " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://digg.com/submit?url=http://example.com/2020/09/13/p6800-mo-ban-chirp-z-transform/&title=P6800 【模板】Chirp-Z Transform"><i class="fab fa-digg " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.tumblr.com/share/link?url=http://example.com/2020/09/13/p6800-mo-ban-chirp-z-transform/&name=P6800 【模板】Chirp-Z Transform&description="><i class="fab fa-tumblr " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://news.ycombinator.com/submitlink?u=http://example.com/2020/09/13/p6800-mo-ban-chirp-z-transform/&t=P6800 【模板】Chirp-Z Transform"><i class="fab fa-hacker-news " aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+    
+    
+      <div id="toc">
+        <ol class="toc"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%81%9A%E6%B3%95"><span class="toc-number">1.</span> <span class="toc-text">做法</span></a></li></ol>
+      </div>
+    
+  </span>
+</div>
+
+    
+    <div class="content index py4 ">
+        
+        <article class="post h-entry" itemscope itemtype="http://schema.org/BlogPosting">
+  <header>
+    
+    <h1 class="posttitle p-name" itemprop="name headline">
+        P6800 【模板】Chirp-Z Transform
+    </h1>
+
+
+
+    <div class="meta">
+      <span class="author p-author h-card" itemprop="author" itemscope itemtype="http://schema.org/Person">
+        <span class="p-name" itemprop="name">jyf111</span>
+      </span>
+      
+    <div class="postdate">
+      
+        <time datetime="2020-09-13T05:33:44.000Z" class="dt-published" itemprop="datePublished">2020-09-13</time>
+        
+        (Updated: <time datetime="2023-08-24T08:43:19.627Z" class="dt-updated" itemprop="dateModified">2023-08-24</time>)
+        
+      
+    </div>
+
+
+      
+
+      
+    <div class="article-tag">
+        <i class="fa-solid fa-tag"></i>
+        <a class="p-category" href="/tags/%E7%AE%97%E6%B3%95/" rel="tag">算法</a>
+    </div>
+
+
+      
+        <span class=count-symbol-post> 
+          <i class="fa-solid fa-hourglass"></i>
+          
+            3 mins to read
+          
+        </span>
+      
+    </div>
+  </header>
+  
+
+  <div class="content e-content" itemprop="articleBody">
+    <p>给出一个n项多项式P，要求出在c0,c1,…,cm−1c^0,c^1,…,c^{m-1}c0,c1,…,cm−1处多项式的值<br>n≤106,m≤106n\leq 10^6,m\leq 10^6n≤106,m≤106</p>
+<h4 id="做法"><a href="#做法" class="headerlink" title="做法"></a>做法</h4><p>直接多点求值会t<br>P(cm)&#x3D;∑i&#x3D;0n−1aicmiP(c^m) &#x3D; \sum \limits_{i&#x3D;0}^{n-1}<br>a_ic^{mi}P(cm)&#x3D;i&#x3D;0∑n−1​ai​cmi<br>考虑把mimimi换一下<br>mi&#x3D;(m+i2)−(m2)−(i2)mi &#x3D; \binom{m+i}{2} - \binom{m}{2} -<br>\binom{i}{2}mi&#x3D;(2m+i​)−(2m​)−(2i​)<br>P(cm)&#x3D;c−(m2)∑i&#x3D;0n−1(aic−(i2))(c(m+i2))P(c^m) &#x3D; c^{-\binom{m}{2}}<br>\sum\limits_{i&#x3D;0}^{n-1}(a_ic^{-\binom{i}{2}})(c^{\binom{m+i}{2}})P(cm)&#x3D;c−(2m​)i&#x3D;0∑n−1​(ai​c−(2i​))(c(2m+i​))<br>减法卷积，把前一个翻转后NTT即可<br>注意指数上的取模要用扩展欧拉定理<br>如果把c换成ωn1\omega_n^1ωn1​即complex(cos(2π&#x2F;n),sin(2π&#x2F;n))complex(cos(2\pi&#x2F;n),sin(2\pi&#x2F;n))complex(cos(2π&#x2F;n),sin(2π&#x2F;n))，就是bluestein算法了，可以解决任意长度的卷积，就是常数很大，因为一次DFT就相当于一次多项式乘法，即三次DFT<br>小优化：由于我们只需要得到n到n+m项的值，所以n次多项式和n+m次多项式我们只需要求到n+m即可，而不用求到2*n+m</p>
+<pre><code>#include &lt;bits/stdc++.h&gt;
+using namespace std;
+const int N = 6e6 + 5;
+const int mod = 998244353, G = 3;
+int n, c, m, a[N], b[N];
+int up, w[N], rev[N];
+int fpw(int a, int b)
+&#123;
+    int ans = 1;
+    while(b)
+    &#123;
+        if(b&amp;1) ans = 1ll*ans*a%mod;
+        a = 1ll*a*a%mod;
+        b &gt;&gt;= 1;
+    &#125;
+    return ans;
+&#125;
+void init(int n)
+&#123;
+    up = 1; int l = 0;
+    while(up&lt;=n) up &lt;&lt;= 1, l++;
+    for(int i=0; i&lt;up; i++) rev[i] = (rev[i&gt;&gt;1]&gt;&gt;1)|((i&amp;1)&lt;&lt;(l-1));
+    int wn = fpw(G, mod&gt;&gt;l); w[up&gt;&gt;1] = 1;
+    for(int i=(up&gt;&gt;1)+1; i&lt;up; i++) w[i] = 1ll*w[i-1]*wn%mod;
+    for(int i=(up&gt;&gt;1)-1; i&gt;=1; i--) w[i] = w[i&lt;&lt;1];
+&#125;
+int getlen(int n) &#123; return 1&lt;&lt;(32-__builtin_clz(n)); &#125;
+inline void mul(int *a, int n, int x, int *b) &#123; while(n--) *b++ = 1ll**a++*x%mod; &#125;
+inline void dot(int *a, int *b, int n, int *c) &#123; while(n--) *c++ = 1ll**a++**b++%mod; &#125;
+void DFT(int *a, int l)
+&#123;
+    static unsigned long long tmp[N];
+    int u = __builtin_ctz(up/l), t;
+    for(int i=0; i&lt;l; i++) tmp[i] = a[rev[i]&gt;&gt;u];
+    for(int i=1; i^l; i&lt;&lt;=1)
+        for(int j=0, d=i&lt;&lt;1; j^l; j+=d)
+            for(int k=0; k&lt;i; k++)
+                t = tmp[i|j|k]*w[i|k]%mod, tmp[i|j|k] = tmp[j|k]+mod-t, tmp[j|k] += t;
+    for(int i=0; i&lt;l; i++) a[i] = tmp[i]%mod;
+&#125;
+void IDFT(int *a, int l)
+&#123;
+    reverse(a+1, a+l); DFT(a, l);
+    mul(a, l, mod-mod/l, a);
+&#125;
+int main()
+&#123;
+    scanf(&quot;%d%d%d&quot;, &amp;n, &amp;c, &amp;m);
+    --n, --m;
+    for(int i=0; i&lt;=n; i++) 
+    &#123;
+        scanf(&quot;%d&quot;, a+i);
+        a[i] = 1ll*a[i]*fpw(c, (mod-1)-1ll*i*(i-1)/2%(mod-1))%mod;
+    &#125;
+    for(int i=0; i&lt;=n+m; i++) b[i] = fpw(c, 1ll*i*(i-1)/2%(mod-1));
+    init(2*n+m);
+    reverse(a, a+n+1);
+    int l = getlen(2*n+m);
+    DFT(a, l); DFT(b, l); dot(a, b, l, a); IDFT(a, l);
+    for(int i=n; i&lt;=n+m; i++) printf(&quot;%d%c&quot;, 1ll*a[i]*fpw(c, (mod-1)-1ll*(i-n)*(i-n-1)/2%(mod-1))%mod, &quot; \n&quot;[i==n+m]);
+    return 0;
+&#125;
+</code></pre>
+<ul>
+<li><pre><code>*       *         * 做法
+</code></pre>
+</li>
+</ul>
+
+  </div>
+</article>
+
+
+
+        
+          <div id="footer-post-container">
+  <div id="footer-post">
+
+    <div id="nav-footer" style="display: none">
+      <ul>
+        
+          <li><a href="/">首页</a></li>
+        
+          <li><a href="/archives/">归档</a></li>
+        
+          <li><a href="/tags/">标签</a></li>
+        
+          <li><a href="/search/">搜索</a></li>
+        
+      </ul>
+    </div>
+
+    
+    
+      <div id="toc-footer" style="display: none">
+        <ol class="toc"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%81%9A%E6%B3%95"><span class="toc-number">1.</span> <span class="toc-text">做法</span></a></li></ol>
+      </div>
+    
+
+    <div id="share-footer" style="display: none">
+      <ul>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.facebook.com/sharer.php?u=http://example.com/2020/09/13/p6800-mo-ban-chirp-z-transform/"><i class="fab fa-facebook fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=http://example.com/2020/09/13/p6800-mo-ban-chirp-z-transform/&text=P6800 【模板】Chirp-Z Transform"><i class="fab fa-twitter fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.linkedin.com/shareArticle?url=http://example.com/2020/09/13/p6800-mo-ban-chirp-z-transform/&title=P6800 【模板】Chirp-Z Transform"><i class="fab fa-linkedin fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://pinterest.com/pin/create/bookmarklet/?url=http://example.com/2020/09/13/p6800-mo-ban-chirp-z-transform/&is_video=false&description=P6800 【模板】Chirp-Z Transform"><i class="fab fa-pinterest fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=P6800 【模板】Chirp-Z Transform&body=Check out this article: http://example.com/2020/09/13/p6800-mo-ban-chirp-z-transform/"><i class="fa-solid fa-envelope fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://getpocket.com/save?url=http://example.com/2020/09/13/p6800-mo-ban-chirp-z-transform/&title=P6800 【模板】Chirp-Z Transform"><i class="fab fa-get-pocket fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://reddit.com/submit?url=http://example.com/2020/09/13/p6800-mo-ban-chirp-z-transform/&title=P6800 【模板】Chirp-Z Transform"><i class="fab fa-reddit fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.stumbleupon.com/submit?url=http://example.com/2020/09/13/p6800-mo-ban-chirp-z-transform/&title=P6800 【模板】Chirp-Z Transform"><i class="fab fa-stumbleupon fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://digg.com/submit?url=http://example.com/2020/09/13/p6800-mo-ban-chirp-z-transform/&title=P6800 【模板】Chirp-Z Transform"><i class="fab fa-digg fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.tumblr.com/share/link?url=http://example.com/2020/09/13/p6800-mo-ban-chirp-z-transform/&name=P6800 【模板】Chirp-Z Transform&description="><i class="fab fa-tumblr fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://news.ycombinator.com/submitlink?u=http://example.com/2020/09/13/p6800-mo-ban-chirp-z-transform/&t=P6800 【模板】Chirp-Z Transform"><i class="fab fa-hacker-news fa-lg" aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+
+    <div id="actions-footer">
+        <a id="menu" class="icon" href="#" onclick="$('#nav-footer').toggle();return false;"><i class="fa-solid fa-bars fa-lg" aria-hidden="true"></i> 菜单</a>
+        
+          <a id="toc" class="icon" href="#" onclick="$('#toc-footer').toggle();return false;"><i class="fa-solid fa-list fa-lg" aria-hidden="true"></i> 目录</a>
+        
+        <a id="share" class="icon" href="#" onclick="$('#share-footer').toggle();return false;"><i class="fa-solid fa-share-alt fa-lg" aria-hidden="true"></i> 分享</a>
+        <a id="top" style="display:none" class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fa-solid fa-chevron-up fa-lg" aria-hidden="true"></i> 返回顶部</a>
+    </div>
+
+  </div>
+</div>
+
+        
+        <footer id="footer">
+  <div class="footer-left">
+    Copyright &copy;
+    
+    
+    2020-2023
+    jyf111
+  </div>
+  <div class="footer-right">
+    <nav>
+      <ul>
+        <!--
+       --><li><a href="/">首页</a></li><!--
+     --><!--
+       --><li><a href="/archives/">归档</a></li><!--
+     --><!--
+       --><li><a href="/tags/">标签</a></li><!--
+     --><!--
+       --><li><a href="/search/">搜索</a></li><!--
+     -->
+      </ul>
+    </nav>
+  </div>
+</footer>
+
+    </div>
+    <!-- styles -->
+
+
+
+  <link rel="preload" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" crossorigin="anonymous" onload="this.onload=null;this.rel='stylesheet'"/>
+
+
+    <!-- jquery -->
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js" crossorigin="anonymous"></script>
+
+
+
+
+<!-- clipboard -->
+
+  
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.7/clipboard.min.js" crossorigin="anonymous"></script>
+  
+  <script type="text/javascript">
+  $(function() {
+    // copy-btn HTML
+    var btn = "<span class=\"btn-copy tooltipped tooltipped-sw\" aria-label=\"复制到粘贴板！\">";
+    btn += '<i class="fa-regular fa-clone"></i>';
+    btn += '</span>';
+    // mount it!
+    $(".highlight table").before(btn);
+    var clip = new ClipboardJS('.btn-copy', {
+      text: function(trigger) {
+        return Array.from(trigger.nextElementSibling.querySelectorAll('.code')).reduce((str,it)=>str+it.innerText+'\n','')
+      }
+    });
+    clip.on('success', function(e) {
+      e.trigger.setAttribute('aria-label', "复制成功！");
+      e.clearSelection();
+    })
+  })
+  </script>
+
+
+<script src="/js/main.js"></script>
+
+<!-- search -->
+
+<!-- Baidu Analytics -->
+
+<!-- Cloudflare Analytics -->
+
+<!-- Disqus Comments -->
+
+<!-- utterances Comments -->
+
+</body>
+</html>

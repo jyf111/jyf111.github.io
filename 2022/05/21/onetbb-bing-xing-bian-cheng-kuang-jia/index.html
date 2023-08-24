@@ -1,0 +1,364 @@
+<!DOCTYPE html>
+<html lang=zh>
+<head>
+    <!-- so meta -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="HandheldFriendly" content="True">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=5" />
+    <meta name="description" content="安装1git clone --depth 1 https:&#x2F;&#x2F;github.com&#x2F;oneapi-src&#x2F;oneTBB.git  1234mkdir build &amp;&amp; cd buildcmake ..make -j 4make install  make过程中可能出现如下问题 12c++: fatal error: Killed signal terminated program">
+<meta property="og:type" content="article">
+<meta property="og:title" content="oneTBB 并行编程框架">
+<meta property="og:url" content="http://example.com/2022/05/21/onetbb-bing-xing-bian-cheng-kuang-jia/index.html">
+<meta property="og:site_name" content="jyf111&#39;s blog">
+<meta property="og:description" content="安装1git clone --depth 1 https:&#x2F;&#x2F;github.com&#x2F;oneapi-src&#x2F;oneTBB.git  1234mkdir build &amp;&amp; cd buildcmake ..make -j 4make install  make过程中可能出现如下问题 12c++: fatal error: Killed signal terminated program">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2022-05-21T05:33:44.000Z">
+<meta property="article:modified_time" content="2023-08-24T12:15:47.014Z">
+<meta property="article:author" content="jyf111">
+<meta property="article:tag" content="工具">
+<meta name="twitter:card" content="summary">
+    
+    
+      
+        
+          <link rel="shortcut icon" href="/images/favicon.ico">
+        
+      
+      
+        
+          <link rel="icon" type="image/png" href="/images/favicon-192x192.png" sizes="192x192">
+        
+      
+      
+        
+          <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png">
+        
+      
+    
+    <!-- title -->
+    <title>oneTBB 并行编程框架</title>
+    <!-- async scripts -->
+    <!-- Google Analytics -->
+
+
+    <!-- Umami Analytics -->
+
+
+    <!-- styles -->
+    
+<link rel="stylesheet" href="/css/style.css">
+
+    <!-- persian styles -->
+    
+    <!-- rss -->
+    
+    
+	<!-- mathjax -->
+	
+		<script type="text/x-mathjax-config">
+		  MathJax.Hub.Config({
+			tex2jax: {
+			  skipTags: ['script', 'noscript', 'style', 'textarea', 'pre'],
+			  inlineMath: [['$','$']]
+			}
+		  });
+		</script>
+		<script src='https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-MML-AM_CHTML' async></script>
+	
+<meta name="generator" content="Hexo 6.3.0"></head>
+
+<body class="max-width mx-auto px3 ltr">
+    
+      <div id="header-post">
+  <a id="menu-icon" href="#" aria-label="目录"><i class="fa-solid fa-bars fa-lg"></i></a>
+  <a id="menu-icon-tablet" href="#" aria-label="目录"><i class="fa-solid fa-bars fa-lg"></i></a>
+  <a id="top-icon-tablet" href="#" aria-label="顶部" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');" style="display:none;"><i class="fa-solid fa-chevron-up fa-lg"></i></a>
+  <span id="menu">
+    <span id="nav">
+      <ul>
+        <!--
+       --><li><a href="/">首页</a></li><!--
+     --><!--
+       --><li><a href="/archives/">归档</a></li><!--
+     --><!--
+       --><li><a href="/tags/">标签</a></li><!--
+     --><!--
+       --><li><a href="/search/">搜索</a></li><!--
+     -->
+      </ul>
+    </span>
+    <br/>
+    <span id="actions">
+      <ul>
+        
+        <li><a class="icon" aria-label="上一篇" href="/2022/06/20/jing-sai-tu/"><i class="fa-solid fa-chevron-left" aria-hidden="true" onmouseover="$('#i-prev').toggle();" onmouseout="$('#i-prev').toggle();"></i></a></li>
+        
+        
+        <li><a class="icon" aria-label="下一篇" href="/2022/05/20/yong-yu-diao-shi-de-cri-zhi-ku-spdlog/"><i class="fa-solid fa-chevron-right" aria-hidden="true" onmouseover="$('#i-next').toggle();" onmouseout="$('#i-next').toggle();"></i></a></li>
+        
+        <li><a class="icon" aria-label="返回顶部" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fa-solid fa-chevron-up" aria-hidden="true" onmouseover="$('#i-top').toggle();" onmouseout="$('#i-top').toggle();"></i></a></li>
+        <li><a class="icon" aria-label="分享文章" href="#"><i class="fa-solid fa-share-alt" aria-hidden="true" onmouseover="$('#i-share').toggle();" onmouseout="$('#i-share').toggle();" onclick="$('#share').toggle();return false;"></i></a></li>
+      </ul>
+      <span id="i-prev" class="info" style="display:none;">上一篇</span>
+      <span id="i-next" class="info" style="display:none;">下一篇</span>
+      <span id="i-top" class="info" style="display:none;">返回顶部</span>
+      <span id="i-share" class="info" style="display:none;">分享文章</span>
+    </span>
+    <br/>
+    <div id="share" style="display: none">
+      <ul>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.facebook.com/sharer.php?u=http://example.com/2022/05/21/onetbb-bing-xing-bian-cheng-kuang-jia/"><i class="fab fa-facebook " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=http://example.com/2022/05/21/onetbb-bing-xing-bian-cheng-kuang-jia/&text=oneTBB 并行编程框架"><i class="fab fa-twitter " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.linkedin.com/shareArticle?url=http://example.com/2022/05/21/onetbb-bing-xing-bian-cheng-kuang-jia/&title=oneTBB 并行编程框架"><i class="fab fa-linkedin " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://pinterest.com/pin/create/bookmarklet/?url=http://example.com/2022/05/21/onetbb-bing-xing-bian-cheng-kuang-jia/&is_video=false&description=oneTBB 并行编程框架"><i class="fab fa-pinterest " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=oneTBB 并行编程框架&body=Check out this article: http://example.com/2022/05/21/onetbb-bing-xing-bian-cheng-kuang-jia/"><i class="fa-solid fa-envelope " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://getpocket.com/save?url=http://example.com/2022/05/21/onetbb-bing-xing-bian-cheng-kuang-jia/&title=oneTBB 并行编程框架"><i class="fab fa-get-pocket " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://reddit.com/submit?url=http://example.com/2022/05/21/onetbb-bing-xing-bian-cheng-kuang-jia/&title=oneTBB 并行编程框架"><i class="fab fa-reddit " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.stumbleupon.com/submit?url=http://example.com/2022/05/21/onetbb-bing-xing-bian-cheng-kuang-jia/&title=oneTBB 并行编程框架"><i class="fab fa-stumbleupon " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://digg.com/submit?url=http://example.com/2022/05/21/onetbb-bing-xing-bian-cheng-kuang-jia/&title=oneTBB 并行编程框架"><i class="fab fa-digg " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.tumblr.com/share/link?url=http://example.com/2022/05/21/onetbb-bing-xing-bian-cheng-kuang-jia/&name=oneTBB 并行编程框架&description="><i class="fab fa-tumblr " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://news.ycombinator.com/submitlink?u=http://example.com/2022/05/21/onetbb-bing-xing-bian-cheng-kuang-jia/&t=oneTBB 并行编程框架"><i class="fab fa-hacker-news " aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+    
+    
+      <div id="toc">
+        <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%AE%89%E8%A3%85"><span class="toc-number">1.</span> <span class="toc-text">安装</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%AE%A1%E6%97%B6"><span class="toc-number">2.</span> <span class="toc-text">计时</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%8E%A7%E5%88%B6%E8%BF%90%E8%A1%8C%E7%9A%84%E7%BA%BF%E7%A8%8B%E6%95%B0"><span class="toc-number">3.</span> <span class="toc-text">控制运行的线程数</span></a></li></ol>
+      </div>
+    
+  </span>
+</div>
+
+    
+    <div class="content index py4 ">
+        
+        <article class="post h-entry" itemscope itemtype="http://schema.org/BlogPosting">
+  <header>
+    
+    <h1 class="posttitle p-name" itemprop="name headline">
+        oneTBB 并行编程框架
+    </h1>
+
+
+
+    <div class="meta">
+      <span class="author p-author h-card" itemprop="author" itemscope itemtype="http://schema.org/Person">
+        <span class="p-name" itemprop="name">jyf111</span>
+      </span>
+      
+    <div class="postdate">
+      
+        <time datetime="2022-05-21T05:33:44.000Z" class="dt-published" itemprop="datePublished">2022-05-21</time>
+        
+        (Updated: <time datetime="2023-08-24T12:15:47.014Z" class="dt-updated" itemprop="dateModified">2023-08-24</time>)
+        
+      
+    </div>
+
+
+      
+
+      
+    <div class="article-tag">
+        <i class="fa-solid fa-tag"></i>
+        <a class="p-category" href="/tags/%E5%B7%A5%E5%85%B7/" rel="tag">工具</a>
+    </div>
+
+
+      
+        <span class=count-symbol-post> 
+          <i class="fa-solid fa-hourglass"></i>
+          
+            11 mins to read
+          
+        </span>
+      
+    </div>
+  </header>
+  
+
+  <div class="content e-content" itemprop="articleBody">
+    <h3 id="安装"><a href="#安装" class="headerlink" title="安装"></a>安装</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git <span class="built_in">clone</span> --depth 1 https://github.com/oneapi-src/oneTBB.git</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">mkdir</span> build &amp;&amp; <span class="built_in">cd</span> build</span><br><span class="line">cmake ..</span><br><span class="line">make -j 4</span><br><span class="line">make install</span><br></pre></td></tr></table></figure>
+
+<p>make过程中可能出现如下问题</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">c++: fatal error: Killed signal terminated program cc1plus</span><br><span class="line">compilation terminated.</span><br></pre></td></tr></table></figure>
+
+<p>原因就是内存太小了，减小并行度或者临时换页 （<a target="_blank" rel="noopener" href="https://blog.csdn.net/weixin_44796670/article/details/121234446">参考</a>）</p>
+<h3 id="计时"><a href="#计时" class="headerlink" title="计时"></a>计时</h3><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">tbb::tick_count::<span class="built_in">now</span>();</span><br><span class="line">tick_count t0 = tick_count::<span class="built_in">now</span>();</span><br><span class="line">tick_count t1 = tick_count::<span class="built_in">now</span>();</span><br><span class="line"><span class="built_in">printf</span>(“work took %g seconds\n”,(t1-t0).<span class="built_in">seconds</span>());</span><br><span class="line"></span><br><span class="line"><span class="keyword">auto</span> start = std::chrono::steady_clock::<span class="built_in">now</span>();</span><br><span class="line"><span class="keyword">auto</span> end = std::chrono::steady_clock::<span class="built_in">now</span>();</span><br><span class="line">std::cerr &lt;&lt; std::chrono::<span class="built_in">duration</span>&lt;<span class="type">double</span>, std::milli&gt;(end - start).<span class="built_in">count</span>() &lt;&lt; <span class="string">&#x27;\n&#x27;</span>;</span><br></pre></td></tr></table></figure>
+
+<p>只记时一次，容易出现波动</p>
+<p>使用<code>google benchmark</code>，可以跑多次求平均值</p>
+<h3 id="控制运行的线程数"><a href="#控制运行的线程数" class="headerlink" title="控制运行的线程数"></a>控制运行的线程数</h3><p>Thread local storage：<code>thread_local</code>表明该变量的作用域是线程，每个线程都有一份拷贝。</p>
+<p>对于TBB而言，你不知道任务和线程之间的对应关系。</p>
+<p><code>enumerable_thread_specific</code>：provides thread local storage that acts like an<br>STL container with one element per thread. The container permits iterating<br>over the elements using the usual STL iteration idioms. Any thread can iterate<br>over all the local copies, seeing the other threads local<br>data.（每个线程有一份拷贝，并且所有拷贝被组织成一个容器，可以顺序遍历容器来结合最终结果）</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">using</span> <span class="type">ets_vector_t</span> = enumerable_thread_specific&lt;vector&lt;<span class="type">int</span>&gt;&gt;;</span><br><span class="line"><span class="function"><span class="type">ets_vector_t</span> <span class="title">partial</span><span class="params">(N)</span></span>;</span><br><span class="line"><span class="built_in">parallel_for</span>(<span class="number">0</span>, <span class="number">10</span>, [&amp;](<span class="type">int</span> i) &#123;</span><br><span class="line">  <span class="type">ets_vector_t</span>::reference local = partial.<span class="built_in">local</span>();</span><br><span class="line">  <span class="keyword">for</span> (<span class="type">int</span>&amp; x : local) x = <span class="number">20</span>;</span><br><span class="line">&#125;);</span><br><span class="line"><span class="function">vector&lt;<span class="type">int</span>&gt; <span class="title">sum</span><span class="params">(N)</span></span>;</span><br><span class="line"><span class="keyword">for</span> (<span class="keyword">auto</span>&amp; it : partial)</span><br><span class="line">  <span class="keyword">for</span> (<span class="type">int</span> j = <span class="number">0</span>; j &lt; N; ++j) sum[j] += it[j];</span><br></pre></td></tr></table></figure>
+
+<p>用法就是包装一个tbb::enumerable_thread_specific，然后在内部使用local得到自己的那份拷贝，此外可以遍历整个容器，得到每一份拷贝。（如果该线程第一次调用local，就会创建一份，否则会使用自己已经创建的那份）</p>
+<p>可以使用<code>size()</code>得到有几个拷贝，但是该容器只支持顺序遍历，不能随机访问(不支持<code>[]</code>)。所以如果指定线程想查看对方的私有拷贝，这是不行的，你既不知道它的下标，也没办法直接访问</p>
+<p><code>combinable</code>：provides thread local storage for holding per-thread<br>subcomputations that will later be reduced to a single result. Each thread can<br>only see its local data or, after calling combine, the combined data.<br>（用于存储中间结果，只能看到自己的数据）</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">combinable&lt;vector&lt;<span class="type">int</span>&gt;&gt; partial&#123;[]()&#123;<span class="keyword">return</span> <span class="built_in">vector</span>&lt;<span class="type">int</span>&gt;(N); &#125;&#125;;</span><br><span class="line"><span class="built_in">parallel_for</span>(<span class="number">0</span>, <span class="number">10</span>, [&amp;](<span class="type">int</span> i) &#123;</span><br><span class="line">  <span class="keyword">auto</span>&amp; local = partial.<span class="built_in">local</span>();</span><br><span class="line">&#125;);</span><br><span class="line"><span class="function">vector&lt;<span class="type">int</span>&gt; <span class="title">sum</span><span class="params">(N)</span></span>;</span><br><span class="line">partial.<span class="built_in">combine_each</span>([&amp;](<span class="type">const</span> vector&lt;<span class="type">int</span>&gt;&amp; a) &#123;</span><br><span class="line">  <span class="keyword">for</span> (<span class="type">int</span> i = <span class="number">0</span>; i &lt; N; ++i) sum[i] += a[i];</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+
+
+<p>combinable需要传入一个lambda，在local中会调用，用于初始化。</p>
+<p>通过combine_each将每份拷贝的结果合并起来。</p>
+<p>note：个人感觉这两者差不多，combine_each其实就等价于顺序遍历拷贝构成的容器</p>
+<hr>
+<p>Task</p>
+<p><code>parallel_invoke(f1,f2...)</code>（隐式的task spawning和barrier）</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">task_group g;</span><br><span class="line">g.<span class="built_in">run</span>(f1);</span><br><span class="line">g.<span class="built_in">run</span>(f2);</span><br><span class="line">...</span><br><span class="line">g.<span class="built_in">wait</span>();</span><br></pre></td></tr></table></figure>
+
+<p><code>run_and_wait(f)</code>：we avoid the overhead of enqueueing-schedulingdequeuing<br>steps, and second, we avoid the potential stealing that can happen while the<br>task is in the queue.</p>
+<p><code>cancel()</code></p>
+<p>如果有大量任务，线性spawn不如递归spawn（满二叉的形式）</p>
+<hr>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">parallel_for</span>(<span class="number">0</span>, n, [](<span class="type">int</span> i) &#123;</span><br><span class="line"></span><br><span class="line">&#125;);</span><br><span class="line"><span class="built_in">parallel_for</span>(<span class="built_in">blocked_range</span>&lt;<span class="type">int</span>&gt;(<span class="number">0</span>, n), [&amp;](<span class="type">const</span> <span class="keyword">auto</span>&amp; range r) &#123;</span><br><span class="line">  <span class="keyword">for</span> (<span class="type">int</span> i = r.<span class="built_in">begin</span>(); i != r.<span class="built_in">end</span>(); ++i) &#123;</span><br><span class="line"></span><br><span class="line">  &#125;</span><br><span class="line">&#125;);</span><br><span class="line"><span class="built_in">parallel_reduce</span>(<span class="built_in">blocked_range</span>&lt;<span class="type">int</span>&gt;(<span class="number">0</span>, n), init,  <span class="comment">// 规约</span></span><br><span class="line">  [&amp;](<span class="type">const</span> <span class="keyword">auto</span>&amp; range r, <span class="keyword">auto</span> pre) &#123;</span><br><span class="line"></span><br><span class="line">  &#125;,</span><br><span class="line">  [&amp;](<span class="keyword">auto</span> x, <span class="keyword">auto</span> y) &#123; <span class="comment">// combine</span></span><br><span class="line"></span><br><span class="line">  &#125;;</span><br><span class="line">);</span><br><span class="line"><span class="built_in">parallel_scan</span>(<span class="built_in">blocked_range</span>&lt;<span class="type">int</span>&gt;(<span class="number">0</span>, n), init,  <span class="comment">// 前缀规约</span></span><br><span class="line">  [&amp;](<span class="type">const</span> <span class="keyword">auto</span>&amp; range r, <span class="keyword">auto</span> pre, <span class="type">bool</span> is_final_scan) &#123;</span><br><span class="line">    <span class="keyword">if</span> (is_final_scan) &#123;</span><br><span class="line">        <span class="comment">// write</span></span><br><span class="line">    &#125;</span><br><span class="line">  &#125;,</span><br><span class="line">  [&amp;](<span class="keyword">auto</span> x, <span class="keyword">auto</span> y) &#123; <span class="comment">// combine</span></span><br><span class="line"></span><br><span class="line">  &#125;;</span><br><span class="line">);</span><br></pre></td></tr></table></figure>
+
+<p>并行过滤：考虑对一个vector执行一个过滤条件。我目前认为最好的写法是先resize足够大的空间，然后通过一个atomic记录结果vector的大小</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">size_t</span> local_base = res_size.<span class="built_in">fetch_add</span>(local_size);</span><br><span class="line"><span class="keyword">for</span> (<span class="type">size_t</span> i = <span class="number">0</span>; i &lt; local_size; i++) res[local_base + i] = local_res[i];</span><br></pre></td></tr></table></figure>
+
+<p>POD_vector(?)：上述情况中必须先resize，不能reserve，而resize的一个问题是会对所有元素做一遍memset，有时候这是很多余的，所以可以通过一些trick避免这个初始化的过程。</p>
+
+  </div>
+</article>
+
+
+
+        
+          <div id="footer-post-container">
+  <div id="footer-post">
+
+    <div id="nav-footer" style="display: none">
+      <ul>
+        
+          <li><a href="/">首页</a></li>
+        
+          <li><a href="/archives/">归档</a></li>
+        
+          <li><a href="/tags/">标签</a></li>
+        
+          <li><a href="/search/">搜索</a></li>
+        
+      </ul>
+    </div>
+
+    
+    
+      <div id="toc-footer" style="display: none">
+        <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%AE%89%E8%A3%85"><span class="toc-number">1.</span> <span class="toc-text">安装</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%AE%A1%E6%97%B6"><span class="toc-number">2.</span> <span class="toc-text">计时</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%8E%A7%E5%88%B6%E8%BF%90%E8%A1%8C%E7%9A%84%E7%BA%BF%E7%A8%8B%E6%95%B0"><span class="toc-number">3.</span> <span class="toc-text">控制运行的线程数</span></a></li></ol>
+      </div>
+    
+
+    <div id="share-footer" style="display: none">
+      <ul>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.facebook.com/sharer.php?u=http://example.com/2022/05/21/onetbb-bing-xing-bian-cheng-kuang-jia/"><i class="fab fa-facebook fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=http://example.com/2022/05/21/onetbb-bing-xing-bian-cheng-kuang-jia/&text=oneTBB 并行编程框架"><i class="fab fa-twitter fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.linkedin.com/shareArticle?url=http://example.com/2022/05/21/onetbb-bing-xing-bian-cheng-kuang-jia/&title=oneTBB 并行编程框架"><i class="fab fa-linkedin fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://pinterest.com/pin/create/bookmarklet/?url=http://example.com/2022/05/21/onetbb-bing-xing-bian-cheng-kuang-jia/&is_video=false&description=oneTBB 并行编程框架"><i class="fab fa-pinterest fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=oneTBB 并行编程框架&body=Check out this article: http://example.com/2022/05/21/onetbb-bing-xing-bian-cheng-kuang-jia/"><i class="fa-solid fa-envelope fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://getpocket.com/save?url=http://example.com/2022/05/21/onetbb-bing-xing-bian-cheng-kuang-jia/&title=oneTBB 并行编程框架"><i class="fab fa-get-pocket fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://reddit.com/submit?url=http://example.com/2022/05/21/onetbb-bing-xing-bian-cheng-kuang-jia/&title=oneTBB 并行编程框架"><i class="fab fa-reddit fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.stumbleupon.com/submit?url=http://example.com/2022/05/21/onetbb-bing-xing-bian-cheng-kuang-jia/&title=oneTBB 并行编程框架"><i class="fab fa-stumbleupon fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://digg.com/submit?url=http://example.com/2022/05/21/onetbb-bing-xing-bian-cheng-kuang-jia/&title=oneTBB 并行编程框架"><i class="fab fa-digg fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.tumblr.com/share/link?url=http://example.com/2022/05/21/onetbb-bing-xing-bian-cheng-kuang-jia/&name=oneTBB 并行编程框架&description="><i class="fab fa-tumblr fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://news.ycombinator.com/submitlink?u=http://example.com/2022/05/21/onetbb-bing-xing-bian-cheng-kuang-jia/&t=oneTBB 并行编程框架"><i class="fab fa-hacker-news fa-lg" aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+
+    <div id="actions-footer">
+        <a id="menu" class="icon" href="#" onclick="$('#nav-footer').toggle();return false;"><i class="fa-solid fa-bars fa-lg" aria-hidden="true"></i> 菜单</a>
+        
+          <a id="toc" class="icon" href="#" onclick="$('#toc-footer').toggle();return false;"><i class="fa-solid fa-list fa-lg" aria-hidden="true"></i> 目录</a>
+        
+        <a id="share" class="icon" href="#" onclick="$('#share-footer').toggle();return false;"><i class="fa-solid fa-share-alt fa-lg" aria-hidden="true"></i> 分享</a>
+        <a id="top" style="display:none" class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fa-solid fa-chevron-up fa-lg" aria-hidden="true"></i> 返回顶部</a>
+    </div>
+
+  </div>
+</div>
+
+        
+        <footer id="footer">
+  <div class="footer-left">
+    Copyright &copy;
+    
+    
+    2020-2023
+    jyf111
+  </div>
+  <div class="footer-right">
+    <nav>
+      <ul>
+        <!--
+       --><li><a href="/">首页</a></li><!--
+     --><!--
+       --><li><a href="/archives/">归档</a></li><!--
+     --><!--
+       --><li><a href="/tags/">标签</a></li><!--
+     --><!--
+       --><li><a href="/search/">搜索</a></li><!--
+     -->
+      </ul>
+    </nav>
+  </div>
+</footer>
+
+    </div>
+    <!-- styles -->
+
+
+
+  <link rel="preload" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" crossorigin="anonymous" onload="this.onload=null;this.rel='stylesheet'"/>
+
+
+    <!-- jquery -->
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js" crossorigin="anonymous"></script>
+
+
+
+
+<!-- clipboard -->
+
+  
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.7/clipboard.min.js" crossorigin="anonymous"></script>
+  
+  <script type="text/javascript">
+  $(function() {
+    // copy-btn HTML
+    var btn = "<span class=\"btn-copy tooltipped tooltipped-sw\" aria-label=\"复制到粘贴板！\">";
+    btn += '<i class="fa-regular fa-clone"></i>';
+    btn += '</span>';
+    // mount it!
+    $(".highlight table").before(btn);
+    var clip = new ClipboardJS('.btn-copy', {
+      text: function(trigger) {
+        return Array.from(trigger.nextElementSibling.querySelectorAll('.code')).reduce((str,it)=>str+it.innerText+'\n','')
+      }
+    });
+    clip.on('success', function(e) {
+      e.trigger.setAttribute('aria-label', "复制成功！");
+      e.clearSelection();
+    })
+  })
+  </script>
+
+
+<script src="/js/main.js"></script>
+
+<!-- search -->
+
+<!-- Baidu Analytics -->
+
+<!-- Cloudflare Analytics -->
+
+<!-- Disqus Comments -->
+
+<!-- utterances Comments -->
+
+</body>
+</html>

@@ -1,0 +1,461 @@
+<!DOCTYPE html>
+<html lang=zh>
+<head>
+    <!-- so meta -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="HandheldFriendly" content="True">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=5" />
+    <meta name="description" content="给定两个字符串A,B,再给出n个字符串sis_isi​,每个sis_isi​有价值bib_ibi​,让你从A中取一个子串(可空),再从B中取一个子串(可空),拼接成串C,定义C的价值为∑cnti(C)⋅bi\sumcnt_i(C)⋅b_i∑cnti​(C)⋅bi​ .cnticnt_icnti​表示sis_isi​在C中作为子串出现的次数.要求输出最大的价值.Constraints1≤T≤101≤">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Buying a New String AC自动机">
+<meta property="og:url" content="http://example.com/2020/05/11/buying-a-new-string-ac-zi-dong-ji/index.html">
+<meta property="og:site_name" content="jyf111&#39;s blog">
+<meta property="og:description" content="给定两个字符串A,B,再给出n个字符串sis_isi​,每个sis_isi​有价值bib_ibi​,让你从A中取一个子串(可空),再从B中取一个子串(可空),拼接成串C,定义C的价值为∑cnti(C)⋅bi\sumcnt_i(C)⋅b_i∑cnti​(C)⋅bi​ .cnticnt_icnti​表示sis_isi​在C中作为子串出现的次数.要求输出最大的价值.Constraints1≤T≤101≤">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2020-05-11T05:33:44.000Z">
+<meta property="article:modified_time" content="2023-08-24T08:43:19.617Z">
+<meta property="article:author" content="jyf111">
+<meta property="article:tag" content="算法">
+<meta name="twitter:card" content="summary">
+    
+    
+      
+        
+          <link rel="shortcut icon" href="/images/favicon.ico">
+        
+      
+      
+        
+          <link rel="icon" type="image/png" href="/images/favicon-192x192.png" sizes="192x192">
+        
+      
+      
+        
+          <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png">
+        
+      
+    
+    <!-- title -->
+    <title>Buying a New String AC自动机</title>
+    <!-- async scripts -->
+    <!-- Google Analytics -->
+
+
+    <!-- Umami Analytics -->
+
+
+    <!-- styles -->
+    
+<link rel="stylesheet" href="/css/style.css">
+
+    <!-- persian styles -->
+    
+    <!-- rss -->
+    
+    
+	<!-- mathjax -->
+	
+		<script type="text/x-mathjax-config">
+		  MathJax.Hub.Config({
+			tex2jax: {
+			  skipTags: ['script', 'noscript', 'style', 'textarea', 'pre'],
+			  inlineMath: [['$','$']]
+			}
+		  });
+		</script>
+		<script src='https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-MML-AM_CHTML' async></script>
+	
+<meta name="generator" content="Hexo 6.3.0"></head>
+
+<body class="max-width mx-auto px3 ltr">
+    
+      <div id="header-post">
+  <a id="menu-icon" href="#" aria-label="目录"><i class="fa-solid fa-bars fa-lg"></i></a>
+  <a id="menu-icon-tablet" href="#" aria-label="目录"><i class="fa-solid fa-bars fa-lg"></i></a>
+  <a id="top-icon-tablet" href="#" aria-label="顶部" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');" style="display:none;"><i class="fa-solid fa-chevron-up fa-lg"></i></a>
+  <span id="menu">
+    <span id="nav">
+      <ul>
+        <!--
+       --><li><a href="/">首页</a></li><!--
+     --><!--
+       --><li><a href="/archives/">归档</a></li><!--
+     --><!--
+       --><li><a href="/tags/">标签</a></li><!--
+     --><!--
+       --><li><a href="/search/">搜索</a></li><!--
+     -->
+      </ul>
+    </span>
+    <br/>
+    <span id="actions">
+      <ul>
+        
+        <li><a class="icon" aria-label="上一篇" href="/2020/05/11/binary-land-shuang-zhan-trick/"><i class="fa-solid fa-chevron-left" aria-hidden="true" onmouseover="$('#i-prev').toggle();" onmouseout="$('#i-prev').toggle();"></i></a></li>
+        
+        
+        <li><a class="icon" aria-label="下一篇" href="/2020/05/11/not-a-real-problem-zui-xiao-ge-fang-an/"><i class="fa-solid fa-chevron-right" aria-hidden="true" onmouseover="$('#i-next').toggle();" onmouseout="$('#i-next').toggle();"></i></a></li>
+        
+        <li><a class="icon" aria-label="返回顶部" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fa-solid fa-chevron-up" aria-hidden="true" onmouseover="$('#i-top').toggle();" onmouseout="$('#i-top').toggle();"></i></a></li>
+        <li><a class="icon" aria-label="分享文章" href="#"><i class="fa-solid fa-share-alt" aria-hidden="true" onmouseover="$('#i-share').toggle();" onmouseout="$('#i-share').toggle();" onclick="$('#share').toggle();return false;"></i></a></li>
+      </ul>
+      <span id="i-prev" class="info" style="display:none;">上一篇</span>
+      <span id="i-next" class="info" style="display:none;">下一篇</span>
+      <span id="i-top" class="info" style="display:none;">返回顶部</span>
+      <span id="i-share" class="info" style="display:none;">分享文章</span>
+    </span>
+    <br/>
+    <div id="share" style="display: none">
+      <ul>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.facebook.com/sharer.php?u=http://example.com/2020/05/11/buying-a-new-string-ac-zi-dong-ji/"><i class="fab fa-facebook " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=http://example.com/2020/05/11/buying-a-new-string-ac-zi-dong-ji/&text=Buying a New String AC自动机"><i class="fab fa-twitter " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.linkedin.com/shareArticle?url=http://example.com/2020/05/11/buying-a-new-string-ac-zi-dong-ji/&title=Buying a New String AC自动机"><i class="fab fa-linkedin " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://pinterest.com/pin/create/bookmarklet/?url=http://example.com/2020/05/11/buying-a-new-string-ac-zi-dong-ji/&is_video=false&description=Buying a New String AC自动机"><i class="fab fa-pinterest " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=Buying a New String AC自动机&body=Check out this article: http://example.com/2020/05/11/buying-a-new-string-ac-zi-dong-ji/"><i class="fa-solid fa-envelope " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://getpocket.com/save?url=http://example.com/2020/05/11/buying-a-new-string-ac-zi-dong-ji/&title=Buying a New String AC自动机"><i class="fab fa-get-pocket " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://reddit.com/submit?url=http://example.com/2020/05/11/buying-a-new-string-ac-zi-dong-ji/&title=Buying a New String AC自动机"><i class="fab fa-reddit " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.stumbleupon.com/submit?url=http://example.com/2020/05/11/buying-a-new-string-ac-zi-dong-ji/&title=Buying a New String AC自动机"><i class="fab fa-stumbleupon " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://digg.com/submit?url=http://example.com/2020/05/11/buying-a-new-string-ac-zi-dong-ji/&title=Buying a New String AC自动机"><i class="fab fa-digg " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.tumblr.com/share/link?url=http://example.com/2020/05/11/buying-a-new-string-ac-zi-dong-ji/&name=Buying a New String AC自动机&description="><i class="fab fa-tumblr " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://news.ycombinator.com/submitlink?u=http://example.com/2020/05/11/buying-a-new-string-ac-zi-dong-ji/&t=Buying a New String AC自动机"><i class="fab fa-hacker-news " aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+    
+    
+      <div id="toc">
+        <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#%E5%81%9A%E6%B3%95"><span class="toc-number">1.</span> <span class="toc-text">做法</span></a></li></ol>
+      </div>
+    
+  </span>
+</div>
+
+    
+    <div class="content index py4 ">
+        
+        <article class="post h-entry" itemscope itemtype="http://schema.org/BlogPosting">
+  <header>
+    
+    <h1 class="posttitle p-name" itemprop="name headline">
+        Buying a New String AC自动机
+    </h1>
+
+
+
+    <div class="meta">
+      <span class="author p-author h-card" itemprop="author" itemscope itemtype="http://schema.org/Person">
+        <span class="p-name" itemprop="name">jyf111</span>
+      </span>
+      
+    <div class="postdate">
+      
+        <time datetime="2020-05-11T05:33:44.000Z" class="dt-published" itemprop="datePublished">2020-05-11</time>
+        
+        (Updated: <time datetime="2023-08-24T08:43:19.617Z" class="dt-updated" itemprop="dateModified">2023-08-24</time>)
+        
+      
+    </div>
+
+
+      
+
+      
+    <div class="article-tag">
+        <i class="fa-solid fa-tag"></i>
+        <a class="p-category" href="/tags/%E7%AE%97%E6%B3%95/" rel="tag">算法</a>
+    </div>
+
+
+      
+        <span class=count-symbol-post> 
+          <i class="fa-solid fa-hourglass"></i>
+          
+            4 mins to read
+          
+        </span>
+      
+    </div>
+  </header>
+  
+
+  <div class="content e-content" itemprop="articleBody">
+    <p>给定两个字符串A,B,<br>再给出n个字符串sis_isi​,每个sis_isi​有价值bib_ibi​,让你从A中取一个子串(可空),再从B中取一个子串(可空),拼接成串C,定义C的价值为∑cnti(C)⋅bi\sum<br>cnt_i(C)⋅b_i∑cnti​(C)⋅bi​ .cnticnt_icnti​表示sis_isi​在C中作为子串出现的次数.要求输出最大的价值.<br><strong>Constraints</strong><br>1≤T≤101≤T≤101≤T≤10<br>1≤∣A∣,∣B∣≤1031≤|A|,|B|≤10^31≤∣A∣,∣B∣≤103<br>1≤N≤1041≤N≤10^41≤N≤104<br>1≤∣Si∣≤261≤|S_i|≤261≤∣Si​∣≤26 for each valid i<br>1≤bi≤1051≤b_i≤10^51≤bi​≤105 for each valid i<br>A,B,S1,S2,…,SNA,B,S_1,S_2,…,S_NA,B,S1​,S2​,…,SN​ contain only lowercase<br>English letters<br>S1,S2,…,SNS_1,S_2,…,S_NS1​,S2​,…,SN​ are pairwise distinct<br>the sum of |A| over all test cases does not exceed 2⋅1032⋅10^32⋅103<br>the sum of |B| over all test cases does not exceed 2⋅1032⋅10^32⋅103<br>the sum of N over all test cases does not exceed 2⋅1042⋅10^42⋅104</p>
+<h1 id="做法"><a href="#做法" class="headerlink" title="做法"></a>做法</h1><p>简单的贪心可以发现,肯定是取A的某个前缀和B的某个后缀拼接.此题的关键是∣Si∣|S_i|∣Si​∣很小,如果大了我不知道还能不能做了.利用这点我们可以先预处理出A的每个前缀的价值和B的每个后缀的价值,这个用ac自动机处理,然后枚举前缀i和后缀j拼接,此时C中没有算的影响就是拼接处前后26个字母的价值,可以从后缀的起点开始在ac自动机上走25步,每次暴力跳fail统计下答案,最后取个max.<br>这样还是会t,复杂度是O(∣A∣2∗262)O(|A|^2 * 26^2 )O(∣A∣2∗262)<br>大概6e9,每次跳fail是O(26)的,那就再建个fail树,预处理下把这个O(26)去掉就过了.</p>
+<pre><code>#include &lt;bits/stdc++.h&gt;
+#define mp make_pair
+#define pb push_back
+#define sz(x) (int)x.size()
+#define all(x) begin(x), end(x)
+#define fi first
+#define se second
+#define debug(x) cerr &lt;&lt; #x &lt;&lt; &quot; &quot; &lt;&lt; x &lt;&lt; &#39;\n&#39;
+using namespace std;
+using ll = long long;
+using pii = pair&lt;int,int&gt;;
+using pli = pair&lt;ll,int&gt;;
+const int INF = 0x3f3f3f3f, N = 3e5 + 5;
+const ll LINF = 1e18 + 5;
+constexpr int mod = 1e9 + 7;
+char a[N], b[N], rb[N];
+char s[N][30], rs[N][30];
+int n, val[N];
+ll pre[N], suf[N];
+struct ACA
+&#123;
+    int nxt[N][26], fail[N], len[N], cnt, end[N];
+    ll tmp[N][30];
+    vector &lt;int&gt; to[N];
+    void clear()
+    &#123;
+        for(int i=0; i&lt;=cnt; i++)
+        &#123;
+            fail[i] = end[i] = len[i] = 0;
+            to[i].clear();
+            for(int j=0; j&lt;26; j++)
+                nxt[i][j] = tmp[i][j+1] = 0;
+        &#125; 
+        cnt = 0;
+    &#125;
+    void insert(char *s, int v, int n)
+    &#123;
+        int p = 0;
+        for(int i=0; i&lt;n; i++)
+        &#123;
+            int k = s[i] - &#39;a&#39;;
+            if(!nxt[p][k]) nxt[p][k] = ++cnt;
+            p = nxt[p][k];
+        &#125;
+        end[p] = v; len[p] = n;
+    &#125;
+    void build() 
+    &#123;
+        queue &lt;int&gt; q;
+        for(int i=0;i&lt;26;i++) if(nxt[0][i]) q.push(nxt[0][i]);
+        while(!q.empty())
+        &#123;
+            int k = q.front(); q.pop();
+            for(int i=0;i&lt;26;i++)
+            &#123;
+                if(nxt[k][i])
+                &#123;
+                    fail[nxt[k][i]] = nxt[fail[k]][i]; 
+                    q.push(nxt[k][i]);
+                &#125;
+                else nxt[k][i] = nxt[fail[k]][i];
+            &#125;
+        &#125;
+    &#125;
+    void go(char *s, ll *v, int n)
+    &#123;
+        int p = 0;
+        for(int i=0; i&lt;n; i++)
+        &#123;
+            p = nxt[p][s[i]-&#39;a&#39;];
+            for(int j=p; j; j=fail[j])
+                v[i] += end[j];
+        &#125;
+    &#125;
+    void dfs(int u)
+    &#123;
+        for(int i=len[u]; i&gt;0; i--) tmp[u][i] += end[u];
+        for(int v : to[u]) 
+        &#123;
+            for(int i=26; i&gt;0; i--) tmp[v][i] += tmp[u][i];
+            dfs(v);
+        &#125;
+    &#125;
+&#125;ac, ac2;
+void solve()
+&#123;
+    scanf(&quot;%s%s&quot;, a, b);
+    scanf(&quot;%d&quot;, &amp;n);
+    int x = strlen(a), y = strlen(b);
+    for(int i=0; i&lt;y; i++) rb[i] = b[y-i-1];
+    ac.clear(); ac2.clear();
+    for(int i=1; i&lt;=n; i++)
+    &#123;
+        scanf(&quot;%s%d&quot;, s[i], val+i);
+        int t = strlen(s[i]);
+        ac.insert(s[i], val[i], t);
+        for(int j=0; j&lt;t; j++) rs[i][j] = s[i][t-j-1];
+        ac2.insert(rs[i], val[i], t);
+    &#125;
+    ac.build(); ac2.build();
+    for(int i=0; i&lt;x; i++) pre[i] = 0;
+    for(int i=0; i&lt;y; i++) suf[i] = 0;
+    ac.go(a, pre, x); ac2.go(rb, suf, y);
+    ll ans = 0;
+    int p = 0;
+    for(int i=1; i&lt;x; i++) pre[i] += pre[i-1]; 
+    for(int i=1; i&lt;y; i++) suf[i] += suf[i-1];
+    for(int i=1; i&lt;=ac.cnt; i++) ac.to[ac.fail[i]].pb(i);
+    ac.dfs(0);
+    for(int i=0; i&lt;x; i++)
+    &#123;
+        p = ac.nxt[p][a[i]-&#39;a&#39;];
+        for(int j=0; j&lt;y; j++)
+        &#123;
+            ll cur = pre[i] + suf[y-j-1];
+            int pp = p;
+            for(int k=0; k&lt;25&amp;&amp;j+k&lt;y; k++)
+            &#123;
+                pp = ac.nxt[pp][b[j+k]-&#39;a&#39;];
+                cur += ac.tmp[pp][k+2];
+            &#125;
+            if(cur&gt;ans) ans = cur;
+        &#125;
+    &#125;
+    printf(&quot;%lld\n&quot;, ans);
+&#125;
+int main()
+&#123;
+    int T; scanf(&quot;%d&quot;, &amp;T);
+    while(T--) solve();
+    return 0;
+&#125;
+</code></pre>
+<ul>
+<li>做法</li>
+</ul>
+
+  </div>
+</article>
+
+
+
+        
+          <div id="footer-post-container">
+  <div id="footer-post">
+
+    <div id="nav-footer" style="display: none">
+      <ul>
+        
+          <li><a href="/">首页</a></li>
+        
+          <li><a href="/archives/">归档</a></li>
+        
+          <li><a href="/tags/">标签</a></li>
+        
+          <li><a href="/search/">搜索</a></li>
+        
+      </ul>
+    </div>
+
+    
+    
+      <div id="toc-footer" style="display: none">
+        <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#%E5%81%9A%E6%B3%95"><span class="toc-number">1.</span> <span class="toc-text">做法</span></a></li></ol>
+      </div>
+    
+
+    <div id="share-footer" style="display: none">
+      <ul>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.facebook.com/sharer.php?u=http://example.com/2020/05/11/buying-a-new-string-ac-zi-dong-ji/"><i class="fab fa-facebook fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=http://example.com/2020/05/11/buying-a-new-string-ac-zi-dong-ji/&text=Buying a New String AC自动机"><i class="fab fa-twitter fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.linkedin.com/shareArticle?url=http://example.com/2020/05/11/buying-a-new-string-ac-zi-dong-ji/&title=Buying a New String AC自动机"><i class="fab fa-linkedin fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://pinterest.com/pin/create/bookmarklet/?url=http://example.com/2020/05/11/buying-a-new-string-ac-zi-dong-ji/&is_video=false&description=Buying a New String AC自动机"><i class="fab fa-pinterest fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=Buying a New String AC自动机&body=Check out this article: http://example.com/2020/05/11/buying-a-new-string-ac-zi-dong-ji/"><i class="fa-solid fa-envelope fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://getpocket.com/save?url=http://example.com/2020/05/11/buying-a-new-string-ac-zi-dong-ji/&title=Buying a New String AC自动机"><i class="fab fa-get-pocket fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://reddit.com/submit?url=http://example.com/2020/05/11/buying-a-new-string-ac-zi-dong-ji/&title=Buying a New String AC自动机"><i class="fab fa-reddit fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.stumbleupon.com/submit?url=http://example.com/2020/05/11/buying-a-new-string-ac-zi-dong-ji/&title=Buying a New String AC自动机"><i class="fab fa-stumbleupon fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://digg.com/submit?url=http://example.com/2020/05/11/buying-a-new-string-ac-zi-dong-ji/&title=Buying a New String AC自动机"><i class="fab fa-digg fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.tumblr.com/share/link?url=http://example.com/2020/05/11/buying-a-new-string-ac-zi-dong-ji/&name=Buying a New String AC自动机&description="><i class="fab fa-tumblr fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://news.ycombinator.com/submitlink?u=http://example.com/2020/05/11/buying-a-new-string-ac-zi-dong-ji/&t=Buying a New String AC自动机"><i class="fab fa-hacker-news fa-lg" aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+
+    <div id="actions-footer">
+        <a id="menu" class="icon" href="#" onclick="$('#nav-footer').toggle();return false;"><i class="fa-solid fa-bars fa-lg" aria-hidden="true"></i> 菜单</a>
+        
+          <a id="toc" class="icon" href="#" onclick="$('#toc-footer').toggle();return false;"><i class="fa-solid fa-list fa-lg" aria-hidden="true"></i> 目录</a>
+        
+        <a id="share" class="icon" href="#" onclick="$('#share-footer').toggle();return false;"><i class="fa-solid fa-share-alt fa-lg" aria-hidden="true"></i> 分享</a>
+        <a id="top" style="display:none" class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fa-solid fa-chevron-up fa-lg" aria-hidden="true"></i> 返回顶部</a>
+    </div>
+
+  </div>
+</div>
+
+        
+        <footer id="footer">
+  <div class="footer-left">
+    Copyright &copy;
+    
+    
+    2020-2023
+    jyf111
+  </div>
+  <div class="footer-right">
+    <nav>
+      <ul>
+        <!--
+       --><li><a href="/">首页</a></li><!--
+     --><!--
+       --><li><a href="/archives/">归档</a></li><!--
+     --><!--
+       --><li><a href="/tags/">标签</a></li><!--
+     --><!--
+       --><li><a href="/search/">搜索</a></li><!--
+     -->
+      </ul>
+    </nav>
+  </div>
+</footer>
+
+    </div>
+    <!-- styles -->
+
+
+
+  <link rel="preload" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" crossorigin="anonymous" onload="this.onload=null;this.rel='stylesheet'"/>
+
+
+    <!-- jquery -->
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js" crossorigin="anonymous"></script>
+
+
+
+
+<!-- clipboard -->
+
+  
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.7/clipboard.min.js" crossorigin="anonymous"></script>
+  
+  <script type="text/javascript">
+  $(function() {
+    // copy-btn HTML
+    var btn = "<span class=\"btn-copy tooltipped tooltipped-sw\" aria-label=\"复制到粘贴板！\">";
+    btn += '<i class="fa-regular fa-clone"></i>';
+    btn += '</span>';
+    // mount it!
+    $(".highlight table").before(btn);
+    var clip = new ClipboardJS('.btn-copy', {
+      text: function(trigger) {
+        return Array.from(trigger.nextElementSibling.querySelectorAll('.code')).reduce((str,it)=>str+it.innerText+'\n','')
+      }
+    });
+    clip.on('success', function(e) {
+      e.trigger.setAttribute('aria-label', "复制成功！");
+      e.clearSelection();
+    })
+  })
+  </script>
+
+
+<script src="/js/main.js"></script>
+
+<!-- search -->
+
+<!-- Baidu Analytics -->
+
+<!-- Cloudflare Analytics -->
+
+<!-- Disqus Comments -->
+
+<!-- utterances Comments -->
+
+</body>
+</html>

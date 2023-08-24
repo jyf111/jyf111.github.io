@@ -1,0 +1,360 @@
+<!DOCTYPE html>
+<html lang=zh>
+<head>
+    <!-- so meta -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="HandheldFriendly" content="True">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=5" />
+    <meta name="description" content="使用1git clone --depth 1 https:&#x2F;&#x2F;github.com&#x2F;gabime&#x2F;spdlog.git  header-only 所以直接include头文件即可，当然也可以install成静态库 1234target_include_directories(xxxPRIVATE  spdlog&#x2F;include)  日志级别：info、warn、error、critical mt后">
+<meta property="og:type" content="article">
+<meta property="og:title" content="用于调试的c++日志库-spdlog">
+<meta property="og:url" content="http://example.com/2022/05/20/yong-yu-diao-shi-de-cri-zhi-ku-spdlog/index.html">
+<meta property="og:site_name" content="jyf111&#39;s blog">
+<meta property="og:description" content="使用1git clone --depth 1 https:&#x2F;&#x2F;github.com&#x2F;gabime&#x2F;spdlog.git  header-only 所以直接include头文件即可，当然也可以install成静态库 1234target_include_directories(xxxPRIVATE  spdlog&#x2F;include)  日志级别：info、warn、error、critical mt后">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2022-05-20T05:33:43.000Z">
+<meta property="article:modified_time" content="2023-08-24T12:16:29.614Z">
+<meta property="article:author" content="jyf111">
+<meta property="article:tag" content="工具">
+<meta name="twitter:card" content="summary">
+    
+    
+      
+        
+          <link rel="shortcut icon" href="/images/favicon.ico">
+        
+      
+      
+        
+          <link rel="icon" type="image/png" href="/images/favicon-192x192.png" sizes="192x192">
+        
+      
+      
+        
+          <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png">
+        
+      
+    
+    <!-- title -->
+    <title>用于调试的c++日志库-spdlog</title>
+    <!-- async scripts -->
+    <!-- Google Analytics -->
+
+
+    <!-- Umami Analytics -->
+
+
+    <!-- styles -->
+    
+<link rel="stylesheet" href="/css/style.css">
+
+    <!-- persian styles -->
+    
+    <!-- rss -->
+    
+    
+	<!-- mathjax -->
+	
+		<script type="text/x-mathjax-config">
+		  MathJax.Hub.Config({
+			tex2jax: {
+			  skipTags: ['script', 'noscript', 'style', 'textarea', 'pre'],
+			  inlineMath: [['$','$']]
+			}
+		  });
+		</script>
+		<script src='https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-MML-AM_CHTML' async></script>
+	
+<meta name="generator" content="Hexo 6.3.0"></head>
+
+<body class="max-width mx-auto px3 ltr">
+    
+      <div id="header-post">
+  <a id="menu-icon" href="#" aria-label="目录"><i class="fa-solid fa-bars fa-lg"></i></a>
+  <a id="menu-icon-tablet" href="#" aria-label="目录"><i class="fa-solid fa-bars fa-lg"></i></a>
+  <a id="top-icon-tablet" href="#" aria-label="顶部" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');" style="display:none;"><i class="fa-solid fa-chevron-up fa-lg"></i></a>
+  <span id="menu">
+    <span id="nav">
+      <ul>
+        <!--
+       --><li><a href="/">首页</a></li><!--
+     --><!--
+       --><li><a href="/archives/">归档</a></li><!--
+     --><!--
+       --><li><a href="/tags/">标签</a></li><!--
+     --><!--
+       --><li><a href="/search/">搜索</a></li><!--
+     -->
+      </ul>
+    </span>
+    <br/>
+    <span id="actions">
+      <ul>
+        
+        <li><a class="icon" aria-label="上一篇" href="/2022/05/21/onetbb-bing-xing-bian-cheng-kuang-jia/"><i class="fa-solid fa-chevron-left" aria-hidden="true" onmouseover="$('#i-prev').toggle();" onmouseout="$('#i-prev').toggle();"></i></a></li>
+        
+        
+        <li><a class="icon" aria-label="下一篇" href="/2022/05/07/google-benchmark/"><i class="fa-solid fa-chevron-right" aria-hidden="true" onmouseover="$('#i-next').toggle();" onmouseout="$('#i-next').toggle();"></i></a></li>
+        
+        <li><a class="icon" aria-label="返回顶部" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fa-solid fa-chevron-up" aria-hidden="true" onmouseover="$('#i-top').toggle();" onmouseout="$('#i-top').toggle();"></i></a></li>
+        <li><a class="icon" aria-label="分享文章" href="#"><i class="fa-solid fa-share-alt" aria-hidden="true" onmouseover="$('#i-share').toggle();" onmouseout="$('#i-share').toggle();" onclick="$('#share').toggle();return false;"></i></a></li>
+      </ul>
+      <span id="i-prev" class="info" style="display:none;">上一篇</span>
+      <span id="i-next" class="info" style="display:none;">下一篇</span>
+      <span id="i-top" class="info" style="display:none;">返回顶部</span>
+      <span id="i-share" class="info" style="display:none;">分享文章</span>
+    </span>
+    <br/>
+    <div id="share" style="display: none">
+      <ul>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.facebook.com/sharer.php?u=http://example.com/2022/05/20/yong-yu-diao-shi-de-cri-zhi-ku-spdlog/"><i class="fab fa-facebook " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=http://example.com/2022/05/20/yong-yu-diao-shi-de-cri-zhi-ku-spdlog/&text=用于调试的c++日志库-spdlog"><i class="fab fa-twitter " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.linkedin.com/shareArticle?url=http://example.com/2022/05/20/yong-yu-diao-shi-de-cri-zhi-ku-spdlog/&title=用于调试的c++日志库-spdlog"><i class="fab fa-linkedin " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://pinterest.com/pin/create/bookmarklet/?url=http://example.com/2022/05/20/yong-yu-diao-shi-de-cri-zhi-ku-spdlog/&is_video=false&description=用于调试的c++日志库-spdlog"><i class="fab fa-pinterest " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=用于调试的c++日志库-spdlog&body=Check out this article: http://example.com/2022/05/20/yong-yu-diao-shi-de-cri-zhi-ku-spdlog/"><i class="fa-solid fa-envelope " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://getpocket.com/save?url=http://example.com/2022/05/20/yong-yu-diao-shi-de-cri-zhi-ku-spdlog/&title=用于调试的c++日志库-spdlog"><i class="fab fa-get-pocket " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://reddit.com/submit?url=http://example.com/2022/05/20/yong-yu-diao-shi-de-cri-zhi-ku-spdlog/&title=用于调试的c++日志库-spdlog"><i class="fab fa-reddit " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.stumbleupon.com/submit?url=http://example.com/2022/05/20/yong-yu-diao-shi-de-cri-zhi-ku-spdlog/&title=用于调试的c++日志库-spdlog"><i class="fab fa-stumbleupon " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://digg.com/submit?url=http://example.com/2022/05/20/yong-yu-diao-shi-de-cri-zhi-ku-spdlog/&title=用于调试的c++日志库-spdlog"><i class="fab fa-digg " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.tumblr.com/share/link?url=http://example.com/2022/05/20/yong-yu-diao-shi-de-cri-zhi-ku-spdlog/&name=用于调试的c++日志库-spdlog&description="><i class="fab fa-tumblr " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://news.ycombinator.com/submitlink?u=http://example.com/2022/05/20/yong-yu-diao-shi-de-cri-zhi-ku-spdlog/&t=用于调试的c++日志库-spdlog"><i class="fab fa-hacker-news " aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+    
+    
+      <div id="toc">
+        <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%BD%BF%E7%94%A8"><span class="toc-number">1.</span> <span class="toc-text">使用</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#logger"><span class="toc-number">2.</span> <span class="toc-text">logger</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#sink"><span class="toc-number">3.</span> <span class="toc-text">sink</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#register"><span class="toc-number">4.</span> <span class="toc-text">register</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#format"><span class="toc-number">5.</span> <span class="toc-text">format</span></a></li></ol>
+      </div>
+    
+  </span>
+</div>
+
+    
+    <div class="content index py4 ">
+        
+        <article class="post h-entry" itemscope itemtype="http://schema.org/BlogPosting">
+  <header>
+    
+    <h1 class="posttitle p-name" itemprop="name headline">
+        用于调试的c++日志库-spdlog
+    </h1>
+
+
+
+    <div class="meta">
+      <span class="author p-author h-card" itemprop="author" itemscope itemtype="http://schema.org/Person">
+        <span class="p-name" itemprop="name">jyf111</span>
+      </span>
+      
+    <div class="postdate">
+      
+        <time datetime="2022-05-20T05:33:43.000Z" class="dt-published" itemprop="datePublished">2022-05-20</time>
+        
+        (Updated: <time datetime="2023-08-24T12:16:29.614Z" class="dt-updated" itemprop="dateModified">2023-08-24</time>)
+        
+      
+    </div>
+
+
+      
+
+      
+    <div class="article-tag">
+        <i class="fa-solid fa-tag"></i>
+        <a class="p-category" href="/tags/%E5%B7%A5%E5%85%B7/" rel="tag">工具</a>
+    </div>
+
+
+      
+        <span class=count-symbol-post> 
+          <i class="fa-solid fa-hourglass"></i>
+          
+            12 mins to read
+          
+        </span>
+      
+    </div>
+  </header>
+  
+
+  <div class="content e-content" itemprop="articleBody">
+    <h3 id="使用"><a href="#使用" class="headerlink" title="使用"></a>使用</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git <span class="built_in">clone</span> --depth 1 https://github.com/gabime/spdlog.git</span><br></pre></td></tr></table></figure>
+
+<p>header-only 所以直接include头文件即可，当然也可以install成静态库</p>
+<figure class="highlight cmake"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">target_include_directories</span>(xxx</span><br><span class="line">PRIVATE</span><br><span class="line">  spdlog/<span class="keyword">include</span></span><br><span class="line">)</span><br></pre></td></tr></table></figure>
+
+<p>日志级别：info、warn、error、critical</p>
+<p>mt后缀表示多线程（multi threaded），st后缀表示单线程</p>
+<blockquote>
+<p>spdlog takes the “include what you need” approach - your code should include<br>the features that actually needed.</p>
+</blockquote>
+<p>输出使用fmt库，类似python</p>
+<p>编译器log过滤</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">define</span> SPDLOG_ACTIVE_LEVEL SPDLOG_LEVEL_DEBUG</span></span><br><span class="line"></span><br><span class="line">spdlog::<span class="built_in">set_level</span>(spdlog::level::debug); <span class="comment">// or spdlog::set_level(spdlog::level::trace);</span></span><br><span class="line"></span><br><span class="line"><span class="built_in">SPDLOG_LOGGER_TRACE</span>(file_logger , <span class="string">&quot;Some trace message that will not be evaluated.&#123;&#125; ,&#123;&#125;&quot;</span>, <span class="number">1</span>, <span class="number">3.23</span>);</span><br><span class="line"><span class="built_in">SPDLOG_LOGGER_DEBUG</span>(file_logger , <span class="string">&quot;Some Debug message that will be evaluated.. &#123;&#125; ,&#123;&#125;&quot;</span>, <span class="number">1</span>, <span class="number">3.23</span>);</span><br><span class="line"><span class="built_in">SPDLOG_DEBUG</span>(<span class="string">&quot;Some debug message to default logger that will be evaluated&quot;</span>);</span><br></pre></td></tr></table></figure>
+
+<p>set level</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">spdlog::<span class="built_in">set_level</span>(spdlog::level::info); <span class="comment">// Set global log level to info</span></span><br><span class="line">spdlog::<span class="built_in">debug</span>(<span class="string">&quot;This message should not be displayed!&quot;</span>);</span><br><span class="line">spdlog::<span class="built_in">set_level</span>(spdlog::level::trace); <span class="comment">// Set specific logger&#x27;s log level</span></span><br><span class="line">spdlog::<span class="built_in">debug</span>(<span class="string">&quot;This message should be displayed..&quot;</span>);</span><br><span class="line">```cpp</span><br><span class="line"></span><br><span class="line">backtrace</span><br><span class="line"></span><br><span class="line">```cpp</span><br><span class="line"><span class="comment">// Backtrace support</span></span><br><span class="line"><span class="comment">// Loggers can store in a ring buffer all messages (including debug/trace) for later inspection.</span></span><br><span class="line"><span class="comment">// When needed, call dump_backtrace() to see what happened:</span></span><br><span class="line">spdlog::<span class="built_in">enable_backtrace</span>(<span class="number">10</span>); <span class="comment">// create ring buffer with capacity of 10 messages</span></span><br><span class="line"><span class="keyword">for</span> (<span class="type">int</span> i = <span class="number">0</span>; i &lt; <span class="number">100</span>; i++) &#123;</span><br><span class="line">  spdlog::<span class="built_in">debug</span>(<span class="string">&quot;Backtrace message &#123;&#125;&quot;</span>, i); <span class="comment">// not logged..</span></span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">// e.g. if some error happened:</span></span><br><span class="line">spdlog::<span class="built_in">dump_backtrace</span>(); <span class="comment">// log them now!</span></span><br></pre></td></tr></table></figure>
+
+<p>shutdown</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// Release all spdlog resources, and drop all loggers in the registry.</span></span><br><span class="line"><span class="comment">// This is optional (only mandatory if using windows + async log).</span></span><br><span class="line">spdlog::<span class="built_in">shutdown</span>();</span><br></pre></td></tr></table></figure>
+
+<h3 id="logger"><a href="#logger" class="headerlink" title="logger"></a>logger</h3><blockquote>
+<p>Each logger contains a vector of one or more<br><code>std::shared_ptr&lt;spdlog::sink&gt;</code>.</p>
+<p>On each log call (if the log level is right) the logger will call the<br><code>sink(log_msg)</code> function on each of them.</p>
+</blockquote>
+<p>spdlog会默认创建一个全局的logger（stdout、color、mt），直接使用<code>spdlog::info(..)</code>调用的就是该logger</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">spdlog::<span class="built_in">set_default_logger</span>(some_other_logger);</span><br><span class="line">spdlog::<span class="built_in">info</span>(<span class="string">&quot;Use the new default logger&quot;</span>);</span><br><span class="line"></span><br><span class="line"><span class="keyword">auto</span> console = spdlog::<span class="built_in">stdout_color_mt</span>(<span class="string">&quot;some_unique_name&quot;</span>); <span class="comment">// create logger</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">auto</span> file_logger = spdlog::<span class="built_in">rotating_logger_mt</span>(<span class="string">&quot;file_logger&quot;</span>, <span class="string">&quot;logs/mylogfile&quot;</span>, <span class="number">1048576</span> * <span class="number">5</span>, <span class="number">3</span>); <span class="comment">// rotate 3个文件循环log</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">auto</span> sink = std::<span class="built_in">make_shared</span>&lt;spdlog::sinks::stdout_sink_mt&gt;();</span><br><span class="line"><span class="keyword">auto</span> my_logger= std::<span class="built_in">make_shared</span>&lt;spdlog::logger&gt;(<span class="string">&quot;mylogger&quot;</span>, sink); <span class="comment">// manually,不会register</span></span><br><span class="line"></span><br><span class="line">std::vector&lt;spdlog::sink_ptr&gt; sinks;</span><br><span class="line">sinks.<span class="built_in">push_back</span>(std::<span class="built_in">make_shared</span>&lt;spdlog::sinks::stdout_sink_st&gt;());</span><br><span class="line">sinks.<span class="built_in">push_back</span>(std::<span class="built_in">make_shared</span>&lt;spdlog::sinks::daily_file_sink_st&gt;(<span class="string">&quot;logfile&quot;</span>, <span class="number">23</span>, <span class="number">59</span>));</span><br><span class="line"><span class="keyword">auto</span> combined_logger = std::<span class="built_in">make_shared</span>&lt;spdlog::logger&gt;(<span class="string">&quot;name&quot;</span>, <span class="built_in">begin</span>(sinks), <span class="built_in">end</span>(sinks)); <span class="comment">// one log and multiple sink</span></span><br><span class="line"><span class="comment">//register it if you need to access it globally</span></span><br><span class="line">spdlog::<span class="built_in">register_logger</span>(combined_logger);</span><br></pre></td></tr></table></figure>
+
+<h3 id="sink"><a href="#sink" class="headerlink" title="sink"></a>sink</h3><p>log和sink都分别由st和mt</p>
+<p>logger的功能由sink决定</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">logger：</span><br><span class="line">spdlog::rotating_logger_mt</span><br><span class="line">spdlog::daily_logger_mt</span><br><span class="line">spdlog::basic_logger_mt</span><br><span class="line">spdlog::stdout_logger_mt</span><br><span class="line">spdlog::stderr_logger_st</span><br><span class="line">spdlog::stdout_color_mt</span><br><span class="line">spdlog::stderr_color_st</span><br><span class="line">-----------------------</span><br><span class="line">sink：</span><br><span class="line">example：spdlog::sinks::rotating_file_sink_mt</span><br></pre></td></tr></table></figure>
+
+<h3 id="register"><a href="#register" class="headerlink" title="register"></a>register</h3><blockquote>
+<p>spdlog maintains a global (per process) registry of the created loggers.</p>
+<p>The purpose is for loggers to be accessed easily from anywhere in the<br>project without passing them around.（避免参数传递）</p>
+</blockquote>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">spdlog::<span class="built_in">get</span>(<span class="string">&quot;logger_name&quot;</span>); <span class="comment">// 内部有lock，最好使用一个变量保存</span></span><br><span class="line">spdlog::<span class="built_in">register_logger</span>(some_logger);</span><br><span class="line">spdlog::<span class="built_in">drop</span>(<span class="string">&quot;logger_name&quot;</span>);</span><br><span class="line"><span class="comment">//or remove them all</span></span><br><span class="line">spdlog::<span class="built_in">drop_all</span>()</span><br></pre></td></tr></table></figure>
+
+<h3 id="format"><a href="#format" class="headerlink" title="format"></a>format</h3><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">spdlog::<span class="built_in">set_pattern</span>(<span class="string">&quot;*** [%H:%M:%S %z] [thread %t] %v ***&quot;</span>); <span class="comment">// global to all</span></span><br><span class="line">some_logger-&gt;<span class="built_in">set_pattern</span>(<span class="string">&quot;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt; %H:%M:%S %z %v &lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&quot;</span>);</span><br><span class="line">some_logger-&gt;<span class="built_in">sinks</span>()[<span class="number">0</span>]-&gt;<span class="built_in">set_pattern</span>(<span class="string">&quot;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt; %H:%M:%S %z %v &lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&quot;</span>);</span><br></pre></td></tr></table></figure>
+  </div>
+</article>
+
+
+
+        
+          <div id="footer-post-container">
+  <div id="footer-post">
+
+    <div id="nav-footer" style="display: none">
+      <ul>
+        
+          <li><a href="/">首页</a></li>
+        
+          <li><a href="/archives/">归档</a></li>
+        
+          <li><a href="/tags/">标签</a></li>
+        
+          <li><a href="/search/">搜索</a></li>
+        
+      </ul>
+    </div>
+
+    
+    
+      <div id="toc-footer" style="display: none">
+        <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%BD%BF%E7%94%A8"><span class="toc-number">1.</span> <span class="toc-text">使用</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#logger"><span class="toc-number">2.</span> <span class="toc-text">logger</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#sink"><span class="toc-number">3.</span> <span class="toc-text">sink</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#register"><span class="toc-number">4.</span> <span class="toc-text">register</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#format"><span class="toc-number">5.</span> <span class="toc-text">format</span></a></li></ol>
+      </div>
+    
+
+    <div id="share-footer" style="display: none">
+      <ul>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.facebook.com/sharer.php?u=http://example.com/2022/05/20/yong-yu-diao-shi-de-cri-zhi-ku-spdlog/"><i class="fab fa-facebook fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=http://example.com/2022/05/20/yong-yu-diao-shi-de-cri-zhi-ku-spdlog/&text=用于调试的c++日志库-spdlog"><i class="fab fa-twitter fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.linkedin.com/shareArticle?url=http://example.com/2022/05/20/yong-yu-diao-shi-de-cri-zhi-ku-spdlog/&title=用于调试的c++日志库-spdlog"><i class="fab fa-linkedin fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://pinterest.com/pin/create/bookmarklet/?url=http://example.com/2022/05/20/yong-yu-diao-shi-de-cri-zhi-ku-spdlog/&is_video=false&description=用于调试的c++日志库-spdlog"><i class="fab fa-pinterest fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=用于调试的c++日志库-spdlog&body=Check out this article: http://example.com/2022/05/20/yong-yu-diao-shi-de-cri-zhi-ku-spdlog/"><i class="fa-solid fa-envelope fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://getpocket.com/save?url=http://example.com/2022/05/20/yong-yu-diao-shi-de-cri-zhi-ku-spdlog/&title=用于调试的c++日志库-spdlog"><i class="fab fa-get-pocket fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://reddit.com/submit?url=http://example.com/2022/05/20/yong-yu-diao-shi-de-cri-zhi-ku-spdlog/&title=用于调试的c++日志库-spdlog"><i class="fab fa-reddit fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.stumbleupon.com/submit?url=http://example.com/2022/05/20/yong-yu-diao-shi-de-cri-zhi-ku-spdlog/&title=用于调试的c++日志库-spdlog"><i class="fab fa-stumbleupon fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://digg.com/submit?url=http://example.com/2022/05/20/yong-yu-diao-shi-de-cri-zhi-ku-spdlog/&title=用于调试的c++日志库-spdlog"><i class="fab fa-digg fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.tumblr.com/share/link?url=http://example.com/2022/05/20/yong-yu-diao-shi-de-cri-zhi-ku-spdlog/&name=用于调试的c++日志库-spdlog&description="><i class="fab fa-tumblr fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://news.ycombinator.com/submitlink?u=http://example.com/2022/05/20/yong-yu-diao-shi-de-cri-zhi-ku-spdlog/&t=用于调试的c++日志库-spdlog"><i class="fab fa-hacker-news fa-lg" aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+
+    <div id="actions-footer">
+        <a id="menu" class="icon" href="#" onclick="$('#nav-footer').toggle();return false;"><i class="fa-solid fa-bars fa-lg" aria-hidden="true"></i> 菜单</a>
+        
+          <a id="toc" class="icon" href="#" onclick="$('#toc-footer').toggle();return false;"><i class="fa-solid fa-list fa-lg" aria-hidden="true"></i> 目录</a>
+        
+        <a id="share" class="icon" href="#" onclick="$('#share-footer').toggle();return false;"><i class="fa-solid fa-share-alt fa-lg" aria-hidden="true"></i> 分享</a>
+        <a id="top" style="display:none" class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fa-solid fa-chevron-up fa-lg" aria-hidden="true"></i> 返回顶部</a>
+    </div>
+
+  </div>
+</div>
+
+        
+        <footer id="footer">
+  <div class="footer-left">
+    Copyright &copy;
+    
+    
+    2020-2023
+    jyf111
+  </div>
+  <div class="footer-right">
+    <nav>
+      <ul>
+        <!--
+       --><li><a href="/">首页</a></li><!--
+     --><!--
+       --><li><a href="/archives/">归档</a></li><!--
+     --><!--
+       --><li><a href="/tags/">标签</a></li><!--
+     --><!--
+       --><li><a href="/search/">搜索</a></li><!--
+     -->
+      </ul>
+    </nav>
+  </div>
+</footer>
+
+    </div>
+    <!-- styles -->
+
+
+
+  <link rel="preload" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" crossorigin="anonymous" onload="this.onload=null;this.rel='stylesheet'"/>
+
+
+    <!-- jquery -->
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js" crossorigin="anonymous"></script>
+
+
+
+
+<!-- clipboard -->
+
+  
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.7/clipboard.min.js" crossorigin="anonymous"></script>
+  
+  <script type="text/javascript">
+  $(function() {
+    // copy-btn HTML
+    var btn = "<span class=\"btn-copy tooltipped tooltipped-sw\" aria-label=\"复制到粘贴板！\">";
+    btn += '<i class="fa-regular fa-clone"></i>';
+    btn += '</span>';
+    // mount it!
+    $(".highlight table").before(btn);
+    var clip = new ClipboardJS('.btn-copy', {
+      text: function(trigger) {
+        return Array.from(trigger.nextElementSibling.querySelectorAll('.code')).reduce((str,it)=>str+it.innerText+'\n','')
+      }
+    });
+    clip.on('success', function(e) {
+      e.trigger.setAttribute('aria-label', "复制成功！");
+      e.clearSelection();
+    })
+  })
+  </script>
+
+
+<script src="/js/main.js"></script>
+
+<!-- search -->
+
+<!-- Baidu Analytics -->
+
+<!-- Cloudflare Analytics -->
+
+<!-- Disqus Comments -->
+
+<!-- utterances Comments -->
+
+</body>
+</html>

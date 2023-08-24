@@ -1,0 +1,338 @@
+<!DOCTYPE html>
+<html lang=zh>
+<head>
+    <!-- so meta -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="HandheldFriendly" content="True">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=5" />
+    <meta name="description" content="A给定一棵树，定义点对（s, t）间距离为路径上边权和+s和t的点权和dp记录每个点子树中到该点的最大和次大距离即可比赛的时候用树直径两次dfs的方法wa了，应该是有问题 B给定n个数，每次可以选择一段区间，使区间-1，问最少几次操作可以使所有数变为1区间操作利用差分就可以转化成两次单点操作，再贪心考虑就很简单了 C小学数学 D条件概率，$P(A|B) &#x3D; \frac {P(AB)} {">
+<meta property="og:type" content="article">
+<meta property="og:title" content="“科林明伦杯”哈尔滨理工大学第十届程序设计竞赛">
+<meta property="og:url" content="http://example.com/2020/05/31/ke-lin-ming-lun-bei-ha-er-bin-li-gong-da-xue-di-shi-jie-cheng-xu-she-ji-jing-sai/index.html">
+<meta property="og:site_name" content="jyf111&#39;s blog">
+<meta property="og:description" content="A给定一棵树，定义点对（s, t）间距离为路径上边权和+s和t的点权和dp记录每个点子树中到该点的最大和次大距离即可比赛的时候用树直径两次dfs的方法wa了，应该是有问题 B给定n个数，每次可以选择一段区间，使区间-1，问最少几次操作可以使所有数变为1区间操作利用差分就可以转化成两次单点操作，再贪心考虑就很简单了 C小学数学 D条件概率，$P(A|B) &#x3D; \frac {P(AB)} {">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2020-05-31T05:33:44.000Z">
+<meta property="article:modified_time" content="2023-08-24T13:13:40.224Z">
+<meta property="article:author" content="jyf111">
+<meta property="article:tag" content="算法">
+<meta name="twitter:card" content="summary">
+    
+    
+      
+        
+          <link rel="shortcut icon" href="/images/favicon.ico">
+        
+      
+      
+        
+          <link rel="icon" type="image/png" href="/images/favicon-192x192.png" sizes="192x192">
+        
+      
+      
+        
+          <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png">
+        
+      
+    
+    <!-- title -->
+    <title>“科林明伦杯”哈尔滨理工大学第十届程序设计竞赛</title>
+    <!-- async scripts -->
+    <!-- Google Analytics -->
+
+
+    <!-- Umami Analytics -->
+
+
+    <!-- styles -->
+    
+<link rel="stylesheet" href="/css/style.css">
+
+    <!-- persian styles -->
+    
+    <!-- rss -->
+    
+    
+	<!-- mathjax -->
+	
+		<script type="text/x-mathjax-config">
+		  MathJax.Hub.Config({
+			tex2jax: {
+			  skipTags: ['script', 'noscript', 'style', 'textarea', 'pre'],
+			  inlineMath: [['$','$']]
+			}
+		  });
+		</script>
+		<script src='https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-MML-AM_CHTML' async></script>
+	
+<meta name="generator" content="Hexo 6.3.0"></head>
+
+<body class="max-width mx-auto px3 ltr">
+    
+      <div id="header-post">
+  <a id="menu-icon" href="#" aria-label="目录"><i class="fa-solid fa-bars fa-lg"></i></a>
+  <a id="menu-icon-tablet" href="#" aria-label="目录"><i class="fa-solid fa-bars fa-lg"></i></a>
+  <a id="top-icon-tablet" href="#" aria-label="顶部" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');" style="display:none;"><i class="fa-solid fa-chevron-up fa-lg"></i></a>
+  <span id="menu">
+    <span id="nav">
+      <ul>
+        <!--
+       --><li><a href="/">首页</a></li><!--
+     --><!--
+       --><li><a href="/archives/">归档</a></li><!--
+     --><!--
+       --><li><a href="/tags/">标签</a></li><!--
+     --><!--
+       --><li><a href="/search/">搜索</a></li><!--
+     -->
+      </ul>
+    </span>
+    <br/>
+    <span id="actions">
+      <ul>
+        
+        <li><a class="icon" aria-label="上一篇" href="/2020/05/31/2019icpc-xu-zhou/"><i class="fa-solid fa-chevron-left" aria-hidden="true" onmouseover="$('#i-prev').toggle();" onmouseout="$('#i-prev').toggle();"></i></a></li>
+        
+        
+        <li><a class="icon" aria-label="下一篇" href="/2020/05/31/sha-men-da-xue-wang-su-bei-17-jie-cheng-xu-she-ji-jing-sai-jue-sai/"><i class="fa-solid fa-chevron-right" aria-hidden="true" onmouseover="$('#i-next').toggle();" onmouseout="$('#i-next').toggle();"></i></a></li>
+        
+        <li><a class="icon" aria-label="返回顶部" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fa-solid fa-chevron-up" aria-hidden="true" onmouseover="$('#i-top').toggle();" onmouseout="$('#i-top').toggle();"></i></a></li>
+        <li><a class="icon" aria-label="分享文章" href="#"><i class="fa-solid fa-share-alt" aria-hidden="true" onmouseover="$('#i-share').toggle();" onmouseout="$('#i-share').toggle();" onclick="$('#share').toggle();return false;"></i></a></li>
+      </ul>
+      <span id="i-prev" class="info" style="display:none;">上一篇</span>
+      <span id="i-next" class="info" style="display:none;">下一篇</span>
+      <span id="i-top" class="info" style="display:none;">返回顶部</span>
+      <span id="i-share" class="info" style="display:none;">分享文章</span>
+    </span>
+    <br/>
+    <div id="share" style="display: none">
+      <ul>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.facebook.com/sharer.php?u=http://example.com/2020/05/31/ke-lin-ming-lun-bei-ha-er-bin-li-gong-da-xue-di-shi-jie-cheng-xu-she-ji-jing-sai/"><i class="fab fa-facebook " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=http://example.com/2020/05/31/ke-lin-ming-lun-bei-ha-er-bin-li-gong-da-xue-di-shi-jie-cheng-xu-she-ji-jing-sai/&text=“科林明伦杯”哈尔滨理工大学第十届程序设计竞赛"><i class="fab fa-twitter " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.linkedin.com/shareArticle?url=http://example.com/2020/05/31/ke-lin-ming-lun-bei-ha-er-bin-li-gong-da-xue-di-shi-jie-cheng-xu-she-ji-jing-sai/&title=“科林明伦杯”哈尔滨理工大学第十届程序设计竞赛"><i class="fab fa-linkedin " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://pinterest.com/pin/create/bookmarklet/?url=http://example.com/2020/05/31/ke-lin-ming-lun-bei-ha-er-bin-li-gong-da-xue-di-shi-jie-cheng-xu-she-ji-jing-sai/&is_video=false&description=“科林明伦杯”哈尔滨理工大学第十届程序设计竞赛"><i class="fab fa-pinterest " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=“科林明伦杯”哈尔滨理工大学第十届程序设计竞赛&body=Check out this article: http://example.com/2020/05/31/ke-lin-ming-lun-bei-ha-er-bin-li-gong-da-xue-di-shi-jie-cheng-xu-she-ji-jing-sai/"><i class="fa-solid fa-envelope " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://getpocket.com/save?url=http://example.com/2020/05/31/ke-lin-ming-lun-bei-ha-er-bin-li-gong-da-xue-di-shi-jie-cheng-xu-she-ji-jing-sai/&title=“科林明伦杯”哈尔滨理工大学第十届程序设计竞赛"><i class="fab fa-get-pocket " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://reddit.com/submit?url=http://example.com/2020/05/31/ke-lin-ming-lun-bei-ha-er-bin-li-gong-da-xue-di-shi-jie-cheng-xu-she-ji-jing-sai/&title=“科林明伦杯”哈尔滨理工大学第十届程序设计竞赛"><i class="fab fa-reddit " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.stumbleupon.com/submit?url=http://example.com/2020/05/31/ke-lin-ming-lun-bei-ha-er-bin-li-gong-da-xue-di-shi-jie-cheng-xu-she-ji-jing-sai/&title=“科林明伦杯”哈尔滨理工大学第十届程序设计竞赛"><i class="fab fa-stumbleupon " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://digg.com/submit?url=http://example.com/2020/05/31/ke-lin-ming-lun-bei-ha-er-bin-li-gong-da-xue-di-shi-jie-cheng-xu-she-ji-jing-sai/&title=“科林明伦杯”哈尔滨理工大学第十届程序设计竞赛"><i class="fab fa-digg " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.tumblr.com/share/link?url=http://example.com/2020/05/31/ke-lin-ming-lun-bei-ha-er-bin-li-gong-da-xue-di-shi-jie-cheng-xu-she-ji-jing-sai/&name=“科林明伦杯”哈尔滨理工大学第十届程序设计竞赛&description="><i class="fab fa-tumblr " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://news.ycombinator.com/submitlink?u=http://example.com/2020/05/31/ke-lin-ming-lun-bei-ha-er-bin-li-gong-da-xue-di-shi-jie-cheng-xu-she-ji-jing-sai/&t=“科林明伦杯”哈尔滨理工大学第十届程序设计竞赛"><i class="fab fa-hacker-news " aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+    
+    
+      <div id="toc">
+        <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#A"><span class="toc-number">1.</span> <span class="toc-text">A</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#B"><span class="toc-number">2.</span> <span class="toc-text">B</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#C"><span class="toc-number">3.</span> <span class="toc-text">C</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#D"><span class="toc-number">4.</span> <span class="toc-text">D</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#E"><span class="toc-number">5.</span> <span class="toc-text">E</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#F"><span class="toc-number">6.</span> <span class="toc-text">F</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#G"><span class="toc-number">7.</span> <span class="toc-text">G</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#H"><span class="toc-number">8.</span> <span class="toc-text">H</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#I"><span class="toc-number">9.</span> <span class="toc-text">I</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#J"><span class="toc-number">10.</span> <span class="toc-text">J</span></a></li></ol>
+      </div>
+    
+  </span>
+</div>
+
+    
+    <div class="content index py4 ">
+        
+        <article class="post h-entry" itemscope itemtype="http://schema.org/BlogPosting">
+  <header>
+    
+    <h1 class="posttitle p-name" itemprop="name headline">
+        “科林明伦杯”哈尔滨理工大学第十届程序设计竞赛
+    </h1>
+
+
+
+    <div class="meta">
+      <span class="author p-author h-card" itemprop="author" itemscope itemtype="http://schema.org/Person">
+        <span class="p-name" itemprop="name">jyf111</span>
+      </span>
+      
+    <div class="postdate">
+      
+        <time datetime="2020-05-31T05:33:44.000Z" class="dt-published" itemprop="datePublished">2020-05-31</time>
+        
+        (Updated: <time datetime="2023-08-24T13:13:40.224Z" class="dt-updated" itemprop="dateModified">2023-08-24</time>)
+        
+      
+    </div>
+
+
+      
+
+      
+    <div class="article-tag">
+        <i class="fa-solid fa-tag"></i>
+        <a class="p-category" href="/tags/%E7%AE%97%E6%B3%95/" rel="tag">算法</a>
+    </div>
+
+
+      
+        <span class=count-symbol-post> 
+          <i class="fa-solid fa-hourglass"></i>
+          
+            1 min to read
+          
+        </span>
+      
+    </div>
+  </header>
+  
+
+  <div class="content e-content" itemprop="articleBody">
+    <h2 id="A"><a href="#A" class="headerlink" title="A"></a>A</h2><p>给定一棵树，定义点对（s, t）间距离为<strong>路径上边权和+s和t的点权和</strong><br>dp记录每个点子树中到该点的最大和次大距离即可<br>比赛的时候用树直径两次dfs的方法wa了，应该是有问题</p>
+<h2 id="B"><a href="#B" class="headerlink" title="B"></a>B</h2><p>给定n个数，每次可以选择一段区间，使区间-1，问最少几次操作可以使所有数变为1<br>区间操作利用差分就可以转化成两次单点操作，再贪心考虑就很简单了</p>
+<h2 id="C"><a href="#C" class="headerlink" title="C"></a>C</h2><p>小学数学</p>
+<h2 id="D"><a href="#D" class="headerlink" title="D"></a>D</h2><p>条件概率，$P(A|B) &#x3D; \frac {P(AB)} {P(B)}$<br>P(AB):至少m枚硬币是反面，且恰好k枚硬币是正面同时发生，由于正面固定，所以反面为n-k，当$n-k&lt;m$时概率为0,否则为$C(n,k)&#x2F;(2^n)$<br>P(B):从m到n枚举反面硬币个数，$\sum_{i&#x3D;m}^{n} C(n,i)&#x2F;(2^n)$<br>代入公式即可</p>
+<h2 id="E"><a href="#E" class="headerlink" title="E"></a>E</h2><p>简单贪心，从小到大去战胜，并且每次用刚好大于的那个</p>
+<h2 id="F"><a href="#F" class="headerlink" title="F"></a>F</h2><p>显然是个fibonacci，数据范围有点坑，我开了ull还是wa，改成py就过了<br>😡😤</p>
+<h2 id="G"><a href="#G" class="headerlink" title="G"></a>G</h2><p>显然最大流</p>
+<h2 id="H"><a href="#H" class="headerlink" title="H"></a>H</h2><p>每增加一条边，最多可以与之前的所有直线都产生一个交点<br>蜜汁数据范围，又要大数，不过py不香吗</p>
+<h2 id="I"><a href="#I" class="headerlink" title="I"></a>I</h2><p>给定n个数，定义n个数组，第i个数组为删去$a_i$​后形成的，问这n个数组字典序从大到小的排列顺序<br>考虑相邻两个数$a_i, a_{i+1}$</p>
+<ul>
+<li>$a_i &lt; a_{i+1}$​ i比后面所有的都要劣</li>
+<li>$a_i &gt; a_{i+1}$ i比后面所有的都要优</li>
+<li>$a_i &#x3D; a_{i+1}$​ i比i+1优<br>考虑将相同的一起考虑，然后用两个栈来模拟即可</li>
+</ul>
+<h2 id="J"><a href="#J" class="headerlink" title="J"></a>J</h2><p>问一个串中最长的与前缀相同的非前缀串的长度<br>比赛的时候无脑二分+kmp<br>next[i]表示s[0:i]这个前缀与后缀相同的最长长度（前缀最长border），所以所有next取个max即可</p>
+
+  </div>
+</article>
+
+
+
+        
+          <div id="footer-post-container">
+  <div id="footer-post">
+
+    <div id="nav-footer" style="display: none">
+      <ul>
+        
+          <li><a href="/">首页</a></li>
+        
+          <li><a href="/archives/">归档</a></li>
+        
+          <li><a href="/tags/">标签</a></li>
+        
+          <li><a href="/search/">搜索</a></li>
+        
+      </ul>
+    </div>
+
+    
+    
+      <div id="toc-footer" style="display: none">
+        <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#A"><span class="toc-number">1.</span> <span class="toc-text">A</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#B"><span class="toc-number">2.</span> <span class="toc-text">B</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#C"><span class="toc-number">3.</span> <span class="toc-text">C</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#D"><span class="toc-number">4.</span> <span class="toc-text">D</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#E"><span class="toc-number">5.</span> <span class="toc-text">E</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#F"><span class="toc-number">6.</span> <span class="toc-text">F</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#G"><span class="toc-number">7.</span> <span class="toc-text">G</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#H"><span class="toc-number">8.</span> <span class="toc-text">H</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#I"><span class="toc-number">9.</span> <span class="toc-text">I</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#J"><span class="toc-number">10.</span> <span class="toc-text">J</span></a></li></ol>
+      </div>
+    
+
+    <div id="share-footer" style="display: none">
+      <ul>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.facebook.com/sharer.php?u=http://example.com/2020/05/31/ke-lin-ming-lun-bei-ha-er-bin-li-gong-da-xue-di-shi-jie-cheng-xu-she-ji-jing-sai/"><i class="fab fa-facebook fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=http://example.com/2020/05/31/ke-lin-ming-lun-bei-ha-er-bin-li-gong-da-xue-di-shi-jie-cheng-xu-she-ji-jing-sai/&text=“科林明伦杯”哈尔滨理工大学第十届程序设计竞赛"><i class="fab fa-twitter fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.linkedin.com/shareArticle?url=http://example.com/2020/05/31/ke-lin-ming-lun-bei-ha-er-bin-li-gong-da-xue-di-shi-jie-cheng-xu-she-ji-jing-sai/&title=“科林明伦杯”哈尔滨理工大学第十届程序设计竞赛"><i class="fab fa-linkedin fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://pinterest.com/pin/create/bookmarklet/?url=http://example.com/2020/05/31/ke-lin-ming-lun-bei-ha-er-bin-li-gong-da-xue-di-shi-jie-cheng-xu-she-ji-jing-sai/&is_video=false&description=“科林明伦杯”哈尔滨理工大学第十届程序设计竞赛"><i class="fab fa-pinterest fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=“科林明伦杯”哈尔滨理工大学第十届程序设计竞赛&body=Check out this article: http://example.com/2020/05/31/ke-lin-ming-lun-bei-ha-er-bin-li-gong-da-xue-di-shi-jie-cheng-xu-she-ji-jing-sai/"><i class="fa-solid fa-envelope fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://getpocket.com/save?url=http://example.com/2020/05/31/ke-lin-ming-lun-bei-ha-er-bin-li-gong-da-xue-di-shi-jie-cheng-xu-she-ji-jing-sai/&title=“科林明伦杯”哈尔滨理工大学第十届程序设计竞赛"><i class="fab fa-get-pocket fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://reddit.com/submit?url=http://example.com/2020/05/31/ke-lin-ming-lun-bei-ha-er-bin-li-gong-da-xue-di-shi-jie-cheng-xu-she-ji-jing-sai/&title=“科林明伦杯”哈尔滨理工大学第十届程序设计竞赛"><i class="fab fa-reddit fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.stumbleupon.com/submit?url=http://example.com/2020/05/31/ke-lin-ming-lun-bei-ha-er-bin-li-gong-da-xue-di-shi-jie-cheng-xu-she-ji-jing-sai/&title=“科林明伦杯”哈尔滨理工大学第十届程序设计竞赛"><i class="fab fa-stumbleupon fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://digg.com/submit?url=http://example.com/2020/05/31/ke-lin-ming-lun-bei-ha-er-bin-li-gong-da-xue-di-shi-jie-cheng-xu-she-ji-jing-sai/&title=“科林明伦杯”哈尔滨理工大学第十届程序设计竞赛"><i class="fab fa-digg fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.tumblr.com/share/link?url=http://example.com/2020/05/31/ke-lin-ming-lun-bei-ha-er-bin-li-gong-da-xue-di-shi-jie-cheng-xu-she-ji-jing-sai/&name=“科林明伦杯”哈尔滨理工大学第十届程序设计竞赛&description="><i class="fab fa-tumblr fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://news.ycombinator.com/submitlink?u=http://example.com/2020/05/31/ke-lin-ming-lun-bei-ha-er-bin-li-gong-da-xue-di-shi-jie-cheng-xu-she-ji-jing-sai/&t=“科林明伦杯”哈尔滨理工大学第十届程序设计竞赛"><i class="fab fa-hacker-news fa-lg" aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+
+    <div id="actions-footer">
+        <a id="menu" class="icon" href="#" onclick="$('#nav-footer').toggle();return false;"><i class="fa-solid fa-bars fa-lg" aria-hidden="true"></i> 菜单</a>
+        
+          <a id="toc" class="icon" href="#" onclick="$('#toc-footer').toggle();return false;"><i class="fa-solid fa-list fa-lg" aria-hidden="true"></i> 目录</a>
+        
+        <a id="share" class="icon" href="#" onclick="$('#share-footer').toggle();return false;"><i class="fa-solid fa-share-alt fa-lg" aria-hidden="true"></i> 分享</a>
+        <a id="top" style="display:none" class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fa-solid fa-chevron-up fa-lg" aria-hidden="true"></i> 返回顶部</a>
+    </div>
+
+  </div>
+</div>
+
+        
+        <footer id="footer">
+  <div class="footer-left">
+    Copyright &copy;
+    
+    
+    2020-2023
+    jyf111
+  </div>
+  <div class="footer-right">
+    <nav>
+      <ul>
+        <!--
+       --><li><a href="/">首页</a></li><!--
+     --><!--
+       --><li><a href="/archives/">归档</a></li><!--
+     --><!--
+       --><li><a href="/tags/">标签</a></li><!--
+     --><!--
+       --><li><a href="/search/">搜索</a></li><!--
+     -->
+      </ul>
+    </nav>
+  </div>
+</footer>
+
+    </div>
+    <!-- styles -->
+
+
+
+  <link rel="preload" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" crossorigin="anonymous" onload="this.onload=null;this.rel='stylesheet'"/>
+
+
+    <!-- jquery -->
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js" crossorigin="anonymous"></script>
+
+
+
+
+<!-- clipboard -->
+
+  
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.7/clipboard.min.js" crossorigin="anonymous"></script>
+  
+  <script type="text/javascript">
+  $(function() {
+    // copy-btn HTML
+    var btn = "<span class=\"btn-copy tooltipped tooltipped-sw\" aria-label=\"复制到粘贴板！\">";
+    btn += '<i class="fa-regular fa-clone"></i>';
+    btn += '</span>';
+    // mount it!
+    $(".highlight table").before(btn);
+    var clip = new ClipboardJS('.btn-copy', {
+      text: function(trigger) {
+        return Array.from(trigger.nextElementSibling.querySelectorAll('.code')).reduce((str,it)=>str+it.innerText+'\n','')
+      }
+    });
+    clip.on('success', function(e) {
+      e.trigger.setAttribute('aria-label', "复制成功！");
+      e.clearSelection();
+    })
+  })
+  </script>
+
+
+<script src="/js/main.js"></script>
+
+<!-- search -->
+
+<!-- Baidu Analytics -->
+
+<!-- Cloudflare Analytics -->
+
+<!-- Disqus Comments -->
+
+<!-- utterances Comments -->
+
+</body>
+</html>

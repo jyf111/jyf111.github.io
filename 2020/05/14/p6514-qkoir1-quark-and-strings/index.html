@@ -1,0 +1,325 @@
+<!DOCTYPE html>
+<html lang=zh>
+<head>
+    <!-- so meta -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="HandheldFriendly" content="True">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=5" />
+    <meta name="description" content="要求维护n个字符串,每次在区间[l,r]加一个字符,或询问区间[l,r]的字符串的最长公共子序列的长度 做法本质就是每次插入一条[l,r]的线段,或询问左端点&lt;&#x3D;l&amp;&amp;右端点&gt;&#x3D;r的线段的个数,转化后就是一个二维数点的模型,cdq分治,树套树,kdt都可以解决 123456789101112131415161718192021222324252627">
+<meta property="og:type" content="article">
+<meta property="og:title" content="P6514 [QkOI#R1] Quark and Strings">
+<meta property="og:url" content="http://example.com/2020/05/14/p6514-qkoir1-quark-and-strings/index.html">
+<meta property="og:site_name" content="jyf111&#39;s blog">
+<meta property="og:description" content="要求维护n个字符串,每次在区间[l,r]加一个字符,或询问区间[l,r]的字符串的最长公共子序列的长度 做法本质就是每次插入一条[l,r]的线段,或询问左端点&lt;&#x3D;l&amp;&amp;右端点&gt;&#x3D;r的线段的个数,转化后就是一个二维数点的模型,cdq分治,树套树,kdt都可以解决 123456789101112131415161718192021222324252627">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2020-05-14T05:33:44.000Z">
+<meta property="article:modified_time" content="2023-08-24T12:10:28.514Z">
+<meta property="article:author" content="jyf111">
+<meta property="article:tag" content="算法">
+<meta name="twitter:card" content="summary">
+    
+    
+      
+        
+          <link rel="shortcut icon" href="/images/favicon.ico">
+        
+      
+      
+        
+          <link rel="icon" type="image/png" href="/images/favicon-192x192.png" sizes="192x192">
+        
+      
+      
+        
+          <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png">
+        
+      
+    
+    <!-- title -->
+    <title>P6514 [QkOI#R1] Quark and Strings</title>
+    <!-- async scripts -->
+    <!-- Google Analytics -->
+
+
+    <!-- Umami Analytics -->
+
+
+    <!-- styles -->
+    
+<link rel="stylesheet" href="/css/style.css">
+
+    <!-- persian styles -->
+    
+    <!-- rss -->
+    
+    
+	<!-- mathjax -->
+	
+		<script type="text/x-mathjax-config">
+		  MathJax.Hub.Config({
+			tex2jax: {
+			  skipTags: ['script', 'noscript', 'style', 'textarea', 'pre'],
+			  inlineMath: [['$','$']]
+			}
+		  });
+		</script>
+		<script src='https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-MML-AM_CHTML' async></script>
+	
+<meta name="generator" content="Hexo 6.3.0"></head>
+
+<body class="max-width mx-auto px3 ltr">
+    
+      <div id="header-post">
+  <a id="menu-icon" href="#" aria-label="目录"><i class="fa-solid fa-bars fa-lg"></i></a>
+  <a id="menu-icon-tablet" href="#" aria-label="目录"><i class="fa-solid fa-bars fa-lg"></i></a>
+  <a id="top-icon-tablet" href="#" aria-label="顶部" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');" style="display:none;"><i class="fa-solid fa-chevron-up fa-lg"></i></a>
+  <span id="menu">
+    <span id="nav">
+      <ul>
+        <!--
+       --><li><a href="/">首页</a></li><!--
+     --><!--
+       --><li><a href="/archives/">归档</a></li><!--
+     --><!--
+       --><li><a href="/tags/">标签</a></li><!--
+     --><!--
+       --><li><a href="/search/">搜索</a></li><!--
+     -->
+      </ul>
+    </span>
+    <br/>
+    <span id="actions">
+      <ul>
+        
+        <li><a class="icon" aria-label="上一篇" href="/2020/05/14/p4211-lca-chi-xian-shu-pou/"><i class="fa-solid fa-chevron-left" aria-hidden="true" onmouseover="$('#i-prev').toggle();" onmouseout="$('#i-prev').toggle();"></i></a></li>
+        
+        
+        <li><a class="icon" aria-label="下一篇" href="/2020/05/14/p4148-jian-dan-ti-kdtree/"><i class="fa-solid fa-chevron-right" aria-hidden="true" onmouseover="$('#i-next').toggle();" onmouseout="$('#i-next').toggle();"></i></a></li>
+        
+        <li><a class="icon" aria-label="返回顶部" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fa-solid fa-chevron-up" aria-hidden="true" onmouseover="$('#i-top').toggle();" onmouseout="$('#i-top').toggle();"></i></a></li>
+        <li><a class="icon" aria-label="分享文章" href="#"><i class="fa-solid fa-share-alt" aria-hidden="true" onmouseover="$('#i-share').toggle();" onmouseout="$('#i-share').toggle();" onclick="$('#share').toggle();return false;"></i></a></li>
+      </ul>
+      <span id="i-prev" class="info" style="display:none;">上一篇</span>
+      <span id="i-next" class="info" style="display:none;">下一篇</span>
+      <span id="i-top" class="info" style="display:none;">返回顶部</span>
+      <span id="i-share" class="info" style="display:none;">分享文章</span>
+    </span>
+    <br/>
+    <div id="share" style="display: none">
+      <ul>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.facebook.com/sharer.php?u=http://example.com/2020/05/14/p6514-qkoir1-quark-and-strings/"><i class="fab fa-facebook " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=http://example.com/2020/05/14/p6514-qkoir1-quark-and-strings/&text=P6514 [QkOI#R1] Quark and Strings"><i class="fab fa-twitter " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.linkedin.com/shareArticle?url=http://example.com/2020/05/14/p6514-qkoir1-quark-and-strings/&title=P6514 [QkOI#R1] Quark and Strings"><i class="fab fa-linkedin " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://pinterest.com/pin/create/bookmarklet/?url=http://example.com/2020/05/14/p6514-qkoir1-quark-and-strings/&is_video=false&description=P6514 [QkOI#R1] Quark and Strings"><i class="fab fa-pinterest " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=P6514 [QkOI#R1] Quark and Strings&body=Check out this article: http://example.com/2020/05/14/p6514-qkoir1-quark-and-strings/"><i class="fa-solid fa-envelope " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://getpocket.com/save?url=http://example.com/2020/05/14/p6514-qkoir1-quark-and-strings/&title=P6514 [QkOI#R1] Quark and Strings"><i class="fab fa-get-pocket " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://reddit.com/submit?url=http://example.com/2020/05/14/p6514-qkoir1-quark-and-strings/&title=P6514 [QkOI#R1] Quark and Strings"><i class="fab fa-reddit " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.stumbleupon.com/submit?url=http://example.com/2020/05/14/p6514-qkoir1-quark-and-strings/&title=P6514 [QkOI#R1] Quark and Strings"><i class="fab fa-stumbleupon " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://digg.com/submit?url=http://example.com/2020/05/14/p6514-qkoir1-quark-and-strings/&title=P6514 [QkOI#R1] Quark and Strings"><i class="fab fa-digg " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.tumblr.com/share/link?url=http://example.com/2020/05/14/p6514-qkoir1-quark-and-strings/&name=P6514 [QkOI#R1] Quark and Strings&description="><i class="fab fa-tumblr " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://news.ycombinator.com/submitlink?u=http://example.com/2020/05/14/p6514-qkoir1-quark-and-strings/&t=P6514 [QkOI#R1] Quark and Strings"><i class="fab fa-hacker-news " aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+    
+    
+      <div id="toc">
+        <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%81%9A%E6%B3%95"><span class="toc-number">1.</span> <span class="toc-text">做法</span></a></li></ol>
+      </div>
+    
+  </span>
+</div>
+
+    
+    <div class="content index py4 ">
+        
+        <article class="post h-entry" itemscope itemtype="http://schema.org/BlogPosting">
+  <header>
+    
+    <h1 class="posttitle p-name" itemprop="name headline">
+        P6514 [QkOI#R1] Quark and Strings
+    </h1>
+
+
+
+    <div class="meta">
+      <span class="author p-author h-card" itemprop="author" itemscope itemtype="http://schema.org/Person">
+        <span class="p-name" itemprop="name">jyf111</span>
+      </span>
+      
+    <div class="postdate">
+      
+        <time datetime="2020-05-14T05:33:44.000Z" class="dt-published" itemprop="datePublished">2020-05-14</time>
+        
+        (Updated: <time datetime="2023-08-24T12:10:28.514Z" class="dt-updated" itemprop="dateModified">2023-08-24</time>)
+        
+      
+    </div>
+
+
+      
+
+      
+    <div class="article-tag">
+        <i class="fa-solid fa-tag"></i>
+        <a class="p-category" href="/tags/%E7%AE%97%E6%B3%95/" rel="tag">算法</a>
+    </div>
+
+
+      
+        <span class=count-symbol-post> 
+          <i class="fa-solid fa-hourglass"></i>
+          
+            16 mins to read
+          
+        </span>
+      
+    </div>
+  </header>
+  
+
+  <div class="content e-content" itemprop="articleBody">
+    <p>要求维护n个字符串,每次在区间[l,r]加一个字符,或询问区间[l,r]的字符串的最长公共子序列的长度</p>
+<h3 id="做法"><a href="#做法" class="headerlink" title="做法"></a>做法</h3><p>本质就是每次插入一条[l,r]的线段,或询问左端点&lt;&#x3D;l&amp;&amp;右端点&gt;&#x3D;r的线段的个数,转化后就是一个二维数点的模型,cdq分治,树套树,kdt都可以解决</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;bits/stdc++.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">define</span> mp make_pair</span></span><br><span class="line"><span class="meta">#<span class="keyword">define</span> pb push_back</span></span><br><span class="line"><span class="meta">#<span class="keyword">define</span> sz(x) (int)x.size()</span></span><br><span class="line"><span class="meta">#<span class="keyword">define</span> all(x) begin(x), end(x)</span></span><br><span class="line"><span class="meta">#<span class="keyword">define</span> fi first</span></span><br><span class="line"><span class="meta">#<span class="keyword">define</span> se second</span></span><br><span class="line"><span class="meta">#<span class="keyword">define</span> debug(x) cerr &lt;&lt; #x &lt;&lt; <span class="string">&quot; &quot;</span> &lt;&lt; x &lt;&lt; <span class="string">&#x27;\n&#x27;</span></span></span><br><span class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> std;</span><br><span class="line"><span class="keyword">using</span> ll = <span class="type">long</span> <span class="type">long</span>;</span><br><span class="line"><span class="keyword">using</span> pii = pair&lt;<span class="type">int</span>,<span class="type">int</span>&gt;;</span><br><span class="line"><span class="keyword">using</span> pli = pair&lt;ll,<span class="type">int</span>&gt;;</span><br><span class="line"><span class="type">const</span> <span class="type">int</span> INF = <span class="number">0x3f3f3f3f</span>, N = <span class="number">1e5</span> + <span class="number">5</span>;</span><br><span class="line"><span class="type">const</span> ll LINF = <span class="number">1e18</span> + <span class="number">5</span>;</span><br><span class="line"><span class="keyword">constexpr</span> <span class="type">int</span> k = <span class="number">2</span>;</span><br><span class="line"><span class="keyword">constexpr</span> <span class="type">double</span> alpha = <span class="number">0.75</span>;</span><br><span class="line"><span class="type">const</span> <span class="type">int</span> MAXSIZE = <span class="number">1</span> &lt;&lt; <span class="number">20</span>;</span><br><span class="line"><span class="type">char</span> buf[MAXSIZE], *p1, *p2;</span><br><span class="line"><span class="function"><span class="keyword">inline</span> <span class="type">char</span> <span class="title">gc</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">  <span class="keyword">return</span> (p1==p2&amp;&amp;(p2=(p1=buf)+<span class="built_in">fread</span>(buf,<span class="number">1</span>,MAXSIZE,stdin),p1==p2) ? EOF : *p1++);</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">template</span> &lt;<span class="keyword">class</span> <span class="title class_">T</span>&gt;</span><br><span class="line"><span class="function"><span class="keyword">inline</span> <span class="type">void</span> <span class="title">read</span><span class="params">(T&amp; t)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">  t = <span class="number">0</span>; <span class="type">int</span> f = <span class="number">1</span>;</span><br><span class="line">  <span class="type">char</span> c = <span class="built_in">gc</span>();</span><br><span class="line">  <span class="keyword">while</span>(c&gt;<span class="string">&#x27;9&#x27;</span>||c&lt;<span class="string">&#x27;0&#x27;</span>) &#123;<span class="keyword">if</span>(c==<span class="string">&#x27;-&#x27;</span>) f = -f; c = <span class="built_in">gc</span>();&#125;</span><br><span class="line">  <span class="keyword">while</span>(c&gt;=<span class="string">&#x27;0&#x27;</span>&amp;&amp;c&lt;=<span class="string">&#x27;9&#x27;</span>) t = t*<span class="number">10</span> + c - <span class="number">48</span>, c = <span class="built_in">gc</span>();</span><br><span class="line">  t *= f;</span><br><span class="line">&#125;</span><br><span class="line"><span class="type">int</span> D, pool[N], top, tot, rt;</span><br><span class="line"><span class="keyword">struct</span> <span class="title class_">point</span></span><br><span class="line">&#123;</span><br><span class="line">  <span class="type">int</span> x[k];</span><br><span class="line">  <span class="type">bool</span> <span class="keyword">operator</span> &lt; (<span class="type">const</span> point &amp;oth) <span class="type">const</span> &#123;</span><br><span class="line">    <span class="keyword">return</span> x[D] &lt; oth.x[D];</span><br><span class="line">  &#125;</span><br><span class="line">&#125;a[N], cur;</span><br><span class="line"><span class="keyword">struct</span> <span class="title class_">node</span></span><br><span class="line">&#123;</span><br><span class="line">  <span class="type">int</span> mx[k], mn[k];</span><br><span class="line">  <span class="type">int</span> l, r, sz;</span><br><span class="line">  point tp;</span><br><span class="line">&#125;t[N];</span><br><span class="line"><span class="function"><span class="type">int</span> <span class="title">newnode</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">  <span class="keyword">if</span>(top) <span class="keyword">return</span> pool[top--];</span><br><span class="line">  <span class="keyword">return</span> ++tot;</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">pushup</span><span class="params">(<span class="type">int</span> p)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">  <span class="type">int</span> l = t[p].l, r = t[p].r;</span><br><span class="line">  <span class="keyword">for</span>(<span class="type">int</span> i=<span class="number">0</span>; i&lt;k; i++)</span><br><span class="line">  &#123;</span><br><span class="line">    t[p].mn[i] = t[p].mx[i] = t[p].tp.x[i];</span><br><span class="line">    <span class="keyword">if</span>(l) t[p].mn[i] = <span class="built_in">min</span>(t[p].mn[i], t[l].mn[i]), t[p].mx[i] = <span class="built_in">max</span>(t[p].mx[i], t[l].mx[i]);</span><br><span class="line">    <span class="keyword">if</span>(r) t[p].mn[i] = <span class="built_in">min</span>(t[p].mn[i], t[r].mn[i]), t[p].mx[i] = <span class="built_in">max</span>(t[p].mx[i], t[r].mx[i]);</span><br><span class="line">  &#125;</span><br><span class="line">  t[p].sz = t[l].sz + t[r].sz + <span class="number">1</span>;</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="type">int</span> <span class="title">build</span><span class="params">(<span class="type">int</span> l, <span class="type">int</span> r, <span class="type">int</span> d)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">  <span class="keyword">if</span>(l&gt;r) <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">  <span class="type">int</span> p = <span class="built_in">newnode</span>(), mid = (l+r)&gt;&gt;<span class="number">1</span>;</span><br><span class="line">  D = d;</span><br><span class="line">  <span class="built_in">nth_element</span>(a+l, a+mid, a+r+<span class="number">1</span>);</span><br><span class="line">  t[p].tp = a[mid];</span><br><span class="line">  t[p].l = <span class="built_in">build</span>(l, mid<span class="number">-1</span>, d^<span class="number">1</span>);</span><br><span class="line">  t[p].r = <span class="built_in">build</span>(mid+<span class="number">1</span>, r, d^<span class="number">1</span>);</span><br><span class="line">  <span class="built_in">pushup</span>(p);</span><br><span class="line">  <span class="keyword">return</span> p;</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">rebuild</span><span class="params">(<span class="type">int</span> p, <span class="type">int</span> num)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">  <span class="keyword">if</span>(t[p].l) <span class="built_in">rebuild</span>(t[p].l, num);</span><br><span class="line">  a[num+t[t[p].l].sz+<span class="number">1</span>] = t[p].tp, pool[++top] = p;</span><br><span class="line">  <span class="keyword">if</span>(t[p].r) <span class="built_in">rebuild</span>(t[p].r, num+t[t[p].l].sz+<span class="number">1</span>);</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">test</span><span class="params">(<span class="type">int</span> &amp;p, <span class="type">int</span> d)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">  <span class="keyword">if</span>(alpha*t[p].sz&lt;t[t[p].l].sz||alpha*t[p].sz&lt;t[t[p].r].sz)</span><br><span class="line">  <span class="built_in">rebuild</span>(p, <span class="number">0</span>), p = <span class="built_in">build</span>(<span class="number">1</span>, t[p].sz, d);</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">insert</span><span class="params">(<span class="type">int</span> &amp;p, <span class="type">int</span> d)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">  <span class="keyword">if</span>(!p)</span><br><span class="line">  &#123;</span><br><span class="line">    p = <span class="built_in">newnode</span>();</span><br><span class="line">    t[p].tp = cur;</span><br><span class="line">    t[p].l = t[p].r = <span class="number">0</span>;</span><br><span class="line">    <span class="built_in">pushup</span>(p);</span><br><span class="line">    <span class="keyword">return</span>;</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="keyword">if</span>(cur.x[d]&gt;t[p].tp.x[d]) <span class="built_in">insert</span>(t[p].r, d^<span class="number">1</span>);</span><br><span class="line">  <span class="keyword">else</span> <span class="built_in">insert</span>(t[p].l, d^<span class="number">1</span>);</span><br><span class="line">  <span class="built_in">pushup</span>(p); <span class="built_in">test</span>(p, d);</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="type">int</span> <span class="title">ask</span><span class="params">(<span class="type">int</span> p)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">  <span class="keyword">if</span>(!p) <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">  <span class="keyword">if</span>(t[p].mx[<span class="number">0</span>]&lt;=cur.x[<span class="number">0</span>]&amp;&amp;t[p].mn[<span class="number">1</span>]&gt;=cur.x[<span class="number">1</span>]) <span class="keyword">return</span> t[p].sz;</span><br><span class="line">  <span class="keyword">if</span>(t[p].mn[<span class="number">0</span>]&gt;cur.x[<span class="number">0</span>]||t[p].mx[<span class="number">1</span>]&lt;cur.x[<span class="number">1</span>]) <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">  <span class="type">int</span> ans = <span class="number">0</span>;</span><br><span class="line">  <span class="keyword">if</span>(t[p].tp.x[<span class="number">0</span>]&lt;=cur.x[<span class="number">0</span>]&amp;&amp;t[p].tp.x[<span class="number">1</span>]&gt;=cur.x[<span class="number">1</span>]) ++ans;</span><br><span class="line">  ans += <span class="built_in">ask</span>(t[p].l) + <span class="built_in">ask</span>(t[p].r);</span><br><span class="line">  <span class="keyword">return</span> ans;</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="type">int</span> <span class="title">main</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">  <span class="type">int</span> n, q;</span><br><span class="line">  <span class="built_in">read</span>(n); <span class="built_in">read</span>(q);</span><br><span class="line">  <span class="keyword">for</span>(<span class="type">int</span> i=<span class="number">1</span>; i&lt;=q; i++)</span><br><span class="line">  &#123;</span><br><span class="line">    <span class="type">int</span> op;</span><br><span class="line">    <span class="built_in">read</span>(op); <span class="built_in">read</span>(cur.x[<span class="number">0</span>]); <span class="built_in">read</span>(cur.x[<span class="number">1</span>]);</span><br><span class="line">    <span class="keyword">if</span>(op==<span class="number">1</span>) <span class="built_in">insert</span>(rt, <span class="number">0</span>);</span><br><span class="line">    <span class="keyword">else</span> <span class="built_in">printf</span>(<span class="string">&quot;%d\n&quot;</span>, <span class="built_in">ask</span>(rt));</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+  </div>
+</article>
+
+
+
+        
+          <div id="footer-post-container">
+  <div id="footer-post">
+
+    <div id="nav-footer" style="display: none">
+      <ul>
+        
+          <li><a href="/">首页</a></li>
+        
+          <li><a href="/archives/">归档</a></li>
+        
+          <li><a href="/tags/">标签</a></li>
+        
+          <li><a href="/search/">搜索</a></li>
+        
+      </ul>
+    </div>
+
+    
+    
+      <div id="toc-footer" style="display: none">
+        <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%81%9A%E6%B3%95"><span class="toc-number">1.</span> <span class="toc-text">做法</span></a></li></ol>
+      </div>
+    
+
+    <div id="share-footer" style="display: none">
+      <ul>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.facebook.com/sharer.php?u=http://example.com/2020/05/14/p6514-qkoir1-quark-and-strings/"><i class="fab fa-facebook fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=http://example.com/2020/05/14/p6514-qkoir1-quark-and-strings/&text=P6514 [QkOI#R1] Quark and Strings"><i class="fab fa-twitter fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.linkedin.com/shareArticle?url=http://example.com/2020/05/14/p6514-qkoir1-quark-and-strings/&title=P6514 [QkOI#R1] Quark and Strings"><i class="fab fa-linkedin fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://pinterest.com/pin/create/bookmarklet/?url=http://example.com/2020/05/14/p6514-qkoir1-quark-and-strings/&is_video=false&description=P6514 [QkOI#R1] Quark and Strings"><i class="fab fa-pinterest fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=P6514 [QkOI#R1] Quark and Strings&body=Check out this article: http://example.com/2020/05/14/p6514-qkoir1-quark-and-strings/"><i class="fa-solid fa-envelope fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://getpocket.com/save?url=http://example.com/2020/05/14/p6514-qkoir1-quark-and-strings/&title=P6514 [QkOI#R1] Quark and Strings"><i class="fab fa-get-pocket fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://reddit.com/submit?url=http://example.com/2020/05/14/p6514-qkoir1-quark-and-strings/&title=P6514 [QkOI#R1] Quark and Strings"><i class="fab fa-reddit fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.stumbleupon.com/submit?url=http://example.com/2020/05/14/p6514-qkoir1-quark-and-strings/&title=P6514 [QkOI#R1] Quark and Strings"><i class="fab fa-stumbleupon fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://digg.com/submit?url=http://example.com/2020/05/14/p6514-qkoir1-quark-and-strings/&title=P6514 [QkOI#R1] Quark and Strings"><i class="fab fa-digg fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.tumblr.com/share/link?url=http://example.com/2020/05/14/p6514-qkoir1-quark-and-strings/&name=P6514 [QkOI#R1] Quark and Strings&description="><i class="fab fa-tumblr fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://news.ycombinator.com/submitlink?u=http://example.com/2020/05/14/p6514-qkoir1-quark-and-strings/&t=P6514 [QkOI#R1] Quark and Strings"><i class="fab fa-hacker-news fa-lg" aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+
+    <div id="actions-footer">
+        <a id="menu" class="icon" href="#" onclick="$('#nav-footer').toggle();return false;"><i class="fa-solid fa-bars fa-lg" aria-hidden="true"></i> 菜单</a>
+        
+          <a id="toc" class="icon" href="#" onclick="$('#toc-footer').toggle();return false;"><i class="fa-solid fa-list fa-lg" aria-hidden="true"></i> 目录</a>
+        
+        <a id="share" class="icon" href="#" onclick="$('#share-footer').toggle();return false;"><i class="fa-solid fa-share-alt fa-lg" aria-hidden="true"></i> 分享</a>
+        <a id="top" style="display:none" class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fa-solid fa-chevron-up fa-lg" aria-hidden="true"></i> 返回顶部</a>
+    </div>
+
+  </div>
+</div>
+
+        
+        <footer id="footer">
+  <div class="footer-left">
+    Copyright &copy;
+    
+    
+    2020-2023
+    jyf111
+  </div>
+  <div class="footer-right">
+    <nav>
+      <ul>
+        <!--
+       --><li><a href="/">首页</a></li><!--
+     --><!--
+       --><li><a href="/archives/">归档</a></li><!--
+     --><!--
+       --><li><a href="/tags/">标签</a></li><!--
+     --><!--
+       --><li><a href="/search/">搜索</a></li><!--
+     -->
+      </ul>
+    </nav>
+  </div>
+</footer>
+
+    </div>
+    <!-- styles -->
+
+
+
+  <link rel="preload" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" crossorigin="anonymous" onload="this.onload=null;this.rel='stylesheet'"/>
+
+
+    <!-- jquery -->
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js" crossorigin="anonymous"></script>
+
+
+
+
+<!-- clipboard -->
+
+  
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.7/clipboard.min.js" crossorigin="anonymous"></script>
+  
+  <script type="text/javascript">
+  $(function() {
+    // copy-btn HTML
+    var btn = "<span class=\"btn-copy tooltipped tooltipped-sw\" aria-label=\"复制到粘贴板！\">";
+    btn += '<i class="fa-regular fa-clone"></i>';
+    btn += '</span>';
+    // mount it!
+    $(".highlight table").before(btn);
+    var clip = new ClipboardJS('.btn-copy', {
+      text: function(trigger) {
+        return Array.from(trigger.nextElementSibling.querySelectorAll('.code')).reduce((str,it)=>str+it.innerText+'\n','')
+      }
+    });
+    clip.on('success', function(e) {
+      e.trigger.setAttribute('aria-label', "复制成功！");
+      e.clearSelection();
+    })
+  })
+  </script>
+
+
+<script src="/js/main.js"></script>
+
+<!-- search -->
+
+<!-- Baidu Analytics -->
+
+<!-- Cloudflare Analytics -->
+
+<!-- Disqus Comments -->
+
+<!-- utterances Comments -->
+
+</body>
+</html>

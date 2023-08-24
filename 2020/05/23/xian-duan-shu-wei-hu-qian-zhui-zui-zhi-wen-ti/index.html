@@ -1,0 +1,484 @@
+<!DOCTYPE html>
+<html lang=zh>
+<head>
+    <!-- so meta -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="HandheldFriendly" content="True">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=5" />
+    <meta name="description" content="楼房重建有n栋房屋,问从1号楼往后看,最多能看到几栋楼,要求支持单点修改例:(1,3,2,5,4)(1, 3, 2, 5, 4)(1,3,2,5,4) 答案为3:(1,3,5)3:(1, 3, 5)3:(1,3,5)答案就是从1开始的严格前缀最大值的长度,考虑线段树维护,但是在pushup的时候,如果简单的将左右子树的答案相加,是不对的,因为左边的楼房高度会影响到右边.不妨考虑递归的进行pushu">
+<meta property="og:type" content="article">
+<meta property="og:title" content="线段树维护前缀最值问题">
+<meta property="og:url" content="http://example.com/2020/05/23/xian-duan-shu-wei-hu-qian-zhui-zui-zhi-wen-ti/index.html">
+<meta property="og:site_name" content="jyf111&#39;s blog">
+<meta property="og:description" content="楼房重建有n栋房屋,问从1号楼往后看,最多能看到几栋楼,要求支持单点修改例:(1,3,2,5,4)(1, 3, 2, 5, 4)(1,3,2,5,4) 答案为3:(1,3,5)3:(1, 3, 5)3:(1,3,5)答案就是从1开始的严格前缀最大值的长度,考虑线段树维护,但是在pushup的时候,如果简单的将左右子树的答案相加,是不对的,因为左边的楼房高度会影响到右边.不妨考虑递归的进行pushu">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2020-05-23T05:33:43.000Z">
+<meta property="article:modified_time" content="2023-08-24T08:43:19.627Z">
+<meta property="article:author" content="jyf111">
+<meta property="article:tag" content="算法">
+<meta name="twitter:card" content="summary">
+    
+    
+      
+        
+          <link rel="shortcut icon" href="/images/favicon.ico">
+        
+      
+      
+        
+          <link rel="icon" type="image/png" href="/images/favicon-192x192.png" sizes="192x192">
+        
+      
+      
+        
+          <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png">
+        
+      
+    
+    <!-- title -->
+    <title>线段树维护前缀最值问题</title>
+    <!-- async scripts -->
+    <!-- Google Analytics -->
+
+
+    <!-- Umami Analytics -->
+
+
+    <!-- styles -->
+    
+<link rel="stylesheet" href="/css/style.css">
+
+    <!-- persian styles -->
+    
+    <!-- rss -->
+    
+    
+	<!-- mathjax -->
+	
+		<script type="text/x-mathjax-config">
+		  MathJax.Hub.Config({
+			tex2jax: {
+			  skipTags: ['script', 'noscript', 'style', 'textarea', 'pre'],
+			  inlineMath: [['$','$']]
+			}
+		  });
+		</script>
+		<script src='https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-MML-AM_CHTML' async></script>
+	
+<meta name="generator" content="Hexo 6.3.0"></head>
+
+<body class="max-width mx-auto px3 ltr">
+    
+      <div id="header-post">
+  <a id="menu-icon" href="#" aria-label="目录"><i class="fa-solid fa-bars fa-lg"></i></a>
+  <a id="menu-icon-tablet" href="#" aria-label="目录"><i class="fa-solid fa-bars fa-lg"></i></a>
+  <a id="top-icon-tablet" href="#" aria-label="顶部" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');" style="display:none;"><i class="fa-solid fa-chevron-up fa-lg"></i></a>
+  <span id="menu">
+    <span id="nav">
+      <ul>
+        <!--
+       --><li><a href="/">首页</a></li><!--
+     --><!--
+       --><li><a href="/archives/">归档</a></li><!--
+     --><!--
+       --><li><a href="/tags/">标签</a></li><!--
+     --><!--
+       --><li><a href="/search/">搜索</a></li><!--
+     -->
+      </ul>
+    </span>
+    <br/>
+    <span id="actions">
+      <ul>
+        
+        <li><a class="icon" aria-label="上一篇" href="/2020/05/25/xiao-qiu-yu-he-zi/"><i class="fa-solid fa-chevron-left" aria-hidden="true" onmouseover="$('#i-prev').toggle();" onmouseout="$('#i-prev').toggle();"></i></a></li>
+        
+        
+        <li><a class="icon" aria-label="下一篇" href="/2020/05/22/boruvka-sheng-cheng-shu-suan-fa/"><i class="fa-solid fa-chevron-right" aria-hidden="true" onmouseover="$('#i-next').toggle();" onmouseout="$('#i-next').toggle();"></i></a></li>
+        
+        <li><a class="icon" aria-label="返回顶部" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fa-solid fa-chevron-up" aria-hidden="true" onmouseover="$('#i-top').toggle();" onmouseout="$('#i-top').toggle();"></i></a></li>
+        <li><a class="icon" aria-label="分享文章" href="#"><i class="fa-solid fa-share-alt" aria-hidden="true" onmouseover="$('#i-share').toggle();" onmouseout="$('#i-share').toggle();" onclick="$('#share').toggle();return false;"></i></a></li>
+      </ul>
+      <span id="i-prev" class="info" style="display:none;">上一篇</span>
+      <span id="i-next" class="info" style="display:none;">下一篇</span>
+      <span id="i-top" class="info" style="display:none;">返回顶部</span>
+      <span id="i-share" class="info" style="display:none;">分享文章</span>
+    </span>
+    <br/>
+    <div id="share" style="display: none">
+      <ul>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.facebook.com/sharer.php?u=http://example.com/2020/05/23/xian-duan-shu-wei-hu-qian-zhui-zui-zhi-wen-ti/"><i class="fab fa-facebook " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=http://example.com/2020/05/23/xian-duan-shu-wei-hu-qian-zhui-zui-zhi-wen-ti/&text=线段树维护前缀最值问题"><i class="fab fa-twitter " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.linkedin.com/shareArticle?url=http://example.com/2020/05/23/xian-duan-shu-wei-hu-qian-zhui-zui-zhi-wen-ti/&title=线段树维护前缀最值问题"><i class="fab fa-linkedin " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://pinterest.com/pin/create/bookmarklet/?url=http://example.com/2020/05/23/xian-duan-shu-wei-hu-qian-zhui-zui-zhi-wen-ti/&is_video=false&description=线段树维护前缀最值问题"><i class="fab fa-pinterest " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=线段树维护前缀最值问题&body=Check out this article: http://example.com/2020/05/23/xian-duan-shu-wei-hu-qian-zhui-zui-zhi-wen-ti/"><i class="fa-solid fa-envelope " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://getpocket.com/save?url=http://example.com/2020/05/23/xian-duan-shu-wei-hu-qian-zhui-zui-zhi-wen-ti/&title=线段树维护前缀最值问题"><i class="fab fa-get-pocket " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://reddit.com/submit?url=http://example.com/2020/05/23/xian-duan-shu-wei-hu-qian-zhui-zui-zhi-wen-ti/&title=线段树维护前缀最值问题"><i class="fab fa-reddit " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.stumbleupon.com/submit?url=http://example.com/2020/05/23/xian-duan-shu-wei-hu-qian-zhui-zui-zhi-wen-ti/&title=线段树维护前缀最值问题"><i class="fab fa-stumbleupon " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://digg.com/submit?url=http://example.com/2020/05/23/xian-duan-shu-wei-hu-qian-zhui-zui-zhi-wen-ti/&title=线段树维护前缀最值问题"><i class="fab fa-digg " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.tumblr.com/share/link?url=http://example.com/2020/05/23/xian-duan-shu-wei-hu-qian-zhui-zui-zhi-wen-ti/&name=线段树维护前缀最值问题&description="><i class="fab fa-tumblr " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://news.ycombinator.com/submitlink?u=http://example.com/2020/05/23/xian-duan-shu-wei-hu-qian-zhui-zui-zhi-wen-ti/&t=线段树维护前缀最值问题"><i class="fab fa-hacker-news " aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+    
+    
+      <div id="toc">
+        <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#%E6%A5%BC%E6%88%BF%E9%87%8D%E5%BB%BA"><span class="toc-number">1.</span> <span class="toc-text">楼房重建</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E6%9C%80%E7%AE%80%E5%8D%95%E7%9A%84%E4%B8%80%E9%81%93%E9%A2%98"><span class="toc-number">2.</span> <span class="toc-text">最简单的一道题</span></a></li></ol>
+      </div>
+    
+  </span>
+</div>
+
+    
+    <div class="content index py4 ">
+        
+        <article class="post h-entry" itemscope itemtype="http://schema.org/BlogPosting">
+  <header>
+    
+    <h1 class="posttitle p-name" itemprop="name headline">
+        线段树维护前缀最值问题
+    </h1>
+
+
+
+    <div class="meta">
+      <span class="author p-author h-card" itemprop="author" itemscope itemtype="http://schema.org/Person">
+        <span class="p-name" itemprop="name">jyf111</span>
+      </span>
+      
+    <div class="postdate">
+      
+        <time datetime="2020-05-23T05:33:43.000Z" class="dt-published" itemprop="datePublished">2020-05-23</time>
+        
+        (Updated: <time datetime="2023-08-24T08:43:19.627Z" class="dt-updated" itemprop="dateModified">2023-08-24</time>)
+        
+      
+    </div>
+
+
+      
+
+      
+    <div class="article-tag">
+        <i class="fa-solid fa-tag"></i>
+        <a class="p-category" href="/tags/%E7%AE%97%E6%B3%95/" rel="tag">算法</a>
+    </div>
+
+
+      
+        <span class=count-symbol-post> 
+          <i class="fa-solid fa-hourglass"></i>
+          
+            5 mins to read
+          
+        </span>
+      
+    </div>
+  </header>
+  
+
+  <div class="content e-content" itemprop="articleBody">
+    <h1 id="楼房重建"><a href="#楼房重建" class="headerlink" title="楼房重建"></a>楼房重建</h1><p>有n栋房屋,问从1号楼往后看,最多能看到几栋楼,要求支持单点修改<br>例:(1,3,2,5,4)(1, 3, 2, 5, 4)(1,3,2,5,4) 答案为3:(1,3,5)3:(1, 3, 5)3:(1,3,5)<br>答案就是从1开始的严格前缀最大值的长度,考虑线段树维护,但是在pushup的时候,如果简单的将左右子树的答案相加,是不对的,因为左边的楼房高度会影响到右边.<br>不妨考虑递归的进行pushup(也是某种启发,因为pushup一般都是O(1)合并的,但logn合并未尝不可?)<br>线段树每个节点维护mx,lenmx,lenmx,len分别表示区间最大值(用于剪枝), <strong>只考虑</strong> 该区间时的答案<br>添加函数merge(v, p) 表示线段树上编号p节点管辖的区间在左边最大值为v的影响下产生的答案<br>以下考虑几种情况:</p>
+<ul>
+<li>t[p]t[p]t[p]的最大值是小于v 此时没有贡献, return 0return ,0return0即可</li>
+<li>p是叶子节点return t[p].mx&gt;vreturn , t[p].mx&gt;vreturnt[p].mx&gt;v返回该节点代表的值与v的大小关系即可</li>
+<li>考虑左右儿子为ls, rs 若t[ls].mx&lt;&#x3D;vt[ls].mx&lt;&#x3D;vt[ls].mx&lt;&#x3D;v此时左区间无贡献,递归右区间即可,return merge(v,rs)return ,merge(v, rs)returnmerge(v,rs).否则递归左区间,那么右区间的贡献是t[p].len−t[ls].lent[p].len-t[ls].lent[p].len−t[ls].len(注意不是t[rs].len)<br>在pushup的时候,维护好mx,并让t[p].len &#x3D; t[ls].len + merge(t[ls].mx, rs)即可</li>
+</ul>
+<h1 id="最简单的一道题"><a href="#最简单的一道题" class="headerlink" title="最简单的一道题"></a>最简单的一道题</h1><p>西邮新生赛的一题,没人过<br>我看到的时候就发现是跟楼房重建一样的trick,然而 <del>调bug调了半天,wa了无数发</del><br>给定n个数,询问从第x个数往后的非严格前缀最小值的长度,要求支持区间加<br>做法跟上题类似,注意在merge里面也要加上pushdown,在每次要访问一个点的左右儿子的时候,就应该下放该点的lazytag<br>上一题的询问都是从1开始的,所以答案就是t[1].len,但本题是从x开始的,我的做法是把[x,n][x,n][x,n]在线段树上的区间提取出来,然后从左往右合并,区间数是log段,合并也是log的,复杂度是O(n(logn)2)n(logn)<br>^ 2)n(logn)2))</p>
+<pre><code>#include &lt;bits/stdc++.h&gt;
+#define mp make_pair
+#define pb push_back
+#define sz(x) (int)x.size()
+#define all(x) begin(x), end(x)
+#define fi first
+#define se second
+#define debug(x) cerr &lt;&lt; #x &lt;&lt; &quot; &quot; &lt;&lt; x &lt;&lt; &#39;\n&#39;
+using namespace std;
+using ll = long long;
+using pii = pair&lt;int,int&gt;;
+using pli = pair&lt;ll,int&gt;;
+const int INF = 0x3f3f3f3f, N = 2e5 + 5;
+const ll LINF = 1e18 + 5;
+constexpr int mod = 1e9 + 7;
+int a[N];
+int n, m, pos[N];
+vector&lt;int&gt; vec;
+namespace SegTree
+&#123;
+    #define ls (p&lt;&lt;1)
+    #define rs (p&lt;&lt;1|1)
+    struct seg
+    &#123;
+        int l, r, len;
+        ll mn, tag;
+    &#125;t[N&lt;&lt;2];
+    void setval(int p, ll v)
+    &#123;
+        t[p].mn += v;
+        t[p].tag += v;
+    &#125;
+    void pushdown(int p)
+    &#123;
+        setval(ls, t[p].tag); setval(rs, t[p].tag);
+        t[p].tag = 0;
+    &#125;
+    int merge(int v, int p) //重点
+    &#123;
+        int l = t[p].l, r = t[p].r;
+        if(t[p].mn&gt;v) return 0;
+        if(l==r) return t[p].mn&lt;=v;
+        if(t[p].tag) pushdown(p);
+        if(t[ls].mn&gt;v) return merge(v, rs);
+        else return merge(v, ls) + t[p].len - t[ls].len;
+    &#125;
+    void pushup(int p)
+    &#123;
+        t[p].mn = min(t[ls].mn, t[rs].mn);
+        t[p].len = t[ls].len + merge(t[ls].mn, rs);
+    &#125;
+    void build(int p, int l, int r)
+    &#123;
+        t[p].l = l, t[p].r = r;
+        if(l==r) 
+        &#123;
+            t[p].mn = a[l];
+            t[p].len = 1;
+            pos[l] = p;
+            return;
+        &#125;
+        int mid = (l+r)&gt;&gt;1;
+        build(ls, l, mid); build(rs, mid+1, r);
+        pushup(p);
+    &#125;
+    void upd(int p, int x, int y, int v)
+    &#123;
+        int l = t[p].l, r = t[p].r;
+        if(l&gt;=x &amp;&amp; r&lt;=y) 
+        &#123;
+            setval(p, v);
+            return;
+        &#125;
+        if(t[p].tag) pushdown(p);
+        int mid = (l+r)&gt;&gt;1;
+        if(x&lt;=mid) upd(ls, x, y, v);
+        if(y&gt;mid) upd(rs, x, y, v);
+        pushup(p);
+    &#125;
+    void ask(int p, int x, int y)
+    &#123;
+        int l = t[p].l, r = t[p].r;
+        if(l&gt;=x &amp;&amp; r&lt;=y) 
+        &#123;
+            vec.pb(p);
+            return;
+        &#125;
+        if(t[p].tag) pushdown(p);
+        int mid = (l+r)&gt;&gt;1;
+        if(x&lt;=mid) ask(ls, x, y);
+        if(y&gt;mid) ask(rs, x, y);
+    &#125;
+    #undef ls
+    #undef rs
+&#125;
+using namespace SegTree;
+char op[2];
+int main()
+&#123;
+    scanf(&quot;%d%d&quot;, &amp;n, &amp;m);
+    for(int i=1; i&lt;=n; i++) scanf(&quot;%d&quot;, a+i);
+    build(1, 1, n);
+    for(int i=1; i&lt;=m; i++)
+    &#123;	
+        scanf(&quot;%s&quot;, op);
+        if(op[0]==&#39;c&#39;)
+        &#123;
+            int l, r, k;
+            scanf(&quot;%d%d%d&quot;, &amp;l, &amp;r, &amp;k);
+            upd(1, l, r, k);
+        &#125;
+        else
+        &#123;
+            int x;
+            scanf(&quot;%d&quot;, &amp;x);
+            vec.clear();
+            ask(1, x, n);
+            int ans = t[vec[0]].len;
+            ll mn = t[vec[0]].mn;
+            for(int i=1; i&lt;sz(vec); i++)
+            &#123;
+                ans += merge(mn, vec[i]);
+                mn = min(mn, t[vec[i]].mn);
+            &#125;
+            printf(&quot;%d\n&quot;, ans-1);
+        &#125;
+    &#125;
+    return 0;
+&#125;
+</code></pre>
+<p>copy自小粉兔:</p>
+<blockquote>
+<p>但是，我们注意到一个很关键的性质：<br> 当v小于左子树的最大值时，右子树对当前节点的贡献，是通过减法计算的<br> 也就是说这个信息要满足一定程度上的可减性<br> 但是有很多信息是不满足可减性的，比如 max,min、按位与、按位或等<br> 为了能让这种线段树适应更一般的情况，我们修改维护的信息的意义：<br> 仍然维护这个区间中的最大值。  </p>
+<p>此时并不是维护区间的答案，而是仅考虑该区间的影响后，却又只统计右子树的答案仅考虑该区间的影响后，却又只统计右子树的答案仅考虑该区间的影响后，却又只统计右子树的答案。<br> 也就是说令当前节点对应的区间为 [l,r]，区间中点为 mid，则：<br> 维护的答案是，只考虑 [l,r] 时，在区间 [mid+1,r] 中的答案。</p>
+</blockquote>
+<p>线段树每个节点仍然维护mx[i], len[i],但对于叶节点len[i]无意义,再考虑merge(v, p)函数</p>
+<pre><code>void pushup(int p)
+&#123;
+  t[p].mx = max(t[ls].mx, t[rs].mx);
+  t[p].len = merge(t[ls].mx, rs);
+&#125;
+int merge(int v, int p) 
+&#123;
+  int l = t[p].l, r = t[p].r;
+  if(t[p].mx&lt;=v) return 0;
+  if(l==r) return t[p].mn&gt;v;
+  if(t[ls].mx&lt;=v) return merge(v, rs);
+  else return merge(v, ls) + t[p].len; //避免了区间维护信息不可减的问题
+&#125;
+</code></pre>
+<ul>
+<li>楼房重建</li>
+<li>最简单的一道题</li>
+</ul>
+
+  </div>
+</article>
+
+
+
+        
+          <div id="footer-post-container">
+  <div id="footer-post">
+
+    <div id="nav-footer" style="display: none">
+      <ul>
+        
+          <li><a href="/">首页</a></li>
+        
+          <li><a href="/archives/">归档</a></li>
+        
+          <li><a href="/tags/">标签</a></li>
+        
+          <li><a href="/search/">搜索</a></li>
+        
+      </ul>
+    </div>
+
+    
+    
+      <div id="toc-footer" style="display: none">
+        <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#%E6%A5%BC%E6%88%BF%E9%87%8D%E5%BB%BA"><span class="toc-number">1.</span> <span class="toc-text">楼房重建</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E6%9C%80%E7%AE%80%E5%8D%95%E7%9A%84%E4%B8%80%E9%81%93%E9%A2%98"><span class="toc-number">2.</span> <span class="toc-text">最简单的一道题</span></a></li></ol>
+      </div>
+    
+
+    <div id="share-footer" style="display: none">
+      <ul>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.facebook.com/sharer.php?u=http://example.com/2020/05/23/xian-duan-shu-wei-hu-qian-zhui-zui-zhi-wen-ti/"><i class="fab fa-facebook fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=http://example.com/2020/05/23/xian-duan-shu-wei-hu-qian-zhui-zui-zhi-wen-ti/&text=线段树维护前缀最值问题"><i class="fab fa-twitter fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.linkedin.com/shareArticle?url=http://example.com/2020/05/23/xian-duan-shu-wei-hu-qian-zhui-zui-zhi-wen-ti/&title=线段树维护前缀最值问题"><i class="fab fa-linkedin fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://pinterest.com/pin/create/bookmarklet/?url=http://example.com/2020/05/23/xian-duan-shu-wei-hu-qian-zhui-zui-zhi-wen-ti/&is_video=false&description=线段树维护前缀最值问题"><i class="fab fa-pinterest fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=线段树维护前缀最值问题&body=Check out this article: http://example.com/2020/05/23/xian-duan-shu-wei-hu-qian-zhui-zui-zhi-wen-ti/"><i class="fa-solid fa-envelope fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://getpocket.com/save?url=http://example.com/2020/05/23/xian-duan-shu-wei-hu-qian-zhui-zui-zhi-wen-ti/&title=线段树维护前缀最值问题"><i class="fab fa-get-pocket fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://reddit.com/submit?url=http://example.com/2020/05/23/xian-duan-shu-wei-hu-qian-zhui-zui-zhi-wen-ti/&title=线段树维护前缀最值问题"><i class="fab fa-reddit fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.stumbleupon.com/submit?url=http://example.com/2020/05/23/xian-duan-shu-wei-hu-qian-zhui-zui-zhi-wen-ti/&title=线段树维护前缀最值问题"><i class="fab fa-stumbleupon fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://digg.com/submit?url=http://example.com/2020/05/23/xian-duan-shu-wei-hu-qian-zhui-zui-zhi-wen-ti/&title=线段树维护前缀最值问题"><i class="fab fa-digg fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.tumblr.com/share/link?url=http://example.com/2020/05/23/xian-duan-shu-wei-hu-qian-zhui-zui-zhi-wen-ti/&name=线段树维护前缀最值问题&description="><i class="fab fa-tumblr fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://news.ycombinator.com/submitlink?u=http://example.com/2020/05/23/xian-duan-shu-wei-hu-qian-zhui-zui-zhi-wen-ti/&t=线段树维护前缀最值问题"><i class="fab fa-hacker-news fa-lg" aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+
+    <div id="actions-footer">
+        <a id="menu" class="icon" href="#" onclick="$('#nav-footer').toggle();return false;"><i class="fa-solid fa-bars fa-lg" aria-hidden="true"></i> 菜单</a>
+        
+          <a id="toc" class="icon" href="#" onclick="$('#toc-footer').toggle();return false;"><i class="fa-solid fa-list fa-lg" aria-hidden="true"></i> 目录</a>
+        
+        <a id="share" class="icon" href="#" onclick="$('#share-footer').toggle();return false;"><i class="fa-solid fa-share-alt fa-lg" aria-hidden="true"></i> 分享</a>
+        <a id="top" style="display:none" class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fa-solid fa-chevron-up fa-lg" aria-hidden="true"></i> 返回顶部</a>
+    </div>
+
+  </div>
+</div>
+
+        
+        <footer id="footer">
+  <div class="footer-left">
+    Copyright &copy;
+    
+    
+    2020-2023
+    jyf111
+  </div>
+  <div class="footer-right">
+    <nav>
+      <ul>
+        <!--
+       --><li><a href="/">首页</a></li><!--
+     --><!--
+       --><li><a href="/archives/">归档</a></li><!--
+     --><!--
+       --><li><a href="/tags/">标签</a></li><!--
+     --><!--
+       --><li><a href="/search/">搜索</a></li><!--
+     -->
+      </ul>
+    </nav>
+  </div>
+</footer>
+
+    </div>
+    <!-- styles -->
+
+
+
+  <link rel="preload" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" crossorigin="anonymous" onload="this.onload=null;this.rel='stylesheet'"/>
+
+
+    <!-- jquery -->
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js" crossorigin="anonymous"></script>
+
+
+
+
+<!-- clipboard -->
+
+  
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.7/clipboard.min.js" crossorigin="anonymous"></script>
+  
+  <script type="text/javascript">
+  $(function() {
+    // copy-btn HTML
+    var btn = "<span class=\"btn-copy tooltipped tooltipped-sw\" aria-label=\"复制到粘贴板！\">";
+    btn += '<i class="fa-regular fa-clone"></i>';
+    btn += '</span>';
+    // mount it!
+    $(".highlight table").before(btn);
+    var clip = new ClipboardJS('.btn-copy', {
+      text: function(trigger) {
+        return Array.from(trigger.nextElementSibling.querySelectorAll('.code')).reduce((str,it)=>str+it.innerText+'\n','')
+      }
+    });
+    clip.on('success', function(e) {
+      e.trigger.setAttribute('aria-label', "复制成功！");
+      e.clearSelection();
+    })
+  })
+  </script>
+
+
+<script src="/js/main.js"></script>
+
+<!-- search -->
+
+<!-- Baidu Analytics -->
+
+<!-- Cloudflare Analytics -->
+
+<!-- Disqus Comments -->
+
+<!-- utterances Comments -->
+
+</body>
+</html>

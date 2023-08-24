@@ -1,0 +1,435 @@
+<!DOCTYPE html>
+<html lang=zh>
+<head>
+    <!-- so meta -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="HandheldFriendly" content="True">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=5" />
+    <meta name="description" content="给定一个排列$p_i$​，表示第i个人的排名，要求支持两种操作：  第x个人的排名上升到y，显然原来y~rank(x)-1的人的排名就要下降1 问第x到第y个人中有多少人的排名在后40%  我们发现第一个操作需要以排名为下标进行维护，而第二个操作又需要以编号为下标进行维护。似乎不太可做。但是仔细想想，对于后40%，我们并不关心谁在前谁在后，我们只需要知道哪些人是在后40%那么用一个树状数组，以编号">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Honorable Mention 平衡树+树状数组">
+<meta property="og:url" content="http://example.com/2020/12/13/honorable-mention-ping-heng-shu-shu-zhuang-shu-zu/index.html">
+<meta property="og:site_name" content="jyf111&#39;s blog">
+<meta property="og:description" content="给定一个排列$p_i$​，表示第i个人的排名，要求支持两种操作：  第x个人的排名上升到y，显然原来y~rank(x)-1的人的排名就要下降1 问第x到第y个人中有多少人的排名在后40%  我们发现第一个操作需要以排名为下标进行维护，而第二个操作又需要以编号为下标进行维护。似乎不太可做。但是仔细想想，对于后40%，我们并不关心谁在前谁在后，我们只需要知道哪些人是在后40%那么用一个树状数组，以编号">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2020-12-13T05:33:44.000Z">
+<meta property="article:modified_time" content="2023-08-24T11:21:38.675Z">
+<meta property="article:author" content="jyf111">
+<meta property="article:tag" content="算法">
+<meta name="twitter:card" content="summary">
+    
+    
+      
+        
+          <link rel="shortcut icon" href="/images/favicon.ico">
+        
+      
+      
+        
+          <link rel="icon" type="image/png" href="/images/favicon-192x192.png" sizes="192x192">
+        
+      
+      
+        
+          <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png">
+        
+      
+    
+    <!-- title -->
+    <title>Honorable Mention 平衡树+树状数组</title>
+    <!-- async scripts -->
+    <!-- Google Analytics -->
+
+
+    <!-- Umami Analytics -->
+
+
+    <!-- styles -->
+    
+<link rel="stylesheet" href="/css/style.css">
+
+    <!-- persian styles -->
+    
+    <!-- rss -->
+    
+    
+	<!-- mathjax -->
+	
+		<script type="text/x-mathjax-config">
+		  MathJax.Hub.Config({
+			tex2jax: {
+			  skipTags: ['script', 'noscript', 'style', 'textarea', 'pre'],
+			  inlineMath: [['$','$']]
+			}
+		  });
+		</script>
+		<script src='https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-MML-AM_CHTML' async></script>
+	
+<meta name="generator" content="Hexo 6.3.0"></head>
+
+<body class="max-width mx-auto px3 ltr">
+    
+      <div id="header-post">
+  <a id="menu-icon" href="#" aria-label="目录"><i class="fa-solid fa-bars fa-lg"></i></a>
+  <a id="menu-icon-tablet" href="#" aria-label="目录"><i class="fa-solid fa-bars fa-lg"></i></a>
+  <a id="top-icon-tablet" href="#" aria-label="顶部" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');" style="display:none;"><i class="fa-solid fa-chevron-up fa-lg"></i></a>
+  <span id="menu">
+    <span id="nav">
+      <ul>
+        <!--
+       --><li><a href="/">首页</a></li><!--
+     --><!--
+       --><li><a href="/archives/">归档</a></li><!--
+     --><!--
+       --><li><a href="/tags/">标签</a></li><!--
+     --><!--
+       --><li><a href="/search/">搜索</a></li><!--
+     -->
+      </ul>
+    </span>
+    <br/>
+    <span id="actions">
+      <ul>
+        
+        <li><a class="icon" aria-label="上一篇" href="/2020/12/16/shu-ju-jie-gou-mo-ban-zheng-he/"><i class="fa-solid fa-chevron-left" aria-hidden="true" onmouseover="$('#i-prev').toggle();" onmouseout="$('#i-prev').toggle();"></i></a></li>
+        
+        
+        <li><a class="icon" aria-label="下一篇" href="/2020/12/13/rope-kuai-zhuang-lian-biao-shi-xian-de-stl-rong-qi/"><i class="fa-solid fa-chevron-right" aria-hidden="true" onmouseover="$('#i-next').toggle();" onmouseout="$('#i-next').toggle();"></i></a></li>
+        
+        <li><a class="icon" aria-label="返回顶部" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fa-solid fa-chevron-up" aria-hidden="true" onmouseover="$('#i-top').toggle();" onmouseout="$('#i-top').toggle();"></i></a></li>
+        <li><a class="icon" aria-label="分享文章" href="#"><i class="fa-solid fa-share-alt" aria-hidden="true" onmouseover="$('#i-share').toggle();" onmouseout="$('#i-share').toggle();" onclick="$('#share').toggle();return false;"></i></a></li>
+      </ul>
+      <span id="i-prev" class="info" style="display:none;">上一篇</span>
+      <span id="i-next" class="info" style="display:none;">下一篇</span>
+      <span id="i-top" class="info" style="display:none;">返回顶部</span>
+      <span id="i-share" class="info" style="display:none;">分享文章</span>
+    </span>
+    <br/>
+    <div id="share" style="display: none">
+      <ul>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.facebook.com/sharer.php?u=http://example.com/2020/12/13/honorable-mention-ping-heng-shu-shu-zhuang-shu-zu/"><i class="fab fa-facebook " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=http://example.com/2020/12/13/honorable-mention-ping-heng-shu-shu-zhuang-shu-zu/&text=Honorable Mention 平衡树+树状数组"><i class="fab fa-twitter " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.linkedin.com/shareArticle?url=http://example.com/2020/12/13/honorable-mention-ping-heng-shu-shu-zhuang-shu-zu/&title=Honorable Mention 平衡树+树状数组"><i class="fab fa-linkedin " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://pinterest.com/pin/create/bookmarklet/?url=http://example.com/2020/12/13/honorable-mention-ping-heng-shu-shu-zhuang-shu-zu/&is_video=false&description=Honorable Mention 平衡树+树状数组"><i class="fab fa-pinterest " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=Honorable Mention 平衡树+树状数组&body=Check out this article: http://example.com/2020/12/13/honorable-mention-ping-heng-shu-shu-zhuang-shu-zu/"><i class="fa-solid fa-envelope " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://getpocket.com/save?url=http://example.com/2020/12/13/honorable-mention-ping-heng-shu-shu-zhuang-shu-zu/&title=Honorable Mention 平衡树+树状数组"><i class="fab fa-get-pocket " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://reddit.com/submit?url=http://example.com/2020/12/13/honorable-mention-ping-heng-shu-shu-zhuang-shu-zu/&title=Honorable Mention 平衡树+树状数组"><i class="fab fa-reddit " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.stumbleupon.com/submit?url=http://example.com/2020/12/13/honorable-mention-ping-heng-shu-shu-zhuang-shu-zu/&title=Honorable Mention 平衡树+树状数组"><i class="fab fa-stumbleupon " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://digg.com/submit?url=http://example.com/2020/12/13/honorable-mention-ping-heng-shu-shu-zhuang-shu-zu/&title=Honorable Mention 平衡树+树状数组"><i class="fab fa-digg " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.tumblr.com/share/link?url=http://example.com/2020/12/13/honorable-mention-ping-heng-shu-shu-zhuang-shu-zu/&name=Honorable Mention 平衡树+树状数组&description="><i class="fab fa-tumblr " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://news.ycombinator.com/submitlink?u=http://example.com/2020/12/13/honorable-mention-ping-heng-shu-shu-zhuang-shu-zu/&t=Honorable Mention 平衡树+树状数组"><i class="fab fa-hacker-news " aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+    
+    
+  </span>
+</div>
+
+    
+    <div class="content index py4 ">
+        
+        <article class="post h-entry" itemscope itemtype="http://schema.org/BlogPosting">
+  <header>
+    
+    <h1 class="posttitle p-name" itemprop="name headline">
+        Honorable Mention 平衡树+树状数组
+    </h1>
+
+
+
+    <div class="meta">
+      <span class="author p-author h-card" itemprop="author" itemscope itemtype="http://schema.org/Person">
+        <span class="p-name" itemprop="name">jyf111</span>
+      </span>
+      
+    <div class="postdate">
+      
+        <time datetime="2020-12-13T05:33:44.000Z" class="dt-published" itemprop="datePublished">2020-12-13</time>
+        
+        (Updated: <time datetime="2023-08-24T11:21:38.675Z" class="dt-updated" itemprop="dateModified">2023-08-24</time>)
+        
+      
+    </div>
+
+
+      
+
+      
+    <div class="article-tag">
+        <i class="fa-solid fa-tag"></i>
+        <a class="p-category" href="/tags/%E7%AE%97%E6%B3%95/" rel="tag">算法</a>
+    </div>
+
+
+      
+        <span class=count-symbol-post> 
+          <i class="fa-solid fa-hourglass"></i>
+          
+            3 mins to read
+          
+        </span>
+      
+    </div>
+  </header>
+  
+
+  <div class="content e-content" itemprop="articleBody">
+    <p>给定一个排列$p_i$​，表示第i个人的排名，要求支持两种操作：</p>
+<ul>
+<li>第x个人的排名上升到y，显然原来y~rank(x)-1的人的排名就要下降1</li>
+<li>问第x到第y个人中有多少人的排名在后40%</li>
+</ul>
+<p>我们发现第一个操作需要以排名为下标进行维护，而第二个操作又需要以编号为下标进行维护。似乎不太可做。<br>但是仔细想想，对于后40%，我们并不关心谁在前谁在后，我们只需要知道哪些人是在后40%<br>那么用一个树状数组，以编号为下标维护哪些人是后40%<br>然后用一个平衡树，以排名为下标来维护第一个操作。<br>当x的排名原先在后40%，然后提升后不再后40%，就需要对树状数组的x-1，然后对原来排名40%的那个在树状数组中+1。然后只需要将x这个节点删掉，再插到排名为y节点的前面就可以了。<br>还有一个问题，x的排名怎么求，我们以排名为下标怎么求排名呢。<br>容易发现对于每个编号在平衡树中的节点是一一对应的，所以我们用数组保存x是平衡树中的哪个节点，然后把它splay到根，则左儿子的size+1就是排名了。<br>最后不要忘记在splay中前后各插入一个哨兵！！</p>
+<pre><code class="cpp">    #include &lt;bits/stdc++.h&gt;
+    using namespace std;
+    const int N = 5e4 + 5;
+    int n, q, p[N], rp[N];
+    int c[N];
+    void upd(int x, int v)
+    &#123;
+        for(int i=x; i&lt;=n; i+=(i&amp;-i)) c[i] += v;
+    &#125;
+    int ask(int x)
+    &#123;
+        int ans = 0;
+        for(int i=x; i&gt;0; i-=(i&amp;-i)) ans += c[i];
+        return ans;
+    &#125;
+    int rt;
+    int ch[N][2], sz[N], val[N], fa[N], id[N];
+    bool rs(int x) &#123; return ch[fa[x]][1]==x; &#125;
+    void up(int p) &#123; if(p) sz[p] = sz[ch[p][0]] + sz[ch[p][1]] + 1; &#125;
+    void bld(int l, int r, int f)
+    &#123;
+        if(l&gt;r) return;
+        int p = (l+r)&gt;&gt;1;
+        sz[p] = 1;
+        ch[p][0] = ch[p][1] = 0;
+        if(p&gt;=2&amp;&amp;p&lt;=n+1)
+        &#123;
+            val[p] = rp[p-1];
+            id[rp[p-1]] = p;
+        &#125;
+        fa[p] = f, ch[f][p&gt;f] = p;
+        if(l==r) return;
+        bld(l, p-1, p); bld(p+1, r, p);
+        up(p);
+    &#125;
+    void rotate(int x)
+    &#123;
+        int y = fa[x], z = fa[y], k = rs(x), w = ch[x][k^1];
+        ch[y][k] = w; fa[w] = y;
+        ch[z][rs(y)] = x; fa[x] = z;
+        ch[x][k^1] = y; fa[y] = x;
+        up(y); up(x);
+    &#125;
+    void splay(int x, int g=0)
+    &#123;
+        while(fa[x]!=g)
+        &#123;
+            int y = fa[x];
+            if(fa[y]!=g) (rs(x)==rs(y) ? rotate(y) : rotate(x));
+            rotate(x);
+        &#125;
+        if(!g) rt = x;
+    &#125;
+    int kth(int p, int k)
+    &#123;
+        if(ch[p][0]&amp;&amp;sz[ch[p][0]]&gt;=k) return kth(ch[p][0], k);
+        else if(sz[ch[p][0]]+1==k) return p;
+        else return kth(ch[p][1], k-sz[ch[p][0]]-1);
+    &#125;
+    int rnk(int p)
+    &#123;
+        splay(p);
+        return sz[ch[p][0]] + 1;
+    &#125;
+    void ins(int l, int r)
+    &#123;
+        int x = kth(rt, l-1), y = kth(rt, l+1);
+        splay(x); splay(y, x);
+        int z = ch[y][0];
+        ch[y][0] = 0; fa[z] = 0;
+        up(y); up(fa[y]);
+        int x2 = kth(rt, r-1), y2 = kth(rt, r);
+        splay(x2); splay(y2, x2);
+        ch[y2][0] = z; fa[z] = y2;
+        up(y2); up(fa[y2]);
+    &#125;
+    void solve()
+    &#123;
+        scanf(&quot;%d&quot;, &amp;n);
+        for(int i=1; i&lt;=n; i++)
+        &#123;
+            scanf(&quot;%d&quot;, p+i);
+            rp[p[i]] = i;
+        &#125;
+        scanf(&quot;%d&quot;, &amp;q);
+        int lim = n*0.6;
+        for(int i=1; i&lt;=n; i++) c[i] = 0;
+        for(int i=lim+1; i&lt;=n; i++) upd(rp[i], 1);
+        bld(1, n+2, 0);
+        rt = (n+3)&gt;&gt;1;
+        while(q--)
+        &#123;
+            int op, x, y; scanf(&quot;%d%d%d&quot;, &amp;op, &amp;x, &amp;y);
+            if(op==1)
+            &#123;
+                if(y&lt;=lim)
+                &#123;
+                    int rkx = rnk(id[x]) - 1;
+                    if(rkx&gt;lim)
+                    &#123;
+                        upd(x, -1);
+                        upd(val[kth(rt, lim+1)], 1);
+                    &#125;
+                    ins(rkx+1, y+1);
+                &#125;
+            &#125;
+            else printf(&quot;%d\n&quot;, ask(y)-ask(x-1));
+        &#125;
+    &#125;
+    int main()
+    &#123;
+        int _; scanf(&quot;%d&quot;, &amp;_);
+        while(_--) solve();
+        return 0;
+    &#125;
+</code></pre>
+
+  </div>
+</article>
+
+
+
+        
+          <div id="footer-post-container">
+  <div id="footer-post">
+
+    <div id="nav-footer" style="display: none">
+      <ul>
+        
+          <li><a href="/">首页</a></li>
+        
+          <li><a href="/archives/">归档</a></li>
+        
+          <li><a href="/tags/">标签</a></li>
+        
+          <li><a href="/search/">搜索</a></li>
+        
+      </ul>
+    </div>
+
+    
+    
+
+    <div id="share-footer" style="display: none">
+      <ul>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.facebook.com/sharer.php?u=http://example.com/2020/12/13/honorable-mention-ping-heng-shu-shu-zhuang-shu-zu/"><i class="fab fa-facebook fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=http://example.com/2020/12/13/honorable-mention-ping-heng-shu-shu-zhuang-shu-zu/&text=Honorable Mention 平衡树+树状数组"><i class="fab fa-twitter fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.linkedin.com/shareArticle?url=http://example.com/2020/12/13/honorable-mention-ping-heng-shu-shu-zhuang-shu-zu/&title=Honorable Mention 平衡树+树状数组"><i class="fab fa-linkedin fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://pinterest.com/pin/create/bookmarklet/?url=http://example.com/2020/12/13/honorable-mention-ping-heng-shu-shu-zhuang-shu-zu/&is_video=false&description=Honorable Mention 平衡树+树状数组"><i class="fab fa-pinterest fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=Honorable Mention 平衡树+树状数组&body=Check out this article: http://example.com/2020/12/13/honorable-mention-ping-heng-shu-shu-zhuang-shu-zu/"><i class="fa-solid fa-envelope fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://getpocket.com/save?url=http://example.com/2020/12/13/honorable-mention-ping-heng-shu-shu-zhuang-shu-zu/&title=Honorable Mention 平衡树+树状数组"><i class="fab fa-get-pocket fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://reddit.com/submit?url=http://example.com/2020/12/13/honorable-mention-ping-heng-shu-shu-zhuang-shu-zu/&title=Honorable Mention 平衡树+树状数组"><i class="fab fa-reddit fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.stumbleupon.com/submit?url=http://example.com/2020/12/13/honorable-mention-ping-heng-shu-shu-zhuang-shu-zu/&title=Honorable Mention 平衡树+树状数组"><i class="fab fa-stumbleupon fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://digg.com/submit?url=http://example.com/2020/12/13/honorable-mention-ping-heng-shu-shu-zhuang-shu-zu/&title=Honorable Mention 平衡树+树状数组"><i class="fab fa-digg fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.tumblr.com/share/link?url=http://example.com/2020/12/13/honorable-mention-ping-heng-shu-shu-zhuang-shu-zu/&name=Honorable Mention 平衡树+树状数组&description="><i class="fab fa-tumblr fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://news.ycombinator.com/submitlink?u=http://example.com/2020/12/13/honorable-mention-ping-heng-shu-shu-zhuang-shu-zu/&t=Honorable Mention 平衡树+树状数组"><i class="fab fa-hacker-news fa-lg" aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+
+    <div id="actions-footer">
+        <a id="menu" class="icon" href="#" onclick="$('#nav-footer').toggle();return false;"><i class="fa-solid fa-bars fa-lg" aria-hidden="true"></i> 菜单</a>
+        
+        <a id="share" class="icon" href="#" onclick="$('#share-footer').toggle();return false;"><i class="fa-solid fa-share-alt fa-lg" aria-hidden="true"></i> 分享</a>
+        <a id="top" style="display:none" class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fa-solid fa-chevron-up fa-lg" aria-hidden="true"></i> 返回顶部</a>
+    </div>
+
+  </div>
+</div>
+
+        
+        <footer id="footer">
+  <div class="footer-left">
+    Copyright &copy;
+    
+    
+    2020-2023
+    jyf111
+  </div>
+  <div class="footer-right">
+    <nav>
+      <ul>
+        <!--
+       --><li><a href="/">首页</a></li><!--
+     --><!--
+       --><li><a href="/archives/">归档</a></li><!--
+     --><!--
+       --><li><a href="/tags/">标签</a></li><!--
+     --><!--
+       --><li><a href="/search/">搜索</a></li><!--
+     -->
+      </ul>
+    </nav>
+  </div>
+</footer>
+
+    </div>
+    <!-- styles -->
+
+
+
+  <link rel="preload" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" crossorigin="anonymous" onload="this.onload=null;this.rel='stylesheet'"/>
+
+
+    <!-- jquery -->
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js" crossorigin="anonymous"></script>
+
+
+
+
+<!-- clipboard -->
+
+  
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.7/clipboard.min.js" crossorigin="anonymous"></script>
+  
+  <script type="text/javascript">
+  $(function() {
+    // copy-btn HTML
+    var btn = "<span class=\"btn-copy tooltipped tooltipped-sw\" aria-label=\"复制到粘贴板！\">";
+    btn += '<i class="fa-regular fa-clone"></i>';
+    btn += '</span>';
+    // mount it!
+    $(".highlight table").before(btn);
+    var clip = new ClipboardJS('.btn-copy', {
+      text: function(trigger) {
+        return Array.from(trigger.nextElementSibling.querySelectorAll('.code')).reduce((str,it)=>str+it.innerText+'\n','')
+      }
+    });
+    clip.on('success', function(e) {
+      e.trigger.setAttribute('aria-label', "复制成功！");
+      e.clearSelection();
+    })
+  })
+  </script>
+
+
+<script src="/js/main.js"></script>
+
+<!-- search -->
+
+<!-- Baidu Analytics -->
+
+<!-- Cloudflare Analytics -->
+
+<!-- Disqus Comments -->
+
+<!-- utterances Comments -->
+
+</body>
+</html>

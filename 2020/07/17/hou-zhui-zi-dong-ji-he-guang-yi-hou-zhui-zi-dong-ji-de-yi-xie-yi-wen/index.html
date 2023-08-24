@@ -1,0 +1,324 @@
+<!DOCTYPE html>
+<html lang=zh>
+<head>
+    <!-- so meta -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="HandheldFriendly" content="True">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=5" />
+    <meta name="description" content="感觉sam，特别是parent树上的复杂度很玄学？！  暴力跳parent树的复杂度是多少？第一种情况是建广义sam，然后每个串暴力跳parent标记，复杂度似乎是$n\sqrt n$​（维护多串的根号trick）第二种是sam上直接无脑暴力跳到某个长度范围内，一般情况是要写倍增的，但是我在2019徐州L、p4094上直接暴力跳也都过了，而且比倍增快（常数小）。。如果是aaaaa…的话parent">
+<meta property="og:type" content="article">
+<meta property="og:title" content="后缀自动机和广义后缀自动机的一些疑问">
+<meta property="og:url" content="http://example.com/2020/07/17/hou-zhui-zi-dong-ji-he-guang-yi-hou-zhui-zi-dong-ji-de-yi-xie-yi-wen/index.html">
+<meta property="og:site_name" content="jyf111&#39;s blog">
+<meta property="og:description" content="感觉sam，特别是parent树上的复杂度很玄学？！  暴力跳parent树的复杂度是多少？第一种情况是建广义sam，然后每个串暴力跳parent标记，复杂度似乎是$n\sqrt n$​（维护多串的根号trick）第二种是sam上直接无脑暴力跳到某个长度范围内，一般情况是要写倍增的，但是我在2019徐州L、p4094上直接暴力跳也都过了，而且比倍增快（常数小）。。如果是aaaaa…的话parent">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2020-07-17T05:33:44.000Z">
+<meta property="article:modified_time" content="2023-08-24T12:06:38.635Z">
+<meta property="article:author" content="jyf111">
+<meta property="article:tag" content="算法">
+<meta name="twitter:card" content="summary">
+    
+    
+      
+        
+          <link rel="shortcut icon" href="/images/favicon.ico">
+        
+      
+      
+        
+          <link rel="icon" type="image/png" href="/images/favicon-192x192.png" sizes="192x192">
+        
+      
+      
+        
+          <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png">
+        
+      
+    
+    <!-- title -->
+    <title>后缀自动机和广义后缀自动机的一些疑问</title>
+    <!-- async scripts -->
+    <!-- Google Analytics -->
+
+
+    <!-- Umami Analytics -->
+
+
+    <!-- styles -->
+    
+<link rel="stylesheet" href="/css/style.css">
+
+    <!-- persian styles -->
+    
+    <!-- rss -->
+    
+    
+	<!-- mathjax -->
+	
+		<script type="text/x-mathjax-config">
+		  MathJax.Hub.Config({
+			tex2jax: {
+			  skipTags: ['script', 'noscript', 'style', 'textarea', 'pre'],
+			  inlineMath: [['$','$']]
+			}
+		  });
+		</script>
+		<script src='https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-MML-AM_CHTML' async></script>
+	
+<meta name="generator" content="Hexo 6.3.0"></head>
+
+<body class="max-width mx-auto px3 ltr">
+    
+      <div id="header-post">
+  <a id="menu-icon" href="#" aria-label="目录"><i class="fa-solid fa-bars fa-lg"></i></a>
+  <a id="menu-icon-tablet" href="#" aria-label="目录"><i class="fa-solid fa-bars fa-lg"></i></a>
+  <a id="top-icon-tablet" href="#" aria-label="顶部" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');" style="display:none;"><i class="fa-solid fa-chevron-up fa-lg"></i></a>
+  <span id="menu">
+    <span id="nav">
+      <ul>
+        <!--
+       --><li><a href="/">首页</a></li><!--
+     --><!--
+       --><li><a href="/archives/">归档</a></li><!--
+     --><!--
+       --><li><a href="/tags/">标签</a></li><!--
+     --><!--
+       --><li><a href="/search/">搜索</a></li><!--
+     -->
+      </ul>
+    </span>
+    <br/>
+    <span id="actions">
+      <ul>
+        
+        <li><a class="icon" aria-label="上一篇" href="/2020/07/22/shift-andor-zi-fu-chuan-pi-pei-suan-fa/"><i class="fa-solid fa-chevron-left" aria-hidden="true" onmouseover="$('#i-prev').toggle();" onmouseout="$('#i-prev').toggle();"></i></a></li>
+        
+        
+        <li><a class="icon" aria-label="下一篇" href="/2020/07/14/kmp-xue-xi-bi-ji/"><i class="fa-solid fa-chevron-right" aria-hidden="true" onmouseover="$('#i-next').toggle();" onmouseout="$('#i-next').toggle();"></i></a></li>
+        
+        <li><a class="icon" aria-label="返回顶部" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fa-solid fa-chevron-up" aria-hidden="true" onmouseover="$('#i-top').toggle();" onmouseout="$('#i-top').toggle();"></i></a></li>
+        <li><a class="icon" aria-label="分享文章" href="#"><i class="fa-solid fa-share-alt" aria-hidden="true" onmouseover="$('#i-share').toggle();" onmouseout="$('#i-share').toggle();" onclick="$('#share').toggle();return false;"></i></a></li>
+      </ul>
+      <span id="i-prev" class="info" style="display:none;">上一篇</span>
+      <span id="i-next" class="info" style="display:none;">下一篇</span>
+      <span id="i-top" class="info" style="display:none;">返回顶部</span>
+      <span id="i-share" class="info" style="display:none;">分享文章</span>
+    </span>
+    <br/>
+    <div id="share" style="display: none">
+      <ul>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.facebook.com/sharer.php?u=http://example.com/2020/07/17/hou-zhui-zi-dong-ji-he-guang-yi-hou-zhui-zi-dong-ji-de-yi-xie-yi-wen/"><i class="fab fa-facebook " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=http://example.com/2020/07/17/hou-zhui-zi-dong-ji-he-guang-yi-hou-zhui-zi-dong-ji-de-yi-xie-yi-wen/&text=后缀自动机和广义后缀自动机的一些疑问"><i class="fab fa-twitter " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.linkedin.com/shareArticle?url=http://example.com/2020/07/17/hou-zhui-zi-dong-ji-he-guang-yi-hou-zhui-zi-dong-ji-de-yi-xie-yi-wen/&title=后缀自动机和广义后缀自动机的一些疑问"><i class="fab fa-linkedin " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://pinterest.com/pin/create/bookmarklet/?url=http://example.com/2020/07/17/hou-zhui-zi-dong-ji-he-guang-yi-hou-zhui-zi-dong-ji-de-yi-xie-yi-wen/&is_video=false&description=后缀自动机和广义后缀自动机的一些疑问"><i class="fab fa-pinterest " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=后缀自动机和广义后缀自动机的一些疑问&body=Check out this article: http://example.com/2020/07/17/hou-zhui-zi-dong-ji-he-guang-yi-hou-zhui-zi-dong-ji-de-yi-xie-yi-wen/"><i class="fa-solid fa-envelope " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://getpocket.com/save?url=http://example.com/2020/07/17/hou-zhui-zi-dong-ji-he-guang-yi-hou-zhui-zi-dong-ji-de-yi-xie-yi-wen/&title=后缀自动机和广义后缀自动机的一些疑问"><i class="fab fa-get-pocket " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://reddit.com/submit?url=http://example.com/2020/07/17/hou-zhui-zi-dong-ji-he-guang-yi-hou-zhui-zi-dong-ji-de-yi-xie-yi-wen/&title=后缀自动机和广义后缀自动机的一些疑问"><i class="fab fa-reddit " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.stumbleupon.com/submit?url=http://example.com/2020/07/17/hou-zhui-zi-dong-ji-he-guang-yi-hou-zhui-zi-dong-ji-de-yi-xie-yi-wen/&title=后缀自动机和广义后缀自动机的一些疑问"><i class="fab fa-stumbleupon " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://digg.com/submit?url=http://example.com/2020/07/17/hou-zhui-zi-dong-ji-he-guang-yi-hou-zhui-zi-dong-ji-de-yi-xie-yi-wen/&title=后缀自动机和广义后缀自动机的一些疑问"><i class="fab fa-digg " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.tumblr.com/share/link?url=http://example.com/2020/07/17/hou-zhui-zi-dong-ji-he-guang-yi-hou-zhui-zi-dong-ji-de-yi-xie-yi-wen/&name=后缀自动机和广义后缀自动机的一些疑问&description="><i class="fab fa-tumblr " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://news.ycombinator.com/submitlink?u=http://example.com/2020/07/17/hou-zhui-zi-dong-ji-he-guang-yi-hou-zhui-zi-dong-ji-de-yi-xie-yi-wen/&t=后缀自动机和广义后缀自动机的一些疑问"><i class="fab fa-hacker-news " aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+    
+    
+  </span>
+</div>
+
+    
+    <div class="content index py4 ">
+        
+        <article class="post h-entry" itemscope itemtype="http://schema.org/BlogPosting">
+  <header>
+    
+    <h1 class="posttitle p-name" itemprop="name headline">
+        后缀自动机和广义后缀自动机的一些疑问
+    </h1>
+
+
+
+    <div class="meta">
+      <span class="author p-author h-card" itemprop="author" itemscope itemtype="http://schema.org/Person">
+        <span class="p-name" itemprop="name">jyf111</span>
+      </span>
+      
+    <div class="postdate">
+      
+        <time datetime="2020-07-17T05:33:44.000Z" class="dt-published" itemprop="datePublished">2020-07-17</time>
+        
+        (Updated: <time datetime="2023-08-24T12:06:38.635Z" class="dt-updated" itemprop="dateModified">2023-08-24</time>)
+        
+      
+    </div>
+
+
+      
+
+      
+    <div class="article-tag">
+        <i class="fa-solid fa-tag"></i>
+        <a class="p-category" href="/tags/%E7%AE%97%E6%B3%95/" rel="tag">算法</a>
+    </div>
+
+
+      
+        <span class=count-symbol-post> 
+          <i class="fa-solid fa-hourglass"></i>
+          
+            1 min to read
+          
+        </span>
+      
+    </div>
+  </header>
+  
+
+  <div class="content e-content" itemprop="articleBody">
+    <p>感觉sam，特别是parent树上的复杂度很玄学？！</p>
+<ul>
+<li><p>暴力跳parent树的复杂度是多少？<br>第一种情况是建广义sam，然后每个串暴力跳parent标记，复杂度似乎是$n\sqrt n$​（维护多串的根号trick）<br>第二种是sam上直接无脑暴力跳到某个长度范围内，一般情况是要写倍增的，但是我在2019徐州L、p4094上直接暴力跳也都过了，而且比倍增快（常数小）。。如果是aaaaa…的话parent树是链，应该能卡，所以还是要写倍增吧</p>
+</li>
+<li><p>trie上建广义sam<br>正解是bfs的做法，但是需要显示的建出trie，如果不建会错，我认为是重边的影响（不确定）。<br>如果直接dfs，复杂度会取决于trie上$\sum dep(leaf)$（15国家论文），感觉可以卡成$n^2$，然而我在2019徐州L、2019wfG上直接dfs建就过了，由于不用建trie，时间和空间上都挺优秀，目前还不知道是数据问题还是什么。p3346由于叶子只有20个，所以dfs肯定是对的。</p>
+</li>
+<li><p>广义sam能不能基数排序<br>突然意识到广义sam基数排序后的结果与拓扑序可能有出入，不过我好几道exsam用基数排序得到的拓扑序去做也过了。。很迷<br>还是老老实实把parent树建出来吧。</p>
+</li>
+<li><p>注意：线段树合并求endpos集合的时候，一定要新开点，否则可能会影响子树的信息。</p>
+</li>
+</ul>
+
+  </div>
+</article>
+
+
+
+        
+          <div id="footer-post-container">
+  <div id="footer-post">
+
+    <div id="nav-footer" style="display: none">
+      <ul>
+        
+          <li><a href="/">首页</a></li>
+        
+          <li><a href="/archives/">归档</a></li>
+        
+          <li><a href="/tags/">标签</a></li>
+        
+          <li><a href="/search/">搜索</a></li>
+        
+      </ul>
+    </div>
+
+    
+    
+
+    <div id="share-footer" style="display: none">
+      <ul>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.facebook.com/sharer.php?u=http://example.com/2020/07/17/hou-zhui-zi-dong-ji-he-guang-yi-hou-zhui-zi-dong-ji-de-yi-xie-yi-wen/"><i class="fab fa-facebook fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=http://example.com/2020/07/17/hou-zhui-zi-dong-ji-he-guang-yi-hou-zhui-zi-dong-ji-de-yi-xie-yi-wen/&text=后缀自动机和广义后缀自动机的一些疑问"><i class="fab fa-twitter fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.linkedin.com/shareArticle?url=http://example.com/2020/07/17/hou-zhui-zi-dong-ji-he-guang-yi-hou-zhui-zi-dong-ji-de-yi-xie-yi-wen/&title=后缀自动机和广义后缀自动机的一些疑问"><i class="fab fa-linkedin fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://pinterest.com/pin/create/bookmarklet/?url=http://example.com/2020/07/17/hou-zhui-zi-dong-ji-he-guang-yi-hou-zhui-zi-dong-ji-de-yi-xie-yi-wen/&is_video=false&description=后缀自动机和广义后缀自动机的一些疑问"><i class="fab fa-pinterest fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=后缀自动机和广义后缀自动机的一些疑问&body=Check out this article: http://example.com/2020/07/17/hou-zhui-zi-dong-ji-he-guang-yi-hou-zhui-zi-dong-ji-de-yi-xie-yi-wen/"><i class="fa-solid fa-envelope fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://getpocket.com/save?url=http://example.com/2020/07/17/hou-zhui-zi-dong-ji-he-guang-yi-hou-zhui-zi-dong-ji-de-yi-xie-yi-wen/&title=后缀自动机和广义后缀自动机的一些疑问"><i class="fab fa-get-pocket fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://reddit.com/submit?url=http://example.com/2020/07/17/hou-zhui-zi-dong-ji-he-guang-yi-hou-zhui-zi-dong-ji-de-yi-xie-yi-wen/&title=后缀自动机和广义后缀自动机的一些疑问"><i class="fab fa-reddit fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.stumbleupon.com/submit?url=http://example.com/2020/07/17/hou-zhui-zi-dong-ji-he-guang-yi-hou-zhui-zi-dong-ji-de-yi-xie-yi-wen/&title=后缀自动机和广义后缀自动机的一些疑问"><i class="fab fa-stumbleupon fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://digg.com/submit?url=http://example.com/2020/07/17/hou-zhui-zi-dong-ji-he-guang-yi-hou-zhui-zi-dong-ji-de-yi-xie-yi-wen/&title=后缀自动机和广义后缀自动机的一些疑问"><i class="fab fa-digg fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.tumblr.com/share/link?url=http://example.com/2020/07/17/hou-zhui-zi-dong-ji-he-guang-yi-hou-zhui-zi-dong-ji-de-yi-xie-yi-wen/&name=后缀自动机和广义后缀自动机的一些疑问&description="><i class="fab fa-tumblr fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://news.ycombinator.com/submitlink?u=http://example.com/2020/07/17/hou-zhui-zi-dong-ji-he-guang-yi-hou-zhui-zi-dong-ji-de-yi-xie-yi-wen/&t=后缀自动机和广义后缀自动机的一些疑问"><i class="fab fa-hacker-news fa-lg" aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+
+    <div id="actions-footer">
+        <a id="menu" class="icon" href="#" onclick="$('#nav-footer').toggle();return false;"><i class="fa-solid fa-bars fa-lg" aria-hidden="true"></i> 菜单</a>
+        
+        <a id="share" class="icon" href="#" onclick="$('#share-footer').toggle();return false;"><i class="fa-solid fa-share-alt fa-lg" aria-hidden="true"></i> 分享</a>
+        <a id="top" style="display:none" class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fa-solid fa-chevron-up fa-lg" aria-hidden="true"></i> 返回顶部</a>
+    </div>
+
+  </div>
+</div>
+
+        
+        <footer id="footer">
+  <div class="footer-left">
+    Copyright &copy;
+    
+    
+    2020-2023
+    jyf111
+  </div>
+  <div class="footer-right">
+    <nav>
+      <ul>
+        <!--
+       --><li><a href="/">首页</a></li><!--
+     --><!--
+       --><li><a href="/archives/">归档</a></li><!--
+     --><!--
+       --><li><a href="/tags/">标签</a></li><!--
+     --><!--
+       --><li><a href="/search/">搜索</a></li><!--
+     -->
+      </ul>
+    </nav>
+  </div>
+</footer>
+
+    </div>
+    <!-- styles -->
+
+
+
+  <link rel="preload" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" crossorigin="anonymous" onload="this.onload=null;this.rel='stylesheet'"/>
+
+
+    <!-- jquery -->
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js" crossorigin="anonymous"></script>
+
+
+
+
+<!-- clipboard -->
+
+  
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.7/clipboard.min.js" crossorigin="anonymous"></script>
+  
+  <script type="text/javascript">
+  $(function() {
+    // copy-btn HTML
+    var btn = "<span class=\"btn-copy tooltipped tooltipped-sw\" aria-label=\"复制到粘贴板！\">";
+    btn += '<i class="fa-regular fa-clone"></i>';
+    btn += '</span>';
+    // mount it!
+    $(".highlight table").before(btn);
+    var clip = new ClipboardJS('.btn-copy', {
+      text: function(trigger) {
+        return Array.from(trigger.nextElementSibling.querySelectorAll('.code')).reduce((str,it)=>str+it.innerText+'\n','')
+      }
+    });
+    clip.on('success', function(e) {
+      e.trigger.setAttribute('aria-label', "复制成功！");
+      e.clearSelection();
+    })
+  })
+  </script>
+
+
+<script src="/js/main.js"></script>
+
+<!-- search -->
+
+<!-- Baidu Analytics -->
+
+<!-- Cloudflare Analytics -->
+
+<!-- Disqus Comments -->
+
+<!-- utterances Comments -->
+
+</body>
+</html>

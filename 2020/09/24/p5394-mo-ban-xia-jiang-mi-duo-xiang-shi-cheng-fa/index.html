@@ -1,0 +1,393 @@
+<!DOCTYPE html>
+<html lang=zh>
+<head>
+    <!-- so meta -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="HandheldFriendly" content="True">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=5" />
+    <meta name="description" content="下降幂多项式：Falling Factorial Polynomial(FFP)形式f(x)&#x3D;∑i&#x3D;0naixi‾f(x) &#x3D; \sum \limits_{i&#x3D;0}^{n}a_ix^{\underline{i}}f(x)&#x3D;i&#x3D;0∑n​ai​xi​普通多项式与下降幂多项式是一一对应的（从高幂次向低幂次配系数即可）现在给出两个下降幂多项式f，">
+<meta property="og:type" content="article">
+<meta property="og:title" content="P5394 【模板】下降幂多项式乘法">
+<meta property="og:url" content="http://example.com/2020/09/24/p5394-mo-ban-xia-jiang-mi-duo-xiang-shi-cheng-fa/index.html">
+<meta property="og:site_name" content="jyf111&#39;s blog">
+<meta property="og:description" content="下降幂多项式：Falling Factorial Polynomial(FFP)形式f(x)&#x3D;∑i&#x3D;0naixi‾f(x) &#x3D; \sum \limits_{i&#x3D;0}^{n}a_ix^{\underline{i}}f(x)&#x3D;i&#x3D;0∑n​ai​xi​普通多项式与下降幂多项式是一一对应的（从高幂次向低幂次配系数即可）现在给出两个下降幂多项式f，">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2020-09-24T05:33:44.000Z">
+<meta property="article:modified_time" content="2023-08-24T08:43:19.617Z">
+<meta property="article:author" content="jyf111">
+<meta property="article:tag" content="算法">
+<meta name="twitter:card" content="summary">
+    
+    
+      
+        
+          <link rel="shortcut icon" href="/images/favicon.ico">
+        
+      
+      
+        
+          <link rel="icon" type="image/png" href="/images/favicon-192x192.png" sizes="192x192">
+        
+      
+      
+        
+          <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png">
+        
+      
+    
+    <!-- title -->
+    <title>P5394 【模板】下降幂多项式乘法</title>
+    <!-- async scripts -->
+    <!-- Google Analytics -->
+
+
+    <!-- Umami Analytics -->
+
+
+    <!-- styles -->
+    
+<link rel="stylesheet" href="/css/style.css">
+
+    <!-- persian styles -->
+    
+    <!-- rss -->
+    
+    
+	<!-- mathjax -->
+	
+		<script type="text/x-mathjax-config">
+		  MathJax.Hub.Config({
+			tex2jax: {
+			  skipTags: ['script', 'noscript', 'style', 'textarea', 'pre'],
+			  inlineMath: [['$','$']]
+			}
+		  });
+		</script>
+		<script src='https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-MML-AM_CHTML' async></script>
+	
+<meta name="generator" content="Hexo 6.3.0"></head>
+
+<body class="max-width mx-auto px3 ltr">
+    
+      <div id="header-post">
+  <a id="menu-icon" href="#" aria-label="目录"><i class="fa-solid fa-bars fa-lg"></i></a>
+  <a id="menu-icon-tablet" href="#" aria-label="目录"><i class="fa-solid fa-bars fa-lg"></i></a>
+  <a id="top-icon-tablet" href="#" aria-label="顶部" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');" style="display:none;"><i class="fa-solid fa-chevron-up fa-lg"></i></a>
+  <span id="menu">
+    <span id="nav">
+      <ul>
+        <!--
+       --><li><a href="/">首页</a></li><!--
+     --><!--
+       --><li><a href="/archives/">归档</a></li><!--
+     --><!--
+       --><li><a href="/tags/">标签</a></li><!--
+     --><!--
+       --><li><a href="/search/">搜索</a></li><!--
+     -->
+      </ul>
+    </span>
+    <br/>
+    <span id="actions">
+      <ul>
+        
+        <li><a class="icon" aria-label="上一篇" href="/2020/09/24/niu-ke-dao-yi-dao-lai-bu-ni-ci-qiu-dao-gong-shi/"><i class="fa-solid fa-chevron-left" aria-hidden="true" onmouseover="$('#i-prev').toggle();" onmouseout="$('#i-prev').toggle();"></i></a></li>
+        
+        
+        <li><a class="icon" aria-label="下一篇" href="/2020/09/23/niu-ke-tiao-zhan-sai-41-d-mai-tang-guo-zhe-ban-duo-dian-qiu-zhi/"><i class="fa-solid fa-chevron-right" aria-hidden="true" onmouseover="$('#i-next').toggle();" onmouseout="$('#i-next').toggle();"></i></a></li>
+        
+        <li><a class="icon" aria-label="返回顶部" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fa-solid fa-chevron-up" aria-hidden="true" onmouseover="$('#i-top').toggle();" onmouseout="$('#i-top').toggle();"></i></a></li>
+        <li><a class="icon" aria-label="分享文章" href="#"><i class="fa-solid fa-share-alt" aria-hidden="true" onmouseover="$('#i-share').toggle();" onmouseout="$('#i-share').toggle();" onclick="$('#share').toggle();return false;"></i></a></li>
+      </ul>
+      <span id="i-prev" class="info" style="display:none;">上一篇</span>
+      <span id="i-next" class="info" style="display:none;">下一篇</span>
+      <span id="i-top" class="info" style="display:none;">返回顶部</span>
+      <span id="i-share" class="info" style="display:none;">分享文章</span>
+    </span>
+    <br/>
+    <div id="share" style="display: none">
+      <ul>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.facebook.com/sharer.php?u=http://example.com/2020/09/24/p5394-mo-ban-xia-jiang-mi-duo-xiang-shi-cheng-fa/"><i class="fab fa-facebook " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=http://example.com/2020/09/24/p5394-mo-ban-xia-jiang-mi-duo-xiang-shi-cheng-fa/&text=P5394 【模板】下降幂多项式乘法"><i class="fab fa-twitter " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.linkedin.com/shareArticle?url=http://example.com/2020/09/24/p5394-mo-ban-xia-jiang-mi-duo-xiang-shi-cheng-fa/&title=P5394 【模板】下降幂多项式乘法"><i class="fab fa-linkedin " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://pinterest.com/pin/create/bookmarklet/?url=http://example.com/2020/09/24/p5394-mo-ban-xia-jiang-mi-duo-xiang-shi-cheng-fa/&is_video=false&description=P5394 【模板】下降幂多项式乘法"><i class="fab fa-pinterest " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=P5394 【模板】下降幂多项式乘法&body=Check out this article: http://example.com/2020/09/24/p5394-mo-ban-xia-jiang-mi-duo-xiang-shi-cheng-fa/"><i class="fa-solid fa-envelope " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://getpocket.com/save?url=http://example.com/2020/09/24/p5394-mo-ban-xia-jiang-mi-duo-xiang-shi-cheng-fa/&title=P5394 【模板】下降幂多项式乘法"><i class="fab fa-get-pocket " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://reddit.com/submit?url=http://example.com/2020/09/24/p5394-mo-ban-xia-jiang-mi-duo-xiang-shi-cheng-fa/&title=P5394 【模板】下降幂多项式乘法"><i class="fab fa-reddit " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.stumbleupon.com/submit?url=http://example.com/2020/09/24/p5394-mo-ban-xia-jiang-mi-duo-xiang-shi-cheng-fa/&title=P5394 【模板】下降幂多项式乘法"><i class="fab fa-stumbleupon " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://digg.com/submit?url=http://example.com/2020/09/24/p5394-mo-ban-xia-jiang-mi-duo-xiang-shi-cheng-fa/&title=P5394 【模板】下降幂多项式乘法"><i class="fab fa-digg " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.tumblr.com/share/link?url=http://example.com/2020/09/24/p5394-mo-ban-xia-jiang-mi-duo-xiang-shi-cheng-fa/&name=P5394 【模板】下降幂多项式乘法&description="><i class="fab fa-tumblr " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://news.ycombinator.com/submitlink?u=http://example.com/2020/09/24/p5394-mo-ban-xia-jiang-mi-duo-xiang-shi-cheng-fa/&t=P5394 【模板】下降幂多项式乘法"><i class="fab fa-hacker-news " aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+    
+    
+  </span>
+</div>
+
+    
+    <div class="content index py4 ">
+        
+        <article class="post h-entry" itemscope itemtype="http://schema.org/BlogPosting">
+  <header>
+    
+    <h1 class="posttitle p-name" itemprop="name headline">
+        P5394 【模板】下降幂多项式乘法
+    </h1>
+
+
+
+    <div class="meta">
+      <span class="author p-author h-card" itemprop="author" itemscope itemtype="http://schema.org/Person">
+        <span class="p-name" itemprop="name">jyf111</span>
+      </span>
+      
+    <div class="postdate">
+      
+        <time datetime="2020-09-24T05:33:44.000Z" class="dt-published" itemprop="datePublished">2020-09-24</time>
+        
+        (Updated: <time datetime="2023-08-24T08:43:19.617Z" class="dt-updated" itemprop="dateModified">2023-08-24</time>)
+        
+      
+    </div>
+
+
+      
+
+      
+    <div class="article-tag">
+        <i class="fa-solid fa-tag"></i>
+        <a class="p-category" href="/tags/%E7%AE%97%E6%B3%95/" rel="tag">算法</a>
+    </div>
+
+
+      
+        <span class=count-symbol-post> 
+          <i class="fa-solid fa-hourglass"></i>
+          
+            4 mins to read
+          
+        </span>
+      
+    </div>
+  </header>
+  
+
+  <div class="content e-content" itemprop="articleBody">
+    <p>下降幂多项式：Falling Factorial Polynomial(FFP)<br>形式f(x)&#x3D;∑i&#x3D;0naixi‾f(x) &#x3D; \sum \limits_{i&#x3D;0}^{n}<br>a_ix^{\underline{i}}f(x)&#x3D;i&#x3D;0∑n​ai​xi​<br>普通多项式与下降幂多项式是一一对应的（从高幂次向低幂次配系数即可）<br>现在给出两个下降幂多项式f，g，要求出这两个多项式乘法的结果（输出普通多项式的系数）<br>n≤105n \leq 10^5n≤105<br>在FFT下，普通多项式在单位根处的点值可以快速计算<br>而下降幂多项式在0…n0 \dots n0…n处的点值可以快速计算<br>考虑f(x)的EGF：∑i&#x3D;0∞f(i)i!xi&#x3D;∑i&#x3D;0∞∑j&#x3D;0najij‾i!xi&#x3D;∑j&#x3D;0naj∑i&#x3D;0∞1(i−j)!xi&#x3D;∑j&#x3D;0najxj∑i&#x3D;0∞xii!&#x3D;ex∑i&#x3D;0naixi\sum<br>\limits_{i&#x3D;0}^{\infty} \frac{f(i)}{i!}x^i &#x3D; \sum \limits_{i&#x3D;0}^{\infty}<br>\frac{\sum \limits_{j&#x3D;0}^{n} a_ji^{\underline{j}}}{i!}x^i &#x3D; \sum<br>\limits_{j&#x3D;0}^n a_j \sum\limits_{i&#x3D;0}^\infty \frac{1}{(i-j)!}x^i &#x3D;<br>\sum\limits_{j&#x3D;0}^n a_jx^j \sum\limits_{i&#x3D;0}^\infty \frac{x^i}{i!} &#x3D;<br>e^x\sum\limits_{i&#x3D;0}^n<br>a_ix^ii&#x3D;0∑∞​i!f(i)​xi&#x3D;i&#x3D;0∑∞​i!j&#x3D;0∑n​aj​ij​​xi&#x3D;j&#x3D;0∑n​aj​i&#x3D;0∑∞​(i−j)!1​xi&#x3D;j&#x3D;0∑n​aj​xji&#x3D;0∑∞​i!xi​&#x3D;exi&#x3D;0∑n​ai​xi<br>所以我们只要把下降幂多项式当成普通多项式，然后卷上一个exe^xex就可以快速计算出f(x)在0…n0\dots<br>n0…n处的取值（实质是f(x)x!\frac{f(x)}{x!}x!f(x)​）<br>那么将f和g分别卷上exe^xex然后对应点值相乘，再反变换回去（乘上e−x&#x3D;∑i&#x3D;0∞(−x)ii!e^{-x} &#x3D;<br>\sum\limits_{i&#x3D;0}^\infty \frac{(-x)^i}{i!}e−x&#x3D;i&#x3D;0∑∞​i!(−x)i​）即可<br>复杂度O(nlogn)O(nlogn)O(nlogn)</p>
+<pre><code>#include &lt;bits/stdc++.h&gt;
+using namespace std;
+const int N = 8e5 + 5;
+const int mod = 998244353, G = 3;
+int up, w[N], rev[N], fac[N], ifac[N];
+int fpw(int a, int b)
+&#123;
+    int ans = 1;
+    while(b)
+    &#123;
+        if(b&amp;1) ans = 1ll*ans*a%mod;
+        a = 1ll*a*a%mod;
+        b &gt;&gt;= 1;
+    &#125;
+    return ans;
+&#125;
+namespace poly
+&#123;
+    void init(int n)
+    &#123;
+        up = 1; int l = 0;
+        while(up&lt;=n) up &lt;&lt;= 1, l++;
+        for(int i=0; i&lt;up; i++) rev[i] = (rev[i&gt;&gt;1]&gt;&gt;1)|((i&amp;1)&lt;&lt;(l-1));
+        int wn = fpw(G, mod&gt;&gt;l); w[up&gt;&gt;1] = 1;
+        for(int i=(up&gt;&gt;1)+1; i&lt;up; i++) w[i] = 1ll*w[i-1]*wn%mod;
+        for(int i=(up&gt;&gt;1)-1; i&gt;=1; i--) w[i] = w[i&lt;&lt;1];
+    &#125;
+    void clear(int *a, int n) &#123; memset(a, 0, n&lt;&lt;2); &#125;
+    int getlen(int n) &#123; return 1&lt;&lt;(32-__builtin_clz(n)); &#125;
+    inline void mul(int *a, int n, int x, int *b) &#123; while(n--) *b++ = 1ll**a++*x%mod; &#125;
+    inline void dot(int *a, int *b, int n, int *c) &#123; while(n--) *c++ = 1ll**a++**b++%mod; &#125;
+    void DFT(int *a, int l)
+    &#123;
+        static unsigned long long tmp[N];
+        int u = __builtin_ctz(up/l), t;
+        for(int i=0; i&lt;l; i++) tmp[i] = a[rev[i]&gt;&gt;u];
+        for(int i=1; i^l; i&lt;&lt;=1)
+            for(int j=0, d=i&lt;&lt;1; j^l; j+=d)
+                for(int k=0; k&lt;i; k++)
+                    t = tmp[i|j|k]*w[i|k]%mod, tmp[i|j|k] = tmp[j|k]+mod-t, tmp[j|k] += t;
+        for(int i=0; i&lt;l; i++) a[i] = tmp[i]%mod;
+    &#125;
+    void IDFT(int *a, int l)
+    &#123;
+        reverse(a+1, a+l); DFT(a, l);
+        mul(a, l, mod-mod/l, a);
+    &#125;
+    inline void conv(int *a, int *b, int l) &#123; DFT(a, l); DFT(b, l); dot(a, b, l, a); IDFT(a, l); &#125;
+&#125;
+int n, m, a[N], b[N];
+void ffp(int *a, int n, int op)
+&#123;
+    static int tmp[N];
+    poly::clear(tmp, up);
+    if(op) for(int i=0; i&lt;=n; i++) tmp[i] = ifac[i];
+    else for(int i=0; i&lt;=n; i++) if(i&amp;1) tmp[i] = mod - ifac[i]; else tmp[i] = ifac[i];
+    poly::conv(a, tmp, up);
+&#125;
+int main()
+&#123;
+    ios::sync_with_stdio(false);
+    cin.tie(nullptr);
+    cin &gt;&gt; n &gt;&gt; m;
+    int deg = n + m;
+    fac[0] = 1;
+    for(int i=1; i&lt;=deg; i++) fac[i] = 1ll*fac[i-1]*i%mod;
+    ifac[deg] = fpw(fac[deg], mod-2);
+    for(int i=deg-1; i&gt;=0; i--) ifac[i] = 1ll*ifac[i+1]*(i+1)%mod;
+    poly::init(deg&lt;&lt;1);
+    for(int i=0; i&lt;=n; i++) cin &gt;&gt; a[i];
+    for(int i=0; i&lt;=m; i++) cin &gt;&gt; b[i];
+    ffp(a, deg, 1); ffp(b, deg, 1);
+    for(int i=0; i&lt;up; i++) a[i] = 1ll*a[i]*b[i]%mod*fac[i]%mod;
+    ffp(a, deg, 0);
+    for(int i=0; i&lt;=deg; i++) cout &lt;&lt; a[i] &lt;&lt; &quot; \n&quot;[i==deg];
+    return 0;
+&#125;
+</code></pre>
+<p>那么这玩意除了做这种 <del>没啥用</del> 的模板题还能干啥呢</p>
+
+  </div>
+</article>
+
+
+
+        
+          <div id="footer-post-container">
+  <div id="footer-post">
+
+    <div id="nav-footer" style="display: none">
+      <ul>
+        
+          <li><a href="/">首页</a></li>
+        
+          <li><a href="/archives/">归档</a></li>
+        
+          <li><a href="/tags/">标签</a></li>
+        
+          <li><a href="/search/">搜索</a></li>
+        
+      </ul>
+    </div>
+
+    
+    
+
+    <div id="share-footer" style="display: none">
+      <ul>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.facebook.com/sharer.php?u=http://example.com/2020/09/24/p5394-mo-ban-xia-jiang-mi-duo-xiang-shi-cheng-fa/"><i class="fab fa-facebook fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=http://example.com/2020/09/24/p5394-mo-ban-xia-jiang-mi-duo-xiang-shi-cheng-fa/&text=P5394 【模板】下降幂多项式乘法"><i class="fab fa-twitter fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.linkedin.com/shareArticle?url=http://example.com/2020/09/24/p5394-mo-ban-xia-jiang-mi-duo-xiang-shi-cheng-fa/&title=P5394 【模板】下降幂多项式乘法"><i class="fab fa-linkedin fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://pinterest.com/pin/create/bookmarklet/?url=http://example.com/2020/09/24/p5394-mo-ban-xia-jiang-mi-duo-xiang-shi-cheng-fa/&is_video=false&description=P5394 【模板】下降幂多项式乘法"><i class="fab fa-pinterest fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=P5394 【模板】下降幂多项式乘法&body=Check out this article: http://example.com/2020/09/24/p5394-mo-ban-xia-jiang-mi-duo-xiang-shi-cheng-fa/"><i class="fa-solid fa-envelope fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://getpocket.com/save?url=http://example.com/2020/09/24/p5394-mo-ban-xia-jiang-mi-duo-xiang-shi-cheng-fa/&title=P5394 【模板】下降幂多项式乘法"><i class="fab fa-get-pocket fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://reddit.com/submit?url=http://example.com/2020/09/24/p5394-mo-ban-xia-jiang-mi-duo-xiang-shi-cheng-fa/&title=P5394 【模板】下降幂多项式乘法"><i class="fab fa-reddit fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.stumbleupon.com/submit?url=http://example.com/2020/09/24/p5394-mo-ban-xia-jiang-mi-duo-xiang-shi-cheng-fa/&title=P5394 【模板】下降幂多项式乘法"><i class="fab fa-stumbleupon fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://digg.com/submit?url=http://example.com/2020/09/24/p5394-mo-ban-xia-jiang-mi-duo-xiang-shi-cheng-fa/&title=P5394 【模板】下降幂多项式乘法"><i class="fab fa-digg fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.tumblr.com/share/link?url=http://example.com/2020/09/24/p5394-mo-ban-xia-jiang-mi-duo-xiang-shi-cheng-fa/&name=P5394 【模板】下降幂多项式乘法&description="><i class="fab fa-tumblr fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://news.ycombinator.com/submitlink?u=http://example.com/2020/09/24/p5394-mo-ban-xia-jiang-mi-duo-xiang-shi-cheng-fa/&t=P5394 【模板】下降幂多项式乘法"><i class="fab fa-hacker-news fa-lg" aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+
+    <div id="actions-footer">
+        <a id="menu" class="icon" href="#" onclick="$('#nav-footer').toggle();return false;"><i class="fa-solid fa-bars fa-lg" aria-hidden="true"></i> 菜单</a>
+        
+        <a id="share" class="icon" href="#" onclick="$('#share-footer').toggle();return false;"><i class="fa-solid fa-share-alt fa-lg" aria-hidden="true"></i> 分享</a>
+        <a id="top" style="display:none" class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fa-solid fa-chevron-up fa-lg" aria-hidden="true"></i> 返回顶部</a>
+    </div>
+
+  </div>
+</div>
+
+        
+        <footer id="footer">
+  <div class="footer-left">
+    Copyright &copy;
+    
+    
+    2020-2023
+    jyf111
+  </div>
+  <div class="footer-right">
+    <nav>
+      <ul>
+        <!--
+       --><li><a href="/">首页</a></li><!--
+     --><!--
+       --><li><a href="/archives/">归档</a></li><!--
+     --><!--
+       --><li><a href="/tags/">标签</a></li><!--
+     --><!--
+       --><li><a href="/search/">搜索</a></li><!--
+     -->
+      </ul>
+    </nav>
+  </div>
+</footer>
+
+    </div>
+    <!-- styles -->
+
+
+
+  <link rel="preload" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" crossorigin="anonymous" onload="this.onload=null;this.rel='stylesheet'"/>
+
+
+    <!-- jquery -->
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js" crossorigin="anonymous"></script>
+
+
+
+
+<!-- clipboard -->
+
+  
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.7/clipboard.min.js" crossorigin="anonymous"></script>
+  
+  <script type="text/javascript">
+  $(function() {
+    // copy-btn HTML
+    var btn = "<span class=\"btn-copy tooltipped tooltipped-sw\" aria-label=\"复制到粘贴板！\">";
+    btn += '<i class="fa-regular fa-clone"></i>';
+    btn += '</span>';
+    // mount it!
+    $(".highlight table").before(btn);
+    var clip = new ClipboardJS('.btn-copy', {
+      text: function(trigger) {
+        return Array.from(trigger.nextElementSibling.querySelectorAll('.code')).reduce((str,it)=>str+it.innerText+'\n','')
+      }
+    });
+    clip.on('success', function(e) {
+      e.trigger.setAttribute('aria-label', "复制成功！");
+      e.clearSelection();
+    })
+  })
+  </script>
+
+
+<script src="/js/main.js"></script>
+
+<!-- search -->
+
+<!-- Baidu Analytics -->
+
+<!-- Cloudflare Analytics -->
+
+<!-- Disqus Comments -->
+
+<!-- utterances Comments -->
+
+</body>
+</html>

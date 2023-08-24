@@ -1,0 +1,332 @@
+<!DOCTYPE html>
+<html lang=zh>
+<head>
+    <!-- so meta -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="HandheldFriendly" content="True">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=5" />
+    <meta name="description" content="hdu的服务器有点问题，体验比较差感觉打的中规中矩，不过能排到前50还是比较惊讶，估计受题目风格以及服务器问题的影响。（看来大部分队伍受网络的影响挺大的，而且听说有多道疑似原题，要重赛了，不过也无所谓） 1001简单的分类讨论，解不等式即可 1002队友过的，暴力 1006构造题，发现$x^2+(x+3)^2-(x+1)^2-(x+2)^2&#x3D;4$后，根据模4的值分别构造即可 1007枚举">
+<meta property="og:type" content="article">
+<meta property="og:title" content="2021中国大学生程序设计竞赛（CCPC）- 网络选拔赛">
+<meta property="og:url" content="http://example.com/2021/08/28/2021-zhong-guo-da-xue-sheng-cheng-xu-she-ji-jing-sai-ccpc-wang-luo-xuan-ba-sai/index.html">
+<meta property="og:site_name" content="jyf111&#39;s blog">
+<meta property="og:description" content="hdu的服务器有点问题，体验比较差感觉打的中规中矩，不过能排到前50还是比较惊讶，估计受题目风格以及服务器问题的影响。（看来大部分队伍受网络的影响挺大的，而且听说有多道疑似原题，要重赛了，不过也无所谓） 1001简单的分类讨论，解不等式即可 1002队友过的，暴力 1006构造题，发现$x^2+(x+3)^2-(x+1)^2-(x+2)^2&#x3D;4$后，根据模4的值分别构造即可 1007枚举">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2021-08-28T05:33:44.000Z">
+<meta property="article:modified_time" content="2023-08-24T09:45:43.506Z">
+<meta property="article:author" content="jyf111">
+<meta property="article:tag" content="算法">
+<meta name="twitter:card" content="summary">
+    
+    
+      
+        
+          <link rel="shortcut icon" href="/images/favicon.ico">
+        
+      
+      
+        
+          <link rel="icon" type="image/png" href="/images/favicon-192x192.png" sizes="192x192">
+        
+      
+      
+        
+          <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png">
+        
+      
+    
+    <!-- title -->
+    <title>2021中国大学生程序设计竞赛（CCPC）- 网络选拔赛</title>
+    <!-- async scripts -->
+    <!-- Google Analytics -->
+
+
+    <!-- Umami Analytics -->
+
+
+    <!-- styles -->
+    
+<link rel="stylesheet" href="/css/style.css">
+
+    <!-- persian styles -->
+    
+    <!-- rss -->
+    
+    
+	<!-- mathjax -->
+	
+		<script type="text/x-mathjax-config">
+		  MathJax.Hub.Config({
+			tex2jax: {
+			  skipTags: ['script', 'noscript', 'style', 'textarea', 'pre'],
+			  inlineMath: [['$','$']]
+			}
+		  });
+		</script>
+		<script src='https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-MML-AM_CHTML' async></script>
+	
+<meta name="generator" content="Hexo 6.3.0"></head>
+
+<body class="max-width mx-auto px3 ltr">
+    
+      <div id="header-post">
+  <a id="menu-icon" href="#" aria-label="目录"><i class="fa-solid fa-bars fa-lg"></i></a>
+  <a id="menu-icon-tablet" href="#" aria-label="目录"><i class="fa-solid fa-bars fa-lg"></i></a>
+  <a id="top-icon-tablet" href="#" aria-label="顶部" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');" style="display:none;"><i class="fa-solid fa-chevron-up fa-lg"></i></a>
+  <span id="menu">
+    <span id="nav">
+      <ul>
+        <!--
+       --><li><a href="/">首页</a></li><!--
+     --><!--
+       --><li><a href="/archives/">归档</a></li><!--
+     --><!--
+       --><li><a href="/tags/">标签</a></li><!--
+     --><!--
+       --><li><a href="/search/">搜索</a></li><!--
+     -->
+      </ul>
+    </span>
+    <br/>
+    <span id="actions">
+      <ul>
+        
+        <li><a class="icon" aria-label="上一篇" href="/2021/08/29/ji-lu-yi-xia-ge-chong-ruan-jian-de-pei-zhi/"><i class="fa-solid fa-chevron-left" aria-hidden="true" onmouseover="$('#i-prev').toggle();" onmouseout="$('#i-prev').toggle();"></i></a></li>
+        
+        
+        <li><a class="icon" aria-label="下一篇" href="/2021/06/22/zai-debian8-shang-shi-yong-zhi-chi-c17-de-gban-ben/"><i class="fa-solid fa-chevron-right" aria-hidden="true" onmouseover="$('#i-next').toggle();" onmouseout="$('#i-next').toggle();"></i></a></li>
+        
+        <li><a class="icon" aria-label="返回顶部" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fa-solid fa-chevron-up" aria-hidden="true" onmouseover="$('#i-top').toggle();" onmouseout="$('#i-top').toggle();"></i></a></li>
+        <li><a class="icon" aria-label="分享文章" href="#"><i class="fa-solid fa-share-alt" aria-hidden="true" onmouseover="$('#i-share').toggle();" onmouseout="$('#i-share').toggle();" onclick="$('#share').toggle();return false;"></i></a></li>
+      </ul>
+      <span id="i-prev" class="info" style="display:none;">上一篇</span>
+      <span id="i-next" class="info" style="display:none;">下一篇</span>
+      <span id="i-top" class="info" style="display:none;">返回顶部</span>
+      <span id="i-share" class="info" style="display:none;">分享文章</span>
+    </span>
+    <br/>
+    <div id="share" style="display: none">
+      <ul>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.facebook.com/sharer.php?u=http://example.com/2021/08/28/2021-zhong-guo-da-xue-sheng-cheng-xu-she-ji-jing-sai-ccpc-wang-luo-xuan-ba-sai/"><i class="fab fa-facebook " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=http://example.com/2021/08/28/2021-zhong-guo-da-xue-sheng-cheng-xu-she-ji-jing-sai-ccpc-wang-luo-xuan-ba-sai/&text=2021中国大学生程序设计竞赛（CCPC）- 网络选拔赛"><i class="fab fa-twitter " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.linkedin.com/shareArticle?url=http://example.com/2021/08/28/2021-zhong-guo-da-xue-sheng-cheng-xu-she-ji-jing-sai-ccpc-wang-luo-xuan-ba-sai/&title=2021中国大学生程序设计竞赛（CCPC）- 网络选拔赛"><i class="fab fa-linkedin " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://pinterest.com/pin/create/bookmarklet/?url=http://example.com/2021/08/28/2021-zhong-guo-da-xue-sheng-cheng-xu-she-ji-jing-sai-ccpc-wang-luo-xuan-ba-sai/&is_video=false&description=2021中国大学生程序设计竞赛（CCPC）- 网络选拔赛"><i class="fab fa-pinterest " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=2021中国大学生程序设计竞赛（CCPC）- 网络选拔赛&body=Check out this article: http://example.com/2021/08/28/2021-zhong-guo-da-xue-sheng-cheng-xu-she-ji-jing-sai-ccpc-wang-luo-xuan-ba-sai/"><i class="fa-solid fa-envelope " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://getpocket.com/save?url=http://example.com/2021/08/28/2021-zhong-guo-da-xue-sheng-cheng-xu-she-ji-jing-sai-ccpc-wang-luo-xuan-ba-sai/&title=2021中国大学生程序设计竞赛（CCPC）- 网络选拔赛"><i class="fab fa-get-pocket " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://reddit.com/submit?url=http://example.com/2021/08/28/2021-zhong-guo-da-xue-sheng-cheng-xu-she-ji-jing-sai-ccpc-wang-luo-xuan-ba-sai/&title=2021中国大学生程序设计竞赛（CCPC）- 网络选拔赛"><i class="fab fa-reddit " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.stumbleupon.com/submit?url=http://example.com/2021/08/28/2021-zhong-guo-da-xue-sheng-cheng-xu-she-ji-jing-sai-ccpc-wang-luo-xuan-ba-sai/&title=2021中国大学生程序设计竞赛（CCPC）- 网络选拔赛"><i class="fab fa-stumbleupon " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://digg.com/submit?url=http://example.com/2021/08/28/2021-zhong-guo-da-xue-sheng-cheng-xu-she-ji-jing-sai-ccpc-wang-luo-xuan-ba-sai/&title=2021中国大学生程序设计竞赛（CCPC）- 网络选拔赛"><i class="fab fa-digg " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.tumblr.com/share/link?url=http://example.com/2021/08/28/2021-zhong-guo-da-xue-sheng-cheng-xu-she-ji-jing-sai-ccpc-wang-luo-xuan-ba-sai/&name=2021中国大学生程序设计竞赛（CCPC）- 网络选拔赛&description="><i class="fab fa-tumblr " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://news.ycombinator.com/submitlink?u=http://example.com/2021/08/28/2021-zhong-guo-da-xue-sheng-cheng-xu-she-ji-jing-sai-ccpc-wang-luo-xuan-ba-sai/&t=2021中国大学生程序设计竞赛（CCPC）- 网络选拔赛"><i class="fab fa-hacker-news " aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+    
+    
+      <div id="toc">
+        <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#1001"><span class="toc-number">1.</span> <span class="toc-text">1001</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#1002"><span class="toc-number">2.</span> <span class="toc-text">1002</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#1006"><span class="toc-number">3.</span> <span class="toc-text">1006</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#1007"><span class="toc-number">4.</span> <span class="toc-text">1007</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#1008"><span class="toc-number">5.</span> <span class="toc-text">1008</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#1009"><span class="toc-number">6.</span> <span class="toc-text">1009</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#1011"><span class="toc-number">7.</span> <span class="toc-text">1011</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#1012"><span class="toc-number">8.</span> <span class="toc-text">1012</span></a></li></ol>
+      </div>
+    
+  </span>
+</div>
+
+    
+    <div class="content index py4 ">
+        
+        <article class="post h-entry" itemscope itemtype="http://schema.org/BlogPosting">
+  <header>
+    
+    <h1 class="posttitle p-name" itemprop="name headline">
+        2021中国大学生程序设计竞赛（CCPC）- 网络选拔赛
+    </h1>
+
+
+
+    <div class="meta">
+      <span class="author p-author h-card" itemprop="author" itemscope itemtype="http://schema.org/Person">
+        <span class="p-name" itemprop="name">jyf111</span>
+      </span>
+      
+    <div class="postdate">
+      
+        <time datetime="2021-08-28T05:33:44.000Z" class="dt-published" itemprop="datePublished">2021-08-28</time>
+        
+        (Updated: <time datetime="2023-08-24T09:45:43.506Z" class="dt-updated" itemprop="dateModified">2023-08-24</time>)
+        
+      
+    </div>
+
+
+      
+
+      
+    <div class="article-tag">
+        <i class="fa-solid fa-tag"></i>
+        <a class="p-category" href="/tags/%E7%AE%97%E6%B3%95/" rel="tag">算法</a>
+    </div>
+
+
+      
+        <span class=count-symbol-post> 
+          <i class="fa-solid fa-hourglass"></i>
+          
+            1 min to read
+          
+        </span>
+      
+    </div>
+  </header>
+  
+
+  <div class="content e-content" itemprop="articleBody">
+    <p>hdu的服务器有点问题，体验比较差<br>感觉打的中规中矩，不过能排到前50还是比较惊讶，估计受题目风格以及服务器问题的影响。（看来大部分队伍受网络的影响挺大的，而且听说有多道疑似原题，要重赛了，不过也无所谓）</p>
+<h2 id="1001"><a href="#1001" class="headerlink" title="1001"></a>1001</h2><p>简单的分类讨论，解不等式即可</p>
+<h2 id="1002"><a href="#1002" class="headerlink" title="1002"></a>1002</h2><p>队友过的，暴力</p>
+<h2 id="1006"><a href="#1006" class="headerlink" title="1006"></a>1006</h2><p>构造题，发现$x^2+(x+3)^2-(x+1)^2-(x+2)^2&#x3D;4$后，根据模4的值分别构造即可</p>
+<h2 id="1007"><a href="#1007" class="headerlink" title="1007"></a>1007</h2><p>枚举$g(x)$，转成二次函数，剩下的就是二分加取整的琐碎问题</p>
+<h2 id="1008"><a href="#1008" class="headerlink" title="1008"></a>1008</h2><p>我先想了一个看上去很可行的解法，不过最后统计答案复杂度会炸<br>最后队友给出正解，考虑求解$v(l,r)\leq<br>x$的区间个数，从大到小枚举gcd，然后抠出所有gcd的倍数，考虑相邻两个数形成的区间$[L,R]$，则以$[1,L]$中的点为左端点时，右端点必须满足小于R，才有可能使得$v(l,r)\le<br>x$，然后就是一个前缀取min，整体求sum的segment beats了。（事实上由于维护的序列是单调的，也可以二分+区间覆盖来做，<br><del>然而我写T了</del> ，可能是我写挂了，也可能是卡了3log，而sgbt更趋近于单个log，看了题解，直接在线段树上二分就行了，我在外面套个二分是该t）</p>
+<h2 id="1009"><a href="#1009" class="headerlink" title="1009"></a>1009</h2><p>前缀和+map 类似于求多少个子区间的和为0，只不过扩展成二维的了</p>
+<h2 id="1011"><a href="#1011" class="headerlink" title="1011"></a>1011</h2><p>队友过的，没参与</p>
+<h2 id="1012"><a href="#1012" class="headerlink" title="1012"></a>1012</h2><p>考虑dp来求解，当求解完$dp_x$​，枚举所有$p \mid<br>x$，让$[dp_{x+1},dp_{x+p-1}]$与$dp_x+1$取min即可。容易发现只要对每个x，考虑在质数集中<strong>最大</strong>的x的因子即可，又容易发现这个$dp$是单增的，所以不断维护当前覆盖到的最大右端点即可</p>
+
+  </div>
+</article>
+
+
+
+        
+          <div id="footer-post-container">
+  <div id="footer-post">
+
+    <div id="nav-footer" style="display: none">
+      <ul>
+        
+          <li><a href="/">首页</a></li>
+        
+          <li><a href="/archives/">归档</a></li>
+        
+          <li><a href="/tags/">标签</a></li>
+        
+          <li><a href="/search/">搜索</a></li>
+        
+      </ul>
+    </div>
+
+    
+    
+      <div id="toc-footer" style="display: none">
+        <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#1001"><span class="toc-number">1.</span> <span class="toc-text">1001</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#1002"><span class="toc-number">2.</span> <span class="toc-text">1002</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#1006"><span class="toc-number">3.</span> <span class="toc-text">1006</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#1007"><span class="toc-number">4.</span> <span class="toc-text">1007</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#1008"><span class="toc-number">5.</span> <span class="toc-text">1008</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#1009"><span class="toc-number">6.</span> <span class="toc-text">1009</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#1011"><span class="toc-number">7.</span> <span class="toc-text">1011</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#1012"><span class="toc-number">8.</span> <span class="toc-text">1012</span></a></li></ol>
+      </div>
+    
+
+    <div id="share-footer" style="display: none">
+      <ul>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.facebook.com/sharer.php?u=http://example.com/2021/08/28/2021-zhong-guo-da-xue-sheng-cheng-xu-she-ji-jing-sai-ccpc-wang-luo-xuan-ba-sai/"><i class="fab fa-facebook fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=http://example.com/2021/08/28/2021-zhong-guo-da-xue-sheng-cheng-xu-she-ji-jing-sai-ccpc-wang-luo-xuan-ba-sai/&text=2021中国大学生程序设计竞赛（CCPC）- 网络选拔赛"><i class="fab fa-twitter fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.linkedin.com/shareArticle?url=http://example.com/2021/08/28/2021-zhong-guo-da-xue-sheng-cheng-xu-she-ji-jing-sai-ccpc-wang-luo-xuan-ba-sai/&title=2021中国大学生程序设计竞赛（CCPC）- 网络选拔赛"><i class="fab fa-linkedin fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://pinterest.com/pin/create/bookmarklet/?url=http://example.com/2021/08/28/2021-zhong-guo-da-xue-sheng-cheng-xu-she-ji-jing-sai-ccpc-wang-luo-xuan-ba-sai/&is_video=false&description=2021中国大学生程序设计竞赛（CCPC）- 网络选拔赛"><i class="fab fa-pinterest fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=2021中国大学生程序设计竞赛（CCPC）- 网络选拔赛&body=Check out this article: http://example.com/2021/08/28/2021-zhong-guo-da-xue-sheng-cheng-xu-she-ji-jing-sai-ccpc-wang-luo-xuan-ba-sai/"><i class="fa-solid fa-envelope fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://getpocket.com/save?url=http://example.com/2021/08/28/2021-zhong-guo-da-xue-sheng-cheng-xu-she-ji-jing-sai-ccpc-wang-luo-xuan-ba-sai/&title=2021中国大学生程序设计竞赛（CCPC）- 网络选拔赛"><i class="fab fa-get-pocket fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://reddit.com/submit?url=http://example.com/2021/08/28/2021-zhong-guo-da-xue-sheng-cheng-xu-she-ji-jing-sai-ccpc-wang-luo-xuan-ba-sai/&title=2021中国大学生程序设计竞赛（CCPC）- 网络选拔赛"><i class="fab fa-reddit fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.stumbleupon.com/submit?url=http://example.com/2021/08/28/2021-zhong-guo-da-xue-sheng-cheng-xu-she-ji-jing-sai-ccpc-wang-luo-xuan-ba-sai/&title=2021中国大学生程序设计竞赛（CCPC）- 网络选拔赛"><i class="fab fa-stumbleupon fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://digg.com/submit?url=http://example.com/2021/08/28/2021-zhong-guo-da-xue-sheng-cheng-xu-she-ji-jing-sai-ccpc-wang-luo-xuan-ba-sai/&title=2021中国大学生程序设计竞赛（CCPC）- 网络选拔赛"><i class="fab fa-digg fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.tumblr.com/share/link?url=http://example.com/2021/08/28/2021-zhong-guo-da-xue-sheng-cheng-xu-she-ji-jing-sai-ccpc-wang-luo-xuan-ba-sai/&name=2021中国大学生程序设计竞赛（CCPC）- 网络选拔赛&description="><i class="fab fa-tumblr fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://news.ycombinator.com/submitlink?u=http://example.com/2021/08/28/2021-zhong-guo-da-xue-sheng-cheng-xu-she-ji-jing-sai-ccpc-wang-luo-xuan-ba-sai/&t=2021中国大学生程序设计竞赛（CCPC）- 网络选拔赛"><i class="fab fa-hacker-news fa-lg" aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+
+    <div id="actions-footer">
+        <a id="menu" class="icon" href="#" onclick="$('#nav-footer').toggle();return false;"><i class="fa-solid fa-bars fa-lg" aria-hidden="true"></i> 菜单</a>
+        
+          <a id="toc" class="icon" href="#" onclick="$('#toc-footer').toggle();return false;"><i class="fa-solid fa-list fa-lg" aria-hidden="true"></i> 目录</a>
+        
+        <a id="share" class="icon" href="#" onclick="$('#share-footer').toggle();return false;"><i class="fa-solid fa-share-alt fa-lg" aria-hidden="true"></i> 分享</a>
+        <a id="top" style="display:none" class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fa-solid fa-chevron-up fa-lg" aria-hidden="true"></i> 返回顶部</a>
+    </div>
+
+  </div>
+</div>
+
+        
+        <footer id="footer">
+  <div class="footer-left">
+    Copyright &copy;
+    
+    
+    2020-2023
+    jyf111
+  </div>
+  <div class="footer-right">
+    <nav>
+      <ul>
+        <!--
+       --><li><a href="/">首页</a></li><!--
+     --><!--
+       --><li><a href="/archives/">归档</a></li><!--
+     --><!--
+       --><li><a href="/tags/">标签</a></li><!--
+     --><!--
+       --><li><a href="/search/">搜索</a></li><!--
+     -->
+      </ul>
+    </nav>
+  </div>
+</footer>
+
+    </div>
+    <!-- styles -->
+
+
+
+  <link rel="preload" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" crossorigin="anonymous" onload="this.onload=null;this.rel='stylesheet'"/>
+
+
+    <!-- jquery -->
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js" crossorigin="anonymous"></script>
+
+
+
+
+<!-- clipboard -->
+
+  
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.7/clipboard.min.js" crossorigin="anonymous"></script>
+  
+  <script type="text/javascript">
+  $(function() {
+    // copy-btn HTML
+    var btn = "<span class=\"btn-copy tooltipped tooltipped-sw\" aria-label=\"复制到粘贴板！\">";
+    btn += '<i class="fa-regular fa-clone"></i>';
+    btn += '</span>';
+    // mount it!
+    $(".highlight table").before(btn);
+    var clip = new ClipboardJS('.btn-copy', {
+      text: function(trigger) {
+        return Array.from(trigger.nextElementSibling.querySelectorAll('.code')).reduce((str,it)=>str+it.innerText+'\n','')
+      }
+    });
+    clip.on('success', function(e) {
+      e.trigger.setAttribute('aria-label', "复制成功！");
+      e.clearSelection();
+    })
+  })
+  </script>
+
+
+<script src="/js/main.js"></script>
+
+<!-- search -->
+
+<!-- Baidu Analytics -->
+
+<!-- Cloudflare Analytics -->
+
+<!-- Disqus Comments -->
+
+<!-- utterances Comments -->
+
+</body>
+</html>

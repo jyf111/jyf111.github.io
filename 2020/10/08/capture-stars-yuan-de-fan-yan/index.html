@@ -1,0 +1,315 @@
+<!DOCTYPE html>
+<html lang=zh>
+<head>
+    <!-- so meta -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="HandheldFriendly" content="True">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=5" />
+    <meta name="description" content="https:&#x2F;&#x2F;ac.nowcoder.com&#x2F;acm&#x2F;contest&#x2F;7830&#x2F;D有一个大圆和一个小圆，两者内切于原点，然后再大圆内小圆外有若干个点，现在让你找一个圆使其和小圆外切，大圆内切，并且最大化该圆覆盖的点数这种多个圆有相切关系的题，考虑圆的反演反演：一个反演点O，一个反演半径R，在O的同侧有两个点P和P’，若满足|OP||OP’|&#x3D;R*R，则P和P’互为反演点不经过反演点的圆">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Capture Stars 圆的反演">
+<meta property="og:url" content="http://example.com/2020/10/08/capture-stars-yuan-de-fan-yan/index.html">
+<meta property="og:site_name" content="jyf111&#39;s blog">
+<meta property="og:description" content="https:&#x2F;&#x2F;ac.nowcoder.com&#x2F;acm&#x2F;contest&#x2F;7830&#x2F;D有一个大圆和一个小圆，两者内切于原点，然后再大圆内小圆外有若干个点，现在让你找一个圆使其和小圆外切，大圆内切，并且最大化该圆覆盖的点数这种多个圆有相切关系的题，考虑圆的反演反演：一个反演点O，一个反演半径R，在O的同侧有两个点P和P’，若满足|OP||OP’|&#x3D;R*R，则P和P’互为反演点不经过反演点的圆">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2020-10-08T05:33:44.000Z">
+<meta property="article:modified_time" content="2023-08-24T11:54:35.235Z">
+<meta property="article:author" content="jyf111">
+<meta property="article:tag" content="算法">
+<meta name="twitter:card" content="summary">
+    
+    
+      
+        
+          <link rel="shortcut icon" href="/images/favicon.ico">
+        
+      
+      
+        
+          <link rel="icon" type="image/png" href="/images/favicon-192x192.png" sizes="192x192">
+        
+      
+      
+        
+          <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png">
+        
+      
+    
+    <!-- title -->
+    <title>Capture Stars 圆的反演</title>
+    <!-- async scripts -->
+    <!-- Google Analytics -->
+
+
+    <!-- Umami Analytics -->
+
+
+    <!-- styles -->
+    
+<link rel="stylesheet" href="/css/style.css">
+
+    <!-- persian styles -->
+    
+    <!-- rss -->
+    
+    
+	<!-- mathjax -->
+	
+		<script type="text/x-mathjax-config">
+		  MathJax.Hub.Config({
+			tex2jax: {
+			  skipTags: ['script', 'noscript', 'style', 'textarea', 'pre'],
+			  inlineMath: [['$','$']]
+			}
+		  });
+		</script>
+		<script src='https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-MML-AM_CHTML' async></script>
+	
+<meta name="generator" content="Hexo 6.3.0"></head>
+
+<body class="max-width mx-auto px3 ltr">
+    
+      <div id="header-post">
+  <a id="menu-icon" href="#" aria-label="目录"><i class="fa-solid fa-bars fa-lg"></i></a>
+  <a id="menu-icon-tablet" href="#" aria-label="目录"><i class="fa-solid fa-bars fa-lg"></i></a>
+  <a id="top-icon-tablet" href="#" aria-label="顶部" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');" style="display:none;"><i class="fa-solid fa-chevron-up fa-lg"></i></a>
+  <span id="menu">
+    <span id="nav">
+      <ul>
+        <!--
+       --><li><a href="/">首页</a></li><!--
+     --><!--
+       --><li><a href="/archives/">归档</a></li><!--
+     --><!--
+       --><li><a href="/tags/">标签</a></li><!--
+     --><!--
+       --><li><a href="/search/">搜索</a></li><!--
+     -->
+      </ul>
+    </span>
+    <br/>
+    <span id="actions">
+      <ul>
+        
+        <li><a class="icon" aria-label="上一篇" href="/2020/10/09/cf487e-tourists-shu-pou-xian-duan-shu-wei-hu-yuan-fang-shu/"><i class="fa-solid fa-chevron-left" aria-hidden="true" onmouseover="$('#i-prev').toggle();" onmouseout="$('#i-prev').toggle();"></i></a></li>
+        
+        
+        <li><a class="icon" aria-label="下一篇" href="/2020/10/08/naomi-with-graph-zui-xiao-ge/"><i class="fa-solid fa-chevron-right" aria-hidden="true" onmouseover="$('#i-next').toggle();" onmouseout="$('#i-next').toggle();"></i></a></li>
+        
+        <li><a class="icon" aria-label="返回顶部" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fa-solid fa-chevron-up" aria-hidden="true" onmouseover="$('#i-top').toggle();" onmouseout="$('#i-top').toggle();"></i></a></li>
+        <li><a class="icon" aria-label="分享文章" href="#"><i class="fa-solid fa-share-alt" aria-hidden="true" onmouseover="$('#i-share').toggle();" onmouseout="$('#i-share').toggle();" onclick="$('#share').toggle();return false;"></i></a></li>
+      </ul>
+      <span id="i-prev" class="info" style="display:none;">上一篇</span>
+      <span id="i-next" class="info" style="display:none;">下一篇</span>
+      <span id="i-top" class="info" style="display:none;">返回顶部</span>
+      <span id="i-share" class="info" style="display:none;">分享文章</span>
+    </span>
+    <br/>
+    <div id="share" style="display: none">
+      <ul>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.facebook.com/sharer.php?u=http://example.com/2020/10/08/capture-stars-yuan-de-fan-yan/"><i class="fab fa-facebook " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=http://example.com/2020/10/08/capture-stars-yuan-de-fan-yan/&text=Capture Stars 圆的反演"><i class="fab fa-twitter " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.linkedin.com/shareArticle?url=http://example.com/2020/10/08/capture-stars-yuan-de-fan-yan/&title=Capture Stars 圆的反演"><i class="fab fa-linkedin " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://pinterest.com/pin/create/bookmarklet/?url=http://example.com/2020/10/08/capture-stars-yuan-de-fan-yan/&is_video=false&description=Capture Stars 圆的反演"><i class="fab fa-pinterest " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=Capture Stars 圆的反演&body=Check out this article: http://example.com/2020/10/08/capture-stars-yuan-de-fan-yan/"><i class="fa-solid fa-envelope " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://getpocket.com/save?url=http://example.com/2020/10/08/capture-stars-yuan-de-fan-yan/&title=Capture Stars 圆的反演"><i class="fab fa-get-pocket " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://reddit.com/submit?url=http://example.com/2020/10/08/capture-stars-yuan-de-fan-yan/&title=Capture Stars 圆的反演"><i class="fab fa-reddit " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.stumbleupon.com/submit?url=http://example.com/2020/10/08/capture-stars-yuan-de-fan-yan/&title=Capture Stars 圆的反演"><i class="fab fa-stumbleupon " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://digg.com/submit?url=http://example.com/2020/10/08/capture-stars-yuan-de-fan-yan/&title=Capture Stars 圆的反演"><i class="fab fa-digg " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.tumblr.com/share/link?url=http://example.com/2020/10/08/capture-stars-yuan-de-fan-yan/&name=Capture Stars 圆的反演&description="><i class="fab fa-tumblr " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://news.ycombinator.com/submitlink?u=http://example.com/2020/10/08/capture-stars-yuan-de-fan-yan/&t=Capture Stars 圆的反演"><i class="fab fa-hacker-news " aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+    
+    
+  </span>
+</div>
+
+    
+    <div class="content index py4 ">
+        
+        <article class="post h-entry" itemscope itemtype="http://schema.org/BlogPosting">
+  <header>
+    
+    <h1 class="posttitle p-name" itemprop="name headline">
+        Capture Stars 圆的反演
+    </h1>
+
+
+
+    <div class="meta">
+      <span class="author p-author h-card" itemprop="author" itemscope itemtype="http://schema.org/Person">
+        <span class="p-name" itemprop="name">jyf111</span>
+      </span>
+      
+    <div class="postdate">
+      
+        <time datetime="2020-10-08T05:33:44.000Z" class="dt-published" itemprop="datePublished">2020-10-08</time>
+        
+        (Updated: <time datetime="2023-08-24T11:54:35.235Z" class="dt-updated" itemprop="dateModified">2023-08-24</time>)
+        
+      
+    </div>
+
+
+      
+
+      
+    <div class="article-tag">
+        <i class="fa-solid fa-tag"></i>
+        <a class="p-category" href="/tags/%E7%AE%97%E6%B3%95/" rel="tag">算法</a>
+    </div>
+
+
+      
+        <span class=count-symbol-post> 
+          <i class="fa-solid fa-hourglass"></i>
+          
+            7 mins to read
+          
+        </span>
+      
+    </div>
+  </header>
+  
+
+  <div class="content e-content" itemprop="articleBody">
+    <p><a target="_blank" rel="noopener" href="https://ac.nowcoder.com/acm/contest/7830/D">https://ac.nowcoder.com/acm/contest/7830/D</a><br>有一个大圆和一个小圆，两者内切于原点，然后再大圆内小圆外有若干个点，现在让你找一个圆使其和小圆外切，大圆内切，并且最大化该圆覆盖的点数<br>这种多个圆有相切关系的题，考虑圆的反演<br>反演：一个反演点O，一个反演半径R，在O的同侧有两个点P和P’，若满足|OP||OP’|&#x3D;R*R，则P和P’互为反演点<br>不经过反演点的圆的反演仍然是一个圆<br>经过反演点的圆的反演是一条直线<br>点反演还是点</p>
+<p>再考虑本题，以小圆和大圆的内切点即原点为反演点，反演半径任意，这样就变成了两条直线，而要找的圆在反演后就是相切于这两条直线的圆，点反演后仍为点<br>对于每个点，仅当圆心的纵坐标处于一个区间内才能覆盖，全部求出后差分前缀和即可</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;bits/stdc++.h&gt;</span></span></span><br><span class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> std;</span><br><span class="line"><span class="type">const</span> <span class="type">int</span> N = <span class="number">1e4</span> + <span class="number">5</span>;</span><br><span class="line"><span class="keyword">using</span> db = <span class="type">double</span>;</span><br><span class="line"><span class="keyword">using</span> pdi = pair&lt;db, <span class="type">int</span>&gt;;</span><br><span class="line"><span class="type">const</span> db eps = <span class="number">1e-8</span>;</span><br><span class="line"><span class="function"><span class="type">int</span> <span class="title">sgn</span><span class="params">(db x)</span> </span>&#123; <span class="keyword">return</span> (x&lt;-eps ? <span class="number">-1</span> : x&gt;eps); &#125;</span><br><span class="line"><span class="function">db <span class="title">sqr</span><span class="params">(db x)</span> </span>&#123; <span class="keyword">return</span> x*x; &#125;</span><br><span class="line"><span class="type">int</span> n;</span><br><span class="line">db R, r, invr;</span><br><span class="line"><span class="keyword">struct</span> <span class="title class_">P</span></span><br><span class="line">&#123;</span><br><span class="line">  db x, y;</span><br><span class="line">  <span class="built_in">P</span>() &#123;&#125;</span><br><span class="line">  <span class="built_in">P</span>(db _x, db _y) : <span class="built_in">x</span>(_x), <span class="built_in">y</span>(_y) &#123;&#125;</span><br><span class="line">  P <span class="keyword">operator</span> * (<span class="type">const</span> db k) &#123; <span class="keyword">return</span> <span class="built_in">P</span>(k*x, k*y); &#125;</span><br><span class="line">&#125;p[N];</span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">solve</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">  cin &gt;&gt; n &gt;&gt; R &gt;&gt; r;</span><br><span class="line">  invr = <span class="number">2</span>*R;</span><br><span class="line">  db xl = <span class="number">0.5</span>*<span class="built_in">sqr</span>(invr)/R, xr = <span class="number">0.5</span>*<span class="built_in">sqr</span>(invr)/r;</span><br><span class="line">  db O = (xl+xr)/<span class="number">2</span>, Or = (xr-xl)/<span class="number">2</span>;</span><br><span class="line">  vector&lt;pdi&gt; seg;</span><br><span class="line">  <span class="keyword">for</span>(<span class="type">int</span> i=<span class="number">1</span>; i&lt;=n; i++)</span><br><span class="line">  &#123;</span><br><span class="line">    cin &gt;&gt; p[i].x &gt;&gt; p[i].y;</span><br><span class="line">    db d = <span class="built_in">sqrt</span>(<span class="built_in">sqr</span>(p[i].x) + <span class="built_in">sqr</span>(p[i].y));</span><br><span class="line">    db dd = <span class="built_in">sqr</span>(invr)/d;</span><br><span class="line">    p[i] = p[i]*(dd/d);</span><br><span class="line">    db t = <span class="built_in">fabs</span>(O-p[i].x);</span><br><span class="line">    <span class="keyword">if</span>(<span class="built_in">sgn</span>(Or-t)&lt;<span class="number">0</span>) <span class="keyword">continue</span>;</span><br><span class="line">    db delta = <span class="built_in">sqrt</span>(<span class="built_in">sqr</span>(Or)-<span class="built_in">sqr</span>(t));</span><br><span class="line">    seg.<span class="built_in">push_back</span>(&#123;p[i].y-delta, <span class="number">1</span>&#125;);</span><br><span class="line">    seg.<span class="built_in">push_back</span>(&#123;p[i].y+delta+eps, <span class="number">-1</span>&#125;);</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="built_in">sort</span>(<span class="built_in">begin</span>(seg), <span class="built_in">end</span>(seg));</span><br><span class="line">  <span class="type">int</span> ans = <span class="number">0</span>, cur = <span class="number">0</span>;</span><br><span class="line">  <span class="keyword">for</span>(<span class="keyword">auto</span> it : seg)</span><br><span class="line">  &#123;</span><br><span class="line">    cur += it.second;</span><br><span class="line">    <span class="keyword">if</span>(cur&gt;ans) ans = cur;</span><br><span class="line">  &#125;</span><br><span class="line">  cout &lt;&lt; ans &lt;&lt; <span class="string">&#x27;\n&#x27;</span>;</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="type">int</span> <span class="title">main</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">  ios::<span class="built_in">sync_with_stdio</span>(<span class="literal">false</span>);</span><br><span class="line">  cin.<span class="built_in">tie</span>(<span class="literal">nullptr</span>);</span><br><span class="line">  <span class="type">int</span> _; cin &gt;&gt; _;</span><br><span class="line">  <span class="keyword">while</span>(_--) <span class="built_in">solve</span>();</span><br><span class="line">  <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+  </div>
+</article>
+
+
+
+        
+          <div id="footer-post-container">
+  <div id="footer-post">
+
+    <div id="nav-footer" style="display: none">
+      <ul>
+        
+          <li><a href="/">首页</a></li>
+        
+          <li><a href="/archives/">归档</a></li>
+        
+          <li><a href="/tags/">标签</a></li>
+        
+          <li><a href="/search/">搜索</a></li>
+        
+      </ul>
+    </div>
+
+    
+    
+
+    <div id="share-footer" style="display: none">
+      <ul>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.facebook.com/sharer.php?u=http://example.com/2020/10/08/capture-stars-yuan-de-fan-yan/"><i class="fab fa-facebook fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=http://example.com/2020/10/08/capture-stars-yuan-de-fan-yan/&text=Capture Stars 圆的反演"><i class="fab fa-twitter fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.linkedin.com/shareArticle?url=http://example.com/2020/10/08/capture-stars-yuan-de-fan-yan/&title=Capture Stars 圆的反演"><i class="fab fa-linkedin fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://pinterest.com/pin/create/bookmarklet/?url=http://example.com/2020/10/08/capture-stars-yuan-de-fan-yan/&is_video=false&description=Capture Stars 圆的反演"><i class="fab fa-pinterest fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=Capture Stars 圆的反演&body=Check out this article: http://example.com/2020/10/08/capture-stars-yuan-de-fan-yan/"><i class="fa-solid fa-envelope fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://getpocket.com/save?url=http://example.com/2020/10/08/capture-stars-yuan-de-fan-yan/&title=Capture Stars 圆的反演"><i class="fab fa-get-pocket fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://reddit.com/submit?url=http://example.com/2020/10/08/capture-stars-yuan-de-fan-yan/&title=Capture Stars 圆的反演"><i class="fab fa-reddit fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.stumbleupon.com/submit?url=http://example.com/2020/10/08/capture-stars-yuan-de-fan-yan/&title=Capture Stars 圆的反演"><i class="fab fa-stumbleupon fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://digg.com/submit?url=http://example.com/2020/10/08/capture-stars-yuan-de-fan-yan/&title=Capture Stars 圆的反演"><i class="fab fa-digg fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.tumblr.com/share/link?url=http://example.com/2020/10/08/capture-stars-yuan-de-fan-yan/&name=Capture Stars 圆的反演&description="><i class="fab fa-tumblr fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://news.ycombinator.com/submitlink?u=http://example.com/2020/10/08/capture-stars-yuan-de-fan-yan/&t=Capture Stars 圆的反演"><i class="fab fa-hacker-news fa-lg" aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+
+    <div id="actions-footer">
+        <a id="menu" class="icon" href="#" onclick="$('#nav-footer').toggle();return false;"><i class="fa-solid fa-bars fa-lg" aria-hidden="true"></i> 菜单</a>
+        
+        <a id="share" class="icon" href="#" onclick="$('#share-footer').toggle();return false;"><i class="fa-solid fa-share-alt fa-lg" aria-hidden="true"></i> 分享</a>
+        <a id="top" style="display:none" class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fa-solid fa-chevron-up fa-lg" aria-hidden="true"></i> 返回顶部</a>
+    </div>
+
+  </div>
+</div>
+
+        
+        <footer id="footer">
+  <div class="footer-left">
+    Copyright &copy;
+    
+    
+    2020-2023
+    jyf111
+  </div>
+  <div class="footer-right">
+    <nav>
+      <ul>
+        <!--
+       --><li><a href="/">首页</a></li><!--
+     --><!--
+       --><li><a href="/archives/">归档</a></li><!--
+     --><!--
+       --><li><a href="/tags/">标签</a></li><!--
+     --><!--
+       --><li><a href="/search/">搜索</a></li><!--
+     -->
+      </ul>
+    </nav>
+  </div>
+</footer>
+
+    </div>
+    <!-- styles -->
+
+
+
+  <link rel="preload" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" crossorigin="anonymous" onload="this.onload=null;this.rel='stylesheet'"/>
+
+
+    <!-- jquery -->
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js" crossorigin="anonymous"></script>
+
+
+
+
+<!-- clipboard -->
+
+  
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.7/clipboard.min.js" crossorigin="anonymous"></script>
+  
+  <script type="text/javascript">
+  $(function() {
+    // copy-btn HTML
+    var btn = "<span class=\"btn-copy tooltipped tooltipped-sw\" aria-label=\"复制到粘贴板！\">";
+    btn += '<i class="fa-regular fa-clone"></i>';
+    btn += '</span>';
+    // mount it!
+    $(".highlight table").before(btn);
+    var clip = new ClipboardJS('.btn-copy', {
+      text: function(trigger) {
+        return Array.from(trigger.nextElementSibling.querySelectorAll('.code')).reduce((str,it)=>str+it.innerText+'\n','')
+      }
+    });
+    clip.on('success', function(e) {
+      e.trigger.setAttribute('aria-label', "复制成功！");
+      e.clearSelection();
+    })
+  })
+  </script>
+
+
+<script src="/js/main.js"></script>
+
+<!-- search -->
+
+<!-- Baidu Analytics -->
+
+<!-- Cloudflare Analytics -->
+
+<!-- Disqus Comments -->
+
+<!-- utterances Comments -->
+
+</body>
+</html>

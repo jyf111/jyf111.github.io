@@ -1,0 +1,376 @@
+<!DOCTYPE html>
+<html lang=zh>
+<head>
+    <!-- so meta -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="HandheldFriendly" content="True">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=5" />
+    <meta name="description" content="给定n&lt;&#x3D;1012n&lt;&#x3D;10^{12}n&lt;&#x3D;1012询问∑x&#x3D;1n∑y&#x3D;1n[xy是有限小数]\sum_{x&#x3D;1}^n \sum_{y&#x3D;1}^n \left[ \dfrac{x}{y} 是有限小数\right]∑x&#x3D;1n​∑y&#x3D;1n​[yx​是有限小数] 做法当真分数xy\dfrac {x}">
+<meta property="og:type" content="article">
+<meta property="og:title" content="P6583 回首过去 数论+整除分块">
+<meta property="og:url" content="http://example.com/2020/06/02/p6583-hui-shou-guo-qu-shu-lun-zheng-chu-fen-kuai/index.html">
+<meta property="og:site_name" content="jyf111&#39;s blog">
+<meta property="og:description" content="给定n&lt;&#x3D;1012n&lt;&#x3D;10^{12}n&lt;&#x3D;1012询问∑x&#x3D;1n∑y&#x3D;1n[xy是有限小数]\sum_{x&#x3D;1}^n \sum_{y&#x3D;1}^n \left[ \dfrac{x}{y} 是有限小数\right]∑x&#x3D;1n​∑y&#x3D;1n​[yx​是有限小数] 做法当真分数xy\dfrac {x}">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2020-06-02T05:33:44.000Z">
+<meta property="article:modified_time" content="2023-08-24T08:43:19.627Z">
+<meta property="article:author" content="jyf111">
+<meta property="article:tag" content="算法">
+<meta name="twitter:card" content="summary">
+    
+    
+      
+        
+          <link rel="shortcut icon" href="/images/favicon.ico">
+        
+      
+      
+        
+          <link rel="icon" type="image/png" href="/images/favicon-192x192.png" sizes="192x192">
+        
+      
+      
+        
+          <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png">
+        
+      
+    
+    <!-- title -->
+    <title>P6583 回首过去 数论+整除分块</title>
+    <!-- async scripts -->
+    <!-- Google Analytics -->
+
+
+    <!-- Umami Analytics -->
+
+
+    <!-- styles -->
+    
+<link rel="stylesheet" href="/css/style.css">
+
+    <!-- persian styles -->
+    
+    <!-- rss -->
+    
+    
+	<!-- mathjax -->
+	
+		<script type="text/x-mathjax-config">
+		  MathJax.Hub.Config({
+			tex2jax: {
+			  skipTags: ['script', 'noscript', 'style', 'textarea', 'pre'],
+			  inlineMath: [['$','$']]
+			}
+		  });
+		</script>
+		<script src='https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-MML-AM_CHTML' async></script>
+	
+<meta name="generator" content="Hexo 6.3.0"></head>
+
+<body class="max-width mx-auto px3 ltr">
+    
+      <div id="header-post">
+  <a id="menu-icon" href="#" aria-label="目录"><i class="fa-solid fa-bars fa-lg"></i></a>
+  <a id="menu-icon-tablet" href="#" aria-label="目录"><i class="fa-solid fa-bars fa-lg"></i></a>
+  <a id="top-icon-tablet" href="#" aria-label="顶部" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');" style="display:none;"><i class="fa-solid fa-chevron-up fa-lg"></i></a>
+  <span id="menu">
+    <span id="nav">
+      <ul>
+        <!--
+       --><li><a href="/">首页</a></li><!--
+     --><!--
+       --><li><a href="/archives/">归档</a></li><!--
+     --><!--
+       --><li><a href="/tags/">标签</a></li><!--
+     --><!--
+       --><li><a href="/search/">搜索</a></li><!--
+     -->
+      </ul>
+    </span>
+    <br/>
+    <span id="actions">
+      <ul>
+        
+        <li><a class="icon" aria-label="上一篇" href="/2020/06/02/cf893f-subtree-minimum-query-zhu-xi-shu-trick/"><i class="fa-solid fa-chevron-left" aria-hidden="true" onmouseover="$('#i-prev').toggle();" onmouseout="$('#i-prev').toggle();"></i></a></li>
+        
+        
+        <li><a class="icon" aria-label="下一篇" href="/2020/05/31/2019icpc-xu-zhou/"><i class="fa-solid fa-chevron-right" aria-hidden="true" onmouseover="$('#i-next').toggle();" onmouseout="$('#i-next').toggle();"></i></a></li>
+        
+        <li><a class="icon" aria-label="返回顶部" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fa-solid fa-chevron-up" aria-hidden="true" onmouseover="$('#i-top').toggle();" onmouseout="$('#i-top').toggle();"></i></a></li>
+        <li><a class="icon" aria-label="分享文章" href="#"><i class="fa-solid fa-share-alt" aria-hidden="true" onmouseover="$('#i-share').toggle();" onmouseout="$('#i-share').toggle();" onclick="$('#share').toggle();return false;"></i></a></li>
+      </ul>
+      <span id="i-prev" class="info" style="display:none;">上一篇</span>
+      <span id="i-next" class="info" style="display:none;">下一篇</span>
+      <span id="i-top" class="info" style="display:none;">返回顶部</span>
+      <span id="i-share" class="info" style="display:none;">分享文章</span>
+    </span>
+    <br/>
+    <div id="share" style="display: none">
+      <ul>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.facebook.com/sharer.php?u=http://example.com/2020/06/02/p6583-hui-shou-guo-qu-shu-lun-zheng-chu-fen-kuai/"><i class="fab fa-facebook " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=http://example.com/2020/06/02/p6583-hui-shou-guo-qu-shu-lun-zheng-chu-fen-kuai/&text=P6583 回首过去 数论+整除分块"><i class="fab fa-twitter " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.linkedin.com/shareArticle?url=http://example.com/2020/06/02/p6583-hui-shou-guo-qu-shu-lun-zheng-chu-fen-kuai/&title=P6583 回首过去 数论+整除分块"><i class="fab fa-linkedin " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://pinterest.com/pin/create/bookmarklet/?url=http://example.com/2020/06/02/p6583-hui-shou-guo-qu-shu-lun-zheng-chu-fen-kuai/&is_video=false&description=P6583 回首过去 数论+整除分块"><i class="fab fa-pinterest " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=P6583 回首过去 数论+整除分块&body=Check out this article: http://example.com/2020/06/02/p6583-hui-shou-guo-qu-shu-lun-zheng-chu-fen-kuai/"><i class="fa-solid fa-envelope " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://getpocket.com/save?url=http://example.com/2020/06/02/p6583-hui-shou-guo-qu-shu-lun-zheng-chu-fen-kuai/&title=P6583 回首过去 数论+整除分块"><i class="fab fa-get-pocket " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://reddit.com/submit?url=http://example.com/2020/06/02/p6583-hui-shou-guo-qu-shu-lun-zheng-chu-fen-kuai/&title=P6583 回首过去 数论+整除分块"><i class="fab fa-reddit " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.stumbleupon.com/submit?url=http://example.com/2020/06/02/p6583-hui-shou-guo-qu-shu-lun-zheng-chu-fen-kuai/&title=P6583 回首过去 数论+整除分块"><i class="fab fa-stumbleupon " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://digg.com/submit?url=http://example.com/2020/06/02/p6583-hui-shou-guo-qu-shu-lun-zheng-chu-fen-kuai/&title=P6583 回首过去 数论+整除分块"><i class="fab fa-digg " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.tumblr.com/share/link?url=http://example.com/2020/06/02/p6583-hui-shou-guo-qu-shu-lun-zheng-chu-fen-kuai/&name=P6583 回首过去 数论+整除分块&description="><i class="fab fa-tumblr " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://news.ycombinator.com/submitlink?u=http://example.com/2020/06/02/p6583-hui-shou-guo-qu-shu-lun-zheng-chu-fen-kuai/&t=P6583 回首过去 数论+整除分块"><i class="fab fa-hacker-news " aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+    
+    
+      <div id="toc">
+        <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%81%9A%E6%B3%95"><span class="toc-number">1.</span> <span class="toc-text">做法</span></a></li></ol>
+      </div>
+    
+  </span>
+</div>
+
+    
+    <div class="content index py4 ">
+        
+        <article class="post h-entry" itemscope itemtype="http://schema.org/BlogPosting">
+  <header>
+    
+    <h1 class="posttitle p-name" itemprop="name headline">
+        P6583 回首过去 数论+整除分块
+    </h1>
+
+
+
+    <div class="meta">
+      <span class="author p-author h-card" itemprop="author" itemscope itemtype="http://schema.org/Person">
+        <span class="p-name" itemprop="name">jyf111</span>
+      </span>
+      
+    <div class="postdate">
+      
+        <time datetime="2020-06-02T05:33:44.000Z" class="dt-published" itemprop="datePublished">2020-06-02</time>
+        
+        (Updated: <time datetime="2023-08-24T08:43:19.627Z" class="dt-updated" itemprop="dateModified">2023-08-24</time>)
+        
+      
+    </div>
+
+
+      
+
+      
+    <div class="article-tag">
+        <i class="fa-solid fa-tag"></i>
+        <a class="p-category" href="/tags/%E7%AE%97%E6%B3%95/" rel="tag">算法</a>
+    </div>
+
+
+      
+        <span class=count-symbol-post> 
+          <i class="fa-solid fa-hourglass"></i>
+          
+            2 mins to read
+          
+        </span>
+      
+    </div>
+  </header>
+  
+
+  <div class="content e-content" itemprop="articleBody">
+    <p>给定n&lt;&#x3D;1012n&lt;&#x3D;10^{12}n&lt;&#x3D;1012<br>询问∑x&#x3D;1n∑y&#x3D;1n[xy是有限小数]\sum_{x&#x3D;1}^n \sum_{y&#x3D;1}^n \left[ \dfrac{x}{y} 是有限小数<br>\right]∑x&#x3D;1n​∑y&#x3D;1n​[yx​是有限小数]</p>
+<h3 id="做法"><a href="#做法" class="headerlink" title="做法"></a>做法</h3><p>当真分数xy\dfrac {x}{y}yx​中分母y为2p5q2^p5^q2p5q的形式时才为有限小数<br>即可以表示成d∗gcd(x,y)2p5qgcd(x,y)\dfrac {d*gcd(x, y)}{2^p5^qgcd(x,<br>y)}2p5qgcd(x,y)d∗gcd(x,y)​<br>考虑枚举分母y，则可行的x的个数为⌊nζ(y)⌋\left \lfloor \dfrac {n}{\zeta(y)} \right<br>\rfloor⌊ζ(y)n​⌋，ζ(y)\zeta(y)ζ(y)表示小于等于y的最大的不含2和5的因子的整数，相当于是gcd（x, y）<br>这样是O(n)的，考虑改变枚举顺序<br>枚举ζ(y)\zeta(y)ζ(y)，那么答案就是∑k&#x3D;1n[2∤k][5∤k]⌊nk⌋g(⌊nk⌋)\sum_{k&#x3D;1}^n [2 \nmid k][5<br>\nmid k] \left \lfloor \dfrac {n}{k} \right \rfloor g(\left \lfloor \dfrac<br>{n}{k} \right \rfloor)∑k&#x3D;1n​[2∤k][5∤k]⌊kn​⌋g(⌊kn​⌋)<br>显然可以整除分块，其中g(i)代表小于等于i的且能表示成2p5q2^p5^q2p5q的数的个数（相当于是贡献次数）。<br>然后可以通过容斥计算出区间内不被2和5整除的数的个数。</p>
+<pre><code>#include &lt;bits/stdc++.h&gt;
+#define mp make_pair
+#define pb push_back
+#define sz(x) (int)x.size()
+#define all(x) begin(x), end(x)
+#define fi first
+#define se second
+#define debug(x) cerr &lt;&lt; #x &lt;&lt; &quot; &quot; &lt;&lt; x &lt;&lt; &#39;\n&#39;
+using namespace std;
+using ll = long long;
+using pii = pair&lt;int,int&gt;;
+using pli = pair&lt;ll,int&gt;;
+const int INF = 0x3f3f3f3f, N = 2e5 + 5;
+const ll LINF = 1e18 + 5;
+constexpr int mod = 1e9 + 7;
+ll n;
+ll f(ll x)
+&#123;
+    return x - x/2 - x/5 + x/10;
+&#125;
+ll g(ll x)
+&#123;
+    ll ans = 0;
+    for(ll i=1; i&lt;=x; i*=2)
+    &#123;
+        for(ll j=1; j&lt;=x; j*=5)
+        &#123;
+            if(i*j&gt;x) break;
+            ans++;
+        &#125;
+    &#125;
+    return ans;
+&#125;
+int main()
+&#123;
+    scanf(&quot;%lld&quot;, &amp;n);
+    ll ans = 0;
+    for(ll l=1,r; l&lt;=n; l=r+1)
+    &#123;
+        r = min(n, n/(n/l));
+        ans += (f(r) - f(l-1))*(n/l)*g(n/l);
+    &#125;
+    printf(&quot;%lld\n&quot;, ans);
+    return 0;
+&#125;
+</code></pre>
+<ul>
+<li><pre><code>*       * 做法
+</code></pre>
+</li>
+</ul>
+
+  </div>
+</article>
+
+
+
+        
+          <div id="footer-post-container">
+  <div id="footer-post">
+
+    <div id="nav-footer" style="display: none">
+      <ul>
+        
+          <li><a href="/">首页</a></li>
+        
+          <li><a href="/archives/">归档</a></li>
+        
+          <li><a href="/tags/">标签</a></li>
+        
+          <li><a href="/search/">搜索</a></li>
+        
+      </ul>
+    </div>
+
+    
+    
+      <div id="toc-footer" style="display: none">
+        <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%81%9A%E6%B3%95"><span class="toc-number">1.</span> <span class="toc-text">做法</span></a></li></ol>
+      </div>
+    
+
+    <div id="share-footer" style="display: none">
+      <ul>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.facebook.com/sharer.php?u=http://example.com/2020/06/02/p6583-hui-shou-guo-qu-shu-lun-zheng-chu-fen-kuai/"><i class="fab fa-facebook fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=http://example.com/2020/06/02/p6583-hui-shou-guo-qu-shu-lun-zheng-chu-fen-kuai/&text=P6583 回首过去 数论+整除分块"><i class="fab fa-twitter fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.linkedin.com/shareArticle?url=http://example.com/2020/06/02/p6583-hui-shou-guo-qu-shu-lun-zheng-chu-fen-kuai/&title=P6583 回首过去 数论+整除分块"><i class="fab fa-linkedin fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://pinterest.com/pin/create/bookmarklet/?url=http://example.com/2020/06/02/p6583-hui-shou-guo-qu-shu-lun-zheng-chu-fen-kuai/&is_video=false&description=P6583 回首过去 数论+整除分块"><i class="fab fa-pinterest fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=P6583 回首过去 数论+整除分块&body=Check out this article: http://example.com/2020/06/02/p6583-hui-shou-guo-qu-shu-lun-zheng-chu-fen-kuai/"><i class="fa-solid fa-envelope fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://getpocket.com/save?url=http://example.com/2020/06/02/p6583-hui-shou-guo-qu-shu-lun-zheng-chu-fen-kuai/&title=P6583 回首过去 数论+整除分块"><i class="fab fa-get-pocket fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://reddit.com/submit?url=http://example.com/2020/06/02/p6583-hui-shou-guo-qu-shu-lun-zheng-chu-fen-kuai/&title=P6583 回首过去 数论+整除分块"><i class="fab fa-reddit fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.stumbleupon.com/submit?url=http://example.com/2020/06/02/p6583-hui-shou-guo-qu-shu-lun-zheng-chu-fen-kuai/&title=P6583 回首过去 数论+整除分块"><i class="fab fa-stumbleupon fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://digg.com/submit?url=http://example.com/2020/06/02/p6583-hui-shou-guo-qu-shu-lun-zheng-chu-fen-kuai/&title=P6583 回首过去 数论+整除分块"><i class="fab fa-digg fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.tumblr.com/share/link?url=http://example.com/2020/06/02/p6583-hui-shou-guo-qu-shu-lun-zheng-chu-fen-kuai/&name=P6583 回首过去 数论+整除分块&description="><i class="fab fa-tumblr fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://news.ycombinator.com/submitlink?u=http://example.com/2020/06/02/p6583-hui-shou-guo-qu-shu-lun-zheng-chu-fen-kuai/&t=P6583 回首过去 数论+整除分块"><i class="fab fa-hacker-news fa-lg" aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+
+    <div id="actions-footer">
+        <a id="menu" class="icon" href="#" onclick="$('#nav-footer').toggle();return false;"><i class="fa-solid fa-bars fa-lg" aria-hidden="true"></i> 菜单</a>
+        
+          <a id="toc" class="icon" href="#" onclick="$('#toc-footer').toggle();return false;"><i class="fa-solid fa-list fa-lg" aria-hidden="true"></i> 目录</a>
+        
+        <a id="share" class="icon" href="#" onclick="$('#share-footer').toggle();return false;"><i class="fa-solid fa-share-alt fa-lg" aria-hidden="true"></i> 分享</a>
+        <a id="top" style="display:none" class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fa-solid fa-chevron-up fa-lg" aria-hidden="true"></i> 返回顶部</a>
+    </div>
+
+  </div>
+</div>
+
+        
+        <footer id="footer">
+  <div class="footer-left">
+    Copyright &copy;
+    
+    
+    2020-2023
+    jyf111
+  </div>
+  <div class="footer-right">
+    <nav>
+      <ul>
+        <!--
+       --><li><a href="/">首页</a></li><!--
+     --><!--
+       --><li><a href="/archives/">归档</a></li><!--
+     --><!--
+       --><li><a href="/tags/">标签</a></li><!--
+     --><!--
+       --><li><a href="/search/">搜索</a></li><!--
+     -->
+      </ul>
+    </nav>
+  </div>
+</footer>
+
+    </div>
+    <!-- styles -->
+
+
+
+  <link rel="preload" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" crossorigin="anonymous" onload="this.onload=null;this.rel='stylesheet'"/>
+
+
+    <!-- jquery -->
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js" crossorigin="anonymous"></script>
+
+
+
+
+<!-- clipboard -->
+
+  
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.7/clipboard.min.js" crossorigin="anonymous"></script>
+  
+  <script type="text/javascript">
+  $(function() {
+    // copy-btn HTML
+    var btn = "<span class=\"btn-copy tooltipped tooltipped-sw\" aria-label=\"复制到粘贴板！\">";
+    btn += '<i class="fa-regular fa-clone"></i>';
+    btn += '</span>';
+    // mount it!
+    $(".highlight table").before(btn);
+    var clip = new ClipboardJS('.btn-copy', {
+      text: function(trigger) {
+        return Array.from(trigger.nextElementSibling.querySelectorAll('.code')).reduce((str,it)=>str+it.innerText+'\n','')
+      }
+    });
+    clip.on('success', function(e) {
+      e.trigger.setAttribute('aria-label', "复制成功！");
+      e.clearSelection();
+    })
+  })
+  </script>
+
+
+<script src="/js/main.js"></script>
+
+<!-- search -->
+
+<!-- Baidu Analytics -->
+
+<!-- Cloudflare Analytics -->
+
+<!-- Disqus Comments -->
+
+<!-- utterances Comments -->
+
+</body>
+</html>

@@ -1,0 +1,419 @@
+<!DOCTYPE html>
+<html lang=zh>
+<head>
+    <!-- so meta -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="HandheldFriendly" content="True">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=5" />
+    <meta name="description" content="前置结论定义左括号’(‘为+1，右括号’)’为-1，作前缀和得到一个序列p当且仅当pn&#x3D;0∧∀i pi&gt;&#x3D;0p_n &#x3D; 0 \wedge \forall i \ p_i &gt;&#x3D;0pn​&#x3D;0∧∀i pi​&gt;&#x3D;0时，该括号序列合法 取mn&#x3D;min⁡i&#x3D;1npimn &#x3D; \min_{i&#x3D;1">
+<meta property="og:type" content="article">
+<meta property="og:title" content="括号序列问题">
+<meta property="og:url" content="http://example.com/2020/07/30/gua-hao-xu-lie-wen-ti/index.html">
+<meta property="og:site_name" content="jyf111&#39;s blog">
+<meta property="og:description" content="前置结论定义左括号’(‘为+1，右括号’)’为-1，作前缀和得到一个序列p当且仅当pn&#x3D;0∧∀i pi&gt;&#x3D;0p_n &#x3D; 0 \wedge \forall i \ p_i &gt;&#x3D;0pn​&#x3D;0∧∀i pi​&gt;&#x3D;0时，该括号序列合法 取mn&#x3D;min⁡i&#x3D;1npimn &#x3D; \min_{i&#x3D;1">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2020-07-30T05:33:43.000Z">
+<meta property="article:modified_time" content="2023-08-24T08:43:19.617Z">
+<meta property="article:author" content="jyf111">
+<meta property="article:tag" content="算法">
+<meta name="twitter:card" content="summary">
+    
+    
+      
+        
+          <link rel="shortcut icon" href="/images/favicon.ico">
+        
+      
+      
+        
+          <link rel="icon" type="image/png" href="/images/favicon-192x192.png" sizes="192x192">
+        
+      
+      
+        
+          <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png">
+        
+      
+    
+    <!-- title -->
+    <title>括号序列问题</title>
+    <!-- async scripts -->
+    <!-- Google Analytics -->
+
+
+    <!-- Umami Analytics -->
+
+
+    <!-- styles -->
+    
+<link rel="stylesheet" href="/css/style.css">
+
+    <!-- persian styles -->
+    
+    <!-- rss -->
+    
+    
+	<!-- mathjax -->
+	
+		<script type="text/x-mathjax-config">
+		  MathJax.Hub.Config({
+			tex2jax: {
+			  skipTags: ['script', 'noscript', 'style', 'textarea', 'pre'],
+			  inlineMath: [['$','$']]
+			}
+		  });
+		</script>
+		<script src='https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-MML-AM_CHTML' async></script>
+	
+<meta name="generator" content="Hexo 6.3.0"></head>
+
+<body class="max-width mx-auto px3 ltr">
+    
+      <div id="header-post">
+  <a id="menu-icon" href="#" aria-label="目录"><i class="fa-solid fa-bars fa-lg"></i></a>
+  <a id="menu-icon-tablet" href="#" aria-label="目录"><i class="fa-solid fa-bars fa-lg"></i></a>
+  <a id="top-icon-tablet" href="#" aria-label="顶部" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');" style="display:none;"><i class="fa-solid fa-chevron-up fa-lg"></i></a>
+  <span id="menu">
+    <span id="nav">
+      <ul>
+        <!--
+       --><li><a href="/">首页</a></li><!--
+     --><!--
+       --><li><a href="/archives/">归档</a></li><!--
+     --><!--
+       --><li><a href="/tags/">标签</a></li><!--
+     --><!--
+       --><li><a href="/search/">搜索</a></li><!--
+     -->
+      </ul>
+    </span>
+    <br/>
+    <span id="actions">
+      <ul>
+        
+        <li><a class="icon" aria-label="上一篇" href="/2020/08/06/lu-xing-you-xiang-tu-liang-dian-ke-da-xing/"><i class="fa-solid fa-chevron-left" aria-hidden="true" onmouseover="$('#i-prev').toggle();" onmouseout="$('#i-prev').toggle();"></i></a></li>
+        
+        
+        <li><a class="icon" aria-label="下一篇" href="/2020/07/27/luo-gu-7-yue-yue-sai/"><i class="fa-solid fa-chevron-right" aria-hidden="true" onmouseover="$('#i-next').toggle();" onmouseout="$('#i-next').toggle();"></i></a></li>
+        
+        <li><a class="icon" aria-label="返回顶部" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fa-solid fa-chevron-up" aria-hidden="true" onmouseover="$('#i-top').toggle();" onmouseout="$('#i-top').toggle();"></i></a></li>
+        <li><a class="icon" aria-label="分享文章" href="#"><i class="fa-solid fa-share-alt" aria-hidden="true" onmouseover="$('#i-share').toggle();" onmouseout="$('#i-share').toggle();" onclick="$('#share').toggle();return false;"></i></a></li>
+      </ul>
+      <span id="i-prev" class="info" style="display:none;">上一篇</span>
+      <span id="i-next" class="info" style="display:none;">下一篇</span>
+      <span id="i-top" class="info" style="display:none;">返回顶部</span>
+      <span id="i-share" class="info" style="display:none;">分享文章</span>
+    </span>
+    <br/>
+    <div id="share" style="display: none">
+      <ul>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.facebook.com/sharer.php?u=http://example.com/2020/07/30/gua-hao-xu-lie-wen-ti/"><i class="fab fa-facebook " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=http://example.com/2020/07/30/gua-hao-xu-lie-wen-ti/&text=括号序列问题"><i class="fab fa-twitter " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.linkedin.com/shareArticle?url=http://example.com/2020/07/30/gua-hao-xu-lie-wen-ti/&title=括号序列问题"><i class="fab fa-linkedin " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://pinterest.com/pin/create/bookmarklet/?url=http://example.com/2020/07/30/gua-hao-xu-lie-wen-ti/&is_video=false&description=括号序列问题"><i class="fab fa-pinterest " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=括号序列问题&body=Check out this article: http://example.com/2020/07/30/gua-hao-xu-lie-wen-ti/"><i class="fa-solid fa-envelope " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://getpocket.com/save?url=http://example.com/2020/07/30/gua-hao-xu-lie-wen-ti/&title=括号序列问题"><i class="fab fa-get-pocket " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://reddit.com/submit?url=http://example.com/2020/07/30/gua-hao-xu-lie-wen-ti/&title=括号序列问题"><i class="fab fa-reddit " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.stumbleupon.com/submit?url=http://example.com/2020/07/30/gua-hao-xu-lie-wen-ti/&title=括号序列问题"><i class="fab fa-stumbleupon " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://digg.com/submit?url=http://example.com/2020/07/30/gua-hao-xu-lie-wen-ti/&title=括号序列问题"><i class="fab fa-digg " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.tumblr.com/share/link?url=http://example.com/2020/07/30/gua-hao-xu-lie-wen-ti/&name=括号序列问题&description="><i class="fab fa-tumblr " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://news.ycombinator.com/submitlink?u=http://example.com/2020/07/30/gua-hao-xu-lie-wen-ti/&t=括号序列问题"><i class="fab fa-hacker-news " aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+    
+    
+      <div id="toc">
+        <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%89%8D%E7%BD%AE%E7%BB%93%E8%AE%BA"><span class="toc-number">1.</span> <span class="toc-text">前置结论</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%B4%9B%E8%B0%B7p6689-%E5%BA%8F%E5%88%97"><span class="toc-number">2.</span> <span class="toc-text">洛谷p6689 序列</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E9%A2%98%E6%84%8F"><span class="toc-number">2.1.</span> <span class="toc-text">题意</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%81%9A%E6%B3%95"><span class="toc-number">2.2.</span> <span class="toc-text">做法</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#D2-The-World-Is-Just-a-Programming-Task-Hard-Version"><span class="toc-number">3.</span> <span class="toc-text">D2. The World Is Just a Programming Task (Hard Version)</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E9%A2%98%E6%84%8F-1"><span class="toc-number">3.1.</span> <span class="toc-text">题意</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%81%9A%E6%B3%95-1"><span class="toc-number">3.2.</span> <span class="toc-text">做法</span></a></li></ol></li></ol>
+      </div>
+    
+  </span>
+</div>
+
+    
+    <div class="content index py4 ">
+        
+        <article class="post h-entry" itemscope itemtype="http://schema.org/BlogPosting">
+  <header>
+    
+    <h1 class="posttitle p-name" itemprop="name headline">
+        括号序列问题
+    </h1>
+
+
+
+    <div class="meta">
+      <span class="author p-author h-card" itemprop="author" itemscope itemtype="http://schema.org/Person">
+        <span class="p-name" itemprop="name">jyf111</span>
+      </span>
+      
+    <div class="postdate">
+      
+        <time datetime="2020-07-30T05:33:43.000Z" class="dt-published" itemprop="datePublished">2020-07-30</time>
+        
+        (Updated: <time datetime="2023-08-24T08:43:19.617Z" class="dt-updated" itemprop="dateModified">2023-08-24</time>)
+        
+      
+    </div>
+
+
+      
+
+      
+    <div class="article-tag">
+        <i class="fa-solid fa-tag"></i>
+        <a class="p-category" href="/tags/%E7%AE%97%E6%B3%95/" rel="tag">算法</a>
+    </div>
+
+
+      
+        <span class=count-symbol-post> 
+          <i class="fa-solid fa-hourglass"></i>
+          
+            8 mins to read
+          
+        </span>
+      
+    </div>
+  </header>
+  
+
+  <div class="content e-content" itemprop="articleBody">
+    <h3 id="前置结论"><a href="#前置结论" class="headerlink" title="前置结论"></a>前置结论</h3><p>定义左括号’(‘为+1，右括号’)’为-1，作前缀和得到一个序列p<br>当且仅当pn&#x3D;0∧∀i pi&gt;&#x3D;0p_n &#x3D; 0 \wedge \forall i \ p_i &gt;&#x3D;0pn​&#x3D;0∧∀i pi​&gt;&#x3D;0时，该括号序列合法</p>
+<p>取mn&#x3D;min⁡i&#x3D;1npimn &#x3D; \min_{i&#x3D;1}^n<br>p_imn&#x3D;mini&#x3D;1n​pi​，则该括号序列的最长合法括号子序列的长度为n−pn+2mnn - p_n + 2mnn−pn​+2mn<br>考虑位置pos，其中ppos&#x3D;mnp_{pos}&#x3D;mnppos​&#x3D;mn，则在1…pos1…pos1…pos中，有-mn个右括号失配，在pos+1…npos+1…npos+1…n中有pn−mnp_n-<br>mnpn​−mn个左括号失配</p>
+<p>一个长度为n，右括号个数为m，对应的序列p的最小值为t的括号序列的个数有(nn−m−t)−(nn−m−t+1)\binom{n}{n-m-t} -<br>\binom{n}{n-m-t+1}(n−m−tn​)−(n−m−t+1n​)<br>先考虑对应的序列p的最小值不小于t的方案数：<br>利用计算卡特兰数的方法，所有-<br>不合法。所有即为(nm)\binom{n}{m}(mn​)。不合法的即序列p的最小值是&lt;&#x3D;t-1的，考虑位置pos，其中ppos&#x3D;t−1p_{pos}&#x3D;t-1ppos​&#x3D;t−1，则在1…pos1…pos1…pos中左括号比右括号少−(t−1)-(t-1)−(t−1)个，pos+1…npos+1…npos+1…n中左括号比右括号多n−2m−(t−1)n-2m-(t-1)n−2m−(t−1)，将1…pos1…pos1…pos的左右括号翻转，则1…n1…n1…n中左括号比右括号多n−2m−2(t−1)n-2m-2(t-1)n−2m−2(t−1)个，容易发现不合法的括号序列与左括号比右括号多n−2m−2(t−1)n-2m-2(t-1)n−2m−2(t−1)个的括号序列一一对应，所以不合法即为(nn−m−t+1)\binom{n}{n-m-t+1}(n−m−t+1n​)<br>那么对应的序列p的最小值不小于t+1的方案数为(nm)−(nn−m−t)\binom{n}{m} -<br>\binom{n}{n-m-t}(mn​)−(n−m−tn​)<br>则对应的序列p的最小值为t的方案数为(nn−m−t)−(nn−m−t+1)\binom{n}{n-m-t} -<br>\binom{n}{n-m-t+1}(n−m−tn​)−(n−m−t+1n​)</p>
+<p>一个括号序列循环移位后合法的方案数：</p>
+<ul>
+<li>若左括号数不等于右括号数，显然无解</li>
+<li>ans &#x3D; p中最小值出现的次数，若ppos&#x3D;mnp_{pos} &#x3D; mnppos​&#x3D;mn，则将1…pos1…pos1…pos移到后面，pos+1…npos+1…npos+1…n移到前面则合法</li>
+</ul>
+<h3 id="洛谷p6689-序列"><a href="#洛谷p6689-序列" class="headerlink" title="洛谷p6689 序列"></a>洛谷p6689 序列</h3><h4 id="题意"><a href="#题意" class="headerlink" title="题意"></a>题意</h4><p>一个长度为n，初始全为’(‘的括号序列，给定参数k，每次随机在[1,n]选择一个位置然后翻转该位置的括号，当翻转了一个’(‘，就让k-1，重复直至k&#x3D;0。询问最后生成的括号序列的最长合法子序列的期望长度<br>n,k&lt;&#x3D;5×103n, k&lt;&#x3D;5\times 10^3n,k&lt;&#x3D;5×103</p>
+<h4 id="做法"><a href="#做法" class="headerlink" title="做法"></a>做法</h4><p>知道一个括号序列的左右括号的个数以及其对应的序列p的最小值就可以得到该括号序列的最长合法子序列的长度。<br>先求出长度为n的括号序列中有m个右括号的概率，再枚举序列p的最小值即可解决，这是两个独立的问题。<br>首先概率dp：fijf_{ij}fij​表示当前参数为i，已经有j个右括号的概率<br>fij&#x3D;n−j+1n∑k&#x3D;j−1nfik∏l&#x3D;jklnf_{ij} &#x3D; \dfrac{n-j+1}{n}\sum_{k&#x3D;j-1}^{n} f_{ik}<br>\prod_{l&#x3D;j}^{k}\dfrac{l}{n}fij​&#x3D;nn−j+1​∑k&#x3D;j−1n​fik​∏l&#x3D;jk​nl​<br>fijf_{ij}fij​可以由j−1…nj-1…nj−1…n个右括号的情况转移过来，相当于先连续将x个右括号变成左括号，然后再将1个左括号变成右括号<br>f0m(nm)\dfrac{f_{0m}}{\binom{n}{m}}(mn​)f0m​​就等于生成一个有m个右括号的括号序列的概率<br>最后枚举这个括号序列的最小值，然后依据上面的公式计算即可</p>
+<pre><code>#include &lt;bits/stdc++.h&gt;
+using namespace std;
+const int mod = 998244353, N = 5e3 + 5;
+inline void mul(int &amp;a, int b) &#123; a = 1ll*a*b%mod; &#125;
+inline int Mul(int a, int b) &#123; return 1ll*a*b%mod; &#125;
+inline void add(int &amp;a, int b) &#123; a+=b; if(a&gt;=mod) a-=mod; &#125;
+inline int Add(int a, int b) &#123; a+=b; if(a&gt;=mod) return a-mod; return a; &#125;
+inline void sub(int &amp;a, int b) &#123; a-=b; if(a&lt;0) a+=mod; &#125;
+inline int Sub(int a, int b) &#123; a-=b; if(a&lt;0) return a+mod; return a; &#125;
+int n, k, f[N][N], fac[N], inv[N];
+int powmod(int a, int b)
+&#123;
+    int ans = 1;
+    while(b)
+    &#123;
+        if(b&amp;1) mul(ans, a);
+        mul(a, a);
+        b &gt;&gt;= 1;
+    &#125;
+    return ans;
+&#125;
+void init(int n)
+&#123;
+    fac[0] = 1;
+    for(int i=1;i&lt;=n;i++) fac[i] = 1ll*fac[i-1]*i%mod;
+    inv[n] = powmod(fac[n], mod-2);
+    for(int i=n-1;i&gt;=0;i--) inv[i] = 1ll*inv[i+1]*(i+1)%mod;
+&#125;
+int comb(int a, int b)
+&#123;
+    if(a&lt;b||b&lt;0||a&lt;0) return 0;
+    return 1ll*fac[a]*inv[b]%mod*inv[a-b]%mod;
+&#125;
+int main()
+&#123;
+    scanf(&quot;%d%d&quot;, &amp;n, &amp;k);
+    int invn = powmod(n, mod-2);
+    f[0][0] = 1;
+    init(n);
+    for(int i=1; i&lt;=k; i++)
+    &#123;
+        int sum = f[i-1][n];
+        for(int j=n; j&gt;=1; j--)
+        &#123;
+            mul(sum, Mul(j, invn));
+            add(sum, f[i-1][j-1]);
+            f[i][j] = Mul(Mul(invn, (n-j+1)), sum);
+        &#125;
+    &#125;
+    for(int i=1; i&lt;=n; i++) mul(f[k][i], powmod(comb(n, i), mod-2));
+    int ans = 0;
+    auto cal = [](int x, int y, int z)-&gt;int //长度为x的括号序列，有y个右括号，对应序列p的最小值为z的方案数
+    &#123;
+        return Sub(comb(x, x-y-z), comb(x, x-y-z+1));
+    &#125;;
+    for(int i=1; i&lt;=n; i++) //枚举右括号个数
+        for(int j=2; j&lt;=n&amp;&amp;min(i, n-i)&gt;=j/2; j+=2) //枚举最长合法子序列的长度为j，则此时p序列的mn=(j-2i)/2
+            add(ans, Mul(Mul(j, f[k][i]), cal(n, i, (j-2*i)/2))); 
+    printf(&quot;%d\n&quot;, ans);
+    return 0;
+&#125;
+</code></pre>
+<h3 id="D2-The-World-Is-Just-a-Programming-Task-Hard-Version"><a href="#D2-The-World-Is-Just-a-Programming-Task-Hard-Version" class="headerlink" title="D2. The World Is Just a Programming Task (Hard Version)"></a>D2. The World Is Just a Programming Task (Hard Version)</h3><h4 id="题意-1"><a href="#题意-1" class="headerlink" title="题意"></a>题意</h4><p>给定一个括号序列，要求交换其中两个位置的括号，使得该括号序列循环移位后合法的方案数最多<br>n&lt;&#x3D;3×105n&lt;&#x3D;3\times 10^5n&lt;&#x3D;3×105</p>
+<h4 id="做法-1"><a href="#做法-1" class="headerlink" title="做法"></a>做法</h4><p>由上面结论可得，就是要最大化该括号序列对应的p序列的最小值的个数<br>显然交换两个相同的括号是没有意义的<br>当交换一个左括号和一个右括号时，相当于对这段区间的p序列-2<br>当交换一个右括号和一个左括号时，相当于对这段区间的p序列+2<br>显然区间+2只会使最小值个数减少<br>下面考虑区间-2：<br>如果操作的区间中包含了原来最小值的某个位置，显然答案不会更优<br>所以设pos1,…,posxpos_1,…,pos_xpos1​,…,posx​为p序列最小值所处的位置，那么操作的区间只可能是(pos1,pos2)…(pos_1,pos_2)…(pos1​,pos2​)…，也可能是(posx,pos1)(pos_x,pos_1)(posx​,pos1​)，准确来说是对[pos1,posx][pos_1,pos_x][pos1​,posx​]+2，相当于是对(posx,n]，[1,pos1)−2(pos_x,n]，[1,pos_1)-2(posx​,n]，[1,pos1​)−2<br>最优的情况只有两种：</p>
+<ul>
+<li><p>让最小值变成mn-1，只要统计出以上区间中等于mn+1的最多个数即可（显然操作区间越大越好，即[posi,posi+1][pos_i, pos_{i+1}][posi​,posi+1​]）</p>
+</li>
+<li><p>让最小值仍为mn，需要统计出以上区间中连续的且 <strong>不包含mn+1</strong> 的然后mn+2值最多的个数，还要再加上原本等于mn的个数（在以上每个操作区间中作尺取法即可，遇见mn+1就让计数器清空，否则不断往右移动）<br>以上两者取优即可</p>
+<p>#include &lt;bits&#x2F;stdc++.h&gt;<br>#define mp make_pair<br>#define pb push_back<br>#define sz(x) (int)x.size()<br>#define all(x) begin(x), end(x)<br>#define fi first<br>#define se second<br>#define debug(x) cerr &lt;&lt; #x &lt;&lt; “ “ &lt;&lt; x &lt;&lt; ‘\n’<br>using namespace std;<br>using ll &#x3D; long long;<br>using pii &#x3D; pair&lt;int,int&gt;;<br>using pli &#x3D; pair&lt;ll,int&gt;;<br>const int INF &#x3D; 0x3f3f3f3f, N &#x3D; 3e5 + 5;<br>const ll LINF &#x3D; 1e18 + 5;<br>constexpr int mod &#x3D; 1e9 + 7;<br>int n, p[N];<br>char s[N];<br>int main()<br>{<br>ios::sync_with_stdio(false);<br>cin.tie(nullptr);<br>cin &gt;&gt; n &gt;&gt; (s+1);<br>for(int i&#x3D;1; i&lt;&#x3D;n; i++) p[i] &#x3D; (p[i-1] + (s[i]&#x3D;&#x3D;’(‘ ? 1 : -1));<br>if(p[n]) { cout &lt;&lt; 0 &lt;&lt; ‘\n’ &lt;&lt; 1 &lt;&lt; ‘ ‘ &lt;&lt; 1 &lt;&lt; ‘\n’; return 0; }<br>int mn &#x3D; *min_element(p+1, p+n+1);<br>vector<int> vec;<br>for(int i&#x3D;1; i&lt;&#x3D;n; i++) if(p[i]&#x3D;&#x3D;mn) vec.pb(i);<br>int ans &#x3D; sz(vec);<br>pii pos &#x3D; {1, 1};<br>for(int i&#x3D;0; i&lt;sz(vec)-1; i++)<br>{<br>    int j &#x3D; vec[i] + 1, k &#x3D; vec[i+1] - 1;<br>    if(j&gt;k) continue;<br>    int one &#x3D; 0, two &#x3D; 0, tmp &#x3D; 0, st &#x3D; 0;<br>    pii pp &#x3D; {0, 0};<br>    for(int _&#x3D;j; _&lt;&#x3D;k; _++)<br>    {<br>        if(p[_]&#x3D;&#x3D;mn+1)<br>        {<br>            ++one;<br>            tmp &#x3D; st &#x3D; 0;<br>        }<br>        if(p[_]&#x3D;&#x3D;mn+2)<br>        {<br>            ++tmp;<br>            if(!st) st &#x3D; _;<br>        }<br>        if(tmp&gt;two)<br>        {<br>            two &#x3D; tmp;<br>            pp &#x3D; {st, _%n+1};<br>        }<br>    }<br>    if(one&gt;ans) ans &#x3D; one, pos &#x3D; {j, k%n+1};<br>    if(two+sz(vec)&gt;ans) ans &#x3D; two+sz(vec), pos &#x3D; pp;<br>}<br>int one &#x3D; 0, two &#x3D; 0, tmp &#x3D; 0, st &#x3D; 0;<br>pii pp &#x3D; {0, 0};<br>for(int <em>&#x3D;vec.back()%n+1; <em>!&#x3D;vec.front(); <em>&#x3D;</em>%n+1)<br>{<br>    if(p[</em>]&#x3D;&#x3D;mn+1)<br>    {<br>        ++one;<br>        tmp &#x3D; st &#x3D; 0;<br>    }<br>    if(p[</em>]&#x3D;&#x3D;mn+2)<br>    {<br>        ++tmp;<br>        if(!st) st &#x3D; _;<br>    }<br>    if(tmp&gt;two)<br>    {<br>        two &#x3D; tmp;<br>        pp &#x3D; {st, _%n+1};<br>    }<br>}<br>if(one&gt;ans) ans &#x3D; one, pos &#x3D; {vec.back()%n+1, vec.front()};<br>if(two+sz(vec)&gt;ans) ans &#x3D; two+sz(vec), pos &#x3D; pp;<br>cout &lt;&lt; ans &lt;&lt; ‘\n’;<br>cout &lt;&lt; pos.fi &lt;&lt; ‘ ‘ &lt;&lt; pos.se &lt;&lt; ‘\n’;<br>return 0;<br>}</p>
+</li>
+<li><pre><code>*       * 前置结论
+</code></pre>
+<ul>
+<li>洛谷p6689 序列<ul>
+<li>题意</li>
+<li>做法</li>
+</ul>
+</li>
+<li>D2. The World Is Just a Programming Task (Hard Version)<ul>
+<li>题意</li>
+<li>做法</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+  </div>
+</article>
+
+
+
+        
+          <div id="footer-post-container">
+  <div id="footer-post">
+
+    <div id="nav-footer" style="display: none">
+      <ul>
+        
+          <li><a href="/">首页</a></li>
+        
+          <li><a href="/archives/">归档</a></li>
+        
+          <li><a href="/tags/">标签</a></li>
+        
+          <li><a href="/search/">搜索</a></li>
+        
+      </ul>
+    </div>
+
+    
+    
+      <div id="toc-footer" style="display: none">
+        <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%89%8D%E7%BD%AE%E7%BB%93%E8%AE%BA"><span class="toc-number">1.</span> <span class="toc-text">前置结论</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%B4%9B%E8%B0%B7p6689-%E5%BA%8F%E5%88%97"><span class="toc-number">2.</span> <span class="toc-text">洛谷p6689 序列</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E9%A2%98%E6%84%8F"><span class="toc-number">2.1.</span> <span class="toc-text">题意</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%81%9A%E6%B3%95"><span class="toc-number">2.2.</span> <span class="toc-text">做法</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#D2-The-World-Is-Just-a-Programming-Task-Hard-Version"><span class="toc-number">3.</span> <span class="toc-text">D2. The World Is Just a Programming Task (Hard Version)</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E9%A2%98%E6%84%8F-1"><span class="toc-number">3.1.</span> <span class="toc-text">题意</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%81%9A%E6%B3%95-1"><span class="toc-number">3.2.</span> <span class="toc-text">做法</span></a></li></ol></li></ol>
+      </div>
+    
+
+    <div id="share-footer" style="display: none">
+      <ul>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.facebook.com/sharer.php?u=http://example.com/2020/07/30/gua-hao-xu-lie-wen-ti/"><i class="fab fa-facebook fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=http://example.com/2020/07/30/gua-hao-xu-lie-wen-ti/&text=括号序列问题"><i class="fab fa-twitter fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.linkedin.com/shareArticle?url=http://example.com/2020/07/30/gua-hao-xu-lie-wen-ti/&title=括号序列问题"><i class="fab fa-linkedin fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://pinterest.com/pin/create/bookmarklet/?url=http://example.com/2020/07/30/gua-hao-xu-lie-wen-ti/&is_video=false&description=括号序列问题"><i class="fab fa-pinterest fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=括号序列问题&body=Check out this article: http://example.com/2020/07/30/gua-hao-xu-lie-wen-ti/"><i class="fa-solid fa-envelope fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://getpocket.com/save?url=http://example.com/2020/07/30/gua-hao-xu-lie-wen-ti/&title=括号序列问题"><i class="fab fa-get-pocket fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://reddit.com/submit?url=http://example.com/2020/07/30/gua-hao-xu-lie-wen-ti/&title=括号序列问题"><i class="fab fa-reddit fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.stumbleupon.com/submit?url=http://example.com/2020/07/30/gua-hao-xu-lie-wen-ti/&title=括号序列问题"><i class="fab fa-stumbleupon fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://digg.com/submit?url=http://example.com/2020/07/30/gua-hao-xu-lie-wen-ti/&title=括号序列问题"><i class="fab fa-digg fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.tumblr.com/share/link?url=http://example.com/2020/07/30/gua-hao-xu-lie-wen-ti/&name=括号序列问题&description="><i class="fab fa-tumblr fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://news.ycombinator.com/submitlink?u=http://example.com/2020/07/30/gua-hao-xu-lie-wen-ti/&t=括号序列问题"><i class="fab fa-hacker-news fa-lg" aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+
+    <div id="actions-footer">
+        <a id="menu" class="icon" href="#" onclick="$('#nav-footer').toggle();return false;"><i class="fa-solid fa-bars fa-lg" aria-hidden="true"></i> 菜单</a>
+        
+          <a id="toc" class="icon" href="#" onclick="$('#toc-footer').toggle();return false;"><i class="fa-solid fa-list fa-lg" aria-hidden="true"></i> 目录</a>
+        
+        <a id="share" class="icon" href="#" onclick="$('#share-footer').toggle();return false;"><i class="fa-solid fa-share-alt fa-lg" aria-hidden="true"></i> 分享</a>
+        <a id="top" style="display:none" class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fa-solid fa-chevron-up fa-lg" aria-hidden="true"></i> 返回顶部</a>
+    </div>
+
+  </div>
+</div>
+
+        
+        <footer id="footer">
+  <div class="footer-left">
+    Copyright &copy;
+    
+    
+    2020-2023
+    jyf111
+  </div>
+  <div class="footer-right">
+    <nav>
+      <ul>
+        <!--
+       --><li><a href="/">首页</a></li><!--
+     --><!--
+       --><li><a href="/archives/">归档</a></li><!--
+     --><!--
+       --><li><a href="/tags/">标签</a></li><!--
+     --><!--
+       --><li><a href="/search/">搜索</a></li><!--
+     -->
+      </ul>
+    </nav>
+  </div>
+</footer>
+
+    </div>
+    <!-- styles -->
+
+
+
+  <link rel="preload" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" crossorigin="anonymous" onload="this.onload=null;this.rel='stylesheet'"/>
+
+
+    <!-- jquery -->
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js" crossorigin="anonymous"></script>
+
+
+
+
+<!-- clipboard -->
+
+  
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.7/clipboard.min.js" crossorigin="anonymous"></script>
+  
+  <script type="text/javascript">
+  $(function() {
+    // copy-btn HTML
+    var btn = "<span class=\"btn-copy tooltipped tooltipped-sw\" aria-label=\"复制到粘贴板！\">";
+    btn += '<i class="fa-regular fa-clone"></i>';
+    btn += '</span>';
+    // mount it!
+    $(".highlight table").before(btn);
+    var clip = new ClipboardJS('.btn-copy', {
+      text: function(trigger) {
+        return Array.from(trigger.nextElementSibling.querySelectorAll('.code')).reduce((str,it)=>str+it.innerText+'\n','')
+      }
+    });
+    clip.on('success', function(e) {
+      e.trigger.setAttribute('aria-label', "复制成功！");
+      e.clearSelection();
+    })
+  })
+  </script>
+
+
+<script src="/js/main.js"></script>
+
+<!-- search -->
+
+<!-- Baidu Analytics -->
+
+<!-- Cloudflare Analytics -->
+
+<!-- Disqus Comments -->
+
+<!-- utterances Comments -->
+
+</body>
+</html>

@@ -1,0 +1,317 @@
+<!DOCTYPE html>
+<html lang=zh>
+<head>
+    <!-- so meta -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="HandheldFriendly" content="True">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=5" />
+    <meta name="description" content="一个序列初始为1-n的排列，现在有m次操作，将一个区间移到最前面。问所有操作结束后的序列是什么 突然发现没有写过区间平移的问题，然后去找了一道，然后就调了2小时，很难受。 罗列一下几个易错点：pushup的时候最好特判一下p&#x3D;&#x3D;0，这时候就直接return，否则总感觉容易出问题splay一个不好的地方就是要加哨兵，反正左后各加一个就完事了偷懒把取区间写了个split，然后就导致">
+<meta property="og:type" content="article">
+<meta property="og:title" content="C、Shuffle Cards 区间移位 splay">
+<meta property="og:url" content="http://example.com/2020/12/12/cshuffle-cards-qu-jian-yi-wei-splay/index.html">
+<meta property="og:site_name" content="jyf111&#39;s blog">
+<meta property="og:description" content="一个序列初始为1-n的排列，现在有m次操作，将一个区间移到最前面。问所有操作结束后的序列是什么 突然发现没有写过区间平移的问题，然后去找了一道，然后就调了2小时，很难受。 罗列一下几个易错点：pushup的时候最好特判一下p&#x3D;&#x3D;0，这时候就直接return，否则总感觉容易出问题splay一个不好的地方就是要加哨兵，反正左后各加一个就完事了偷懒把取区间写了个split，然后就导致">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2020-12-12T05:33:43.000Z">
+<meta property="article:modified_time" content="2023-08-24T11:30:21.765Z">
+<meta property="article:author" content="jyf111">
+<meta property="article:tag" content="算法">
+<meta name="twitter:card" content="summary">
+    
+    
+      
+        
+          <link rel="shortcut icon" href="/images/favicon.ico">
+        
+      
+      
+        
+          <link rel="icon" type="image/png" href="/images/favicon-192x192.png" sizes="192x192">
+        
+      
+      
+        
+          <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png">
+        
+      
+    
+    <!-- title -->
+    <title>C、Shuffle Cards 区间移位 splay</title>
+    <!-- async scripts -->
+    <!-- Google Analytics -->
+
+
+    <!-- Umami Analytics -->
+
+
+    <!-- styles -->
+    
+<link rel="stylesheet" href="/css/style.css">
+
+    <!-- persian styles -->
+    
+    <!-- rss -->
+    
+    
+	<!-- mathjax -->
+	
+		<script type="text/x-mathjax-config">
+		  MathJax.Hub.Config({
+			tex2jax: {
+			  skipTags: ['script', 'noscript', 'style', 'textarea', 'pre'],
+			  inlineMath: [['$','$']]
+			}
+		  });
+		</script>
+		<script src='https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-MML-AM_CHTML' async></script>
+	
+<meta name="generator" content="Hexo 6.3.0"></head>
+
+<body class="max-width mx-auto px3 ltr">
+    
+      <div id="header-post">
+  <a id="menu-icon" href="#" aria-label="目录"><i class="fa-solid fa-bars fa-lg"></i></a>
+  <a id="menu-icon-tablet" href="#" aria-label="目录"><i class="fa-solid fa-bars fa-lg"></i></a>
+  <a id="top-icon-tablet" href="#" aria-label="顶部" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');" style="display:none;"><i class="fa-solid fa-chevron-up fa-lg"></i></a>
+  <span id="menu">
+    <span id="nav">
+      <ul>
+        <!--
+       --><li><a href="/">首页</a></li><!--
+     --><!--
+       --><li><a href="/archives/">归档</a></li><!--
+     --><!--
+       --><li><a href="/tags/">标签</a></li><!--
+     --><!--
+       --><li><a href="/search/">搜索</a></li><!--
+     -->
+      </ul>
+    </span>
+    <br/>
+    <span id="actions">
+      <ul>
+        
+        <li><a class="icon" aria-label="上一篇" href="/2020/12/13/rope-kuai-zhuang-lian-biao-shi-xian-de-stl-rong-qi/"><i class="fa-solid fa-chevron-left" aria-hidden="true" onmouseover="$('#i-prev').toggle();" onmouseout="$('#i-prev').toggle();"></i></a></li>
+        
+        
+        <li><a class="icon" aria-label="下一篇" href="/2020/12/11/p2042-noi2005wei-hu-shu-lie/"><i class="fa-solid fa-chevron-right" aria-hidden="true" onmouseover="$('#i-next').toggle();" onmouseout="$('#i-next').toggle();"></i></a></li>
+        
+        <li><a class="icon" aria-label="返回顶部" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fa-solid fa-chevron-up" aria-hidden="true" onmouseover="$('#i-top').toggle();" onmouseout="$('#i-top').toggle();"></i></a></li>
+        <li><a class="icon" aria-label="分享文章" href="#"><i class="fa-solid fa-share-alt" aria-hidden="true" onmouseover="$('#i-share').toggle();" onmouseout="$('#i-share').toggle();" onclick="$('#share').toggle();return false;"></i></a></li>
+      </ul>
+      <span id="i-prev" class="info" style="display:none;">上一篇</span>
+      <span id="i-next" class="info" style="display:none;">下一篇</span>
+      <span id="i-top" class="info" style="display:none;">返回顶部</span>
+      <span id="i-share" class="info" style="display:none;">分享文章</span>
+    </span>
+    <br/>
+    <div id="share" style="display: none">
+      <ul>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.facebook.com/sharer.php?u=http://example.com/2020/12/12/cshuffle-cards-qu-jian-yi-wei-splay/"><i class="fab fa-facebook " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=http://example.com/2020/12/12/cshuffle-cards-qu-jian-yi-wei-splay/&text=C、Shuffle Cards 区间移位 splay"><i class="fab fa-twitter " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.linkedin.com/shareArticle?url=http://example.com/2020/12/12/cshuffle-cards-qu-jian-yi-wei-splay/&title=C、Shuffle Cards 区间移位 splay"><i class="fab fa-linkedin " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://pinterest.com/pin/create/bookmarklet/?url=http://example.com/2020/12/12/cshuffle-cards-qu-jian-yi-wei-splay/&is_video=false&description=C、Shuffle Cards 区间移位 splay"><i class="fab fa-pinterest " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=C、Shuffle Cards 区间移位 splay&body=Check out this article: http://example.com/2020/12/12/cshuffle-cards-qu-jian-yi-wei-splay/"><i class="fa-solid fa-envelope " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://getpocket.com/save?url=http://example.com/2020/12/12/cshuffle-cards-qu-jian-yi-wei-splay/&title=C、Shuffle Cards 区间移位 splay"><i class="fab fa-get-pocket " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://reddit.com/submit?url=http://example.com/2020/12/12/cshuffle-cards-qu-jian-yi-wei-splay/&title=C、Shuffle Cards 区间移位 splay"><i class="fab fa-reddit " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.stumbleupon.com/submit?url=http://example.com/2020/12/12/cshuffle-cards-qu-jian-yi-wei-splay/&title=C、Shuffle Cards 区间移位 splay"><i class="fab fa-stumbleupon " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://digg.com/submit?url=http://example.com/2020/12/12/cshuffle-cards-qu-jian-yi-wei-splay/&title=C、Shuffle Cards 区间移位 splay"><i class="fab fa-digg " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.tumblr.com/share/link?url=http://example.com/2020/12/12/cshuffle-cards-qu-jian-yi-wei-splay/&name=C、Shuffle Cards 区间移位 splay&description="><i class="fab fa-tumblr " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://news.ycombinator.com/submitlink?u=http://example.com/2020/12/12/cshuffle-cards-qu-jian-yi-wei-splay/&t=C、Shuffle Cards 区间移位 splay"><i class="fab fa-hacker-news " aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+    
+    
+  </span>
+</div>
+
+    
+    <div class="content index py4 ">
+        
+        <article class="post h-entry" itemscope itemtype="http://schema.org/BlogPosting">
+  <header>
+    
+    <h1 class="posttitle p-name" itemprop="name headline">
+        C、Shuffle Cards 区间移位 splay
+    </h1>
+
+
+
+    <div class="meta">
+      <span class="author p-author h-card" itemprop="author" itemscope itemtype="http://schema.org/Person">
+        <span class="p-name" itemprop="name">jyf111</span>
+      </span>
+      
+    <div class="postdate">
+      
+        <time datetime="2020-12-12T05:33:43.000Z" class="dt-published" itemprop="datePublished">2020-12-12</time>
+        
+        (Updated: <time datetime="2023-08-24T11:30:21.765Z" class="dt-updated" itemprop="dateModified">2023-08-24</time>)
+        
+      
+    </div>
+
+
+      
+
+      
+    <div class="article-tag">
+        <i class="fa-solid fa-tag"></i>
+        <a class="p-category" href="/tags/%E7%AE%97%E6%B3%95/" rel="tag">算法</a>
+    </div>
+
+
+      
+        <span class=count-symbol-post> 
+          <i class="fa-solid fa-hourglass"></i>
+          
+            10 mins to read
+          
+        </span>
+      
+    </div>
+  </header>
+  
+
+  <div class="content e-content" itemprop="articleBody">
+    <p>一个序列初始为1-n的排列，现在有m次操作，将一个区间移到最前面。<br>问所有操作结束后的序列是什么</p>
+<p>突然发现没有写过区间平移的问题，然后去找了一道，然后就调了2小时，很难受。</p>
+<p>罗列一下几个易错点：<br>pushup的时候最好特判一下p&#x3D;&#x3D;0，这时候就直接return，否则总感觉容易出问题<br>splay一个不好的地方就是要加哨兵，反正左后各加一个就完事了<br>偷懒把取区间写了个split，然后就导致了一个问题（bug根源）<br>当要提取的区间是一个空区间就会出现奇奇怪怪的问题（插入和删除的时候需要），因为这时候它会返回0，我就没办法维护我本来需要的返回节点的父亲了。<br>所以最好还是不要写split函数了😭</p>
+<p>说一下区间平移怎么做<br>其实就是区间插入问题，先把一个区间提取出来，把这个区间删除掉，然后假设这个节点要插入到p（要注意前面这个区间删除带来的影响）节点的后面，那就把p转到根，p+1转到p的儿子，则把刚才提取的区间插到p+1的左儿子就可以了。</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;bits/stdc++.h&gt;</span></span></span><br><span class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> std;</span><br><span class="line"><span class="type">const</span> <span class="type">int</span> N = <span class="number">1e5</span> + <span class="number">5</span>;</span><br><span class="line"><span class="type">int</span> n, m;</span><br><span class="line"><span class="type">int</span> rt;</span><br><span class="line"><span class="type">int</span> ch[N][<span class="number">2</span>], sz[N], fa[N], val[N];</span><br><span class="line"><span class="function"><span class="type">bool</span> <span class="title">rs</span><span class="params">(<span class="type">int</span> x)</span> </span>&#123; <span class="keyword">return</span> ch[fa[x]][<span class="number">1</span>]==x; &#125;</span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">up</span><span class="params">(<span class="type">int</span> x)</span> </span>&#123; <span class="keyword">if</span>(!x) <span class="keyword">return</span>; sz[x] = sz[ch[x][<span class="number">0</span>]] + sz[ch[x][<span class="number">1</span>]] + <span class="number">1</span>; &#125;</span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">build</span><span class="params">(<span class="type">int</span> l, <span class="type">int</span> r, <span class="type">int</span> f)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">  <span class="keyword">if</span>(l&gt;r) <span class="keyword">return</span>;</span><br><span class="line">  <span class="type">int</span> p = (l+r)&gt;&gt;<span class="number">1</span>;</span><br><span class="line">  sz[p] = <span class="number">1</span>, fa[p] = f, val[p] = p;</span><br><span class="line">  ch[f][p&gt;f] = p;</span><br><span class="line">  <span class="keyword">if</span>(l==r) <span class="keyword">return</span>;</span><br><span class="line">  <span class="built_in">build</span>(l, p<span class="number">-1</span>, p), <span class="built_in">build</span>(p+<span class="number">1</span>, r, p);</span><br><span class="line">  <span class="built_in">up</span>(p);</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">rotate</span><span class="params">(<span class="type">int</span> x)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">  <span class="type">int</span> y = fa[x], z = fa[y], k = <span class="built_in">rs</span>(x), w = ch[x][k^<span class="number">1</span>];</span><br><span class="line">  ch[y][k] = w; fa[w] = y;</span><br><span class="line">  ch[z][<span class="built_in">rs</span>(y)] = x; fa[x] = z;</span><br><span class="line">  ch[x][k^<span class="number">1</span>] = y; fa[y] = x;</span><br><span class="line">  <span class="built_in">up</span>(y); <span class="built_in">up</span>(x);</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">splay</span><span class="params">(<span class="type">int</span> x, <span class="type">int</span> g=<span class="number">0</span>)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">  <span class="keyword">while</span>(fa[x]!=g)</span><br><span class="line">  &#123;</span><br><span class="line">    <span class="type">int</span> y = fa[x];</span><br><span class="line">    <span class="keyword">if</span>(fa[y]!=g) (<span class="built_in">rs</span>(x)==<span class="built_in">rs</span>(y) ? <span class="built_in">rotate</span>(y) : <span class="built_in">rotate</span>(x));</span><br><span class="line">    <span class="built_in">rotate</span>(x);</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="keyword">if</span>(!g) rt = x;</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="type">int</span> <span class="title">kth</span><span class="params">(<span class="type">int</span> p, <span class="type">int</span> k)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">  <span class="keyword">if</span>(ch[p][<span class="number">0</span>]&amp;&amp;sz[ch[p][<span class="number">0</span>]]&gt;=k) <span class="keyword">return</span> <span class="built_in">kth</span>(ch[p][<span class="number">0</span>], k);</span><br><span class="line">  <span class="keyword">else</span> <span class="keyword">if</span>(sz[ch[p][<span class="number">0</span>]]+<span class="number">1</span>==k) <span class="keyword">return</span> p;</span><br><span class="line">  <span class="keyword">else</span> <span class="keyword">return</span> <span class="built_in">kth</span>(ch[p][<span class="number">1</span>], k-sz[ch[p][<span class="number">0</span>]]<span class="number">-1</span>);</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">go</span><span class="params">(<span class="type">int</span> p)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">  <span class="keyword">if</span>(!p) <span class="keyword">return</span>;</span><br><span class="line">  <span class="built_in">go</span>(ch[p][<span class="number">0</span>]);</span><br><span class="line">  <span class="keyword">if</span>(val[p]&gt;=<span class="number">2</span> &amp;&amp; val[p]&lt;=n+<span class="number">1</span>) <span class="built_in">printf</span>(<span class="string">&quot;%d &quot;</span>, val[p]<span class="number">-1</span>);</span><br><span class="line">  <span class="built_in">go</span>(ch[p][<span class="number">1</span>]);</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="type">int</span> <span class="title">main</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">  <span class="built_in">scanf</span>(<span class="string">&quot;%d%d&quot;</span>, &amp;n, &amp;m);</span><br><span class="line">  <span class="built_in">build</span>(<span class="number">1</span>, n+<span class="number">2</span>, <span class="number">0</span>);</span><br><span class="line">  rt = (n+<span class="number">3</span>)&gt;&gt;<span class="number">1</span>;</span><br><span class="line">  <span class="keyword">while</span>(m--)</span><br><span class="line">  &#123;</span><br><span class="line">    <span class="type">int</span> a, b; <span class="built_in">scanf</span>(<span class="string">&quot;%d%d&quot;</span>, &amp;a, &amp;b);</span><br><span class="line">    ++a;</span><br><span class="line">    <span class="type">int</span> x = <span class="built_in">kth</span>(rt, <span class="number">1</span>), y = <span class="built_in">kth</span>(rt, a);</span><br><span class="line">    <span class="built_in">splay</span>(x); <span class="built_in">splay</span>(y, x);</span><br><span class="line">    <span class="type">int</span> z = ch[y][<span class="number">0</span>];</span><br><span class="line">    fa[z] = <span class="number">0</span>;</span><br><span class="line">    ch[y][<span class="number">0</span>] = <span class="number">0</span>;</span><br><span class="line">    <span class="built_in">up</span>(y); <span class="built_in">up</span>(fa[y]);</span><br><span class="line">    <span class="type">int</span> tx = <span class="built_in">kth</span>(rt, b+<span class="number">1</span>), ty = <span class="built_in">kth</span>(rt, b+<span class="number">2</span>);</span><br><span class="line">    <span class="built_in">splay</span>(tx); <span class="built_in">splay</span>(ty, tx);</span><br><span class="line">    ch[ty][<span class="number">0</span>] = z;</span><br><span class="line">    fa[z] = ty;</span><br><span class="line">    <span class="built_in">up</span>(ty); <span class="built_in">up</span>(fa[ty]);</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="built_in">go</span>(rt);</span><br><span class="line">  <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+  </div>
+</article>
+
+
+
+        
+          <div id="footer-post-container">
+  <div id="footer-post">
+
+    <div id="nav-footer" style="display: none">
+      <ul>
+        
+          <li><a href="/">首页</a></li>
+        
+          <li><a href="/archives/">归档</a></li>
+        
+          <li><a href="/tags/">标签</a></li>
+        
+          <li><a href="/search/">搜索</a></li>
+        
+      </ul>
+    </div>
+
+    
+    
+
+    <div id="share-footer" style="display: none">
+      <ul>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.facebook.com/sharer.php?u=http://example.com/2020/12/12/cshuffle-cards-qu-jian-yi-wei-splay/"><i class="fab fa-facebook fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=http://example.com/2020/12/12/cshuffle-cards-qu-jian-yi-wei-splay/&text=C、Shuffle Cards 区间移位 splay"><i class="fab fa-twitter fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.linkedin.com/shareArticle?url=http://example.com/2020/12/12/cshuffle-cards-qu-jian-yi-wei-splay/&title=C、Shuffle Cards 区间移位 splay"><i class="fab fa-linkedin fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://pinterest.com/pin/create/bookmarklet/?url=http://example.com/2020/12/12/cshuffle-cards-qu-jian-yi-wei-splay/&is_video=false&description=C、Shuffle Cards 区间移位 splay"><i class="fab fa-pinterest fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=C、Shuffle Cards 区间移位 splay&body=Check out this article: http://example.com/2020/12/12/cshuffle-cards-qu-jian-yi-wei-splay/"><i class="fa-solid fa-envelope fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://getpocket.com/save?url=http://example.com/2020/12/12/cshuffle-cards-qu-jian-yi-wei-splay/&title=C、Shuffle Cards 区间移位 splay"><i class="fab fa-get-pocket fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://reddit.com/submit?url=http://example.com/2020/12/12/cshuffle-cards-qu-jian-yi-wei-splay/&title=C、Shuffle Cards 区间移位 splay"><i class="fab fa-reddit fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.stumbleupon.com/submit?url=http://example.com/2020/12/12/cshuffle-cards-qu-jian-yi-wei-splay/&title=C、Shuffle Cards 区间移位 splay"><i class="fab fa-stumbleupon fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://digg.com/submit?url=http://example.com/2020/12/12/cshuffle-cards-qu-jian-yi-wei-splay/&title=C、Shuffle Cards 区间移位 splay"><i class="fab fa-digg fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.tumblr.com/share/link?url=http://example.com/2020/12/12/cshuffle-cards-qu-jian-yi-wei-splay/&name=C、Shuffle Cards 区间移位 splay&description="><i class="fab fa-tumblr fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://news.ycombinator.com/submitlink?u=http://example.com/2020/12/12/cshuffle-cards-qu-jian-yi-wei-splay/&t=C、Shuffle Cards 区间移位 splay"><i class="fab fa-hacker-news fa-lg" aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+
+    <div id="actions-footer">
+        <a id="menu" class="icon" href="#" onclick="$('#nav-footer').toggle();return false;"><i class="fa-solid fa-bars fa-lg" aria-hidden="true"></i> 菜单</a>
+        
+        <a id="share" class="icon" href="#" onclick="$('#share-footer').toggle();return false;"><i class="fa-solid fa-share-alt fa-lg" aria-hidden="true"></i> 分享</a>
+        <a id="top" style="display:none" class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fa-solid fa-chevron-up fa-lg" aria-hidden="true"></i> 返回顶部</a>
+    </div>
+
+  </div>
+</div>
+
+        
+        <footer id="footer">
+  <div class="footer-left">
+    Copyright &copy;
+    
+    
+    2020-2023
+    jyf111
+  </div>
+  <div class="footer-right">
+    <nav>
+      <ul>
+        <!--
+       --><li><a href="/">首页</a></li><!--
+     --><!--
+       --><li><a href="/archives/">归档</a></li><!--
+     --><!--
+       --><li><a href="/tags/">标签</a></li><!--
+     --><!--
+       --><li><a href="/search/">搜索</a></li><!--
+     -->
+      </ul>
+    </nav>
+  </div>
+</footer>
+
+    </div>
+    <!-- styles -->
+
+
+
+  <link rel="preload" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" crossorigin="anonymous" onload="this.onload=null;this.rel='stylesheet'"/>
+
+
+    <!-- jquery -->
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js" crossorigin="anonymous"></script>
+
+
+
+
+<!-- clipboard -->
+
+  
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.7/clipboard.min.js" crossorigin="anonymous"></script>
+  
+  <script type="text/javascript">
+  $(function() {
+    // copy-btn HTML
+    var btn = "<span class=\"btn-copy tooltipped tooltipped-sw\" aria-label=\"复制到粘贴板！\">";
+    btn += '<i class="fa-regular fa-clone"></i>';
+    btn += '</span>';
+    // mount it!
+    $(".highlight table").before(btn);
+    var clip = new ClipboardJS('.btn-copy', {
+      text: function(trigger) {
+        return Array.from(trigger.nextElementSibling.querySelectorAll('.code')).reduce((str,it)=>str+it.innerText+'\n','')
+      }
+    });
+    clip.on('success', function(e) {
+      e.trigger.setAttribute('aria-label', "复制成功！");
+      e.clearSelection();
+    })
+  })
+  </script>
+
+
+<script src="/js/main.js"></script>
+
+<!-- search -->
+
+<!-- Baidu Analytics -->
+
+<!-- Cloudflare Analytics -->
+
+<!-- Disqus Comments -->
+
+<!-- utterances Comments -->
+
+</body>
+</html>

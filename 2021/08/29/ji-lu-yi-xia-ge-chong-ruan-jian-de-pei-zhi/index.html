@@ -1,0 +1,335 @@
+<!DOCTYPE html>
+<html lang=zh>
+<head>
+    <!-- so meta -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="HandheldFriendly" content="True">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=5" />
+    <meta name="description" content="为了方便管理，统一放到D:\environment目录下 MinGWhttps:&#x2F;&#x2F;www.jianshu.com&#x2F;p&#x2F;ee1ccb0a3062 照这个做即可gcc&#x2F;g++ 8.1.0 Clang以及Clangdhttps:&#x2F;&#x2F;www.cnblogs.com&#x2F;FrankOu&#x2F;p&#x2F;14215850.html sublime textsublime的配色我比较喜欢，而且很轻量，用于写一些算法">
+<meta property="og:type" content="article">
+<meta property="og:title" content="记录一下各种软件的配置">
+<meta property="og:url" content="http://example.com/2021/08/29/ji-lu-yi-xia-ge-chong-ruan-jian-de-pei-zhi/index.html">
+<meta property="og:site_name" content="jyf111&#39;s blog">
+<meta property="og:description" content="为了方便管理，统一放到D:\environment目录下 MinGWhttps:&#x2F;&#x2F;www.jianshu.com&#x2F;p&#x2F;ee1ccb0a3062 照这个做即可gcc&#x2F;g++ 8.1.0 Clang以及Clangdhttps:&#x2F;&#x2F;www.cnblogs.com&#x2F;FrankOu&#x2F;p&#x2F;14215850.html sublime textsublime的配色我比较喜欢，而且很轻量，用于写一些算法">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2021-08-29T05:33:44.000Z">
+<meta property="article:modified_time" content="2023-08-24T09:43:56.886Z">
+<meta property="article:author" content="jyf111">
+<meta property="article:tag" content="工具">
+<meta name="twitter:card" content="summary">
+    
+    
+      
+        
+          <link rel="shortcut icon" href="/images/favicon.ico">
+        
+      
+      
+        
+          <link rel="icon" type="image/png" href="/images/favicon-192x192.png" sizes="192x192">
+        
+      
+      
+        
+          <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png">
+        
+      
+    
+    <!-- title -->
+    <title>记录一下各种软件的配置</title>
+    <!-- async scripts -->
+    <!-- Google Analytics -->
+
+
+    <!-- Umami Analytics -->
+
+
+    <!-- styles -->
+    
+<link rel="stylesheet" href="/css/style.css">
+
+    <!-- persian styles -->
+    
+    <!-- rss -->
+    
+    
+	<!-- mathjax -->
+	
+		<script type="text/x-mathjax-config">
+		  MathJax.Hub.Config({
+			tex2jax: {
+			  skipTags: ['script', 'noscript', 'style', 'textarea', 'pre'],
+			  inlineMath: [['$','$']]
+			}
+		  });
+		</script>
+		<script src='https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-MML-AM_CHTML' async></script>
+	
+<meta name="generator" content="Hexo 6.3.0"></head>
+
+<body class="max-width mx-auto px3 ltr">
+    
+      <div id="header-post">
+  <a id="menu-icon" href="#" aria-label="目录"><i class="fa-solid fa-bars fa-lg"></i></a>
+  <a id="menu-icon-tablet" href="#" aria-label="目录"><i class="fa-solid fa-bars fa-lg"></i></a>
+  <a id="top-icon-tablet" href="#" aria-label="顶部" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');" style="display:none;"><i class="fa-solid fa-chevron-up fa-lg"></i></a>
+  <span id="menu">
+    <span id="nav">
+      <ul>
+        <!--
+       --><li><a href="/">首页</a></li><!--
+     --><!--
+       --><li><a href="/archives/">归档</a></li><!--
+     --><!--
+       --><li><a href="/tags/">标签</a></li><!--
+     --><!--
+       --><li><a href="/search/">搜索</a></li><!--
+     -->
+      </ul>
+    </span>
+    <br/>
+    <span id="actions">
+      <ul>
+        
+        <li><a class="icon" aria-label="上一篇" href="/2021/09/03/bzoj2724-pu-gong-ying-qu-jian-zhong-shu-qiang-zhi-zai-xian/"><i class="fa-solid fa-chevron-left" aria-hidden="true" onmouseover="$('#i-prev').toggle();" onmouseout="$('#i-prev').toggle();"></i></a></li>
+        
+        
+        <li><a class="icon" aria-label="下一篇" href="/2021/08/28/2021-zhong-guo-da-xue-sheng-cheng-xu-she-ji-jing-sai-ccpc-wang-luo-xuan-ba-sai/"><i class="fa-solid fa-chevron-right" aria-hidden="true" onmouseover="$('#i-next').toggle();" onmouseout="$('#i-next').toggle();"></i></a></li>
+        
+        <li><a class="icon" aria-label="返回顶部" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fa-solid fa-chevron-up" aria-hidden="true" onmouseover="$('#i-top').toggle();" onmouseout="$('#i-top').toggle();"></i></a></li>
+        <li><a class="icon" aria-label="分享文章" href="#"><i class="fa-solid fa-share-alt" aria-hidden="true" onmouseover="$('#i-share').toggle();" onmouseout="$('#i-share').toggle();" onclick="$('#share').toggle();return false;"></i></a></li>
+      </ul>
+      <span id="i-prev" class="info" style="display:none;">上一篇</span>
+      <span id="i-next" class="info" style="display:none;">下一篇</span>
+      <span id="i-top" class="info" style="display:none;">返回顶部</span>
+      <span id="i-share" class="info" style="display:none;">分享文章</span>
+    </span>
+    <br/>
+    <div id="share" style="display: none">
+      <ul>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.facebook.com/sharer.php?u=http://example.com/2021/08/29/ji-lu-yi-xia-ge-chong-ruan-jian-de-pei-zhi/"><i class="fab fa-facebook " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=http://example.com/2021/08/29/ji-lu-yi-xia-ge-chong-ruan-jian-de-pei-zhi/&text=记录一下各种软件的配置"><i class="fab fa-twitter " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.linkedin.com/shareArticle?url=http://example.com/2021/08/29/ji-lu-yi-xia-ge-chong-ruan-jian-de-pei-zhi/&title=记录一下各种软件的配置"><i class="fab fa-linkedin " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://pinterest.com/pin/create/bookmarklet/?url=http://example.com/2021/08/29/ji-lu-yi-xia-ge-chong-ruan-jian-de-pei-zhi/&is_video=false&description=记录一下各种软件的配置"><i class="fab fa-pinterest " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=记录一下各种软件的配置&body=Check out this article: http://example.com/2021/08/29/ji-lu-yi-xia-ge-chong-ruan-jian-de-pei-zhi/"><i class="fa-solid fa-envelope " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://getpocket.com/save?url=http://example.com/2021/08/29/ji-lu-yi-xia-ge-chong-ruan-jian-de-pei-zhi/&title=记录一下各种软件的配置"><i class="fab fa-get-pocket " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://reddit.com/submit?url=http://example.com/2021/08/29/ji-lu-yi-xia-ge-chong-ruan-jian-de-pei-zhi/&title=记录一下各种软件的配置"><i class="fab fa-reddit " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.stumbleupon.com/submit?url=http://example.com/2021/08/29/ji-lu-yi-xia-ge-chong-ruan-jian-de-pei-zhi/&title=记录一下各种软件的配置"><i class="fab fa-stumbleupon " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://digg.com/submit?url=http://example.com/2021/08/29/ji-lu-yi-xia-ge-chong-ruan-jian-de-pei-zhi/&title=记录一下各种软件的配置"><i class="fab fa-digg " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.tumblr.com/share/link?url=http://example.com/2021/08/29/ji-lu-yi-xia-ge-chong-ruan-jian-de-pei-zhi/&name=记录一下各种软件的配置&description="><i class="fab fa-tumblr " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://news.ycombinator.com/submitlink?u=http://example.com/2021/08/29/ji-lu-yi-xia-ge-chong-ruan-jian-de-pei-zhi/&t=记录一下各种软件的配置"><i class="fab fa-hacker-news " aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+    
+    
+      <div id="toc">
+        <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#MinGW"><span class="toc-number">1.</span> <span class="toc-text">MinGW</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Clang%E4%BB%A5%E5%8F%8AClangd"><span class="toc-number">2.</span> <span class="toc-text">Clang以及Clangd</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#sublime-text"><span class="toc-number">3.</span> <span class="toc-text">sublime text</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#typora"><span class="toc-number">4.</span> <span class="toc-text">typora</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Adobe-Acrobat"><span class="toc-number">5.</span> <span class="toc-text">Adobe Acrobat</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Velocity"><span class="toc-number">6.</span> <span class="toc-text">Velocity</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#DeepL"><span class="toc-number">7.</span> <span class="toc-text">DeepL</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#CopyQ"><span class="toc-number">8.</span> <span class="toc-text">CopyQ</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#vscode"><span class="toc-number">9.</span> <span class="toc-text">vscode</span></a></li></ol>
+      </div>
+    
+  </span>
+</div>
+
+    
+    <div class="content index py4 ">
+        
+        <article class="post h-entry" itemscope itemtype="http://schema.org/BlogPosting">
+  <header>
+    
+    <h1 class="posttitle p-name" itemprop="name headline">
+        记录一下各种软件的配置
+    </h1>
+
+
+
+    <div class="meta">
+      <span class="author p-author h-card" itemprop="author" itemscope itemtype="http://schema.org/Person">
+        <span class="p-name" itemprop="name">jyf111</span>
+      </span>
+      
+    <div class="postdate">
+      
+        <time datetime="2021-08-29T05:33:44.000Z" class="dt-published" itemprop="datePublished">2021-08-29</time>
+        
+        (Updated: <time datetime="2023-08-24T09:43:56.886Z" class="dt-updated" itemprop="dateModified">2023-08-24</time>)
+        
+      
+    </div>
+
+
+      
+
+      
+    <div class="article-tag">
+        <i class="fa-solid fa-tag"></i>
+        <a class="p-category" href="/tags/%E5%B7%A5%E5%85%B7/" rel="tag">工具</a>
+    </div>
+
+
+      
+        <span class=count-symbol-post> 
+          <i class="fa-solid fa-hourglass"></i>
+          
+            6 mins to read
+          
+        </span>
+      
+    </div>
+  </header>
+  
+
+  <div class="content e-content" itemprop="articleBody">
+    <p>为了方便管理，统一放到D:\environment目录下</p>
+<h2 id="MinGW"><a href="#MinGW" class="headerlink" title="MinGW"></a>MinGW</h2><p><a target="_blank" rel="noopener" href="https://www.jianshu.com/p/ee1ccb0a3062">https://www.jianshu.com/p/ee1ccb0a3062</a> 照这个做即可<br>gcc&#x2F;g++ 8.1.0</p>
+<h2 id="Clang以及Clangd"><a href="#Clang以及Clangd" class="headerlink" title="Clang以及Clangd"></a>Clang以及Clangd</h2><p><a target="_blank" rel="noopener" href="https://www.cnblogs.com/FrankOu/p/14215850.html">https://www.cnblogs.com/FrankOu/p/14215850.html</a></p>
+<h2 id="sublime-text"><a href="#sublime-text" class="headerlink" title="sublime text"></a>sublime text</h2><p>sublime的配色我比较喜欢，而且很轻量，用于写一些算法竞赛题和一些简单的python、shell脚本<br>官网有最新的4版本<br>fontsize改成10.5左右比较舒服<br>ctrl+x 删除当前行<br><a target="_blank" rel="noopener" href="https://blog.csdn.net/qq_39599067/article/details/81270330">https://blog.csdn.net/qq_39599067/article/details/81270330</a> 代码片段配置<br><a target="_blank" rel="noopener" href="https://jingyan.baidu.com/article/cb5d6105ae0c44005c2fe0f1.html">https://jingyan.baidu.com/article/cb5d6105ae0c44005c2fe0f1.html</a> 括号高亮<br><a target="_blank" rel="noopener" href="https://blog.csdn.net/qq_43816826/article/details/108406114">https://blog.csdn.net/qq_43816826/article/details/108406114</a> repl python快捷键配置<br><a target="_blank" rel="noopener" href="https://segmentfault.com/a/1190000004463984">https://segmentfault.com/a/1190000004463984</a> AdvancedNewFile<br>c++17 build system<br>似乎在c++17中bits&#x2F;stdc++.h有点问题？（当然linux下没问题），所以还是用c++14吧，懒得折腾了</p>
+<figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="punctuation">&#123;</span></span><br><span class="line">  <span class="attr">&quot;cmd&quot;</span><span class="punctuation">:</span> <span class="punctuation">[</span><span class="string">&quot;g++&quot;</span><span class="punctuation">,</span> <span class="string">&quot;$&#123;file&#125;&quot;</span><span class="punctuation">,</span> <span class="string">&quot;-Wall&quot;</span><span class="punctuation">,</span> <span class="string">&quot;-std=c++17&quot;</span><span class="punctuation">,</span> <span class="string">&quot;-o&quot;</span><span class="punctuation">,</span> <span class="string">&quot;$&#123;file_path&#125;/$&#123;file_base_name&#125;&quot;</span><span class="punctuation">]</span><span class="punctuation">,</span></span><br><span class="line">  <span class="attr">&quot;file_regex&quot;</span><span class="punctuation">:</span> <span class="string">&quot;^(..[^:]*):([0-9]+):?([0-9]+)?:? (.*)$&quot;</span><span class="punctuation">,</span></span><br><span class="line">  <span class="attr">&quot;working_dir&quot;</span><span class="punctuation">:</span> <span class="string">&quot;$&#123;file_path&#125;&quot;</span><span class="punctuation">,</span></span><br><span class="line">  <span class="attr">&quot;selector&quot;</span><span class="punctuation">:</span> <span class="string">&quot;source.c, source.c++&quot;</span><span class="punctuation">,</span></span><br><span class="line">  <span class="attr">&quot;encoding&quot;</span><span class="punctuation">:</span><span class="string">&quot;cp936&quot;</span><span class="punctuation">,</span></span><br><span class="line">  <span class="attr">&quot;variants&quot;</span><span class="punctuation">:</span></span><br><span class="line">  <span class="punctuation">[</span></span><br><span class="line">  <span class="punctuation">&#123;</span></span><br><span class="line">  <span class="attr">&quot;name&quot;</span><span class="punctuation">:</span> <span class="string">&quot;RunInCommand&quot;</span><span class="punctuation">,</span></span><br><span class="line">  <span class="attr">&quot;cmd&quot;</span><span class="punctuation">:</span> <span class="punctuation">[</span><span class="string">&quot;cmd&quot;</span><span class="punctuation">,</span> <span class="string">&quot;/c&quot;</span><span class="punctuation">,</span> <span class="string">&quot;g++&quot;</span><span class="punctuation">,</span> <span class="string">&quot;$&#123;file&#125;&quot;</span><span class="punctuation">,</span> <span class="string">&quot;-Wall&quot;</span><span class="punctuation">,</span> <span class="string">&quot;-std=c++17&quot;</span><span class="punctuation">,</span> <span class="string">&quot;-o&quot;</span><span class="punctuation">,</span> <span class="string">&quot;$&#123;file_path&#125;/$&#123;file_base_name&#125;&quot;</span><span class="punctuation">,</span> <span class="string">&quot;&amp;&amp;&quot;</span><span class="punctuation">,</span> <span class="string">&quot;start&quot;</span><span class="punctuation">,</span> <span class="string">&quot;cmd&quot;</span><span class="punctuation">,</span> <span class="string">&quot;/c&quot;</span><span class="punctuation">,</span> <span class="string">&quot;$&#123;file_path&#125;/$&#123;file_base_name&#125; &amp; echo.&amp;pause&quot;</span><span class="punctuation">]</span></span><br><span class="line">  <span class="punctuation">&#125;</span></span><br><span class="line">  <span class="punctuation">]</span></span><br><span class="line"><span class="punctuation">&#125;</span></span><br></pre></td></tr></table></figure>
+
+<p>file icon插件：美化作用<br>trailingspace：检测行末多余空格<br>sublimelinter：静态检查<br>sublimelinter-clang<br>clang-format：格式化<br>lsp：language server port</p>
+<h2 id="typora"><a href="#typora" class="headerlink" title="typora"></a>typora</h2><p>写markdown<br>直接下载即可</p>
+<h2 id="Adobe-Acrobat"><a href="#Adobe-Acrobat" class="headerlink" title="Adobe Acrobat"></a>Adobe Acrobat</h2><p>pdf reader</p>
+<h2 id="Velocity"><a href="#Velocity" class="headerlink" title="Velocity"></a>Velocity</h2><p>离线文档</p>
+<h2 id="DeepL"><a href="#DeepL" class="headerlink" title="DeepL"></a>DeepL</h2><p>翻译<br>ctrl+q</p>
+<h2 id="CopyQ"><a href="#CopyQ" class="headerlink" title="CopyQ"></a>CopyQ</h2><p>剪贴板<br>ctrl+shift+q：去除换行符</p>
+<h2 id="vscode"><a href="#vscode" class="headerlink" title="vscode"></a>vscode</h2>
+  </div>
+</article>
+
+
+
+        
+          <div id="footer-post-container">
+  <div id="footer-post">
+
+    <div id="nav-footer" style="display: none">
+      <ul>
+        
+          <li><a href="/">首页</a></li>
+        
+          <li><a href="/archives/">归档</a></li>
+        
+          <li><a href="/tags/">标签</a></li>
+        
+          <li><a href="/search/">搜索</a></li>
+        
+      </ul>
+    </div>
+
+    
+    
+      <div id="toc-footer" style="display: none">
+        <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#MinGW"><span class="toc-number">1.</span> <span class="toc-text">MinGW</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Clang%E4%BB%A5%E5%8F%8AClangd"><span class="toc-number">2.</span> <span class="toc-text">Clang以及Clangd</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#sublime-text"><span class="toc-number">3.</span> <span class="toc-text">sublime text</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#typora"><span class="toc-number">4.</span> <span class="toc-text">typora</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Adobe-Acrobat"><span class="toc-number">5.</span> <span class="toc-text">Adobe Acrobat</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Velocity"><span class="toc-number">6.</span> <span class="toc-text">Velocity</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#DeepL"><span class="toc-number">7.</span> <span class="toc-text">DeepL</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#CopyQ"><span class="toc-number">8.</span> <span class="toc-text">CopyQ</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#vscode"><span class="toc-number">9.</span> <span class="toc-text">vscode</span></a></li></ol>
+      </div>
+    
+
+    <div id="share-footer" style="display: none">
+      <ul>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.facebook.com/sharer.php?u=http://example.com/2021/08/29/ji-lu-yi-xia-ge-chong-ruan-jian-de-pei-zhi/"><i class="fab fa-facebook fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=http://example.com/2021/08/29/ji-lu-yi-xia-ge-chong-ruan-jian-de-pei-zhi/&text=记录一下各种软件的配置"><i class="fab fa-twitter fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.linkedin.com/shareArticle?url=http://example.com/2021/08/29/ji-lu-yi-xia-ge-chong-ruan-jian-de-pei-zhi/&title=记录一下各种软件的配置"><i class="fab fa-linkedin fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://pinterest.com/pin/create/bookmarklet/?url=http://example.com/2021/08/29/ji-lu-yi-xia-ge-chong-ruan-jian-de-pei-zhi/&is_video=false&description=记录一下各种软件的配置"><i class="fab fa-pinterest fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=记录一下各种软件的配置&body=Check out this article: http://example.com/2021/08/29/ji-lu-yi-xia-ge-chong-ruan-jian-de-pei-zhi/"><i class="fa-solid fa-envelope fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://getpocket.com/save?url=http://example.com/2021/08/29/ji-lu-yi-xia-ge-chong-ruan-jian-de-pei-zhi/&title=记录一下各种软件的配置"><i class="fab fa-get-pocket fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://reddit.com/submit?url=http://example.com/2021/08/29/ji-lu-yi-xia-ge-chong-ruan-jian-de-pei-zhi/&title=记录一下各种软件的配置"><i class="fab fa-reddit fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.stumbleupon.com/submit?url=http://example.com/2021/08/29/ji-lu-yi-xia-ge-chong-ruan-jian-de-pei-zhi/&title=记录一下各种软件的配置"><i class="fab fa-stumbleupon fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://digg.com/submit?url=http://example.com/2021/08/29/ji-lu-yi-xia-ge-chong-ruan-jian-de-pei-zhi/&title=记录一下各种软件的配置"><i class="fab fa-digg fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.tumblr.com/share/link?url=http://example.com/2021/08/29/ji-lu-yi-xia-ge-chong-ruan-jian-de-pei-zhi/&name=记录一下各种软件的配置&description="><i class="fab fa-tumblr fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://news.ycombinator.com/submitlink?u=http://example.com/2021/08/29/ji-lu-yi-xia-ge-chong-ruan-jian-de-pei-zhi/&t=记录一下各种软件的配置"><i class="fab fa-hacker-news fa-lg" aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+
+    <div id="actions-footer">
+        <a id="menu" class="icon" href="#" onclick="$('#nav-footer').toggle();return false;"><i class="fa-solid fa-bars fa-lg" aria-hidden="true"></i> 菜单</a>
+        
+          <a id="toc" class="icon" href="#" onclick="$('#toc-footer').toggle();return false;"><i class="fa-solid fa-list fa-lg" aria-hidden="true"></i> 目录</a>
+        
+        <a id="share" class="icon" href="#" onclick="$('#share-footer').toggle();return false;"><i class="fa-solid fa-share-alt fa-lg" aria-hidden="true"></i> 分享</a>
+        <a id="top" style="display:none" class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fa-solid fa-chevron-up fa-lg" aria-hidden="true"></i> 返回顶部</a>
+    </div>
+
+  </div>
+</div>
+
+        
+        <footer id="footer">
+  <div class="footer-left">
+    Copyright &copy;
+    
+    
+    2020-2023
+    jyf111
+  </div>
+  <div class="footer-right">
+    <nav>
+      <ul>
+        <!--
+       --><li><a href="/">首页</a></li><!--
+     --><!--
+       --><li><a href="/archives/">归档</a></li><!--
+     --><!--
+       --><li><a href="/tags/">标签</a></li><!--
+     --><!--
+       --><li><a href="/search/">搜索</a></li><!--
+     -->
+      </ul>
+    </nav>
+  </div>
+</footer>
+
+    </div>
+    <!-- styles -->
+
+
+
+  <link rel="preload" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" crossorigin="anonymous" onload="this.onload=null;this.rel='stylesheet'"/>
+
+
+    <!-- jquery -->
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js" crossorigin="anonymous"></script>
+
+
+
+
+<!-- clipboard -->
+
+  
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.7/clipboard.min.js" crossorigin="anonymous"></script>
+  
+  <script type="text/javascript">
+  $(function() {
+    // copy-btn HTML
+    var btn = "<span class=\"btn-copy tooltipped tooltipped-sw\" aria-label=\"复制到粘贴板！\">";
+    btn += '<i class="fa-regular fa-clone"></i>';
+    btn += '</span>';
+    // mount it!
+    $(".highlight table").before(btn);
+    var clip = new ClipboardJS('.btn-copy', {
+      text: function(trigger) {
+        return Array.from(trigger.nextElementSibling.querySelectorAll('.code')).reduce((str,it)=>str+it.innerText+'\n','')
+      }
+    });
+    clip.on('success', function(e) {
+      e.trigger.setAttribute('aria-label', "复制成功！");
+      e.clearSelection();
+    })
+  })
+  </script>
+
+
+<script src="/js/main.js"></script>
+
+<!-- search -->
+
+<!-- Baidu Analytics -->
+
+<!-- Cloudflare Analytics -->
+
+<!-- Disqus Comments -->
+
+<!-- utterances Comments -->
+
+</body>
+</html>

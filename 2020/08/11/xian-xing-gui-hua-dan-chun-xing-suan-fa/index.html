@@ -1,0 +1,428 @@
+<!DOCTYPE html>
+<html lang=zh>
+<head>
+    <!-- so meta -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="HandheldFriendly" content="True">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=5" />
+    <meta name="description" content="n个变量x1,…,xnx_1,…,x_nx1​,…,xn​，m个线性约束，形如∑i&#x3D;1naijxi≤bj\sum \limits_{i&#x3D;1}^na_{ij}x_i \leq b_ji&#x3D;1∑n​aij​xi​≤bj​,要求确定这n个变量的值，max⁡z&#x3D;∑i&#x3D;1ncixi\max z &#x3D;\sum\limits_{i&#x3D;1}^n c_">
+<meta property="og:type" content="article">
+<meta property="og:title" content="线性规划 单纯型算法">
+<meta property="og:url" content="http://example.com/2020/08/11/xian-xing-gui-hua-dan-chun-xing-suan-fa/index.html">
+<meta property="og:site_name" content="jyf111&#39;s blog">
+<meta property="og:description" content="n个变量x1,…,xnx_1,…,x_nx1​,…,xn​，m个线性约束，形如∑i&#x3D;1naijxi≤bj\sum \limits_{i&#x3D;1}^na_{ij}x_i \leq b_ji&#x3D;1∑n​aij​xi​≤bj​,要求确定这n个变量的值，max⁡z&#x3D;∑i&#x3D;1ncixi\max z &#x3D;\sum\limits_{i&#x3D;1}^n c_">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2020-08-11T05:33:43.000Z">
+<meta property="article:modified_time" content="2023-08-24T08:43:19.627Z">
+<meta property="article:author" content="jyf111">
+<meta property="article:tag" content="算法">
+<meta name="twitter:card" content="summary">
+    
+    
+      
+        
+          <link rel="shortcut icon" href="/images/favicon.ico">
+        
+      
+      
+        
+          <link rel="icon" type="image/png" href="/images/favicon-192x192.png" sizes="192x192">
+        
+      
+      
+        
+          <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png">
+        
+      
+    
+    <!-- title -->
+    <title>线性规划 单纯型算法</title>
+    <!-- async scripts -->
+    <!-- Google Analytics -->
+
+
+    <!-- Umami Analytics -->
+
+
+    <!-- styles -->
+    
+<link rel="stylesheet" href="/css/style.css">
+
+    <!-- persian styles -->
+    
+    <!-- rss -->
+    
+    
+	<!-- mathjax -->
+	
+		<script type="text/x-mathjax-config">
+		  MathJax.Hub.Config({
+			tex2jax: {
+			  skipTags: ['script', 'noscript', 'style', 'textarea', 'pre'],
+			  inlineMath: [['$','$']]
+			}
+		  });
+		</script>
+		<script src='https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-MML-AM_CHTML' async></script>
+	
+<meta name="generator" content="Hexo 6.3.0"></head>
+
+<body class="max-width mx-auto px3 ltr">
+    
+      <div id="header-post">
+  <a id="menu-icon" href="#" aria-label="目录"><i class="fa-solid fa-bars fa-lg"></i></a>
+  <a id="menu-icon-tablet" href="#" aria-label="目录"><i class="fa-solid fa-bars fa-lg"></i></a>
+  <a id="top-icon-tablet" href="#" aria-label="顶部" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');" style="display:none;"><i class="fa-solid fa-chevron-up fa-lg"></i></a>
+  <span id="menu">
+    <span id="nav">
+      <ul>
+        <!--
+       --><li><a href="/">首页</a></li><!--
+     --><!--
+       --><li><a href="/archives/">归档</a></li><!--
+     --><!--
+       --><li><a href="/tags/">标签</a></li><!--
+     --><!--
+       --><li><a href="/search/">搜索</a></li><!--
+     -->
+      </ul>
+    </span>
+    <br/>
+    <span id="actions">
+      <ul>
+        
+        <li><a class="icon" aria-label="上一篇" href="/2020/08/13/ping-mian-tu/"><i class="fa-solid fa-chevron-left" aria-hidden="true" onmouseover="$('#i-prev').toggle();" onmouseout="$('#i-prev').toggle();"></i></a></li>
+        
+        
+        <li><a class="icon" aria-label="下一篇" href="/2020/08/07/fen-san-ceng-die-suan-fa-fractional-cascading/"><i class="fa-solid fa-chevron-right" aria-hidden="true" onmouseover="$('#i-next').toggle();" onmouseout="$('#i-next').toggle();"></i></a></li>
+        
+        <li><a class="icon" aria-label="返回顶部" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fa-solid fa-chevron-up" aria-hidden="true" onmouseover="$('#i-top').toggle();" onmouseout="$('#i-top').toggle();"></i></a></li>
+        <li><a class="icon" aria-label="分享文章" href="#"><i class="fa-solid fa-share-alt" aria-hidden="true" onmouseover="$('#i-share').toggle();" onmouseout="$('#i-share').toggle();" onclick="$('#share').toggle();return false;"></i></a></li>
+      </ul>
+      <span id="i-prev" class="info" style="display:none;">上一篇</span>
+      <span id="i-next" class="info" style="display:none;">下一篇</span>
+      <span id="i-top" class="info" style="display:none;">返回顶部</span>
+      <span id="i-share" class="info" style="display:none;">分享文章</span>
+    </span>
+    <br/>
+    <div id="share" style="display: none">
+      <ul>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.facebook.com/sharer.php?u=http://example.com/2020/08/11/xian-xing-gui-hua-dan-chun-xing-suan-fa/"><i class="fab fa-facebook " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=http://example.com/2020/08/11/xian-xing-gui-hua-dan-chun-xing-suan-fa/&text=线性规划 单纯型算法"><i class="fab fa-twitter " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.linkedin.com/shareArticle?url=http://example.com/2020/08/11/xian-xing-gui-hua-dan-chun-xing-suan-fa/&title=线性规划 单纯型算法"><i class="fab fa-linkedin " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://pinterest.com/pin/create/bookmarklet/?url=http://example.com/2020/08/11/xian-xing-gui-hua-dan-chun-xing-suan-fa/&is_video=false&description=线性规划 单纯型算法"><i class="fab fa-pinterest " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=线性规划 单纯型算法&body=Check out this article: http://example.com/2020/08/11/xian-xing-gui-hua-dan-chun-xing-suan-fa/"><i class="fa-solid fa-envelope " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://getpocket.com/save?url=http://example.com/2020/08/11/xian-xing-gui-hua-dan-chun-xing-suan-fa/&title=线性规划 单纯型算法"><i class="fab fa-get-pocket " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://reddit.com/submit?url=http://example.com/2020/08/11/xian-xing-gui-hua-dan-chun-xing-suan-fa/&title=线性规划 单纯型算法"><i class="fab fa-reddit " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.stumbleupon.com/submit?url=http://example.com/2020/08/11/xian-xing-gui-hua-dan-chun-xing-suan-fa/&title=线性规划 单纯型算法"><i class="fab fa-stumbleupon " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://digg.com/submit?url=http://example.com/2020/08/11/xian-xing-gui-hua-dan-chun-xing-suan-fa/&title=线性规划 单纯型算法"><i class="fab fa-digg " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.tumblr.com/share/link?url=http://example.com/2020/08/11/xian-xing-gui-hua-dan-chun-xing-suan-fa/&name=线性规划 单纯型算法&description="><i class="fab fa-tumblr " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://news.ycombinator.com/submitlink?u=http://example.com/2020/08/11/xian-xing-gui-hua-dan-chun-xing-suan-fa/&t=线性规划 单纯型算法"><i class="fab fa-hacker-news " aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+    
+    
+      <div id="toc">
+        <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%A0%87%E5%87%86%E5%BD%A2%E5%BC%8F"><span class="toc-number">1.</span> <span class="toc-text">标准形式</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%9D%BE%E5%BC%9B%E5%BD%A2%E5%BC%8F"><span class="toc-number">2.</span> <span class="toc-text">松弛形式</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%AF%B9%E5%81%B6%E9%97%AE%E9%A2%98"><span class="toc-number">3.</span> <span class="toc-text">对偶问题</span></a></li></ol>
+      </div>
+    
+  </span>
+</div>
+
+    
+    <div class="content index py4 ">
+        
+        <article class="post h-entry" itemscope itemtype="http://schema.org/BlogPosting">
+  <header>
+    
+    <h1 class="posttitle p-name" itemprop="name headline">
+        线性规划 单纯型算法
+    </h1>
+
+
+
+    <div class="meta">
+      <span class="author p-author h-card" itemprop="author" itemscope itemtype="http://schema.org/Person">
+        <span class="p-name" itemprop="name">jyf111</span>
+      </span>
+      
+    <div class="postdate">
+      
+        <time datetime="2020-08-11T05:33:43.000Z" class="dt-published" itemprop="datePublished">2020-08-11</time>
+        
+        (Updated: <time datetime="2023-08-24T08:43:19.627Z" class="dt-updated" itemprop="dateModified">2023-08-24</time>)
+        
+      
+    </div>
+
+
+      
+
+      
+    <div class="article-tag">
+        <i class="fa-solid fa-tag"></i>
+        <a class="p-category" href="/tags/%E7%AE%97%E6%B3%95/" rel="tag">算法</a>
+    </div>
+
+
+      
+        <span class=count-symbol-post> 
+          <i class="fa-solid fa-hourglass"></i>
+          
+            4 mins to read
+          
+        </span>
+      
+    </div>
+  </header>
+  
+
+  <div class="content e-content" itemprop="articleBody">
+    <p>n个变量x1,…,xnx_1,…,x_nx1​,…,xn​，m个线性约束，形如∑i&#x3D;1naijxi≤bj\sum \limits_{i&#x3D;1}^n<br>a_{ij}x_i \leq b_ji&#x3D;1∑n​aij​xi​≤bj​,要求确定这n个变量的值，max⁡z&#x3D;∑i&#x3D;1ncixi\max z &#x3D;<br>\sum\limits_{i&#x3D;1}^n c_ix_imaxz&#x3D;i&#x3D;1∑n​ci​xi​<br>单纯型可以被卡到指数级，但一般情况下速度较快，相比于MCMF，代码更短，而且更直观<br>以下用矩阵形式表达（规定小写为列向量，大写为矩阵）</p>
+<h3 id="标准形式"><a href="#标准形式" class="headerlink" title="标准形式"></a>标准形式</h3><p>最大化cTxc^TxcTx，满足约束Ax≤b,xi≥0Ax\leq b,x_i \geq 0Ax≤b,xi​≥0</p>
+<h3 id="松弛形式"><a href="#松弛形式" class="headerlink" title="松弛形式"></a>松弛形式</h3><p>最大化cTxc^TxcTx，满足约束Ax&#x3D;b,xi≥0Ax&#x3D;b,x_i \geq 0Ax&#x3D;b,xi​≥0<br>只要对每个标准形式的约束条件增加一个变量xn+i≥0x_{n+i} \geq 0xn+i​≥0即可</p>
+<h3 id="对偶问题"><a href="#对偶问题" class="headerlink" title="对偶问题"></a>对偶问题</h3><p>最小化bTxb^TxbTx，满足约束ATx≤c,xi≥0A^Tx \leq c,x_i \geq 0ATx≤c,xi​≥0<br>目标函数的系数c与约束条件右边的系数b交换，并将约束系数矩阵转置，最大化与最小化互换，改变不等式号</p>
+<p>a00&#x3D;−z,a0i&#x3D;ci,ai0&#x3D;bia_{00}&#x3D;-z,a_{0i}&#x3D;c_i,a_{i0}&#x3D;b_ia00​&#x3D;−z,a0i​&#x3D;ci​,ai0​&#x3D;bi​<br>m行n列，表示n个变量，m个约束，单纯型使用的是松弛形式，只不过没有显示表示出来<br>当约束系数aija_{ij}aij​为0，1，-1（全幺模矩阵）时用以下代码</p>
+<pre><code>int n, m;
+int a[N][M], q[M];
+const int INF = 0x3f3f3f3f;
+void cal(int l, int e)
+&#123;
+    a[l][e] = 1; int p = 0;
+    for(int j=0; j&lt;=n; j++) if(a[l][j]) q[++p] = j;
+    for(int i=0, t=0; i&lt;=m; i++)
+        if(i!=l &amp;&amp; (t=a[i][e]))
+        &#123;
+            a[i][e] = 0;
+            for(int j=1; j&lt;=p; j++) a[i][q[j]] -= t*a[l][q[j]];
+        &#125;
+&#125;
+int work()
+&#123;
+    while(true)
+    &#123;
+        int l = 0, e = 0, mn = INF;
+        for(int j=1; j&lt;=n; j++) 
+            if(a[0][j]&gt;0) &#123; e = j; break; &#125;
+        if(!e) break;
+        for(int i=1; i&lt;=m; i++)
+            if(a[i][e]&gt;0 &amp;&amp; a[i][0]&lt;mn) mn = a[i][0], l = i;
+        assert(l);
+        cal(l, e);
+    &#125;
+    return -a[0][0];
+&#125;
+</code></pre>
+<p>一般情况下，原问题或者对偶问题中至少有一个零解是可行解，所以不需要init，否则需要先通过init找到一组初始解，再进行simplex优化</p>
+<pre><code>const double eps = 1e-8, INF = 1e15;
+int n, m, type, id[M*2], q[M];
+double a[N][M], ans[M];
+void pivot(int l, int e)
+&#123;
+    swap(id[l+n], id[e]);
+    double t = a[l][e]; a[l][e] = 1.0; int p = 0;
+    for(int j=0; j&lt;=n; j++) a[l][j] /= t;
+    for(int j=0; j&lt;=n; j++) if(fabs(a[l][j])&gt;eps) q[++p] = j;
+    for(int i=0; i&lt;=m; i++)
+        if(i!=l &amp;&amp; fabs(a[i][e])&gt;eps)
+        &#123;
+            double t = a[i][e]; a[i][e] = 0.0;
+            for(int j=1; j&lt;=p; j++) a[i][q[j]] -= t*a[l][q[j]];
+        &#125;
+&#125;
+bool init()
+&#123;
+    while(true)
+    &#123;
+        int l = 0, e = 0;
+        for(int i=1; i&lt;=m; i++)
+            if(a[i][0]&lt;-eps &amp;&amp; (!l || (rand()&amp;1))) l = i;
+        if(!l) break;
+        for(int j=1; j&lt;=n; j++)
+            if(a[l][j]&lt;-eps &amp;&amp; (!e || (rand()&amp;1))) e = j;
+        if(!e) return puts(&quot;Infeasible&quot;), false; //无解
+        pivot(l, e);
+    &#125;
+    return true;
+&#125;
+bool simplex()
+&#123;
+    while(true)
+    &#123;
+        int l = 0, e = 0; double w = eps;
+        for(int j=1; j&lt;=n; j++) //选择最大的那个（更快找到最优解），或者选择第一个大于0的（可以防止死循环）
+            if(a[0][j]&gt;w) w = a[0][j], e = j;
+        if(!e) break;
+        w = INF;
+        for(int i=1; i&lt;=m; i++)
+            if(a[i][e]&gt;eps &amp;&amp; a[i][0]/a[i][e]&lt;w)
+                w = a[i][0]/a[i][e], l = i;
+        if(!l) return puts(&quot;Unbounded&quot;), false;//解无界
+        pivot(l, e);
+    &#125; 
+    return true;
+&#125;
+void solve()
+&#123;
+    iota(id+1, id+n+1, 1);
+    if(init() &amp;&amp; simplex())
+    &#123;
+        printf(&quot;%.8f\n&quot;, -a[0][0]);
+        for(int i=1; i&lt;=m; i++) ans[id[n+i]] = a[i][0];
+        if(type) for(int i=1; i&lt;=n; i++) printf(&quot;%.8f &quot;, ans[i]); 
+    &#125;
+&#125;
+</code></pre>
+<p>线性规划转费用流：<br>列出标准形式，添加松弛变量转化为松弛型<br>每个式子与前一个式子相减，如果每个变量只出现两次，且系数一正一负，就可以转化为费用流<br>对于每个等式新建一个点，如果等式中右边常数b为正数，从源点s向该点连边（b,0），否则该点向汇点连边（-b,0）。对每个变量（包括添加的用来松弛的变量）从它系数为正的等式代表的点向它系数为负的等式代表的点连边（INF，c），c为目标函数中的系数</p>
+<ul>
+<li><pre><code>*       * 标准形式
+</code></pre>
+<ul>
+<li>松弛形式</li>
+<li>对偶问题</li>
+</ul>
+</li>
+</ul>
+
+  </div>
+</article>
+
+
+
+        
+          <div id="footer-post-container">
+  <div id="footer-post">
+
+    <div id="nav-footer" style="display: none">
+      <ul>
+        
+          <li><a href="/">首页</a></li>
+        
+          <li><a href="/archives/">归档</a></li>
+        
+          <li><a href="/tags/">标签</a></li>
+        
+          <li><a href="/search/">搜索</a></li>
+        
+      </ul>
+    </div>
+
+    
+    
+      <div id="toc-footer" style="display: none">
+        <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%A0%87%E5%87%86%E5%BD%A2%E5%BC%8F"><span class="toc-number">1.</span> <span class="toc-text">标准形式</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%9D%BE%E5%BC%9B%E5%BD%A2%E5%BC%8F"><span class="toc-number">2.</span> <span class="toc-text">松弛形式</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%AF%B9%E5%81%B6%E9%97%AE%E9%A2%98"><span class="toc-number">3.</span> <span class="toc-text">对偶问题</span></a></li></ol>
+      </div>
+    
+
+    <div id="share-footer" style="display: none">
+      <ul>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.facebook.com/sharer.php?u=http://example.com/2020/08/11/xian-xing-gui-hua-dan-chun-xing-suan-fa/"><i class="fab fa-facebook fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=http://example.com/2020/08/11/xian-xing-gui-hua-dan-chun-xing-suan-fa/&text=线性规划 单纯型算法"><i class="fab fa-twitter fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.linkedin.com/shareArticle?url=http://example.com/2020/08/11/xian-xing-gui-hua-dan-chun-xing-suan-fa/&title=线性规划 单纯型算法"><i class="fab fa-linkedin fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://pinterest.com/pin/create/bookmarklet/?url=http://example.com/2020/08/11/xian-xing-gui-hua-dan-chun-xing-suan-fa/&is_video=false&description=线性规划 单纯型算法"><i class="fab fa-pinterest fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=线性规划 单纯型算法&body=Check out this article: http://example.com/2020/08/11/xian-xing-gui-hua-dan-chun-xing-suan-fa/"><i class="fa-solid fa-envelope fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://getpocket.com/save?url=http://example.com/2020/08/11/xian-xing-gui-hua-dan-chun-xing-suan-fa/&title=线性规划 单纯型算法"><i class="fab fa-get-pocket fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://reddit.com/submit?url=http://example.com/2020/08/11/xian-xing-gui-hua-dan-chun-xing-suan-fa/&title=线性规划 单纯型算法"><i class="fab fa-reddit fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.stumbleupon.com/submit?url=http://example.com/2020/08/11/xian-xing-gui-hua-dan-chun-xing-suan-fa/&title=线性规划 单纯型算法"><i class="fab fa-stumbleupon fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://digg.com/submit?url=http://example.com/2020/08/11/xian-xing-gui-hua-dan-chun-xing-suan-fa/&title=线性规划 单纯型算法"><i class="fab fa-digg fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.tumblr.com/share/link?url=http://example.com/2020/08/11/xian-xing-gui-hua-dan-chun-xing-suan-fa/&name=线性规划 单纯型算法&description="><i class="fab fa-tumblr fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://news.ycombinator.com/submitlink?u=http://example.com/2020/08/11/xian-xing-gui-hua-dan-chun-xing-suan-fa/&t=线性规划 单纯型算法"><i class="fab fa-hacker-news fa-lg" aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+
+    <div id="actions-footer">
+        <a id="menu" class="icon" href="#" onclick="$('#nav-footer').toggle();return false;"><i class="fa-solid fa-bars fa-lg" aria-hidden="true"></i> 菜单</a>
+        
+          <a id="toc" class="icon" href="#" onclick="$('#toc-footer').toggle();return false;"><i class="fa-solid fa-list fa-lg" aria-hidden="true"></i> 目录</a>
+        
+        <a id="share" class="icon" href="#" onclick="$('#share-footer').toggle();return false;"><i class="fa-solid fa-share-alt fa-lg" aria-hidden="true"></i> 分享</a>
+        <a id="top" style="display:none" class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fa-solid fa-chevron-up fa-lg" aria-hidden="true"></i> 返回顶部</a>
+    </div>
+
+  </div>
+</div>
+
+        
+        <footer id="footer">
+  <div class="footer-left">
+    Copyright &copy;
+    
+    
+    2020-2023
+    jyf111
+  </div>
+  <div class="footer-right">
+    <nav>
+      <ul>
+        <!--
+       --><li><a href="/">首页</a></li><!--
+     --><!--
+       --><li><a href="/archives/">归档</a></li><!--
+     --><!--
+       --><li><a href="/tags/">标签</a></li><!--
+     --><!--
+       --><li><a href="/search/">搜索</a></li><!--
+     -->
+      </ul>
+    </nav>
+  </div>
+</footer>
+
+    </div>
+    <!-- styles -->
+
+
+
+  <link rel="preload" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" crossorigin="anonymous" onload="this.onload=null;this.rel='stylesheet'"/>
+
+
+    <!-- jquery -->
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js" crossorigin="anonymous"></script>
+
+
+
+
+<!-- clipboard -->
+
+  
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.7/clipboard.min.js" crossorigin="anonymous"></script>
+  
+  <script type="text/javascript">
+  $(function() {
+    // copy-btn HTML
+    var btn = "<span class=\"btn-copy tooltipped tooltipped-sw\" aria-label=\"复制到粘贴板！\">";
+    btn += '<i class="fa-regular fa-clone"></i>';
+    btn += '</span>';
+    // mount it!
+    $(".highlight table").before(btn);
+    var clip = new ClipboardJS('.btn-copy', {
+      text: function(trigger) {
+        return Array.from(trigger.nextElementSibling.querySelectorAll('.code')).reduce((str,it)=>str+it.innerText+'\n','')
+      }
+    });
+    clip.on('success', function(e) {
+      e.trigger.setAttribute('aria-label', "复制成功！");
+      e.clearSelection();
+    })
+  })
+  </script>
+
+
+<script src="/js/main.js"></script>
+
+<!-- search -->
+
+<!-- Baidu Analytics -->
+
+<!-- Cloudflare Analytics -->
+
+<!-- Disqus Comments -->
+
+<!-- utterances Comments -->
+
+</body>
+</html>
