@@ -1101,6 +1101,14 @@ body {
 .p-note {
   margin-top: -30px;
 }
+.lock-symbol {
+  font-size: 12px;
+  margin-left: 10px;
+  line-height: 24px;
+}
+.lock-symbol-post:before {
+  content: "|";
+}
 article header .posttitle {
   margin-top: 0;
   margin-bottom: 0;

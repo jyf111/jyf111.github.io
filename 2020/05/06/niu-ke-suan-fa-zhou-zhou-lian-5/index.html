@@ -6,15 +6,15 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="HandheldFriendly" content="True">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=5" />
-    <meta name="description" content="题不错,所以做了下. A 多彩的树给定一棵树,每个点有一种颜色,问恰好包含i种颜色的路径的数量(i从1-k) k&lt;&#x3D;10k&lt;&#x3D;10k&lt;&#x3D;10看见路径信息统计,想到点分治,k很小,状压即可.我们用num[1&lt;&lt;10]的桶记录这种状态的路径的数量然后考虑怎么合并两条路径:num[i|j] &#x3D; cnt[i] _cnt[j]朴素暴力是O">
+    <meta name="description" content="题不错,所以做了下. A 多彩的树给定一棵树,每个点有一种颜色,问恰好包含i种颜色的路径的数量(i从1-k) $k&lt;&#x3D;10$看见路径信息统计,想到点分治,k很小,状压即可.我们用num[1&lt;&lt;10]的桶记录这种状态的路径的数量然后考虑怎么合并两条路径:num[i|j] &#x3D; cnt[i] * cnt[j]朴素暴力是$O(n*4^k)$的,5秒应该过不了很容易发现这是个或运">
 <meta property="og:type" content="article">
 <meta property="og:title" content="牛客算法周周练5">
 <meta property="og:url" content="http://example.com/2020/05/06/niu-ke-suan-fa-zhou-zhou-lian-5/index.html">
 <meta property="og:site_name" content="jyf111&#39;s blog">
-<meta property="og:description" content="题不错,所以做了下. A 多彩的树给定一棵树,每个点有一种颜色,问恰好包含i种颜色的路径的数量(i从1-k) k&lt;&#x3D;10k&lt;&#x3D;10k&lt;&#x3D;10看见路径信息统计,想到点分治,k很小,状压即可.我们用num[1&lt;&lt;10]的桶记录这种状态的路径的数量然后考虑怎么合并两条路径:num[i|j] &#x3D; cnt[i] _cnt[j]朴素暴力是O">
+<meta property="og:description" content="题不错,所以做了下. A 多彩的树给定一棵树,每个点有一种颜色,问恰好包含i种颜色的路径的数量(i从1-k) $k&lt;&#x3D;10$看见路径信息统计,想到点分治,k很小,状压即可.我们用num[1&lt;&lt;10]的桶记录这种状态的路径的数量然后考虑怎么合并两条路径:num[i|j] &#x3D; cnt[i] * cnt[j]朴素暴力是$O(n*4^k)$的,5秒应该过不了很容易发现这是个或运">
 <meta property="og:locale" content="zh_CN">
 <meta property="article:published_time" content="2020-05-06T05:33:45.000Z">
-<meta property="article:modified_time" content="2023-08-24T08:43:19.617Z">
+<meta property="article:modified_time" content="2023-08-25T03:33:04.805Z">
 <meta property="article:author" content="jyf111">
 <meta property="article:tag" content="算法">
 <meta name="twitter:card" content="summary">
@@ -152,7 +152,7 @@
       
         <time datetime="2020-05-06T05:33:45.000Z" class="dt-published" itemprop="datePublished">2020-05-06</time>
         
-        (Updated: <time datetime="2023-08-24T08:43:19.617Z" class="dt-updated" itemprop="dateModified">2023-08-24</time>)
+        (Updated: <time datetime="2023-08-25T03:33:04.805Z" class="dt-updated" itemprop="dateModified">2023-08-25</time>)
         
       
     </div>
@@ -168,12 +168,14 @@
 
 
       
-        <span class=count-symbol-post> 
-          <i class="fa-solid fa-hourglass"></i>
-          
-            10 mins to read
-          
-        </span>
+        
+            <span class=count-symbol-post> 
+            <i class="fa-solid fa-hourglass"></i>
+            
+                38 mins to read
+            
+            </span>
+        
       
     </div>
   </header>
@@ -181,316 +183,18 @@
 
   <div class="content e-content" itemprop="articleBody">
     <p>题不错,所以做了下.</p>
-<h1 id="A-多彩的树"><a href="#A-多彩的树" class="headerlink" title="A 多彩的树"></a>A 多彩的树</h1><p>给定一棵树,每个点有一种颜色,问恰好包含i种颜色的路径的数量(i从1-k) k&lt;&#x3D;10k&lt;&#x3D;10k&lt;&#x3D;10<br>看见路径信息统计,想到点分治,k很小,状压即可.<br>我们用num[1&lt;&lt;10]的桶记录这种状态的路径的数量<br>然后考虑怎么合并两条路径:num[i|j] &#x3D; cnt[i] _cnt[j]<br>朴素暴力是O(n_4^k)的,5秒应该过不了<br>很容易发现这是个或运算卷积,FWT优化一下即可.但是要注意当i&#x3D;&#x3D;j的时候num[i∣j]&#x3D;cnt[i]∗(cnt[i]−1)&#x2F;2+cnt[i]num[i|j]&#x3D;cnt[i]*(cnt[i]-1)&#x2F;2+cnt[i]num[i∣j]&#x3D;cnt[i]∗(cnt[i]−1)&#x2F;2+cnt<a href="%E9%80%89%E4%B8%A4%E4%B8%AA%E5%90%88%E5%B9%B6,,%E4%BB%A5%E5%8F%8A%E5%92%8C%E7%A9%BA%E8%B7%AF%E5%BE%84%E5%90%88%E5%B9%B6(%E5%87%8F%E4%B8%8D%E5%90%88%E6%B3%95%E8%B7%AF%E5%BE%84%E6%97%B6%E4%B8%8D%E5%8C%85%E5%90%AB)">i</a>,然后注意到FWT中算的是cnt[i]∗cnt[i]+2∗cnt[i]cnt[i]<em>cnt[i]+2</em>cnt[i]cnt[i]∗cnt[i]+2∗cnt[i],所以还要减掉一个cnt[i].<br>由于是点权所以要注意些细节问题,特别是减掉不合法路径的时候,然后这题就做完了<br>其实可以直接状压包含的颜色数,然后找到只包含这样颜色的连通块</p>
-<pre><code>#include &lt;bits/stdc++.h&gt;
-#define mp make_pair
-#define pb push_back
-#define sz(x) (int)x.size()
-#define all(x) begin(x), end(x)
-#define fi first
-#define se second
-#define debug(x) cerr &lt;&lt; #x &lt;&lt; &quot; &quot; &lt;&lt; x &lt;&lt; &#39;\n&#39;
-using namespace std;
-using ll = long long;
-using pii = pair&lt;int,int&gt;;
-using pli = pair&lt;ll,int&gt;;
-const int INF = 0x3f3f3f3f, N = 5e4 + 5;
-const ll LINF = 1e18 + 5;
-constexpr int mod = 1e9 + 7, two = (mod+1)/2;
-int n, k, a[N];
-vector&lt;int&gt; G[N];
-ll pw[15];
-int rt, sz[N], dp[N], mxsz;
-ll mask[1&lt;&lt;10], num[1&lt;&lt;10], tmp[1&lt;&lt;10];
-bool vis[N];
-void FWT(ll *a, int n)
-&#123;
-    for(int d=1;d&lt;n;d&lt;&lt;=1) 
-        for(int m=d&lt;&lt;1,i=0;i&lt;n;i+=m)
-            for(int j=0;j&lt;d;j++)
-                &#123;
-                    ll x = a[i+j], y = a[i+j+d];
-                    a[i+j+d] = (x+y)%mod; 
-                &#125;
-&#125;
-void IFWT(ll *a, int n)
-&#123;
-    for(int d=1;d&lt;n;d&lt;&lt;=1)
-        for(int m=d&lt;&lt;1,i=0;i&lt;n;i+=m)
-            for(int j=0;j&lt;d;j++)
-                &#123;
-                    ll x = a[i+j], y = a[i+j+d];
-                    a[i+j+d] = (y-x+mod)%mod;
-                &#125;
-&#125;
-void findroot(int u, int fa) 
-&#123;
-    dp[u] = 0, sz[u] = 1;
-    for(auto v : G[u])
-    &#123;
-        if(vis[v]||v==fa) continue;
-        findroot(v, u);
-        dp[u] = max(dp[u],sz[v]);
-        sz[u] += sz[v];
-    &#125;
-    dp[u] = max(dp[u],mxsz-sz[u]);
-    if(dp[u]&lt;dp[rt]) rt = u;
-&#125;
-void getdis(int u, int fa, int d)
-&#123;
-    d |= (1&lt;&lt;a[u]);
-    mask[d]++;
-    for(auto v : G[u])
-    &#123;
-        if(vis[v]||v==fa) continue;
-        getdis(v, u, d);
-    &#125;
-&#125;
-void calcu(int u, int d)
-&#123;
-    memset(mask, 0, sizeof(mask)); 
-    if(!d) mask[0] = 1;
-    getdis(u, 0, d); 
-    // for(int i=0; i&lt;(1&lt;&lt;k); i++)
-    // 	for(int j=0; j&lt;(1&lt;&lt;k); j++)
-    // 		if(!d) (num[i|j] += mask[i]*mask[j]%mod)%=mod;
-    // 		else (num[i|j] -= mask[i]*mask[j]%mod)%=mod;
-    // for(int i=0; i&lt;(1&lt;&lt;k); i++) 
-    // 	num[i] -= mask[i]%=mod;
-    memcpy(tmp, mask, sizeof(mask));
-    FWT(tmp, 1&lt;&lt;k);
-    for(int i=0; i&lt;(1&lt;&lt;k); i++) tmp[i] = tmp[i]*tmp[i]%mod;
-    IFWT(tmp, 1&lt;&lt;k);
-    for(int i=0; i&lt;(1&lt;&lt;k); i++)
-    &#123;
-        if(!d) (num[i] += tmp[i] - mask[i]) %= mod;
-        else (num[i] -= tmp[i] + mask[i]) %= mod;
-    &#125;
-&#125;
-void solve(int u) 
-&#123;
-    vis[u] = 1;
-    calcu(u, 0); 
-    for(auto v : G[u])
-    &#123;
-        if(vis[v]) continue;
-        calcu(v, 1&lt;&lt;a[u]); 
-        mxsz = sz[v], rt = 0;
-        findroot(v, u);
-        solve(rt);
-    &#125;
-&#125;
-int main()
-&#123;
-    scanf(&quot;%d%d&quot;, &amp;n, &amp;k);
-    pw[0] = 1;
-    for(int i=1; i&lt;=k; i++) pw[i] = pw[i-1]*131%mod;
-    for(int i=1; i&lt;=n; i++) 
-    &#123;
-        scanf(&quot;%d&quot;, a+i);
-        a[i]--;
-    &#125;
-    for(int i=1; i&lt;n; i++)
-    &#123;
-        int u, v; scanf(&quot;%d%d&quot;, &amp;u, &amp;v);
-        G[u].pb(v); G[v].pb(u);
-    &#125;
-    dp[0] = mxsz = n;
-    findroot(1, 0);
-    solve(rt);
-    ll ans = 0;
-    for(int i=1; i&lt;(1&lt;&lt;k); i++)
-    &#123;
-        int j = __builtin_popcount(i);
-        (ans += pw[j]*num[i]%mod) %= mod;
-    &#125;
-    if(ans&lt;0) ans += mod;
-    ans = ans*two%mod;
-    printf(&quot;%lld\n&quot;, ans);
-    return 0;
-&#125;
-</code></pre>
-<h1 id="B-求幂"><a href="#B-求幂" class="headerlink" title="B 求幂"></a>B 求幂</h1><p>给定n(n&lt;&#x3D;1e6),问满足a^b &#x3D; c^d的四元有序组个数,其中a,b,c,d在1-n之间<br>有一个结论是各个非完全平方数的所有幂次组成的集合是没有交集的,考虑按此划分,显然不同集合间没有贡献.<br>考虑一个集合中的两个元素a^b 和<br>a^c,那么令d&#x3D;max(b,c)&#x2F;__gcd(b,c),则有n&#x2F;d组元素(ab,x∗d,ac,y),1&lt;&#x3D;x&lt;&#x3D;n&#x2F;d(a^b , x*d, a^c ,<br>y),1&lt;&#x3D;x&lt;&#x3D;n&#x2F;d(ab,x∗d,ac,y),1&lt;&#x3D;x&lt;&#x3D;n&#x2F;d.</p>
-<pre><code>#include &lt;bits/stdc++.h&gt;
-#define mp make_pair
-#define pb push_back
-#define sz(x) (int)x.size()
-#define all(x) begin(x), end(x)
-#define fi first
-#define se second
-#define debug(x) cerr &lt;&lt; #x &lt;&lt; &quot; &quot; &lt;&lt; x &lt;&lt; &#39;\n&#39;
-using namespace std;
-using ll = long long;
-using pii = pair&lt;int,int&gt;;
-using pli = pair&lt;ll,int&gt;;
-const int INF = 0x3f3f3f3f, N = 1e6 + 5;
-const ll LINF = 1e18 + 5;
-constexpr int mod = 1e9 + 7;
-int n;
-bool vis[N];
-int main()
-&#123;
-    scanf(&quot;%d&quot;, &amp;n);
-    ll ans = 1ll*n*n;
-    for(int i=2; i&lt;=n; i++)
-    &#123;
-        if(vis[i]) continue;
-        vector&lt;pii&gt; tmp;
-        for(ll j=i, k=1; j&lt;=n; j*=i, k++) 
-        &#123;
-            vis[j] = 1;
-            tmp.pb(&#123;j, k&#125;);
-        &#125; 
-        ll cur = 0;
-        for(int i=0; i&lt;sz(tmp); i++)
-        &#123;
-            for(int j=0; j&lt;sz(tmp); j++)
-            &#123;
-                int x = tmp[i].se/__gcd(tmp[i].se, tmp[j].se), y = tmp[j].se/__gcd(tmp[i].se, tmp[j].se);
-                cur += n/max(x, y);
-                if(cur&gt;=mod) cur -= mod;
-            &#125;
-        &#125;
-        ans = (ans + cur)%mod;
-    &#125;
-    if(ans&lt;0) ans += mod;
-    printf(&quot;%lld\n&quot;, ans);
-    return 0;
-&#125;
-</code></pre>
-<h1 id="C-序列最小化"><a href="#C-序列最小化" class="headerlink" title="C 序列最小化"></a>C 序列最小化</h1><p>给定一个1-n的排列,每次可以选择k个连续的数将其变成最小的那个数,问最少经过几次操作使序列最小.<br>最后肯定都变成了1,第一次操作肯定包含了1这个位置,所以枚举第一次操作的左右端点,则后面的操作一定是左右延伸.</p>
-<h1 id="D-小雨坐地铁"><a href="#D-小雨坐地铁" class="headerlink" title="D 小雨坐地铁"></a>D 小雨坐地铁</h1><p>m条地铁线路,n个车站,第i条地铁线路花费a[i],经过c[i]个车站,每站花费b[i]元,问从s站到t站的最小花费.如果有多条地铁经过同一个车站,可以换乘.<br>对于某个车站,如果存在于多个地铁线路中,其实是不同的状态,所以对于每个地铁线路中的车站我们都用一个新点来表示.这样就可以进行建图跑最短路了.<br>对于某条线路中的车站,依次连 <strong>双向边</strong> ,权值为b[i] (表示继续乘坐) ,再向经过该车站的其他线路中的该车站所代表的点连 <strong>单向边</strong><br>,权值为a[i] (表示换乘).<br>由于s和t代表的点有多个,所以加上超源和超汇.超源向每个地铁线路中的s连 <strong>单向边</strong> ,权值为a[i], 每个地铁线路中的t向超汇连 <strong>单向边</strong><br>,权值为0.<br>注意s&#x3D;t的时候,需要特判,因为以上建图方法,如果没有地铁线路通过s,则超源和s不连通,如果从超源跑dij,会输出-1.</p>
-<pre><code>#include &lt;bits/stdc++.h&gt;
-#define mp make_pair
-#define pb push_back
-#define sz(x) (int)x.size()
-#define all(x) begin(x), end(x)
-#define fi first
-#define se second
-#define debug(x) cerr &lt;&lt; #x &lt;&lt; &quot; &quot; &lt;&lt; x &lt;&lt; &#39;\n&#39;
-using namespace std;
-using ll = long long;
-using pii = pair&lt;int,int&gt;;
-using pli = pair&lt;ll,int&gt;;
-const int INF = 0x3f3f3f3f, N = 1e3 + 5, M = 5e5 + 5;
-const ll LINF = 0x3f3f3f3f3f3f3f3f;
-constexpr int mod = 1e9 + 7;
-int n, m, s, t, a[N], b[N], c[N], idx[505][N], tot;
-vector&lt;int&gt; p[N], q[N];
-vector&lt;pii&gt; G[M];
-ll dis[M];
-bool vis[M];
-void Dijkstra(int s) 
-&#123;
-    memset(dis,0x3f,(tot+1)*sizeof(ll)); 
-    memset(vis,0,(tot+1)*sizeof(bool));
-    dis[s] = 0;
-    priority_queue &lt;pli,vector&lt;pli&gt;,greater&lt;pli&gt;&gt; q; 
-    q.push(mp(0,s));
-    while(!q.empty())
-    &#123;
-        int u = q.top().se; q.pop(); 
-        if(vis[u]) continue;
-        vis[u] = 1;
-        for(auto it : G[u])
-        &#123;
-            int v = it.fi, w = it.se;
-            if(dis[v]&gt;dis[u]+w)
-            &#123;
-                dis[v] = dis[u] + w;
-                q.push(mp(dis[v],v));
-            &#125;
-        &#125;
-    &#125;
-&#125;
-int main()
-&#123;
-    scanf(&quot;%d%d%d%d&quot;, &amp;n, &amp;m, &amp;s, &amp;t);
-    if(s==t)
-    &#123;
-        puts(&quot;0&quot;);
-        return 0;
-    &#125;
-    tot = m;
-    for(int i=1; i&lt;=m; i++)
-    &#123;
-        scanf(&quot;%d%d%d&quot;, a+i, b+i, c+i);
-        q[i].resize(c[i]);
-        for(int &amp;x : q[i]) 
-        &#123;
-            scanf(&quot;%d&quot;, &amp;x);
-            p[x].pb(i);
-        &#125;
-    &#125;
-    for(int i=1; i&lt;=m; i++)
-    &#123;
-        int pre = i;
-        for(int x : q[i])
-        &#123;
-            ++tot;
-            idx[i][x] = tot;
-            G[pre].emplace_back(tot, b[i]);
-            G[tot].emplace_back(pre, b[i]);
-            pre = tot;
-        &#125;
-    &#125;
-    ++tot;
-    for(int i=1; i&lt;=m; i++)
-        for(int x : q[i])
-        &#123;
-            if(x==t) G[idx[i][x]].emplace_back(tot, 0);
-            if(x==s) G[0].emplace_back(idx[i][x], a[i]);
-            for(int k : p[x])
-                G[idx[i][x]].emplace_back(idx[k][x], a[k]);
-        &#125;
-    Dijkstra(0);
-    if(dis[tot]==LINF) dis[tot] = -1;
-    printf(&quot;%lld\n&quot;, dis[tot]);
-    return 0;
-&#125;
-</code></pre>
-<h1 id="E-简单瞎搞题"><a href="#E-简单瞎搞题" class="headerlink" title="E 简单瞎搞题"></a>E 简单瞎搞题</h1><p>有100个数,每个数xix_ixi​有li−ril_i-r_ili​−ri​的范围(&lt;&#x3D;100),问∑xi2\sum x_i^2∑xi2​的种类数<br>一眼bitset的优化,但仔细算了下1e6∗100∗100&#x2F;321e6<em>100</em>100&#x2F;321e6∗100∗100&#x2F;32,似乎不太行,想了一会别的方法没想出,看了眼别人的代码,然后发现就是bitset😐,<br><del>只能说明牛客机子牛逼</del></p>
-<pre><code>#include &lt;bits/stdc++.h&gt;
-#define mp make_pair
-#define pb push_back
-#define sz(x) (int)x.size()
-#define all(x) begin(x), end(x)
-#define fi first
-#define se second
-#define debug(x) cerr &lt;&lt; #x &lt;&lt; &quot; &quot; &lt;&lt; x &lt;&lt; &#39;\n&#39;
-using namespace std;
-using ll = long long;
-using pii = pair&lt;int,int&gt;;
-using pli = pair&lt;ll,int&gt;;
-const int INF = 0x3f3f3f3f, N = 1e6 + 5;
-const ll LINF = 1e18 + 5;
-constexpr int mod = 1e9 + 7;
-bitset &lt;N&gt; f;
-int n;
-int main()
-&#123;
-    //100 * 100 * 1e6 / 32
-    scanf(&quot;%d&quot;, &amp;n);
-    f[0] = 1;
-    for(int i=1; i&lt;=n; i++)
-    &#123;
-        int l, r; scanf(&quot;%d%d&quot;, &amp;l, &amp;r);
-        bitset &lt;N&gt; nextf;
-        for(int j=l; j&lt;=r; j++) nextf |= f&lt;&lt;(j*j);
-        f = nextf;
-    &#125;
-    printf(&quot;%d\n&quot;, f.count());
-    return 0;
-&#125;
-</code></pre>
-<ul>
-<li>A 多彩的树</li>
-<li>B 求幂</li>
-<li>C 序列最小化</li>
-<li>D 小雨坐地铁</li>
-<li>E 简单瞎搞题</li>
-</ul>
+<h1 id="A-多彩的树"><a href="#A-多彩的树" class="headerlink" title="A 多彩的树"></a>A 多彩的树</h1><p>给定一棵树,每个点有一种颜色,问恰好包含i种颜色的路径的数量(i从1-k) $k&lt;&#x3D;10$<br>看见路径信息统计,想到点分治,k很小,状压即可.<br>我们用<code>num[1&lt;&lt;10]</code>的桶记录这种状态的路径的数量<br>然后考虑怎么合并两条路径:<code>num[i|j] = cnt[i] * cnt[j]</code><br>朴素暴力是$O(n*4^k)$的,5秒应该过不了<br>很容易发现这是个或运算卷积,FWT优化一下即可.但是要注意当i&#x3D;&#x3D;j的时候<code>num[i|j] = cnt[i] * (cnt[i]-1)/2 + cnt[i]</code>(选两个合并,,以及和空路径合并(减不合法路径时不包含)),然后注意到FWT中算的是<code>cnt[i] * cnt[i] + 2*cnt[i]</code>,所以还要减掉一个cnt[i].<br>由于是点权所以要注意些细节问题,特别是减掉不合法路径的时候,然后这题就做完了<br>其实可以直接状压包含的颜色数,然后找到只包含这样颜色的连通块</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;bits/stdc++.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">define</span> mp make_pair</span></span><br><span class="line"><span class="meta">#<span class="keyword">define</span> pb push_back</span></span><br><span class="line"><span class="meta">#<span class="keyword">define</span> sz(x) (int)x.size()</span></span><br><span class="line"><span class="meta">#<span class="keyword">define</span> all(x) begin(x), end(x)</span></span><br><span class="line"><span class="meta">#<span class="keyword">define</span> fi first</span></span><br><span class="line"><span class="meta">#<span class="keyword">define</span> se second</span></span><br><span class="line"><span class="meta">#<span class="keyword">define</span> debug(x) cerr &lt;&lt; #x &lt;&lt; <span class="string">&quot; &quot;</span> &lt;&lt; x &lt;&lt; <span class="string">&#x27;\n&#x27;</span></span></span><br><span class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> std;</span><br><span class="line"><span class="keyword">using</span> ll = <span class="type">long</span> <span class="type">long</span>;</span><br><span class="line"><span class="keyword">using</span> pii = pair&lt;<span class="type">int</span>,<span class="type">int</span>&gt;;</span><br><span class="line"><span class="keyword">using</span> pli = pair&lt;ll,<span class="type">int</span>&gt;;</span><br><span class="line"><span class="type">const</span> <span class="type">int</span> INF = <span class="number">0x3f3f3f3f</span>, N = <span class="number">5e4</span> + <span class="number">5</span>;</span><br><span class="line"><span class="type">const</span> ll LINF = <span class="number">1e18</span> + <span class="number">5</span>;</span><br><span class="line"><span class="keyword">constexpr</span> <span class="type">int</span> mod = <span class="number">1e9</span> + <span class="number">7</span>, two = (mod+<span class="number">1</span>)/<span class="number">2</span>;</span><br><span class="line"><span class="type">int</span> n, k, a[N];</span><br><span class="line">vector&lt;<span class="type">int</span>&gt; G[N];</span><br><span class="line">ll pw[<span class="number">15</span>];</span><br><span class="line"><span class="type">int</span> rt, sz[N], dp[N], mxsz;</span><br><span class="line">ll mask[<span class="number">1</span>&lt;&lt;<span class="number">10</span>], num[<span class="number">1</span>&lt;&lt;<span class="number">10</span>], tmp[<span class="number">1</span>&lt;&lt;<span class="number">10</span>];</span><br><span class="line"><span class="type">bool</span> vis[N];</span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">FWT</span><span class="params">(ll *a, <span class="type">int</span> n)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">  <span class="keyword">for</span>(<span class="type">int</span> d=<span class="number">1</span>;d&lt;n;d&lt;&lt;=<span class="number">1</span>)</span><br><span class="line">    <span class="keyword">for</span>(<span class="type">int</span> m=d&lt;&lt;<span class="number">1</span>,i=<span class="number">0</span>;i&lt;n;i+=m)</span><br><span class="line">      <span class="keyword">for</span>(<span class="type">int</span> j=<span class="number">0</span>;j&lt;d;j++)</span><br><span class="line">      &#123;</span><br><span class="line">        ll x = a[i+j], y = a[i+j+d];</span><br><span class="line">        a[i+j+d] = (x+y)%mod;</span><br><span class="line">      &#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">IFWT</span><span class="params">(ll *a, <span class="type">int</span> n)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">  <span class="keyword">for</span>(<span class="type">int</span> d=<span class="number">1</span>;d&lt;n;d&lt;&lt;=<span class="number">1</span>)</span><br><span class="line">    <span class="keyword">for</span>(<span class="type">int</span> m=d&lt;&lt;<span class="number">1</span>,i=<span class="number">0</span>;i&lt;n;i+=m)</span><br><span class="line">      <span class="keyword">for</span>(<span class="type">int</span> j=<span class="number">0</span>;j&lt;d;j++)</span><br><span class="line">      &#123;</span><br><span class="line">        ll x = a[i+j], y = a[i+j+d];</span><br><span class="line">        a[i+j+d] = (y-x+mod)%mod;</span><br><span class="line">      &#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">findroot</span><span class="params">(<span class="type">int</span> u, <span class="type">int</span> fa)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">  dp[u] = <span class="number">0</span>, sz[u] = <span class="number">1</span>;</span><br><span class="line">  <span class="keyword">for</span>(<span class="keyword">auto</span> v : G[u])</span><br><span class="line">  &#123;</span><br><span class="line">    <span class="keyword">if</span>(vis[v]||v==fa) <span class="keyword">continue</span>;</span><br><span class="line">    <span class="built_in">findroot</span>(v, u);</span><br><span class="line">    dp[u] = <span class="built_in">max</span>(dp[u],sz[v]);</span><br><span class="line">    sz[u] += sz[v];</span><br><span class="line">  &#125;</span><br><span class="line">  dp[u] = <span class="built_in">max</span>(dp[u],mxsz-sz[u]);</span><br><span class="line">  <span class="keyword">if</span>(dp[u]&lt;dp[rt]) rt = u;</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">getdis</span><span class="params">(<span class="type">int</span> u, <span class="type">int</span> fa, <span class="type">int</span> d)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">  d |= (<span class="number">1</span>&lt;&lt;a[u]);</span><br><span class="line">  mask[d]++;</span><br><span class="line">  <span class="keyword">for</span>(<span class="keyword">auto</span> v : G[u])</span><br><span class="line">  &#123;</span><br><span class="line">    <span class="keyword">if</span>(vis[v]||v==fa) <span class="keyword">continue</span>;</span><br><span class="line">    <span class="built_in">getdis</span>(v, u, d);</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">calcu</span><span class="params">(<span class="type">int</span> u, <span class="type">int</span> d)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">  <span class="built_in">memset</span>(mask, <span class="number">0</span>, <span class="built_in">sizeof</span>(mask));</span><br><span class="line">  <span class="keyword">if</span>(!d) mask[<span class="number">0</span>] = <span class="number">1</span>;</span><br><span class="line">  <span class="built_in">getdis</span>(u, <span class="number">0</span>, d);</span><br><span class="line">  <span class="comment">// for(int i=0; i&lt;(1&lt;&lt;k); i++)</span></span><br><span class="line">  <span class="comment">// 	for(int j=0; j&lt;(1&lt;&lt;k); j++)</span></span><br><span class="line">  <span class="comment">// 		if(!d) (num[i|j] += mask[i]*mask[j]%mod)%=mod;</span></span><br><span class="line">  <span class="comment">// 		else (num[i|j] -= mask[i]*mask[j]%mod)%=mod;</span></span><br><span class="line">  <span class="comment">// for(int i=0; i&lt;(1&lt;&lt;k); i++)</span></span><br><span class="line">  <span class="comment">// 	num[i] -= mask[i]%=mod;</span></span><br><span class="line">  <span class="built_in">memcpy</span>(tmp, mask, <span class="built_in">sizeof</span>(mask));</span><br><span class="line">  <span class="built_in">FWT</span>(tmp, <span class="number">1</span>&lt;&lt;k);</span><br><span class="line">  <span class="keyword">for</span>(<span class="type">int</span> i=<span class="number">0</span>; i&lt;(<span class="number">1</span>&lt;&lt;k); i++) tmp[i] = tmp[i]*tmp[i]%mod;</span><br><span class="line">  <span class="built_in">IFWT</span>(tmp, <span class="number">1</span>&lt;&lt;k);</span><br><span class="line">  <span class="keyword">for</span>(<span class="type">int</span> i=<span class="number">0</span>; i&lt;(<span class="number">1</span>&lt;&lt;k); i++)</span><br><span class="line">  &#123;</span><br><span class="line">    <span class="keyword">if</span>(!d) (num[i] += tmp[i] - mask[i]) %= mod;</span><br><span class="line">    <span class="keyword">else</span> (num[i] -= tmp[i] + mask[i]) %= mod;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">solve</span><span class="params">(<span class="type">int</span> u)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">  vis[u] = <span class="number">1</span>;</span><br><span class="line">  <span class="built_in">calcu</span>(u, <span class="number">0</span>);</span><br><span class="line">  <span class="keyword">for</span>(<span class="keyword">auto</span> v : G[u])</span><br><span class="line">  &#123;</span><br><span class="line">    <span class="keyword">if</span>(vis[v]) <span class="keyword">continue</span>;</span><br><span class="line">    <span class="built_in">calcu</span>(v, <span class="number">1</span>&lt;&lt;a[u]);</span><br><span class="line">    mxsz = sz[v], rt = <span class="number">0</span>;</span><br><span class="line">    <span class="built_in">findroot</span>(v, u);</span><br><span class="line">    <span class="built_in">solve</span>(rt);</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="type">int</span> <span class="title">main</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">  <span class="built_in">scanf</span>(<span class="string">&quot;%d%d&quot;</span>, &amp;n, &amp;k);</span><br><span class="line">  pw[<span class="number">0</span>] = <span class="number">1</span>;</span><br><span class="line">  <span class="keyword">for</span>(<span class="type">int</span> i=<span class="number">1</span>; i&lt;=k; i++) pw[i] = pw[i<span class="number">-1</span>]*<span class="number">131</span>%mod;</span><br><span class="line">  <span class="keyword">for</span>(<span class="type">int</span> i=<span class="number">1</span>; i&lt;=n; i++)</span><br><span class="line">  &#123;</span><br><span class="line">    <span class="built_in">scanf</span>(<span class="string">&quot;%d&quot;</span>, a+i);</span><br><span class="line">    a[i]--;</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="keyword">for</span>(<span class="type">int</span> i=<span class="number">1</span>; i&lt;n; i++)</span><br><span class="line">  &#123;</span><br><span class="line">    <span class="type">int</span> u, v; <span class="built_in">scanf</span>(<span class="string">&quot;%d%d&quot;</span>, &amp;u, &amp;v);</span><br><span class="line">    G[u].<span class="built_in">pb</span>(v); G[v].<span class="built_in">pb</span>(u);</span><br><span class="line">  &#125;</span><br><span class="line">  dp[<span class="number">0</span>] = mxsz = n;</span><br><span class="line">  <span class="built_in">findroot</span>(<span class="number">1</span>, <span class="number">0</span>);</span><br><span class="line">  <span class="built_in">solve</span>(rt);</span><br><span class="line">  ll ans = <span class="number">0</span>;</span><br><span class="line">  <span class="keyword">for</span>(<span class="type">int</span> i=<span class="number">1</span>; i&lt;(<span class="number">1</span>&lt;&lt;k); i++)</span><br><span class="line">  &#123;</span><br><span class="line">    <span class="type">int</span> j = __builtin_popcount(i);</span><br><span class="line">    (ans += pw[j]*num[i]%mod) %= mod;</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="keyword">if</span>(ans&lt;<span class="number">0</span>) ans += mod;</span><br><span class="line">  ans = ans*two%mod;</span><br><span class="line">  <span class="built_in">printf</span>(<span class="string">&quot;%lld\n&quot;</span>, ans);</span><br><span class="line">  <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
+<h1 id="B-求幂"><a href="#B-求幂" class="headerlink" title="B 求幂"></a>B 求幂</h1><p>给定n(n&lt;&#x3D;1e6),问满足a^b &#x3D; c^d的四元有序组个数,其中a,b,c,d在1-n之间<br>有一个结论是各个非完全平方数的所有幂次组成的集合是没有交集的,考虑按此划分,显然不同集合间没有贡献.<br>考虑一个集合中的两个元素a^b和a^c,令d&#x3D;max(b,c)&#x2F;__gcd(b,c),则有n&#x2F;d组元素(ab,x∗d,ac,y),1&lt;&#x3D;x&lt;&#x3D;n&#x2F;d.</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;bits/stdc++.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">define</span> mp make_pair</span></span><br><span class="line"><span class="meta">#<span class="keyword">define</span> pb push_back</span></span><br><span class="line"><span class="meta">#<span class="keyword">define</span> sz(x) (int)x.size()</span></span><br><span class="line"><span class="meta">#<span class="keyword">define</span> all(x) begin(x), end(x)</span></span><br><span class="line"><span class="meta">#<span class="keyword">define</span> fi first</span></span><br><span class="line"><span class="meta">#<span class="keyword">define</span> se second</span></span><br><span class="line"><span class="meta">#<span class="keyword">define</span> debug(x) cerr &lt;&lt; #x &lt;&lt; <span class="string">&quot; &quot;</span> &lt;&lt; x &lt;&lt; <span class="string">&#x27;\n&#x27;</span></span></span><br><span class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> std;</span><br><span class="line"><span class="keyword">using</span> ll = <span class="type">long</span> <span class="type">long</span>;</span><br><span class="line"><span class="keyword">using</span> pii = pair&lt;<span class="type">int</span>,<span class="type">int</span>&gt;;</span><br><span class="line"><span class="keyword">using</span> pli = pair&lt;ll,<span class="type">int</span>&gt;;</span><br><span class="line"><span class="type">const</span> <span class="type">int</span> INF = <span class="number">0x3f3f3f3f</span>, N = <span class="number">1e6</span> + <span class="number">5</span>;</span><br><span class="line"><span class="type">const</span> ll LINF = <span class="number">1e18</span> + <span class="number">5</span>;</span><br><span class="line"><span class="keyword">constexpr</span> <span class="type">int</span> mod = <span class="number">1e9</span> + <span class="number">7</span>;</span><br><span class="line"><span class="type">int</span> n;</span><br><span class="line"><span class="type">bool</span> vis[N];</span><br><span class="line"><span class="function"><span class="type">int</span> <span class="title">main</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">  <span class="built_in">scanf</span>(<span class="string">&quot;%d&quot;</span>, &amp;n);</span><br><span class="line">  ll ans = <span class="number">1ll</span>*n*n;</span><br><span class="line">  <span class="keyword">for</span>(<span class="type">int</span> i=<span class="number">2</span>; i&lt;=n; i++)</span><br><span class="line">  &#123;</span><br><span class="line">    <span class="keyword">if</span>(vis[i]) <span class="keyword">continue</span>;</span><br><span class="line">    vector&lt;pii&gt; tmp;</span><br><span class="line">    <span class="keyword">for</span>(ll j=i, k=<span class="number">1</span>; j&lt;=n; j*=i, k++)</span><br><span class="line">    &#123;</span><br><span class="line">      vis[j] = <span class="number">1</span>;</span><br><span class="line">      tmp.<span class="built_in">pb</span>(&#123;j, k&#125;);</span><br><span class="line">    &#125;</span><br><span class="line">    ll cur = <span class="number">0</span>;</span><br><span class="line">    <span class="keyword">for</span>(<span class="type">int</span> i=<span class="number">0</span>; i&lt;<span class="built_in">sz</span>(tmp); i++)</span><br><span class="line">    &#123;</span><br><span class="line">      <span class="keyword">for</span>(<span class="type">int</span> j=<span class="number">0</span>; j&lt;<span class="built_in">sz</span>(tmp); j++)</span><br><span class="line">      &#123;</span><br><span class="line">        <span class="type">int</span> x = tmp[i].se/__gcd(tmp[i].se, tmp[j].se), y = tmp[j].se/__gcd(tmp[i].se, tmp[j].se);</span><br><span class="line">        cur += n/<span class="built_in">max</span>(x, y);</span><br><span class="line">        <span class="keyword">if</span>(cur&gt;=mod) cur -= mod;</span><br><span class="line">      &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    ans = (ans + cur)%mod;</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="keyword">if</span>(ans&lt;<span class="number">0</span>) ans += mod;</span><br><span class="line">  <span class="built_in">printf</span>(<span class="string">&quot;%lld\n&quot;</span>, ans);</span><br><span class="line">  <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h1 id="C-序列最小化"><a href="#C-序列最小化" class="headerlink" title="C 序列最小化"></a>C 序列最小化</h1><p>给定一个1-n的排列,每次可以选择k个连续的数将其变成最小的那个数,问最少经过几次操作使序列最小.<br>最后肯定都变成了1,第一次操作肯定包含了1这个位置,所以枚举第一次操作的左右端点,则后面的操作一定是左右延伸.</p>
+<h1 id="D-小雨坐地铁"><a href="#D-小雨坐地铁" class="headerlink" title="D 小雨坐地铁"></a>D 小雨坐地铁</h1><p>m条地铁线路,n个车站,第i条地铁线路花费a[i],经过c[i]个车站,每站花费b[i]元,问从s站到t站的最小花费.如果有多条地铁经过同一个车站,可以换乘.<br>对于某个车站,如果存在于多个地铁线路中,其实是不同的状态,所以对于每个地铁线路中的车站我们都用一个新点来表示.这样就可以进行建图跑最短路了.<br>对于某条线路中的车站,依次连<strong>双向边</strong>,权值为b[i] (表示继续乘坐) ,再向经过该车站的其他线路中的该车站所代表的点连<strong>单向边</strong>,权值为a[i] (表示换乘).<br>由于s和t代表的点有多个,所以加上超源和超汇.超源向每个地铁线路中的s连<strong>单向边</strong>,权值为a[i], 每个地铁线路中的t向超汇连<strong>单向边</strong>,权值为0.<br>注意s&#x3D;t的时候,需要特判,因为以上建图方法,如果没有地铁线路通过s,则超源和s不连通,如果从超源跑dij,会输出-1.</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;bits/stdc++.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">define</span> mp make_pair</span></span><br><span class="line"><span class="meta">#<span class="keyword">define</span> pb push_back</span></span><br><span class="line"><span class="meta">#<span class="keyword">define</span> sz(x) (int)x.size()</span></span><br><span class="line"><span class="meta">#<span class="keyword">define</span> all(x) begin(x), end(x)</span></span><br><span class="line"><span class="meta">#<span class="keyword">define</span> fi first</span></span><br><span class="line"><span class="meta">#<span class="keyword">define</span> se second</span></span><br><span class="line"><span class="meta">#<span class="keyword">define</span> debug(x) cerr &lt;&lt; #x &lt;&lt; <span class="string">&quot; &quot;</span> &lt;&lt; x &lt;&lt; <span class="string">&#x27;\n&#x27;</span></span></span><br><span class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> std;</span><br><span class="line"><span class="keyword">using</span> ll = <span class="type">long</span> <span class="type">long</span>;</span><br><span class="line"><span class="keyword">using</span> pii = pair&lt;<span class="type">int</span>,<span class="type">int</span>&gt;;</span><br><span class="line"><span class="keyword">using</span> pli = pair&lt;ll,<span class="type">int</span>&gt;;</span><br><span class="line"><span class="type">const</span> <span class="type">int</span> INF = <span class="number">0x3f3f3f3f</span>, N = <span class="number">1e3</span> + <span class="number">5</span>, M = <span class="number">5e5</span> + <span class="number">5</span>;</span><br><span class="line"><span class="type">const</span> ll LINF = <span class="number">0x3f3f3f3f3f3f3f3f</span>;</span><br><span class="line"><span class="keyword">constexpr</span> <span class="type">int</span> mod = <span class="number">1e9</span> + <span class="number">7</span>;</span><br><span class="line"><span class="type">int</span> n, m, s, t, a[N], b[N], c[N], idx[<span class="number">505</span>][N], tot;</span><br><span class="line">vector&lt;<span class="type">int</span>&gt; p[N], q[N];</span><br><span class="line">vector&lt;pii&gt; G[M];</span><br><span class="line">ll dis[M];</span><br><span class="line"><span class="type">bool</span> vis[M];</span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">Dijkstra</span><span class="params">(<span class="type">int</span> s)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">  <span class="built_in">memset</span>(dis,<span class="number">0x3f</span>,(tot+<span class="number">1</span>)*<span class="built_in">sizeof</span>(ll));</span><br><span class="line">  <span class="built_in">memset</span>(vis,<span class="number">0</span>,(tot+<span class="number">1</span>)*<span class="built_in">sizeof</span>(<span class="type">bool</span>));</span><br><span class="line">  dis[s] = <span class="number">0</span>;</span><br><span class="line">  priority_queue &lt;pli,vector&lt;pli&gt;,greater&lt;pli&gt;&gt; q;</span><br><span class="line">  q.<span class="built_in">push</span>(<span class="built_in">mp</span>(<span class="number">0</span>,s));</span><br><span class="line">  <span class="keyword">while</span>(!q.<span class="built_in">empty</span>())</span><br><span class="line">  &#123;</span><br><span class="line">    <span class="type">int</span> u = q.<span class="built_in">top</span>().se; q.<span class="built_in">pop</span>();</span><br><span class="line">    <span class="keyword">if</span>(vis[u]) <span class="keyword">continue</span>;</span><br><span class="line">    vis[u] = <span class="number">1</span>;</span><br><span class="line">    <span class="keyword">for</span>(<span class="keyword">auto</span> it : G[u])</span><br><span class="line">    &#123;</span><br><span class="line">      <span class="type">int</span> v = it.fi, w = it.se;</span><br><span class="line">      <span class="keyword">if</span>(dis[v]&gt;dis[u]+w)</span><br><span class="line">      &#123;</span><br><span class="line">        dis[v] = dis[u] + w;</span><br><span class="line">        q.<span class="built_in">push</span>(<span class="built_in">mp</span>(dis[v],v));</span><br><span class="line">      &#125;</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="type">int</span> <span class="title">main</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">  <span class="built_in">scanf</span>(<span class="string">&quot;%d%d%d%d&quot;</span>, &amp;n, &amp;m, &amp;s, &amp;t);</span><br><span class="line">  <span class="keyword">if</span>(s==t)</span><br><span class="line">  &#123;</span><br><span class="line">    <span class="built_in">puts</span>(<span class="string">&quot;0&quot;</span>);</span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">  &#125;</span><br><span class="line">  tot = m;</span><br><span class="line">  <span class="keyword">for</span>(<span class="type">int</span> i=<span class="number">1</span>; i&lt;=m; i++)</span><br><span class="line">  &#123;</span><br><span class="line">    <span class="built_in">scanf</span>(<span class="string">&quot;%d%d%d&quot;</span>, a+i, b+i, c+i);</span><br><span class="line">    q[i].<span class="built_in">resize</span>(c[i]);</span><br><span class="line">    <span class="keyword">for</span>(<span class="type">int</span> &amp;x : q[i])</span><br><span class="line">    &#123;</span><br><span class="line">      <span class="built_in">scanf</span>(<span class="string">&quot;%d&quot;</span>, &amp;x);</span><br><span class="line">      p[x].<span class="built_in">pb</span>(i);</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="keyword">for</span>(<span class="type">int</span> i=<span class="number">1</span>; i&lt;=m; i++)</span><br><span class="line">  &#123;</span><br><span class="line">    <span class="type">int</span> pre = i;</span><br><span class="line">    <span class="keyword">for</span>(<span class="type">int</span> x : q[i])</span><br><span class="line">    &#123;</span><br><span class="line">      ++tot;</span><br><span class="line">      idx[i][x] = tot;</span><br><span class="line">      G[pre].<span class="built_in">emplace_back</span>(tot, b[i]);</span><br><span class="line">      G[tot].<span class="built_in">emplace_back</span>(pre, b[i]);</span><br><span class="line">      pre = tot;</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">  ++tot;</span><br><span class="line">  <span class="keyword">for</span>(<span class="type">int</span> i=<span class="number">1</span>; i&lt;=m; i++)</span><br><span class="line">    <span class="keyword">for</span>(<span class="type">int</span> x : q[i])</span><br><span class="line">    &#123;</span><br><span class="line">      <span class="keyword">if</span>(x==t) G[idx[i][x]].<span class="built_in">emplace_back</span>(tot, <span class="number">0</span>);</span><br><span class="line">      <span class="keyword">if</span>(x==s) G[<span class="number">0</span>].<span class="built_in">emplace_back</span>(idx[i][x], a[i]);</span><br><span class="line">      <span class="keyword">for</span>(<span class="type">int</span> k : p[x])</span><br><span class="line">        G[idx[i][x]].<span class="built_in">emplace_back</span>(idx[k][x], a[k]);</span><br><span class="line">    &#125;</span><br><span class="line">  <span class="built_in">Dijkstra</span>(<span class="number">0</span>);</span><br><span class="line">  <span class="keyword">if</span>(dis[tot]==LINF) dis[tot] = <span class="number">-1</span>;</span><br><span class="line">  <span class="built_in">printf</span>(<span class="string">&quot;%lld\n&quot;</span>, dis[tot]);</span><br><span class="line">  <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h1 id="E-简单瞎搞题"><a href="#E-简单瞎搞题" class="headerlink" title="E 简单瞎搞题"></a>E 简单瞎搞题</h1><p>有100个数,每个数$x_i$​有$l_i\sim r_i$​的范围(&lt;&#x3D;100),问$\sum x_i^2$​的种类数<br>一眼bitset的优化,但仔细算了下1e6*100*100&#x2F;32,似乎不太行,想了一会别的方法没想出,看了眼别人的代码,然后发现就是bitset😐,<br><del>只能说明牛客机子牛逼</del></p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;bits/stdc++.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">define</span> mp make_pair</span></span><br><span class="line"><span class="meta">#<span class="keyword">define</span> pb push_back</span></span><br><span class="line"><span class="meta">#<span class="keyword">define</span> sz(x) (int)x.size()</span></span><br><span class="line"><span class="meta">#<span class="keyword">define</span> all(x) begin(x), end(x)</span></span><br><span class="line"><span class="meta">#<span class="keyword">define</span> fi first</span></span><br><span class="line"><span class="meta">#<span class="keyword">define</span> se second</span></span><br><span class="line"><span class="meta">#<span class="keyword">define</span> debug(x) cerr &lt;&lt; #x &lt;&lt; <span class="string">&quot; &quot;</span> &lt;&lt; x &lt;&lt; <span class="string">&#x27;\n&#x27;</span></span></span><br><span class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> std;</span><br><span class="line"><span class="keyword">using</span> ll = <span class="type">long</span> <span class="type">long</span>;</span><br><span class="line"><span class="keyword">using</span> pii = pair&lt;<span class="type">int</span>,<span class="type">int</span>&gt;;</span><br><span class="line"><span class="keyword">using</span> pli = pair&lt;ll,<span class="type">int</span>&gt;;</span><br><span class="line"><span class="type">const</span> <span class="type">int</span> INF = <span class="number">0x3f3f3f3f</span>, N = <span class="number">1e6</span> + <span class="number">5</span>;</span><br><span class="line"><span class="type">const</span> ll LINF = <span class="number">1e18</span> + <span class="number">5</span>;</span><br><span class="line"><span class="keyword">constexpr</span> <span class="type">int</span> mod = <span class="number">1e9</span> + <span class="number">7</span>;</span><br><span class="line">bitset &lt;N&gt; f;</span><br><span class="line"><span class="type">int</span> n;</span><br><span class="line"><span class="function"><span class="type">int</span> <span class="title">main</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">  <span class="comment">//100 * 100 * 1e6 / 32</span></span><br><span class="line">  <span class="built_in">scanf</span>(<span class="string">&quot;%d&quot;</span>, &amp;n);</span><br><span class="line">  f[<span class="number">0</span>] = <span class="number">1</span>;</span><br><span class="line">  <span class="keyword">for</span>(<span class="type">int</span> i=<span class="number">1</span>; i&lt;=n; i++)</span><br><span class="line">  &#123;</span><br><span class="line">    <span class="type">int</span> l, r; <span class="built_in">scanf</span>(<span class="string">&quot;%d%d&quot;</span>, &amp;l, &amp;r);</span><br><span class="line">    bitset &lt;N&gt; nextf;</span><br><span class="line">    <span class="keyword">for</span>(<span class="type">int</span> j=l; j&lt;=r; j++) nextf |= f&lt;&lt;(j*j);</span><br><span class="line">    f = nextf;</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="built_in">printf</span>(<span class="string">&quot;%d\n&quot;</span>, f.<span class="built_in">count</span>());</span><br><span class="line">  <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
   </div>
 </article>
 

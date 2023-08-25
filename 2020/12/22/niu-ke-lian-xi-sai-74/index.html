@@ -14,7 +14,7 @@
 <meta property="og:description" content="ABCD都很一眼 E看到题也想到思路了，然而写法复杂了，加上写错一个地方，再加上出题人数据范围不给下限，正整数包含0可还行，写了一个多小时给定一个联通简单无向图，定义一种操作是，随机选择两个不同的点，将他们之间最短路径上的所有点都变成黑色，问你操作k次后黑色点的个数的期望$n \leq 500$思路很简单，考虑每个点变黑的概率是多少，一次操作变黑，就是枚举有多少对点，它们之间存在一条最短路经过该点">
 <meta property="og:locale" content="zh_CN">
 <meta property="article:published_time" content="2020-12-22T05:33:43.000Z">
-<meta property="article:modified_time" content="2023-08-24T11:21:07.655Z">
+<meta property="article:modified_time" content="2023-08-24T15:19:11.502Z">
 <meta property="article:author" content="jyf111">
 <meta property="article:tag" content="算法">
 <meta name="twitter:card" content="summary">
@@ -152,7 +152,7 @@
       
         <time datetime="2020-12-22T05:33:43.000Z" class="dt-published" itemprop="datePublished">2020-12-22</time>
         
-        (Updated: <time datetime="2023-08-24T11:21:07.655Z" class="dt-updated" itemprop="dateModified">2023-08-24</time>)
+        (Updated: <time datetime="2023-08-24T15:19:11.502Z" class="dt-updated" itemprop="dateModified">2023-08-24</time>)
         
       
     </div>
@@ -168,12 +168,14 @@
 
 
       
-        <span class=count-symbol-post> 
-          <i class="fa-solid fa-hourglass"></i>
-          
-            1 min to read
-          
-        </span>
+        
+            <span class=count-symbol-post> 
+            <i class="fa-solid fa-hourglass"></i>
+            
+                1 min to read
+            
+            </span>
+        
       
     </div>
   </header>
@@ -181,11 +183,11 @@
 
   <div class="content e-content" itemprop="articleBody">
     <p>ABCD都很一眼</p>
-<h2 id="E"><a href="#E" class="headerlink" title="E"></a>E</h2><p>看到题也想到思路了，然而写法复杂了，加上写错一个地方，再加上出题人数据范围不给下限，正整数包含0可还行，写了一个多小时<br>给定一个联通简单无向图，定义一种操作是，随机选择两个不同的点，将他们之间最短路径上的所有点都变成黑色，问你操作k次后黑色点的个数的期望<br>$n \leq 500$<br>思路很简单，考虑每个点变黑的概率是多少，一次操作变黑，就是枚举有多少对点，它们之间存在一条最短路经过该点。然后这题就没了<br>先跑一遍floyd，然后枚举i,j,k，如果dik+dkj&#x3D;dijd_{ik}+d_{kj}&#x3D;d_{ij}dik​+dkj​&#x3D;dij​，说明i和j的最短路中有k<br>我写复杂了，考虑以每个点为根的最短路径图，固定选根，那么要让第i个点变黑，就必须选择第i个点的后继可达点（最短路径图是个DAG，拓扑排序+bitset，复杂度其实有点炸，不过题目数据w存在0，这时候就不是DAG了，这做法就挂了）<br>另外我竟然在初始化时写出</p>
+<h2 id="E"><a href="#E" class="headerlink" title="E"></a>E</h2><p>看到题也想到思路了，然而写法复杂了，加上写错一个地方，再加上出题人数据范围不给下限，正整数包含0可还行，写了一个多小时<br>给定一个联通简单无向图，定义一种操作是，随机选择两个不同的点，将他们之间最短路径上的所有点都变成黑色，问你操作k次后黑色点的个数的期望<br>$n \leq 500$<br>思路很简单，考虑每个点变黑的概率是多少，一次操作变黑，就是枚举有多少对点，它们之间存在一条最短路经过该点。然后这题就没了<br>先跑一遍floyd，然后枚举i,j,k，如果$d_{ik}+d_{kj}&#x3D;d_{ij}$​，说明i和j的最短路中有k<br>我写复杂了，考虑以每个点为根的最短路径图，固定选根，那么要让第i个点变黑，就必须选择第i个点的后继可达点（最短路径图是个DAG，拓扑排序+bitset，复杂度其实有点炸，不过题目数据w存在0，这时候就不是DAG了，这做法就挂了）<br>另外我竟然在初始化时写出</p>
 <figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">G[i][j] = (i^j)*inf</span><br></pre></td></tr></table></figure>
 
 <p>没多想把i!&#x3D;j改成了i^j，蠢了</p>
-<h2 id="F"><a href="#F" class="headerlink" title="F"></a>F</h2><p>一个n个节点的树，对其染至多m种颜色，定义一颗树是好的，当且仅当存在一条链使得端点是同色，且除端点外存在一个点与端点不同色。问染色方案数的期望（树的形态任意）<br>$n \leq 10^7 m \leq 10^7$<br>存在问题转成反问题，每条链都不合法，要么整条链同色，要么都不同色， <del>然后就不会了</del><br>按照dfs序来dp<br>$dp_{ij}$​表示考虑到dfs序为i的点时，已经染了j种颜色，且整棵树不合法<br>则$dp_{ij} &#x3D; dp_{i-1j} + dp_{i-1j-1}(m-j+1)$<br>要么和父亲同色，要么选择一种没出现过的颜色<br>容易发现所有形态树的染色方案树是相同的，所以答案等价于求一棵树的染色方案数<br>考虑这个式子的组合意义，就是i个有标号球，m个有标号盒子，然后放入其中的j个的方案数<br>可以直接求出来是$\binom{m}{j}\binom{i-1}{j-1}先从m个盒子里选j个，然后这j个任意排列，之后就是个隔板法了<br>最后的答案就是$m^n - \sum_{i&#x3D;1}^m dp_{ni}$</p>
+<h2 id="F"><a href="#F" class="headerlink" title="F"></a>F</h2><p>一个n个节点的树，对其染至多m种颜色，定义一颗树是好的，当且仅当存在一条链使得端点是同色，且除端点外存在一个点与端点不同色。问染色方案数的期望（树的形态任意）<br>$n \leq 10^7, m \leq 10^7$<br>存在问题转成反问题，每条链都不合法，要么整条链同色，要么都不同色， <del>然后就不会了</del><br>按照dfs序来dp<br>$dp_{ij}$​表示考虑到dfs序为i的点时，已经染了j种颜色，且整棵树不合法<br>则$dp_{ij} &#x3D; dp_{i-1j} + dp_{i-1j-1}(m-j+1)$<br>要么和父亲同色，要么选择一种没出现过的颜色<br>容易发现所有形态树的染色方案树是相同的，所以答案等价于求一棵树的染色方案数<br>考虑这个式子的组合意义，就是i个有标号球，m个有标号盒子，然后放入其中的j个的方案数<br>可以直接求出来是$\binom{m}{j}\binom{i-1}{j-1}$，即先从m个盒子里选j个，然后这j个任意排列，之后就是个隔板法了<br>最后的答案是$m^n - \sum_{i&#x3D;1}^m dp_{ni}$</p>
 
   </div>
 </article>

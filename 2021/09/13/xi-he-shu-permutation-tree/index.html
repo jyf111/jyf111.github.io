@@ -14,7 +14,7 @@
 <meta property="og:description" content="仅限于解决排列中与连续段相关的问题，局限性比较大，虽然平凡序列也能做，但是会复杂很多一些定义：段：该区间排序后值域连续本原段：与其它连续段只有包含和相离的关系，没有相交关系儿子排列：各个儿子离散化后的编号形成的排列合点：儿子排列为顺序或逆序（叶子也认为是合点）析点：不是合点的节点  合点的儿子序列的任意子区间都是一个连续段 析点的儿子序列的任意长度大于1的子区间都不是连续段（否则该区间就是一个本原">
 <meta property="og:locale" content="zh_CN">
 <meta property="article:published_time" content="2021-09-13T05:33:44.000Z">
-<meta property="article:modified_time" content="2023-08-24T12:17:32.444Z">
+<meta property="article:modified_time" content="2023-08-24T15:08:31.432Z">
 <meta property="article:author" content="jyf111">
 <meta property="article:tag" content="算法">
 <meta name="twitter:card" content="summary">
@@ -148,7 +148,7 @@
       
         <time datetime="2021-09-13T05:33:44.000Z" class="dt-published" itemprop="datePublished">2021-09-13</time>
         
-        (Updated: <time datetime="2023-08-24T12:17:32.444Z" class="dt-updated" itemprop="dateModified">2023-08-24</time>)
+        (Updated: <time datetime="2023-08-24T15:08:31.432Z" class="dt-updated" itemprop="dateModified">2023-08-24</time>)
         
       
     </div>
@@ -164,12 +164,14 @@
 
 
       
-        <span class=count-symbol-post> 
-          <i class="fa-solid fa-hourglass"></i>
-          
-            7 mins to read
-          
-        </span>
+        
+            <span class=count-symbol-post> 
+            <i class="fa-solid fa-hourglass"></i>
+            
+                7 mins to read
+            
+            </span>
+        
       
     </div>
   </header>
@@ -187,8 +189,8 @@
 <li>栈的某个后缀可以生成一个合点作为父亲</li>
 <li>栈的某个后缀可以生成一个析点作为父亲</li>
 </ol>
-<p>最主要的一个辅助工具是快速查询$[j,i]$这个区间是否是连续段，由于是排列，所以只需要检查$Q_j&#x3D;\max\limits_{i\le<br>k\le j}P_k-\min\limits_{i\le k\le j}P_k-(i-j)&#x3D;<br>0$，又注意到$Q_j\ge<br>0$，因此用单调栈和线段树维护Q，值为0的点就可以作为连续段的左端点。</p>
-<p>代码解释：<br>节点数要开两倍<br>$id_i$​：表示排列中第i个数在析合树中的编号<br>$L_i,R_i$​：编号为i的点在排列中对应的下标范围<br>$SL_i$​：编号为i的点当前最靠右（最后加入）的儿子的LLL<br>$type_i$​：编号为i的点的类型，1表示合点，0表示析点<br>$rt$：析合树的根节点<br>$cnt$：析合树的节点数<br>$askmn$：单点查询一个点的Q，用于检查是否为连续段<br>$askpos$：找到最靠左的可以与当前右端点构成连续段下标<br>对于当前点$i$，先维护好Q序列</p>
+<p>最主要的一个辅助工具是快速查询$[j,i]$这个区间是否是连续段，由于是排列，所以只需要检查$Q_j&#x3D;\max\limits_{i\le<br>k\le j}P_k-\min\limits_{i\le k\le j}P_k-(i-j)&#x3D;<br>0$，又注意到$Q_j\ge 0$，因此用单调栈和线段树维护$Q$，值为0的点就可以作为连续段的左端点。</p>
+<p>代码解释：<br>节点数要开两倍<br>$id_i$​：表示排列中第$i$个数在析合树中的编号<br>$L_i,R_i$​：编号为$i$的点在排列中对应的下标范围<br>$SR_i$​：编号为$i$的点当前最靠右（最后加入）的儿子的$L$<br>$type_i$​：编号为$i$的点的类型，1表示合点，0表示析点<br>$rt$：析合树的根节点<br>$cnt$：析合树的节点数<br>$askmn$：单点查询一个点的$Q$，用于检查是否为连续段<br>$askpos$：找到最靠左的可以与当前右端点构成连续段下标<br>对于当前点$i$，先维护好$Q$序列</p>
 <ol>
 <li>如果能与栈顶最右的儿子形成连续段就作为它的儿子（此时栈顶必然是合点，因为析点不可能有子区间是连续段）</li>
 <li>如果能与栈顶构成连续段，则生成一个合点</li>

@@ -6,15 +6,15 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="HandheldFriendly" content="True">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=5" />
-    <meta name="description" content="下降幂多项式：Falling Factorial Polynomial(FFP)形式f(x)&#x3D;∑i&#x3D;0naixi‾f(x) &#x3D; \sum \limits_{i&#x3D;0}^{n}a_ix^{\underline{i}}f(x)&#x3D;i&#x3D;0∑n​ai​xi​普通多项式与下降幂多项式是一一对应的（从高幂次向低幂次配系数即可）现在给出两个下降幂多项式f，">
+    <meta name="description" content="下降幂多项式：Falling Factorial Polynomial(FFP)形式$f(x) &#x3D; \sum \limits_{i&#x3D;0}^{n}a_ix^{\underline{i}}$普通多项式与下降幂多项式是一一对应的（从高幂次向低幂次配系数即可）现在给出两个下降幂多项式f，g，要求出这两个多项式乘法的结果（输出普通多项式的系数）$n \leq 10^5$在FFT下，普通多">
 <meta property="og:type" content="article">
 <meta property="og:title" content="P5394 【模板】下降幂多项式乘法">
 <meta property="og:url" content="http://example.com/2020/09/24/p5394-mo-ban-xia-jiang-mi-duo-xiang-shi-cheng-fa/index.html">
 <meta property="og:site_name" content="jyf111&#39;s blog">
-<meta property="og:description" content="下降幂多项式：Falling Factorial Polynomial(FFP)形式f(x)&#x3D;∑i&#x3D;0naixi‾f(x) &#x3D; \sum \limits_{i&#x3D;0}^{n}a_ix^{\underline{i}}f(x)&#x3D;i&#x3D;0∑n​ai​xi​普通多项式与下降幂多项式是一一对应的（从高幂次向低幂次配系数即可）现在给出两个下降幂多项式f，">
+<meta property="og:description" content="下降幂多项式：Falling Factorial Polynomial(FFP)形式$f(x) &#x3D; \sum \limits_{i&#x3D;0}^{n}a_ix^{\underline{i}}$普通多项式与下降幂多项式是一一对应的（从高幂次向低幂次配系数即可）现在给出两个下降幂多项式f，g，要求出这两个多项式乘法的结果（输出普通多项式的系数）$n \leq 10^5$在FFT下，普通多">
 <meta property="og:locale" content="zh_CN">
 <meta property="article:published_time" content="2020-09-24T05:33:44.000Z">
-<meta property="article:modified_time" content="2023-08-24T08:43:19.617Z">
+<meta property="article:modified_time" content="2023-08-25T04:16:11.135Z">
 <meta property="article:author" content="jyf111">
 <meta property="article:tag" content="算法">
 <meta name="twitter:card" content="summary">
@@ -148,7 +148,7 @@
       
         <time datetime="2020-09-24T05:33:44.000Z" class="dt-published" itemprop="datePublished">2020-09-24</time>
         
-        (Updated: <time datetime="2023-08-24T08:43:19.617Z" class="dt-updated" itemprop="dateModified">2023-08-24</time>)
+        (Updated: <time datetime="2023-08-25T04:16:11.135Z" class="dt-updated" itemprop="dateModified">2023-08-25</time>)
         
       
     </div>
@@ -164,98 +164,24 @@
 
 
       
-        <span class=count-symbol-post> 
-          <i class="fa-solid fa-hourglass"></i>
-          
-            4 mins to read
-          
-        </span>
+        
+            <span class=count-symbol-post> 
+            <i class="fa-solid fa-hourglass"></i>
+            
+                13 mins to read
+            
+            </span>
+        
       
     </div>
   </header>
   
 
   <div class="content e-content" itemprop="articleBody">
-    <p>下降幂多项式：Falling Factorial Polynomial(FFP)<br>形式f(x)&#x3D;∑i&#x3D;0naixi‾f(x) &#x3D; \sum \limits_{i&#x3D;0}^{n}<br>a_ix^{\underline{i}}f(x)&#x3D;i&#x3D;0∑n​ai​xi​<br>普通多项式与下降幂多项式是一一对应的（从高幂次向低幂次配系数即可）<br>现在给出两个下降幂多项式f，g，要求出这两个多项式乘法的结果（输出普通多项式的系数）<br>n≤105n \leq 10^5n≤105<br>在FFT下，普通多项式在单位根处的点值可以快速计算<br>而下降幂多项式在0…n0 \dots n0…n处的点值可以快速计算<br>考虑f(x)的EGF：∑i&#x3D;0∞f(i)i!xi&#x3D;∑i&#x3D;0∞∑j&#x3D;0najij‾i!xi&#x3D;∑j&#x3D;0naj∑i&#x3D;0∞1(i−j)!xi&#x3D;∑j&#x3D;0najxj∑i&#x3D;0∞xii!&#x3D;ex∑i&#x3D;0naixi\sum<br>\limits_{i&#x3D;0}^{\infty} \frac{f(i)}{i!}x^i &#x3D; \sum \limits_{i&#x3D;0}^{\infty}<br>\frac{\sum \limits_{j&#x3D;0}^{n} a_ji^{\underline{j}}}{i!}x^i &#x3D; \sum<br>\limits_{j&#x3D;0}^n a_j \sum\limits_{i&#x3D;0}^\infty \frac{1}{(i-j)!}x^i &#x3D;<br>\sum\limits_{j&#x3D;0}^n a_jx^j \sum\limits_{i&#x3D;0}^\infty \frac{x^i}{i!} &#x3D;<br>e^x\sum\limits_{i&#x3D;0}^n<br>a_ix^ii&#x3D;0∑∞​i!f(i)​xi&#x3D;i&#x3D;0∑∞​i!j&#x3D;0∑n​aj​ij​​xi&#x3D;j&#x3D;0∑n​aj​i&#x3D;0∑∞​(i−j)!1​xi&#x3D;j&#x3D;0∑n​aj​xji&#x3D;0∑∞​i!xi​&#x3D;exi&#x3D;0∑n​ai​xi<br>所以我们只要把下降幂多项式当成普通多项式，然后卷上一个exe^xex就可以快速计算出f(x)在0…n0\dots<br>n0…n处的取值（实质是f(x)x!\frac{f(x)}{x!}x!f(x)​）<br>那么将f和g分别卷上exe^xex然后对应点值相乘，再反变换回去（乘上e−x&#x3D;∑i&#x3D;0∞(−x)ii!e^{-x} &#x3D;<br>\sum\limits_{i&#x3D;0}^\infty \frac{(-x)^i}{i!}e−x&#x3D;i&#x3D;0∑∞​i!(−x)i​）即可<br>复杂度O(nlogn)O(nlogn)O(nlogn)</p>
-<pre><code>#include &lt;bits/stdc++.h&gt;
-using namespace std;
-const int N = 8e5 + 5;
-const int mod = 998244353, G = 3;
-int up, w[N], rev[N], fac[N], ifac[N];
-int fpw(int a, int b)
-&#123;
-    int ans = 1;
-    while(b)
-    &#123;
-        if(b&amp;1) ans = 1ll*ans*a%mod;
-        a = 1ll*a*a%mod;
-        b &gt;&gt;= 1;
-    &#125;
-    return ans;
-&#125;
-namespace poly
-&#123;
-    void init(int n)
-    &#123;
-        up = 1; int l = 0;
-        while(up&lt;=n) up &lt;&lt;= 1, l++;
-        for(int i=0; i&lt;up; i++) rev[i] = (rev[i&gt;&gt;1]&gt;&gt;1)|((i&amp;1)&lt;&lt;(l-1));
-        int wn = fpw(G, mod&gt;&gt;l); w[up&gt;&gt;1] = 1;
-        for(int i=(up&gt;&gt;1)+1; i&lt;up; i++) w[i] = 1ll*w[i-1]*wn%mod;
-        for(int i=(up&gt;&gt;1)-1; i&gt;=1; i--) w[i] = w[i&lt;&lt;1];
-    &#125;
-    void clear(int *a, int n) &#123; memset(a, 0, n&lt;&lt;2); &#125;
-    int getlen(int n) &#123; return 1&lt;&lt;(32-__builtin_clz(n)); &#125;
-    inline void mul(int *a, int n, int x, int *b) &#123; while(n--) *b++ = 1ll**a++*x%mod; &#125;
-    inline void dot(int *a, int *b, int n, int *c) &#123; while(n--) *c++ = 1ll**a++**b++%mod; &#125;
-    void DFT(int *a, int l)
-    &#123;
-        static unsigned long long tmp[N];
-        int u = __builtin_ctz(up/l), t;
-        for(int i=0; i&lt;l; i++) tmp[i] = a[rev[i]&gt;&gt;u];
-        for(int i=1; i^l; i&lt;&lt;=1)
-            for(int j=0, d=i&lt;&lt;1; j^l; j+=d)
-                for(int k=0; k&lt;i; k++)
-                    t = tmp[i|j|k]*w[i|k]%mod, tmp[i|j|k] = tmp[j|k]+mod-t, tmp[j|k] += t;
-        for(int i=0; i&lt;l; i++) a[i] = tmp[i]%mod;
-    &#125;
-    void IDFT(int *a, int l)
-    &#123;
-        reverse(a+1, a+l); DFT(a, l);
-        mul(a, l, mod-mod/l, a);
-    &#125;
-    inline void conv(int *a, int *b, int l) &#123; DFT(a, l); DFT(b, l); dot(a, b, l, a); IDFT(a, l); &#125;
-&#125;
-int n, m, a[N], b[N];
-void ffp(int *a, int n, int op)
-&#123;
-    static int tmp[N];
-    poly::clear(tmp, up);
-    if(op) for(int i=0; i&lt;=n; i++) tmp[i] = ifac[i];
-    else for(int i=0; i&lt;=n; i++) if(i&amp;1) tmp[i] = mod - ifac[i]; else tmp[i] = ifac[i];
-    poly::conv(a, tmp, up);
-&#125;
-int main()
-&#123;
-    ios::sync_with_stdio(false);
-    cin.tie(nullptr);
-    cin &gt;&gt; n &gt;&gt; m;
-    int deg = n + m;
-    fac[0] = 1;
-    for(int i=1; i&lt;=deg; i++) fac[i] = 1ll*fac[i-1]*i%mod;
-    ifac[deg] = fpw(fac[deg], mod-2);
-    for(int i=deg-1; i&gt;=0; i--) ifac[i] = 1ll*ifac[i+1]*(i+1)%mod;
-    poly::init(deg&lt;&lt;1);
-    for(int i=0; i&lt;=n; i++) cin &gt;&gt; a[i];
-    for(int i=0; i&lt;=m; i++) cin &gt;&gt; b[i];
-    ffp(a, deg, 1); ffp(b, deg, 1);
-    for(int i=0; i&lt;up; i++) a[i] = 1ll*a[i]*b[i]%mod*fac[i]%mod;
-    ffp(a, deg, 0);
-    for(int i=0; i&lt;=deg; i++) cout &lt;&lt; a[i] &lt;&lt; &quot; \n&quot;[i==deg];
-    return 0;
-&#125;
-</code></pre>
-<p>那么这玩意除了做这种 <del>没啥用</del> 的模板题还能干啥呢</p>
+    <p>下降幂多项式：Falling Factorial Polynomial(FFP)<br>形式$f(x) &#x3D; \sum \limits_{i&#x3D;0}^{n}<br>a_ix^{\underline{i}}$<br>普通多项式与下降幂多项式是一一对应的（从高幂次向低幂次配系数即可）<br>现在给出两个下降幂多项式f，g，要求出这两个多项式乘法的结果（输出普通多项式的系数）<br>$n \leq 10^5$<br>在FFT下，普通多项式在单位根处的点值可以快速计算<br>而下降幂多项式在$0 \dots n$处的点值可以快速计算<br>考虑f(x)的EGF：$\sum<br>\limits_{i&#x3D;0}^{\infty} \frac{f(i)}{i!}x^i &#x3D; \sum \limits_{i&#x3D;0}^{\infty}<br>\frac{\sum \limits_{j&#x3D;0}^{n} a_ji^{\underline{j}}}{i!}x^i &#x3D; \sum<br>\limits_{j&#x3D;0}^n a_j \sum\limits_{i&#x3D;0}^\infty \frac{1}{(i-j)!}x^i &#x3D;<br>\sum\limits_{j&#x3D;0}^n a_jx^j \sum\limits_{i&#x3D;0}^\infty \frac{x^i}{i!} &#x3D;<br>e^x\sum\limits_{i&#x3D;0}^n<br>a_ix^i$<br>所以我们只要把下降幂多项式当成普通多项式，然后卷上一个$e^x$就可以快速计算出f(x)在$0\dots n$处的取值（实质是$\frac{f(x)}{x!}$​）<br>那么将f和g分别卷上$e^x$然后对应点值相乘，再反变换回去（乘上$e^{-x} &#x3D;<br>\sum\limits_{i&#x3D;0}^\infty \frac{(-x)^i}{i!}$​）即可<br>复杂度$O(n\log n)$</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;bits/stdc++.h&gt;</span></span></span><br><span class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> std;</span><br><span class="line"><span class="type">const</span> <span class="type">int</span> N = <span class="number">8e5</span> + <span class="number">5</span>;</span><br><span class="line"><span class="type">const</span> <span class="type">int</span> mod = <span class="number">998244353</span>, G = <span class="number">3</span>;</span><br><span class="line"><span class="type">int</span> up, w[N], rev[N], fac[N], ifac[N];</span><br><span class="line"><span class="function"><span class="type">int</span> <span class="title">fpw</span><span class="params">(<span class="type">int</span> a, <span class="type">int</span> b)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">  <span class="type">int</span> ans = <span class="number">1</span>;</span><br><span class="line">  <span class="keyword">while</span>(b)</span><br><span class="line">  &#123;</span><br><span class="line">    <span class="keyword">if</span>(b&amp;<span class="number">1</span>) ans = <span class="number">1ll</span>*ans*a%mod;</span><br><span class="line">    a = <span class="number">1ll</span>*a*a%mod;</span><br><span class="line">    b &gt;&gt;= <span class="number">1</span>;</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="keyword">return</span> ans;</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">namespace</span> poly</span><br><span class="line">&#123;</span><br><span class="line">  <span class="function"><span class="type">void</span> <span class="title">init</span><span class="params">(<span class="type">int</span> n)</span></span></span><br><span class="line"><span class="function">  </span>&#123;</span><br><span class="line">    up = <span class="number">1</span>; <span class="type">int</span> l = <span class="number">0</span>;</span><br><span class="line">    <span class="keyword">while</span>(up&lt;=n) up &lt;&lt;= <span class="number">1</span>, l++;</span><br><span class="line">    <span class="keyword">for</span>(<span class="type">int</span> i=<span class="number">0</span>; i&lt;up; i++) rev[i] = (rev[i&gt;&gt;<span class="number">1</span>]&gt;&gt;<span class="number">1</span>)|((i&amp;<span class="number">1</span>)&lt;&lt;(l<span class="number">-1</span>));</span><br><span class="line">    <span class="type">int</span> wn = <span class="built_in">fpw</span>(G, mod&gt;&gt;l); w[up&gt;&gt;<span class="number">1</span>] = <span class="number">1</span>;</span><br><span class="line">    <span class="keyword">for</span>(<span class="type">int</span> i=(up&gt;&gt;<span class="number">1</span>)+<span class="number">1</span>; i&lt;up; i++) w[i] = <span class="number">1ll</span>*w[i<span class="number">-1</span>]*wn%mod;</span><br><span class="line">    <span class="keyword">for</span>(<span class="type">int</span> i=(up&gt;&gt;<span class="number">1</span>)<span class="number">-1</span>; i&gt;=<span class="number">1</span>; i--) w[i] = w[i&lt;&lt;<span class="number">1</span>];</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="function"><span class="type">void</span> <span class="title">clear</span><span class="params">(<span class="type">int</span> *a, <span class="type">int</span> n)</span> </span>&#123; <span class="built_in">memset</span>(a, <span class="number">0</span>, n&lt;&lt;<span class="number">2</span>); &#125;</span><br><span class="line">  <span class="function"><span class="type">int</span> <span class="title">getlen</span><span class="params">(<span class="type">int</span> n)</span> </span>&#123; <span class="keyword">return</span> <span class="number">1</span>&lt;&lt;(<span class="number">32</span>-__builtin_clz(n)); &#125;</span><br><span class="line">  <span class="function"><span class="keyword">inline</span> <span class="type">void</span> <span class="title">mul</span><span class="params">(<span class="type">int</span> *a, <span class="type">int</span> n, <span class="type">int</span> x, <span class="type">int</span> *b)</span> </span>&#123; <span class="keyword">while</span>(n--) *b++ = <span class="number">1ll</span>**a++*x%mod; &#125;</span><br><span class="line">  <span class="function"><span class="keyword">inline</span> <span class="type">void</span> <span class="title">dot</span><span class="params">(<span class="type">int</span> *a, <span class="type">int</span> *b, <span class="type">int</span> n, <span class="type">int</span> *c)</span> </span>&#123; <span class="keyword">while</span>(n--) *c++ = <span class="number">1ll</span>**a++**b++%mod; &#125;</span><br><span class="line">  <span class="function"><span class="type">void</span> <span class="title">DFT</span><span class="params">(<span class="type">int</span> *a, <span class="type">int</span> l)</span></span></span><br><span class="line"><span class="function">  </span>&#123;</span><br><span class="line">    <span class="type">static</span> <span class="type">unsigned</span> <span class="type">long</span> <span class="type">long</span> tmp[N];</span><br><span class="line">    <span class="type">int</span> u = __builtin_ctz(up/l), t;</span><br><span class="line">    <span class="keyword">for</span>(<span class="type">int</span> i=<span class="number">0</span>; i&lt;l; i++) tmp[i] = a[rev[i]&gt;&gt;u];</span><br><span class="line">    <span class="keyword">for</span>(<span class="type">int</span> i=<span class="number">1</span>; i^l; i&lt;&lt;=<span class="number">1</span>)</span><br><span class="line">      <span class="keyword">for</span>(<span class="type">int</span> j=<span class="number">0</span>, d=i&lt;&lt;<span class="number">1</span>; j^l; j+=d)</span><br><span class="line">        <span class="keyword">for</span>(<span class="type">int</span> k=<span class="number">0</span>; k&lt;i; k++)</span><br><span class="line">          t = tmp[i|j|k]*w[i|k]%mod, tmp[i|j|k] = tmp[j|k]+mod-t, tmp[j|k] += t;</span><br><span class="line">    <span class="keyword">for</span>(<span class="type">int</span> i=<span class="number">0</span>; i&lt;l; i++) a[i] = tmp[i]%mod;</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="function"><span class="type">void</span> <span class="title">IDFT</span><span class="params">(<span class="type">int</span> *a, <span class="type">int</span> l)</span></span></span><br><span class="line"><span class="function">  </span>&#123;</span><br><span class="line">    <span class="built_in">reverse</span>(a+<span class="number">1</span>, a+l); <span class="built_in">DFT</span>(a, l);</span><br><span class="line">    <span class="built_in">mul</span>(a, l, mod-mod/l, a);</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="function"><span class="keyword">inline</span> <span class="type">void</span> <span class="title">conv</span><span class="params">(<span class="type">int</span> *a, <span class="type">int</span> *b, <span class="type">int</span> l)</span> </span>&#123; <span class="built_in">DFT</span>(a, l); <span class="built_in">DFT</span>(b, l); <span class="built_in">dot</span>(a, b, l, a); <span class="built_in">IDFT</span>(a, l); &#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="type">int</span> n, m, a[N], b[N];</span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">ffp</span><span class="params">(<span class="type">int</span> *a, <span class="type">int</span> n, <span class="type">int</span> op)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">  <span class="type">static</span> <span class="type">int</span> tmp[N];</span><br><span class="line">  poly::<span class="built_in">clear</span>(tmp, up);</span><br><span class="line">  <span class="keyword">if</span>(op) <span class="keyword">for</span>(<span class="type">int</span> i=<span class="number">0</span>; i&lt;=n; i++) tmp[i] = ifac[i];</span><br><span class="line">  <span class="keyword">else</span> <span class="keyword">for</span>(<span class="type">int</span> i=<span class="number">0</span>; i&lt;=n; i++) <span class="keyword">if</span>(i&amp;<span class="number">1</span>) tmp[i] = mod - ifac[i]; <span class="keyword">else</span> tmp[i] = ifac[i];</span><br><span class="line">  poly::<span class="built_in">conv</span>(a, tmp, up);</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="type">int</span> <span class="title">main</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">  ios::<span class="built_in">sync_with_stdio</span>(<span class="literal">false</span>);</span><br><span class="line">  cin.<span class="built_in">tie</span>(<span class="literal">nullptr</span>);</span><br><span class="line">  cin &gt;&gt; n &gt;&gt; m;</span><br><span class="line">  <span class="type">int</span> deg = n + m;</span><br><span class="line">  fac[<span class="number">0</span>] = <span class="number">1</span>;</span><br><span class="line">  <span class="keyword">for</span>(<span class="type">int</span> i=<span class="number">1</span>; i&lt;=deg; i++) fac[i] = <span class="number">1ll</span>*fac[i<span class="number">-1</span>]*i%mod;</span><br><span class="line">  ifac[deg] = <span class="built_in">fpw</span>(fac[deg], mod<span class="number">-2</span>);</span><br><span class="line">  <span class="keyword">for</span>(<span class="type">int</span> i=deg<span class="number">-1</span>; i&gt;=<span class="number">0</span>; i--) ifac[i] = <span class="number">1ll</span>*ifac[i+<span class="number">1</span>]*(i+<span class="number">1</span>)%mod;</span><br><span class="line">  poly::<span class="built_in">init</span>(deg&lt;&lt;<span class="number">1</span>);</span><br><span class="line">  <span class="keyword">for</span>(<span class="type">int</span> i=<span class="number">0</span>; i&lt;=n; i++) cin &gt;&gt; a[i];</span><br><span class="line">  <span class="keyword">for</span>(<span class="type">int</span> i=<span class="number">0</span>; i&lt;=m; i++) cin &gt;&gt; b[i];</span><br><span class="line">  <span class="built_in">ffp</span>(a, deg, <span class="number">1</span>); <span class="built_in">ffp</span>(b, deg, <span class="number">1</span>);</span><br><span class="line">  <span class="keyword">for</span>(<span class="type">int</span> i=<span class="number">0</span>; i&lt;up; i++) a[i] = <span class="number">1ll</span>*a[i]*b[i]%mod*fac[i]%mod;</span><br><span class="line">  <span class="built_in">ffp</span>(a, deg, <span class="number">0</span>);</span><br><span class="line">  <span class="keyword">for</span>(<span class="type">int</span> i=<span class="number">0</span>; i&lt;=deg; i++) cout &lt;&lt; a[i] &lt;&lt; <span class="string">&quot; \n&quot;</span>[i==deg];</span><br><span class="line">  <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>那么这玩意除了做这种<del>没啥用</del>的模板题还能干啥呢</p>
 
   </div>
 </article>

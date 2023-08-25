@@ -6,15 +6,15 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="HandheldFriendly" content="True">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=5" />
-    <meta name="description" content="给定两个字符串A,B,再给出n个字符串sis_isi​,每个sis_isi​有价值bib_ibi​,让你从A中取一个子串(可空),再从B中取一个子串(可空),拼接成串C,定义C的价值为∑cnti(C)⋅bi\sumcnt_i(C)⋅b_i∑cnti​(C)⋅bi​ .cnticnt_icnti​表示sis_isi​在C中作为子串出现的次数.要求输出最大的价值.Constraints1≤T≤101≤">
+    <meta name="description" content="给定两个字符串A,B,再给出n个字符串$s_i$​,每个$s_i$​有价值$b_i$​,让你从A中取一个子串(可空),再从B中取一个子串(可空),拼接成串C,定义C的价值为$\sum cnt_i(C)⋅b_i$.$cnt_i$​表示$s_i$​在C中作为子串出现的次数.要求输出最大的价值.Constraints$1≤T≤10$$1≤|A|,|B|≤10^3$$1≤N≤10^4$$1≤|S_i|≤2">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Buying a New String AC自动机">
 <meta property="og:url" content="http://example.com/2020/05/11/buying-a-new-string-ac-zi-dong-ji/index.html">
 <meta property="og:site_name" content="jyf111&#39;s blog">
-<meta property="og:description" content="给定两个字符串A,B,再给出n个字符串sis_isi​,每个sis_isi​有价值bib_ibi​,让你从A中取一个子串(可空),再从B中取一个子串(可空),拼接成串C,定义C的价值为∑cnti(C)⋅bi\sumcnt_i(C)⋅b_i∑cnti​(C)⋅bi​ .cnticnt_icnti​表示sis_isi​在C中作为子串出现的次数.要求输出最大的价值.Constraints1≤T≤101≤">
+<meta property="og:description" content="给定两个字符串A,B,再给出n个字符串$s_i$​,每个$s_i$​有价值$b_i$​,让你从A中取一个子串(可空),再从B中取一个子串(可空),拼接成串C,定义C的价值为$\sum cnt_i(C)⋅b_i$.$cnt_i$​表示$s_i$​在C中作为子串出现的次数.要求输出最大的价值.Constraints$1≤T≤10$$1≤|A|,|B|≤10^3$$1≤N≤10^4$$1≤|S_i|≤2">
 <meta property="og:locale" content="zh_CN">
 <meta property="article:published_time" content="2020-05-11T05:33:44.000Z">
-<meta property="article:modified_time" content="2023-08-24T08:43:19.617Z">
+<meta property="article:modified_time" content="2023-08-25T03:43:13.005Z">
 <meta property="article:author" content="jyf111">
 <meta property="article:tag" content="算法">
 <meta name="twitter:card" content="summary">
@@ -152,7 +152,7 @@
       
         <time datetime="2020-05-11T05:33:44.000Z" class="dt-published" itemprop="datePublished">2020-05-11</time>
         
-        (Updated: <time datetime="2023-08-24T08:43:19.617Z" class="dt-updated" itemprop="dateModified">2023-08-24</time>)
+        (Updated: <time datetime="2023-08-25T03:43:13.005Z" class="dt-updated" itemprop="dateModified">2023-08-25</time>)
         
       
     </div>
@@ -168,156 +168,24 @@
 
 
       
-        <span class=count-symbol-post> 
-          <i class="fa-solid fa-hourglass"></i>
-          
-            4 mins to read
-          
-        </span>
+        
+            <span class=count-symbol-post> 
+            <i class="fa-solid fa-hourglass"></i>
+            
+                17 mins to read
+            
+            </span>
+        
       
     </div>
   </header>
   
 
   <div class="content e-content" itemprop="articleBody">
-    <p>给定两个字符串A,B,<br>再给出n个字符串sis_isi​,每个sis_isi​有价值bib_ibi​,让你从A中取一个子串(可空),再从B中取一个子串(可空),拼接成串C,定义C的价值为∑cnti(C)⋅bi\sum<br>cnt_i(C)⋅b_i∑cnti​(C)⋅bi​ .cnticnt_icnti​表示sis_isi​在C中作为子串出现的次数.要求输出最大的价值.<br><strong>Constraints</strong><br>1≤T≤101≤T≤101≤T≤10<br>1≤∣A∣,∣B∣≤1031≤|A|,|B|≤10^31≤∣A∣,∣B∣≤103<br>1≤N≤1041≤N≤10^41≤N≤104<br>1≤∣Si∣≤261≤|S_i|≤261≤∣Si​∣≤26 for each valid i<br>1≤bi≤1051≤b_i≤10^51≤bi​≤105 for each valid i<br>A,B,S1,S2,…,SNA,B,S_1,S_2,…,S_NA,B,S1​,S2​,…,SN​ contain only lowercase<br>English letters<br>S1,S2,…,SNS_1,S_2,…,S_NS1​,S2​,…,SN​ are pairwise distinct<br>the sum of |A| over all test cases does not exceed 2⋅1032⋅10^32⋅103<br>the sum of |B| over all test cases does not exceed 2⋅1032⋅10^32⋅103<br>the sum of N over all test cases does not exceed 2⋅1042⋅10^42⋅104</p>
-<h1 id="做法"><a href="#做法" class="headerlink" title="做法"></a>做法</h1><p>简单的贪心可以发现,肯定是取A的某个前缀和B的某个后缀拼接.此题的关键是∣Si∣|S_i|∣Si​∣很小,如果大了我不知道还能不能做了.利用这点我们可以先预处理出A的每个前缀的价值和B的每个后缀的价值,这个用ac自动机处理,然后枚举前缀i和后缀j拼接,此时C中没有算的影响就是拼接处前后26个字母的价值,可以从后缀的起点开始在ac自动机上走25步,每次暴力跳fail统计下答案,最后取个max.<br>这样还是会t,复杂度是O(∣A∣2∗262)O(|A|^2 * 26^2 )O(∣A∣2∗262)<br>大概6e9,每次跳fail是O(26)的,那就再建个fail树,预处理下把这个O(26)去掉就过了.</p>
-<pre><code>#include &lt;bits/stdc++.h&gt;
-#define mp make_pair
-#define pb push_back
-#define sz(x) (int)x.size()
-#define all(x) begin(x), end(x)
-#define fi first
-#define se second
-#define debug(x) cerr &lt;&lt; #x &lt;&lt; &quot; &quot; &lt;&lt; x &lt;&lt; &#39;\n&#39;
-using namespace std;
-using ll = long long;
-using pii = pair&lt;int,int&gt;;
-using pli = pair&lt;ll,int&gt;;
-const int INF = 0x3f3f3f3f, N = 3e5 + 5;
-const ll LINF = 1e18 + 5;
-constexpr int mod = 1e9 + 7;
-char a[N], b[N], rb[N];
-char s[N][30], rs[N][30];
-int n, val[N];
-ll pre[N], suf[N];
-struct ACA
-&#123;
-    int nxt[N][26], fail[N], len[N], cnt, end[N];
-    ll tmp[N][30];
-    vector &lt;int&gt; to[N];
-    void clear()
-    &#123;
-        for(int i=0; i&lt;=cnt; i++)
-        &#123;
-            fail[i] = end[i] = len[i] = 0;
-            to[i].clear();
-            for(int j=0; j&lt;26; j++)
-                nxt[i][j] = tmp[i][j+1] = 0;
-        &#125; 
-        cnt = 0;
-    &#125;
-    void insert(char *s, int v, int n)
-    &#123;
-        int p = 0;
-        for(int i=0; i&lt;n; i++)
-        &#123;
-            int k = s[i] - &#39;a&#39;;
-            if(!nxt[p][k]) nxt[p][k] = ++cnt;
-            p = nxt[p][k];
-        &#125;
-        end[p] = v; len[p] = n;
-    &#125;
-    void build() 
-    &#123;
-        queue &lt;int&gt; q;
-        for(int i=0;i&lt;26;i++) if(nxt[0][i]) q.push(nxt[0][i]);
-        while(!q.empty())
-        &#123;
-            int k = q.front(); q.pop();
-            for(int i=0;i&lt;26;i++)
-            &#123;
-                if(nxt[k][i])
-                &#123;
-                    fail[nxt[k][i]] = nxt[fail[k]][i]; 
-                    q.push(nxt[k][i]);
-                &#125;
-                else nxt[k][i] = nxt[fail[k]][i];
-            &#125;
-        &#125;
-    &#125;
-    void go(char *s, ll *v, int n)
-    &#123;
-        int p = 0;
-        for(int i=0; i&lt;n; i++)
-        &#123;
-            p = nxt[p][s[i]-&#39;a&#39;];
-            for(int j=p; j; j=fail[j])
-                v[i] += end[j];
-        &#125;
-    &#125;
-    void dfs(int u)
-    &#123;
-        for(int i=len[u]; i&gt;0; i--) tmp[u][i] += end[u];
-        for(int v : to[u]) 
-        &#123;
-            for(int i=26; i&gt;0; i--) tmp[v][i] += tmp[u][i];
-            dfs(v);
-        &#125;
-    &#125;
-&#125;ac, ac2;
-void solve()
-&#123;
-    scanf(&quot;%s%s&quot;, a, b);
-    scanf(&quot;%d&quot;, &amp;n);
-    int x = strlen(a), y = strlen(b);
-    for(int i=0; i&lt;y; i++) rb[i] = b[y-i-1];
-    ac.clear(); ac2.clear();
-    for(int i=1; i&lt;=n; i++)
-    &#123;
-        scanf(&quot;%s%d&quot;, s[i], val+i);
-        int t = strlen(s[i]);
-        ac.insert(s[i], val[i], t);
-        for(int j=0; j&lt;t; j++) rs[i][j] = s[i][t-j-1];
-        ac2.insert(rs[i], val[i], t);
-    &#125;
-    ac.build(); ac2.build();
-    for(int i=0; i&lt;x; i++) pre[i] = 0;
-    for(int i=0; i&lt;y; i++) suf[i] = 0;
-    ac.go(a, pre, x); ac2.go(rb, suf, y);
-    ll ans = 0;
-    int p = 0;
-    for(int i=1; i&lt;x; i++) pre[i] += pre[i-1]; 
-    for(int i=1; i&lt;y; i++) suf[i] += suf[i-1];
-    for(int i=1; i&lt;=ac.cnt; i++) ac.to[ac.fail[i]].pb(i);
-    ac.dfs(0);
-    for(int i=0; i&lt;x; i++)
-    &#123;
-        p = ac.nxt[p][a[i]-&#39;a&#39;];
-        for(int j=0; j&lt;y; j++)
-        &#123;
-            ll cur = pre[i] + suf[y-j-1];
-            int pp = p;
-            for(int k=0; k&lt;25&amp;&amp;j+k&lt;y; k++)
-            &#123;
-                pp = ac.nxt[pp][b[j+k]-&#39;a&#39;];
-                cur += ac.tmp[pp][k+2];
-            &#125;
-            if(cur&gt;ans) ans = cur;
-        &#125;
-    &#125;
-    printf(&quot;%lld\n&quot;, ans);
-&#125;
-int main()
-&#123;
-    int T; scanf(&quot;%d&quot;, &amp;T);
-    while(T--) solve();
-    return 0;
-&#125;
+    <p>给定两个字符串A,B,<br>再给出n个字符串$s_i$​,每个$s_i$​有价值$b_i$​,让你从A中取一个子串(可空),再从B中取一个子串(可空),拼接成串C,定义C的价值为$\sum cnt_i(C)⋅b_i$.$cnt_i$​表示$s_i$​在C中作为子串出现的次数.要求输出最大的价值.<br><strong>Constraints</strong><br>$1≤T≤10$<br>$1≤|A|,|B|≤10^3$<br>$1≤N≤10^4$<br>$1≤|S_i|≤26$ for each valid i<br>$1≤b_i≤10^5$ for each valid i<br>$A,B,S_1,S_2,…,S_N$​ contain only lowercase English letters<br>$S_1,S_2,…,S_N$​ are pairwise distinct<br>the sum of |A| over all test cases does not exceed $2⋅10^3$<br>the sum of |B| over all test cases does not exceed $2⋅10^3$<br>the sum of N over all test cases does not exceed $2⋅10^4$</p>
+<h1 id="做法"><a href="#做法" class="headerlink" title="做法"></a>做法</h1><p>简单的贪心可以发现,肯定是取A的某个前缀和B的某个后缀拼接.此题的关键$|S_i|$很小,如果大了我不知道还能不能做了.利用这点我们可以先预处理出A的每个前缀的价值和B的每个后缀的价值,这个用ac自动机处理,然后枚举前缀i和后缀j拼接,此时C中没有算的影响就是拼接处前后26个字母的价值,可以从后缀的起点开始在ac自动机上走25步,每次暴力跳fail统计下答案,最后取个max.<br>这样还是会t,复杂度是$O(|A|^2 * 26^2)$<br>大概6e9,每次跳fail是O(26)的,那就再建个fail树,预处理下把这个O(26)去掉就过了.</p>
+<pre><code><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br><span class="line">129</span><br><span class="line">130</span><br><span class="line">131</span><br><span class="line">132</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;bits/stdc++.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">define</span> mp make_pair</span></span><br><span class="line"><span class="meta">#<span class="keyword">define</span> pb push_back</span></span><br><span class="line"><span class="meta">#<span class="keyword">define</span> sz(x) (int)x.size()</span></span><br><span class="line"><span class="meta">#<span class="keyword">define</span> all(x) begin(x), end(x)</span></span><br><span class="line"><span class="meta">#<span class="keyword">define</span> fi first</span></span><br><span class="line"><span class="meta">#<span class="keyword">define</span> se second</span></span><br><span class="line"><span class="meta">#<span class="keyword">define</span> debug(x) cerr &lt;&lt; #x &lt;&lt; <span class="string">&quot; &quot;</span> &lt;&lt; x &lt;&lt; <span class="string">&#x27;\n&#x27;</span></span></span><br><span class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> std;</span><br><span class="line"><span class="keyword">using</span> ll = <span class="type">long</span> <span class="type">long</span>;</span><br><span class="line"><span class="keyword">using</span> pii = pair&lt;<span class="type">int</span>,<span class="type">int</span>&gt;;</span><br><span class="line"><span class="keyword">using</span> pli = pair&lt;ll,<span class="type">int</span>&gt;;</span><br><span class="line"><span class="type">const</span> <span class="type">int</span> INF = <span class="number">0x3f3f3f3f</span>, N = <span class="number">3e5</span> + <span class="number">5</span>;</span><br><span class="line"><span class="type">const</span> ll LINF = <span class="number">1e18</span> + <span class="number">5</span>;</span><br><span class="line"><span class="keyword">constexpr</span> <span class="type">int</span> mod = <span class="number">1e9</span> + <span class="number">7</span>;</span><br><span class="line"><span class="type">char</span> a[N], b[N], rb[N];</span><br><span class="line"><span class="type">char</span> s[N][<span class="number">30</span>], rs[N][<span class="number">30</span>];</span><br><span class="line"><span class="type">int</span> n, val[N];</span><br><span class="line">ll pre[N], suf[N];</span><br><span class="line"><span class="keyword">struct</span> <span class="title class_">ACA</span></span><br><span class="line">&#123;</span><br><span class="line">  <span class="type">int</span> nxt[N][<span class="number">26</span>], fail[N], len[N], cnt, end[N];</span><br><span class="line">  ll tmp[N][<span class="number">30</span>];</span><br><span class="line">  vector &lt;<span class="type">int</span>&gt; to[N];</span><br><span class="line">  <span class="function"><span class="type">void</span> <span class="title">clear</span><span class="params">()</span></span></span><br><span class="line"><span class="function">  </span>&#123;</span><br><span class="line">    <span class="keyword">for</span>(<span class="type">int</span> i=<span class="number">0</span>; i&lt;=cnt; i++)</span><br><span class="line">    &#123;</span><br><span class="line">      fail[i] = end[i] = len[i] = <span class="number">0</span>;</span><br><span class="line">      to[i].<span class="built_in">clear</span>();</span><br><span class="line">      <span class="keyword">for</span>(<span class="type">int</span> j=<span class="number">0</span>; j&lt;<span class="number">26</span>; j++)</span><br><span class="line">        nxt[i][j] = tmp[i][j+<span class="number">1</span>] = <span class="number">0</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    cnt = <span class="number">0</span>;</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="function"><span class="type">void</span> <span class="title">insert</span><span class="params">(<span class="type">char</span> *s, <span class="type">int</span> v, <span class="type">int</span> n)</span></span></span><br><span class="line"><span class="function">  </span>&#123;</span><br><span class="line">    <span class="type">int</span> p = <span class="number">0</span>;</span><br><span class="line">    <span class="keyword">for</span>(<span class="type">int</span> i=<span class="number">0</span>; i&lt;n; i++)</span><br><span class="line">    &#123;</span><br><span class="line">      <span class="type">int</span> k = s[i] - <span class="string">&#x27;a&#x27;</span>;</span><br><span class="line">      <span class="keyword">if</span>(!nxt[p][k]) nxt[p][k] = ++cnt;</span><br><span class="line">      p = nxt[p][k];</span><br><span class="line">    &#125;</span><br><span class="line">    end[p] = v; len[p] = n;</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="function"><span class="type">void</span> <span class="title">build</span><span class="params">()</span></span></span><br><span class="line"><span class="function">  </span>&#123;</span><br><span class="line">    queue &lt;<span class="type">int</span>&gt; q;</span><br><span class="line">    <span class="keyword">for</span>(<span class="type">int</span> i=<span class="number">0</span>;i&lt;<span class="number">26</span>;i++) <span class="keyword">if</span>(nxt[<span class="number">0</span>][i]) q.<span class="built_in">push</span>(nxt[<span class="number">0</span>][i]);</span><br><span class="line">    <span class="keyword">while</span>(!q.<span class="built_in">empty</span>())</span><br><span class="line">    &#123;</span><br><span class="line">      <span class="type">int</span> k = q.<span class="built_in">front</span>(); q.<span class="built_in">pop</span>();</span><br><span class="line">      <span class="keyword">for</span>(<span class="type">int</span> i=<span class="number">0</span>;i&lt;<span class="number">26</span>;i++)</span><br><span class="line">      &#123;</span><br><span class="line">        <span class="keyword">if</span>(nxt[k][i])</span><br><span class="line">        &#123;</span><br><span class="line">          fail[nxt[k][i]] = nxt[fail[k]][i];</span><br><span class="line">          q.<span class="built_in">push</span>(nxt[k][i]);</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">else</span> nxt[k][i] = nxt[fail[k]][i];</span><br><span class="line">      &#125;</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="function"><span class="type">void</span> <span class="title">go</span><span class="params">(<span class="type">char</span> *s, ll *v, <span class="type">int</span> n)</span></span></span><br><span class="line"><span class="function">  </span>&#123;</span><br><span class="line">    <span class="type">int</span> p = <span class="number">0</span>;</span><br><span class="line">    <span class="keyword">for</span>(<span class="type">int</span> i=<span class="number">0</span>; i&lt;n; i++)</span><br><span class="line">    &#123;</span><br><span class="line">      p = nxt[p][s[i]-<span class="string">&#x27;a&#x27;</span>];</span><br><span class="line">      <span class="keyword">for</span>(<span class="type">int</span> j=p; j; j=fail[j])</span><br><span class="line">        v[i] += end[j];</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="function"><span class="type">void</span> <span class="title">dfs</span><span class="params">(<span class="type">int</span> u)</span></span></span><br><span class="line"><span class="function">  </span>&#123;</span><br><span class="line">    <span class="keyword">for</span>(<span class="type">int</span> i=len[u]; i&gt;<span class="number">0</span>; i--) tmp[u][i] += end[u];</span><br><span class="line">    <span class="keyword">for</span>(<span class="type">int</span> v : to[u])</span><br><span class="line">    &#123;</span><br><span class="line">      <span class="keyword">for</span>(<span class="type">int</span> i=<span class="number">26</span>; i&gt;<span class="number">0</span>; i--) tmp[v][i] += tmp[u][i];</span><br><span class="line">      <span class="built_in">dfs</span>(v);</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;ac, ac2;</span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">solve</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">  <span class="built_in">scanf</span>(<span class="string">&quot;%s%s&quot;</span>, a, b);</span><br><span class="line">  <span class="built_in">scanf</span>(<span class="string">&quot;%d&quot;</span>, &amp;n);</span><br><span class="line">  <span class="type">int</span> x = <span class="built_in">strlen</span>(a), y = <span class="built_in">strlen</span>(b);</span><br><span class="line">  <span class="keyword">for</span>(<span class="type">int</span> i=<span class="number">0</span>; i&lt;y; i++) rb[i] = b[y-i<span class="number">-1</span>];</span><br><span class="line">  ac.<span class="built_in">clear</span>(); ac2.<span class="built_in">clear</span>();</span><br><span class="line">  <span class="keyword">for</span>(<span class="type">int</span> i=<span class="number">1</span>; i&lt;=n; i++)</span><br><span class="line">  &#123;</span><br><span class="line">    <span class="built_in">scanf</span>(<span class="string">&quot;%s%d&quot;</span>, s[i], val+i);</span><br><span class="line">    <span class="type">int</span> t = <span class="built_in">strlen</span>(s[i]);</span><br><span class="line">    ac.<span class="built_in">insert</span>(s[i], val[i], t);</span><br><span class="line">    <span class="keyword">for</span>(<span class="type">int</span> j=<span class="number">0</span>; j&lt;t; j++) rs[i][j] = s[i][t-j<span class="number">-1</span>];</span><br><span class="line">    ac2.<span class="built_in">insert</span>(rs[i], val[i], t);</span><br><span class="line">  &#125;</span><br><span class="line">  ac.<span class="built_in">build</span>(); ac2.<span class="built_in">build</span>();</span><br><span class="line">  <span class="keyword">for</span>(<span class="type">int</span> i=<span class="number">0</span>; i&lt;x; i++) pre[i] = <span class="number">0</span>;</span><br><span class="line">  <span class="keyword">for</span>(<span class="type">int</span> i=<span class="number">0</span>; i&lt;y; i++) suf[i] = <span class="number">0</span>;</span><br><span class="line">  ac.<span class="built_in">go</span>(a, pre, x); ac2.<span class="built_in">go</span>(rb, suf, y);</span><br><span class="line">  ll ans = <span class="number">0</span>;</span><br><span class="line">  <span class="type">int</span> p = <span class="number">0</span>;</span><br><span class="line">  <span class="keyword">for</span>(<span class="type">int</span> i=<span class="number">1</span>; i&lt;x; i++) pre[i] += pre[i<span class="number">-1</span>];</span><br><span class="line">  <span class="keyword">for</span>(<span class="type">int</span> i=<span class="number">1</span>; i&lt;y; i++) suf[i] += suf[i<span class="number">-1</span>];</span><br><span class="line">  <span class="keyword">for</span>(<span class="type">int</span> i=<span class="number">1</span>; i&lt;=ac.cnt; i++) ac.to[ac.fail[i]].<span class="built_in">pb</span>(i);</span><br><span class="line">  ac.<span class="built_in">dfs</span>(<span class="number">0</span>);</span><br><span class="line">  <span class="keyword">for</span>(<span class="type">int</span> i=<span class="number">0</span>; i&lt;x; i++)</span><br><span class="line">  &#123;</span><br><span class="line">    p = ac.nxt[p][a[i]-<span class="string">&#x27;a&#x27;</span>];</span><br><span class="line">    <span class="keyword">for</span>(<span class="type">int</span> j=<span class="number">0</span>; j&lt;y; j++)</span><br><span class="line">    &#123;</span><br><span class="line">      ll cur = pre[i] + suf[y-j<span class="number">-1</span>];</span><br><span class="line">      <span class="type">int</span> pp = p;</span><br><span class="line">      <span class="keyword">for</span>(<span class="type">int</span> k=<span class="number">0</span>; k&lt;<span class="number">25</span>&amp;&amp;j+k&lt;y; k++)</span><br><span class="line">      &#123;</span><br><span class="line">        pp = ac.nxt[pp][b[j+k]-<span class="string">&#x27;a&#x27;</span>];</span><br><span class="line">        cur += ac.tmp[pp][k+<span class="number">2</span>];</span><br><span class="line">      &#125;</span><br><span class="line">      <span class="keyword">if</span>(cur&gt;ans) ans = cur;</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="built_in">printf</span>(<span class="string">&quot;%lld\n&quot;</span>, ans);</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="type">int</span> <span class="title">main</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">  <span class="type">int</span> T; <span class="built_in">scanf</span>(<span class="string">&quot;%d&quot;</span>, &amp;T);</span><br><span class="line">  <span class="keyword">while</span>(T--) <span class="built_in">solve</span>();</span><br><span class="line">  <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 </code></pre>
-<ul>
-<li>做法</li>
-</ul>
 
   </div>
 </article>

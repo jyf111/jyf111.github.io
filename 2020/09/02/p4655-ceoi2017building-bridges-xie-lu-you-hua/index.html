@@ -6,15 +6,15 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="HandheldFriendly" content="True">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=5" />
-    <meta name="description" content="有n根柱子，第i根柱子的高度为hih_ihi​，被拆除的代价为wiw_iwi​，在j和i两根柱子间架桥的费用为(hi−hj)2+∑k&#x3D;j+1i−1wk(h_i-h_j)^2 + \sum \limits_{k&#x3D;j+1}^{i-1} w_k(hi​−hj​)2+k&#x3D;j+1∑i−1​wk​，问连接1和n的最小代价 做法dpi&#x3D;min⁡j&lt;i{dpj+(hi">
+    <meta name="description" content="有n根柱子，第i根柱子的高度为$h_i$​，被拆除的代价为$w_i$​，在j和i两根柱子间架桥的费用为$(h_i-h_j)^2 + \sum \limits_{k&#x3D;j+1}^{i-1} w_k$​，问连接1和n的最小代价 做法$dp_i &#x3D; \min \limits_{j&lt;i} \{dp_j + (h_i-h_j)^2 + s_{i-1} - s_j\}$ 此处s为w的前">
 <meta property="og:type" content="article">
 <meta property="og:title" content="P4655 [CEOI2017]Building Bridges 斜率优化">
 <meta property="og:url" content="http://example.com/2020/09/02/p4655-ceoi2017building-bridges-xie-lu-you-hua/index.html">
 <meta property="og:site_name" content="jyf111&#39;s blog">
-<meta property="og:description" content="有n根柱子，第i根柱子的高度为hih_ihi​，被拆除的代价为wiw_iwi​，在j和i两根柱子间架桥的费用为(hi−hj)2+∑k&#x3D;j+1i−1wk(h_i-h_j)^2 + \sum \limits_{k&#x3D;j+1}^{i-1} w_k(hi​−hj​)2+k&#x3D;j+1∑i−1​wk​，问连接1和n的最小代价 做法dpi&#x3D;min⁡j&lt;i{dpj+(hi">
+<meta property="og:description" content="有n根柱子，第i根柱子的高度为$h_i$​，被拆除的代价为$w_i$​，在j和i两根柱子间架桥的费用为$(h_i-h_j)^2 + \sum \limits_{k&#x3D;j+1}^{i-1} w_k$​，问连接1和n的最小代价 做法$dp_i &#x3D; \min \limits_{j&lt;i} \{dp_j + (h_i-h_j)^2 + s_{i-1} - s_j\}$ 此处s为w的前">
 <meta property="og:locale" content="zh_CN">
 <meta property="article:published_time" content="2020-09-02T05:33:44.000Z">
-<meta property="article:modified_time" content="2023-08-24T08:43:19.617Z">
+<meta property="article:modified_time" content="2023-08-25T04:07:26.785Z">
 <meta property="article:author" content="jyf111">
 <meta property="article:tag" content="算法">
 <meta name="twitter:card" content="summary">
@@ -152,7 +152,7 @@
       
         <time datetime="2020-09-02T05:33:44.000Z" class="dt-published" itemprop="datePublished">2020-09-02</time>
         
-        (Updated: <time datetime="2023-08-24T08:43:19.617Z" class="dt-updated" itemprop="dateModified">2023-08-24</time>)
+        (Updated: <time datetime="2023-08-25T04:07:26.785Z" class="dt-updated" itemprop="dateModified">2023-08-25</time>)
         
       
     </div>
@@ -168,81 +168,23 @@
 
 
       
-        <span class=count-symbol-post> 
-          <i class="fa-solid fa-hourglass"></i>
-          
-            2 mins to read
-          
-        </span>
+        
+            <span class=count-symbol-post> 
+            <i class="fa-solid fa-hourglass"></i>
+            
+                8 mins to read
+            
+            </span>
+        
       
     </div>
   </header>
   
 
   <div class="content e-content" itemprop="articleBody">
-    <p>有n根柱子，第i根柱子的高度为hih_ihi​，被拆除的代价为wiw_iwi​，在j和i两根柱子间架桥的费用为(hi−hj)2+∑k&#x3D;j+1i−1wk(h_i-<br>h_j)^2 + \sum \limits_{k&#x3D;j+1}^{i-1} w_k(hi​−hj​)2+k&#x3D;j+1∑i−1​wk​，问连接1和n的最小代价</p>
-<h3 id="做法"><a href="#做法" class="headerlink" title="做法"></a>做法</h3><p>dpi&#x3D;min⁡j&lt;i{dpj+(hi−hj)2+si−1−sj}dp_i &#x3D; \min \limits_{j&lt;i} \{dp_j + (h_i-<br>h_j)^2 + s_{i-1} - s_j\}dpi​&#x3D;j&lt;imin​{dpj​+(hi​−hj​)2+si−1​−sj​} 此处s为w的前缀和<br>显然可以化为斜率优化的形式<br>每次询问hih_ihi​处y的最小值，然后插入一条斜率为−2hi-2h_i−2hi​，截距为hi2−si+dpih_i^2-s_i+dp_ihi2​−si​+dpi​的直线。<br>由于这里的hih_ihi​不具备单调性，所以不能用队列来维护。可以用平衡树、李超树或者cdq分治解决</p>
-<pre><code>#include &lt;bits/stdc++.h&gt;
-using namespace std;
-using ll = long long;
-const int N = 1e5 + 5;
-int n, h[N];
-ll w[N], dp[N];
-bool Cmp;
-struct Line 
-&#123;
-    mutable ll k, b, p;
-    bool operator &lt; (const Line&amp; oth) const &#123; return Cmp ? p &lt; oth.p : k &lt; oth.k; &#125;
-&#125;;
-struct ConvecHull : multiset&lt;Line&gt; 
-&#123;
-    static const ll inf = LLONG_MAX;
-    ll div(ll a, ll b) 
-    &#123; 
-        if(!b) return a&gt;0 ? inf : -inf;
-        return a / b - ((a ^ b) &lt; 0 &amp;&amp; a % b); 
-    &#125;
-    bool isect(iterator x, iterator y) 
-    &#123;
-        if (y == end()) &#123; x-&gt;p = inf; return false; &#125;
-        if (x-&gt;k == y-&gt;k) x-&gt;p = x-&gt;b &gt; y-&gt;b ? inf : -inf;
-        else x-&gt;p = div((y-&gt;b - x-&gt;b), (x-&gt;k - y-&gt;k));
-        return x-&gt;p &gt;= y-&gt;p;
-    &#125;
-    void add(ll k, ll b) 
-    &#123;
-        auto z = insert(&#123;k, b, 0&#125;), y = z++, x = y;
-        while (isect(y, z)) z = erase(z);
-        if (x != begin() &amp;&amp; isect(--x, y)) isect(x, y = erase(y));
-        while ((y = x) != begin() &amp;&amp; (--x)-&gt;p &gt;= y-&gt;p) isect(x, erase(y));
-    &#125;
-    ll qry(ll x) 
-    &#123;
-        Cmp = 1; auto l = *lower_bound(&#123;0, 0, x&#125;); Cmp = 0;
-        return l.k * x + l.b;
-    &#125;
-&#125;ch;
-int main()
-&#123;
-    scanf(&quot;%d&quot;, &amp;n);
-    for(int i=1; i&lt;=n; i++) scanf(&quot;%d&quot;, h+i);
-    for(int i=1; i&lt;=n; i++) scanf(&quot;%lld&quot;, w+i), w[i] += w[i-1];
-    ch.add(2*h[1], -1ll*h[1]*h[1]+w[1]);
-    for(int i=2; i&lt;=n; i++)
-    &#123;
-        dp[i] = -ch.qry(h[i]) + w[i-1] + 1ll*h[i]*h[i];
-        ch.add(2*h[i], -1ll*h[i]*h[i]+w[i]-dp[i]);
-    &#125;
-    printf(&quot;%lld\n&quot;, dp[n]);
-    return 0;
-&#125;
-</code></pre>
-<ul>
-<li><pre><code>*       * 做法
-</code></pre>
-</li>
-</ul>
-
+    <p>有n根柱子，第i根柱子的高度为$h_i$​，被拆除的代价为$w_i$​，在j和i两根柱子间架桥的费用为$(h_i-h_j)^2 + \sum \limits_{k&#x3D;j+1}^{i-1} w_k$​，问连接1和n的最小代价</p>
+<h3 id="做法"><a href="#做法" class="headerlink" title="做法"></a>做法</h3><p>$dp_i &#x3D; \min \limits_{j&lt;i} \{dp_j + (h_i-h_j)^2 + s_{i-1} - s_j\}$ 此处s为w的前缀和<br>显然可以化为斜率优化的形式<br>每次询问$h_i$​处y的最小值，然后插入一条斜率为$-2h_i$​，截距为$h_i^2-s_i+dp_i$​的直线。<br>由于这里的$h_i$​不具备单调性，所以不能用队列来维护。可以用平衡树、李超树或者cdq分治解决</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;bits/stdc++.h&gt;</span></span></span><br><span class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> std;</span><br><span class="line"><span class="keyword">using</span> ll = <span class="type">long</span> <span class="type">long</span>;</span><br><span class="line"><span class="type">const</span> <span class="type">int</span> N = <span class="number">1e5</span> + <span class="number">5</span>;</span><br><span class="line"><span class="type">int</span> n, h[N];</span><br><span class="line">ll w[N], dp[N];</span><br><span class="line"><span class="type">bool</span> Cmp;</span><br><span class="line"><span class="keyword">struct</span> <span class="title class_">Line</span></span><br><span class="line">&#123;</span><br><span class="line">  <span class="keyword">mutable</span> ll k, b, p;</span><br><span class="line">  <span class="type">bool</span> <span class="keyword">operator</span> &lt; (<span class="type">const</span> Line&amp; oth) <span class="type">const</span> &#123; <span class="keyword">return</span> Cmp ? p &lt; oth.p : k &lt; oth.k; &#125;</span><br><span class="line">&#125;;</span><br><span class="line"><span class="keyword">struct</span> <span class="title class_">ConvecHull</span> : multiset&lt;Line&gt;</span><br><span class="line">&#123;</span><br><span class="line">  <span class="type">static</span> <span class="type">const</span> ll inf = LLONG_MAX;</span><br><span class="line">  <span class="function">ll <span class="title">div</span><span class="params">(ll a, ll b)</span></span></span><br><span class="line"><span class="function">  </span>&#123;</span><br><span class="line">    <span class="keyword">if</span>(!b) <span class="keyword">return</span> a&gt;<span class="number">0</span> ? inf : -inf;</span><br><span class="line">    <span class="keyword">return</span> a / b - ((a ^ b) &lt; <span class="number">0</span> &amp;&amp; a % b);</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="function"><span class="type">bool</span> <span class="title">isect</span><span class="params">(iterator x, iterator y)</span></span></span><br><span class="line"><span class="function">  </span>&#123;</span><br><span class="line">    <span class="keyword">if</span> (y == <span class="built_in">end</span>()) &#123; x-&gt;p = inf; <span class="keyword">return</span> <span class="literal">false</span>; &#125;</span><br><span class="line">    <span class="keyword">if</span> (x-&gt;k == y-&gt;k) x-&gt;p = x-&gt;b &gt; y-&gt;b ? inf : -inf;</span><br><span class="line">    <span class="keyword">else</span> x-&gt;p = <span class="built_in">div</span>((y-&gt;b - x-&gt;b), (x-&gt;k - y-&gt;k));</span><br><span class="line">    <span class="keyword">return</span> x-&gt;p &gt;= y-&gt;p;</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="function"><span class="type">void</span> <span class="title">add</span><span class="params">(ll k, ll b)</span></span></span><br><span class="line"><span class="function">  </span>&#123;</span><br><span class="line">    <span class="keyword">auto</span> z = <span class="built_in">insert</span>(&#123;k, b, <span class="number">0</span>&#125;), y = z++, x = y;</span><br><span class="line">    <span class="keyword">while</span> (<span class="built_in">isect</span>(y, z)) z = <span class="built_in">erase</span>(z);</span><br><span class="line">    <span class="keyword">if</span> (x != <span class="built_in">begin</span>() &amp;&amp; <span class="built_in">isect</span>(--x, y)) <span class="built_in">isect</span>(x, y = <span class="built_in">erase</span>(y));</span><br><span class="line">    <span class="keyword">while</span> ((y = x) != <span class="built_in">begin</span>() &amp;&amp; (--x)-&gt;p &gt;= y-&gt;p) <span class="built_in">isect</span>(x, <span class="built_in">erase</span>(y));</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="function">ll <span class="title">qry</span><span class="params">(ll x)</span></span></span><br><span class="line"><span class="function">  </span>&#123;</span><br><span class="line">    Cmp = <span class="number">1</span>; <span class="keyword">auto</span> l = *<span class="built_in">lower_bound</span>(&#123;<span class="number">0</span>, <span class="number">0</span>, x&#125;); Cmp = <span class="number">0</span>;</span><br><span class="line">    <span class="keyword">return</span> l.k * x + l.b;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;ch;</span><br><span class="line"><span class="function"><span class="type">int</span> <span class="title">main</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">  <span class="built_in">scanf</span>(<span class="string">&quot;%d&quot;</span>, &amp;n);</span><br><span class="line">  <span class="keyword">for</span>(<span class="type">int</span> i=<span class="number">1</span>; i&lt;=n; i++) <span class="built_in">scanf</span>(<span class="string">&quot;%d&quot;</span>, h+i);</span><br><span class="line">  <span class="keyword">for</span>(<span class="type">int</span> i=<span class="number">1</span>; i&lt;=n; i++) <span class="built_in">scanf</span>(<span class="string">&quot;%lld&quot;</span>, w+i), w[i] += w[i<span class="number">-1</span>];</span><br><span class="line">  ch.<span class="built_in">add</span>(<span class="number">2</span>*h[<span class="number">1</span>], <span class="number">-1ll</span>*h[<span class="number">1</span>]*h[<span class="number">1</span>]+w[<span class="number">1</span>]);</span><br><span class="line">  <span class="keyword">for</span>(<span class="type">int</span> i=<span class="number">2</span>; i&lt;=n; i++)</span><br><span class="line">  &#123;</span><br><span class="line">    dp[i] = -ch.<span class="built_in">qry</span>(h[i]) + w[i<span class="number">-1</span>] + <span class="number">1ll</span>*h[i]*h[i];</span><br><span class="line">    ch.<span class="built_in">add</span>(<span class="number">2</span>*h[i], <span class="number">-1ll</span>*h[i]*h[i]+w[i]-dp[i]);</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="built_in">printf</span>(<span class="string">&quot;%lld\n&quot;</span>, dp[n]);</span><br><span class="line">  <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
   </div>
 </article>
 

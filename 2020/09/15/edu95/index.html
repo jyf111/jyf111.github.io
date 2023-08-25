@@ -14,7 +14,7 @@
 <meta property="og:description" content="D. Trash Problem有n堆物品排成一条线，可以将同一位置的所有物品同时移动到相邻的位置，q次操作，每次可以添加一堆物品或者删除一堆物品，并询问将所有物品移动成小于等于2堆的最小代价$n \leq 10^5,q \leq 10^5$第一反应应该是中位数，但要发现每次必须同时移动同一位置的所有物品，那么如果移成一堆，答案就是最大坐标$x_n$​-最小坐标$x_1$​，考虑移成两堆，只要枚举">
 <meta property="og:locale" content="zh_CN">
 <meta property="article:published_time" content="2020-09-15T05:33:44.000Z">
-<meta property="article:modified_time" content="2023-08-24T12:56:54.534Z">
+<meta property="article:modified_time" content="2023-08-25T04:13:25.395Z">
 <meta property="article:author" content="jyf111">
 <meta property="article:tag" content="算法">
 <meta name="twitter:card" content="summary">
@@ -152,7 +152,7 @@
       
         <time datetime="2020-09-15T05:33:44.000Z" class="dt-published" itemprop="datePublished">2020-09-15</time>
         
-        (Updated: <time datetime="2023-08-24T12:56:54.534Z" class="dt-updated" itemprop="dateModified">2023-08-24</time>)
+        (Updated: <time datetime="2023-08-25T04:13:25.395Z" class="dt-updated" itemprop="dateModified">2023-08-25</time>)
         
       
     </div>
@@ -168,20 +168,22 @@
 
 
       
-        <span class=count-symbol-post> 
-          <i class="fa-solid fa-hourglass"></i>
-          
-            19 mins to read
-          
-        </span>
+        
+            <span class=count-symbol-post> 
+            <i class="fa-solid fa-hourglass"></i>
+            
+                19 mins to read
+            
+            </span>
+        
       
     </div>
   </header>
   
 
   <div class="content e-content" itemprop="articleBody">
-    <h2 id="D-Trash-Problem"><a href="#D-Trash-Problem" class="headerlink" title="D. Trash Problem"></a>D. Trash Problem</h2><p>有n堆物品排成一条线，可以将同一位置的<strong>所有</strong><br>物品同时移动到相邻的位置，q次操作，每次可以添加一堆物品或者删除一堆物品，并询问将所有物品移动成小于等于2堆的最小代价<br>$n \leq 10^5,q \leq 10^5$<br>第一反应应该是中位数，但要发现每次必须同时移动同一位置的所有物品，那么如果移成一堆，答案就是最大坐标$x_n$​-最小坐标$x_1$​，考虑移成两堆，只要枚举一个分割点i，然后前面的代价是$x_i-x_1$​，后面的代价是$x_n-x_{i+1}$​，所以最小代价就是最大坐标-最小坐标-<br>相邻坐标的最大差值。利用multiset动态维护即可<br>tips:可以用rbegin来指向最后一个元素，比–end方便点</p>
-<h2 id="E-Expected-Damage"><a href="#E-Expected-Damage" class="headerlink" title="E. Expected Damage"></a>E. Expected Damage</h2><p>有n个怪物，第i个怪物的伤害为did_idi​，现在有一个盾牌，有属性a和b，当$a&gt;0$时，可以免疫$&lt;b$的伤害，而$&gt;&#x3D;b$的伤害会使$a-1$（不会受到伤害），而当$a&#x3D;0$时，会受到所有的伤害。<br>现在有m种盾牌，对于每种需要回答在n!n!n!种打怪方式下，受到的伤害的期望<br>$n \leq 2\times 10^5,m \leq 2\times 10^5$<br>考虑每种怪物的贡献，容易发现可以分成伤害$&lt;b$和$&gt;&#x3D;b$两类计算<br>最好的做法是从整体上考虑<br>定义ge为伤害$&gt;&#x3D;b$的怪物数量，le为$&lt;b$的怪物数量，将d排序后lowerbound即可<br>对于伤害$&gt;&#x3D;b$的ge个怪物，排在前a个是没有伤害的，因为会被盾牌挡掉，所以有贡献的概率就是$\frac{ge-a}{ge}，再乘上这些怪物的伤害和即可<br>对于伤害$&lt;b$的le个怪物，必须保证前面有至少a个伤害$&gt;&#x3D;b$的怪物，可以固定住ge个怪物的位置，那么现在有ge+1个空位，前a个是没有贡献的，所以有贡献的概率就是$\frac{ge+1-a}{ge+1}$​，再乘上一个前缀和即可</p>
+    <h2 id="D-Trash-Problem"><a href="#D-Trash-Problem" class="headerlink" title="D. Trash Problem"></a>D. Trash Problem</h2><p>有n堆物品排成一条线，可以将同一位置的<strong>所有</strong><br>物品同时移动到相邻的位置，q次操作，每次可以添加一堆物品或者删除一堆物品，并询问将所有物品移动成小于等于2堆的最小代价<br>$n \leq 10^5,q \leq 10^5$<br>第一反应应该是中位数，但要发现每次必须同时移动同一位置的所有物品，那么如果移成一堆，答案就是最大坐标$x_n$​-最小坐标$x_1$​，考虑移成两堆，只要枚举一个分割点i，然后前面的代价是$x_i-x_1$​，后面的代价是$x_n-x_{i+1}$​，所以最小代价就是最大坐标-最小坐标-<br>相邻坐标的最大差值。利用multiset动态维护即可<br>tips:可以用rbegin来指向最后一个元素，比--end方便点</p>
+<h2 id="E-Expected-Damage"><a href="#E-Expected-Damage" class="headerlink" title="E. Expected Damage"></a>E. Expected Damage</h2><p>有n个怪物，第i个怪物的伤害为$d_i$​，现在有一个盾牌，有属性a和b，当$a\gt 0$时，可以免疫$\lt b$的伤害，而$\geq b$的伤害会使$a-1$（不会受到伤害），而当$a&#x3D;0$时，会受到所有的伤害。<br>现在有m种盾牌，对于每种需要回答在n!种打怪方式下，受到的伤害的期望<br>$n \leq 2\times 10^5,m \leq 2\times 10^5$<br>考虑每种怪物的贡献，容易发现可以分成伤害$&lt;b$和$\geq b$两类计算<br>最好的做法是从整体上考虑<br>定义ge为伤害$\geq b$的怪物数量，le为$&lt;b$的怪物数量，将d排序后lowerbound即可<br>对于伤害$\geq b$的ge个怪物，排在前a个是没有伤害的，因为会被盾牌挡掉，所以有贡献的概率就是$\frac{ge-a}{ge}$，再乘上这些怪物的伤害和即可<br>对于伤害$\lt b$的le个怪物，必须保证前面有至少a个伤害$\geq b$的怪物，可以固定住ge个怪物的位置，那么现在有ge+1个空位，前a个是没有贡献的，所以有贡献的概率就是$\frac{ge+1-a}{ge+1}$​，再乘上一个前缀和即可</p>
 <figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;bits/stdc++.h&gt;</span></span></span><br><span class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> std;</span><br><span class="line"><span class="type">const</span> <span class="type">int</span> N = <span class="number">2e5</span> + <span class="number">5</span>, mod = <span class="number">998244353</span>;</span><br><span class="line"><span class="type">int</span> n, m, d[N], sum[N], inv[N];</span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">init</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">  inv[<span class="number">0</span>] = inv[<span class="number">1</span>] = <span class="number">1</span>;</span><br><span class="line">  <span class="keyword">for</span>(<span class="type">int</span> i=<span class="number">2</span>; i&lt;=n; i++) inv[i] = <span class="number">1ll</span>*(mod-mod/i)*inv[mod%i]%mod;</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="type">int</span> <span class="title">main</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">  ios::<span class="built_in">sync_with_stdio</span>(<span class="literal">false</span>);</span><br><span class="line">  cin.<span class="built_in">tie</span>(<span class="literal">nullptr</span>);</span><br><span class="line">  cin &gt;&gt; n &gt;&gt; m;</span><br><span class="line">  <span class="built_in">init</span>();</span><br><span class="line">  <span class="keyword">for</span>(<span class="type">int</span> i=<span class="number">1</span>; i&lt;=n; i++) cin &gt;&gt; d[i];</span><br><span class="line">  <span class="built_in">sort</span>(d+<span class="number">1</span>, d+n+<span class="number">1</span>);</span><br><span class="line">  <span class="keyword">for</span>(<span class="type">int</span> i=<span class="number">1</span>; i&lt;=n; i++) sum[i] = (sum[i<span class="number">-1</span>] + d[i])%mod;</span><br><span class="line">  <span class="keyword">for</span>(<span class="type">int</span> i=<span class="number">1</span>; i&lt;=m; i++)</span><br><span class="line">  &#123;</span><br><span class="line">    <span class="type">int</span> a, b;</span><br><span class="line">    cin &gt;&gt; a &gt;&gt; b;</span><br><span class="line">    <span class="type">int</span> le = <span class="built_in">lower_bound</span>(d+<span class="number">1</span>, d+n+<span class="number">1</span>, b) - d - <span class="number">1</span>;</span><br><span class="line">    <span class="type">int</span> ge = n - le;</span><br><span class="line">    <span class="type">int</span> x = (ge &lt; a ? <span class="number">0</span> : <span class="number">1ll</span>*(ge-a)*inv[ge]%mod*(sum[n]-sum[le])%mod);</span><br><span class="line">    <span class="type">int</span> y = (ge &lt; a ? <span class="number">0</span> : <span class="number">1ll</span>*(ge+<span class="number">1</span>-a)*inv[ge+<span class="number">1</span>]%mod*sum[le]%mod);</span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">&quot;%d\n&quot;</span>, ((x+y)%mod+mod)%mod);</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
 <h2 id="G-Three-Occurrences"><a href="#G-Three-Occurrences" class="headerlink" title="G. Three Occurrences"></a>G. Three Occurrences</h2><p>给出一个数组a，定义一个区间是好的，当且仅当每个数恰好出现0次或者3次，询问好区间的个数<br>$n\leq 5\times 10^5, 1\leq a_i \leq n$<br>考虑固定左端点为i，那么$a_i$​出现0次和3次就是两个连续的区间，我们对$1-n$的每个数维护它的合法区间，如果是合法的就让这段区间的每个数都等于1，我们可以用一颗线段树来维护。从后往前枚举左端点，对于$a_i$​，我们先删除它之前的合法区间(两段区间-1)，然后再加上它当前的合法区间(两端区间+1)，只需要查询左端点-<br>n中大小等于n的值的个数即可(显然最大值$\leq n$，所以维护最大值以及最大值个数即可)<br>$O(n\log n)$<br>这题还有一种更加普适的哈希做法，而且复杂度是$O(n)$的，先咕</p>

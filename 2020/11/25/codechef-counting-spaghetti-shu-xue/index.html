@@ -6,15 +6,15 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="HandheldFriendly" content="True">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=5" />
-    <meta name="description" content="现在有$L, L+1,…R-1,R$这R-L+1个数字，问你能够组成多少种不同的数字和$L \leq 10^9, R \leq 10^9$ 考虑用x个数字来组合1个数字：$[L, R]内的所有数字 2个数字：$[L+L+1, R+R-1]$内的所有数字 3个数字：$[L+L+1+L+2, R+R-1-R-2]$内的所有数字 则对于x个数字有：$l_x &#x3D; \frac{x(2L+x-1)}">
+    <meta name="description" content="现在有$L, L+1,…R-1,R$这R-L+1个数字，问你能够组成多少种不同的数字和$L \leq 10^9, R \leq 10^9$ 考虑用x个数字来组合1个数字：$[L, R]$内的所有数字 2个数字：$[L+L+1, R+R-1]$内的所有数字 3个数字：$[L+L+1+L+2, R+R-1-R-2]$内的所有数字 则对于x个数字有：$l_x &#x3D; \frac{x(2L+x-1)">
 <meta property="og:type" content="article">
 <meta property="og:title" content="codechef Counting Spaghetti 数学">
 <meta property="og:url" content="http://example.com/2020/11/25/codechef-counting-spaghetti-shu-xue/index.html">
 <meta property="og:site_name" content="jyf111&#39;s blog">
-<meta property="og:description" content="现在有$L, L+1,…R-1,R$这R-L+1个数字，问你能够组成多少种不同的数字和$L \leq 10^9, R \leq 10^9$ 考虑用x个数字来组合1个数字：$[L, R]内的所有数字 2个数字：$[L+L+1, R+R-1]$内的所有数字 3个数字：$[L+L+1+L+2, R+R-1-R-2]$内的所有数字 则对于x个数字有：$l_x &#x3D; \frac{x(2L+x-1)}">
+<meta property="og:description" content="现在有$L, L+1,…R-1,R$这R-L+1个数字，问你能够组成多少种不同的数字和$L \leq 10^9, R \leq 10^9$ 考虑用x个数字来组合1个数字：$[L, R]$内的所有数字 2个数字：$[L+L+1, R+R-1]$内的所有数字 3个数字：$[L+L+1+L+2, R+R-1-R-2]$内的所有数字 则对于x个数字有：$l_x &#x3D; \frac{x(2L+x-1)">
 <meta property="og:locale" content="zh_CN">
 <meta property="article:published_time" content="2020-11-25T05:33:44.000Z">
-<meta property="article:modified_time" content="2023-08-24T12:33:07.544Z">
+<meta property="article:modified_time" content="2023-08-24T15:36:07.602Z">
 <meta property="article:author" content="jyf111">
 <meta property="article:tag" content="算法">
 <meta name="twitter:card" content="summary">
@@ -148,7 +148,7 @@
       
         <time datetime="2020-11-25T05:33:44.000Z" class="dt-published" itemprop="datePublished">2020-11-25</time>
         
-        (Updated: <time datetime="2023-08-24T12:33:07.544Z" class="dt-updated" itemprop="dateModified">2023-08-24</time>)
+        (Updated: <time datetime="2023-08-24T15:36:07.602Z" class="dt-updated" itemprop="dateModified">2023-08-24</time>)
         
       
     </div>
@@ -164,12 +164,14 @@
 
 
       
-        <span class=count-symbol-post> 
-          <i class="fa-solid fa-hourglass"></i>
-          
-            1 min to read
-          
-        </span>
+        
+            <span class=count-symbol-post> 
+            <i class="fa-solid fa-hourglass"></i>
+            
+                1 min to read
+            
+            </span>
+        
       
     </div>
   </header>
@@ -177,11 +179,11 @@
 
   <div class="content e-content" itemprop="articleBody">
     <p>现在有$L, L+1,…R-1,R$这R-L+1个数字，问你能够组成多少种不同的数字和<br>$L \leq 10^9, R \leq 10^9$</p>
-<p>考虑用x个数字来组合<br>1个数字：$[L, R]内的所有数字</p>
+<p>考虑用x个数字来组合<br>1个数字：$[L, R]$内的所有数字</p>
 <p>2个数字：$[L+L+1, R+R-1]$内的所有数字</p>
 <p>3个数字：$[L+L+1+L+2, R+R-1-R-2]$内的所有数字</p>
 <p>则对于x个数字有：$l_x &#x3D; \frac{x(2L+x-1)}{2}$, $r_x &#x3D; \frac{x(2R-x+1)}{2}$</p>
-<p>因此只要求用1~R-L+1个数字构成的各个区间的并集的长度即可<br>考虑$l_x&gt;r_{x-1}$<br>则要满足$x^2 + (L-R-2)x + R + 1 &gt; 0$<br>当$(R-L+2)^2 - 4R - 4&lt;0$时，所有区间都不相交，又发现此时R-L+1在$O(\sqrt R​$)级别，所以暴力求出各个区间的长度相加即可<br>否则，求出两个根x1，x2，则在$[x1,x2]$这一段区间都是相交的，区间并的左端点为x1的左端点，右端点x2的右端点。<br>考虑$\frac{R-L+2 \pm \sqrt{(R-L+2)^2-4R-4}}{2}$<br>设R-L+2为a，4R-4为b，且满足$a \geq \sqrt b$<br>$a-\sqrt{a^2-b} &#x3D; a-\sqrt{(a+\sqrt b)(a - \sqrt b)} \leq a - \sqrt{(a-\sqrt b)^2} &#x3D; \sqrt b$<br>所以1~x1的长度在$O(\sqrt b)$级别，而x2~a的长度为$a-\frac{R-L+2 + \sqrt{(R-L+2)^2-4R-4}}{2} &#x3D; \frac{R-L+2 - \sqrt{(R-L+2)^2-4R-4}}{2}$​，也在$O(\sqrt b)$级别，所以只需要对两端不相交的部分暴力即可</p>
+<p>因此只要求用1$\sim$R-L+1个数字构成的各个区间的并集的长度即可<br>考虑$l_x&gt;r_{x-1}$<br>则要满足$x^2 + (L-R-2)x + R + 1 &gt; 0$<br>当$(R-L+2)^2 - 4R - 4&lt;0$时，所有区间都不相交，又发现此时R-L+1在$O(\sqrt R​$)级别，所以暴力求出各个区间的长度相加即可<br>否则，求出两个根x1，x2，则在$[x1,x2]$这一段区间都是相交的，区间并的左端点为x1的左端点，右端点x2的右端点。<br>考虑$\frac{R-L+2 \pm \sqrt{(R-L+2)^2-4R-4}}{2}$<br>设R-L+2为a，4R-4为b，且满足$a \geq \sqrt b$<br>$a-\sqrt{a^2-b} &#x3D; a-\sqrt{(a+\sqrt b)(a - \sqrt b)} \leq a - \sqrt{(a-\sqrt b)^2} &#x3D; \sqrt b$<br>所以1$\sim$x1的长度在$O(\sqrt b)$级别，而x2$\sim$a的长度为<br>$a-\frac{R-L+2 + \sqrt{(R-L+2)^2-4R-4}}{2} &#x3D; \frac{R-L+2 - \sqrt{(R-L+2)^2-4R-4}}{2}$​，也在$O(\sqrt b)$级别，所以只需要对两端不相交的部分暴力即可</p>
 
   </div>
 </article>

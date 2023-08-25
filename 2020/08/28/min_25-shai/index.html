@@ -6,15 +6,15 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="HandheldFriendly" content="True">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=5" />
-    <meta name="description" content="当f(i)f(i)f(i)是一个积性函数，且f(p)f(p)f(p)是一个关于p的低阶多项式，f(pk)f(p^k)f(pk)是一个容易计算的式子，那么就可以利用该亚线性筛，快速算出∑i&#x3D;1nf(i)\sum_{i&#x3D;1}^nf(i)∑i&#x3D;1n​f(i)，n≤1011n \leq 10^{11}n≤1011 第一步利用另一个函数g(n,j)g(n,j)g(n,j)，快速">
+    <meta name="description" content="当f$f(i)$是一个积性函数，且$f(p)$是一个关于p的低阶多项式，$f(p^k)$是一个容易计算的式子，那么就可以利用该亚线性筛，快速算出$\sum_{i&#x3D;1}^nf(i)$，$n \leq 10^{11}$ 第一步利用另一个函数$g(n,j)$，快速计算出f在质数处的前缀和 $g(n, j) &#x3D; \sum \limits_{i&#x3D;1}^n [i \ is \ p">
 <meta property="og:type" content="article">
 <meta property="og:title" content="min_25筛">
 <meta property="og:url" content="http://example.com/2020/08/28/min_25-shai/index.html">
 <meta property="og:site_name" content="jyf111&#39;s blog">
-<meta property="og:description" content="当f(i)f(i)f(i)是一个积性函数，且f(p)f(p)f(p)是一个关于p的低阶多项式，f(pk)f(p^k)f(pk)是一个容易计算的式子，那么就可以利用该亚线性筛，快速算出∑i&#x3D;1nf(i)\sum_{i&#x3D;1}^nf(i)∑i&#x3D;1n​f(i)，n≤1011n \leq 10^{11}n≤1011 第一步利用另一个函数g(n,j)g(n,j)g(n,j)，快速">
+<meta property="og:description" content="当f$f(i)$是一个积性函数，且$f(p)$是一个关于p的低阶多项式，$f(p^k)$是一个容易计算的式子，那么就可以利用该亚线性筛，快速算出$\sum_{i&#x3D;1}^nf(i)$，$n \leq 10^{11}$ 第一步利用另一个函数$g(n,j)$，快速计算出f在质数处的前缀和 $g(n, j) &#x3D; \sum \limits_{i&#x3D;1}^n [i \ is \ p">
 <meta property="og:locale" content="zh_CN">
 <meta property="article:published_time" content="2020-08-28T05:33:44.000Z">
-<meta property="article:modified_time" content="2023-08-24T08:43:19.617Z">
+<meta property="article:modified_time" content="2023-08-25T05:23:06.824Z">
 <meta property="article:author" content="jyf111">
 <meta property="article:tag" content="算法">
 <meta name="twitter:card" content="summary">
@@ -152,7 +152,7 @@
       
         <time datetime="2020-08-28T05:33:44.000Z" class="dt-published" itemprop="datePublished">2020-08-28</time>
         
-        (Updated: <time datetime="2023-08-24T08:43:19.617Z" class="dt-updated" itemprop="dateModified">2023-08-24</time>)
+        (Updated: <time datetime="2023-08-25T05:23:06.824Z" class="dt-updated" itemprop="dateModified">2023-08-25</time>)
         
       
     </div>
@@ -168,72 +168,35 @@
 
 
       
-        <span class=count-symbol-post> 
-          <i class="fa-solid fa-hourglass"></i>
-          
-            3 mins to read
-          
-        </span>
+        
+            <span class=count-symbol-post> 
+            <i class="fa-solid fa-hourglass"></i>
+            
+                6 mins to read
+            
+            </span>
+        
       
     </div>
   </header>
   
 
   <div class="content e-content" itemprop="articleBody">
-    <p>当f(i)f(i)f(i)是一个积性函数，且f(p)f(p)f(p)是一个关于p的低阶多项式，f(pk)f(p^k)f(pk)是一个容易计算的式子，那么就可以利用该亚线性筛，快速算出∑i&#x3D;1nf(i)\sum_{i&#x3D;1}^n<br>f(i)∑i&#x3D;1n​f(i)，n≤1011n \leq 10^{11}n≤1011</p>
-<h3 id="第一步"><a href="#第一步" class="headerlink" title="第一步"></a>第一步</h3><p>利用另一个函数g(n,j)g(n,j)g(n,j)，快速计算出f在质数处的前缀和</p>
-<p>g(n,j)&#x3D;∑i&#x3D;1n[i is prime∣∣minp&gt;pj]ikg(n, j) &#x3D; \sum \limits_{i&#x3D;1}^n [i \ is <br>prime || minp &gt; p_j] i^k g(n,j)&#x3D;i&#x3D;1∑n​[i is prime∣∣minp&gt;pj​]ik</p>
-<p>表示≤n\leq n≤n中的所有质数以及最小质因子 <strong>大于</strong><br>第j小质数pjp_jpj​的所有数的k次方和，因为f(p)是一个关于p的多项式，这样我们把这个多项式拆成单项式，再取不同的k，而当pjp_jpj​等于最后一个小于等于n\sqrt<br>nn​的质因子时，g(n,j)g(n, j)g(n,j)就表示小于等于n的所有质数的k次方和了。<br>一个数的最小质因子一定是≤n\leq \sqrt n≤n​的<br>考虑从g(n,j−1)g(n, j-1)g(n,j−1)转移到g(n,j)g(n, j)g(n,j)时，只需要去掉最小质因子&#x3D;pjp_jpj​的所有合数即可</p>
-<p>g(n,j)&#x3D;g(n,j−1)−pjk(g(npj,j−1)−g(pj−1,j−1))g(n, j) &#x3D; g(n, j-1) -<br>p_j^k(g(\frac{n}{p_j}, j-1) - g(p_{j-1}, j-1))<br>g(n,j)&#x3D;g(n,j−1)−pjk​(g(pj​n​,j−1)−g(pj−1​,j−1))</p>
-<p>其中g(pj−1,j−1)g(p_{j-1}, j-1)g(pj−1​,j−1)表示前j-1个质数的k次方和，可以在线性筛的时候预处理出来<br>在转移的时候我们只需要用到⌊nx⌋\lfloor \dfrac{n}{x} \rfloor⌊xn​⌋处的取值，而这种值的个数是O(n)O(\sqrt<br>n)O(n​)级别的，可以利用一个id1数组和一个id2数组映射一下，对于≤n\leq \sqrt n≤n​的数，存在id1里，对于其他数存在id2中</p>
-<pre><code>ll w[M], g1[M], g2[M];
-int id1[M], id2[M];
-auto id = [&amp;](ll x) &#123; return x&lt;=B ? id1[x] : id2[n/x]; &#125;;
-void solve(ll _n)
-&#123;
-    int sz = 0;
-    n = _n, B = sqrt(n) + 1;
-    getprime(B);
-    for(ll l=1, r, v; l&lt;=n; l=r+1)
-    &#123;
-        v = n/l, r = n/v;
-        w[++sz] = v; g1[sz] = prex1(v); g2[sz] = prex2(v);
-        if(v&lt;=B) id1[v] = sz; else id2[r] = sz;
-    &#125;
-    for(int i=1; i&lt;=pc; i++)
-    &#123;
-        for(int j=1; j&lt;=sz&amp;&amp;1ll*pr[i]*pr[i]&lt;=w[j]; j++)
-        &#123;
-            int t = id(w[j]/pr[i]);
-            g1[j] = ((g1[j] - (g1[t] - sp1[i-1])*x1(pr[i]))%mod + mod)%mod;
-            g2[j] = ((g2[j] - (g2[t] - sp2[i-1])*x2(pr[i]))%mod + mod)%mod;
-        &#125;
-    &#125;
-&#125;
-</code></pre>
-<p>通过这一步我们就可以求f在质数处的前缀和了，如果要快速统计质数个数，答案就是gid(n)g_{id(n)}gid(n)​</p>
-<h3 id="第二步"><a href="#第二步" class="headerlink" title="第二步"></a>第二步</h3><p>同样的，设S(n,k)S(n,k)S(n,k)表示求所有质因子大于pkp_kpk​的数(大于pkp_kpk​的质数也算)的函数f之和，答案就是S(n,0)S(n,0)S(n,0)</p>
-<p>S(n,x)&#x3D;g(n)−spx+∑pke≤n&amp;&amp;k&gt;xf(pke)S(npke+[e≠1])S(n,x) &#x3D; g(n) - sp_x + \sum<br>\limits_{p_k^e \leq n &amp;&amp; k&gt;x} f(p_k^e)S(\frac{n}{p_k^e} + [e \neq 1])<br>S(n,x)&#x3D;g(n)−spx​+pke​≤n&amp;&amp;k&gt;x∑​f(pke​)S(pke​n​+[e​&#x3D;1])</p>
-<p>其中g(n)−spxg(n)-sp_xg(n)−spx​表示大于pkp_kpk​的质数的函数f之和，这在第一步中已经预处理出来，再枚举合数中最小质因子的大小以及幂次，递归处理即可，注意我们在所有计算中都是不统计1处的答案的，所以当e&gt;1e&gt;1e&gt;1时，要额外算上f(pke)f(p_k^e)f(pke​)处的值</p>
-<pre><code>ll go(ll x, int k)
-&#123;
-    if(pr[k]&gt;=x) return 0;
-    int t = id(x); ll ans = (f(g1[t]-sp1[k], g2[t]-sp2[k])%mod + mod)%mod; 
-    for(int i=k+1; i&lt;=pc&amp;&amp;1ll*pr[i]*pr[i]&lt;=x; i++)
-        for(ll pp=pr[i], e=1; pp&lt;=x; e++, pp=pp*pr[i])
-            ans = (ans + fp(pp%mod)*(go(x/pp, i)+(e!=1)))%mod;
-    return (ans+mod)%mod;
-&#125;
-</code></pre>
+    <p>当f$f(i)$是一个积性函数，且$f(p)$是一个关于p的低阶多项式，$f(p^k)$是一个容易计算的式子，那么就可以利用该亚线性筛，快速算出$\sum_{i&#x3D;1}^n<br>f(i)$，$n \leq 10^{11}$</p>
+<h3 id="第一步"><a href="#第一步" class="headerlink" title="第一步"></a>第一步</h3><p>利用另一个函数$g(n,j)$，快速计算出f在质数处的前缀和</p>
+<p>$g(n, j) &#x3D; \sum \limits_{i&#x3D;1}^n [i \ is \ prime || minp &gt; p_j] i^k$</p>
+<p>表示$\leq n$中的所有质数以及最小质因子<strong>大于</strong>第j小质数$p_j$​的所有数的k次方和，因为f(p)是一个关于p的多项式，这样我们把这个多项式拆成单项式，再取不同的k，而当$p_j$​等于最后一个小于等于$\sqrt n​$的质因子时，$g(n, j)$就表示小于等于n的所有质数的k次方和了。<br>一个数的最小质因子一定是$\leq \sqrt n$​的<br>考虑从$g(n, j-1)$转移到$g(n, j)$时，只需要去掉最小质因子$&#x3D;p_j$​的所有合数即可</p>
+<p>$g(n, j) &#x3D; g(n, j-1) -<br>p_j^k(g(\frac{n}{p_j}, j-1) - g(p_{j-1}, j-1))$</p>
+<p>其中$g(p_{j-1}, j-1)$表示前$j-1$个质数的k次方和，可以在线性筛的时候预处理出来<br>在转移的时候我们只需要用到$\lfloor \dfrac{n}{x} \rfloor$处的取值，而这种值的个数是$O(\sqrt n)$级别的，可以利用一个id1数组和一个id2数组映射一下，对于$\leq \sqrt n$​的数，存在id1里，对于其他数存在id2中</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line">ll w[M], g1[M], g2[M];</span><br><span class="line"><span class="type">int</span> id1[M], id2[M];</span><br><span class="line"><span class="keyword">auto</span> id = [&amp;](ll x) &#123; <span class="keyword">return</span> x&lt;=B ? id1[x] : id2[n/x]; &#125;;</span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">solve</span><span class="params">(ll _n)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">  <span class="type">int</span> sz = <span class="number">0</span>;</span><br><span class="line">  n = _n, B = <span class="built_in">sqrt</span>(n) + <span class="number">1</span>;</span><br><span class="line">  <span class="built_in">getprime</span>(B);</span><br><span class="line">  <span class="keyword">for</span>(ll l=<span class="number">1</span>, r, v; l&lt;=n; l=r+<span class="number">1</span>)</span><br><span class="line">  &#123;</span><br><span class="line">    v = n/l, r = n/v;</span><br><span class="line">    w[++sz] = v; g1[sz] = <span class="built_in">prex1</span>(v); g2[sz] = <span class="built_in">prex2</span>(v);</span><br><span class="line">    <span class="keyword">if</span>(v&lt;=B) id1[v] = sz; <span class="keyword">else</span> id2[r] = sz;</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="keyword">for</span>(<span class="type">int</span> i=<span class="number">1</span>; i&lt;=pc; i++)</span><br><span class="line">  &#123;</span><br><span class="line">    <span class="keyword">for</span>(<span class="type">int</span> j=<span class="number">1</span>; j&lt;=sz&amp;&amp;<span class="number">1ll</span>*pr[i]*pr[i]&lt;=w[j]; j++)</span><br><span class="line">    &#123;</span><br><span class="line">      <span class="type">int</span> t = <span class="built_in">id</span>(w[j]/pr[i]);</span><br><span class="line">      g1[j] = ((g1[j] - (g1[t] - sp1[i<span class="number">-1</span>])*<span class="built_in">x1</span>(pr[i]))%mod + mod)%mod;</span><br><span class="line">      g2[j] = ((g2[j] - (g2[t] - sp2[i<span class="number">-1</span>])*<span class="built_in">x2</span>(pr[i]))%mod + mod)%mod;</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>通过这一步我们就可以求f在质数处的前缀和了，如果要快速统计质数个数，答案就是$g_{id(n)}$​</p>
+<h3 id="第二步"><a href="#第二步" class="headerlink" title="第二步"></a>第二步</h3><p>同样的，设$S(n,k)$表示求所有质因子大于$p_k$​的数(大于$p_k$​的质数也算)的函数f之和，答案就是$S(n,0)$</p>
+<p>$S(n,x) &#x3D; g(n) - sp_x + \sum\limits_{p_k^e \leq n \land k&gt;x} f(p_k^e)S(\frac{n}{p_k^e} + [e \neq 1])$</p>
+<p>其中$g(n)-sp_x$​表示大于$p_k$​的质数的函数f之和，这在第一步中已经预处理出来，再枚举合数中最小质因子的大小以及幂次，递归处理即可，注意我们在所有计算中都是不统计1处的答案的，所以当$e\gt 1$时，要额外算上$f(p_k^e)$)处的值</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="function">ll <span class="title">go</span><span class="params">(ll x, <span class="type">int</span> k)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">  <span class="keyword">if</span>(pr[k]&gt;=x) <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">  <span class="type">int</span> t = <span class="built_in">id</span>(x); ll ans = (<span class="built_in">f</span>(g1[t]-sp1[k], g2[t]-sp2[k])%mod + mod)%mod;</span><br><span class="line">  <span class="keyword">for</span>(<span class="type">int</span> i=k+<span class="number">1</span>; i&lt;=pc&amp;&amp;<span class="number">1ll</span>*pr[i]*pr[i]&lt;=x; i++)</span><br><span class="line">    <span class="keyword">for</span>(ll pp=pr[i], e=<span class="number">1</span>; pp&lt;=x; e++, pp=pp*pr[i])</span><br><span class="line">      ans = (ans + <span class="built_in">fp</span>(pp%mod)*(<span class="built_in">go</span>(x/pp, i)+(e!=<span class="number">1</span>)))%mod;</span><br><span class="line">  <span class="keyword">return</span> (ans+mod)%mod;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
 <p>最后的答案就是go(n, 0)+f(1)了</p>
-<ul>
-<li><pre><code>*       * 第一步
-</code></pre>
-<ul>
-<li>第二步</li>
-</ul>
-</li>
-</ul>
 
   </div>
 </article>
