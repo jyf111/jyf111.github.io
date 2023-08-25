@@ -6,17 +6,20 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="HandheldFriendly" content="True">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=5" />
-    <meta name="description" content="## 温故而知新">
+    <meta name="description" content="¶基本语法 ¶n级标题 123# 一级标题## 二级标题 ¶粗体 1**粗体文本** 粗体文本 ¶斜体 1*斜体文本* 斜体文本 ¶引用 12&gt; 引用&gt; 文本  引用 文本   建议每一行引用都使用符号&gt;。  ¶无序列表 12- 无序文本- 无序文本  无序文本 无序文本  ¶有序列表 121. 有序文本2. 有序文本  有序文本 有序文本    如果列表项有换行，则建议给无序列">
 <meta property="og:type" content="article">
 <meta property="og:title" content="markdown总结">
 <meta property="og:url" content="http://example.com/2023/08/25/markdown%E6%80%BB%E7%BB%93/index.html">
 <meta property="og:site_name" content="jyf111&#39;s blog">
-<meta property="og:description" content="## 温故而知新">
+<meta property="og:description" content="¶基本语法 ¶n级标题 123# 一级标题## 二级标题 ¶粗体 1**粗体文本** 粗体文本 ¶斜体 1*斜体文本* 斜体文本 ¶引用 12&gt; 引用&gt; 文本  引用 文本   建议每一行引用都使用符号&gt;。  ¶无序列表 12- 无序文本- 无序文本  无序文本 无序文本  ¶有序列表 121. 有序文本2. 有序文本  有序文本 有序文本    如果列表项有换行，则建议给无序列">
 <meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="http://example.com/post-images/markdown-cheat.png">
 <meta property="article:published_time" content="2023-08-24T16:01:08.000Z">
-<meta property="article:modified_time" content="2023-08-24T16:01:08.212Z">
+<meta property="article:modified_time" content="2023-08-25T14:09:26.855Z">
 <meta property="article:author" content="jyf111">
+<meta property="article:tag" content="工具">
 <meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://example.com/post-images/markdown-cheat.png">
     
     
       
@@ -91,6 +94,8 @@
     <span id="actions">
       <ul>
         
+        <li><a class="icon" aria-label="上一篇" href="/2023/08/25/leetcode%E6%A8%A1%E6%9D%BF%E6%80%BB%E7%BB%93/"><i class="fa-solid fa-chevron-left" aria-hidden="true" onmouseover="$('#i-prev').toggle();" onmouseout="$('#i-prev').toggle();"></i></a></li>
+        
         
         <li><a class="icon" aria-label="下一篇" href="/2022/06/20/jing-sai-tu/"><i class="fa-solid fa-chevron-right" aria-hidden="true" onmouseover="$('#i-next').toggle();" onmouseout="$('#i-next').toggle();"></i></a></li>
         
@@ -121,6 +126,10 @@
     </div>
     
     
+      <div id="toc">
+        <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%9F%BA%E6%9C%AC%E8%AF%AD%E6%B3%95"><span class="toc-number">1.</span> <span class="toc-text">基本语法</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#n%E7%BA%A7%E6%A0%87%E9%A2%98"><span class="toc-number">1.1.</span> <span class="toc-text">n级标题</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%B2%97%E4%BD%93"><span class="toc-number">1.2.</span> <span class="toc-text">粗体</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%96%9C%E4%BD%93"><span class="toc-number">1.3.</span> <span class="toc-text">斜体</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%BC%95%E7%94%A8"><span class="toc-number">1.4.</span> <span class="toc-text">引用</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%97%A0%E5%BA%8F%E5%88%97%E8%A1%A8"><span class="toc-number">1.5.</span> <span class="toc-text">无序列表</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%9C%89%E5%BA%8F%E5%88%97%E8%A1%A8"><span class="toc-number">1.6.</span> <span class="toc-text">有序列表</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%A1%8C%E5%86%85%E4%BB%A3%E7%A0%81"><span class="toc-number">1.7.</span> <span class="toc-text">行内代码</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%88%86%E5%89%B2%E7%BA%BF"><span class="toc-number">1.8.</span> <span class="toc-text">分割线</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%96%87%E5%AD%97%E9%93%BE%E6%8E%A5"><span class="toc-number">1.9.</span> <span class="toc-text">文字链接</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%9B%BE%E7%89%87"><span class="toc-number">1.10.</span> <span class="toc-text">图片</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%BD%91%E5%9D%80%E9%93%BE%E6%8E%A5"><span class="toc-number">1.11.</span> <span class="toc-text">网址链接</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%89%A9%E5%B1%95%E8%AF%AD%E6%B3%95"><span class="toc-number">2.</span> <span class="toc-text">扩展语法</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%87%AA%E5%8A%A8%E9%93%BE%E6%8E%A5"><span class="toc-number">2.1.</span> <span class="toc-text">自动链接</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%A1%A8%E6%A0%BC"><span class="toc-number">2.2.</span> <span class="toc-text">表格</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%BB%A3%E7%A0%81%E5%9D%97"><span class="toc-number">2.3.</span> <span class="toc-text">代码块</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%88%A0%E9%99%A4%E7%BA%BF"><span class="toc-number">2.4.</span> <span class="toc-text">删除线</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%BB%BB%E5%8A%A1%E5%88%97%E8%A1%A8"><span class="toc-number">2.5.</span> <span class="toc-text">任务列表</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Tricks"><span class="toc-number">3.</span> <span class="toc-text">Tricks</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%B8%8B%E5%88%92%E7%BA%BF"><span class="toc-number">3.1.</span> <span class="toc-text">下划线</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%BC%A9%E8%BF%9B"><span class="toc-number">3.2.</span> <span class="toc-text">缩进</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%B1%85%E4%B8%AD"><span class="toc-number">3.3.</span> <span class="toc-text">居中</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E9%A2%9C%E8%89%B2"><span class="toc-number">3.4.</span> <span class="toc-text">颜色</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%9B%BE%E7%89%87%E5%A4%A7%E5%B0%8F"><span class="toc-number">3.5.</span> <span class="toc-text">图片大小</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%9B%AE%E5%BD%95"><span class="toc-number">3.6.</span> <span class="toc-text">目录</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%8E%92%E7%89%88-Tips"><span class="toc-number">4.</span> <span class="toc-text">排版 Tips</span></a></li></ol>
+      </div>
+    
   </span>
 </div>
 
@@ -145,7 +154,7 @@
       
         <time datetime="2023-08-24T16:01:08.000Z" class="dt-published" itemprop="datePublished">2023-08-25</time>
         
-        (Updated: <time datetime="2023-08-24T16:01:08.212Z" class="dt-updated" itemprop="dateModified">2023-08-25</time>)
+        (Updated: <time datetime="2023-08-25T14:09:26.855Z" class="dt-updated" itemprop="dateModified">2023-08-25</time>)
         
       
     </div>
@@ -154,6 +163,11 @@
       
 
       
+    <div class="article-tag">
+        <i class="fa-solid fa-tag"></i>
+        <a class="p-category" href="/tags/%E5%B7%A5%E5%85%B7/" rel="tag">工具</a>
+    </div>
+
 
       
         
@@ -161,7 +175,7 @@
             <i class="fa-solid fa-hourglass"></i>
             
             
-                1 min to read
+                8 mins to read
             
             </span>
         
@@ -171,7 +185,167 @@
   
 
   <div class="content e-content" itemprop="articleBody">
-    
+    <h2 id="基本语法"><a class="header-anchor" href="#基本语法">¶</a>基本语法</h2>
+<h3 id="n级标题"><a class="header-anchor" href="#n级标题">¶</a>n级标题</h3>
+<figure class="highlight markdown"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="section"># 一级标题</span></span><br><span class="line"></span><br><span class="line"><span class="section">## 二级标题</span></span><br></pre></td></tr></table></figure>
+<h3 id="粗体"><a class="header-anchor" href="#粗体">¶</a>粗体</h3>
+<figure class="highlight markdown"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="strong">**粗体文本**</span></span><br></pre></td></tr></table></figure>
+<p><strong>粗体文本</strong></p>
+<h3 id="斜体"><a class="header-anchor" href="#斜体">¶</a>斜体</h3>
+<figure class="highlight markdown"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="emphasis">*斜体文本*</span></span><br></pre></td></tr></table></figure>
+<p><em>斜体文本</em></p>
+<h3 id="引用"><a class="header-anchor" href="#引用">¶</a>引用</h3>
+<figure class="highlight markdown"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="quote">&gt; 引用</span></span><br><span class="line"><span class="quote">&gt; 文本</span></span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>引用<br>
+文本</p>
+</blockquote>
+<ul>
+<li>建议每一行引用都使用符号<code>&gt;</code>。</li>
+</ul>
+<h3 id="无序列表"><a class="header-anchor" href="#无序列表">¶</a>无序列表</h3>
+<figure class="highlight markdown"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="bullet">-</span> 无序文本</span><br><span class="line"><span class="bullet">-</span> 无序文本</span><br></pre></td></tr></table></figure>
+<ul>
+<li>无序文本</li>
+<li>无序文本</li>
+</ul>
+<h3 id="有序列表"><a class="header-anchor" href="#有序列表">¶</a>有序列表</h3>
+<figure class="highlight markdown"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="bullet">1.</span> 有序文本</span><br><span class="line"><span class="bullet">2.</span> 有序文本</span><br></pre></td></tr></table></figure>
+<ol>
+<li>有序文本</li>
+<li>有序文本</li>
+</ol>
+<ul>
+<li>
+<p>如果列表项有换行，则建议给无序列表使用 3 个空格，给有序列表使用 2 个空格。</p>
+</li>
+<li>
+<p>如果一个列表中的每个列表项都只有 1 行，建议列表项之间不要有空行。</p>
+</li>
+<li>
+<p>如果列表项中有换行，建议在列表项之间空 1 行，这样会比较容易区分多行列表项的开始和结束。</p>
+</li>
+</ul>
+<h3 id="行内代码"><a class="header-anchor" href="#行内代码">¶</a>行内代码</h3>
+<figure class="highlight markdown"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="code">`code`</span></span><br></pre></td></tr></table></figure>
+<p><code>code</code></p>
+<h3 id="分割线"><a class="header-anchor" href="#分割线">¶</a>分割线</h3>
+<figure class="highlight markdown"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">---</span><br></pre></td></tr></table></figure>
+<hr>
+<h3 id="文字链接"><a class="header-anchor" href="#文字链接">¶</a>文字链接</h3>
+<figure class="highlight markdown"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">[<span class="string">示例网站</span>](<span class="link">www.example.com</span>)</span><br></pre></td></tr></table></figure>
+<p><a href="www.example.com">示例网站</a></p>
+<h3 id="图片"><a class="header-anchor" href="#图片">¶</a>图片</h3>
+<figure class="highlight markdown"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">![<span class="string">图片</span>](<span class="link">/post-images/markdown-cheat.png</span>)</span><br></pre></td></tr></table></figure>
+<p><img src="/post-images/markdown-cheat.png" alt="图片"></p>
+<h3 id="网址链接"><a class="header-anchor" href="#网址链接">¶</a>网址链接</h3>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&lt;www.example.com&gt;</span><br></pre></td></tr></table></figure>
+<p>&lt;<a target="_blank" rel="noopener" href="http://www.example.com">www.example.com</a>&gt;</p>
+<h2 id="扩展语法"><a class="header-anchor" href="#扩展语法">¶</a>扩展语法</h2>
+<p>只介绍Github风格的Markdown（GFM），尽量保持兼容性。</p>
+<h3 id="自动链接"><a class="header-anchor" href="#自动链接">¶</a>自动链接</h3>
+<p><a target="_blank" rel="noopener" href="http://www.example.com">www.example.com</a></p>
+<p>禁用自动链接：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">`www.example.com`</span><br></pre></td></tr></table></figure>
+<p><code>www.example.com</code></p>
+<h3 id="表格"><a class="header-anchor" href="#表格">¶</a>表格</h3>
+<figure class="highlight markdown"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">| Header | Header | Header |</span><br><span class="line">| :---   | :---:  | ---:   |</span><br><span class="line">| Left   | Middle | Right  |</span><br></pre></td></tr></table></figure>
+<table>
+<thead>
+<tr>
+<th style="text-align:left">Header</th>
+<th style="text-align:center">Header</th>
+<th style="text-align:right">Header</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left">Left</td>
+<td style="text-align:center">Middle</td>
+<td style="text-align:right">Right</td>
+</tr>
+</tbody>
+</table>
+<ul>
+<li>表头与其他行使用<code>-</code>来分隔。</li>
+</ul>
+<h3 id="代码块"><a class="header-anchor" href="#代码块">¶</a>代码块</h3>
+<figure class="highlight markdown"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="code">```cpp</span></span><br><span class="line"><span class="code">#include &lt;iostream&gt;</span></span><br><span class="line"><span class="code">int main() &#123;</span></span><br><span class="line"><span class="code">  std::cout &lt;&lt; &quot;Hello Markdown\n&quot;;</span></span><br><span class="line"><span class="code">  return 0;</span></span><br><span class="line"><span class="code">&#125;</span></span><br><span class="line"><span class="code">\```</span></span><br></pre></td></tr></table></figure>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;iostream&gt;</span></span></span><br><span class="line"><span class="function"><span class="type">int</span> <span class="title">main</span><span class="params">()</span> </span>&#123;</span><br><span class="line">  std::cout &lt;&lt; <span class="string">&quot;Hello Markdown\n&quot;</span>;</span><br><span class="line">  <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<ul>
+<li>
+<p>很多 Shell 命令都要粘贴到终端中去执行，因此最好避免在 Shell 命令中使用任何换行操作；可以在行尾使用一个<code>\</code>，这样既能避免命令换行，又能提高源码的可读性。</p>
+</li>
+<li>
+<p>建议不要在没有输出内容的 Shell 命令前加<code>$</code>。在命令没有输出内容的情况下，<code>$</code>是没有必要的，因为内容全是命令，我们不会把命令和输出的内容混淆。</p>
+</li>
+<li>
+<p>建议在有输出内容的 Shell 命令前加上<code>$</code>，这样会比较容易区分命令和输出的内容。</p>
+</li>
+</ul>
+<h3 id="删除线"><a class="header-anchor" href="#删除线">¶</a>删除线</h3>
+<figure class="highlight markdown"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">~~删除文本~~</span><br></pre></td></tr></table></figure>
+<p><s>删除文本</s></p>
+<h3 id="任务列表"><a class="header-anchor" href="#任务列表">¶</a>任务列表</h3>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">- [x] 已完成</span><br><span class="line">- [ ] TODO</span><br></pre></td></tr></table></figure>
+<ul>
+<li>[x] 已完成</li>
+<li>[ ] TODO</li>
+</ul>
+<hr>
+<p>表情符号：</p>
+<figure class="highlight markdown"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">:cry: :joy: :smile: :warning: :memo: :bulb:</span><br></pre></td></tr></table></figure>
+<p>😢<br>
+😂<br>
+😄<br>
+⚠️<br>
+📝<br>
+💡</p>
+<p>参阅 <a target="_blank" rel="noopener" href="https://gist.github.com/rxaviers/7360908">表情短代码列表</a></p>
+<h2 id="Tricks"><a class="header-anchor" href="#Tricks">¶</a>Tricks</h2>
+<p>主要是利用 HTML 实现一些额外的功能。</p>
+<h3 id="下划线"><a class="header-anchor" href="#下划线">¶</a>下划线</h3>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">ins</span>&gt;</span>下划线文本<span class="tag">&lt;/<span class="name">ins</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<p><ins>下划线文本</ins></p>
+<h3 id="缩进"><a class="header-anchor" href="#缩进">¶</a>缩进</h3>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="symbol">&amp;nbsp;</span><span class="symbol">&amp;nbsp;</span><span class="symbol">&amp;nbsp;</span><span class="symbol">&amp;nbsp;</span>缩进文本</span><br></pre></td></tr></table></figure>
+<p>    缩进文本</p>
+<h3 id="居中"><a class="header-anchor" href="#居中">¶</a>居中</h3>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&lt;center\&gt;居中文本\&lt;/center\&gt;</span><br></pre></td></tr></table></figure>
+<p>&lt;center&gt;居中文本&lt;/center&gt;</p>
+<h3 id="颜色"><a class="header-anchor" href="#颜色">¶</a>颜色</h3>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">font</span> <span class="attr">color</span>=<span class="string">&quot;red&quot;</span>&gt;</span>红色文本<span class="tag">&lt;/<span class="name">font</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<p><font color="red">红色文本</font></p>
+<hr>
+<h3 id="图片大小"><a class="header-anchor" href="#图片大小">¶</a>图片大小</h3>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">img</span> <span class="attr">src</span>=<span class="string">&quot;image.png&quot;</span> <span class="attr">width</span>=<span class="string">&quot;200&quot;</span> <span class="attr">height</span>=<span class="string">&quot;100&quot;</span>/&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">img</span> <span class="attr">src</span>=<span class="string">&quot;image.png&quot;</span> <span class="attr">style</span>=<span class="string">&quot;zoom:33%;&quot;</span>/&gt;</span></span><br></pre></td></tr></table></figure>
+<h3 id="目录"><a class="header-anchor" href="#目录">¶</a>目录</h3>
+<p>[TOC]</p>
+<h2 id="排版-Tips"><a class="header-anchor" href="#排版-Tips">¶</a>排版 Tips</h2>
+<ol>
+<li>
+<p>安装<code>markdownlint</code>插件。</p>
+</li>
+<li>
+<p>使用<code>Trailing Spaces</code>插件。</p>
+</li>
+<li>
+<p>建议中文和英文之间加空格，中文/英文和数字之间也要加空格，不过有些编辑器和输入法（如百度输入法）会自动添加空隙，就没必要手动添加了，在使用时需多注意。</p>
+</li>
+<li>
+<p>英文标点符号（如，.；：？）与后面的字符之间需要加空格，与前面的字符之间不需要加空格。</p>
+</li>
+<li>
+<p>中文标点符号和数字、中文、英文之间不需要添加空格。</p>
+</li>
+<li>
+<p>中文排版使用全角标点符号，英文排版使用半角标点符号。</p>
+</li>
+<li>
+<p>专有名词注意大小写问题。</p>
+</li>
+</ol>
+
   </div>
 </article>
 
@@ -197,6 +371,10 @@
 
     
     
+      <div id="toc-footer" style="display: none">
+        <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%9F%BA%E6%9C%AC%E8%AF%AD%E6%B3%95"><span class="toc-number">1.</span> <span class="toc-text">基本语法</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#n%E7%BA%A7%E6%A0%87%E9%A2%98"><span class="toc-number">1.1.</span> <span class="toc-text">n级标题</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%B2%97%E4%BD%93"><span class="toc-number">1.2.</span> <span class="toc-text">粗体</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%96%9C%E4%BD%93"><span class="toc-number">1.3.</span> <span class="toc-text">斜体</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%BC%95%E7%94%A8"><span class="toc-number">1.4.</span> <span class="toc-text">引用</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%97%A0%E5%BA%8F%E5%88%97%E8%A1%A8"><span class="toc-number">1.5.</span> <span class="toc-text">无序列表</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%9C%89%E5%BA%8F%E5%88%97%E8%A1%A8"><span class="toc-number">1.6.</span> <span class="toc-text">有序列表</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%A1%8C%E5%86%85%E4%BB%A3%E7%A0%81"><span class="toc-number">1.7.</span> <span class="toc-text">行内代码</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%88%86%E5%89%B2%E7%BA%BF"><span class="toc-number">1.8.</span> <span class="toc-text">分割线</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%96%87%E5%AD%97%E9%93%BE%E6%8E%A5"><span class="toc-number">1.9.</span> <span class="toc-text">文字链接</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%9B%BE%E7%89%87"><span class="toc-number">1.10.</span> <span class="toc-text">图片</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%BD%91%E5%9D%80%E9%93%BE%E6%8E%A5"><span class="toc-number">1.11.</span> <span class="toc-text">网址链接</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%89%A9%E5%B1%95%E8%AF%AD%E6%B3%95"><span class="toc-number">2.</span> <span class="toc-text">扩展语法</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%87%AA%E5%8A%A8%E9%93%BE%E6%8E%A5"><span class="toc-number">2.1.</span> <span class="toc-text">自动链接</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%A1%A8%E6%A0%BC"><span class="toc-number">2.2.</span> <span class="toc-text">表格</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%BB%A3%E7%A0%81%E5%9D%97"><span class="toc-number">2.3.</span> <span class="toc-text">代码块</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%88%A0%E9%99%A4%E7%BA%BF"><span class="toc-number">2.4.</span> <span class="toc-text">删除线</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%BB%BB%E5%8A%A1%E5%88%97%E8%A1%A8"><span class="toc-number">2.5.</span> <span class="toc-text">任务列表</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Tricks"><span class="toc-number">3.</span> <span class="toc-text">Tricks</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%B8%8B%E5%88%92%E7%BA%BF"><span class="toc-number">3.1.</span> <span class="toc-text">下划线</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%BC%A9%E8%BF%9B"><span class="toc-number">3.2.</span> <span class="toc-text">缩进</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%B1%85%E4%B8%AD"><span class="toc-number">3.3.</span> <span class="toc-text">居中</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E9%A2%9C%E8%89%B2"><span class="toc-number">3.4.</span> <span class="toc-text">颜色</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%9B%BE%E7%89%87%E5%A4%A7%E5%B0%8F"><span class="toc-number">3.5.</span> <span class="toc-text">图片大小</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%9B%AE%E5%BD%95"><span class="toc-number">3.6.</span> <span class="toc-text">目录</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%8E%92%E7%89%88-Tips"><span class="toc-number">4.</span> <span class="toc-text">排版 Tips</span></a></li></ol>
+      </div>
+    
 
     <div id="share-footer" style="display: none">
       <ul>
@@ -217,6 +395,8 @@
 
     <div id="actions-footer">
         <a id="menu" class="icon" href="#" onclick="$('#nav-footer').toggle();return false;"><i class="fa-solid fa-bars fa-lg" aria-hidden="true"></i> 菜单</a>
+        
+          <a id="toc" class="icon" href="#" onclick="$('#toc-footer').toggle();return false;"><i class="fa-solid fa-list fa-lg" aria-hidden="true"></i> 目录</a>
         
         <a id="share" class="icon" href="#" onclick="$('#share-footer').toggle();return false;"><i class="fa-solid fa-share-alt fa-lg" aria-hidden="true"></i> 分享</a>
         <a id="top" style="display:none" class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fa-solid fa-chevron-up fa-lg" aria-hidden="true"></i> 返回顶部</a>

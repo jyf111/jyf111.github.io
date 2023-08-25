@@ -6,16 +6,16 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="HandheldFriendly" content="True">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=5" />
-    <meta name="description" content="给定一张n个点m条边的无向图，每个点有权值$a_i$​，现在可以任意加边，要求最小化$\sum_{i&#x3D;1}^n(a_i-dist_i)^2$，其中$dist_i$​表示1到i点的最短路$n \leq 40,m \leq 1600$ 任意加边并不代表每个点的的$dist_i$​都可以任意，仍然要满足一下条件$dist_1 &#x3D; 0$$dist_i \not &#x3D; 0, i">
+    <meta name="description" content="给定一张n个点m条边的无向图，每个点有权值$a_i$​，现在可以任意加边，要求最小化$\sum_{i&#x3D;1}^n(a_i- dist_i)^2$，其中$dist_i$​表示1到i点的最短路 $n \leq 40,m \leq 1600$ 任意加边并不代表每个点的的$dist_i$​都可以任意，仍然要满足一下条件 $dist_1 &#x3D; 0$ $dist_i \not &#x3D; 0, i \not&#x3D; 1$ $|">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Naomi with Graph 最小割">
 <meta property="og:url" content="http://example.com/2020/10/08/naomi-with-graph-zui-xiao-ge/index.html">
 <meta property="og:site_name" content="jyf111&#39;s blog">
-<meta property="og:description" content="给定一张n个点m条边的无向图，每个点有权值$a_i$​，现在可以任意加边，要求最小化$\sum_{i&#x3D;1}^n(a_i-dist_i)^2$，其中$dist_i$​表示1到i点的最短路$n \leq 40,m \leq 1600$ 任意加边并不代表每个点的的$dist_i$​都可以任意，仍然要满足一下条件$dist_1 &#x3D; 0$$dist_i \not &#x3D; 0, i">
+<meta property="og:description" content="给定一张n个点m条边的无向图，每个点有权值$a_i$​，现在可以任意加边，要求最小化$\sum_{i&#x3D;1}^n(a_i- dist_i)^2$，其中$dist_i$​表示1到i点的最短路 $n \leq 40,m \leq 1600$ 任意加边并不代表每个点的的$dist_i$​都可以任意，仍然要满足一下条件 $dist_1 &#x3D; 0$ $dist_i \not &#x3D; 0, i \not&#x3D; 1$ $|">
 <meta property="og:locale" content="zh_CN">
 <meta property="og:image" content="http://example.com/post-images/1602154040898.jpg">
 <meta property="article:published_time" content="2020-10-08T05:33:44.000Z">
-<meta property="article:modified_time" content="2023-08-24T11:57:23.875Z">
+<meta property="article:modified_time" content="2023-08-25T14:09:45.174Z">
 <meta property="article:author" content="jyf111">
 <meta property="article:tag" content="算法">
 <meta name="twitter:card" content="summary">
@@ -150,7 +150,7 @@
       
         <time datetime="2020-10-08T05:33:44.000Z" class="dt-published" itemprop="datePublished">2020-10-08</time>
         
-        (Updated: <time datetime="2023-08-24T11:57:23.875Z" class="dt-updated" itemprop="dateModified">2023-08-24</time>)
+        (Updated: <time datetime="2023-08-25T14:09:45.174Z" class="dt-updated" itemprop="dateModified">2023-08-25</time>)
         
       
     </div>
@@ -181,9 +181,15 @@
   
 
   <div class="content e-content" itemprop="articleBody">
-    <p>给定一张n个点m条边的无向图，每个点有权值$a_i$​，现在可以任意加边，要求最小化$\sum_{i&#x3D;1}^n(a_i-<br>dist_i)^2$，其中$dist_i$​表示1到i点的最短路<br>$n \leq 40,m \leq 1600$</p>
-<p>任意加边并不代表每个点的的$dist_i$​都可以任意，仍然要满足一下条件<br>$dist_1 &#x3D; 0$<br>$dist_i \not &#x3D; 0, i \not&#x3D; 1$<br>$|dist_i-dist_j| \leq 1,(i,j) \in E$</p>
-<p>考虑对每个点拆成n-1个点，S和第一个点相连，第i个点和第i+1个点相连，第n-1个点和T相连，边权即为$(a_i-j)^2$，由于$dist_1&#x3D;0$，所以直接让1拆出的第一个点和S不连边，最后再加上$a_i^2$​的贡献。再考虑第三个限制，如果i和j有边，就让i拆出的第x个点向j拆出的第x-1个点连边，j同理。这样如果割掉i点拆出的x和x+1之间的边，就表示$dist_i&#x3D;x$，并且此时对于和i有边的j，必须割掉x-1和x或者x和x+1或者x+1和x+2这三条边之一。所以这样建图再跑最小割即可。<br><img src="/../post-images/1602154040898.jpg"></p>
+    <p>给定一张n个点m条边的无向图，每个点有权值$a_i$​，现在可以任意加边，要求最小化$\sum_{i=1}^n(a_i-<br>
+dist_i)^2$，其中$dist_i$​表示1到i点的最短路<br>
+$n \leq 40,m \leq 1600$</p>
+<p>任意加边并不代表每个点的的$dist_i$​都可以任意，仍然要满足一下条件<br>
+$dist_1 = 0$<br>
+$dist_i \not = 0, i \not= 1$<br>
+$|dist_i-dist_j| \leq 1,(i,j) \in E$</p>
+<p>考虑对每个点拆成n-1个点，S和第一个点相连，第i个点和第i+1个点相连，第n-1个点和T相连，边权即为$(a_i-j)^2$，由于$dist_1=0$，所以直接让1拆出的第一个点和S不连边，最后再加上$a_i^2$​的贡献。再考虑第三个限制，如果i和j有边，就让i拆出的第x个点向j拆出的第x-1个点连边，j同理。这样如果割掉i点拆出的x和x+1之间的边，就表示$dist_i=x$，并且此时对于和i有边的j，必须割掉x-1和x或者x和x+1或者x+1和x+2这三条边之一。所以这样建图再跑最小割即可。<br>
+<img src="/post-images/1602154040898.jpg" alt=""></p>
 
   </div>
 </article>

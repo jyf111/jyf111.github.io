@@ -1629,9 +1629,10 @@ pre code {
 }
 code {
   padding: 0 5px;
-  border: 1px dotted #666;
   border-radius: 2px;
   -webkit-border-radius: 2px;
+  box-shadow: 0 0 1px 1px #c8d3df;
+  box-sizing: border-box;
   color: #3c70c6;
 }
 .highlight {
