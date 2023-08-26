@@ -6,12 +6,12 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="HandheldFriendly" content="True">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=5" />
-    <meta name="description" content="题目都不难，D题题面出锅 A定义$F_j$​为j各位数字之和求$\sum_{i&#x3D;1}^n\sum_{j&#x3D;1}^i [gcd(i,j)&#x3D;&#x3D;1]F(j)$莫比乌斯反演，知道$\mu * I &#x3D; \epsilon$，则$\sum \limits_{d \mid gcd(i,j)} 1 &#x3D; [gcd(i,j)&#x3D;&#x3D;1]$$d\m">
+    <meta name="description" content="题目都不难，D题题面出锅 ¶A 定义$F_j$​为j各位数字之和 求$\sum_{i&#x3D;1}^n\sum_{j&#x3D;1}^i [gcd(i,j)&#x3D;&#x3D;1]F(j)$ 莫比乌斯反演，知道$\mu * I &#x3D; \epsilon$，则 $\sum \limits_{d \mid gcd(i,j)} 1 &#x3D; [gcd(i,j)&#x3D;&#x3D;1]$ $d\mid gcd(i,j)$等价于$d\mid i,d\mid j$ 转">
 <meta property="og:type" content="article">
 <meta property="og:title" content="2020ICPC 江西省大学生程序设计竞赛">
 <meta property="og:url" content="http://example.com/2020/11/20/2020icpc-jiang-xi-sheng-da-xue-sheng-cheng-xu-she-ji-jing-sai/index.html">
 <meta property="og:site_name" content="jyf111&#39;s blog">
-<meta property="og:description" content="题目都不难，D题题面出锅 A定义$F_j$​为j各位数字之和求$\sum_{i&#x3D;1}^n\sum_{j&#x3D;1}^i [gcd(i,j)&#x3D;&#x3D;1]F(j)$莫比乌斯反演，知道$\mu * I &#x3D; \epsilon$，则$\sum \limits_{d \mid gcd(i,j)} 1 &#x3D; [gcd(i,j)&#x3D;&#x3D;1]$$d\m">
+<meta property="og:description" content="题目都不难，D题题面出锅 ¶A 定义$F_j$​为j各位数字之和 求$\sum_{i&#x3D;1}^n\sum_{j&#x3D;1}^i [gcd(i,j)&#x3D;&#x3D;1]F(j)$ 莫比乌斯反演，知道$\mu * I &#x3D; \epsilon$，则 $\sum \limits_{d \mid gcd(i,j)} 1 &#x3D; [gcd(i,j)&#x3D;&#x3D;1]$ $d\mid gcd(i,j)$等价于$d\mid i,d\mid j$ 转">
 <meta property="og:locale" content="zh_CN">
 <meta property="article:published_time" content="2020-11-20T05:33:44.000Z">
 <meta property="article:modified_time" content="2023-08-24T15:41:43.162Z">
@@ -66,7 +66,9 @@
 		</script>
 		<script src='https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-MML-AM_CHTML' async></script>
 	
-<meta name="generator" content="Hexo 6.3.0"></head>
+<!-- hexo injector head_end start -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/katex.min.css">
+<!-- hexo injector head_end end --><meta name="generator" content="Hexo 6.3.0"></head>
 
 <body class="max-width mx-auto px3 ltr">
     
@@ -98,30 +100,12 @@
         <li><a class="icon" aria-label="下一篇" href="/2020/11/02/2020ccpc-mian-yang/"><i class="fa-solid fa-chevron-right" aria-hidden="true" onmouseover="$('#i-next').toggle();" onmouseout="$('#i-next').toggle();"></i></a></li>
         
         <li><a class="icon" aria-label="返回顶部" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fa-solid fa-chevron-up" aria-hidden="true" onmouseover="$('#i-top').toggle();" onmouseout="$('#i-top').toggle();"></i></a></li>
-        <li><a class="icon" aria-label="分享文章" href="#"><i class="fa-solid fa-share-alt" aria-hidden="true" onmouseover="$('#i-share').toggle();" onmouseout="$('#i-share').toggle();" onclick="$('#share').toggle();return false;"></i></a></li>
       </ul>
       <span id="i-prev" class="info" style="display:none;">上一篇</span>
       <span id="i-next" class="info" style="display:none;">下一篇</span>
       <span id="i-top" class="info" style="display:none;">返回顶部</span>
-      <span id="i-share" class="info" style="display:none;">分享文章</span>
     </span>
     <br/>
-    <div id="share" style="display: none">
-      <ul>
-  <li><a class="icon" target="_blank" rel="noopener" href="http://www.facebook.com/sharer.php?u=http://example.com/2020/11/20/2020icpc-jiang-xi-sheng-da-xue-sheng-cheng-xu-she-ji-jing-sai/"><i class="fab fa-facebook " aria-hidden="true"></i></a></li>
-  <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=http://example.com/2020/11/20/2020icpc-jiang-xi-sheng-da-xue-sheng-cheng-xu-she-ji-jing-sai/&text=2020ICPC 江西省大学生程序设计竞赛"><i class="fab fa-twitter " aria-hidden="true"></i></a></li>
-  <li><a class="icon" target="_blank" rel="noopener" href="http://www.linkedin.com/shareArticle?url=http://example.com/2020/11/20/2020icpc-jiang-xi-sheng-da-xue-sheng-cheng-xu-she-ji-jing-sai/&title=2020ICPC 江西省大学生程序设计竞赛"><i class="fab fa-linkedin " aria-hidden="true"></i></a></li>
-  <li><a class="icon" target="_blank" rel="noopener" href="https://pinterest.com/pin/create/bookmarklet/?url=http://example.com/2020/11/20/2020icpc-jiang-xi-sheng-da-xue-sheng-cheng-xu-she-ji-jing-sai/&is_video=false&description=2020ICPC 江西省大学生程序设计竞赛"><i class="fab fa-pinterest " aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="mailto:?subject=2020ICPC 江西省大学生程序设计竞赛&body=Check out this article: http://example.com/2020/11/20/2020icpc-jiang-xi-sheng-da-xue-sheng-cheng-xu-she-ji-jing-sai/"><i class="fa-solid fa-envelope " aria-hidden="true"></i></a></li>
-  <li><a class="icon" target="_blank" rel="noopener" href="https://getpocket.com/save?url=http://example.com/2020/11/20/2020icpc-jiang-xi-sheng-da-xue-sheng-cheng-xu-she-ji-jing-sai/&title=2020ICPC 江西省大学生程序设计竞赛"><i class="fab fa-get-pocket " aria-hidden="true"></i></a></li>
-  <li><a class="icon" target="_blank" rel="noopener" href="http://reddit.com/submit?url=http://example.com/2020/11/20/2020icpc-jiang-xi-sheng-da-xue-sheng-cheng-xu-she-ji-jing-sai/&title=2020ICPC 江西省大学生程序设计竞赛"><i class="fab fa-reddit " aria-hidden="true"></i></a></li>
-  <li><a class="icon" target="_blank" rel="noopener" href="http://www.stumbleupon.com/submit?url=http://example.com/2020/11/20/2020icpc-jiang-xi-sheng-da-xue-sheng-cheng-xu-she-ji-jing-sai/&title=2020ICPC 江西省大学生程序设计竞赛"><i class="fab fa-stumbleupon " aria-hidden="true"></i></a></li>
-  <li><a class="icon" target="_blank" rel="noopener" href="http://digg.com/submit?url=http://example.com/2020/11/20/2020icpc-jiang-xi-sheng-da-xue-sheng-cheng-xu-she-ji-jing-sai/&title=2020ICPC 江西省大学生程序设计竞赛"><i class="fab fa-digg " aria-hidden="true"></i></a></li>
-  <li><a class="icon" target="_blank" rel="noopener" href="http://www.tumblr.com/share/link?url=http://example.com/2020/11/20/2020icpc-jiang-xi-sheng-da-xue-sheng-cheng-xu-she-ji-jing-sai/&name=2020ICPC 江西省大学生程序设计竞赛&description="><i class="fab fa-tumblr " aria-hidden="true"></i></a></li>
-  <li><a class="icon" target="_blank" rel="noopener" href="https://news.ycombinator.com/submitlink?u=http://example.com/2020/11/20/2020icpc-jiang-xi-sheng-da-xue-sheng-cheng-xu-she-ji-jing-sai/&t=2020ICPC 江西省大学生程序设计竞赛"><i class="fab fa-hacker-news " aria-hidden="true"></i></a></li>
-</ul>
-
-    </div>
     
     
       <div id="toc">
@@ -184,19 +168,62 @@
 
   <div class="content e-content" itemprop="articleBody">
     <p>题目都不难，D题题面出锅</p>
-<h2 id="A"><a href="#A" class="headerlink" title="A"></a>A</h2><p>定义$F_j$​为j各位数字之和<br>求$\sum_{i&#x3D;1}^n\sum_{j&#x3D;1}^i [gcd(i,j)&#x3D;&#x3D;1]F(j)$<br>莫比乌斯反演，知道$\mu * I &#x3D; \epsilon$，则<br>$\sum \limits_{d \mid gcd(i,j)} 1 &#x3D; [gcd(i,j)&#x3D;&#x3D;1]$<br>$d\mid gcd(i,j)$等价于$d\mid i,d\mid j$<br>转换成枚举d，然后就可以$O(n\log n)$枚举倍数算了</p>
-<h2 id="B"><a href="#B" class="headerlink" title="B"></a>B</h2><p>签到</p>
-<h2 id="C"><a href="#C" class="headerlink" title="C"></a>C</h2><p>有n个区间，要求选择某些区间，定义选择出的区间的价值为min(选择的区间个数，区间交集的长度)，要求最大化该价值<br>$n \leq 3\times 10^5$<br>显然可以二分，$O(n\log n)$的check也很简单，但是会被卡t<br>考虑如何$O(n)$的check<br>看价值能不能达到v，就等价于选择v个区间，且这些区间的交集的长度$\geq v$<br>将所有区间按照左端点先排序<br>枚举交集的区间的左端点l，则右端点为l+v-1，只要左端点小于等于l的区间中存在至少v个右端点$\geq l+v-1$即可，尺取法</p>
-<h2 id="D"><a href="#D" class="headerlink" title="D"></a>D</h2><p>有n个数字，总长度不超过$10^6$，让你求这些数字的所有本质不同子串的价值（数字大小）和<br>我描述成本质不同子串之后，应该很容易想到exsam<br><del>几个月没写概念都忘完</del><br>只需要建出exsam的dag图，然后按照拓扑序dp即可，只需要知道以每个endpos集合（即图上的每个节点）结尾的所有子串的和，如u有个i的出边连向v，则就有$dp[u]\times 10+i\times |u|$的贡献，$|u|$就表示u这个endpos集合的大小，就是len[u] - len[fa[u]]<br>交上去wa了，想到一个前导0的坑点，比如302中，02和2应该算同一个？这样应该也能做，只要把原点的0出边的状态能到达的点的endpos集合大小-1就行。<br>其实并不是<br>题面模998244353，数据是模1000000007，离谱</p>
-<h2 id="E"><a href="#E" class="headerlink" title="E"></a>E</h2><p>一个长度为n的序列c，求有多少个子序列满足每种数字出现偶数次<br>$n\leq 10^6,c_i\leq 20$<br>子序列考虑前缀和，对20种数字状压即可</p>
-<h2 id="F"><a href="#F" class="headerlink" title="F"></a>F</h2><p>让你构造一个最大的数，满足它的每个前缀都能被这个前缀的长度整除，构造的数字要求用火柴棒表示，且要求恰好使用n根<br>$n \leq 10^{100}$<br>稍微想想就能感觉到符合的数位数不会很大，事实上长度超过3就一定不行了，所以暴力dfs就完事了</p>
-<h2 id="G"><a href="#G" class="headerlink" title="G"></a>G</h2><p>一个集合包含1-n n个数，要求你依次选择m个数的集合，要求集合间没有交集，集合可以空，求操作的方案数<br>转化一下，可以考虑第i个数归属哪个集合，显然有m+1种选择，没被选或者选到第j个集合。<br>所以答案就是$(m+1)^n$<br>python的pow自带快速幂</p>
-<h2 id="H"><a href="#H" class="headerlink" title="H"></a>H</h2><p>一个序列，要求支持修改一个数，询问以某个数为最小值的区间个数。<br>保证序列中没有重复数字<br>显然只要找到左右两边第一个小于你的数即可<br>记录区间最小值，线段树上贪心着走即可</p>
-<h2 id="I"><a href="#I" class="headerlink" title="I"></a>I</h2><p>规律题</p>
-<h2 id="J"><a href="#J" class="headerlink" title="J"></a>J</h2><p>二维SG</p>
-<h2 id="K"><a href="#K" class="headerlink" title="K"></a>K</h2><p>可以从起点出发带x个物品，走第y步路的消费是$x^y$，多次询问从s到t，你拥有m元钱，则在起点最多带多少个物品。<br>点数是100<br>先跑个floyd，则s到t的花费就是一个等比数列，二分一下公比即可，注意公比为1的情况</p>
-<h2 id="L"><a href="#L" class="headerlink" title="L"></a>L</h2><p>n皇后，但是可以在一条斜线<br>状压dp</p>
-<h2 id="M"><a href="#M" class="headerlink" title="M"></a>M</h2><p>输出string s+string t</p>
+<h2 id="A"><a class="header-anchor" href="#A">¶</a>A</h2>
+<p>定义$F_j$​为j各位数字之和<br>
+求$\sum_{i=1}^n\sum_{j=1}^i [gcd(i,j)==1]F(j)$<br>
+莫比乌斯反演，知道$\mu * I = \epsilon$，则<br>
+$\sum \limits_{d \mid gcd(i,j)} 1 = [gcd(i,j)==1]$<br>
+$d\mid gcd(i,j)$等价于$d\mid i,d\mid j$<br>
+转换成枚举d，然后就可以$O(n\log n)$枚举倍数算了</p>
+<h2 id="B"><a class="header-anchor" href="#B">¶</a>B</h2>
+<p>签到</p>
+<h2 id="C"><a class="header-anchor" href="#C">¶</a>C</h2>
+<p>有n个区间，要求选择某些区间，定义选择出的区间的价值为min(选择的区间个数，区间交集的长度)，要求最大化该价值<br>
+$n \leq 3\times 10^5$<br>
+显然可以二分，$O(n\log n)$的check也很简单，但是会被卡t<br>
+考虑如何$O(n)$的check<br>
+看价值能不能达到v，就等价于选择v个区间，且这些区间的交集的长度$\geq v$<br>
+将所有区间按照左端点先排序<br>
+枚举交集的区间的左端点l，则右端点为l+v-1，只要左端点小于等于l的区间中存在至少v个右端点$\geq l+v-1$即可，尺取法</p>
+<h2 id="D"><a class="header-anchor" href="#D">¶</a>D</h2>
+<p>有n个数字，总长度不超过$10^6$，让你求这些数字的所有本质不同子串的价值（数字大小）和<br>
+我描述成本质不同子串之后，应该很容易想到exsam<br>
+<s>几个月没写概念都忘完</s><br>
+只需要建出exsam的dag图，然后按照拓扑序dp即可，只需要知道以每个endpos集合（即图上的每个节点）结尾的所有子串的和，如u有个i的出边连向v，则就有$dp[u]\times 10+i\times |u|$的贡献，$|u|$就表示u这个endpos集合的大小，就是len[u] - len[fa[u]]<br>
+交上去wa了，想到一个前导0的坑点，比如302中，02和2应该算同一个？这样应该也能做，只要把原点的0出边的状态能到达的点的endpos集合大小-1就行。<br>
+其实并不是<br>
+题面模998244353，数据是模1000000007，离谱</p>
+<h2 id="E"><a class="header-anchor" href="#E">¶</a>E</h2>
+<p>一个长度为n的序列c，求有多少个子序列满足每种数字出现偶数次<br>
+$n\leq 10^6,c_i\leq 20$<br>
+子序列考虑前缀和，对20种数字状压即可</p>
+<h2 id="F"><a class="header-anchor" href="#F">¶</a>F</h2>
+<p>让你构造一个最大的数，满足它的每个前缀都能被这个前缀的长度整除，构造的数字要求用火柴棒表示，且要求恰好使用n根<br>
+$n \leq 10^{100}$<br>
+稍微想想就能感觉到符合的数位数不会很大，事实上长度超过3就一定不行了，所以暴力dfs就完事了</p>
+<h2 id="G"><a class="header-anchor" href="#G">¶</a>G</h2>
+<p>一个集合包含1-n n个数，要求你依次选择m个数的集合，要求集合间没有交集，集合可以空，求操作的方案数<br>
+转化一下，可以考虑第i个数归属哪个集合，显然有m+1种选择，没被选或者选到第j个集合。<br>
+所以答案就是$(m+1)^n$<br>
+python的pow自带快速幂</p>
+<h2 id="H"><a class="header-anchor" href="#H">¶</a>H</h2>
+<p>一个序列，要求支持修改一个数，询问以某个数为最小值的区间个数。<br>
+保证序列中没有重复数字<br>
+显然只要找到左右两边第一个小于你的数即可<br>
+记录区间最小值，线段树上贪心着走即可</p>
+<h2 id="I"><a class="header-anchor" href="#I">¶</a>I</h2>
+<p>规律题</p>
+<h2 id="J"><a class="header-anchor" href="#J">¶</a>J</h2>
+<p>二维SG</p>
+<h2 id="K"><a class="header-anchor" href="#K">¶</a>K</h2>
+<p>可以从起点出发带x个物品，走第y步路的消费是$x^y$，多次询问从s到t，你拥有m元钱，则在起点最多带多少个物品。<br>
+点数是100<br>
+先跑个floyd，则s到t的花费就是一个等比数列，二分一下公比即可，注意公比为1的情况</p>
+<h2 id="L"><a class="header-anchor" href="#L">¶</a>L</h2>
+<p>n皇后，但是可以在一条斜线<br>
+状压dp</p>
+<h2 id="M"><a class="header-anchor" href="#M">¶</a>M</h2>
+<p>输出string s+string t</p>
 
   </div>
 </article>
@@ -228,29 +255,11 @@
       </div>
     
 
-    <div id="share-footer" style="display: none">
-      <ul>
-  <li><a class="icon" target="_blank" rel="noopener" href="http://www.facebook.com/sharer.php?u=http://example.com/2020/11/20/2020icpc-jiang-xi-sheng-da-xue-sheng-cheng-xu-she-ji-jing-sai/"><i class="fab fa-facebook fa-lg" aria-hidden="true"></i></a></li>
-  <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=http://example.com/2020/11/20/2020icpc-jiang-xi-sheng-da-xue-sheng-cheng-xu-she-ji-jing-sai/&text=2020ICPC 江西省大学生程序设计竞赛"><i class="fab fa-twitter fa-lg" aria-hidden="true"></i></a></li>
-  <li><a class="icon" target="_blank" rel="noopener" href="http://www.linkedin.com/shareArticle?url=http://example.com/2020/11/20/2020icpc-jiang-xi-sheng-da-xue-sheng-cheng-xu-she-ji-jing-sai/&title=2020ICPC 江西省大学生程序设计竞赛"><i class="fab fa-linkedin fa-lg" aria-hidden="true"></i></a></li>
-  <li><a class="icon" target="_blank" rel="noopener" href="https://pinterest.com/pin/create/bookmarklet/?url=http://example.com/2020/11/20/2020icpc-jiang-xi-sheng-da-xue-sheng-cheng-xu-she-ji-jing-sai/&is_video=false&description=2020ICPC 江西省大学生程序设计竞赛"><i class="fab fa-pinterest fa-lg" aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="mailto:?subject=2020ICPC 江西省大学生程序设计竞赛&body=Check out this article: http://example.com/2020/11/20/2020icpc-jiang-xi-sheng-da-xue-sheng-cheng-xu-she-ji-jing-sai/"><i class="fa-solid fa-envelope fa-lg" aria-hidden="true"></i></a></li>
-  <li><a class="icon" target="_blank" rel="noopener" href="https://getpocket.com/save?url=http://example.com/2020/11/20/2020icpc-jiang-xi-sheng-da-xue-sheng-cheng-xu-she-ji-jing-sai/&title=2020ICPC 江西省大学生程序设计竞赛"><i class="fab fa-get-pocket fa-lg" aria-hidden="true"></i></a></li>
-  <li><a class="icon" target="_blank" rel="noopener" href="http://reddit.com/submit?url=http://example.com/2020/11/20/2020icpc-jiang-xi-sheng-da-xue-sheng-cheng-xu-she-ji-jing-sai/&title=2020ICPC 江西省大学生程序设计竞赛"><i class="fab fa-reddit fa-lg" aria-hidden="true"></i></a></li>
-  <li><a class="icon" target="_blank" rel="noopener" href="http://www.stumbleupon.com/submit?url=http://example.com/2020/11/20/2020icpc-jiang-xi-sheng-da-xue-sheng-cheng-xu-she-ji-jing-sai/&title=2020ICPC 江西省大学生程序设计竞赛"><i class="fab fa-stumbleupon fa-lg" aria-hidden="true"></i></a></li>
-  <li><a class="icon" target="_blank" rel="noopener" href="http://digg.com/submit?url=http://example.com/2020/11/20/2020icpc-jiang-xi-sheng-da-xue-sheng-cheng-xu-she-ji-jing-sai/&title=2020ICPC 江西省大学生程序设计竞赛"><i class="fab fa-digg fa-lg" aria-hidden="true"></i></a></li>
-  <li><a class="icon" target="_blank" rel="noopener" href="http://www.tumblr.com/share/link?url=http://example.com/2020/11/20/2020icpc-jiang-xi-sheng-da-xue-sheng-cheng-xu-she-ji-jing-sai/&name=2020ICPC 江西省大学生程序设计竞赛&description="><i class="fab fa-tumblr fa-lg" aria-hidden="true"></i></a></li>
-  <li><a class="icon" target="_blank" rel="noopener" href="https://news.ycombinator.com/submitlink?u=http://example.com/2020/11/20/2020icpc-jiang-xi-sheng-da-xue-sheng-cheng-xu-she-ji-jing-sai/&t=2020ICPC 江西省大学生程序设计竞赛"><i class="fab fa-hacker-news fa-lg" aria-hidden="true"></i></a></li>
-</ul>
-
-    </div>
-
     <div id="actions-footer">
         <a id="menu" class="icon" href="#" onclick="$('#nav-footer').toggle();return false;"><i class="fa-solid fa-bars fa-lg" aria-hidden="true"></i> 菜单</a>
         
           <a id="toc" class="icon" href="#" onclick="$('#toc-footer').toggle();return false;"><i class="fa-solid fa-list fa-lg" aria-hidden="true"></i> 目录</a>
         
-        <a id="share" class="icon" href="#" onclick="$('#share-footer').toggle();return false;"><i class="fa-solid fa-share-alt fa-lg" aria-hidden="true"></i> 分享</a>
         <a id="top" style="display:none" class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fa-solid fa-chevron-up fa-lg" aria-hidden="true"></i> 返回顶部</a>
     </div>
 
@@ -335,6 +344,7 @@
 <!-- Disqus Comments -->
 
 <!-- utterances Comments -->
+
 
 </body>
 </html>

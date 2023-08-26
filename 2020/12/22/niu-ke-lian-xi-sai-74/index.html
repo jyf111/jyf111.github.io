@@ -6,12 +6,12 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="HandheldFriendly" content="True">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=5" />
-    <meta name="description" content="ABCD都很一眼 E看到题也想到思路了，然而写法复杂了，加上写错一个地方，再加上出题人数据范围不给下限，正整数包含0可还行，写了一个多小时给定一个联通简单无向图，定义一种操作是，随机选择两个不同的点，将他们之间最短路径上的所有点都变成黑色，问你操作k次后黑色点的个数的期望$n \leq 500$思路很简单，考虑每个点变黑的概率是多少，一次操作变黑，就是枚举有多少对点，它们之间存在一条最短路经过该点">
+    <meta name="description" content="ABCD都很一眼 ¶E 看到题也想到思路了，然而写法复杂了，加上写错一个地方，再加上出题人数据范围不给下限，正整数包含0可还行，写了一个多小时 给定一个联通简单无向图，定义一种操作是，随机选择两个不同的点，将他们之间最短路径上的所有点都变成黑色，问你操作k次后黑色点的个数的期望 $n \leq 500$ 思路很简单，考虑每个点变黑的概率是多少，一次操作变黑，就是枚举有多少对点，它们之间存在一条最短">
 <meta property="og:type" content="article">
 <meta property="og:title" content="牛客练习赛74">
 <meta property="og:url" content="http://example.com/2020/12/22/niu-ke-lian-xi-sai-74/index.html">
 <meta property="og:site_name" content="jyf111&#39;s blog">
-<meta property="og:description" content="ABCD都很一眼 E看到题也想到思路了，然而写法复杂了，加上写错一个地方，再加上出题人数据范围不给下限，正整数包含0可还行，写了一个多小时给定一个联通简单无向图，定义一种操作是，随机选择两个不同的点，将他们之间最短路径上的所有点都变成黑色，问你操作k次后黑色点的个数的期望$n \leq 500$思路很简单，考虑每个点变黑的概率是多少，一次操作变黑，就是枚举有多少对点，它们之间存在一条最短路经过该点">
+<meta property="og:description" content="ABCD都很一眼 ¶E 看到题也想到思路了，然而写法复杂了，加上写错一个地方，再加上出题人数据范围不给下限，正整数包含0可还行，写了一个多小时 给定一个联通简单无向图，定义一种操作是，随机选择两个不同的点，将他们之间最短路径上的所有点都变成黑色，问你操作k次后黑色点的个数的期望 $n \leq 500$ 思路很简单，考虑每个点变黑的概率是多少，一次操作变黑，就是枚举有多少对点，它们之间存在一条最短">
 <meta property="og:locale" content="zh_CN">
 <meta property="article:published_time" content="2020-12-22T05:33:43.000Z">
 <meta property="article:modified_time" content="2023-08-24T15:19:11.502Z">
@@ -66,7 +66,9 @@
 		</script>
 		<script src='https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-MML-AM_CHTML' async></script>
 	
-<meta name="generator" content="Hexo 6.3.0"></head>
+<!-- hexo injector head_end start -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/katex.min.css">
+<!-- hexo injector head_end end --><meta name="generator" content="Hexo 6.3.0"></head>
 
 <body class="max-width mx-auto px3 ltr">
     
@@ -98,30 +100,12 @@
         <li><a class="icon" aria-label="下一篇" href="/2020/12/16/shu-ju-jie-gou-mo-ban-zheng-he/"><i class="fa-solid fa-chevron-right" aria-hidden="true" onmouseover="$('#i-next').toggle();" onmouseout="$('#i-next').toggle();"></i></a></li>
         
         <li><a class="icon" aria-label="返回顶部" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fa-solid fa-chevron-up" aria-hidden="true" onmouseover="$('#i-top').toggle();" onmouseout="$('#i-top').toggle();"></i></a></li>
-        <li><a class="icon" aria-label="分享文章" href="#"><i class="fa-solid fa-share-alt" aria-hidden="true" onmouseover="$('#i-share').toggle();" onmouseout="$('#i-share').toggle();" onclick="$('#share').toggle();return false;"></i></a></li>
       </ul>
       <span id="i-prev" class="info" style="display:none;">上一篇</span>
       <span id="i-next" class="info" style="display:none;">下一篇</span>
       <span id="i-top" class="info" style="display:none;">返回顶部</span>
-      <span id="i-share" class="info" style="display:none;">分享文章</span>
     </span>
     <br/>
-    <div id="share" style="display: none">
-      <ul>
-  <li><a class="icon" target="_blank" rel="noopener" href="http://www.facebook.com/sharer.php?u=http://example.com/2020/12/22/niu-ke-lian-xi-sai-74/"><i class="fab fa-facebook " aria-hidden="true"></i></a></li>
-  <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=http://example.com/2020/12/22/niu-ke-lian-xi-sai-74/&text=牛客练习赛74"><i class="fab fa-twitter " aria-hidden="true"></i></a></li>
-  <li><a class="icon" target="_blank" rel="noopener" href="http://www.linkedin.com/shareArticle?url=http://example.com/2020/12/22/niu-ke-lian-xi-sai-74/&title=牛客练习赛74"><i class="fab fa-linkedin " aria-hidden="true"></i></a></li>
-  <li><a class="icon" target="_blank" rel="noopener" href="https://pinterest.com/pin/create/bookmarklet/?url=http://example.com/2020/12/22/niu-ke-lian-xi-sai-74/&is_video=false&description=牛客练习赛74"><i class="fab fa-pinterest " aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="mailto:?subject=牛客练习赛74&body=Check out this article: http://example.com/2020/12/22/niu-ke-lian-xi-sai-74/"><i class="fa-solid fa-envelope " aria-hidden="true"></i></a></li>
-  <li><a class="icon" target="_blank" rel="noopener" href="https://getpocket.com/save?url=http://example.com/2020/12/22/niu-ke-lian-xi-sai-74/&title=牛客练习赛74"><i class="fab fa-get-pocket " aria-hidden="true"></i></a></li>
-  <li><a class="icon" target="_blank" rel="noopener" href="http://reddit.com/submit?url=http://example.com/2020/12/22/niu-ke-lian-xi-sai-74/&title=牛客练习赛74"><i class="fab fa-reddit " aria-hidden="true"></i></a></li>
-  <li><a class="icon" target="_blank" rel="noopener" href="http://www.stumbleupon.com/submit?url=http://example.com/2020/12/22/niu-ke-lian-xi-sai-74/&title=牛客练习赛74"><i class="fab fa-stumbleupon " aria-hidden="true"></i></a></li>
-  <li><a class="icon" target="_blank" rel="noopener" href="http://digg.com/submit?url=http://example.com/2020/12/22/niu-ke-lian-xi-sai-74/&title=牛客练习赛74"><i class="fab fa-digg " aria-hidden="true"></i></a></li>
-  <li><a class="icon" target="_blank" rel="noopener" href="http://www.tumblr.com/share/link?url=http://example.com/2020/12/22/niu-ke-lian-xi-sai-74/&name=牛客练习赛74&description="><i class="fab fa-tumblr " aria-hidden="true"></i></a></li>
-  <li><a class="icon" target="_blank" rel="noopener" href="https://news.ycombinator.com/submitlink?u=http://example.com/2020/12/22/niu-ke-lian-xi-sai-74/&t=牛客练习赛74"><i class="fab fa-hacker-news " aria-hidden="true"></i></a></li>
-</ul>
-
-    </div>
     
     
       <div id="toc">
@@ -184,11 +168,28 @@
 
   <div class="content e-content" itemprop="articleBody">
     <p>ABCD都很一眼</p>
-<h2 id="E"><a href="#E" class="headerlink" title="E"></a>E</h2><p>看到题也想到思路了，然而写法复杂了，加上写错一个地方，再加上出题人数据范围不给下限，正整数包含0可还行，写了一个多小时<br>给定一个联通简单无向图，定义一种操作是，随机选择两个不同的点，将他们之间最短路径上的所有点都变成黑色，问你操作k次后黑色点的个数的期望<br>$n \leq 500$<br>思路很简单，考虑每个点变黑的概率是多少，一次操作变黑，就是枚举有多少对点，它们之间存在一条最短路经过该点。然后这题就没了<br>先跑一遍floyd，然后枚举i,j,k，如果$d_{ik}+d_{kj}&#x3D;d_{ij}$​，说明i和j的最短路中有k<br>我写复杂了，考虑以每个点为根的最短路径图，固定选根，那么要让第i个点变黑，就必须选择第i个点的后继可达点（最短路径图是个DAG，拓扑排序+bitset，复杂度其实有点炸，不过题目数据w存在0，这时候就不是DAG了，这做法就挂了）<br>另外我竟然在初始化时写出</p>
+<h2 id="E"><a class="header-anchor" href="#E">¶</a>E</h2>
+<p>看到题也想到思路了，然而写法复杂了，加上写错一个地方，再加上出题人数据范围不给下限，正整数包含0可还行，写了一个多小时<br>
+给定一个联通简单无向图，定义一种操作是，随机选择两个不同的点，将他们之间最短路径上的所有点都变成黑色，问你操作k次后黑色点的个数的期望<br>
+$n \leq 500$<br>
+思路很简单，考虑每个点变黑的概率是多少，一次操作变黑，就是枚举有多少对点，它们之间存在一条最短路经过该点。然后这题就没了<br>
+先跑一遍floyd，然后枚举i,j,k，如果$d_{ik}+d_{kj}=d_{ij}$​，说明i和j的最短路中有k<br>
+我写复杂了，考虑以每个点为根的最短路径图，固定选根，那么要让第i个点变黑，就必须选择第i个点的后继可达点（最短路径图是个DAG，拓扑排序+bitset，复杂度其实有点炸，不过题目数据w存在0，这时候就不是DAG了，这做法就挂了）<br>
+另外我竟然在初始化时写出</p>
 <figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">G[i][j] = (i^j)*inf</span><br></pre></td></tr></table></figure>
-
-<p>没多想把i!&#x3D;j改成了i^j，蠢了</p>
-<h2 id="F"><a href="#F" class="headerlink" title="F"></a>F</h2><p>一个n个节点的树，对其染至多m种颜色，定义一颗树是好的，当且仅当存在一条链使得端点是同色，且除端点外存在一个点与端点不同色。问染色方案数的期望（树的形态任意）<br>$n \leq 10^7, m \leq 10^7$<br>存在问题转成反问题，每条链都不合法，要么整条链同色，要么都不同色， <del>然后就不会了</del><br>按照dfs序来dp<br>$dp_{ij}$​表示考虑到dfs序为i的点时，已经染了j种颜色，且整棵树不合法<br>则$dp_{ij} &#x3D; dp_{i-1j} + dp_{i-1j-1}(m-j+1)$<br>要么和父亲同色，要么选择一种没出现过的颜色<br>容易发现所有形态树的染色方案树是相同的，所以答案等价于求一棵树的染色方案数<br>考虑这个式子的组合意义，就是i个有标号球，m个有标号盒子，然后放入其中的j个的方案数<br>可以直接求出来是$\binom{m}{j}\binom{i-1}{j-1}$，即先从m个盒子里选j个，然后这j个任意排列，之后就是个隔板法了<br>最后的答案是$m^n - \sum_{i&#x3D;1}^m dp_{ni}$</p>
+<p>没多想把i!=j改成了i^j，蠢了</p>
+<h2 id="F"><a class="header-anchor" href="#F">¶</a>F</h2>
+<p>一个n个节点的树，对其染至多m种颜色，定义一颗树是好的，当且仅当存在一条链使得端点是同色，且除端点外存在一个点与端点不同色。问染色方案数的期望（树的形态任意）<br>
+$n \leq 10^7, m \leq 10^7$<br>
+存在问题转成反问题，每条链都不合法，要么整条链同色，要么都不同色， <s>然后就不会了</s><br>
+按照dfs序来dp<br>
+$dp_{ij}$​表示考虑到dfs序为i的点时，已经染了j种颜色，且整棵树不合法<br>
+则$dp_{ij} = dp_{i-1j} + dp_{i-1j-1}(m-j+1)$<br>
+要么和父亲同色，要么选择一种没出现过的颜色<br>
+容易发现所有形态树的染色方案树是相同的，所以答案等价于求一棵树的染色方案数<br>
+考虑这个式子的组合意义，就是i个有标号球，m个有标号盒子，然后放入其中的j个的方案数<br>
+可以直接求出来是$\binom{m}{j}\binom{i-1}{j-1}$，即先从m个盒子里选j个，然后这j个任意排列，之后就是个隔板法了<br>
+最后的答案是$m^n - \sum_{i=1}^m dp_{ni}$</p>
 
   </div>
 </article>
@@ -220,29 +221,11 @@
       </div>
     
 
-    <div id="share-footer" style="display: none">
-      <ul>
-  <li><a class="icon" target="_blank" rel="noopener" href="http://www.facebook.com/sharer.php?u=http://example.com/2020/12/22/niu-ke-lian-xi-sai-74/"><i class="fab fa-facebook fa-lg" aria-hidden="true"></i></a></li>
-  <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=http://example.com/2020/12/22/niu-ke-lian-xi-sai-74/&text=牛客练习赛74"><i class="fab fa-twitter fa-lg" aria-hidden="true"></i></a></li>
-  <li><a class="icon" target="_blank" rel="noopener" href="http://www.linkedin.com/shareArticle?url=http://example.com/2020/12/22/niu-ke-lian-xi-sai-74/&title=牛客练习赛74"><i class="fab fa-linkedin fa-lg" aria-hidden="true"></i></a></li>
-  <li><a class="icon" target="_blank" rel="noopener" href="https://pinterest.com/pin/create/bookmarklet/?url=http://example.com/2020/12/22/niu-ke-lian-xi-sai-74/&is_video=false&description=牛客练习赛74"><i class="fab fa-pinterest fa-lg" aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="mailto:?subject=牛客练习赛74&body=Check out this article: http://example.com/2020/12/22/niu-ke-lian-xi-sai-74/"><i class="fa-solid fa-envelope fa-lg" aria-hidden="true"></i></a></li>
-  <li><a class="icon" target="_blank" rel="noopener" href="https://getpocket.com/save?url=http://example.com/2020/12/22/niu-ke-lian-xi-sai-74/&title=牛客练习赛74"><i class="fab fa-get-pocket fa-lg" aria-hidden="true"></i></a></li>
-  <li><a class="icon" target="_blank" rel="noopener" href="http://reddit.com/submit?url=http://example.com/2020/12/22/niu-ke-lian-xi-sai-74/&title=牛客练习赛74"><i class="fab fa-reddit fa-lg" aria-hidden="true"></i></a></li>
-  <li><a class="icon" target="_blank" rel="noopener" href="http://www.stumbleupon.com/submit?url=http://example.com/2020/12/22/niu-ke-lian-xi-sai-74/&title=牛客练习赛74"><i class="fab fa-stumbleupon fa-lg" aria-hidden="true"></i></a></li>
-  <li><a class="icon" target="_blank" rel="noopener" href="http://digg.com/submit?url=http://example.com/2020/12/22/niu-ke-lian-xi-sai-74/&title=牛客练习赛74"><i class="fab fa-digg fa-lg" aria-hidden="true"></i></a></li>
-  <li><a class="icon" target="_blank" rel="noopener" href="http://www.tumblr.com/share/link?url=http://example.com/2020/12/22/niu-ke-lian-xi-sai-74/&name=牛客练习赛74&description="><i class="fab fa-tumblr fa-lg" aria-hidden="true"></i></a></li>
-  <li><a class="icon" target="_blank" rel="noopener" href="https://news.ycombinator.com/submitlink?u=http://example.com/2020/12/22/niu-ke-lian-xi-sai-74/&t=牛客练习赛74"><i class="fab fa-hacker-news fa-lg" aria-hidden="true"></i></a></li>
-</ul>
-
-    </div>
-
     <div id="actions-footer">
         <a id="menu" class="icon" href="#" onclick="$('#nav-footer').toggle();return false;"><i class="fa-solid fa-bars fa-lg" aria-hidden="true"></i> 菜单</a>
         
           <a id="toc" class="icon" href="#" onclick="$('#toc-footer').toggle();return false;"><i class="fa-solid fa-list fa-lg" aria-hidden="true"></i> 目录</a>
         
-        <a id="share" class="icon" href="#" onclick="$('#share-footer').toggle();return false;"><i class="fa-solid fa-share-alt fa-lg" aria-hidden="true"></i> 分享</a>
         <a id="top" style="display:none" class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fa-solid fa-chevron-up fa-lg" aria-hidden="true"></i> 返回顶部</a>
     </div>
 
@@ -327,6 +310,7 @@
 <!-- Disqus Comments -->
 
 <!-- utterances Comments -->
+
 
 </body>
 </html>

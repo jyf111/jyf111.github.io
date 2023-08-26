@@ -6,12 +6,12 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="HandheldFriendly" content="True">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=5" />
-    <meta name="description" content="尽量减少cache miss保证时空局部性，尽量连续地访存，使用局部变量使用指针访问可以加快速度（仅限于卡常） 12int *st &#x3D; a + 1, *ed &#x3D; a + n + 1;while(st!&#x3D;ed) work(*(st++));   对树进行树链剖分后，子树是一个连续的区间，树上的路径也可以被划分成log段连续区间。然后利用数据结构对这些连续区间进行操作即可。但是有些时候数据结构这块不好">
+    <meta name="description" content="尽量减少cache miss 保证时空局部性，尽量连续地访存，使用局部变量 使用指针访问可以加快速度（仅限于卡常） 12int *st &#x3D; a + 1, *ed &#x3D; a + n + 1;while(st!&#x3D;ed) work(*(st++));  对树进行树链剖分后，子树是一个连续的区间，树上的路径也可以被划分成log段连续区间。 然后利用数据结构对这些连续区间进行操作即可。 但是有些时候数据结构这">
 <meta property="og:type" content="article">
 <meta property="og:title" content="cache friendly">
 <meta property="og:url" content="http://example.com/2020/09/02/cache-friendly/index.html">
 <meta property="og:site_name" content="jyf111&#39;s blog">
-<meta property="og:description" content="尽量减少cache miss保证时空局部性，尽量连续地访存，使用局部变量使用指针访问可以加快速度（仅限于卡常） 12int *st &#x3D; a + 1, *ed &#x3D; a + n + 1;while(st!&#x3D;ed) work(*(st++));   对树进行树链剖分后，子树是一个连续的区间，树上的路径也可以被划分成log段连续区间。然后利用数据结构对这些连续区间进行操作即可。但是有些时候数据结构这块不好">
+<meta property="og:description" content="尽量减少cache miss 保证时空局部性，尽量连续地访存，使用局部变量 使用指针访问可以加快速度（仅限于卡常） 12int *st &#x3D; a + 1, *ed &#x3D; a + n + 1;while(st!&#x3D;ed) work(*(st++));  对树进行树链剖分后，子树是一个连续的区间，树上的路径也可以被划分成log段连续区间。 然后利用数据结构对这些连续区间进行操作即可。 但是有些时候数据结构这">
 <meta property="og:locale" content="zh_CN">
 <meta property="article:published_time" content="2020-09-02T05:33:44.000Z">
 <meta property="article:modified_time" content="2023-08-24T11:55:45.685Z">
@@ -66,7 +66,9 @@
 		</script>
 		<script src='https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-MML-AM_CHTML' async></script>
 	
-<meta name="generator" content="Hexo 6.3.0"></head>
+<!-- hexo injector head_end start -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/katex.min.css">
+<!-- hexo injector head_end end --><meta name="generator" content="Hexo 6.3.0"></head>
 
 <body class="max-width mx-auto px3 ltr">
     
@@ -98,30 +100,12 @@
         <li><a class="icon" aria-label="下一篇" href="/2020/09/02/p4072-sdoi2016zheng-tu-tui-shi-zi-xie-lu-you-hua-dp/"><i class="fa-solid fa-chevron-right" aria-hidden="true" onmouseover="$('#i-next').toggle();" onmouseout="$('#i-next').toggle();"></i></a></li>
         
         <li><a class="icon" aria-label="返回顶部" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fa-solid fa-chevron-up" aria-hidden="true" onmouseover="$('#i-top').toggle();" onmouseout="$('#i-top').toggle();"></i></a></li>
-        <li><a class="icon" aria-label="分享文章" href="#"><i class="fa-solid fa-share-alt" aria-hidden="true" onmouseover="$('#i-share').toggle();" onmouseout="$('#i-share').toggle();" onclick="$('#share').toggle();return false;"></i></a></li>
       </ul>
       <span id="i-prev" class="info" style="display:none;">上一篇</span>
       <span id="i-next" class="info" style="display:none;">下一篇</span>
       <span id="i-top" class="info" style="display:none;">返回顶部</span>
-      <span id="i-share" class="info" style="display:none;">分享文章</span>
     </span>
     <br/>
-    <div id="share" style="display: none">
-      <ul>
-  <li><a class="icon" target="_blank" rel="noopener" href="http://www.facebook.com/sharer.php?u=http://example.com/2020/09/02/cache-friendly/"><i class="fab fa-facebook " aria-hidden="true"></i></a></li>
-  <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=http://example.com/2020/09/02/cache-friendly/&text=cache friendly"><i class="fab fa-twitter " aria-hidden="true"></i></a></li>
-  <li><a class="icon" target="_blank" rel="noopener" href="http://www.linkedin.com/shareArticle?url=http://example.com/2020/09/02/cache-friendly/&title=cache friendly"><i class="fab fa-linkedin " aria-hidden="true"></i></a></li>
-  <li><a class="icon" target="_blank" rel="noopener" href="https://pinterest.com/pin/create/bookmarklet/?url=http://example.com/2020/09/02/cache-friendly/&is_video=false&description=cache friendly"><i class="fab fa-pinterest " aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="mailto:?subject=cache friendly&body=Check out this article: http://example.com/2020/09/02/cache-friendly/"><i class="fa-solid fa-envelope " aria-hidden="true"></i></a></li>
-  <li><a class="icon" target="_blank" rel="noopener" href="https://getpocket.com/save?url=http://example.com/2020/09/02/cache-friendly/&title=cache friendly"><i class="fab fa-get-pocket " aria-hidden="true"></i></a></li>
-  <li><a class="icon" target="_blank" rel="noopener" href="http://reddit.com/submit?url=http://example.com/2020/09/02/cache-friendly/&title=cache friendly"><i class="fab fa-reddit " aria-hidden="true"></i></a></li>
-  <li><a class="icon" target="_blank" rel="noopener" href="http://www.stumbleupon.com/submit?url=http://example.com/2020/09/02/cache-friendly/&title=cache friendly"><i class="fab fa-stumbleupon " aria-hidden="true"></i></a></li>
-  <li><a class="icon" target="_blank" rel="noopener" href="http://digg.com/submit?url=http://example.com/2020/09/02/cache-friendly/&title=cache friendly"><i class="fab fa-digg " aria-hidden="true"></i></a></li>
-  <li><a class="icon" target="_blank" rel="noopener" href="http://www.tumblr.com/share/link?url=http://example.com/2020/09/02/cache-friendly/&name=cache friendly&description="><i class="fab fa-tumblr " aria-hidden="true"></i></a></li>
-  <li><a class="icon" target="_blank" rel="noopener" href="https://news.ycombinator.com/submitlink?u=http://example.com/2020/09/02/cache-friendly/&t=cache friendly"><i class="fab fa-hacker-news " aria-hidden="true"></i></a></li>
-</ul>
-
-    </div>
     
     
   </span>
@@ -179,17 +163,21 @@
   
 
   <div class="content e-content" itemprop="articleBody">
-    <p>尽量减少cache miss<br>保证时空局部性，尽量连续地访存，使用局部变量<br>使用指针访问可以加快速度（仅限于卡常）</p>
+    <p>尽量减少cache miss<br>
+保证时空局部性，尽量连续地访存，使用局部变量<br>
+使用指针访问可以加快速度（仅限于卡常）</p>
 <figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">int</span> *st = a + <span class="number">1</span>, *ed = a + n + <span class="number">1</span>;</span><br><span class="line"><span class="keyword">while</span>(st!=ed) <span class="built_in">work</span>(*(st++));</span><br></pre></td></tr></table></figure>
-
 <ul>
-<li>对树进行树链剖分后，子树是一个连续的区间，树上的路径也可以被划分成log段连续区间。<br>然后利用数据结构对这些连续区间进行操作即可。<br>但是有些时候数据结构这块不好写，或者常数很大，比如说需要$O(n\sqrt n \log<br>n)$来维护$10^5$个节点的操作，这时候我们可以直接对所有连续段for循环暴力$O(n^2)$维护，然后注意访问的连续性，这样cache的miss率是log级别的，通过pragma等预编译命令加速会有不错的效果</li>
+<li>对树进行树链剖分后，子树是一个连续的区间，树上的路径也可以被划分成log段连续区间。<br>
+然后利用数据结构对这些连续区间进行操作即可。<br>
+但是有些时候数据结构这块不好写，或者常数很大，比如说需要$O(n\sqrt n \log<br>
+n)$来维护$10^5$个节点的操作，这时候我们可以直接对所有连续段for循环暴力$O(n^2)$维护，然后注意访问的连续性，这样cache的miss率是log级别的，通过pragma等预编译命令加速会有不错的效果</li>
 </ul>
 <figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">pragma</span> GCC optimize(<span class="string">&quot;Ofast,no-stack-protector&quot;</span>)</span></span><br><span class="line"><span class="meta">#<span class="keyword">pragma</span> GCC target(<span class="string">&quot;sse,sse2,sse3,ssse3,sse4,popcnt,abm,mmx,avx,avx2,tune=native&quot;</span>)</span></span><br></pre></td></tr></table></figure>
-
-<p>该方法可以用于树上dp，如果是子树dp的话直接利用dfs序即可<br>如果是到根的树链上dp，那就先树剖，然后对每个点把到根的路径化成log个连续段，然后暴力<br>我们用一个局部变量存储需要更新的dp[u]，然后用来更新的dp[v]就是连续访存的，可以达到一定的加速效果，用指针可以略微加速</p>
+<p>该方法可以用于树上dp，如果是子树dp的话直接利用dfs序即可<br>
+如果是到根的树链上dp，那就先树剖，然后对每个点把到根的路径化成log个连续段，然后暴力<br>
+我们用一个局部变量存储需要更新的dp[u]，然后用来更新的dp[v]就是连续访存的，可以达到一定的加速效果，用指针可以略微加速</p>
 <figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="type">void</span> <span class="title">updt</span><span class="params">(<span class="type">int</span> u, <span class="type">int</span> x, <span class="type">int</span> y)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">  ll cur = LLONG_MAX, a = dep[u], b = p[u];</span><br><span class="line">  <span class="keyword">while</span>(top[x]!=top[y])</span><br><span class="line">  &#123;</span><br><span class="line">    <span class="keyword">if</span>(dep[top[x]]&lt;dep[top[y]]) <span class="built_in">swap</span>(x,y);</span><br><span class="line">    ll *p=tmpdep+dfn[top[x]]<span class="number">-1</span>, *q = dp+dfn[top[x]]<span class="number">-1</span>, *ped = tmpdep + dfn[x];</span><br><span class="line">    <span class="keyword">while</span>(p!=ped) <span class="built_in">chk</span>(cur, *(++q)+(a-*(++p)*b));</span><br><span class="line">    x = fa[<span class="number">0</span>][top[x]];</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="keyword">if</span>(dep[x]&gt;dep[y]) <span class="built_in">swap</span>(x,y);</span><br><span class="line">  ll *p=tmpdep+dfn[x]<span class="number">-1</span>, *ped = tmpdep+dfn[y], *q = dp+dfn[x] - <span class="number">1</span>;</span><br><span class="line">  <span class="keyword">while</span>(p!=ped) <span class="built_in">chk</span>(cur, *(++q)+(a-*(++p)*b));</span><br><span class="line">  dp[dfn[u]] = cur + q[u];</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
 <p>经过测试$10^5$次的数据级别2.5s能出结果，这在一些时限比较宽松，正解复杂度要多个log或者根号的情况下可能可以骗过去，而$2\times 10^5$就是10s左右才能出结果了。</p>
 <ul>
 <li>点分治的时候我们要处理跨越重心的各部分的贡献，这需要双指针或者一些数据结构来维护，同样的我们把它们映射到连续的数组段上，在进行暴力也会有一定加速</li>
@@ -221,27 +209,9 @@
     
     
 
-    <div id="share-footer" style="display: none">
-      <ul>
-  <li><a class="icon" target="_blank" rel="noopener" href="http://www.facebook.com/sharer.php?u=http://example.com/2020/09/02/cache-friendly/"><i class="fab fa-facebook fa-lg" aria-hidden="true"></i></a></li>
-  <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=http://example.com/2020/09/02/cache-friendly/&text=cache friendly"><i class="fab fa-twitter fa-lg" aria-hidden="true"></i></a></li>
-  <li><a class="icon" target="_blank" rel="noopener" href="http://www.linkedin.com/shareArticle?url=http://example.com/2020/09/02/cache-friendly/&title=cache friendly"><i class="fab fa-linkedin fa-lg" aria-hidden="true"></i></a></li>
-  <li><a class="icon" target="_blank" rel="noopener" href="https://pinterest.com/pin/create/bookmarklet/?url=http://example.com/2020/09/02/cache-friendly/&is_video=false&description=cache friendly"><i class="fab fa-pinterest fa-lg" aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="mailto:?subject=cache friendly&body=Check out this article: http://example.com/2020/09/02/cache-friendly/"><i class="fa-solid fa-envelope fa-lg" aria-hidden="true"></i></a></li>
-  <li><a class="icon" target="_blank" rel="noopener" href="https://getpocket.com/save?url=http://example.com/2020/09/02/cache-friendly/&title=cache friendly"><i class="fab fa-get-pocket fa-lg" aria-hidden="true"></i></a></li>
-  <li><a class="icon" target="_blank" rel="noopener" href="http://reddit.com/submit?url=http://example.com/2020/09/02/cache-friendly/&title=cache friendly"><i class="fab fa-reddit fa-lg" aria-hidden="true"></i></a></li>
-  <li><a class="icon" target="_blank" rel="noopener" href="http://www.stumbleupon.com/submit?url=http://example.com/2020/09/02/cache-friendly/&title=cache friendly"><i class="fab fa-stumbleupon fa-lg" aria-hidden="true"></i></a></li>
-  <li><a class="icon" target="_blank" rel="noopener" href="http://digg.com/submit?url=http://example.com/2020/09/02/cache-friendly/&title=cache friendly"><i class="fab fa-digg fa-lg" aria-hidden="true"></i></a></li>
-  <li><a class="icon" target="_blank" rel="noopener" href="http://www.tumblr.com/share/link?url=http://example.com/2020/09/02/cache-friendly/&name=cache friendly&description="><i class="fab fa-tumblr fa-lg" aria-hidden="true"></i></a></li>
-  <li><a class="icon" target="_blank" rel="noopener" href="https://news.ycombinator.com/submitlink?u=http://example.com/2020/09/02/cache-friendly/&t=cache friendly"><i class="fab fa-hacker-news fa-lg" aria-hidden="true"></i></a></li>
-</ul>
-
-    </div>
-
     <div id="actions-footer">
         <a id="menu" class="icon" href="#" onclick="$('#nav-footer').toggle();return false;"><i class="fa-solid fa-bars fa-lg" aria-hidden="true"></i> 菜单</a>
         
-        <a id="share" class="icon" href="#" onclick="$('#share-footer').toggle();return false;"><i class="fa-solid fa-share-alt fa-lg" aria-hidden="true"></i> 分享</a>
         <a id="top" style="display:none" class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fa-solid fa-chevron-up fa-lg" aria-hidden="true"></i> 返回顶部</a>
     </div>
 
@@ -326,6 +296,7 @@
 <!-- Disqus Comments -->
 
 <!-- utterances Comments -->
+
 
 </body>
 </html>

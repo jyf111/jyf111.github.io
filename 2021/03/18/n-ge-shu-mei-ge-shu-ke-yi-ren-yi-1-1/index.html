@@ -6,12 +6,12 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="HandheldFriendly" content="True">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=5" />
-    <meta name="description" content="变成非降序列的最小代价显然对于第i个数如果要变就变成之前已经出现过的数，所以离散化后dp即可，$O(n^2)$考虑当前数y，以及之前的最大值x，如果$y\lt x$，此时需要将x变小，y变大，容易发现不管怎么调整代价都是$y-x$，这边的策略是直接把y变成x。考虑y之前的最大值z，如果$z\leq x$，显然没有问题，否则我们也不用关心改成了什么，因为现在最大值变成了z，那就尽可能减小所以用一个大">
+    <meta name="description" content="¶变成非降序列的最小代价 显然对于第i个数如果要变就变成之前已经出现过的数，所以离散化后dp即可，$O(n^2)$ 考虑当前数y，以及之前的最大值x，如果$y\lt x$，此时需要将x变小，y变大，容易发现不管怎么调整代价都是$y-x$，这边的策略是直接把y变成x。 考虑y之前的最大值z，如果$z\leq x$，显然没有问题，否则我们也不用关心改成了什么，因为现在最大值变成了z，那就尽可能减小 所">
 <meta property="og:type" content="article">
 <meta property="og:title" content="n个数，每个数可以任意+1,-1">
 <meta property="og:url" content="http://example.com/2021/03/18/n-ge-shu-mei-ge-shu-ke-yi-ren-yi-1-1/index.html">
 <meta property="og:site_name" content="jyf111&#39;s blog">
-<meta property="og:description" content="变成非降序列的最小代价显然对于第i个数如果要变就变成之前已经出现过的数，所以离散化后dp即可，$O(n^2)$考虑当前数y，以及之前的最大值x，如果$y\lt x$，此时需要将x变小，y变大，容易发现不管怎么调整代价都是$y-x$，这边的策略是直接把y变成x。考虑y之前的最大值z，如果$z\leq x$，显然没有问题，否则我们也不用关心改成了什么，因为现在最大值变成了z，那就尽可能减小所以用一个大">
+<meta property="og:description" content="¶变成非降序列的最小代价 显然对于第i个数如果要变就变成之前已经出现过的数，所以离散化后dp即可，$O(n^2)$ 考虑当前数y，以及之前的最大值x，如果$y\lt x$，此时需要将x变小，y变大，容易发现不管怎么调整代价都是$y-x$，这边的策略是直接把y变成x。 考虑y之前的最大值z，如果$z\leq x$，显然没有问题，否则我们也不用关心改成了什么，因为现在最大值变成了z，那就尽可能减小 所">
 <meta property="og:locale" content="zh_CN">
 <meta property="article:published_time" content="2021-03-18T05:33:43.000Z">
 <meta property="article:modified_time" content="2023-08-24T15:11:36.812Z">
@@ -66,7 +66,9 @@
 		</script>
 		<script src='https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-MML-AM_CHTML' async></script>
 	
-<meta name="generator" content="Hexo 6.3.0"></head>
+<!-- hexo injector head_end start -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/katex.min.css">
+<!-- hexo injector head_end end --><meta name="generator" content="Hexo 6.3.0"></head>
 
 <body class="max-width mx-auto px3 ltr">
     
@@ -98,30 +100,12 @@
         <li><a class="icon" aria-label="下一篇" href="/2021/03/12/shuang-zhan-mo-ni-dui-lie/"><i class="fa-solid fa-chevron-right" aria-hidden="true" onmouseover="$('#i-next').toggle();" onmouseout="$('#i-next').toggle();"></i></a></li>
         
         <li><a class="icon" aria-label="返回顶部" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fa-solid fa-chevron-up" aria-hidden="true" onmouseover="$('#i-top').toggle();" onmouseout="$('#i-top').toggle();"></i></a></li>
-        <li><a class="icon" aria-label="分享文章" href="#"><i class="fa-solid fa-share-alt" aria-hidden="true" onmouseover="$('#i-share').toggle();" onmouseout="$('#i-share').toggle();" onclick="$('#share').toggle();return false;"></i></a></li>
       </ul>
       <span id="i-prev" class="info" style="display:none;">上一篇</span>
       <span id="i-next" class="info" style="display:none;">下一篇</span>
       <span id="i-top" class="info" style="display:none;">返回顶部</span>
-      <span id="i-share" class="info" style="display:none;">分享文章</span>
     </span>
     <br/>
-    <div id="share" style="display: none">
-      <ul>
-  <li><a class="icon" target="_blank" rel="noopener" href="http://www.facebook.com/sharer.php?u=http://example.com/2021/03/18/n-ge-shu-mei-ge-shu-ke-yi-ren-yi-1-1/"><i class="fab fa-facebook " aria-hidden="true"></i></a></li>
-  <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=http://example.com/2021/03/18/n-ge-shu-mei-ge-shu-ke-yi-ren-yi-1-1/&text=n个数，每个数可以任意+1,-1"><i class="fab fa-twitter " aria-hidden="true"></i></a></li>
-  <li><a class="icon" target="_blank" rel="noopener" href="http://www.linkedin.com/shareArticle?url=http://example.com/2021/03/18/n-ge-shu-mei-ge-shu-ke-yi-ren-yi-1-1/&title=n个数，每个数可以任意+1,-1"><i class="fab fa-linkedin " aria-hidden="true"></i></a></li>
-  <li><a class="icon" target="_blank" rel="noopener" href="https://pinterest.com/pin/create/bookmarklet/?url=http://example.com/2021/03/18/n-ge-shu-mei-ge-shu-ke-yi-ren-yi-1-1/&is_video=false&description=n个数，每个数可以任意+1,-1"><i class="fab fa-pinterest " aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="mailto:?subject=n个数，每个数可以任意+1,-1&body=Check out this article: http://example.com/2021/03/18/n-ge-shu-mei-ge-shu-ke-yi-ren-yi-1-1/"><i class="fa-solid fa-envelope " aria-hidden="true"></i></a></li>
-  <li><a class="icon" target="_blank" rel="noopener" href="https://getpocket.com/save?url=http://example.com/2021/03/18/n-ge-shu-mei-ge-shu-ke-yi-ren-yi-1-1/&title=n个数，每个数可以任意+1,-1"><i class="fab fa-get-pocket " aria-hidden="true"></i></a></li>
-  <li><a class="icon" target="_blank" rel="noopener" href="http://reddit.com/submit?url=http://example.com/2021/03/18/n-ge-shu-mei-ge-shu-ke-yi-ren-yi-1-1/&title=n个数，每个数可以任意+1,-1"><i class="fab fa-reddit " aria-hidden="true"></i></a></li>
-  <li><a class="icon" target="_blank" rel="noopener" href="http://www.stumbleupon.com/submit?url=http://example.com/2021/03/18/n-ge-shu-mei-ge-shu-ke-yi-ren-yi-1-1/&title=n个数，每个数可以任意+1,-1"><i class="fab fa-stumbleupon " aria-hidden="true"></i></a></li>
-  <li><a class="icon" target="_blank" rel="noopener" href="http://digg.com/submit?url=http://example.com/2021/03/18/n-ge-shu-mei-ge-shu-ke-yi-ren-yi-1-1/&title=n个数，每个数可以任意+1,-1"><i class="fab fa-digg " aria-hidden="true"></i></a></li>
-  <li><a class="icon" target="_blank" rel="noopener" href="http://www.tumblr.com/share/link?url=http://example.com/2021/03/18/n-ge-shu-mei-ge-shu-ke-yi-ren-yi-1-1/&name=n个数，每个数可以任意+1,-1&description="><i class="fab fa-tumblr " aria-hidden="true"></i></a></li>
-  <li><a class="icon" target="_blank" rel="noopener" href="https://news.ycombinator.com/submitlink?u=http://example.com/2021/03/18/n-ge-shu-mei-ge-shu-ke-yi-ren-yi-1-1/&t=n个数，每个数可以任意+1,-1"><i class="fab fa-hacker-news " aria-hidden="true"></i></a></li>
-</ul>
-
-    </div>
     
     
       <div id="toc">
@@ -183,8 +167,13 @@
   
 
   <div class="content e-content" itemprop="articleBody">
-    <h2 id="变成非降序列的最小代价"><a href="#变成非降序列的最小代价" class="headerlink" title="变成非降序列的最小代价"></a>变成非降序列的最小代价</h2><p>显然对于第i个数如果要变就变成之前已经出现过的数，所以离散化后dp即可，$O(n^2)$<br>考虑当前数y，以及之前的最大值x，如果$y\lt x$，此时需要将x变小，y变大，容易发现不管怎么调整代价都是$y-x$，这边的策略是直接把y变成x。<br>考虑y之前的最大值z，如果$z\leq x$，显然没有问题，否则我们也不用关心改成了什么，因为现在最大值变成了z，那就尽可能减小<br>所以用一个大根堆，如果当前数小于堆顶，就把堆顶变成当前数</p>
-<h2 id="变成严格降序列"><a href="#变成严格降序列" class="headerlink" title="变成严格降序列"></a>变成严格降序列</h2><p>对每个数减去下标后，套用上面的做法，一个小trick</p>
+    <h2 id="变成非降序列的最小代价"><a class="header-anchor" href="#变成非降序列的最小代价">¶</a>变成非降序列的最小代价</h2>
+<p>显然对于第i个数如果要变就变成之前已经出现过的数，所以离散化后dp即可，$O(n^2)$<br>
+考虑当前数y，以及之前的最大值x，如果$y\lt x$，此时需要将x变小，y变大，容易发现不管怎么调整代价都是$y-x$，这边的策略是直接把y变成x。<br>
+考虑y之前的最大值z，如果$z\leq x$，显然没有问题，否则我们也不用关心改成了什么，因为现在最大值变成了z，那就尽可能减小<br>
+所以用一个大根堆，如果当前数小于堆顶，就把堆顶变成当前数</p>
+<h2 id="变成严格降序列"><a class="header-anchor" href="#变成严格降序列">¶</a>变成严格降序列</h2>
+<p>对每个数减去下标后，套用上面的做法，一个小trick</p>
 
   </div>
 </article>
@@ -216,29 +205,11 @@
       </div>
     
 
-    <div id="share-footer" style="display: none">
-      <ul>
-  <li><a class="icon" target="_blank" rel="noopener" href="http://www.facebook.com/sharer.php?u=http://example.com/2021/03/18/n-ge-shu-mei-ge-shu-ke-yi-ren-yi-1-1/"><i class="fab fa-facebook fa-lg" aria-hidden="true"></i></a></li>
-  <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=http://example.com/2021/03/18/n-ge-shu-mei-ge-shu-ke-yi-ren-yi-1-1/&text=n个数，每个数可以任意+1,-1"><i class="fab fa-twitter fa-lg" aria-hidden="true"></i></a></li>
-  <li><a class="icon" target="_blank" rel="noopener" href="http://www.linkedin.com/shareArticle?url=http://example.com/2021/03/18/n-ge-shu-mei-ge-shu-ke-yi-ren-yi-1-1/&title=n个数，每个数可以任意+1,-1"><i class="fab fa-linkedin fa-lg" aria-hidden="true"></i></a></li>
-  <li><a class="icon" target="_blank" rel="noopener" href="https://pinterest.com/pin/create/bookmarklet/?url=http://example.com/2021/03/18/n-ge-shu-mei-ge-shu-ke-yi-ren-yi-1-1/&is_video=false&description=n个数，每个数可以任意+1,-1"><i class="fab fa-pinterest fa-lg" aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="mailto:?subject=n个数，每个数可以任意+1,-1&body=Check out this article: http://example.com/2021/03/18/n-ge-shu-mei-ge-shu-ke-yi-ren-yi-1-1/"><i class="fa-solid fa-envelope fa-lg" aria-hidden="true"></i></a></li>
-  <li><a class="icon" target="_blank" rel="noopener" href="https://getpocket.com/save?url=http://example.com/2021/03/18/n-ge-shu-mei-ge-shu-ke-yi-ren-yi-1-1/&title=n个数，每个数可以任意+1,-1"><i class="fab fa-get-pocket fa-lg" aria-hidden="true"></i></a></li>
-  <li><a class="icon" target="_blank" rel="noopener" href="http://reddit.com/submit?url=http://example.com/2021/03/18/n-ge-shu-mei-ge-shu-ke-yi-ren-yi-1-1/&title=n个数，每个数可以任意+1,-1"><i class="fab fa-reddit fa-lg" aria-hidden="true"></i></a></li>
-  <li><a class="icon" target="_blank" rel="noopener" href="http://www.stumbleupon.com/submit?url=http://example.com/2021/03/18/n-ge-shu-mei-ge-shu-ke-yi-ren-yi-1-1/&title=n个数，每个数可以任意+1,-1"><i class="fab fa-stumbleupon fa-lg" aria-hidden="true"></i></a></li>
-  <li><a class="icon" target="_blank" rel="noopener" href="http://digg.com/submit?url=http://example.com/2021/03/18/n-ge-shu-mei-ge-shu-ke-yi-ren-yi-1-1/&title=n个数，每个数可以任意+1,-1"><i class="fab fa-digg fa-lg" aria-hidden="true"></i></a></li>
-  <li><a class="icon" target="_blank" rel="noopener" href="http://www.tumblr.com/share/link?url=http://example.com/2021/03/18/n-ge-shu-mei-ge-shu-ke-yi-ren-yi-1-1/&name=n个数，每个数可以任意+1,-1&description="><i class="fab fa-tumblr fa-lg" aria-hidden="true"></i></a></li>
-  <li><a class="icon" target="_blank" rel="noopener" href="https://news.ycombinator.com/submitlink?u=http://example.com/2021/03/18/n-ge-shu-mei-ge-shu-ke-yi-ren-yi-1-1/&t=n个数，每个数可以任意+1,-1"><i class="fab fa-hacker-news fa-lg" aria-hidden="true"></i></a></li>
-</ul>
-
-    </div>
-
     <div id="actions-footer">
         <a id="menu" class="icon" href="#" onclick="$('#nav-footer').toggle();return false;"><i class="fa-solid fa-bars fa-lg" aria-hidden="true"></i> 菜单</a>
         
           <a id="toc" class="icon" href="#" onclick="$('#toc-footer').toggle();return false;"><i class="fa-solid fa-list fa-lg" aria-hidden="true"></i> 目录</a>
         
-        <a id="share" class="icon" href="#" onclick="$('#share-footer').toggle();return false;"><i class="fa-solid fa-share-alt fa-lg" aria-hidden="true"></i> 分享</a>
         <a id="top" style="display:none" class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fa-solid fa-chevron-up fa-lg" aria-hidden="true"></i> 返回顶部</a>
     </div>
 
@@ -323,6 +294,7 @@
 <!-- Disqus Comments -->
 
 <!-- utterances Comments -->
+
 
 </body>
 </html>

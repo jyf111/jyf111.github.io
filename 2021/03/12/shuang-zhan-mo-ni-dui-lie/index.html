@@ -6,12 +6,12 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="HandheldFriendly" content="True">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=5" />
-    <meta name="description" content="普通队列支持push和pop操作 使用两个对顶栈stk1和stk2，push操作就直接加到stk2的尾部，pop操作就从stk1中弹出，如果stk1为空，就把stk2中的所有元素依次pop后push入stk1 双端队列支持push_front、push_back、pop_front、pop_back操作 同样用两个对顶栈来实现，但是如果pop_front和pop_back操作交替进行，使用上面的方">
+    <meta name="description" content="¶普通队列 支持push和pop操作 使用两个对顶栈stk1和stk2，push操作就直接加到stk2的尾部，pop操作就从stk1中弹出，如果stk1为空，就把stk2中的所有元素依次pop后push入stk1 ¶双端队列 支持push_front、push_back、pop_front、pop_back操作 同样用两个对顶栈来实现，但是如果pop_front和pop_back操作交替进行，使用">
 <meta property="og:type" content="article">
 <meta property="og:title" content="双栈模拟队列">
 <meta property="og:url" content="http://example.com/2021/03/12/shuang-zhan-mo-ni-dui-lie/index.html">
 <meta property="og:site_name" content="jyf111&#39;s blog">
-<meta property="og:description" content="普通队列支持push和pop操作 使用两个对顶栈stk1和stk2，push操作就直接加到stk2的尾部，pop操作就从stk1中弹出，如果stk1为空，就把stk2中的所有元素依次pop后push入stk1 双端队列支持push_front、push_back、pop_front、pop_back操作 同样用两个对顶栈来实现，但是如果pop_front和pop_back操作交替进行，使用上面的方">
+<meta property="og:description" content="¶普通队列 支持push和pop操作 使用两个对顶栈stk1和stk2，push操作就直接加到stk2的尾部，pop操作就从stk1中弹出，如果stk1为空，就把stk2中的所有元素依次pop后push入stk1 ¶双端队列 支持push_front、push_back、pop_front、pop_back操作 同样用两个对顶栈来实现，但是如果pop_front和pop_back操作交替进行，使用">
 <meta property="og:locale" content="zh_CN">
 <meta property="article:published_time" content="2021-03-12T05:33:44.000Z">
 <meta property="article:modified_time" content="2023-08-24T10:00:05.016Z">
@@ -66,7 +66,9 @@
 		</script>
 		<script src='https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-MML-AM_CHTML' async></script>
 	
-<meta name="generator" content="Hexo 6.3.0"></head>
+<!-- hexo injector head_end start -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/katex.min.css">
+<!-- hexo injector head_end end --><meta name="generator" content="Hexo 6.3.0"></head>
 
 <body class="max-width mx-auto px3 ltr">
     
@@ -98,30 +100,12 @@
         <li><a class="icon" aria-label="下一篇" href="/2021/03/08/na-shi-jun-heng/"><i class="fa-solid fa-chevron-right" aria-hidden="true" onmouseover="$('#i-next').toggle();" onmouseout="$('#i-next').toggle();"></i></a></li>
         
         <li><a class="icon" aria-label="返回顶部" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fa-solid fa-chevron-up" aria-hidden="true" onmouseover="$('#i-top').toggle();" onmouseout="$('#i-top').toggle();"></i></a></li>
-        <li><a class="icon" aria-label="分享文章" href="#"><i class="fa-solid fa-share-alt" aria-hidden="true" onmouseover="$('#i-share').toggle();" onmouseout="$('#i-share').toggle();" onclick="$('#share').toggle();return false;"></i></a></li>
       </ul>
       <span id="i-prev" class="info" style="display:none;">上一篇</span>
       <span id="i-next" class="info" style="display:none;">下一篇</span>
       <span id="i-top" class="info" style="display:none;">返回顶部</span>
-      <span id="i-share" class="info" style="display:none;">分享文章</span>
     </span>
     <br/>
-    <div id="share" style="display: none">
-      <ul>
-  <li><a class="icon" target="_blank" rel="noopener" href="http://www.facebook.com/sharer.php?u=http://example.com/2021/03/12/shuang-zhan-mo-ni-dui-lie/"><i class="fab fa-facebook " aria-hidden="true"></i></a></li>
-  <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=http://example.com/2021/03/12/shuang-zhan-mo-ni-dui-lie/&text=双栈模拟队列"><i class="fab fa-twitter " aria-hidden="true"></i></a></li>
-  <li><a class="icon" target="_blank" rel="noopener" href="http://www.linkedin.com/shareArticle?url=http://example.com/2021/03/12/shuang-zhan-mo-ni-dui-lie/&title=双栈模拟队列"><i class="fab fa-linkedin " aria-hidden="true"></i></a></li>
-  <li><a class="icon" target="_blank" rel="noopener" href="https://pinterest.com/pin/create/bookmarklet/?url=http://example.com/2021/03/12/shuang-zhan-mo-ni-dui-lie/&is_video=false&description=双栈模拟队列"><i class="fab fa-pinterest " aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="mailto:?subject=双栈模拟队列&body=Check out this article: http://example.com/2021/03/12/shuang-zhan-mo-ni-dui-lie/"><i class="fa-solid fa-envelope " aria-hidden="true"></i></a></li>
-  <li><a class="icon" target="_blank" rel="noopener" href="https://getpocket.com/save?url=http://example.com/2021/03/12/shuang-zhan-mo-ni-dui-lie/&title=双栈模拟队列"><i class="fab fa-get-pocket " aria-hidden="true"></i></a></li>
-  <li><a class="icon" target="_blank" rel="noopener" href="http://reddit.com/submit?url=http://example.com/2021/03/12/shuang-zhan-mo-ni-dui-lie/&title=双栈模拟队列"><i class="fab fa-reddit " aria-hidden="true"></i></a></li>
-  <li><a class="icon" target="_blank" rel="noopener" href="http://www.stumbleupon.com/submit?url=http://example.com/2021/03/12/shuang-zhan-mo-ni-dui-lie/&title=双栈模拟队列"><i class="fab fa-stumbleupon " aria-hidden="true"></i></a></li>
-  <li><a class="icon" target="_blank" rel="noopener" href="http://digg.com/submit?url=http://example.com/2021/03/12/shuang-zhan-mo-ni-dui-lie/&title=双栈模拟队列"><i class="fab fa-digg " aria-hidden="true"></i></a></li>
-  <li><a class="icon" target="_blank" rel="noopener" href="http://www.tumblr.com/share/link?url=http://example.com/2021/03/12/shuang-zhan-mo-ni-dui-lie/&name=双栈模拟队列&description="><i class="fab fa-tumblr " aria-hidden="true"></i></a></li>
-  <li><a class="icon" target="_blank" rel="noopener" href="https://news.ycombinator.com/submitlink?u=http://example.com/2021/03/12/shuang-zhan-mo-ni-dui-lie/&t=双栈模拟队列"><i class="fab fa-hacker-news " aria-hidden="true"></i></a></li>
-</ul>
-
-    </div>
     
     
       <div id="toc">
@@ -183,11 +167,18 @@
   
 
   <div class="content e-content" itemprop="articleBody">
-    <h2 id="普通队列"><a href="#普通队列" class="headerlink" title="普通队列"></a>普通队列</h2><p>支持push和pop操作</p>
+    <h2 id="普通队列"><a class="header-anchor" href="#普通队列">¶</a>普通队列</h2>
+<p>支持push和pop操作</p>
 <p>使用两个对顶栈stk1和stk2，push操作就直接加到stk2的尾部，pop操作就从stk1中弹出，如果stk1为空，就把stk2中的所有元素依次pop后push入stk1</p>
-<h2 id="双端队列"><a href="#双端队列" class="headerlink" title="双端队列"></a>双端队列</h2><p>支持push_front、push_back、pop_front、pop_back操作</p>
-<p>同样用两个对顶栈来实现，但是如果pop_front和pop_back操作交替进行，使用上面的方法就会TLE。考虑均摊的思想，如果在pop时该栈空了，就把另一个栈栈底的$\frac<br>n2$​个元素push过去</p>
-<h2 id="摊还"><a href="#摊还" class="headerlink" title="摊还"></a>摊还</h2><p>考虑现在总共有n个物品，然后在m个位置可能会消耗物品，我们可以把这n个物品均分到这m个位置，如果某个位置的物品被消耗完说明物品数至少减少了$\frac<br>1m$​，之后我们统计当前物品的数量后再进行均分。<br>$T(n)&#x3D;T(\frac{n(m-1)}{m})+O(n)$<br>$T(n)&#x3D;O(n)$</p>
+<h2 id="双端队列"><a class="header-anchor" href="#双端队列">¶</a>双端队列</h2>
+<p>支持push_front、push_back、pop_front、pop_back操作</p>
+<p>同样用两个对顶栈来实现，但是如果pop_front和pop_back操作交替进行，使用上面的方法就会TLE。考虑均摊的思想，如果在pop时该栈空了，就把另一个栈栈底的$\frac<br>
+n2$​个元素push过去</p>
+<h2 id="摊还"><a class="header-anchor" href="#摊还">¶</a>摊还</h2>
+<p>考虑现在总共有n个物品，然后在m个位置可能会消耗物品，我们可以把这n个物品均分到这m个位置，如果某个位置的物品被消耗完说明物品数至少减少了$\frac<br>
+1m$​，之后我们统计当前物品的数量后再进行均分。<br>
+$T(n)=T(\frac{n(m-1)}{m})+O(n)$<br>
+$T(n)=O(n)$</p>
 
   </div>
 </article>
@@ -219,29 +210,11 @@
       </div>
     
 
-    <div id="share-footer" style="display: none">
-      <ul>
-  <li><a class="icon" target="_blank" rel="noopener" href="http://www.facebook.com/sharer.php?u=http://example.com/2021/03/12/shuang-zhan-mo-ni-dui-lie/"><i class="fab fa-facebook fa-lg" aria-hidden="true"></i></a></li>
-  <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=http://example.com/2021/03/12/shuang-zhan-mo-ni-dui-lie/&text=双栈模拟队列"><i class="fab fa-twitter fa-lg" aria-hidden="true"></i></a></li>
-  <li><a class="icon" target="_blank" rel="noopener" href="http://www.linkedin.com/shareArticle?url=http://example.com/2021/03/12/shuang-zhan-mo-ni-dui-lie/&title=双栈模拟队列"><i class="fab fa-linkedin fa-lg" aria-hidden="true"></i></a></li>
-  <li><a class="icon" target="_blank" rel="noopener" href="https://pinterest.com/pin/create/bookmarklet/?url=http://example.com/2021/03/12/shuang-zhan-mo-ni-dui-lie/&is_video=false&description=双栈模拟队列"><i class="fab fa-pinterest fa-lg" aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="mailto:?subject=双栈模拟队列&body=Check out this article: http://example.com/2021/03/12/shuang-zhan-mo-ni-dui-lie/"><i class="fa-solid fa-envelope fa-lg" aria-hidden="true"></i></a></li>
-  <li><a class="icon" target="_blank" rel="noopener" href="https://getpocket.com/save?url=http://example.com/2021/03/12/shuang-zhan-mo-ni-dui-lie/&title=双栈模拟队列"><i class="fab fa-get-pocket fa-lg" aria-hidden="true"></i></a></li>
-  <li><a class="icon" target="_blank" rel="noopener" href="http://reddit.com/submit?url=http://example.com/2021/03/12/shuang-zhan-mo-ni-dui-lie/&title=双栈模拟队列"><i class="fab fa-reddit fa-lg" aria-hidden="true"></i></a></li>
-  <li><a class="icon" target="_blank" rel="noopener" href="http://www.stumbleupon.com/submit?url=http://example.com/2021/03/12/shuang-zhan-mo-ni-dui-lie/&title=双栈模拟队列"><i class="fab fa-stumbleupon fa-lg" aria-hidden="true"></i></a></li>
-  <li><a class="icon" target="_blank" rel="noopener" href="http://digg.com/submit?url=http://example.com/2021/03/12/shuang-zhan-mo-ni-dui-lie/&title=双栈模拟队列"><i class="fab fa-digg fa-lg" aria-hidden="true"></i></a></li>
-  <li><a class="icon" target="_blank" rel="noopener" href="http://www.tumblr.com/share/link?url=http://example.com/2021/03/12/shuang-zhan-mo-ni-dui-lie/&name=双栈模拟队列&description="><i class="fab fa-tumblr fa-lg" aria-hidden="true"></i></a></li>
-  <li><a class="icon" target="_blank" rel="noopener" href="https://news.ycombinator.com/submitlink?u=http://example.com/2021/03/12/shuang-zhan-mo-ni-dui-lie/&t=双栈模拟队列"><i class="fab fa-hacker-news fa-lg" aria-hidden="true"></i></a></li>
-</ul>
-
-    </div>
-
     <div id="actions-footer">
         <a id="menu" class="icon" href="#" onclick="$('#nav-footer').toggle();return false;"><i class="fa-solid fa-bars fa-lg" aria-hidden="true"></i> 菜单</a>
         
           <a id="toc" class="icon" href="#" onclick="$('#toc-footer').toggle();return false;"><i class="fa-solid fa-list fa-lg" aria-hidden="true"></i> 目录</a>
         
-        <a id="share" class="icon" href="#" onclick="$('#share-footer').toggle();return false;"><i class="fa-solid fa-share-alt fa-lg" aria-hidden="true"></i> 分享</a>
         <a id="top" style="display:none" class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fa-solid fa-chevron-up fa-lg" aria-hidden="true"></i> 返回顶部</a>
     </div>
 
@@ -326,6 +299,7 @@
 <!-- Disqus Comments -->
 
 <!-- utterances Comments -->
+
 
 </body>
 </html>

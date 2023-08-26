@@ -6,12 +6,12 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="HandheldFriendly" content="True">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=5" />
-    <meta name="description" content="给两个数x,y($x, y &lt;&#x3D; 10^{12}$),要求找到一个数z,最大化(x&amp;z)*(y&amp;z)同时最小化z,且$L\leq z\leq R$,L和R由题目给出($L, R \leq 10^{12}$) 做法先不考虑上下界限制,那么z全取1肯定最优,再加入上界限制,然而并不是取R最优,比如x &#x3D; 7, y &#x3D; 12, l &#x3D; 0,">
+    <meta name="description" content="给两个数x,y($x, y &lt;&#x3D; 10^{12}$),要求找到一个数z,最大化(x&amp;z)*(y&amp;z)同时最小化z,且$L\leq z\leq R$,L和R由题目给出($L, R \leq 10^{12}$) 做法 先不考虑上下界限制,那么z全取1肯定最优,再加入上界限制,然而并不是取R最优,比如 x &#x3D; 7, y &#x3D; 12, l &#x3D; 0, r &#x3D; 8, 此时z&#x3D;7 可以想到一">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Chef and Bitwise Product 贪心+位运算">
 <meta property="og:url" content="http://example.com/2020/05/11/chef-and-bitwise-product-tan-xin-wei-yun-suan/index.html">
 <meta property="og:site_name" content="jyf111&#39;s blog">
-<meta property="og:description" content="给两个数x,y($x, y &lt;&#x3D; 10^{12}$),要求找到一个数z,最大化(x&amp;z)*(y&amp;z)同时最小化z,且$L\leq z\leq R$,L和R由题目给出($L, R \leq 10^{12}$) 做法先不考虑上下界限制,那么z全取1肯定最优,再加入上界限制,然而并不是取R最优,比如x &#x3D; 7, y &#x3D; 12, l &#x3D; 0,">
+<meta property="og:description" content="给两个数x,y($x, y &lt;&#x3D; 10^{12}$),要求找到一个数z,最大化(x&amp;z)*(y&amp;z)同时最小化z,且$L\leq z\leq R$,L和R由题目给出($L, R \leq 10^{12}$) 做法 先不考虑上下界限制,那么z全取1肯定最优,再加入上界限制,然而并不是取R最优,比如 x &#x3D; 7, y &#x3D; 12, l &#x3D; 0, r &#x3D; 8, 此时z&#x3D;7 可以想到一">
 <meta property="og:locale" content="zh_CN">
 <meta property="article:published_time" content="2020-05-11T05:33:45.000Z">
 <meta property="article:modified_time" content="2023-08-24T12:50:13.274Z">
@@ -66,7 +66,9 @@
 		</script>
 		<script src='https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-MML-AM_CHTML' async></script>
 	
-<meta name="generator" content="Hexo 6.3.0"></head>
+<!-- hexo injector head_end start -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/katex.min.css">
+<!-- hexo injector head_end end --><meta name="generator" content="Hexo 6.3.0"></head>
 
 <body class="max-width mx-auto px3 ltr">
     
@@ -98,34 +100,16 @@
         <li><a class="icon" aria-label="下一篇" href="/2020/05/11/binary-land-shuang-zhan-trick/"><i class="fa-solid fa-chevron-right" aria-hidden="true" onmouseover="$('#i-next').toggle();" onmouseout="$('#i-next').toggle();"></i></a></li>
         
         <li><a class="icon" aria-label="返回顶部" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fa-solid fa-chevron-up" aria-hidden="true" onmouseover="$('#i-top').toggle();" onmouseout="$('#i-top').toggle();"></i></a></li>
-        <li><a class="icon" aria-label="分享文章" href="#"><i class="fa-solid fa-share-alt" aria-hidden="true" onmouseover="$('#i-share').toggle();" onmouseout="$('#i-share').toggle();" onclick="$('#share').toggle();return false;"></i></a></li>
       </ul>
       <span id="i-prev" class="info" style="display:none;">上一篇</span>
       <span id="i-next" class="info" style="display:none;">下一篇</span>
       <span id="i-top" class="info" style="display:none;">返回顶部</span>
-      <span id="i-share" class="info" style="display:none;">分享文章</span>
     </span>
     <br/>
-    <div id="share" style="display: none">
-      <ul>
-  <li><a class="icon" target="_blank" rel="noopener" href="http://www.facebook.com/sharer.php?u=http://example.com/2020/05/11/chef-and-bitwise-product-tan-xin-wei-yun-suan/"><i class="fab fa-facebook " aria-hidden="true"></i></a></li>
-  <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=http://example.com/2020/05/11/chef-and-bitwise-product-tan-xin-wei-yun-suan/&text=Chef and Bitwise Product 贪心+位运算"><i class="fab fa-twitter " aria-hidden="true"></i></a></li>
-  <li><a class="icon" target="_blank" rel="noopener" href="http://www.linkedin.com/shareArticle?url=http://example.com/2020/05/11/chef-and-bitwise-product-tan-xin-wei-yun-suan/&title=Chef and Bitwise Product 贪心+位运算"><i class="fab fa-linkedin " aria-hidden="true"></i></a></li>
-  <li><a class="icon" target="_blank" rel="noopener" href="https://pinterest.com/pin/create/bookmarklet/?url=http://example.com/2020/05/11/chef-and-bitwise-product-tan-xin-wei-yun-suan/&is_video=false&description=Chef and Bitwise Product 贪心+位运算"><i class="fab fa-pinterest " aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="mailto:?subject=Chef and Bitwise Product 贪心+位运算&body=Check out this article: http://example.com/2020/05/11/chef-and-bitwise-product-tan-xin-wei-yun-suan/"><i class="fa-solid fa-envelope " aria-hidden="true"></i></a></li>
-  <li><a class="icon" target="_blank" rel="noopener" href="https://getpocket.com/save?url=http://example.com/2020/05/11/chef-and-bitwise-product-tan-xin-wei-yun-suan/&title=Chef and Bitwise Product 贪心+位运算"><i class="fab fa-get-pocket " aria-hidden="true"></i></a></li>
-  <li><a class="icon" target="_blank" rel="noopener" href="http://reddit.com/submit?url=http://example.com/2020/05/11/chef-and-bitwise-product-tan-xin-wei-yun-suan/&title=Chef and Bitwise Product 贪心+位运算"><i class="fab fa-reddit " aria-hidden="true"></i></a></li>
-  <li><a class="icon" target="_blank" rel="noopener" href="http://www.stumbleupon.com/submit?url=http://example.com/2020/05/11/chef-and-bitwise-product-tan-xin-wei-yun-suan/&title=Chef and Bitwise Product 贪心+位运算"><i class="fab fa-stumbleupon " aria-hidden="true"></i></a></li>
-  <li><a class="icon" target="_blank" rel="noopener" href="http://digg.com/submit?url=http://example.com/2020/05/11/chef-and-bitwise-product-tan-xin-wei-yun-suan/&title=Chef and Bitwise Product 贪心+位运算"><i class="fab fa-digg " aria-hidden="true"></i></a></li>
-  <li><a class="icon" target="_blank" rel="noopener" href="http://www.tumblr.com/share/link?url=http://example.com/2020/05/11/chef-and-bitwise-product-tan-xin-wei-yun-suan/&name=Chef and Bitwise Product 贪心+位运算&description="><i class="fab fa-tumblr " aria-hidden="true"></i></a></li>
-  <li><a class="icon" target="_blank" rel="noopener" href="https://news.ycombinator.com/submitlink?u=http://example.com/2020/05/11/chef-and-bitwise-product-tan-xin-wei-yun-suan/&t=Chef and Bitwise Product 贪心+位运算"><i class="fab fa-hacker-news " aria-hidden="true"></i></a></li>
-</ul>
-
-    </div>
     
     
       <div id="toc">
-        <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#%E5%81%9A%E6%B3%95"><span class="toc-number">1.</span> <span class="toc-text">做法</span></a></li></ol>
+        <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link"><span class="toc-number">1.</span> <span class="toc-text">做法</span></a></li></ol>
       </div>
     
   </span>
@@ -183,8 +167,12 @@
   
 
   <div class="content e-content" itemprop="articleBody">
-    <p>给两个数x,y($x, y &lt;&#x3D; 10^{12}$),要求找到一个数z,最大化(x&amp;z)*(y&amp;z)同时最小化z,且$L\leq z\leq R$,L和R由题目给出($L, R \leq 10^{12}$)</p>
-<h1 id="做法"><a href="#做法" class="headerlink" title="做法"></a>做法</h1><p>先不考虑上下界限制,那么z全取1肯定最优,再加入上界限制,然而并不是取R最优,比如<br>x &#x3D; 7, y &#x3D; 12, l &#x3D; 0, r &#x3D; 8, 此时z&#x3D;7<br>可以想到一种贪心的做法,让R的某一位1变成0,然后让R的低位全变1,然后交一发会发现0分<br>其实这个时候已经可以最大化(x&amp;z)*(y&amp;z),下面要最小化z,可以发现如果x和y的某一位同时为0,此时z的该位为1也没用.所以只要在保证&gt;&#x3D;下界的情况下通过该条件最小化z即可.另外好像要特判一下下界为最优解的情况.</p>
+    <p>给两个数x,y($x, y &lt;= 10^{12}$),要求找到一个数z,最大化(x&amp;z)*(y&amp;z)同时最小化z,且$L\leq z\leq R$,L和R由题目给出($L, R \leq 10^{12}$)</p>
+<h1>做法</h1>
+<p>先不考虑上下界限制,那么z全取1肯定最优,再加入上界限制,然而并不是取R最优,比如<br>
+x = 7, y = 12, l = 0, r = 8, 此时z=7<br>
+可以想到一种贪心的做法,让R的某一位1变成0,然后让R的低位全变1,然后交一发会发现0分<br>
+其实这个时候已经可以最大化(x&amp;z)*(y&amp;z),下面要最小化z,可以发现如果x和y的某一位同时为0,此时z的该位为1也没用.所以只要在保证&gt;=下界的情况下通过该条件最小化z即可.另外好像要特判一下下界为最优解的情况.</p>
 <figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;bits/stdc++.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">define</span> mp make_pair</span></span><br><span class="line"><span class="meta">#<span class="keyword">define</span> pb push_back</span></span><br><span class="line"><span class="meta">#<span class="keyword">define</span> sz(x) (int)x.size()</span></span><br><span class="line"><span class="meta">#<span class="keyword">define</span> all(x) begin(x), end(x)</span></span><br><span class="line"><span class="meta">#<span class="keyword">define</span> fi first</span></span><br><span class="line"><span class="meta">#<span class="keyword">define</span> se second</span></span><br><span class="line"><span class="meta">#<span class="keyword">define</span> debug(x) cerr &lt;&lt; #x &lt;&lt; <span class="string">&quot; &quot;</span> &lt;&lt; x &lt;&lt; <span class="string">&#x27;\n&#x27;</span></span></span><br><span class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> std;</span><br><span class="line"><span class="keyword">using</span> ll = <span class="type">long</span> <span class="type">long</span>;</span><br><span class="line"><span class="keyword">using</span> pii = pair&lt;<span class="type">int</span>,<span class="type">int</span>&gt;;</span><br><span class="line"><span class="keyword">using</span> pli = pair&lt;ll,<span class="type">int</span>&gt;;</span><br><span class="line"><span class="type">const</span> <span class="type">int</span> INF = <span class="number">0x3f3f3f3f</span>, N = <span class="number">15</span>;</span><br><span class="line"><span class="type">const</span> ll LINF = <span class="number">1e18</span> + <span class="number">5</span>;</span><br><span class="line"><span class="keyword">constexpr</span> <span class="type">int</span> mod = <span class="number">1e9</span> + <span class="number">7</span>;</span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">solve</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">  ll x, y, l, r;</span><br><span class="line">  <span class="built_in">scanf</span>(<span class="string">&quot;%lld%lld%lld%lld&quot;</span>, &amp;x, &amp;y, &amp;l, &amp;r);</span><br><span class="line">  ll ans = (x&amp;r)*(y&amp;r), z = r;</span><br><span class="line">  <span class="keyword">for</span>(<span class="type">int</span> i=<span class="number">40</span>; i&gt;=<span class="number">0</span>; i--)</span><br><span class="line">  &#123;</span><br><span class="line">    <span class="type">int</span> b = (r&gt;&gt;i)&amp;<span class="number">1</span>;</span><br><span class="line">    <span class="keyword">if</span>(b)</span><br><span class="line">    &#123;</span><br><span class="line">      ll c = (r&gt;&gt;(i+<span class="number">1</span>)&lt;&lt;(i+<span class="number">1</span>)) + (<span class="number">1ll</span>&lt;&lt;i) - <span class="number">1</span>;</span><br><span class="line">      <span class="keyword">for</span>(<span class="type">int</span> i=<span class="number">40</span>; i&gt;=<span class="number">0</span>; i--)</span><br><span class="line">      &#123;</span><br><span class="line">        <span class="type">int</span> aa = (x&gt;&gt;i)&amp;<span class="number">1</span>, bb = (y&gt;&gt;i)&amp;<span class="number">1</span>, cc = (c&gt;&gt;i)&amp;<span class="number">1</span>;</span><br><span class="line">        <span class="keyword">if</span>(!aa &amp;&amp; !bb &amp;&amp; cc)</span><br><span class="line">          <span class="keyword">if</span>((c^(<span class="number">1ll</span>&lt;&lt;i))&gt;=l) c ^= (<span class="number">1ll</span>&lt;&lt;i);</span><br><span class="line">      &#125;</span><br><span class="line">      <span class="keyword">if</span>(c&lt;l) <span class="keyword">continue</span>;</span><br><span class="line">      <span class="keyword">if</span>((x&amp;c)*(y&amp;c)&gt;ans || (((x&amp;c)*(y&amp;c))==ans&amp;&amp;c&lt;z)) ans = (x&amp;c)*(y&amp;c), z = c;</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="keyword">if</span>(!ans) z = l;</span><br><span class="line">  <span class="built_in">printf</span>(<span class="string">&quot;%lld\n&quot;</span>, z);</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="type">int</span> <span class="title">main</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">  <span class="type">int</span> T; <span class="built_in">scanf</span>(<span class="string">&quot;%d&quot;</span>, &amp;T);</span><br><span class="line">  <span class="keyword">while</span>(T--) <span class="built_in">solve</span>();</span><br><span class="line">  <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
   </div>
 </article>
@@ -212,33 +200,15 @@
     
     
       <div id="toc-footer" style="display: none">
-        <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#%E5%81%9A%E6%B3%95"><span class="toc-number">1.</span> <span class="toc-text">做法</span></a></li></ol>
+        <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link"><span class="toc-number">1.</span> <span class="toc-text">做法</span></a></li></ol>
       </div>
     
-
-    <div id="share-footer" style="display: none">
-      <ul>
-  <li><a class="icon" target="_blank" rel="noopener" href="http://www.facebook.com/sharer.php?u=http://example.com/2020/05/11/chef-and-bitwise-product-tan-xin-wei-yun-suan/"><i class="fab fa-facebook fa-lg" aria-hidden="true"></i></a></li>
-  <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=http://example.com/2020/05/11/chef-and-bitwise-product-tan-xin-wei-yun-suan/&text=Chef and Bitwise Product 贪心+位运算"><i class="fab fa-twitter fa-lg" aria-hidden="true"></i></a></li>
-  <li><a class="icon" target="_blank" rel="noopener" href="http://www.linkedin.com/shareArticle?url=http://example.com/2020/05/11/chef-and-bitwise-product-tan-xin-wei-yun-suan/&title=Chef and Bitwise Product 贪心+位运算"><i class="fab fa-linkedin fa-lg" aria-hidden="true"></i></a></li>
-  <li><a class="icon" target="_blank" rel="noopener" href="https://pinterest.com/pin/create/bookmarklet/?url=http://example.com/2020/05/11/chef-and-bitwise-product-tan-xin-wei-yun-suan/&is_video=false&description=Chef and Bitwise Product 贪心+位运算"><i class="fab fa-pinterest fa-lg" aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="mailto:?subject=Chef and Bitwise Product 贪心+位运算&body=Check out this article: http://example.com/2020/05/11/chef-and-bitwise-product-tan-xin-wei-yun-suan/"><i class="fa-solid fa-envelope fa-lg" aria-hidden="true"></i></a></li>
-  <li><a class="icon" target="_blank" rel="noopener" href="https://getpocket.com/save?url=http://example.com/2020/05/11/chef-and-bitwise-product-tan-xin-wei-yun-suan/&title=Chef and Bitwise Product 贪心+位运算"><i class="fab fa-get-pocket fa-lg" aria-hidden="true"></i></a></li>
-  <li><a class="icon" target="_blank" rel="noopener" href="http://reddit.com/submit?url=http://example.com/2020/05/11/chef-and-bitwise-product-tan-xin-wei-yun-suan/&title=Chef and Bitwise Product 贪心+位运算"><i class="fab fa-reddit fa-lg" aria-hidden="true"></i></a></li>
-  <li><a class="icon" target="_blank" rel="noopener" href="http://www.stumbleupon.com/submit?url=http://example.com/2020/05/11/chef-and-bitwise-product-tan-xin-wei-yun-suan/&title=Chef and Bitwise Product 贪心+位运算"><i class="fab fa-stumbleupon fa-lg" aria-hidden="true"></i></a></li>
-  <li><a class="icon" target="_blank" rel="noopener" href="http://digg.com/submit?url=http://example.com/2020/05/11/chef-and-bitwise-product-tan-xin-wei-yun-suan/&title=Chef and Bitwise Product 贪心+位运算"><i class="fab fa-digg fa-lg" aria-hidden="true"></i></a></li>
-  <li><a class="icon" target="_blank" rel="noopener" href="http://www.tumblr.com/share/link?url=http://example.com/2020/05/11/chef-and-bitwise-product-tan-xin-wei-yun-suan/&name=Chef and Bitwise Product 贪心+位运算&description="><i class="fab fa-tumblr fa-lg" aria-hidden="true"></i></a></li>
-  <li><a class="icon" target="_blank" rel="noopener" href="https://news.ycombinator.com/submitlink?u=http://example.com/2020/05/11/chef-and-bitwise-product-tan-xin-wei-yun-suan/&t=Chef and Bitwise Product 贪心+位运算"><i class="fab fa-hacker-news fa-lg" aria-hidden="true"></i></a></li>
-</ul>
-
-    </div>
 
     <div id="actions-footer">
         <a id="menu" class="icon" href="#" onclick="$('#nav-footer').toggle();return false;"><i class="fa-solid fa-bars fa-lg" aria-hidden="true"></i> 菜单</a>
         
           <a id="toc" class="icon" href="#" onclick="$('#toc-footer').toggle();return false;"><i class="fa-solid fa-list fa-lg" aria-hidden="true"></i> 目录</a>
         
-        <a id="share" class="icon" href="#" onclick="$('#share-footer').toggle();return false;"><i class="fa-solid fa-share-alt fa-lg" aria-hidden="true"></i> 分享</a>
         <a id="top" style="display:none" class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fa-solid fa-chevron-up fa-lg" aria-hidden="true"></i> 返回顶部</a>
     </div>
 
@@ -323,6 +293,7 @@
 <!-- Disqus Comments -->
 
 <!-- utterances Comments -->
+
 
 </body>
 </html>

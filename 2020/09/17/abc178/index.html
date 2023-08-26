@@ -6,12 +6,12 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="HandheldFriendly" content="True">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=5" />
-    <meta name="description" content="比较水的一场 A！运算符 B四种边界取个max C简单容斥 D问你有多少个序列满足所有元素都$\geq 3$并且和等于s$s\leq 2000$考虑枚举这个序列的长度为n那么就要满足$x_1+\dots +x_n &#x3D; s - 2n$，其中$x_i$​为正整数，每个数$\geq 3$，那么我们给每个数减掉2就转化为正整数的要求，下面就是一个经典的组合数插板问题，答案是$\binom{s-2">
+    <meta name="description" content="比较水的一场 ¶A ！运算符 ¶B 四种边界取个max ¶C 简单容斥 ¶D 问你有多少个序列满足所有元素都$\geq 3$并且和等于s $s\leq 2000$ 考虑枚举这个序列的长度为n 那么就要满足$x_1+\dots +x_n &#x3D; s - 2n$，其中$x_i$​为正整数，每个数$\geq 3$，那么我们给每个数减掉2就转化为正整数的要求，下面就是一个经典的组合数插板问题，答案是$\bin">
 <meta property="og:type" content="article">
 <meta property="og:title" content="ABC178">
 <meta property="og:url" content="http://example.com/2020/09/17/abc178/index.html">
 <meta property="og:site_name" content="jyf111&#39;s blog">
-<meta property="og:description" content="比较水的一场 A！运算符 B四种边界取个max C简单容斥 D问你有多少个序列满足所有元素都$\geq 3$并且和等于s$s\leq 2000$考虑枚举这个序列的长度为n那么就要满足$x_1+\dots +x_n &#x3D; s - 2n$，其中$x_i$​为正整数，每个数$\geq 3$，那么我们给每个数减掉2就转化为正整数的要求，下面就是一个经典的组合数插板问题，答案是$\binom{s-2">
+<meta property="og:description" content="比较水的一场 ¶A ！运算符 ¶B 四种边界取个max ¶C 简单容斥 ¶D 问你有多少个序列满足所有元素都$\geq 3$并且和等于s $s\leq 2000$ 考虑枚举这个序列的长度为n 那么就要满足$x_1+\dots +x_n &#x3D; s - 2n$，其中$x_i$​为正整数，每个数$\geq 3$，那么我们给每个数减掉2就转化为正整数的要求，下面就是一个经典的组合数插板问题，答案是$\bin">
 <meta property="og:locale" content="zh_CN">
 <meta property="article:published_time" content="2020-09-17T05:33:44.000Z">
 <meta property="article:modified_time" content="2023-08-24T12:45:14.134Z">
@@ -66,7 +66,9 @@
 		</script>
 		<script src='https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-MML-AM_CHTML' async></script>
 	
-<meta name="generator" content="Hexo 6.3.0"></head>
+<!-- hexo injector head_end start -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/katex.min.css">
+<!-- hexo injector head_end end --><meta name="generator" content="Hexo 6.3.0"></head>
 
 <body class="max-width mx-auto px3 ltr">
     
@@ -98,30 +100,12 @@
         <li><a class="icon" aria-label="下一篇" href="/2020/09/15/edu95/"><i class="fa-solid fa-chevron-right" aria-hidden="true" onmouseover="$('#i-next').toggle();" onmouseout="$('#i-next').toggle();"></i></a></li>
         
         <li><a class="icon" aria-label="返回顶部" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fa-solid fa-chevron-up" aria-hidden="true" onmouseover="$('#i-top').toggle();" onmouseout="$('#i-top').toggle();"></i></a></li>
-        <li><a class="icon" aria-label="分享文章" href="#"><i class="fa-solid fa-share-alt" aria-hidden="true" onmouseover="$('#i-share').toggle();" onmouseout="$('#i-share').toggle();" onclick="$('#share').toggle();return false;"></i></a></li>
       </ul>
       <span id="i-prev" class="info" style="display:none;">上一篇</span>
       <span id="i-next" class="info" style="display:none;">下一篇</span>
       <span id="i-top" class="info" style="display:none;">返回顶部</span>
-      <span id="i-share" class="info" style="display:none;">分享文章</span>
     </span>
     <br/>
-    <div id="share" style="display: none">
-      <ul>
-  <li><a class="icon" target="_blank" rel="noopener" href="http://www.facebook.com/sharer.php?u=http://example.com/2020/09/17/abc178/"><i class="fab fa-facebook " aria-hidden="true"></i></a></li>
-  <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=http://example.com/2020/09/17/abc178/&text=ABC178"><i class="fab fa-twitter " aria-hidden="true"></i></a></li>
-  <li><a class="icon" target="_blank" rel="noopener" href="http://www.linkedin.com/shareArticle?url=http://example.com/2020/09/17/abc178/&title=ABC178"><i class="fab fa-linkedin " aria-hidden="true"></i></a></li>
-  <li><a class="icon" target="_blank" rel="noopener" href="https://pinterest.com/pin/create/bookmarklet/?url=http://example.com/2020/09/17/abc178/&is_video=false&description=ABC178"><i class="fab fa-pinterest " aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="mailto:?subject=ABC178&body=Check out this article: http://example.com/2020/09/17/abc178/"><i class="fa-solid fa-envelope " aria-hidden="true"></i></a></li>
-  <li><a class="icon" target="_blank" rel="noopener" href="https://getpocket.com/save?url=http://example.com/2020/09/17/abc178/&title=ABC178"><i class="fab fa-get-pocket " aria-hidden="true"></i></a></li>
-  <li><a class="icon" target="_blank" rel="noopener" href="http://reddit.com/submit?url=http://example.com/2020/09/17/abc178/&title=ABC178"><i class="fab fa-reddit " aria-hidden="true"></i></a></li>
-  <li><a class="icon" target="_blank" rel="noopener" href="http://www.stumbleupon.com/submit?url=http://example.com/2020/09/17/abc178/&title=ABC178"><i class="fab fa-stumbleupon " aria-hidden="true"></i></a></li>
-  <li><a class="icon" target="_blank" rel="noopener" href="http://digg.com/submit?url=http://example.com/2020/09/17/abc178/&title=ABC178"><i class="fab fa-digg " aria-hidden="true"></i></a></li>
-  <li><a class="icon" target="_blank" rel="noopener" href="http://www.tumblr.com/share/link?url=http://example.com/2020/09/17/abc178/&name=ABC178&description="><i class="fab fa-tumblr " aria-hidden="true"></i></a></li>
-  <li><a class="icon" target="_blank" rel="noopener" href="https://news.ycombinator.com/submitlink?u=http://example.com/2020/09/17/abc178/&t=ABC178"><i class="fab fa-hacker-news " aria-hidden="true"></i></a></li>
-</ul>
-
-    </div>
     
     
       <div id="toc">
@@ -184,12 +168,26 @@
 
   <div class="content e-content" itemprop="articleBody">
     <p>比较水的一场</p>
-<h2 id="A"><a href="#A" class="headerlink" title="A"></a>A</h2><p>！运算符</p>
-<h2 id="B"><a href="#B" class="headerlink" title="B"></a>B</h2><p>四种边界取个max</p>
-<h2 id="C"><a href="#C" class="headerlink" title="C"></a>C</h2><p>简单容斥</p>
-<h2 id="D"><a href="#D" class="headerlink" title="D"></a>D</h2><p>问你有多少个序列满足所有元素都$\geq 3$并且和等于s<br>$s\leq 2000$<br>考虑枚举这个序列的长度为n<br>那么就要满足$x_1+\dots +x_n &#x3D; s - 2n$，其中$x_i$​为正整数，每个数$\geq 3$，那么我们给每个数减掉2就转化为正整数的要求，下面就是一个经典的组合数插板问题，答案是$\binom{s-2n-1}{n-1}$</p>
-<h2 id="E"><a href="#E" class="headerlink" title="E"></a>E</h2><p>给定n个点的坐标，求两点间的最大曼哈顿距离<br>很套路的题，保存(+x,+y),(+x,-y),(-x,+y),(-x,-y)四种情况的最值，枚举取max即可，容易发现虽然枚举中有不合法的情况，但一定不是最优解（因为这时候我们把绝对值取负了）</p>
-<h2 id="F"><a href="#F" class="headerlink" title="F"></a>F</h2><p>给定两个长度为n递增序列a和b，要求重排b，使得对于所有i，满足$a_i \neq b_i$​<br>$n \leq 2\times 10^5$<br>可以转化为一个网络流问题，对于每个$b_i$​，你可以放的位置就是a中所有$a_j \neq b_i$​的j，连边跑最大流即可，然而显然会爆<br>这种特殊的网络流，考虑贪心的解法<br>维护一个优先队列，对于每个$a_i$​，我们选择不等于$a_i$​的且可放置位置最少的那个$b_j$​，即在a中和它相等的元素最多。这样贪心即可。</p>
+<h2 id="A"><a class="header-anchor" href="#A">¶</a>A</h2>
+<p>！运算符</p>
+<h2 id="B"><a class="header-anchor" href="#B">¶</a>B</h2>
+<p>四种边界取个max</p>
+<h2 id="C"><a class="header-anchor" href="#C">¶</a>C</h2>
+<p>简单容斥</p>
+<h2 id="D"><a class="header-anchor" href="#D">¶</a>D</h2>
+<p>问你有多少个序列满足所有元素都$\geq 3$并且和等于s<br>
+$s\leq 2000$<br>
+考虑枚举这个序列的长度为n<br>
+那么就要满足$x_1+\dots +x_n = s - 2n$，其中$x_i$​为正整数，每个数$\geq 3$，那么我们给每个数减掉2就转化为正整数的要求，下面就是一个经典的组合数插板问题，答案是$\binom{s-2n-1}{n-1}$</p>
+<h2 id="E"><a class="header-anchor" href="#E">¶</a>E</h2>
+<p>给定n个点的坐标，求两点间的最大曼哈顿距离<br>
+很套路的题，保存(+x,+y),(+x,-y),(-x,+y),(-x,-y)四种情况的最值，枚举取max即可，容易发现虽然枚举中有不合法的情况，但一定不是最优解（因为这时候我们把绝对值取负了）</p>
+<h2 id="F"><a class="header-anchor" href="#F">¶</a>F</h2>
+<p>给定两个长度为n递增序列a和b，要求重排b，使得对于所有i，满足$a_i \neq b_i$​<br>
+$n \leq 2\times 10^5$<br>
+可以转化为一个网络流问题，对于每个$b_i$​，你可以放的位置就是a中所有$a_j \neq b_i$​的j，连边跑最大流即可，然而显然会爆<br>
+这种特殊的网络流，考虑贪心的解法<br>
+维护一个优先队列，对于每个$a_i$​，我们选择不等于$a_i$​的且可放置位置最少的那个$b_j$​，即在a中和它相等的元素最多。这样贪心即可。</p>
 
   </div>
 </article>
@@ -221,29 +219,11 @@
       </div>
     
 
-    <div id="share-footer" style="display: none">
-      <ul>
-  <li><a class="icon" target="_blank" rel="noopener" href="http://www.facebook.com/sharer.php?u=http://example.com/2020/09/17/abc178/"><i class="fab fa-facebook fa-lg" aria-hidden="true"></i></a></li>
-  <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=http://example.com/2020/09/17/abc178/&text=ABC178"><i class="fab fa-twitter fa-lg" aria-hidden="true"></i></a></li>
-  <li><a class="icon" target="_blank" rel="noopener" href="http://www.linkedin.com/shareArticle?url=http://example.com/2020/09/17/abc178/&title=ABC178"><i class="fab fa-linkedin fa-lg" aria-hidden="true"></i></a></li>
-  <li><a class="icon" target="_blank" rel="noopener" href="https://pinterest.com/pin/create/bookmarklet/?url=http://example.com/2020/09/17/abc178/&is_video=false&description=ABC178"><i class="fab fa-pinterest fa-lg" aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="mailto:?subject=ABC178&body=Check out this article: http://example.com/2020/09/17/abc178/"><i class="fa-solid fa-envelope fa-lg" aria-hidden="true"></i></a></li>
-  <li><a class="icon" target="_blank" rel="noopener" href="https://getpocket.com/save?url=http://example.com/2020/09/17/abc178/&title=ABC178"><i class="fab fa-get-pocket fa-lg" aria-hidden="true"></i></a></li>
-  <li><a class="icon" target="_blank" rel="noopener" href="http://reddit.com/submit?url=http://example.com/2020/09/17/abc178/&title=ABC178"><i class="fab fa-reddit fa-lg" aria-hidden="true"></i></a></li>
-  <li><a class="icon" target="_blank" rel="noopener" href="http://www.stumbleupon.com/submit?url=http://example.com/2020/09/17/abc178/&title=ABC178"><i class="fab fa-stumbleupon fa-lg" aria-hidden="true"></i></a></li>
-  <li><a class="icon" target="_blank" rel="noopener" href="http://digg.com/submit?url=http://example.com/2020/09/17/abc178/&title=ABC178"><i class="fab fa-digg fa-lg" aria-hidden="true"></i></a></li>
-  <li><a class="icon" target="_blank" rel="noopener" href="http://www.tumblr.com/share/link?url=http://example.com/2020/09/17/abc178/&name=ABC178&description="><i class="fab fa-tumblr fa-lg" aria-hidden="true"></i></a></li>
-  <li><a class="icon" target="_blank" rel="noopener" href="https://news.ycombinator.com/submitlink?u=http://example.com/2020/09/17/abc178/&t=ABC178"><i class="fab fa-hacker-news fa-lg" aria-hidden="true"></i></a></li>
-</ul>
-
-    </div>
-
     <div id="actions-footer">
         <a id="menu" class="icon" href="#" onclick="$('#nav-footer').toggle();return false;"><i class="fa-solid fa-bars fa-lg" aria-hidden="true"></i> 菜单</a>
         
           <a id="toc" class="icon" href="#" onclick="$('#toc-footer').toggle();return false;"><i class="fa-solid fa-list fa-lg" aria-hidden="true"></i> 目录</a>
         
-        <a id="share" class="icon" href="#" onclick="$('#share-footer').toggle();return false;"><i class="fa-solid fa-share-alt fa-lg" aria-hidden="true"></i> 分享</a>
         <a id="top" style="display:none" class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fa-solid fa-chevron-up fa-lg" aria-hidden="true"></i> 返回顶部</a>
     </div>
 
@@ -328,6 +308,7 @@
 <!-- Disqus Comments -->
 
 <!-- utterances Comments -->
+
 
 </body>
 </html>

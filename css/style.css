@@ -1628,12 +1628,13 @@ pre code {
   border: none;
 }
 code {
-  padding: 0 5px;
-  border-radius: 2px;
+  padding: 0 2px;
   -webkit-border-radius: 2px;
   box-shadow: 0 0 1px 1px #c8d3df;
   box-sizing: border-box;
   color: #3c70c6;
+  margin: 0 2px 0 2px;
+  padding: 0 2px 0 2px;
 }
 .highlight {
   overflow-x: auto;

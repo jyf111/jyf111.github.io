@@ -6,15 +6,15 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="HandheldFriendly" content="True">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=5" />
-    <meta name="description" content="给定n和奇素数p，求x满足$x^2 \equiv n ($mod$\ p)$ 首先考虑有没有解，有解的n称为二次剩余，无解的n称为非二次剩余根据费马小定理，当p为质数时，满足$n^p \equiv n ($mod$\ p)$由于p是奇质数，则$n^{2\frac{p-1}{2}} \equiv 1 ($mod$\ p)$即$n^{\frac{p-1}{2}}$​为1在模p意义下开根的结果，只有1和">
+    <meta name="description" content="给定n和奇素数p，求x满足$x^2 \equiv n ($mod$\ p)$ 首先考虑有没有解，有解的n称为二次剩余，无解的n称为非二次剩余 根据费马小定理，当p为质数时，满足$n^p \equiv n ($mod$\ p)$ 由于p是奇质数，则$n^{2\frac{p-1}{2}} \equiv 1 ($mod$\ p)$ 即$n^{\frac{p-1}{2}}$​为1在模p意义下开根的结果，只">
 <meta property="og:type" content="article">
 <meta property="og:title" content="二次剩余">
 <meta property="og:url" content="http://example.com/2020/12/03/er-ci-sheng-yu/index.html">
 <meta property="og:site_name" content="jyf111&#39;s blog">
-<meta property="og:description" content="给定n和奇素数p，求x满足$x^2 \equiv n ($mod$\ p)$ 首先考虑有没有解，有解的n称为二次剩余，无解的n称为非二次剩余根据费马小定理，当p为质数时，满足$n^p \equiv n ($mod$\ p)$由于p是奇质数，则$n^{2\frac{p-1}{2}} \equiv 1 ($mod$\ p)$即$n^{\frac{p-1}{2}}$​为1在模p意义下开根的结果，只有1和">
+<meta property="og:description" content="给定n和奇素数p，求x满足$x^2 \equiv n ($mod$\ p)$ 首先考虑有没有解，有解的n称为二次剩余，无解的n称为非二次剩余 根据费马小定理，当p为质数时，满足$n^p \equiv n ($mod$\ p)$ 由于p是奇质数，则$n^{2\frac{p-1}{2}} \equiv 1 ($mod$\ p)$ 即$n^{\frac{p-1}{2}}$​为1在模p意义下开根的结果，只">
 <meta property="og:locale" content="zh_CN">
 <meta property="article:published_time" content="2020-12-03T05:33:44.000Z">
-<meta property="article:modified_time" content="2023-08-24T15:34:51.632Z">
+<meta property="article:modified_time" content="2023-08-26T05:53:40.356Z">
 <meta property="article:author" content="jyf111">
 <meta property="article:tag" content="算法">
 <meta name="twitter:card" content="summary">
@@ -66,7 +66,9 @@
 		</script>
 		<script src='https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-MML-AM_CHTML' async></script>
 	
-<meta name="generator" content="Hexo 6.3.0"></head>
+<!-- hexo injector head_end start -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/katex.min.css">
+<!-- hexo injector head_end end --><meta name="generator" content="Hexo 6.3.0"></head>
 
 <body class="max-width mx-auto px3 ltr">
     
@@ -98,30 +100,12 @@
         <li><a class="icon" aria-label="下一篇" href="/2020/12/03/2020-qin-huang-dao-j-jewel-splitting/"><i class="fa-solid fa-chevron-right" aria-hidden="true" onmouseover="$('#i-next').toggle();" onmouseout="$('#i-next').toggle();"></i></a></li>
         
         <li><a class="icon" aria-label="返回顶部" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fa-solid fa-chevron-up" aria-hidden="true" onmouseover="$('#i-top').toggle();" onmouseout="$('#i-top').toggle();"></i></a></li>
-        <li><a class="icon" aria-label="分享文章" href="#"><i class="fa-solid fa-share-alt" aria-hidden="true" onmouseover="$('#i-share').toggle();" onmouseout="$('#i-share').toggle();" onclick="$('#share').toggle();return false;"></i></a></li>
       </ul>
       <span id="i-prev" class="info" style="display:none;">上一篇</span>
       <span id="i-next" class="info" style="display:none;">下一篇</span>
       <span id="i-top" class="info" style="display:none;">返回顶部</span>
-      <span id="i-share" class="info" style="display:none;">分享文章</span>
     </span>
     <br/>
-    <div id="share" style="display: none">
-      <ul>
-  <li><a class="icon" target="_blank" rel="noopener" href="http://www.facebook.com/sharer.php?u=http://example.com/2020/12/03/er-ci-sheng-yu/"><i class="fab fa-facebook " aria-hidden="true"></i></a></li>
-  <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=http://example.com/2020/12/03/er-ci-sheng-yu/&text=二次剩余"><i class="fab fa-twitter " aria-hidden="true"></i></a></li>
-  <li><a class="icon" target="_blank" rel="noopener" href="http://www.linkedin.com/shareArticle?url=http://example.com/2020/12/03/er-ci-sheng-yu/&title=二次剩余"><i class="fab fa-linkedin " aria-hidden="true"></i></a></li>
-  <li><a class="icon" target="_blank" rel="noopener" href="https://pinterest.com/pin/create/bookmarklet/?url=http://example.com/2020/12/03/er-ci-sheng-yu/&is_video=false&description=二次剩余"><i class="fab fa-pinterest " aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="mailto:?subject=二次剩余&body=Check out this article: http://example.com/2020/12/03/er-ci-sheng-yu/"><i class="fa-solid fa-envelope " aria-hidden="true"></i></a></li>
-  <li><a class="icon" target="_blank" rel="noopener" href="https://getpocket.com/save?url=http://example.com/2020/12/03/er-ci-sheng-yu/&title=二次剩余"><i class="fab fa-get-pocket " aria-hidden="true"></i></a></li>
-  <li><a class="icon" target="_blank" rel="noopener" href="http://reddit.com/submit?url=http://example.com/2020/12/03/er-ci-sheng-yu/&title=二次剩余"><i class="fab fa-reddit " aria-hidden="true"></i></a></li>
-  <li><a class="icon" target="_blank" rel="noopener" href="http://www.stumbleupon.com/submit?url=http://example.com/2020/12/03/er-ci-sheng-yu/&title=二次剩余"><i class="fab fa-stumbleupon " aria-hidden="true"></i></a></li>
-  <li><a class="icon" target="_blank" rel="noopener" href="http://digg.com/submit?url=http://example.com/2020/12/03/er-ci-sheng-yu/&title=二次剩余"><i class="fab fa-digg " aria-hidden="true"></i></a></li>
-  <li><a class="icon" target="_blank" rel="noopener" href="http://www.tumblr.com/share/link?url=http://example.com/2020/12/03/er-ci-sheng-yu/&name=二次剩余&description="><i class="fab fa-tumblr " aria-hidden="true"></i></a></li>
-  <li><a class="icon" target="_blank" rel="noopener" href="https://news.ycombinator.com/submitlink?u=http://example.com/2020/12/03/er-ci-sheng-yu/&t=二次剩余"><i class="fab fa-hacker-news " aria-hidden="true"></i></a></li>
-</ul>
-
-    </div>
     
     
   </span>
@@ -148,7 +132,7 @@
       
         <time datetime="2020-12-03T05:33:44.000Z" class="dt-published" itemprop="datePublished">2020-12-03</time>
         
-        (Updated: <time datetime="2023-08-24T15:34:51.632Z" class="dt-updated" itemprop="dateModified">2023-08-24</time>)
+        (Updated: <time datetime="2023-08-26T05:53:40.356Z" class="dt-updated" itemprop="dateModified">2023-08-26</time>)
         
       
     </div>
@@ -180,19 +164,34 @@
 
   <div class="content e-content" itemprop="articleBody">
     <p>给定n和奇素数p，求x满足$x^2 \equiv n ($mod$\ p)$</p>
-<p>首先考虑有没有解，有解的n称为二次剩余，无解的n称为非二次剩余<br>根据费马小定理，当p为质数时，满足$n^p \equiv n ($mod$\ p)$<br>由于p是奇质数，则$n^{2\frac{p-1}{2}} \equiv 1 ($mod$\ p)$<br>即$n^{\frac{p-1}{2}}$​为1在模p意义下开根的结果，只有1和-1两种可能<br>有欧拉准则，当$n^{\frac{p-1}{2}} \equiv 1$时，n是二次剩余，否则是非二次剩余。<br>当n是二次剩余时，易得$x^{2\frac{p-1}{2}} \equiv x^{p-1} \equiv 1$成立，必要性得到。<br>充分性以及非二次剩余的证明鸽了。</p>
-<p>再考虑有解时有几个解，设两个不同的解$x_1,x_2$​，则满足$x_1^2 \equiv<br>x_2^2$​，即$x_1^2-x_2^2 \equiv (x_1+x_2)(x_1-x_2)\equiv 0$，由于$x_1 \neq x_2$​，只有可能$x_1$和$x_2$互为相反数，由于$p$是奇数，$x_1$和$x_2$的奇偶性一定不同，因此值一定不同。所以除0外每个二次剩余都对应两个解，且这两个解互为相反数。同样的，两个相反数对应了一个二次剩余，因此在$[1,p-1]$中总共有$\frac{p-1}{2}$​个二次剩余</p>
-<p>最后考虑有解时怎么求。先找到一个a，满足$a^2-n$是非二次剩余，随机找即可，一次有$\frac{1}{2}$​的概率找到<br>令$i^2 \equiv a^2-n$<br>有$(a+i)^{p+1} \equiv n$</p>
+<p>首先考虑有没有解，有解的n称为二次剩余，无解的n称为非二次剩余<br>
+根据费马小定理，当p为质数时，满足$n^p \equiv n ($mod$\ p)$<br>
+由于p是奇质数，则$n^{2\frac{p-1}{2}} \equiv 1 ($mod$\ p)$<br>
+即$n^{\frac{p-1}{2}}$​为1在模p意义下开根的结果，只有1和-1两种可能<br>
+有欧拉准则，当$n^{\frac{p-1}{2}} \equiv 1$时，n是二次剩余，否则是非二次剩余。<br>
+当n是二次剩余时，易得$x^{2\frac{p-1}{2}} \equiv x^{p-1} \equiv 1$成立，必要性得到。<br>
+充分性以及非二次剩余的证明鸽了。</p>
+<p>再考虑有解时有几个解，设两个不同的解$x_1,x_2$​，则满足$x_1^2 \equiv<br>
+x_2^2$​，即$x_1^2-x_2^2 \equiv (x_1+x_2)(x_1-x_2)\equiv 0$，由于$x_1 \neq x_2$​，只有可能$x_1$和$x_2$互为相反数，由于$p$是奇数，$x_1$和$x_2$的奇偶性一定不同，因此值一定不同。所以除0外每个二次剩余都对应两个解，且这两个解互为相反数。同样的，两个相反数对应了一个二次剩余，因此在$[1,p-1]$中总共有$\frac{p-1}{2}$​个二次剩余</p>
+<p>最后考虑有解时怎么求。先找到一个a，满足$a^2-n$是非二次剩余，随机找即可，一次有$\frac{1}{2}$​的概率找到<br>
+令$i^2 \equiv a^2-n$<br>
+有$(a+i)^{p+1} \equiv n$</p>
 <ul>
 <li>$i^p \equiv i(a^2-n)^{\frac{p-1}{2}} \equiv -i$</li>
-<li>$(a+b)^p \equiv a^p+b^p$ 考虑二项式定理<br>$(a+i)^{p+1} \equiv (a^p+i^p)(a+i) \equiv (a-i)(a+i) \equiv n$<br>那么$(a+i)^{\frac{p+1}{2}}$​就是一个解<br>由于$a^2-n$是非二次剩余，因此$i$实际不存在，但是我们可以类似复数一样定义，然后定义乘法即可计算快速幂了，定义形如$a+bi$，则$a+i$就是$a+1i$<br>$(a+bi)(c+di) \equiv (ac+bdi^2+adi+bci)$，把$i^2$用$a^2-n$代替即可</li>
+<li>$(a+b)^p \equiv a^p+b^p$ 考虑二项式定理<br>
+$(a+i)^{p+1} \equiv (a^p+i^p)(a+i) \equiv (a-i)(a+i) \equiv n$<br>
+那么$(a+i)^{\frac{p+1}{2}}$​就是一个解<br>
+由于$a^2-n$是非二次剩余，因此$i$实际不存在，但是我们可以类似复数一样定义，然后定义乘法即可计算快速幂了，定义形如$a+bi$，则$a+i$就是$a+1i$<br>
+$(a+bi)(c+di) \equiv (ac+bdi^2+adi+bci)$，把$i^2$用$a^2-n$代替即可</li>
 </ul>
 <figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br></pre></td><td class="code"><pre><span class="line">ll w, n, p;</span><br><span class="line"><span class="keyword">struct</span> <span class="title class_">Complex</span></span><br><span class="line">&#123;</span><br><span class="line">  ll x, y;</span><br><span class="line">  <span class="built_in">Complex</span>(<span class="type">int</span> _x,<span class="type">int</span> _y) : <span class="built_in">x</span>(_x), <span class="built_in">y</span>(_y) &#123;&#125;</span><br><span class="line">  Complex <span class="keyword">operator</span> * (<span class="type">const</span> Complex &amp;b) <span class="type">const</span> &#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="built_in">Complex</span>(((x*b.x%p+y*b.y%p*w%p)%p+p)%p,((x*b.y%p+y*b.x%p)%p+p)%p);</span><br><span class="line">  &#125;</span><br><span class="line">&#125;;</span><br><span class="line"><span class="function">ll <span class="title">powcp</span><span class="params">(Complex a,ll b,ll p)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">  <span class="function">Complex <span class="title">ans</span><span class="params">(<span class="number">1</span>,<span class="number">0</span>)</span></span>;</span><br><span class="line">  <span class="keyword">while</span>(b)</span><br><span class="line">  &#123;</span><br><span class="line">    <span class="keyword">if</span>(b&amp;<span class="number">1</span>) ans = ans*a;</span><br><span class="line">    a = a*a;</span><br><span class="line">    b &gt;&gt;= <span class="number">1</span>;</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="keyword">return</span> ans.x;</span><br><span class="line">&#125;</span><br><span class="line"><span class="function">ll <span class="title">solve</span><span class="params">(ll n,ll p)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">  n %= p;</span><br><span class="line">  <span class="keyword">if</span>(p==<span class="number">2</span>) <span class="keyword">return</span> n;</span><br><span class="line">  <span class="keyword">if</span>(<span class="built_in">powmod</span>(n,(p<span class="number">-1</span>)/<span class="number">2</span>,p)==p<span class="number">-1</span>) <span class="keyword">return</span> <span class="number">-1</span>; <span class="comment">//无解</span></span><br><span class="line">  ll a;</span><br><span class="line">  <span class="keyword">while</span>(<span class="number">1</span>)</span><br><span class="line">  &#123;</span><br><span class="line">    a = <span class="built_in">rand</span>()%p;</span><br><span class="line">    w = ((a*a%p-n)%p+p)%p;</span><br><span class="line">    <span class="keyword">if</span>(<span class="built_in">powmod</span>(w,(p<span class="number">-1</span>)/<span class="number">2</span>,p)==p<span class="number">-1</span>) <span class="keyword">break</span>;</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="function">Complex <span class="title">x</span><span class="params">(a,<span class="number">1</span>)</span></span>;</span><br><span class="line">  <span class="keyword">return</span> <span class="built_in">powcp</span>(x,(p+<span class="number">1</span>)/<span class="number">2</span>,p);</span><br><span class="line">&#125;</span><br><span class="line"><span class="built_in">srand</span>(<span class="built_in">int</span>(<span class="built_in">time</span>(<span class="literal">NULL</span>)));</span><br><span class="line">ll ans1 = <span class="built_in">solve</span>(n,p), ans2;</span><br><span class="line"><span class="keyword">if</span>(ans1==<span class="number">-1</span>) <span class="built_in">printf</span>(<span class="string">&quot;Hola!\n&quot;</span>);</span><br><span class="line"><span class="keyword">else</span></span><br><span class="line">&#123;</span><br><span class="line">  ans2 = p - ans1;</span><br><span class="line">  <span class="keyword">if</span>(ans1&gt;ans2) <span class="built_in">swap</span>(ans1,ans2);</span><br><span class="line">  <span class="keyword">if</span>(ans1==ans2) <span class="built_in">printf</span>(<span class="string">&quot;%lld\n&quot;</span>,ans1);</span><br><span class="line">  <span class="keyword">else</span> <span class="built_in">printf</span>(<span class="string">&quot;%lld %lld\n&quot;</span>,ans1,ans2);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p>上述做法由于要手写一个复数类，比较麻烦，而且常数也大，还有一种<code>ToneLLi_Shanks</code>算法<br>原理鸽了</p>
+<p>上述做法由于要手写一个复数类，比较麻烦，而且常数也大，还有一种<code>ToneLLi_Shanks</code>算法<br>
+原理鸽了</p>
 <figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br></pre></td><td class="code"><pre><span class="line"><span class="function">ll <span class="title">TS</span><span class="params">(ll n, ll p)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">  <span class="keyword">if</span>(n==<span class="number">0</span>) <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">  <span class="keyword">if</span>(p==<span class="number">2</span>) <span class="keyword">return</span> (n&amp;<span class="number">1</span>) ? <span class="number">1</span> : <span class="number">-1</span>;</span><br><span class="line">  <span class="keyword">if</span>(<span class="built_in">Pow</span>(n, p&gt;&gt;<span class="number">1</span>, p)!=<span class="number">1</span>) <span class="keyword">return</span> <span class="number">-1</span>;</span><br><span class="line">  <span class="keyword">if</span>(p&amp;<span class="number">2</span>) <span class="keyword">return</span> <span class="built_in">Pow</span>(n, (p+<span class="number">1</span>)&gt;&gt;<span class="number">2</span>, p);</span><br><span class="line">  <span class="type">int</span> s = __builtin_ctzll(p^<span class="number">1</span>);</span><br><span class="line">  ll q = p&gt;&gt;s, z = <span class="number">2</span>;</span><br><span class="line">  <span class="keyword">for</span>(; <span class="built_in">Pow</span>(z, p&gt;&gt;<span class="number">1</span>, p)==<span class="number">1</span>; z++);</span><br><span class="line">  ll c = <span class="built_in">Pow</span>(z, q, p);</span><br><span class="line">  ll r = <span class="built_in">Pow</span>(n, (q+<span class="number">1</span>)&gt;&gt;<span class="number">1</span>, p);</span><br><span class="line">  ll t = <span class="built_in">Pow</span>(n, q, p), tmp;</span><br><span class="line">  <span class="keyword">for</span>(<span class="type">int</span> m=s, i; t!=<span class="number">1</span>; )</span><br><span class="line">  &#123;</span><br><span class="line">    <span class="keyword">for</span>(i=<span class="number">0</span>, tmp=t; tmp!=<span class="number">1</span>; i++) tmp = tmp*tmp%p;</span><br><span class="line">    <span class="keyword">for</span>(; i&lt;--m; ) c = c*c%p;</span><br><span class="line">    r = r*c%p;</span><br><span class="line">    c = c*c%p;</span><br><span class="line">    t = t*c%p;</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="keyword">return</span> r;</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">solve</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">  <span class="built_in">scanf</span>(<span class="string">&quot;%d%d&quot;</span>, &amp;n, &amp;p);</span><br><span class="line">  ll ans = <span class="built_in">TS</span>(n, p);</span><br><span class="line">  <span class="keyword">if</span>(ans==<span class="number">-1</span>) <span class="built_in">puts</span>(<span class="string">&quot;Hola!&quot;</span>);</span><br><span class="line">  <span class="keyword">else</span> <span class="keyword">if</span>(!ans) <span class="built_in">puts</span>(<span class="string">&quot;0&quot;</span>);</span><br><span class="line">  <span class="keyword">else</span></span><br><span class="line">  &#123;</span><br><span class="line">    ll ans2 = p - ans;</span><br><span class="line">    <span class="keyword">if</span>(ans&gt;ans2) <span class="built_in">swap</span>(ans, ans2);</span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">&quot;%lld %lld\n&quot;</span>, ans, ans2);</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p>补充：<br>对于三次剩余<br>若$p % 3 &#x3D; 2$，则每个数都是三次剩余，并且有唯一解$n^{\frac{2p-1}{3}}$​<br>若$p % 3 &#x3D; 1$，则有$\frac{p-1}{3}​个数是三次剩余，且每个数有三个解</p>
+<p>补充：<br>
+对于三次剩余<br>
+若$p % 3 = 2$，则每个数都是三次剩余，并且有唯一解$n^{\frac{2p-1}{3}}$​<br>
+若$p % 3 = 1$，则有$\frac{p-1}{3}$​个数是三次剩余，且每个数有三个解</p>
 
   </div>
 </article>
@@ -220,27 +219,9 @@
     
     
 
-    <div id="share-footer" style="display: none">
-      <ul>
-  <li><a class="icon" target="_blank" rel="noopener" href="http://www.facebook.com/sharer.php?u=http://example.com/2020/12/03/er-ci-sheng-yu/"><i class="fab fa-facebook fa-lg" aria-hidden="true"></i></a></li>
-  <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=http://example.com/2020/12/03/er-ci-sheng-yu/&text=二次剩余"><i class="fab fa-twitter fa-lg" aria-hidden="true"></i></a></li>
-  <li><a class="icon" target="_blank" rel="noopener" href="http://www.linkedin.com/shareArticle?url=http://example.com/2020/12/03/er-ci-sheng-yu/&title=二次剩余"><i class="fab fa-linkedin fa-lg" aria-hidden="true"></i></a></li>
-  <li><a class="icon" target="_blank" rel="noopener" href="https://pinterest.com/pin/create/bookmarklet/?url=http://example.com/2020/12/03/er-ci-sheng-yu/&is_video=false&description=二次剩余"><i class="fab fa-pinterest fa-lg" aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="mailto:?subject=二次剩余&body=Check out this article: http://example.com/2020/12/03/er-ci-sheng-yu/"><i class="fa-solid fa-envelope fa-lg" aria-hidden="true"></i></a></li>
-  <li><a class="icon" target="_blank" rel="noopener" href="https://getpocket.com/save?url=http://example.com/2020/12/03/er-ci-sheng-yu/&title=二次剩余"><i class="fab fa-get-pocket fa-lg" aria-hidden="true"></i></a></li>
-  <li><a class="icon" target="_blank" rel="noopener" href="http://reddit.com/submit?url=http://example.com/2020/12/03/er-ci-sheng-yu/&title=二次剩余"><i class="fab fa-reddit fa-lg" aria-hidden="true"></i></a></li>
-  <li><a class="icon" target="_blank" rel="noopener" href="http://www.stumbleupon.com/submit?url=http://example.com/2020/12/03/er-ci-sheng-yu/&title=二次剩余"><i class="fab fa-stumbleupon fa-lg" aria-hidden="true"></i></a></li>
-  <li><a class="icon" target="_blank" rel="noopener" href="http://digg.com/submit?url=http://example.com/2020/12/03/er-ci-sheng-yu/&title=二次剩余"><i class="fab fa-digg fa-lg" aria-hidden="true"></i></a></li>
-  <li><a class="icon" target="_blank" rel="noopener" href="http://www.tumblr.com/share/link?url=http://example.com/2020/12/03/er-ci-sheng-yu/&name=二次剩余&description="><i class="fab fa-tumblr fa-lg" aria-hidden="true"></i></a></li>
-  <li><a class="icon" target="_blank" rel="noopener" href="https://news.ycombinator.com/submitlink?u=http://example.com/2020/12/03/er-ci-sheng-yu/&t=二次剩余"><i class="fab fa-hacker-news fa-lg" aria-hidden="true"></i></a></li>
-</ul>
-
-    </div>
-
     <div id="actions-footer">
         <a id="menu" class="icon" href="#" onclick="$('#nav-footer').toggle();return false;"><i class="fa-solid fa-bars fa-lg" aria-hidden="true"></i> 菜单</a>
         
-        <a id="share" class="icon" href="#" onclick="$('#share-footer').toggle();return false;"><i class="fa-solid fa-share-alt fa-lg" aria-hidden="true"></i> 分享</a>
         <a id="top" style="display:none" class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fa-solid fa-chevron-up fa-lg" aria-hidden="true"></i> 返回顶部</a>
     </div>
 
@@ -325,6 +306,7 @@
 <!-- Disqus Comments -->
 
 <!-- utterances Comments -->
+
 
 </body>
 </html>

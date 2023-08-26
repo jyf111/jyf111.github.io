@@ -6,12 +6,12 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="HandheldFriendly" content="True">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=5" />
-    <meta name="description" content="ABC签到 F对小数据写个爆搜后很容易发现规律 D利用扩展欧拉定理，$n*{a^n} \equiv n % p*{a^{n % (p-1)}}$令$j &#x3D; n%(p-1)$, $i &#x3D; n%p$, $j-i&#x3D;k$我们枚举a的幂次j（从0到p-2），利用逆元算出i的值满足条件的$n &#x3D; t(p-1)*p + kp + i$，t为整数，算出[1,x]范围内符合条">
+    <meta name="description" content="ABC签到 ¶F 对小数据写个爆搜后很容易发现规律 ¶D 利用扩展欧拉定理，$n*{a^n} \equiv n % p*{a^{n % (p-1)}}$ 令$j &#x3D; n%(p-1)$, $i &#x3D; n%p$, $j-i&#x3D;k$ 我们枚举a的幂次j（从0到p-2），利用逆元算出i的值 满足条件的$n &#x3D; t(p-1)*p + kp + i$，t为整数，算出[1,x]范围内符合条件的t的个数即可 ¶E 有">
 <meta property="og:type" content="article">
 <meta property="og:title" content="厦门大学“网宿杯“17届程序设计竞赛决赛">
 <meta property="og:url" content="http://example.com/2020/05/31/sha-men-da-xue-wang-su-bei-17-jie-cheng-xu-she-ji-jing-sai-jue-sai/index.html">
 <meta property="og:site_name" content="jyf111&#39;s blog">
-<meta property="og:description" content="ABC签到 F对小数据写个爆搜后很容易发现规律 D利用扩展欧拉定理，$n*{a^n} \equiv n % p*{a^{n % (p-1)}}$令$j &#x3D; n%(p-1)$, $i &#x3D; n%p$, $j-i&#x3D;k$我们枚举a的幂次j（从0到p-2），利用逆元算出i的值满足条件的$n &#x3D; t(p-1)*p + kp + i$，t为整数，算出[1,x]范围内符合条">
+<meta property="og:description" content="ABC签到 ¶F 对小数据写个爆搜后很容易发现规律 ¶D 利用扩展欧拉定理，$n*{a^n} \equiv n % p*{a^{n % (p-1)}}$ 令$j &#x3D; n%(p-1)$, $i &#x3D; n%p$, $j-i&#x3D;k$ 我们枚举a的幂次j（从0到p-2），利用逆元算出i的值 满足条件的$n &#x3D; t(p-1)*p + kp + i$，t为整数，算出[1,x]范围内符合条件的t的个数即可 ¶E 有">
 <meta property="og:locale" content="zh_CN">
 <meta property="article:published_time" content="2020-05-31T05:33:44.000Z">
 <meta property="article:modified_time" content="2023-08-24T16:18:16.672Z">
@@ -66,7 +66,9 @@
 		</script>
 		<script src='https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-MML-AM_CHTML' async></script>
 	
-<meta name="generator" content="Hexo 6.3.0"></head>
+<!-- hexo injector head_end start -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/katex.min.css">
+<!-- hexo injector head_end end --><meta name="generator" content="Hexo 6.3.0"></head>
 
 <body class="max-width mx-auto px3 ltr">
     
@@ -98,30 +100,12 @@
         <li><a class="icon" aria-label="下一篇" href="/2020/05/30/p5903-shu-shang-k-ji-zu-xian/"><i class="fa-solid fa-chevron-right" aria-hidden="true" onmouseover="$('#i-next').toggle();" onmouseout="$('#i-next').toggle();"></i></a></li>
         
         <li><a class="icon" aria-label="返回顶部" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fa-solid fa-chevron-up" aria-hidden="true" onmouseover="$('#i-top').toggle();" onmouseout="$('#i-top').toggle();"></i></a></li>
-        <li><a class="icon" aria-label="分享文章" href="#"><i class="fa-solid fa-share-alt" aria-hidden="true" onmouseover="$('#i-share').toggle();" onmouseout="$('#i-share').toggle();" onclick="$('#share').toggle();return false;"></i></a></li>
       </ul>
       <span id="i-prev" class="info" style="display:none;">上一篇</span>
       <span id="i-next" class="info" style="display:none;">下一篇</span>
       <span id="i-top" class="info" style="display:none;">返回顶部</span>
-      <span id="i-share" class="info" style="display:none;">分享文章</span>
     </span>
     <br/>
-    <div id="share" style="display: none">
-      <ul>
-  <li><a class="icon" target="_blank" rel="noopener" href="http://www.facebook.com/sharer.php?u=http://example.com/2020/05/31/sha-men-da-xue-wang-su-bei-17-jie-cheng-xu-she-ji-jing-sai-jue-sai/"><i class="fab fa-facebook " aria-hidden="true"></i></a></li>
-  <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=http://example.com/2020/05/31/sha-men-da-xue-wang-su-bei-17-jie-cheng-xu-she-ji-jing-sai-jue-sai/&text=厦门大学“网宿杯“17届程序设计竞赛决赛"><i class="fab fa-twitter " aria-hidden="true"></i></a></li>
-  <li><a class="icon" target="_blank" rel="noopener" href="http://www.linkedin.com/shareArticle?url=http://example.com/2020/05/31/sha-men-da-xue-wang-su-bei-17-jie-cheng-xu-she-ji-jing-sai-jue-sai/&title=厦门大学“网宿杯“17届程序设计竞赛决赛"><i class="fab fa-linkedin " aria-hidden="true"></i></a></li>
-  <li><a class="icon" target="_blank" rel="noopener" href="https://pinterest.com/pin/create/bookmarklet/?url=http://example.com/2020/05/31/sha-men-da-xue-wang-su-bei-17-jie-cheng-xu-she-ji-jing-sai-jue-sai/&is_video=false&description=厦门大学“网宿杯“17届程序设计竞赛决赛"><i class="fab fa-pinterest " aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="mailto:?subject=厦门大学“网宿杯“17届程序设计竞赛决赛&body=Check out this article: http://example.com/2020/05/31/sha-men-da-xue-wang-su-bei-17-jie-cheng-xu-she-ji-jing-sai-jue-sai/"><i class="fa-solid fa-envelope " aria-hidden="true"></i></a></li>
-  <li><a class="icon" target="_blank" rel="noopener" href="https://getpocket.com/save?url=http://example.com/2020/05/31/sha-men-da-xue-wang-su-bei-17-jie-cheng-xu-she-ji-jing-sai-jue-sai/&title=厦门大学“网宿杯“17届程序设计竞赛决赛"><i class="fab fa-get-pocket " aria-hidden="true"></i></a></li>
-  <li><a class="icon" target="_blank" rel="noopener" href="http://reddit.com/submit?url=http://example.com/2020/05/31/sha-men-da-xue-wang-su-bei-17-jie-cheng-xu-she-ji-jing-sai-jue-sai/&title=厦门大学“网宿杯“17届程序设计竞赛决赛"><i class="fab fa-reddit " aria-hidden="true"></i></a></li>
-  <li><a class="icon" target="_blank" rel="noopener" href="http://www.stumbleupon.com/submit?url=http://example.com/2020/05/31/sha-men-da-xue-wang-su-bei-17-jie-cheng-xu-she-ji-jing-sai-jue-sai/&title=厦门大学“网宿杯“17届程序设计竞赛决赛"><i class="fab fa-stumbleupon " aria-hidden="true"></i></a></li>
-  <li><a class="icon" target="_blank" rel="noopener" href="http://digg.com/submit?url=http://example.com/2020/05/31/sha-men-da-xue-wang-su-bei-17-jie-cheng-xu-she-ji-jing-sai-jue-sai/&title=厦门大学“网宿杯“17届程序设计竞赛决赛"><i class="fab fa-digg " aria-hidden="true"></i></a></li>
-  <li><a class="icon" target="_blank" rel="noopener" href="http://www.tumblr.com/share/link?url=http://example.com/2020/05/31/sha-men-da-xue-wang-su-bei-17-jie-cheng-xu-she-ji-jing-sai-jue-sai/&name=厦门大学“网宿杯“17届程序设计竞赛决赛&description="><i class="fab fa-tumblr " aria-hidden="true"></i></a></li>
-  <li><a class="icon" target="_blank" rel="noopener" href="https://news.ycombinator.com/submitlink?u=http://example.com/2020/05/31/sha-men-da-xue-wang-su-bei-17-jie-cheng-xu-she-ji-jing-sai-jue-sai/&t=厦门大学“网宿杯“17届程序设计竞赛决赛"><i class="fab fa-hacker-news " aria-hidden="true"></i></a></li>
-</ul>
-
-    </div>
     
     
       <div id="toc">
@@ -184,16 +168,27 @@
 
   <div class="content e-content" itemprop="articleBody">
     <p>ABC签到</p>
-<h2 id="F"><a href="#F" class="headerlink" title="F"></a>F</h2><p>对小数据写个爆搜后很容易发现规律</p>
-<h2 id="D"><a href="#D" class="headerlink" title="D"></a>D</h2><p>利用扩展欧拉定理，$n*{a^n} \equiv n % p*{a^{n % (p-1)}}$<br>令$j &#x3D; n%(p-1)$, $i &#x3D; n%p$, $j-i&#x3D;k$<br>我们枚举a的幂次j（从0到p-2），利用逆元算出i的值<br>满足条件的$n &#x3D; t(p-1)*p + kp + i$，t为整数，算出[1,x]范围内符合条件的t的个数即可</p>
-<h2 id="E"><a href="#E" class="headerlink" title="E"></a>E</h2><p>有向图，每条边权值为kx+b,问x在[0,H]范围内最短路最长是多少，容易发现从1到n的路径合并后还是一个kx+b，对于某一天，就相当于众多直线在该天的值中取min，可以发现这是一个上凸包，求最大值三分即可</p>
-<h2 id="H"><a href="#H" class="headerlink" title="H"></a>H</h2><p>对一个数做gcd的下降速度是很快的，每次至少减半，所以用线段树合理剪枝就能过，复杂度不会证。<br>剪枝方法：</p>
+<h2 id="F"><a class="header-anchor" href="#F">¶</a>F</h2>
+<p>对小数据写个爆搜后很容易发现规律</p>
+<h2 id="D"><a class="header-anchor" href="#D">¶</a>D</h2>
+<p>利用扩展欧拉定理，$n*{a^n} \equiv n % p*{a^{n % (p-1)}}$<br>
+令$j = n%(p-1)$, $i = n%p$, $j-i=k$<br>
+我们枚举a的幂次j（从0到p-2），利用逆元算出i的值<br>
+满足条件的$n = t(p-1)*p + kp + i$，t为整数，算出[1,x]范围内符合条件的t的个数即可</p>
+<h2 id="E"><a class="header-anchor" href="#E">¶</a>E</h2>
+<p>有向图，每条边权值为kx+b,问x在[0,H]范围内最短路最长是多少，容易发现从1到n的路径合并后还是一个kx+b，对于某一天，就相当于众多直线在该天的值中取min，可以发现这是一个上凸包，求最大值三分即可</p>
+<h2 id="H"><a class="header-anchor" href="#H">¶</a>H</h2>
+<p>对一个数做gcd的下降速度是很快的，每次至少减半，所以用线段树合理剪枝就能过，复杂度不会证。<br>
+剪枝方法：</p>
 <ul>
-<li>区间最大值&#x3D;1，说明该段区间所有值都是1，直接return</li>
-<li>区间最大值&#x3D;最小值&#x3D;x，return</li>
+<li>区间最大值=1，说明该段区间所有值都是1，直接return</li>
+<li>区间最大值=最小值=x，return</li>
 </ul>
 <p>只做第一个剪枝，很容易被所有数相等然后每次操作也等于该数的数据卡掉，加上第二个剪枝，就过了，是否正确不知</p>
-<h2 id="I"><a href="#I" class="headerlink" title="I"></a>I</h2><p>在森林中每次可以取走<strong>若干</strong>个根，初始是一棵1为根的树，不能操作者输<br>比赛的时候看错题了，我以为每次只能取一个根<br>首先叶子是必胜态，再考虑一个节点的所有儿子，如果都是必败态，那你就是必胜态。如果存在某个儿子是必胜态，你就是必败态，因为你取走该节点后，对手只要把所有是必胜态的节点的根取走，那你面对的所有节点都是必败态的了</p>
+<h2 id="I"><a class="header-anchor" href="#I">¶</a>I</h2>
+<p>在森林中每次可以取走<strong>若干</strong>个根，初始是一棵1为根的树，不能操作者输<br>
+比赛的时候看错题了，我以为每次只能取一个根<br>
+首先叶子是必胜态，再考虑一个节点的所有儿子，如果都是必败态，那你就是必胜态。如果存在某个儿子是必胜态，你就是必败态，因为你取走该节点后，对手只要把所有是必胜态的节点的根取走，那你面对的所有节点都是必败态的了</p>
 
   </div>
 </article>
@@ -225,29 +220,11 @@
       </div>
     
 
-    <div id="share-footer" style="display: none">
-      <ul>
-  <li><a class="icon" target="_blank" rel="noopener" href="http://www.facebook.com/sharer.php?u=http://example.com/2020/05/31/sha-men-da-xue-wang-su-bei-17-jie-cheng-xu-she-ji-jing-sai-jue-sai/"><i class="fab fa-facebook fa-lg" aria-hidden="true"></i></a></li>
-  <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=http://example.com/2020/05/31/sha-men-da-xue-wang-su-bei-17-jie-cheng-xu-she-ji-jing-sai-jue-sai/&text=厦门大学“网宿杯“17届程序设计竞赛决赛"><i class="fab fa-twitter fa-lg" aria-hidden="true"></i></a></li>
-  <li><a class="icon" target="_blank" rel="noopener" href="http://www.linkedin.com/shareArticle?url=http://example.com/2020/05/31/sha-men-da-xue-wang-su-bei-17-jie-cheng-xu-she-ji-jing-sai-jue-sai/&title=厦门大学“网宿杯“17届程序设计竞赛决赛"><i class="fab fa-linkedin fa-lg" aria-hidden="true"></i></a></li>
-  <li><a class="icon" target="_blank" rel="noopener" href="https://pinterest.com/pin/create/bookmarklet/?url=http://example.com/2020/05/31/sha-men-da-xue-wang-su-bei-17-jie-cheng-xu-she-ji-jing-sai-jue-sai/&is_video=false&description=厦门大学“网宿杯“17届程序设计竞赛决赛"><i class="fab fa-pinterest fa-lg" aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="mailto:?subject=厦门大学“网宿杯“17届程序设计竞赛决赛&body=Check out this article: http://example.com/2020/05/31/sha-men-da-xue-wang-su-bei-17-jie-cheng-xu-she-ji-jing-sai-jue-sai/"><i class="fa-solid fa-envelope fa-lg" aria-hidden="true"></i></a></li>
-  <li><a class="icon" target="_blank" rel="noopener" href="https://getpocket.com/save?url=http://example.com/2020/05/31/sha-men-da-xue-wang-su-bei-17-jie-cheng-xu-she-ji-jing-sai-jue-sai/&title=厦门大学“网宿杯“17届程序设计竞赛决赛"><i class="fab fa-get-pocket fa-lg" aria-hidden="true"></i></a></li>
-  <li><a class="icon" target="_blank" rel="noopener" href="http://reddit.com/submit?url=http://example.com/2020/05/31/sha-men-da-xue-wang-su-bei-17-jie-cheng-xu-she-ji-jing-sai-jue-sai/&title=厦门大学“网宿杯“17届程序设计竞赛决赛"><i class="fab fa-reddit fa-lg" aria-hidden="true"></i></a></li>
-  <li><a class="icon" target="_blank" rel="noopener" href="http://www.stumbleupon.com/submit?url=http://example.com/2020/05/31/sha-men-da-xue-wang-su-bei-17-jie-cheng-xu-she-ji-jing-sai-jue-sai/&title=厦门大学“网宿杯“17届程序设计竞赛决赛"><i class="fab fa-stumbleupon fa-lg" aria-hidden="true"></i></a></li>
-  <li><a class="icon" target="_blank" rel="noopener" href="http://digg.com/submit?url=http://example.com/2020/05/31/sha-men-da-xue-wang-su-bei-17-jie-cheng-xu-she-ji-jing-sai-jue-sai/&title=厦门大学“网宿杯“17届程序设计竞赛决赛"><i class="fab fa-digg fa-lg" aria-hidden="true"></i></a></li>
-  <li><a class="icon" target="_blank" rel="noopener" href="http://www.tumblr.com/share/link?url=http://example.com/2020/05/31/sha-men-da-xue-wang-su-bei-17-jie-cheng-xu-she-ji-jing-sai-jue-sai/&name=厦门大学“网宿杯“17届程序设计竞赛决赛&description="><i class="fab fa-tumblr fa-lg" aria-hidden="true"></i></a></li>
-  <li><a class="icon" target="_blank" rel="noopener" href="https://news.ycombinator.com/submitlink?u=http://example.com/2020/05/31/sha-men-da-xue-wang-su-bei-17-jie-cheng-xu-she-ji-jing-sai-jue-sai/&t=厦门大学“网宿杯“17届程序设计竞赛决赛"><i class="fab fa-hacker-news fa-lg" aria-hidden="true"></i></a></li>
-</ul>
-
-    </div>
-
     <div id="actions-footer">
         <a id="menu" class="icon" href="#" onclick="$('#nav-footer').toggle();return false;"><i class="fa-solid fa-bars fa-lg" aria-hidden="true"></i> 菜单</a>
         
           <a id="toc" class="icon" href="#" onclick="$('#toc-footer').toggle();return false;"><i class="fa-solid fa-list fa-lg" aria-hidden="true"></i> 目录</a>
         
-        <a id="share" class="icon" href="#" onclick="$('#share-footer').toggle();return false;"><i class="fa-solid fa-share-alt fa-lg" aria-hidden="true"></i> 分享</a>
         <a id="top" style="display:none" class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fa-solid fa-chevron-up fa-lg" aria-hidden="true"></i> 返回顶部</a>
     </div>
 
@@ -332,6 +309,7 @@
 <!-- Disqus Comments -->
 
 <!-- utterances Comments -->
+
 
 </body>
 </html>

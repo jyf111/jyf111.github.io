@@ -6,12 +6,12 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="HandheldFriendly" content="True">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=5" />
-    <meta name="description" content="计算几何中的凸包给定n个点求凸包利用andrew算法（比graham好写一点而且常数小）将所有点按照x为第一关键字，y为第二关键字排序然后从前往后用栈维护出下凸壳，再从后往前用栈维护出上凸壳即可考虑当前栈中的最后两个点p，q，现在加入一个点o，那么只要看q-p和o-p这两条直线的左右关系即可，用叉积判断多边形用vector存储，凸包分为严格凸包和非严格凸包（一般都是建成严格的），区别就是如果叉积等">
+    <meta name="description" content="¶计算几何中的凸包 给定n个点求凸包 利用andrew算法（比graham好写一点而且常数小） 将所有点按照x为第一关键字，y为第二关键字排序 然后从前往后用栈维护出下凸壳，再从后往前用栈维护出上凸壳即可 考虑当前栈中的最后两个点p，q，现在加入一个点o，那么只要看q-p和o-p这两条直线的左右关系即可，用叉积判断 多边形用vector存储，凸包分为严格凸包和非严格凸包（一般都是建成严格的），区别">
 <meta property="og:type" content="article">
 <meta property="og:title" content="凸包">
 <meta property="og:url" content="http://example.com/2020/08/30/convex-hull-trick/index.html">
 <meta property="og:site_name" content="jyf111&#39;s blog">
-<meta property="og:description" content="计算几何中的凸包给定n个点求凸包利用andrew算法（比graham好写一点而且常数小）将所有点按照x为第一关键字，y为第二关键字排序然后从前往后用栈维护出下凸壳，再从后往前用栈维护出上凸壳即可考虑当前栈中的最后两个点p，q，现在加入一个点o，那么只要看q-p和o-p这两条直线的左右关系即可，用叉积判断多边形用vector存储，凸包分为严格凸包和非严格凸包（一般都是建成严格的），区别就是如果叉积等">
+<meta property="og:description" content="¶计算几何中的凸包 给定n个点求凸包 利用andrew算法（比graham好写一点而且常数小） 将所有点按照x为第一关键字，y为第二关键字排序 然后从前往后用栈维护出下凸壳，再从后往前用栈维护出上凸壳即可 考虑当前栈中的最后两个点p，q，现在加入一个点o，那么只要看q-p和o-p这两条直线的左右关系即可，用叉积判断 多边形用vector存储，凸包分为严格凸包和非严格凸包（一般都是建成严格的），区别">
 <meta property="og:locale" content="zh_CN">
 <meta property="article:published_time" content="2020-08-30T05:33:44.000Z">
 <meta property="article:modified_time" content="2023-08-24T12:58:44.084Z">
@@ -66,7 +66,9 @@
 		</script>
 		<script src='https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-MML-AM_CHTML' async></script>
 	
-<meta name="generator" content="Hexo 6.3.0"></head>
+<!-- hexo injector head_end start -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/katex.min.css">
+<!-- hexo injector head_end end --><meta name="generator" content="Hexo 6.3.0"></head>
 
 <body class="max-width mx-auto px3 ltr">
     
@@ -98,30 +100,12 @@
         <li><a class="icon" aria-label="下一篇" href="/2020/08/29/gym101482g-ju-chi-zhuan-hua-san-fen-si-wei/"><i class="fa-solid fa-chevron-right" aria-hidden="true" onmouseover="$('#i-next').toggle();" onmouseout="$('#i-next').toggle();"></i></a></li>
         
         <li><a class="icon" aria-label="返回顶部" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fa-solid fa-chevron-up" aria-hidden="true" onmouseover="$('#i-top').toggle();" onmouseout="$('#i-top').toggle();"></i></a></li>
-        <li><a class="icon" aria-label="分享文章" href="#"><i class="fa-solid fa-share-alt" aria-hidden="true" onmouseover="$('#i-share').toggle();" onmouseout="$('#i-share').toggle();" onclick="$('#share').toggle();return false;"></i></a></li>
       </ul>
       <span id="i-prev" class="info" style="display:none;">上一篇</span>
       <span id="i-next" class="info" style="display:none;">下一篇</span>
       <span id="i-top" class="info" style="display:none;">返回顶部</span>
-      <span id="i-share" class="info" style="display:none;">分享文章</span>
     </span>
     <br/>
-    <div id="share" style="display: none">
-      <ul>
-  <li><a class="icon" target="_blank" rel="noopener" href="http://www.facebook.com/sharer.php?u=http://example.com/2020/08/30/convex-hull-trick/"><i class="fab fa-facebook " aria-hidden="true"></i></a></li>
-  <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=http://example.com/2020/08/30/convex-hull-trick/&text=凸包"><i class="fab fa-twitter " aria-hidden="true"></i></a></li>
-  <li><a class="icon" target="_blank" rel="noopener" href="http://www.linkedin.com/shareArticle?url=http://example.com/2020/08/30/convex-hull-trick/&title=凸包"><i class="fab fa-linkedin " aria-hidden="true"></i></a></li>
-  <li><a class="icon" target="_blank" rel="noopener" href="https://pinterest.com/pin/create/bookmarklet/?url=http://example.com/2020/08/30/convex-hull-trick/&is_video=false&description=凸包"><i class="fab fa-pinterest " aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="mailto:?subject=凸包&body=Check out this article: http://example.com/2020/08/30/convex-hull-trick/"><i class="fa-solid fa-envelope " aria-hidden="true"></i></a></li>
-  <li><a class="icon" target="_blank" rel="noopener" href="https://getpocket.com/save?url=http://example.com/2020/08/30/convex-hull-trick/&title=凸包"><i class="fab fa-get-pocket " aria-hidden="true"></i></a></li>
-  <li><a class="icon" target="_blank" rel="noopener" href="http://reddit.com/submit?url=http://example.com/2020/08/30/convex-hull-trick/&title=凸包"><i class="fab fa-reddit " aria-hidden="true"></i></a></li>
-  <li><a class="icon" target="_blank" rel="noopener" href="http://www.stumbleupon.com/submit?url=http://example.com/2020/08/30/convex-hull-trick/&title=凸包"><i class="fab fa-stumbleupon " aria-hidden="true"></i></a></li>
-  <li><a class="icon" target="_blank" rel="noopener" href="http://digg.com/submit?url=http://example.com/2020/08/30/convex-hull-trick/&title=凸包"><i class="fab fa-digg " aria-hidden="true"></i></a></li>
-  <li><a class="icon" target="_blank" rel="noopener" href="http://www.tumblr.com/share/link?url=http://example.com/2020/08/30/convex-hull-trick/&name=凸包&description="><i class="fab fa-tumblr " aria-hidden="true"></i></a></li>
-  <li><a class="icon" target="_blank" rel="noopener" href="https://news.ycombinator.com/submitlink?u=http://example.com/2020/08/30/convex-hull-trick/&t=凸包"><i class="fab fa-hacker-news " aria-hidden="true"></i></a></li>
-</ul>
-
-    </div>
     
     
       <div id="toc">
@@ -183,33 +167,51 @@
   
 
   <div class="content e-content" itemprop="articleBody">
-    <h2 id="计算几何中的凸包"><a href="#计算几何中的凸包" class="headerlink" title="计算几何中的凸包"></a>计算几何中的凸包</h2><p>给定n个点求凸包<br>利用andrew算法（比graham好写一点而且常数小）<br>将所有点按照x为第一关键字，y为第二关键字排序<br>然后从前往后用栈维护出下凸壳，再从后往前用栈维护出上凸壳即可<br>考虑当前栈中的最后两个点p，q，现在加入一个点o，那么只要看q-p和o-p这两条直线的左右关系即可，用叉积判断<br>多边形用vector存储，凸包分为严格凸包和非严格凸包（一般都是建成严格的），区别就是如果叉积等于0的时候不再pop，那么就是非严格的，可能会存在多点共线的情况<br>另外要注意多边形点数少于3的情况</p>
+    <h2 id="计算几何中的凸包"><a class="header-anchor" href="#计算几何中的凸包">¶</a>计算几何中的凸包</h2>
+<p>给定n个点求凸包<br>
+利用andrew算法（比graham好写一点而且常数小）<br>
+将所有点按照x为第一关键字，y为第二关键字排序<br>
+然后从前往后用栈维护出下凸壳，再从后往前用栈维护出上凸壳即可<br>
+考虑当前栈中的最后两个点p，q，现在加入一个点o，那么只要看q-p和o-p这两条直线的左右关系即可，用叉积判断<br>
+多边形用vector存储，凸包分为严格凸包和非严格凸包（一般都是建成严格的），区别就是如果叉积等于0的时候不再pop，那么就是非严格的，可能会存在多点共线的情况<br>
+另外要注意多边形点数少于3的情况</p>
 <figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="function">Polygon <span class="title">ConvexHull</span><span class="params">(Polygon&amp; s)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">  <span class="type">int</span> n = s.<span class="built_in">size</span>(), sz = <span class="number">-1</span>;</span><br><span class="line">  <span class="built_in">sort</span>(s.<span class="built_in">begin</span>(), s.<span class="built_in">end</span>());</span><br><span class="line">  <span class="function">Polygon <span class="title">res</span><span class="params">(<span class="number">2</span>*n)</span></span>;</span><br><span class="line">  <span class="keyword">for</span>(<span class="type">int</span> i=<span class="number">0</span>; i&lt;n; i++)</span><br><span class="line">  &#123;</span><br><span class="line">    <span class="keyword">while</span>(sz&gt;<span class="number">0</span> &amp;&amp; <span class="built_in">crossop</span>(res[sz<span class="number">-1</span>], res[sz], s[i])&lt;=<span class="number">0</span>) --sz;</span><br><span class="line">    res[++sz] = s[i];</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="type">int</span> pre = sz;</span><br><span class="line">  <span class="keyword">for</span>(<span class="type">int</span> i=n<span class="number">-2</span>; i&gt;=<span class="number">0</span>; i--)</span><br><span class="line">  &#123;</span><br><span class="line">    <span class="keyword">while</span>(sz&gt;pre &amp;&amp; <span class="built_in">crossop</span>(res[sz<span class="number">-1</span>], res[sz], s[i])&lt;=<span class="number">0</span>) --sz;</span><br><span class="line">    res[++sz] = s[i];</span><br><span class="line">  &#125;</span><br><span class="line">  res.<span class="built_in">resize</span>(sz);</span><br><span class="line">  <span class="keyword">return</span> res;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
 <p>多边形面积(相邻点叉积求和，逆时针为正，顺时针为负)</p>
 <figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="function">db <span class="title">getarea</span><span class="params">(Polygon&amp; s)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">  db ans = <span class="number">0</span>; <span class="type">int</span> n = s.<span class="built_in">size</span>();</span><br><span class="line">  <span class="keyword">for</span>(<span class="type">int</span> i=<span class="number">0</span>; i&lt;n; i++) ans += (s[i]^s[(i+<span class="number">1</span>)%n]);</span><br><span class="line">  <span class="keyword">return</span> ans/<span class="number">2</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
 <p>凸包周长(相邻点距离求和即可)</p>
 <figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="function">db <span class="title">getcir</span><span class="params">(Polygon&amp; s)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	db ans = <span class="number">0</span>; <span class="type">int</span> n = s.<span class="built_in">size</span>();</span><br><span class="line">	<span class="keyword">for</span>(<span class="type">int</span> i=<span class="number">0</span>; i&lt;n; i++) ans += s[i].<span class="built_in">dis</span>(s[(i+<span class="number">1</span>)%n]);</span><br><span class="line">	<span class="keyword">return</span> ans;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
 <p>凸包直径(旋转卡壳，对于每条边(i,i+1)，找到距离这条边最远的点j，容易发现具有单调性，可以用双指针实现)</p>
 <figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="function">db <span class="title">ConvexDiameter</span><span class="params">(Polygon&amp; s)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">  <span class="type">int</span> n = s.<span class="built_in">size</span>();</span><br><span class="line">  <span class="keyword">if</span>(n==<span class="number">2</span>) <span class="keyword">return</span> s[<span class="number">0</span>].<span class="built_in">dis</span>(s[<span class="number">1</span>]);</span><br><span class="line">  <span class="type">int</span> j = <span class="number">2</span>; db ans = <span class="number">0</span>;</span><br><span class="line">  <span class="keyword">for</span>(<span class="type">int</span> i=<span class="number">0</span>; i&lt;n; i++)</span><br><span class="line">  &#123;</span><br><span class="line">    <span class="keyword">while</span>(<span class="built_in">cross</span>(s[i], s[i+<span class="number">1</span>], s[j])&lt;<span class="built_in">cross</span>(s[i], s[i+<span class="number">1</span>], s[(j+<span class="number">1</span>)%n])) j = (j+<span class="number">1</span>)%n;</span><br><span class="line">    ans = <span class="built_in">max</span>(ans, <span class="built_in">max</span>(s[i].<span class="built_in">dis</span>(s[j]), s[i+<span class="number">1</span>].<span class="built_in">dis</span>(s[j])));</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="keyword">return</span> ans;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p>凸包的闵可夫斯基和还是凸包(定义就是一个凸包中的点按照原点和另一个凸包中的点形成的向量移动后形成的图形)<br>闵可夫斯基和后的凸包的边是由原来的两个凸包上的边构成的，所以归并排序一下即可</p>
+<p>凸包的闵可夫斯基和还是凸包(定义就是一个凸包中的点按照原点和另一个凸包中的点形成的向量移动后形成的图形)<br>
+闵可夫斯基和后的凸包的边是由原来的两个凸包上的边构成的，所以归并排序一下即可</p>
 <figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="function">Polygon <span class="title">Minkowski</span><span class="params">(Polygon&amp; a, Polygon&amp; b)</span> <span class="comment">//可能有三点共线，可以再求一次凸包</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">  Polygon c;</span><br><span class="line">  <span class="type">int</span> n = a.<span class="built_in">size</span>(), m = b.<span class="built_in">size</span>();</span><br><span class="line">  <span class="keyword">for</span>(<span class="type">int</span> i=<span class="number">0</span>, j=<span class="number">0</span>; i&lt;n||j&lt;m; )</span><br><span class="line">  &#123;</span><br><span class="line">    c.<span class="built_in">push_back</span>(a[i%n]+b[j%m]);</span><br><span class="line">    <span class="keyword">if</span>(i&gt;=n) ++j;</span><br><span class="line">    <span class="keyword">else</span> <span class="keyword">if</span>(j&gt;=m) ++i;</span><br><span class="line">    <span class="keyword">else</span> <span class="keyword">if</span>(<span class="built_in">sgn</span>((a[(i+<span class="number">1</span>)%n]-a[i])^(b[(j+<span class="number">1</span>)%m]-b[j]))&gt;=<span class="number">0</span>) ++i;</span><br><span class="line">    <span class="keyword">else</span> ++j;</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="keyword">return</span> c;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<h2 id="动态规划中的凸包"><a href="#动态规划中的凸包" class="headerlink" title="动态规划中的凸包"></a>动态规划中的凸包</h2><p>一般用于斜率优化，考虑一个dp转移式$f_i &#x3D; \max \limits_{k&lt;i} \{ f_k + a_ib_k\}$<br>可以把后面的东西看成$b_ka_i + f_k$​，即$kx+b$的直线形式，然后我们就是要对每个$a_i$​找到之前所有直线中在该点处的最大值(别人的斜率优化可能是按照斜率的，不过我觉得这样子更直观一点，也不需要移项，如果了解李超树，很容易发现这完全可以用李超树来做)<br>当然用李超树来做似乎有点大材小用，容易发现答案一定是在所有直线形成的上凸壳上，而且每条直线会有一个贡献范围</p>
+<h2 id="动态规划中的凸包"><a class="header-anchor" href="#动态规划中的凸包">¶</a>动态规划中的凸包</h2>
+<p>一般用于斜率优化，考虑一个dp转移式$f_i = \max \limits_{k&lt;i} \{ f_k + a_ib_k\}$<br>
+可以把后面的东西看成$b_ka_i + f_k$​，即$kx+b$的直线形式，然后我们就是要对每个$a_i$​找到之前所有直线中在该点处的最大值(别人的斜率优化可能是按照斜率的，不过我觉得这样子更直观一点，也不需要移项，如果了解李超树，很容易发现这完全可以用李超树来做)<br>
+当然用李超树来做似乎有点大材小用，容易发现答案一定是在所有直线形成的上凸壳上，而且每条直线会有一个贡献范围</p>
 <ul>
-<li><p>如果插入的直线斜率单调($b_k$​)，且询问点也单调($a_i$​)<br>这时候我们只需要用双端队列来维护上凸壳即可，在队尾不断插入直线并且维护凸壳，在队首及时排掉已经结束贡献了的点，对于当前询问的最优点就是队首</p>
+<li>
+<p>如果插入的直线斜率单调($b_k$​)，且询问点也单调($a_i$​)<br>
+这时候我们只需要用双端队列来维护上凸壳即可，在队尾不断插入直线并且维护凸壳，在队首及时排掉已经结束贡献了的点，对于当前询问的最优点就是队首</p>
 </li>
-<li><p>如果插入的直线斜率单调($b_k$​)，但询问点不单调($a_i$​)<br>斜率单调，所以我们仍然可以线性地维护上凸壳，但是我们不能pop_front来维护最优点，因为最优点没有单调性了，所以我们需要在凸壳上二分，找到最优决策点</p>
+<li>
+<p>如果插入的直线斜率单调($b_k$​)，但询问点不单调($a_i$​)<br>
+斜率单调，所以我们仍然可以线性地维护上凸壳，但是我们不能pop_front来维护最优点，因为最优点没有单调性了，所以我们需要在凸壳上二分，找到最优决策点</p>
 </li>
-<li><p>如果插入的直线斜率不单调($b_k$​)，且询问点也不单调($a_i$​)<br>一种方法就是李超树了，另一种方法是用平衡树来维护，以下给出一份set实现的代码（很好用，如果插入的是直线就用这个，如果是线段的话就只能李超树了）<br>k和b分别是斜率和截距，p类似于最优决策点（不用管）<br>div函数是一个下取整函数，负数的时候的取整和正数会有区别<br>isect是求两条直线的交点，然后进行判断（类似于李超树中的判断）<br>使用的时候只需要add(k,b)来添加一条直线，qry(x)来询问在x点处的最大值<br>当然如果要求最小值，只需要add(-k,-b)，然后-qry(x)就是答案了</p>
+<li>
+<p>如果插入的直线斜率不单调($b_k$​)，且询问点也不单调($a_i$​)<br>
+一种方法就是李超树了，另一种方法是用平衡树来维护，以下给出一份set实现的代码（很好用，如果插入的是直线就用这个，如果是线段的话就只能李超树了）<br>
+k和b分别是斜率和截距，p类似于最优决策点（不用管）<br>
+div函数是一个下取整函数，负数的时候的取整和正数会有区别<br>
+isect是求两条直线的交点，然后进行判断（类似于李超树中的判断）<br>
+使用的时候只需要add(k,b)来添加一条直线，qry(x)来询问在x点处的最大值<br>
+当然如果要求最小值，只需要add(-k,-b)，然后-qry(x)就是答案了</p>
 </li>
 </ul>
 <figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">bool</span> Cmp;</span><br><span class="line"><span class="keyword">struct</span> <span class="title class_">Line</span></span><br><span class="line">&#123;</span><br><span class="line">  <span class="keyword">mutable</span> ll k, b, p;</span><br><span class="line">  <span class="type">bool</span> <span class="keyword">operator</span> &lt; (<span class="type">const</span> Line&amp; oth) <span class="type">const</span> &#123; <span class="keyword">return</span> Cmp ? p &lt; oth.p : k &lt; oth.k; &#125;</span><br><span class="line">&#125;;</span><br><span class="line"><span class="keyword">struct</span> <span class="title class_">ConvecHull</span> : multiset&lt;Line&gt;</span><br><span class="line">&#123;</span><br><span class="line">  <span class="type">static</span> <span class="type">const</span> ll inf = LLONG_MAX;</span><br><span class="line">  <span class="function">ll <span class="title">div</span><span class="params">(ll a, ll b)</span></span></span><br><span class="line"><span class="function">  </span>&#123;</span><br><span class="line">    <span class="keyword">if</span>(!b) <span class="keyword">return</span> a&gt;<span class="number">0</span> ? inf : -inf;</span><br><span class="line">    <span class="keyword">return</span> a / b - ((a ^ b) &lt; <span class="number">0</span> &amp;&amp; a % b);</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="function"><span class="type">bool</span> <span class="title">isect</span><span class="params">(iterator x, iterator y)</span></span></span><br><span class="line"><span class="function">  </span>&#123;</span><br><span class="line">    <span class="keyword">if</span> (y == <span class="built_in">end</span>()) &#123; x-&gt;p = inf; <span class="keyword">return</span> <span class="literal">false</span>; &#125;</span><br><span class="line">    <span class="keyword">if</span> (x-&gt;k == y-&gt;k) x-&gt;p = x-&gt;b &gt; y-&gt;b ? inf : -inf;</span><br><span class="line">    <span class="keyword">else</span> x-&gt;p = <span class="built_in">div</span>((y-&gt;b - x-&gt;b), (x-&gt;k - y-&gt;k));</span><br><span class="line">    <span class="keyword">return</span> x-&gt;p &gt;= y-&gt;p;</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="function"><span class="type">void</span> <span class="title">add</span><span class="params">(ll k, ll b)</span></span></span><br><span class="line"><span class="function">  </span>&#123;</span><br><span class="line">    <span class="keyword">auto</span> z = <span class="built_in">insert</span>(&#123;k, b, <span class="number">0</span>&#125;), y = z++, x = y;</span><br><span class="line">    <span class="keyword">while</span> (<span class="built_in">isect</span>(y, z)) z = <span class="built_in">erase</span>(z);</span><br><span class="line">    <span class="keyword">if</span> (x != <span class="built_in">begin</span>() &amp;&amp; <span class="built_in">isect</span>(--x, y)) <span class="built_in">isect</span>(x, y = <span class="built_in">erase</span>(y));</span><br><span class="line">    <span class="keyword">while</span> ((y = x) != <span class="built_in">begin</span>() &amp;&amp; (--x)-&gt;p &gt;= y-&gt;p) <span class="built_in">isect</span>(x, <span class="built_in">erase</span>(y));</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="function">ll <span class="title">qry</span><span class="params">(ll x)</span></span></span><br><span class="line"><span class="function">  </span>&#123;</span><br><span class="line">    Cmp = <span class="number">1</span>; <span class="keyword">auto</span> l = *<span class="built_in">lower_bound</span>(&#123;<span class="number">0</span>, <span class="number">0</span>, x&#125;); Cmp = <span class="number">0</span>;</span><br><span class="line">    <span class="keyword">return</span> l.k * x + l.b;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<h3 id="如何删除一条直线"><a href="#如何删除一条直线" class="headerlink" title="如何删除一条直线"></a>如何删除一条直线</h3><p>删除操作不好做（类似并查集），我们可以离线后把每条直线的存活时间塞到线段树上的log个节点上（即线段树分治），对每个节点维护一个凸壳，然后对于一个询问就是线段树上包含该点的节点的凸壳上的最大值的最大值<br>给出所有直线再建凸壳，可以利用andrew来实现（排序后，从前往后用栈维护），询问最值一次二分即可（没必要三分）</p>
+<h3 id="如何删除一条直线"><a class="header-anchor" href="#如何删除一条直线">¶</a>如何删除一条直线</h3>
+<p>删除操作不好做（类似并查集），我们可以离线后把每条直线的存活时间塞到线段树上的log个节点上（即线段树分治），对每个节点维护一个凸壳，然后对于一个询问就是线段树上包含该点的节点的凸壳上的最大值的最大值<br>
+给出所有直线再建凸壳，可以利用andrew来实现（排序后，从前往后用栈维护），询问最值一次二分即可（没必要三分）</p>
 
   </div>
 </article>
@@ -241,29 +243,11 @@
       </div>
     
 
-    <div id="share-footer" style="display: none">
-      <ul>
-  <li><a class="icon" target="_blank" rel="noopener" href="http://www.facebook.com/sharer.php?u=http://example.com/2020/08/30/convex-hull-trick/"><i class="fab fa-facebook fa-lg" aria-hidden="true"></i></a></li>
-  <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=http://example.com/2020/08/30/convex-hull-trick/&text=凸包"><i class="fab fa-twitter fa-lg" aria-hidden="true"></i></a></li>
-  <li><a class="icon" target="_blank" rel="noopener" href="http://www.linkedin.com/shareArticle?url=http://example.com/2020/08/30/convex-hull-trick/&title=凸包"><i class="fab fa-linkedin fa-lg" aria-hidden="true"></i></a></li>
-  <li><a class="icon" target="_blank" rel="noopener" href="https://pinterest.com/pin/create/bookmarklet/?url=http://example.com/2020/08/30/convex-hull-trick/&is_video=false&description=凸包"><i class="fab fa-pinterest fa-lg" aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="mailto:?subject=凸包&body=Check out this article: http://example.com/2020/08/30/convex-hull-trick/"><i class="fa-solid fa-envelope fa-lg" aria-hidden="true"></i></a></li>
-  <li><a class="icon" target="_blank" rel="noopener" href="https://getpocket.com/save?url=http://example.com/2020/08/30/convex-hull-trick/&title=凸包"><i class="fab fa-get-pocket fa-lg" aria-hidden="true"></i></a></li>
-  <li><a class="icon" target="_blank" rel="noopener" href="http://reddit.com/submit?url=http://example.com/2020/08/30/convex-hull-trick/&title=凸包"><i class="fab fa-reddit fa-lg" aria-hidden="true"></i></a></li>
-  <li><a class="icon" target="_blank" rel="noopener" href="http://www.stumbleupon.com/submit?url=http://example.com/2020/08/30/convex-hull-trick/&title=凸包"><i class="fab fa-stumbleupon fa-lg" aria-hidden="true"></i></a></li>
-  <li><a class="icon" target="_blank" rel="noopener" href="http://digg.com/submit?url=http://example.com/2020/08/30/convex-hull-trick/&title=凸包"><i class="fab fa-digg fa-lg" aria-hidden="true"></i></a></li>
-  <li><a class="icon" target="_blank" rel="noopener" href="http://www.tumblr.com/share/link?url=http://example.com/2020/08/30/convex-hull-trick/&name=凸包&description="><i class="fab fa-tumblr fa-lg" aria-hidden="true"></i></a></li>
-  <li><a class="icon" target="_blank" rel="noopener" href="https://news.ycombinator.com/submitlink?u=http://example.com/2020/08/30/convex-hull-trick/&t=凸包"><i class="fab fa-hacker-news fa-lg" aria-hidden="true"></i></a></li>
-</ul>
-
-    </div>
-
     <div id="actions-footer">
         <a id="menu" class="icon" href="#" onclick="$('#nav-footer').toggle();return false;"><i class="fa-solid fa-bars fa-lg" aria-hidden="true"></i> 菜单</a>
         
           <a id="toc" class="icon" href="#" onclick="$('#toc-footer').toggle();return false;"><i class="fa-solid fa-list fa-lg" aria-hidden="true"></i> 目录</a>
         
-        <a id="share" class="icon" href="#" onclick="$('#share-footer').toggle();return false;"><i class="fa-solid fa-share-alt fa-lg" aria-hidden="true"></i> 分享</a>
         <a id="top" style="display:none" class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fa-solid fa-chevron-up fa-lg" aria-hidden="true"></i> 返回顶部</a>
     </div>
 
@@ -348,6 +332,7 @@
 <!-- Disqus Comments -->
 
 <!-- utterances Comments -->
+
 
 </body>
 </html>

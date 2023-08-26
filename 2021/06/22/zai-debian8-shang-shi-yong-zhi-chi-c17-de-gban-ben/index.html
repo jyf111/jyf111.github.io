@@ -70,7 +70,9 @@
 		</script>
 		<script src='https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-MML-AM_CHTML' async></script>
 	
-<meta name="generator" content="Hexo 6.3.0"></head>
+<!-- hexo injector head_end start -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/katex.min.css">
+<!-- hexo injector head_end end --><meta name="generator" content="Hexo 6.3.0"></head>
 
 <body class="max-width mx-auto px3 ltr">
     
@@ -102,30 +104,12 @@
         <li><a class="icon" aria-label="下一篇" href="/2021/04/09/wsl/"><i class="fa-solid fa-chevron-right" aria-hidden="true" onmouseover="$('#i-next').toggle();" onmouseout="$('#i-next').toggle();"></i></a></li>
         
         <li><a class="icon" aria-label="返回顶部" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fa-solid fa-chevron-up" aria-hidden="true" onmouseover="$('#i-top').toggle();" onmouseout="$('#i-top').toggle();"></i></a></li>
-        <li><a class="icon" aria-label="分享文章" href="#"><i class="fa-solid fa-share-alt" aria-hidden="true" onmouseover="$('#i-share').toggle();" onmouseout="$('#i-share').toggle();" onclick="$('#share').toggle();return false;"></i></a></li>
       </ul>
       <span id="i-prev" class="info" style="display:none;">上一篇</span>
       <span id="i-next" class="info" style="display:none;">下一篇</span>
       <span id="i-top" class="info" style="display:none;">返回顶部</span>
-      <span id="i-share" class="info" style="display:none;">分享文章</span>
     </span>
     <br/>
-    <div id="share" style="display: none">
-      <ul>
-  <li><a class="icon" target="_blank" rel="noopener" href="http://www.facebook.com/sharer.php?u=http://example.com/2021/06/22/zai-debian8-shang-shi-yong-zhi-chi-c17-de-gban-ben/"><i class="fab fa-facebook " aria-hidden="true"></i></a></li>
-  <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=http://example.com/2021/06/22/zai-debian8-shang-shi-yong-zhi-chi-c17-de-gban-ben/&text=在debian8上使用支持c++17的g++版本"><i class="fab fa-twitter " aria-hidden="true"></i></a></li>
-  <li><a class="icon" target="_blank" rel="noopener" href="http://www.linkedin.com/shareArticle?url=http://example.com/2021/06/22/zai-debian8-shang-shi-yong-zhi-chi-c17-de-gban-ben/&title=在debian8上使用支持c++17的g++版本"><i class="fab fa-linkedin " aria-hidden="true"></i></a></li>
-  <li><a class="icon" target="_blank" rel="noopener" href="https://pinterest.com/pin/create/bookmarklet/?url=http://example.com/2021/06/22/zai-debian8-shang-shi-yong-zhi-chi-c17-de-gban-ben/&is_video=false&description=在debian8上使用支持c++17的g++版本"><i class="fab fa-pinterest " aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="mailto:?subject=在debian8上使用支持c++17的g++版本&body=Check out this article: http://example.com/2021/06/22/zai-debian8-shang-shi-yong-zhi-chi-c17-de-gban-ben/"><i class="fa-solid fa-envelope " aria-hidden="true"></i></a></li>
-  <li><a class="icon" target="_blank" rel="noopener" href="https://getpocket.com/save?url=http://example.com/2021/06/22/zai-debian8-shang-shi-yong-zhi-chi-c17-de-gban-ben/&title=在debian8上使用支持c++17的g++版本"><i class="fab fa-get-pocket " aria-hidden="true"></i></a></li>
-  <li><a class="icon" target="_blank" rel="noopener" href="http://reddit.com/submit?url=http://example.com/2021/06/22/zai-debian8-shang-shi-yong-zhi-chi-c17-de-gban-ben/&title=在debian8上使用支持c++17的g++版本"><i class="fab fa-reddit " aria-hidden="true"></i></a></li>
-  <li><a class="icon" target="_blank" rel="noopener" href="http://www.stumbleupon.com/submit?url=http://example.com/2021/06/22/zai-debian8-shang-shi-yong-zhi-chi-c17-de-gban-ben/&title=在debian8上使用支持c++17的g++版本"><i class="fab fa-stumbleupon " aria-hidden="true"></i></a></li>
-  <li><a class="icon" target="_blank" rel="noopener" href="http://digg.com/submit?url=http://example.com/2021/06/22/zai-debian8-shang-shi-yong-zhi-chi-c17-de-gban-ben/&title=在debian8上使用支持c++17的g++版本"><i class="fab fa-digg " aria-hidden="true"></i></a></li>
-  <li><a class="icon" target="_blank" rel="noopener" href="http://www.tumblr.com/share/link?url=http://example.com/2021/06/22/zai-debian8-shang-shi-yong-zhi-chi-c17-de-gban-ben/&name=在debian8上使用支持c++17的g++版本&description="><i class="fab fa-tumblr " aria-hidden="true"></i></a></li>
-  <li><a class="icon" target="_blank" rel="noopener" href="https://news.ycombinator.com/submitlink?u=http://example.com/2021/06/22/zai-debian8-shang-shi-yong-zhi-chi-c17-de-gban-ben/&t=在debian8上使用支持c++17的g++版本"><i class="fab fa-hacker-news " aria-hidden="true"></i></a></li>
-</ul>
-
-    </div>
     
     
   </span>
@@ -226,27 +210,9 @@ get update，apt-get install g++，它会自动帮你把各种依赖都安装升
     
     
 
-    <div id="share-footer" style="display: none">
-      <ul>
-  <li><a class="icon" target="_blank" rel="noopener" href="http://www.facebook.com/sharer.php?u=http://example.com/2021/06/22/zai-debian8-shang-shi-yong-zhi-chi-c17-de-gban-ben/"><i class="fab fa-facebook fa-lg" aria-hidden="true"></i></a></li>
-  <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=http://example.com/2021/06/22/zai-debian8-shang-shi-yong-zhi-chi-c17-de-gban-ben/&text=在debian8上使用支持c++17的g++版本"><i class="fab fa-twitter fa-lg" aria-hidden="true"></i></a></li>
-  <li><a class="icon" target="_blank" rel="noopener" href="http://www.linkedin.com/shareArticle?url=http://example.com/2021/06/22/zai-debian8-shang-shi-yong-zhi-chi-c17-de-gban-ben/&title=在debian8上使用支持c++17的g++版本"><i class="fab fa-linkedin fa-lg" aria-hidden="true"></i></a></li>
-  <li><a class="icon" target="_blank" rel="noopener" href="https://pinterest.com/pin/create/bookmarklet/?url=http://example.com/2021/06/22/zai-debian8-shang-shi-yong-zhi-chi-c17-de-gban-ben/&is_video=false&description=在debian8上使用支持c++17的g++版本"><i class="fab fa-pinterest fa-lg" aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="mailto:?subject=在debian8上使用支持c++17的g++版本&body=Check out this article: http://example.com/2021/06/22/zai-debian8-shang-shi-yong-zhi-chi-c17-de-gban-ben/"><i class="fa-solid fa-envelope fa-lg" aria-hidden="true"></i></a></li>
-  <li><a class="icon" target="_blank" rel="noopener" href="https://getpocket.com/save?url=http://example.com/2021/06/22/zai-debian8-shang-shi-yong-zhi-chi-c17-de-gban-ben/&title=在debian8上使用支持c++17的g++版本"><i class="fab fa-get-pocket fa-lg" aria-hidden="true"></i></a></li>
-  <li><a class="icon" target="_blank" rel="noopener" href="http://reddit.com/submit?url=http://example.com/2021/06/22/zai-debian8-shang-shi-yong-zhi-chi-c17-de-gban-ben/&title=在debian8上使用支持c++17的g++版本"><i class="fab fa-reddit fa-lg" aria-hidden="true"></i></a></li>
-  <li><a class="icon" target="_blank" rel="noopener" href="http://www.stumbleupon.com/submit?url=http://example.com/2021/06/22/zai-debian8-shang-shi-yong-zhi-chi-c17-de-gban-ben/&title=在debian8上使用支持c++17的g++版本"><i class="fab fa-stumbleupon fa-lg" aria-hidden="true"></i></a></li>
-  <li><a class="icon" target="_blank" rel="noopener" href="http://digg.com/submit?url=http://example.com/2021/06/22/zai-debian8-shang-shi-yong-zhi-chi-c17-de-gban-ben/&title=在debian8上使用支持c++17的g++版本"><i class="fab fa-digg fa-lg" aria-hidden="true"></i></a></li>
-  <li><a class="icon" target="_blank" rel="noopener" href="http://www.tumblr.com/share/link?url=http://example.com/2021/06/22/zai-debian8-shang-shi-yong-zhi-chi-c17-de-gban-ben/&name=在debian8上使用支持c++17的g++版本&description="><i class="fab fa-tumblr fa-lg" aria-hidden="true"></i></a></li>
-  <li><a class="icon" target="_blank" rel="noopener" href="https://news.ycombinator.com/submitlink?u=http://example.com/2021/06/22/zai-debian8-shang-shi-yong-zhi-chi-c17-de-gban-ben/&t=在debian8上使用支持c++17的g++版本"><i class="fab fa-hacker-news fa-lg" aria-hidden="true"></i></a></li>
-</ul>
-
-    </div>
-
     <div id="actions-footer">
         <a id="menu" class="icon" href="#" onclick="$('#nav-footer').toggle();return false;"><i class="fa-solid fa-bars fa-lg" aria-hidden="true"></i> 菜单</a>
         
-        <a id="share" class="icon" href="#" onclick="$('#share-footer').toggle();return false;"><i class="fa-solid fa-share-alt fa-lg" aria-hidden="true"></i> 分享</a>
         <a id="top" style="display:none" class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fa-solid fa-chevron-up fa-lg" aria-hidden="true"></i> 返回顶部</a>
     </div>
 
@@ -331,6 +297,7 @@ get update，apt-get install g++，它会自动帮你把各种依赖都安装升
 <!-- Disqus Comments -->
 
 <!-- utterances Comments -->
+
 
 </body>
 </html>

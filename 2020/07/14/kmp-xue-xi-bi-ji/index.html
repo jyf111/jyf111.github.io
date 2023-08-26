@@ -6,12 +6,12 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="HandheldFriendly" content="True">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=5" />
-    <meta name="description" content="应用给定主串t和模式串s，求出s在t中的所有匹配位置求出一个串的所有前缀的最大border(next数组) 定义前缀pre(s, l)：s长度为l的前缀(s[1…l])后缀suf(s, l)：s长度为l的后缀(s[|s|-l+1…|s|])周期period：s[i]&#x3D;s[i+p]，$\forall i \in1…|s|-ps[i]&#x3D;s[i+p]$，则p是s的周期border:">
+    <meta name="description" content="¶应用 给定主串t和模式串s，求出s在t中的所有匹配位置 求出一个串的所有前缀的最大border(next数组) ¶定义 前缀pre(s, l)：s长度为l的前缀(s[1…l]) 后缀suf(s, l)：s长度为l的后缀(s[|s|-l+1…|s|]) 周期period：s[i]&#x3D;s[i+p]，$\forall i \in 1…|s|-ps[i]&#x3D;s[i+p]$，则p是s的周期 border: p">
 <meta property="og:type" content="article">
 <meta property="og:title" content="kmp学习笔记">
 <meta property="og:url" content="http://example.com/2020/07/14/kmp-xue-xi-bi-ji/index.html">
 <meta property="og:site_name" content="jyf111&#39;s blog">
-<meta property="og:description" content="应用给定主串t和模式串s，求出s在t中的所有匹配位置求出一个串的所有前缀的最大border(next数组) 定义前缀pre(s, l)：s长度为l的前缀(s[1…l])后缀suf(s, l)：s长度为l的后缀(s[|s|-l+1…|s|])周期period：s[i]&#x3D;s[i+p]，$\forall i \in1…|s|-ps[i]&#x3D;s[i+p]$，则p是s的周期border:">
+<meta property="og:description" content="¶应用 给定主串t和模式串s，求出s在t中的所有匹配位置 求出一个串的所有前缀的最大border(next数组) ¶定义 前缀pre(s, l)：s长度为l的前缀(s[1…l]) 后缀suf(s, l)：s长度为l的后缀(s[|s|-l+1…|s|]) 周期period：s[i]&#x3D;s[i+p]，$\forall i \in 1…|s|-ps[i]&#x3D;s[i+p]$，则p是s的周期 border: p">
 <meta property="og:locale" content="zh_CN">
 <meta property="article:published_time" content="2020-07-14T05:33:44.000Z">
 <meta property="article:modified_time" content="2023-08-25T05:15:53.164Z">
@@ -66,7 +66,9 @@
 		</script>
 		<script src='https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-MML-AM_CHTML' async></script>
 	
-<meta name="generator" content="Hexo 6.3.0"></head>
+<!-- hexo injector head_end start -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/katex.min.css">
+<!-- hexo injector head_end end --><meta name="generator" content="Hexo 6.3.0"></head>
 
 <body class="max-width mx-auto px3 ltr">
     
@@ -98,30 +100,12 @@
         <li><a class="icon" aria-label="下一篇" href="/2020/06/18/d-array-gou-zao/"><i class="fa-solid fa-chevron-right" aria-hidden="true" onmouseover="$('#i-next').toggle();" onmouseout="$('#i-next').toggle();"></i></a></li>
         
         <li><a class="icon" aria-label="返回顶部" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fa-solid fa-chevron-up" aria-hidden="true" onmouseover="$('#i-top').toggle();" onmouseout="$('#i-top').toggle();"></i></a></li>
-        <li><a class="icon" aria-label="分享文章" href="#"><i class="fa-solid fa-share-alt" aria-hidden="true" onmouseover="$('#i-share').toggle();" onmouseout="$('#i-share').toggle();" onclick="$('#share').toggle();return false;"></i></a></li>
       </ul>
       <span id="i-prev" class="info" style="display:none;">上一篇</span>
       <span id="i-next" class="info" style="display:none;">下一篇</span>
       <span id="i-top" class="info" style="display:none;">返回顶部</span>
-      <span id="i-share" class="info" style="display:none;">分享文章</span>
     </span>
     <br/>
-    <div id="share" style="display: none">
-      <ul>
-  <li><a class="icon" target="_blank" rel="noopener" href="http://www.facebook.com/sharer.php?u=http://example.com/2020/07/14/kmp-xue-xi-bi-ji/"><i class="fab fa-facebook " aria-hidden="true"></i></a></li>
-  <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=http://example.com/2020/07/14/kmp-xue-xi-bi-ji/&text=kmp学习笔记"><i class="fab fa-twitter " aria-hidden="true"></i></a></li>
-  <li><a class="icon" target="_blank" rel="noopener" href="http://www.linkedin.com/shareArticle?url=http://example.com/2020/07/14/kmp-xue-xi-bi-ji/&title=kmp学习笔记"><i class="fab fa-linkedin " aria-hidden="true"></i></a></li>
-  <li><a class="icon" target="_blank" rel="noopener" href="https://pinterest.com/pin/create/bookmarklet/?url=http://example.com/2020/07/14/kmp-xue-xi-bi-ji/&is_video=false&description=kmp学习笔记"><i class="fab fa-pinterest " aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="mailto:?subject=kmp学习笔记&body=Check out this article: http://example.com/2020/07/14/kmp-xue-xi-bi-ji/"><i class="fa-solid fa-envelope " aria-hidden="true"></i></a></li>
-  <li><a class="icon" target="_blank" rel="noopener" href="https://getpocket.com/save?url=http://example.com/2020/07/14/kmp-xue-xi-bi-ji/&title=kmp学习笔记"><i class="fab fa-get-pocket " aria-hidden="true"></i></a></li>
-  <li><a class="icon" target="_blank" rel="noopener" href="http://reddit.com/submit?url=http://example.com/2020/07/14/kmp-xue-xi-bi-ji/&title=kmp学习笔记"><i class="fab fa-reddit " aria-hidden="true"></i></a></li>
-  <li><a class="icon" target="_blank" rel="noopener" href="http://www.stumbleupon.com/submit?url=http://example.com/2020/07/14/kmp-xue-xi-bi-ji/&title=kmp学习笔记"><i class="fab fa-stumbleupon " aria-hidden="true"></i></a></li>
-  <li><a class="icon" target="_blank" rel="noopener" href="http://digg.com/submit?url=http://example.com/2020/07/14/kmp-xue-xi-bi-ji/&title=kmp学习笔记"><i class="fab fa-digg " aria-hidden="true"></i></a></li>
-  <li><a class="icon" target="_blank" rel="noopener" href="http://www.tumblr.com/share/link?url=http://example.com/2020/07/14/kmp-xue-xi-bi-ji/&name=kmp学习笔记&description="><i class="fab fa-tumblr " aria-hidden="true"></i></a></li>
-  <li><a class="icon" target="_blank" rel="noopener" href="https://news.ycombinator.com/submitlink?u=http://example.com/2020/07/14/kmp-xue-xi-bi-ji/&t=kmp学习笔记"><i class="fab fa-hacker-news " aria-hidden="true"></i></a></li>
-</ul>
-
-    </div>
     
     
       <div id="toc">
@@ -183,47 +167,103 @@
   
 
   <div class="content e-content" itemprop="articleBody">
-    <h2 id="应用"><a href="#应用" class="headerlink" title="应用"></a>应用</h2><p>给定主串t和模式串s，求出s在t中的所有匹配位置<br>求出一个串的所有前缀的最大border(next数组)</p>
-<h2 id="定义"><a href="#定义" class="headerlink" title="定义"></a>定义</h2><p>前缀pre(s, l)：s长度为l的前缀(s[1…l])<br>后缀suf(s, l)：s长度为l的后缀(s[|s|-l+1…|s|])<br>周期period：s[i]&#x3D;s[i+p]，$\forall i \in<br>1…|s|-ps[i]&#x3D;s[i+p]$，则p是s的周期<br>border: pre(s, l) &#x3D; suf(s, l)，则pre(s, l)是s的border</p>
-<h2 id="性质"><a href="#性质" class="headerlink" title="性质"></a>性质</h2><p>若s有长为x的border，则|s|-x为s的一个周期。证明可以分成border相交和不相交两种情况<br>最小周期&#x3D;串长-最大border<br>border具有传递性，串s的所有border可以用<code>nxt[|s|]，nxt[nxt[|s|]]...</code>表示<br><strong>Weak Periodicity Lemma</strong><br>p和q是s的周期，p+q&lt;&#x3D;|s|，则gcd(p, q)也是s的周期<br><strong>Periodicity Lemma</strong><br>p和q是s的周期，p+q-gcd(p, q)&lt;&#x3D;|s|，则gcd(p, q)也是s的周期<br>(牛客多校1的签到是给出两个无限串各自的周期，要求比较这两个串的字典序大小，只需要比较前p+q-gcd(p,q)或者前p+q个字符，如果都相同，说明p和q都是各自的周期，两个串相等)</p>
-<h2 id="求法"><a href="#求法" class="headerlink" title="求法"></a>求法</h2><p>nxt数组的求法可以当作是s串自己和自己匹配的过程。<br>规定<code>nxt[0]=−1</code>，s串从0开始，nxt[i]表示s[0…i-1]的最大border<br>考虑当前已经求出了nxt[0…i]，且nxt[i]&#x3D;j，说明<code>s[i-j...i-1]=s[0...j-1]</code></p>
+    <h2 id="应用"><a class="header-anchor" href="#应用">¶</a>应用</h2>
+<p>给定主串t和模式串s，求出s在t中的所有匹配位置<br>
+求出一个串的所有前缀的最大border(next数组)</p>
+<h2 id="定义"><a class="header-anchor" href="#定义">¶</a>定义</h2>
+<p>前缀pre(s, l)：s长度为l的前缀(s[1…l])<br>
+后缀suf(s, l)：s长度为l的后缀(s[|s|-l+1…|s|])<br>
+周期period：s[i]=s[i+p]，$\forall i \in<br>
+1…|s|-ps[i]=s[i+p]$，则p是s的周期<br>
+border: pre(s, l) = suf(s, l)，则pre(s, l)是s的border</p>
+<h2 id="性质"><a class="header-anchor" href="#性质">¶</a>性质</h2>
+<p>若s有长为x的border，则|s|-x为s的一个周期。证明可以分成border相交和不相交两种情况<br>
+最小周期=串长-最大border<br>
+border具有传递性，串s的所有border可以用<code>nxt[|s|]，nxt[nxt[|s|]]...</code>表示<br>
+<strong>Weak Periodicity Lemma</strong><br>
+p和q是s的周期，p+q&lt;=|s|，则gcd(p, q)也是s的周期<br>
+<strong>Periodicity Lemma</strong><br>
+p和q是s的周期，p+q-gcd(p, q)&lt;=|s|，则gcd(p, q)也是s的周期<br>
+(牛客多校1的签到是给出两个无限串各自的周期，要求比较这两个串的字典序大小，只需要比较前p+q-gcd(p,q)或者前p+q个字符，如果都相同，说明p和q都是各自的周期，两个串相等)</p>
+<h2 id="求法"><a class="header-anchor" href="#求法">¶</a>求法</h2>
+<p>nxt数组的求法可以当作是s串自己和自己匹配的过程。<br>
+规定<code>nxt[0]=−1</code>，s串从0开始，nxt[i]表示s[0…i-1]的最大border<br>
+考虑当前已经求出了nxt[0…i]，且nxt[i]=j，说明<code>s[i-j...i-1]=s[0...j-1]</code></p>
 <ul>
 <li><code>s[i]==s[j]</code>，<code>nxt[++i] = ++j</code></li>
 <li><code>ss[i]!=s[j]</code>，此时我们需要不断往前跳nxt，直到找到一个border的后一个字符等于s[j]，然后转为第一种情况</li>
 </ul>
 <figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="type">void</span> <span class="title">kmp_pre</span><span class="params">(<span class="type">char</span> s[], <span class="type">int</span> n, <span class="type">int</span> nxt[])</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">  <span class="type">int</span> i = <span class="number">0</span>, j = nxt[<span class="number">0</span>] = <span class="number">-1</span>;</span><br><span class="line">  <span class="keyword">while</span>(i&lt;n)</span><br><span class="line">  &#123;</span><br><span class="line">    <span class="keyword">while</span>(j!=<span class="number">-1</span>&amp;&amp;s[i]!=s[j]) j = nxt[j];</span><br><span class="line">    nxt[++i] = ++j;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p>字符串匹配的过程和求next数组的过程类似（模式串都是s，只不过主串变了）。<br>规定s串为模式串，t为主串，下标均从0开始。<br>先求出s串的next数组<br>考虑当前t串匹配到i-1，s串匹配到j-1，说明<code>t[i-j...i-1]=s[0...j-1]</code></p>
+<p>字符串匹配的过程和求next数组的过程类似（模式串都是s，只不过主串变了）。<br>
+规定s串为模式串，t为主串，下标均从0开始。<br>
+先求出s串的next数组<br>
+考虑当前t串匹配到i-1，s串匹配到j-1，说明<code>t[i-j...i-1]=s[0...j-1]</code></p>
 <ul>
-<li><code>t[i]=s[j]</code>，++i，++j。如果j&gt;|s|，说明找到一个匹配，记录下位置，让j&#x3D;nxt[j]</li>
+<li><code>t[i]=s[j]</code>，++i，++j。如果j&gt;|s|，说明找到一个匹配，记录下位置，让j=nxt[j]</li>
 <li><code>t[i]!=s[j]</code>，j不断跳nxt直到找到一个border的后一个字符等于t[i]为止，然后转化为第一种情况</li>
 </ul>
 <figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="type">int</span> <span class="title">kmp_work</span><span class="params">(<span class="type">char</span> s[], <span class="type">int</span> n, <span class="type">char</span> t[], <span class="type">int</span> m)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">  <span class="type">int</span> i = <span class="number">0</span>, j = <span class="number">0</span>, ans = <span class="number">0</span>;</span><br><span class="line">  <span class="built_in">kmp_pre</span>(s, n, nxt);</span><br><span class="line">  <span class="keyword">while</span>(i&lt;m)</span><br><span class="line">  &#123;</span><br><span class="line">    <span class="keyword">while</span>(j!=<span class="number">-1</span>&amp;&amp;t[i]!=s[j]) j = nxt[j];</span><br><span class="line">    i++; j++;</span><br><span class="line">    <span class="keyword">if</span>(j&gt;=n)</span><br><span class="line">    &#123;</span><br><span class="line">      ans++;</span><br><span class="line">      match[i-n] = <span class="number">1</span>;</span><br><span class="line">      j = nxt[j];</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="keyword">return</span> ans;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<h2 id="习题"><a href="#习题" class="headerlink" title="习题"></a>习题</h2><ul>
-<li><p>p3375<br>求出所有匹配位置+nxt数组</p>
+<h2 id="习题"><a class="header-anchor" href="#习题">¶</a>习题</h2>
+<ul>
+<li>
+<p>p3375<br>
+求出所有匹配位置+nxt数组</p>
 </li>
-<li><p>p5829<br>引入一种失配树（和ac自动机的fail树类似）：按照next数组进行建树，next[i]作为i的父亲。<br>显然每个点有且仅有一个父节点。<br>容易发现每个点的所有祖先就是它的所有border，跳nxt的过程相当于不断往父亲走<br>本题多次询问一个串s的某两个前缀的最大公共border。建出失配树后很直观的可以发现答案就是两个节点的LCA代表的前缀</p>
+<li>
+<p>p5829<br>
+引入一种失配树（和ac自动机的fail树类似）：按照next数组进行建树，next[i]作为i的父亲。<br>
+显然每个点有且仅有一个父节点。<br>
+容易发现每个点的所有祖先就是它的所有border，跳nxt的过程相当于不断往父亲走<br>
+本题多次询问一个串s的某两个前缀的最大公共border。建出失配树后很直观的可以发现答案就是两个节点的LCA代表的前缀</p>
 </li>
-<li><p>p3435<br>求每个前缀的最大周期。<br>求最大周期相当于求最小border。放在失配树上就相当于找到每个点祖先中离根最近的那个。树上dp一下即可。也可以路径压缩。</p>
+<li>
+<p>p3435<br>
+求每个前缀的最大周期。<br>
+求最大周期相当于求最小border。放在失配树上就相当于找到每个点祖先中离根最近的那个。树上dp一下即可。也可以路径压缩。</p>
 </li>
-<li><p>poj2185<br>一个n*m字符矩阵，求一个最小的子矩阵，使其重复多次后所得矩阵包含原矩阵。<br>行列分开做一遍kmp，求出各自的最大border。<br>按行做的时候，每一行的字符当作一个字符（hash一下，直接暴力也行）</p>
+<li>
+<p>poj2185<br>
+一个n*m字符矩阵，求一个最小的子矩阵，使其重复多次后所得矩阵包含原矩阵。<br>
+行列分开做一遍kmp，求出各自的最大border。<br>
+按行做的时候，每一行的字符当作一个字符（hash一下，直接暴力也行）</p>
 </li>
-<li><p>p2375<br>对s的所有前缀，求出长度不超过一半的border数量<br>放到失配树上，倍增一下（border长度单减）（无脑+暴力）$O(n\log n)$<br>$O(n)$做法：<br>考虑在求解nxt数组的时候，再增加一个k指针，该指针和j指针一样，但是需要额外满足长度的限制，如果不满足继续跳nxt。i点的答案就是k点的答案的nxt前缀和（同时dp递推即可）</p>
+<li>
+<p>p2375<br>
+对s的所有前缀，求出长度不超过一半的border数量<br>
+放到失配树上，倍增一下（border长度单减）（无脑+暴力）$O(n\log n)$<br>
+$O(n)$做法：<br>
+考虑在求解nxt数组的时候，再增加一个k指针，该指针和j指针一样，但是需要额外满足长度的限制，如果不满足继续跳nxt。i点的答案就是k点的答案的nxt前缀和（同时dp递推即可）</p>
 </li>
 </ul>
 <figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="type">void</span> <span class="title">solve</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">  cin &gt;&gt; s;</span><br><span class="line">  <span class="type">int</span> n = <span class="built_in">strlen</span>(s);</span><br><span class="line">  <span class="type">int</span> i = <span class="number">0</span>, j = nxt[<span class="number">0</span>] = <span class="number">-1</span>, k = <span class="number">-1</span>;</span><br><span class="line">  ll ans = <span class="number">1</span>;</span><br><span class="line">  <span class="keyword">while</span>(i&lt;n)</span><br><span class="line">  &#123;</span><br><span class="line">    <span class="keyword">while</span>(~j &amp;&amp; s[i]!=s[j]) j = nxt[j];</span><br><span class="line">    <span class="keyword">while</span>(~k &amp;&amp; s[i]!=s[k]) k = nxt[k];</span><br><span class="line">    nxt[++i] = ++j;</span><br><span class="line">    ++k;</span><br><span class="line">    dp[i] = dp[nxt[i]] + <span class="number">1</span>;</span><br><span class="line">    <span class="keyword">while</span>(<span class="number">2</span>*k&gt;i) k = nxt[k];</span><br><span class="line">    ans = ans*(dp[k]+<span class="number">1</span>)%mod; <span class="comment">//求的是每个点答案+1的连乘积</span></span><br><span class="line">  &#125;</span><br><span class="line">  cout &lt;&lt; ans &lt;&lt; <span class="string">&#x27;\n&#x27;</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
 <ul>
-<li>p3426<br>对于字符串s，求一个最短的字符串t，其<strong>可重叠</strong>地重复数次后等于s<br>显然t是s的一个border<br>如果当前等价于s[1…i]，相当于t是pre(s, i)的一个border。所以这个t是s的某些前缀的border，而且这些前缀的位置的差值要&lt;&#x3D;这个串t的长度。<br>在失配树上考虑，答案是0到n这条链上的某个点x(s的某个border)，并且该点子树内所有点的位置的最大差值&lt;&#x3D;x(x是其子树内的所有点的某个border)，如果最大差值&gt;x，那么这两个前缀间就不能通过x拼接而成。<br>失配树上从0走到n，不断删去非子树内的点，用set或双向链表维护maxgap即可<br>考虑dp[i]：s[1…i]的答案<br>dp[i]要么等于i，要么等于dp[nxt[i]]<br>等于dp[nxt[i]]的条件是nxt[i]…i-1间$\exists j \ dp[j] &#x3D; dp[nxt[i]] \land i-j&lt;&#x3D;dp[nxt[i]]$</li>
+<li>p3426<br>
+对于字符串s，求一个最短的字符串t，其<strong>可重叠</strong>地重复数次后等于s<br>
+显然t是s的一个border<br>
+如果当前等价于s[1…i]，相当于t是pre(s, i)的一个border。所以这个t是s的某些前缀的border，而且这些前缀的位置的差值要&lt;=这个串t的长度。<br>
+在失配树上考虑，答案是0到n这条链上的某个点x(s的某个border)，并且该点子树内所有点的位置的最大差值&lt;=x(x是其子树内的所有点的某个border)，如果最大差值&gt;x，那么这两个前缀间就不能通过x拼接而成。<br>
+失配树上从0走到n，不断删去非子树内的点，用set或双向链表维护maxgap即可<br>
+考虑dp[i]：s[1…i]的答案<br>
+dp[i]要么等于i，要么等于dp[nxt[i]]<br>
+等于dp[nxt[i]]的条件是nxt[i]…i-1间$\exists j \ dp[j] = dp[nxt[i]] \land i-j&lt;=dp[nxt[i]]$</li>
 </ul>
 <figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">for</span>(<span class="type">int</span> i=<span class="number">1</span>; i&lt;=n; i++)</span><br><span class="line">&#123;</span><br><span class="line">  dp[i] = i;</span><br><span class="line">  <span class="keyword">if</span>(p[dp[nxt[i]]] &amp;&amp; i-p[dp[nxt[i]]]&lt;=dp[nxt[i]])</span><br><span class="line">    dp[i] = dp[nxt[i]];</span><br><span class="line">  p[dp[i]] = i;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
 <ul>
-<li>p3193<br>给定一个长为m的字符串t，问能构造出多少个长为n的字符串s，使得t不是s的子串。<br>$m&lt;&#x3D;20, n&lt;&#x3D;10^9$<br>f[i][j]：s串构造到i，t串匹配到j的方案数<br>先预处理出t串当前匹配到i，加一个字符后匹配到j的方案数g[i][j]，这个用kmp即可<br>转移：$f[i][j] &#x3D; \sum_{k&#x3D;0}^{m-1} f[i-1][k] * g[k][j]$<br>显然可以矩阵快速幂优化</li>
+<li>p3193<br>
+给定一个长为m的字符串t，问能构造出多少个长为n的字符串s，使得t不是s的子串。<br>
+$m&lt;=20, n&lt;=10^9$<br>
+f[i][j]：s串构造到i，t串匹配到j的方案数<br>
+先预处理出t串当前匹配到i，加一个字符后匹配到j的方案数g[i][j]，这个用kmp即可<br>
+转移：$f[i][j] = \sum_{k=0}^{m-1} f[i-1][k] * g[k][j]$<br>
+显然可以矩阵快速幂优化</li>
 </ul>
-<p>$\begin{bmatrix}<br>f[i][0] &amp; \cdots &amp; f[i][m-1] \end{bmatrix} &#x3D; \begin{bmatrix} f[i-1][0] &amp;<br>\cdots &amp; f[i-1][m-1] \end{bmatrix} \begin{bmatrix} g[0][0] &amp; \cdots &amp;<br>g[0][m-1] \\ \vdots &amp; \ddots &amp; \vdots \\ g[m-1][0] &amp; \cdots &amp; g[m-1][m-1]<br>\\ \end{bmatrix}$</p>
-<p>其中f[0][0]&#x3D;1<br>最后答案即为$g^n$的第一行的和</p>
+<p>$\begin{bmatrix}<br>
+f[i][0] &amp; \cdots &amp; f[i][m-1] \end{bmatrix} = \begin{bmatrix} f[i-1][0] &amp;<br>
+\cdots &amp; f[i-1][m-1] \end{bmatrix} \begin{bmatrix} g[0][0] &amp; \cdots &amp;<br>
+g[0][m-1] \\ \vdots &amp; \ddots &amp; \vdots \\ g[m-1][0] &amp; \cdots &amp; g[m-1][m-1]<br>
+\\ \end{bmatrix}$</p>
+<p>其中f[0][0]=1<br>
+最后答案即为$g^n$的第一行的和</p>
 <figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;bits/stdc++.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">define</span> mp make_pair</span></span><br><span class="line"><span class="meta">#<span class="keyword">define</span> pb push_back</span></span><br><span class="line"><span class="meta">#<span class="keyword">define</span> sz(x) (int)x.size()</span></span><br><span class="line"><span class="meta">#<span class="keyword">define</span> all(x) begin(x), end(x)</span></span><br><span class="line"><span class="meta">#<span class="keyword">define</span> fi first</span></span><br><span class="line"><span class="meta">#<span class="keyword">define</span> se second</span></span><br><span class="line"><span class="meta">#<span class="keyword">define</span> debug(x) cerr &lt;&lt; #x &lt;&lt; <span class="string">&quot; &quot;</span> &lt;&lt; x &lt;&lt; <span class="string">&#x27;\n&#x27;</span></span></span><br><span class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> std;</span><br><span class="line"><span class="keyword">using</span> ll = <span class="type">long</span> <span class="type">long</span>;</span><br><span class="line"><span class="keyword">using</span> pii = pair&lt;<span class="type">int</span>,<span class="type">int</span>&gt;;</span><br><span class="line"><span class="keyword">using</span> pli = pair&lt;ll,<span class="type">int</span>&gt;;</span><br><span class="line"><span class="type">const</span> <span class="type">int</span> INF = <span class="number">0x3f3f3f3f</span>, N = <span class="number">25</span>;</span><br><span class="line"><span class="type">const</span> ll LINF = <span class="number">1e18</span> + <span class="number">5</span>;</span><br><span class="line"><span class="type">int</span> n, m, mod;</span><br><span class="line"><span class="type">int</span> g[N][N], nxt[N];</span><br><span class="line"><span class="type">char</span> s[N];</span><br><span class="line"><span class="keyword">struct</span> <span class="title class_">matrix</span></span><br><span class="line">&#123;</span><br><span class="line">  <span class="type">int</span> n, m;</span><br><span class="line">  <span class="type">int</span> mat[N][N];</span><br><span class="line">  <span class="built_in">matrix</span>() &#123;&#125;</span><br><span class="line">  <span class="built_in">matrix</span>(<span class="type">int</span> a, <span class="type">int</span> b) : <span class="built_in">n</span>(a), <span class="built_in">m</span>(b) &#123; <span class="built_in">memset</span>(mat, <span class="number">0</span>, <span class="built_in">sizeof</span>(mat)); &#125;</span><br><span class="line">  <span class="function"><span class="type">void</span> <span class="title">one</span><span class="params">()</span></span></span><br><span class="line"><span class="function">  </span>&#123;</span><br><span class="line">    <span class="keyword">for</span>(<span class="type">int</span> i=<span class="number">1</span>; i&lt;=n; i++)</span><br><span class="line">      <span class="keyword">for</span>(<span class="type">int</span> j=<span class="number">1</span>; j&lt;=m; j++)</span><br><span class="line">        mat[i][j] = (i==j);</span><br><span class="line">  &#125;</span><br><span class="line">&#125;;</span><br><span class="line">matrix <span class="keyword">operator</span> * (matrix a, matrix b)</span><br><span class="line">&#123;</span><br><span class="line">  <span class="function">matrix <span class="title">res</span><span class="params">(a.n, b.m)</span></span>;</span><br><span class="line">  <span class="keyword">for</span>(<span class="type">int</span> i=<span class="number">1</span>; i&lt;=a.n; i++)</span><br><span class="line">    <span class="keyword">for</span>(<span class="type">int</span> j=<span class="number">1</span>; j&lt;=b.m; j++)</span><br><span class="line">      <span class="keyword">for</span>(<span class="type">int</span> k=<span class="number">1</span>; k&lt;=a.m; k++)</span><br><span class="line">        res.mat[i][j] = (res.mat[i][j]+a.mat[i][k]*b.mat[k][j])%mod;</span><br><span class="line">  <span class="keyword">return</span> res;</span><br><span class="line">&#125;</span><br><span class="line">matrix <span class="keyword">operator</span> ^ (matrix a, ll x)</span><br><span class="line">&#123;</span><br><span class="line">  <span class="function">matrix <span class="title">res</span><span class="params">(a.n, a.m)</span></span>; res.<span class="built_in">one</span>();</span><br><span class="line">  <span class="keyword">while</span>(x)</span><br><span class="line">  &#123;</span><br><span class="line">    <span class="keyword">if</span>(x&amp;<span class="number">1</span>) res = res * a;</span><br><span class="line">    a = a * a;</span><br><span class="line">    x &gt;&gt;= <span class="number">1</span>;</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="keyword">return</span> res;</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">get_nxt</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">  <span class="type">int</span> i = <span class="number">0</span>, j = nxt[<span class="number">0</span>] = <span class="number">-1</span>;</span><br><span class="line">  <span class="keyword">while</span>(i&lt;m)</span><br><span class="line">  &#123;</span><br><span class="line">    <span class="keyword">while</span>(~j &amp;&amp; s[i]!=s[j]) j = nxt[j];</span><br><span class="line">    nxt[++i] = ++j;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">init_g</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">  <span class="keyword">for</span>(<span class="type">int</span> i=<span class="number">-1</span>; i&lt;m<span class="number">-1</span>; i++)</span><br><span class="line">    <span class="keyword">for</span>(<span class="type">int</span> k=<span class="number">0</span>; k&lt;<span class="number">10</span>; k++)</span><br><span class="line">    &#123;</span><br><span class="line">      <span class="type">int</span> j = i + <span class="number">1</span>;</span><br><span class="line">      <span class="keyword">while</span>(~j &amp;&amp; s[j]-<span class="string">&#x27;0&#x27;</span>!=k) j = nxt[j];</span><br><span class="line">      g[i+<span class="number">1</span>][j+<span class="number">1</span>]++;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="type">int</span> <span class="title">main</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">  ios::<span class="built_in">sync_with_stdio</span>(<span class="literal">false</span>);</span><br><span class="line">  cin.<span class="built_in">tie</span>(<span class="literal">nullptr</span>);</span><br><span class="line">  cin &gt;&gt; n &gt;&gt; m &gt;&gt; mod;</span><br><span class="line">  cin &gt;&gt; s;</span><br><span class="line">  <span class="built_in">get_nxt</span>();</span><br><span class="line">  <span class="built_in">init_g</span>();</span><br><span class="line">  <span class="function">matrix <span class="title">f</span><span class="params">(m, m)</span></span>;</span><br><span class="line">  <span class="keyword">for</span>(<span class="type">int</span> i=<span class="number">1</span>; i&lt;=m; i++)</span><br><span class="line">    <span class="keyword">for</span>(<span class="type">int</span> j=<span class="number">1</span>; j&lt;=m; j++)</span><br><span class="line">      f.mat[i][j] = g[i<span class="number">-1</span>][j<span class="number">-1</span>];</span><br><span class="line">  f = f ^ n;</span><br><span class="line">  <span class="type">int</span> ans = <span class="number">0</span>;</span><br><span class="line">  <span class="keyword">for</span>(<span class="type">int</span> i=<span class="number">1</span>; i&lt;=m; i++) ans = (ans + f.mat[<span class="number">1</span>][i])%mod;</span><br><span class="line">  cout &lt;&lt; ans &lt;&lt; <span class="string">&#x27;\n&#x27;</span>;</span><br><span class="line">  <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
   </div>
 </article>
@@ -255,29 +295,11 @@
       </div>
     
 
-    <div id="share-footer" style="display: none">
-      <ul>
-  <li><a class="icon" target="_blank" rel="noopener" href="http://www.facebook.com/sharer.php?u=http://example.com/2020/07/14/kmp-xue-xi-bi-ji/"><i class="fab fa-facebook fa-lg" aria-hidden="true"></i></a></li>
-  <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=http://example.com/2020/07/14/kmp-xue-xi-bi-ji/&text=kmp学习笔记"><i class="fab fa-twitter fa-lg" aria-hidden="true"></i></a></li>
-  <li><a class="icon" target="_blank" rel="noopener" href="http://www.linkedin.com/shareArticle?url=http://example.com/2020/07/14/kmp-xue-xi-bi-ji/&title=kmp学习笔记"><i class="fab fa-linkedin fa-lg" aria-hidden="true"></i></a></li>
-  <li><a class="icon" target="_blank" rel="noopener" href="https://pinterest.com/pin/create/bookmarklet/?url=http://example.com/2020/07/14/kmp-xue-xi-bi-ji/&is_video=false&description=kmp学习笔记"><i class="fab fa-pinterest fa-lg" aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="mailto:?subject=kmp学习笔记&body=Check out this article: http://example.com/2020/07/14/kmp-xue-xi-bi-ji/"><i class="fa-solid fa-envelope fa-lg" aria-hidden="true"></i></a></li>
-  <li><a class="icon" target="_blank" rel="noopener" href="https://getpocket.com/save?url=http://example.com/2020/07/14/kmp-xue-xi-bi-ji/&title=kmp学习笔记"><i class="fab fa-get-pocket fa-lg" aria-hidden="true"></i></a></li>
-  <li><a class="icon" target="_blank" rel="noopener" href="http://reddit.com/submit?url=http://example.com/2020/07/14/kmp-xue-xi-bi-ji/&title=kmp学习笔记"><i class="fab fa-reddit fa-lg" aria-hidden="true"></i></a></li>
-  <li><a class="icon" target="_blank" rel="noopener" href="http://www.stumbleupon.com/submit?url=http://example.com/2020/07/14/kmp-xue-xi-bi-ji/&title=kmp学习笔记"><i class="fab fa-stumbleupon fa-lg" aria-hidden="true"></i></a></li>
-  <li><a class="icon" target="_blank" rel="noopener" href="http://digg.com/submit?url=http://example.com/2020/07/14/kmp-xue-xi-bi-ji/&title=kmp学习笔记"><i class="fab fa-digg fa-lg" aria-hidden="true"></i></a></li>
-  <li><a class="icon" target="_blank" rel="noopener" href="http://www.tumblr.com/share/link?url=http://example.com/2020/07/14/kmp-xue-xi-bi-ji/&name=kmp学习笔记&description="><i class="fab fa-tumblr fa-lg" aria-hidden="true"></i></a></li>
-  <li><a class="icon" target="_blank" rel="noopener" href="https://news.ycombinator.com/submitlink?u=http://example.com/2020/07/14/kmp-xue-xi-bi-ji/&t=kmp学习笔记"><i class="fab fa-hacker-news fa-lg" aria-hidden="true"></i></a></li>
-</ul>
-
-    </div>
-
     <div id="actions-footer">
         <a id="menu" class="icon" href="#" onclick="$('#nav-footer').toggle();return false;"><i class="fa-solid fa-bars fa-lg" aria-hidden="true"></i> 菜单</a>
         
           <a id="toc" class="icon" href="#" onclick="$('#toc-footer').toggle();return false;"><i class="fa-solid fa-list fa-lg" aria-hidden="true"></i> 目录</a>
         
-        <a id="share" class="icon" href="#" onclick="$('#share-footer').toggle();return false;"><i class="fa-solid fa-share-alt fa-lg" aria-hidden="true"></i> 分享</a>
         <a id="top" style="display:none" class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fa-solid fa-chevron-up fa-lg" aria-hidden="true"></i> 返回顶部</a>
     </div>
 
@@ -362,6 +384,7 @@
 <!-- Disqus Comments -->
 
 <!-- utterances Comments -->
+
 
 </body>
 </html>

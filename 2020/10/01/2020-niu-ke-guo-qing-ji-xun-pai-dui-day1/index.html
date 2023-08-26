@@ -6,12 +6,12 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="HandheldFriendly" content="True">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=5" />
-    <meta name="description" content="题目都不难，貌似是去年欧洲区域赛题 A给定一个长度为n的字符串，问你最少在 后面 添加多少个字符，使其变成回文串$n \leq 4 \times10^5$注意是只能加在后面，所以马拉车一下就行，找一个最长的回文后缀，然后补齐前缀即可（如果是任意添加，那答案就是正串和反串的LCS，只能$n^2$ B给定一个长度为n的数组a，定义$g(i, j) &#x3D;gcd(a_i,\dots,a_j),m(">
+    <meta name="description" content="题目都不难，貌似是去年欧洲区域赛题 ¶A 给定一个长度为n的字符串，问你最少在 后面 添加多少个字符，使其变成回文串 $n \leq 4 \times10^5$ 注意是只能加在后面，所以马拉车一下就行，找一个最长的回文后缀，然后补齐前缀即可 （如果是任意添加，那答案就是正串和反串的LCS，只能$n^2$ ¶B 给定一个长度为n的数组a，定义$g(i, j) &#x3D; gcd(a_i,\dots,a_j)">
 <meta property="og:type" content="article">
 <meta property="og:title" content="2020牛客国庆集训派对day1">
 <meta property="og:url" content="http://example.com/2020/10/01/2020-niu-ke-guo-qing-ji-xun-pai-dui-day1/index.html">
 <meta property="og:site_name" content="jyf111&#39;s blog">
-<meta property="og:description" content="题目都不难，貌似是去年欧洲区域赛题 A给定一个长度为n的字符串，问你最少在 后面 添加多少个字符，使其变成回文串$n \leq 4 \times10^5$注意是只能加在后面，所以马拉车一下就行，找一个最长的回文后缀，然后补齐前缀即可（如果是任意添加，那答案就是正串和反串的LCS，只能$n^2$ B给定一个长度为n的数组a，定义$g(i, j) &#x3D;gcd(a_i,\dots,a_j),m(">
+<meta property="og:description" content="题目都不难，貌似是去年欧洲区域赛题 ¶A 给定一个长度为n的字符串，问你最少在 后面 添加多少个字符，使其变成回文串 $n \leq 4 \times10^5$ 注意是只能加在后面，所以马拉车一下就行，找一个最长的回文后缀，然后补齐前缀即可 （如果是任意添加，那答案就是正串和反串的LCS，只能$n^2$ ¶B 给定一个长度为n的数组a，定义$g(i, j) &#x3D; gcd(a_i,\dots,a_j)">
 <meta property="og:locale" content="zh_CN">
 <meta property="article:published_time" content="2020-10-01T05:33:45.000Z">
 <meta property="article:modified_time" content="2023-08-24T15:48:10.202Z">
@@ -66,7 +66,9 @@
 		</script>
 		<script src='https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-MML-AM_CHTML' async></script>
 	
-<meta name="generator" content="Hexo 6.3.0"></head>
+<!-- hexo injector head_end start -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/katex.min.css">
+<!-- hexo injector head_end end --><meta name="generator" content="Hexo 6.3.0"></head>
 
 <body class="max-width mx-auto px3 ltr">
     
@@ -98,30 +100,12 @@
         <li><a class="icon" aria-label="下一篇" href="/2020/09/29/acl-beginner-contest-f-heights-and-pairs/"><i class="fa-solid fa-chevron-right" aria-hidden="true" onmouseover="$('#i-next').toggle();" onmouseout="$('#i-next').toggle();"></i></a></li>
         
         <li><a class="icon" aria-label="返回顶部" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fa-solid fa-chevron-up" aria-hidden="true" onmouseover="$('#i-top').toggle();" onmouseout="$('#i-top').toggle();"></i></a></li>
-        <li><a class="icon" aria-label="分享文章" href="#"><i class="fa-solid fa-share-alt" aria-hidden="true" onmouseover="$('#i-share').toggle();" onmouseout="$('#i-share').toggle();" onclick="$('#share').toggle();return false;"></i></a></li>
       </ul>
       <span id="i-prev" class="info" style="display:none;">上一篇</span>
       <span id="i-next" class="info" style="display:none;">下一篇</span>
       <span id="i-top" class="info" style="display:none;">返回顶部</span>
-      <span id="i-share" class="info" style="display:none;">分享文章</span>
     </span>
     <br/>
-    <div id="share" style="display: none">
-      <ul>
-  <li><a class="icon" target="_blank" rel="noopener" href="http://www.facebook.com/sharer.php?u=http://example.com/2020/10/01/2020-niu-ke-guo-qing-ji-xun-pai-dui-day1/"><i class="fab fa-facebook " aria-hidden="true"></i></a></li>
-  <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=http://example.com/2020/10/01/2020-niu-ke-guo-qing-ji-xun-pai-dui-day1/&text=2020牛客国庆集训派对day1"><i class="fab fa-twitter " aria-hidden="true"></i></a></li>
-  <li><a class="icon" target="_blank" rel="noopener" href="http://www.linkedin.com/shareArticle?url=http://example.com/2020/10/01/2020-niu-ke-guo-qing-ji-xun-pai-dui-day1/&title=2020牛客国庆集训派对day1"><i class="fab fa-linkedin " aria-hidden="true"></i></a></li>
-  <li><a class="icon" target="_blank" rel="noopener" href="https://pinterest.com/pin/create/bookmarklet/?url=http://example.com/2020/10/01/2020-niu-ke-guo-qing-ji-xun-pai-dui-day1/&is_video=false&description=2020牛客国庆集训派对day1"><i class="fab fa-pinterest " aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="mailto:?subject=2020牛客国庆集训派对day1&body=Check out this article: http://example.com/2020/10/01/2020-niu-ke-guo-qing-ji-xun-pai-dui-day1/"><i class="fa-solid fa-envelope " aria-hidden="true"></i></a></li>
-  <li><a class="icon" target="_blank" rel="noopener" href="https://getpocket.com/save?url=http://example.com/2020/10/01/2020-niu-ke-guo-qing-ji-xun-pai-dui-day1/&title=2020牛客国庆集训派对day1"><i class="fab fa-get-pocket " aria-hidden="true"></i></a></li>
-  <li><a class="icon" target="_blank" rel="noopener" href="http://reddit.com/submit?url=http://example.com/2020/10/01/2020-niu-ke-guo-qing-ji-xun-pai-dui-day1/&title=2020牛客国庆集训派对day1"><i class="fab fa-reddit " aria-hidden="true"></i></a></li>
-  <li><a class="icon" target="_blank" rel="noopener" href="http://www.stumbleupon.com/submit?url=http://example.com/2020/10/01/2020-niu-ke-guo-qing-ji-xun-pai-dui-day1/&title=2020牛客国庆集训派对day1"><i class="fab fa-stumbleupon " aria-hidden="true"></i></a></li>
-  <li><a class="icon" target="_blank" rel="noopener" href="http://digg.com/submit?url=http://example.com/2020/10/01/2020-niu-ke-guo-qing-ji-xun-pai-dui-day1/&title=2020牛客国庆集训派对day1"><i class="fab fa-digg " aria-hidden="true"></i></a></li>
-  <li><a class="icon" target="_blank" rel="noopener" href="http://www.tumblr.com/share/link?url=http://example.com/2020/10/01/2020-niu-ke-guo-qing-ji-xun-pai-dui-day1/&name=2020牛客国庆集训派对day1&description="><i class="fab fa-tumblr " aria-hidden="true"></i></a></li>
-  <li><a class="icon" target="_blank" rel="noopener" href="https://news.ycombinator.com/submitlink?u=http://example.com/2020/10/01/2020-niu-ke-guo-qing-ji-xun-pai-dui-day1/&t=2020牛客国庆集训派对day1"><i class="fab fa-hacker-news " aria-hidden="true"></i></a></li>
-</ul>
-
-    </div>
     
     
       <div id="toc">
@@ -184,21 +168,61 @@
 
   <div class="content e-content" itemprop="articleBody">
     <p>题目都不难，貌似是去年欧洲区域赛题</p>
-<h2 id="A"><a href="#A" class="headerlink" title="A"></a>A</h2><p>给定一个长度为n的字符串，问你最少在 <strong>后面</strong> 添加多少个字符，使其变成回文串<br>$n \leq 4 \times10^5$<br>注意是只能加在后面，所以马拉车一下就行，找一个最长的回文后缀，然后补齐前缀即可<br>（如果是任意添加，那答案就是正串和反串的LCS，只能$n^2$</p>
-<h2 id="B"><a href="#B" class="headerlink" title="B"></a>B</h2><p>给定一个长度为n的数组a，定义$g(i, j) &#x3D;<br>gcd(a_i,\dots,a_j),m(i,j) &#x3D;<br>max(a_i,\dots,a_j)$，求$\sum_{i&#x3D;1}^n\sum_{j&#x3D;i}^n<br>g(i,j)m(i,j)$<br>$n \leq 2\times10^5$<br>很套路的题，gcd可以分成不同的log段<br>枚举右端点，利用单调栈和线段树动态维护后缀最值，然后二分gcd不同的段的左端点即可<br>一种更好的写法是利用路径压缩，可以去掉一个log<br>令$g_i$​表示i到当前右端点的gcd的值，$nxt_i$​表示i左边第一个g与$g_i$​不同的点，不断跳$nxt_i$​，当i和$nxt_i$​的gcd相同时，就合并$nxt_i<br>&#x3D; nxt_{nxt_i}$</p>
-<h2 id="C"><a href="#C" class="headerlink" title="C"></a>C</h2><p>给定一棵树，每次可以修改一个点的父亲，问最少几次操作变成一条链<br>答案就是所有大于2的点的度数-2的和<br>因为度数$\leq 2$可以不管，$&gt;2$，就必须把其它的点挪走</p>
-<h2 id="D"><a href="#D" class="headerlink" title="D"></a>D</h2><p>给定n个点，1条直线，参数r<br>让你在这条直线上选择一个点作为圆心，作一个半径为r的圆，覆盖最多的点，求点数<br>$n \leq 3 \times 10^5$<br>考虑每个点能被覆盖的都是直线上的一个区间，求出区间后，就相当于用一个长度为$2r$的区间覆盖最多的区间，因为区间的长度都是小于$2r$的，所以离散化之后差分前缀和取max即可<br>另一种做法是先按区间的左端点升序排序，枚举第i个区间作为最后一个被覆盖的区间，贪心的考虑肯定将圆心放在该区间的左端点上（即尽可能的靠左），此时覆盖的点的个数就是前面所有右端点$\geq$该左端点的区间个数，pbds即可</p>
-<h2 id="E"><a href="#E" class="headerlink" title="E"></a>E</h2><p>求$\sum\limits_{i&#x3D;n}^m \sum\limits_{d\mid i} 1$<br>$n\leq m \leq 10^{12}$<br>转成枚举因数d的贡献就是一个整除分块了</p>
-<h2 id="F"><a href="#F" class="headerlink" title="F"></a>F</h2><p>有n个数，让你找k个使得它们相与的结果最大<br>从高位往低位贪心即可，该位有超过k个1就取</p>
-<h2 id="G"><a href="#G" class="headerlink" title="G"></a>G</h2><p>给出q个字符串$s_i$​，询问长度n的字符串中有多少串不包含这q个字符串<br>$\sum\limits_{i&#x3D;1}^q |s_i| \leq 100$，$n\leq10^9$<br>到最后才想到ac自动机，一开始一直在想容斥<br>对这q个串建出trie图，然后标记出不合法的位（每个串的末端，以及每个串可识别的后缀）<br>接下来就转成图上n步路径问题，对邻接矩阵作快速幂即可</p>
-<h2 id="H"><a href="#H" class="headerlink" title="H"></a>H</h2><p>给出两个字符串s和t，只包含字符AGCT，保证t可由s交换字符得到，问最少的交换次数<br>考虑置换，对于一个长度为x的循环，需要x-1次交换，所以只要贪心的最大化循环个数即可，即最小化每个循环的长度。由于只有这四种字符，所以只有可能是1234元环，从小到大搞就行</p>
-<h2 id="I"><a href="#I" class="headerlink" title="I"></a>I</h2><p>给出一张无向图，多次询问只考虑给定的一个大小为s的点集时连通块的个数<br>询问的点集大小和不超过$10^5$<br>也很套路，考虑度数小的点，直接暴力枚举所有出边，如果在当前点集中就用并查集合并<br>再考虑度数大的点，对于度数大的点和度数小的点的边，我们在度数小的点中已经枚举了，所以只考虑度数大的点和度数大的点之间的边，设置阈值$n\sqrt n$​，显然这样的点个数不超过$2\sqrt n$​，直接预处理出这些点之间有没有边（用一个二维矩阵存储），再对于点集内所有度数大的点单独做一次二维for循环合并即可</p>
-<h2 id="J"><a href="#J" class="headerlink" title="J"></a>J</h2><p>给出一个数组，然后询问是否存在相应的大小关系的三元组$(x_1, x_2, x_3)$<br>总共有13种，分别做即可</p>
+<h2 id="A"><a class="header-anchor" href="#A">¶</a>A</h2>
+<p>给定一个长度为n的字符串，问你最少在 <strong>后面</strong> 添加多少个字符，使其变成回文串<br>
+$n \leq 4 \times10^5$<br>
+注意是只能加在后面，所以马拉车一下就行，找一个最长的回文后缀，然后补齐前缀即可<br>
+（如果是任意添加，那答案就是正串和反串的LCS，只能$n^2$</p>
+<h2 id="B"><a class="header-anchor" href="#B">¶</a>B</h2>
+<p>给定一个长度为n的数组a，定义$g(i, j) =<br>
+gcd(a_i,\dots,a_j),m(i,j) =<br>
+max(a_i,\dots,a_j)$，求$\sum_{i=1}^n\sum_{j=i}^n<br>
+g(i,j)m(i,j)$<br>
+$n \leq 2\times10^5$<br>
+很套路的题，gcd可以分成不同的log段<br>
+枚举右端点，利用单调栈和线段树动态维护后缀最值，然后二分gcd不同的段的左端点即可<br>
+一种更好的写法是利用路径压缩，可以去掉一个log<br>
+令$g_i$​表示i到当前右端点的gcd的值，$nxt_i$​表示i左边第一个g与$g_i$​不同的点，不断跳$nxt_i$​，当i和$nxt_i$​的gcd相同时，就合并$nxt_i<br>
+= nxt_{nxt_i}$</p>
+<h2 id="C"><a class="header-anchor" href="#C">¶</a>C</h2>
+<p>给定一棵树，每次可以修改一个点的父亲，问最少几次操作变成一条链<br>
+答案就是所有大于2的点的度数-2的和<br>
+因为度数$\leq 2$可以不管，$&gt;2$，就必须把其它的点挪走</p>
+<h2 id="D"><a class="header-anchor" href="#D">¶</a>D</h2>
+<p>给定n个点，1条直线，参数r<br>
+让你在这条直线上选择一个点作为圆心，作一个半径为r的圆，覆盖最多的点，求点数<br>
+$n \leq 3 \times 10^5$<br>
+考虑每个点能被覆盖的都是直线上的一个区间，求出区间后，就相当于用一个长度为$2r$的区间覆盖最多的区间，因为区间的长度都是小于$2r$的，所以离散化之后差分前缀和取max即可<br>
+另一种做法是先按区间的左端点升序排序，枚举第i个区间作为最后一个被覆盖的区间，贪心的考虑肯定将圆心放在该区间的左端点上（即尽可能的靠左），此时覆盖的点的个数就是前面所有右端点$\geq$该左端点的区间个数，pbds即可</p>
+<h2 id="E"><a class="header-anchor" href="#E">¶</a>E</h2>
+<p>求$\sum\limits_{i=n}^m \sum\limits_{d\mid i} 1$<br>
+$n\leq m \leq 10^{12}$<br>
+转成枚举因数d的贡献就是一个整除分块了</p>
+<h2 id="F"><a class="header-anchor" href="#F">¶</a>F</h2>
+<p>有n个数，让你找k个使得它们相与的结果最大<br>
+从高位往低位贪心即可，该位有超过k个1就取</p>
+<h2 id="G"><a class="header-anchor" href="#G">¶</a>G</h2>
+<p>给出q个字符串$s_i$​，询问长度n的字符串中有多少串不包含这q个字符串<br>
+$\sum\limits_{i=1}^q |s_i| \leq 100$，$n\leq10^9$<br>
+到最后才想到ac自动机，一开始一直在想容斥<br>
+对这q个串建出trie图，然后标记出不合法的位（每个串的末端，以及每个串可识别的后缀）<br>
+接下来就转成图上n步路径问题，对邻接矩阵作快速幂即可</p>
+<h2 id="H"><a class="header-anchor" href="#H">¶</a>H</h2>
+<p>给出两个字符串s和t，只包含字符AGCT，保证t可由s交换字符得到，问最少的交换次数<br>
+考虑置换，对于一个长度为x的循环，需要x-1次交换，所以只要贪心的最大化循环个数即可，即最小化每个循环的长度。由于只有这四种字符，所以只有可能是1234元环，从小到大搞就行</p>
+<h2 id="I"><a class="header-anchor" href="#I">¶</a>I</h2>
+<p>给出一张无向图，多次询问只考虑给定的一个大小为s的点集时连通块的个数<br>
+询问的点集大小和不超过$10^5$<br>
+也很套路，考虑度数小的点，直接暴力枚举所有出边，如果在当前点集中就用并查集合并<br>
+再考虑度数大的点，对于度数大的点和度数小的点的边，我们在度数小的点中已经枚举了，所以只考虑度数大的点和度数大的点之间的边，设置阈值$n\sqrt n$​，显然这样的点个数不超过$2\sqrt n$​，直接预处理出这些点之间有没有边（用一个二维矩阵存储），再对于点集内所有度数大的点单独做一次二维for循环合并即可</p>
+<h2 id="J"><a class="header-anchor" href="#J">¶</a>J</h2>
+<p>给出一个数组，然后询问是否存在相应的大小关系的三元组$(x_1, x_2, x_3)$<br>
+总共有13种，分别做即可</p>
 <ul>
 <li>三个相等111，看有没有一个数出现3次以上，map记录</li>
-<li>$x_1&#x3D;x_2$​，枚举$x_2$​，如果前面有相等的$x_1$​，就看后面有没有大于和小于$x_2$​的，112，221</li>
-<li>$x_2 &#x3D; x_3$​，上一种倒着做，122，211</li>
-<li>$x_1&#x3D;x_3$​，对每种数，取最左出现和最右出现的，然后只要看两者间的最大值和最小值和这个数的关系，121，212</li>
+<li>$x_1=x_2$​，枚举$x_2$​，如果前面有相等的$x_1$​，就看后面有没有大于和小于$x_2$​的，112，221</li>
+<li>$x_2 = x_3$​，上一种倒着做，122，211</li>
+<li>$x_1=x_3$​，对每种数，取最左出现和最右出现的，然后只要看两者间的最大值和最小值和这个数的关系，121，212</li>
 <li>$x_1&lt;x_2&lt;x_3$​，枚举中间数，123</li>
 <li>$x_1&gt;x_2&gt;x_3$​，同理，321</li>
 <li>$x_1&lt;x_2&gt;x_3$​，枚举中间数，然后看左右两侧小于$x_2$​的最大的和最小的数的大小关系，132，231</li>
@@ -235,29 +259,11 @@
       </div>
     
 
-    <div id="share-footer" style="display: none">
-      <ul>
-  <li><a class="icon" target="_blank" rel="noopener" href="http://www.facebook.com/sharer.php?u=http://example.com/2020/10/01/2020-niu-ke-guo-qing-ji-xun-pai-dui-day1/"><i class="fab fa-facebook fa-lg" aria-hidden="true"></i></a></li>
-  <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=http://example.com/2020/10/01/2020-niu-ke-guo-qing-ji-xun-pai-dui-day1/&text=2020牛客国庆集训派对day1"><i class="fab fa-twitter fa-lg" aria-hidden="true"></i></a></li>
-  <li><a class="icon" target="_blank" rel="noopener" href="http://www.linkedin.com/shareArticle?url=http://example.com/2020/10/01/2020-niu-ke-guo-qing-ji-xun-pai-dui-day1/&title=2020牛客国庆集训派对day1"><i class="fab fa-linkedin fa-lg" aria-hidden="true"></i></a></li>
-  <li><a class="icon" target="_blank" rel="noopener" href="https://pinterest.com/pin/create/bookmarklet/?url=http://example.com/2020/10/01/2020-niu-ke-guo-qing-ji-xun-pai-dui-day1/&is_video=false&description=2020牛客国庆集训派对day1"><i class="fab fa-pinterest fa-lg" aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="mailto:?subject=2020牛客国庆集训派对day1&body=Check out this article: http://example.com/2020/10/01/2020-niu-ke-guo-qing-ji-xun-pai-dui-day1/"><i class="fa-solid fa-envelope fa-lg" aria-hidden="true"></i></a></li>
-  <li><a class="icon" target="_blank" rel="noopener" href="https://getpocket.com/save?url=http://example.com/2020/10/01/2020-niu-ke-guo-qing-ji-xun-pai-dui-day1/&title=2020牛客国庆集训派对day1"><i class="fab fa-get-pocket fa-lg" aria-hidden="true"></i></a></li>
-  <li><a class="icon" target="_blank" rel="noopener" href="http://reddit.com/submit?url=http://example.com/2020/10/01/2020-niu-ke-guo-qing-ji-xun-pai-dui-day1/&title=2020牛客国庆集训派对day1"><i class="fab fa-reddit fa-lg" aria-hidden="true"></i></a></li>
-  <li><a class="icon" target="_blank" rel="noopener" href="http://www.stumbleupon.com/submit?url=http://example.com/2020/10/01/2020-niu-ke-guo-qing-ji-xun-pai-dui-day1/&title=2020牛客国庆集训派对day1"><i class="fab fa-stumbleupon fa-lg" aria-hidden="true"></i></a></li>
-  <li><a class="icon" target="_blank" rel="noopener" href="http://digg.com/submit?url=http://example.com/2020/10/01/2020-niu-ke-guo-qing-ji-xun-pai-dui-day1/&title=2020牛客国庆集训派对day1"><i class="fab fa-digg fa-lg" aria-hidden="true"></i></a></li>
-  <li><a class="icon" target="_blank" rel="noopener" href="http://www.tumblr.com/share/link?url=http://example.com/2020/10/01/2020-niu-ke-guo-qing-ji-xun-pai-dui-day1/&name=2020牛客国庆集训派对day1&description="><i class="fab fa-tumblr fa-lg" aria-hidden="true"></i></a></li>
-  <li><a class="icon" target="_blank" rel="noopener" href="https://news.ycombinator.com/submitlink?u=http://example.com/2020/10/01/2020-niu-ke-guo-qing-ji-xun-pai-dui-day1/&t=2020牛客国庆集训派对day1"><i class="fab fa-hacker-news fa-lg" aria-hidden="true"></i></a></li>
-</ul>
-
-    </div>
-
     <div id="actions-footer">
         <a id="menu" class="icon" href="#" onclick="$('#nav-footer').toggle();return false;"><i class="fa-solid fa-bars fa-lg" aria-hidden="true"></i> 菜单</a>
         
           <a id="toc" class="icon" href="#" onclick="$('#toc-footer').toggle();return false;"><i class="fa-solid fa-list fa-lg" aria-hidden="true"></i> 目录</a>
         
-        <a id="share" class="icon" href="#" onclick="$('#share-footer').toggle();return false;"><i class="fa-solid fa-share-alt fa-lg" aria-hidden="true"></i> 分享</a>
         <a id="top" style="display:none" class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fa-solid fa-chevron-up fa-lg" aria-hidden="true"></i> 返回顶部</a>
     </div>
 
@@ -342,6 +348,7 @@
 <!-- Disqus Comments -->
 
 <!-- utterances Comments -->
+
 
 </body>
 </html>

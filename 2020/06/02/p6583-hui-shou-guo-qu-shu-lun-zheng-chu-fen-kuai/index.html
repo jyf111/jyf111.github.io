@@ -6,12 +6,12 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="HandheldFriendly" content="True">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=5" />
-    <meta name="description" content="给定$n&lt;&#x3D;10^{12}$询问$\sum_{x&#x3D;1}^n \sum_{y&#x3D;1}^n \left[ \dfrac{x}{y}\text{是有限小数}\right]$ 做法当真分数$\dfrac {x}{y}$​中分母y为$2^p5^q$的形式时才为有限小数即可以表示成$\dfrac {d*gcd(x, y)}{2^p5^qgcd(x,y)}$考虑枚举分母y，则可">
+    <meta name="description" content="给定$n&lt;&#x3D;10^{12}$ 询问$\sum_{x&#x3D;1}^n \sum_{y&#x3D;1}^n \left[ \dfrac{x}{y}\text{是有限小数}\right]$ ¶做法 当真分数$\dfrac {x}{y}$​中分母y为$2^p5^q$的形式时才为有限小数 即可以表示成$\dfrac {d*gcd(x, y)}{2^p5^qgcd(x,y)}$ 考虑枚举分母y，则可行的x的个数为$\l">
 <meta property="og:type" content="article">
 <meta property="og:title" content="P6583 回首过去 数论+整除分块">
 <meta property="og:url" content="http://example.com/2020/06/02/p6583-hui-shou-guo-qu-shu-lun-zheng-chu-fen-kuai/index.html">
 <meta property="og:site_name" content="jyf111&#39;s blog">
-<meta property="og:description" content="给定$n&lt;&#x3D;10^{12}$询问$\sum_{x&#x3D;1}^n \sum_{y&#x3D;1}^n \left[ \dfrac{x}{y}\text{是有限小数}\right]$ 做法当真分数$\dfrac {x}{y}$​中分母y为$2^p5^q$的形式时才为有限小数即可以表示成$\dfrac {d*gcd(x, y)}{2^p5^qgcd(x,y)}$考虑枚举分母y，则可">
+<meta property="og:description" content="给定$n&lt;&#x3D;10^{12}$ 询问$\sum_{x&#x3D;1}^n \sum_{y&#x3D;1}^n \left[ \dfrac{x}{y}\text{是有限小数}\right]$ ¶做法 当真分数$\dfrac {x}{y}$​中分母y为$2^p5^q$的形式时才为有限小数 即可以表示成$\dfrac {d*gcd(x, y)}{2^p5^qgcd(x,y)}$ 考虑枚举分母y，则可行的x的个数为$\l">
 <meta property="og:locale" content="zh_CN">
 <meta property="article:published_time" content="2020-06-02T05:33:44.000Z">
 <meta property="article:modified_time" content="2023-08-25T03:58:44.405Z">
@@ -66,7 +66,9 @@
 		</script>
 		<script src='https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-MML-AM_CHTML' async></script>
 	
-<meta name="generator" content="Hexo 6.3.0"></head>
+<!-- hexo injector head_end start -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/katex.min.css">
+<!-- hexo injector head_end end --><meta name="generator" content="Hexo 6.3.0"></head>
 
 <body class="max-width mx-auto px3 ltr">
     
@@ -98,30 +100,12 @@
         <li><a class="icon" aria-label="下一篇" href="/2020/05/31/2019icpc-xu-zhou/"><i class="fa-solid fa-chevron-right" aria-hidden="true" onmouseover="$('#i-next').toggle();" onmouseout="$('#i-next').toggle();"></i></a></li>
         
         <li><a class="icon" aria-label="返回顶部" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fa-solid fa-chevron-up" aria-hidden="true" onmouseover="$('#i-top').toggle();" onmouseout="$('#i-top').toggle();"></i></a></li>
-        <li><a class="icon" aria-label="分享文章" href="#"><i class="fa-solid fa-share-alt" aria-hidden="true" onmouseover="$('#i-share').toggle();" onmouseout="$('#i-share').toggle();" onclick="$('#share').toggle();return false;"></i></a></li>
       </ul>
       <span id="i-prev" class="info" style="display:none;">上一篇</span>
       <span id="i-next" class="info" style="display:none;">下一篇</span>
       <span id="i-top" class="info" style="display:none;">返回顶部</span>
-      <span id="i-share" class="info" style="display:none;">分享文章</span>
     </span>
     <br/>
-    <div id="share" style="display: none">
-      <ul>
-  <li><a class="icon" target="_blank" rel="noopener" href="http://www.facebook.com/sharer.php?u=http://example.com/2020/06/02/p6583-hui-shou-guo-qu-shu-lun-zheng-chu-fen-kuai/"><i class="fab fa-facebook " aria-hidden="true"></i></a></li>
-  <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=http://example.com/2020/06/02/p6583-hui-shou-guo-qu-shu-lun-zheng-chu-fen-kuai/&text=P6583 回首过去 数论+整除分块"><i class="fab fa-twitter " aria-hidden="true"></i></a></li>
-  <li><a class="icon" target="_blank" rel="noopener" href="http://www.linkedin.com/shareArticle?url=http://example.com/2020/06/02/p6583-hui-shou-guo-qu-shu-lun-zheng-chu-fen-kuai/&title=P6583 回首过去 数论+整除分块"><i class="fab fa-linkedin " aria-hidden="true"></i></a></li>
-  <li><a class="icon" target="_blank" rel="noopener" href="https://pinterest.com/pin/create/bookmarklet/?url=http://example.com/2020/06/02/p6583-hui-shou-guo-qu-shu-lun-zheng-chu-fen-kuai/&is_video=false&description=P6583 回首过去 数论+整除分块"><i class="fab fa-pinterest " aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="mailto:?subject=P6583 回首过去 数论+整除分块&body=Check out this article: http://example.com/2020/06/02/p6583-hui-shou-guo-qu-shu-lun-zheng-chu-fen-kuai/"><i class="fa-solid fa-envelope " aria-hidden="true"></i></a></li>
-  <li><a class="icon" target="_blank" rel="noopener" href="https://getpocket.com/save?url=http://example.com/2020/06/02/p6583-hui-shou-guo-qu-shu-lun-zheng-chu-fen-kuai/&title=P6583 回首过去 数论+整除分块"><i class="fab fa-get-pocket " aria-hidden="true"></i></a></li>
-  <li><a class="icon" target="_blank" rel="noopener" href="http://reddit.com/submit?url=http://example.com/2020/06/02/p6583-hui-shou-guo-qu-shu-lun-zheng-chu-fen-kuai/&title=P6583 回首过去 数论+整除分块"><i class="fab fa-reddit " aria-hidden="true"></i></a></li>
-  <li><a class="icon" target="_blank" rel="noopener" href="http://www.stumbleupon.com/submit?url=http://example.com/2020/06/02/p6583-hui-shou-guo-qu-shu-lun-zheng-chu-fen-kuai/&title=P6583 回首过去 数论+整除分块"><i class="fab fa-stumbleupon " aria-hidden="true"></i></a></li>
-  <li><a class="icon" target="_blank" rel="noopener" href="http://digg.com/submit?url=http://example.com/2020/06/02/p6583-hui-shou-guo-qu-shu-lun-zheng-chu-fen-kuai/&title=P6583 回首过去 数论+整除分块"><i class="fab fa-digg " aria-hidden="true"></i></a></li>
-  <li><a class="icon" target="_blank" rel="noopener" href="http://www.tumblr.com/share/link?url=http://example.com/2020/06/02/p6583-hui-shou-guo-qu-shu-lun-zheng-chu-fen-kuai/&name=P6583 回首过去 数论+整除分块&description="><i class="fab fa-tumblr " aria-hidden="true"></i></a></li>
-  <li><a class="icon" target="_blank" rel="noopener" href="https://news.ycombinator.com/submitlink?u=http://example.com/2020/06/02/p6583-hui-shou-guo-qu-shu-lun-zheng-chu-fen-kuai/&t=P6583 回首过去 数论+整除分块"><i class="fab fa-hacker-news " aria-hidden="true"></i></a></li>
-</ul>
-
-    </div>
     
     
       <div id="toc">
@@ -183,8 +167,18 @@
   
 
   <div class="content e-content" itemprop="articleBody">
-    <p>给定$n&lt;&#x3D;10^{12}$<br>询问$\sum_{x&#x3D;1}^n \sum_{y&#x3D;1}^n \left[ \dfrac{x}{y}\text{是有限小数}\right]$</p>
-<h3 id="做法"><a href="#做法" class="headerlink" title="做法"></a>做法</h3><p>当真分数$\dfrac {x}{y}$​中分母y为$2^p5^q$的形式时才为有限小数<br>即可以表示成$\dfrac {d*gcd(x, y)}{2^p5^qgcd(x,y)}$<br>考虑枚举分母y，则可行的x的个数为$\left \lfloor \dfrac {n}{\zeta(y)} \right\rfloor$，$\zeta(y)$表示小于等于y的最大的不含2和5的因子的整数，相当于是gcd(x, y)<br>这样是O(n)的，考虑改变枚举顺序<br>枚举$\zeta(y)$，那么答案就是$\sum_{k&#x3D;1}^n [2 \nmid k][5<br>\nmid k] \left \lfloor \dfrac {n}{k} \right \rfloor g(\left \lfloor \dfrac<br>{n}{k} \right \rfloor)$<br>显然可以整除分块，其中g(i)代表小于等于i的且能表示成$2^p5^q$的数的个数（相当于是贡献次数）。<br>然后可以通过容斥计算出区间内不被2和5整除的数的个数。</p>
+    <p>给定$n&lt;=10^{12}$<br>
+询问$\sum_{x=1}^n \sum_{y=1}^n \left[ \dfrac{x}{y}\text{是有限小数}\right]$</p>
+<h3 id="做法"><a class="header-anchor" href="#做法">¶</a>做法</h3>
+<p>当真分数$\dfrac {x}{y}$​中分母y为$2^p5^q$的形式时才为有限小数<br>
+即可以表示成$\dfrac {d*gcd(x, y)}{2^p5^qgcd(x,y)}$<br>
+考虑枚举分母y，则可行的x的个数为$\left \lfloor \dfrac {n}{\zeta(y)} \right\rfloor$，$\zeta(y)$表示小于等于y的最大的不含2和5的因子的整数，相当于是gcd(x, y)<br>
+这样是O(n)的，考虑改变枚举顺序<br>
+枚举$\zeta(y)$，那么答案就是$\sum_{k=1}^n [2 \nmid k][5<br>
+\nmid k] \left \lfloor \dfrac {n}{k} \right \rfloor g(\left \lfloor \dfrac<br>
+{n}{k} \right \rfloor)$<br>
+显然可以整除分块，其中g(i)代表小于等于i的且能表示成$2^p5^q$的数的个数（相当于是贡献次数）。<br>
+然后可以通过容斥计算出区间内不被2和5整除的数的个数。</p>
 <figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;bits/stdc++.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">define</span> mp make_pair</span></span><br><span class="line"><span class="meta">#<span class="keyword">define</span> pb push_back</span></span><br><span class="line"><span class="meta">#<span class="keyword">define</span> sz(x) (int)x.size()</span></span><br><span class="line"><span class="meta">#<span class="keyword">define</span> all(x) begin(x), end(x)</span></span><br><span class="line"><span class="meta">#<span class="keyword">define</span> fi first</span></span><br><span class="line"><span class="meta">#<span class="keyword">define</span> se second</span></span><br><span class="line"><span class="meta">#<span class="keyword">define</span> debug(x) cerr &lt;&lt; #x &lt;&lt; <span class="string">&quot; &quot;</span> &lt;&lt; x &lt;&lt; <span class="string">&#x27;\n&#x27;</span></span></span><br><span class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> std;</span><br><span class="line"><span class="keyword">using</span> ll = <span class="type">long</span> <span class="type">long</span>;</span><br><span class="line"><span class="keyword">using</span> pii = pair&lt;<span class="type">int</span>,<span class="type">int</span>&gt;;</span><br><span class="line"><span class="keyword">using</span> pli = pair&lt;ll,<span class="type">int</span>&gt;;</span><br><span class="line"><span class="type">const</span> <span class="type">int</span> INF = <span class="number">0x3f3f3f3f</span>, N = <span class="number">2e5</span> + <span class="number">5</span>;</span><br><span class="line"><span class="type">const</span> ll LINF = <span class="number">1e18</span> + <span class="number">5</span>;</span><br><span class="line"><span class="keyword">constexpr</span> <span class="type">int</span> mod = <span class="number">1e9</span> + <span class="number">7</span>;</span><br><span class="line">ll n;</span><br><span class="line"><span class="function">ll <span class="title">f</span><span class="params">(ll x)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">  <span class="keyword">return</span> x - x/<span class="number">2</span> - x/<span class="number">5</span> + x/<span class="number">10</span>;</span><br><span class="line">&#125;</span><br><span class="line"><span class="function">ll <span class="title">g</span><span class="params">(ll x)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">  ll ans = <span class="number">0</span>;</span><br><span class="line">  <span class="keyword">for</span>(ll i=<span class="number">1</span>; i&lt;=x; i*=<span class="number">2</span>)</span><br><span class="line">  &#123;</span><br><span class="line">    <span class="keyword">for</span>(ll j=<span class="number">1</span>; j&lt;=x; j*=<span class="number">5</span>)</span><br><span class="line">    &#123;</span><br><span class="line">      <span class="keyword">if</span>(i*j&gt;x) <span class="keyword">break</span>;</span><br><span class="line">      ans++;</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="keyword">return</span> ans;</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="type">int</span> <span class="title">main</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">  <span class="built_in">scanf</span>(<span class="string">&quot;%lld&quot;</span>, &amp;n);</span><br><span class="line">  ll ans = <span class="number">0</span>;</span><br><span class="line">  <span class="keyword">for</span>(ll l=<span class="number">1</span>,r; l&lt;=n; l=r+<span class="number">1</span>)</span><br><span class="line">  &#123;</span><br><span class="line">    r = <span class="built_in">min</span>(n, n/(n/l));</span><br><span class="line">    ans += (<span class="built_in">f</span>(r) - <span class="built_in">f</span>(l<span class="number">-1</span>))*(n/l)*<span class="built_in">g</span>(n/l);</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="built_in">printf</span>(<span class="string">&quot;%lld\n&quot;</span>, ans);</span><br><span class="line">  <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
   </div>
 </article>
@@ -216,29 +210,11 @@
       </div>
     
 
-    <div id="share-footer" style="display: none">
-      <ul>
-  <li><a class="icon" target="_blank" rel="noopener" href="http://www.facebook.com/sharer.php?u=http://example.com/2020/06/02/p6583-hui-shou-guo-qu-shu-lun-zheng-chu-fen-kuai/"><i class="fab fa-facebook fa-lg" aria-hidden="true"></i></a></li>
-  <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=http://example.com/2020/06/02/p6583-hui-shou-guo-qu-shu-lun-zheng-chu-fen-kuai/&text=P6583 回首过去 数论+整除分块"><i class="fab fa-twitter fa-lg" aria-hidden="true"></i></a></li>
-  <li><a class="icon" target="_blank" rel="noopener" href="http://www.linkedin.com/shareArticle?url=http://example.com/2020/06/02/p6583-hui-shou-guo-qu-shu-lun-zheng-chu-fen-kuai/&title=P6583 回首过去 数论+整除分块"><i class="fab fa-linkedin fa-lg" aria-hidden="true"></i></a></li>
-  <li><a class="icon" target="_blank" rel="noopener" href="https://pinterest.com/pin/create/bookmarklet/?url=http://example.com/2020/06/02/p6583-hui-shou-guo-qu-shu-lun-zheng-chu-fen-kuai/&is_video=false&description=P6583 回首过去 数论+整除分块"><i class="fab fa-pinterest fa-lg" aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="mailto:?subject=P6583 回首过去 数论+整除分块&body=Check out this article: http://example.com/2020/06/02/p6583-hui-shou-guo-qu-shu-lun-zheng-chu-fen-kuai/"><i class="fa-solid fa-envelope fa-lg" aria-hidden="true"></i></a></li>
-  <li><a class="icon" target="_blank" rel="noopener" href="https://getpocket.com/save?url=http://example.com/2020/06/02/p6583-hui-shou-guo-qu-shu-lun-zheng-chu-fen-kuai/&title=P6583 回首过去 数论+整除分块"><i class="fab fa-get-pocket fa-lg" aria-hidden="true"></i></a></li>
-  <li><a class="icon" target="_blank" rel="noopener" href="http://reddit.com/submit?url=http://example.com/2020/06/02/p6583-hui-shou-guo-qu-shu-lun-zheng-chu-fen-kuai/&title=P6583 回首过去 数论+整除分块"><i class="fab fa-reddit fa-lg" aria-hidden="true"></i></a></li>
-  <li><a class="icon" target="_blank" rel="noopener" href="http://www.stumbleupon.com/submit?url=http://example.com/2020/06/02/p6583-hui-shou-guo-qu-shu-lun-zheng-chu-fen-kuai/&title=P6583 回首过去 数论+整除分块"><i class="fab fa-stumbleupon fa-lg" aria-hidden="true"></i></a></li>
-  <li><a class="icon" target="_blank" rel="noopener" href="http://digg.com/submit?url=http://example.com/2020/06/02/p6583-hui-shou-guo-qu-shu-lun-zheng-chu-fen-kuai/&title=P6583 回首过去 数论+整除分块"><i class="fab fa-digg fa-lg" aria-hidden="true"></i></a></li>
-  <li><a class="icon" target="_blank" rel="noopener" href="http://www.tumblr.com/share/link?url=http://example.com/2020/06/02/p6583-hui-shou-guo-qu-shu-lun-zheng-chu-fen-kuai/&name=P6583 回首过去 数论+整除分块&description="><i class="fab fa-tumblr fa-lg" aria-hidden="true"></i></a></li>
-  <li><a class="icon" target="_blank" rel="noopener" href="https://news.ycombinator.com/submitlink?u=http://example.com/2020/06/02/p6583-hui-shou-guo-qu-shu-lun-zheng-chu-fen-kuai/&t=P6583 回首过去 数论+整除分块"><i class="fab fa-hacker-news fa-lg" aria-hidden="true"></i></a></li>
-</ul>
-
-    </div>
-
     <div id="actions-footer">
         <a id="menu" class="icon" href="#" onclick="$('#nav-footer').toggle();return false;"><i class="fa-solid fa-bars fa-lg" aria-hidden="true"></i> 菜单</a>
         
           <a id="toc" class="icon" href="#" onclick="$('#toc-footer').toggle();return false;"><i class="fa-solid fa-list fa-lg" aria-hidden="true"></i> 目录</a>
         
-        <a id="share" class="icon" href="#" onclick="$('#share-footer').toggle();return false;"><i class="fa-solid fa-share-alt fa-lg" aria-hidden="true"></i> 分享</a>
         <a id="top" style="display:none" class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fa-solid fa-chevron-up fa-lg" aria-hidden="true"></i> 返回顶部</a>
     </div>
 
@@ -323,6 +299,7 @@
 <!-- Disqus Comments -->
 
 <!-- utterances Comments -->
+
 
 </body>
 </html>
