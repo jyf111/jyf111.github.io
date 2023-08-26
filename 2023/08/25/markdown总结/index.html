@@ -8,14 +8,14 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=5" />
     <meta name="description" content="¶基本语法 ¶n 级标题 123# 一级标题## 二级标题 ¶粗体 1**粗体文本** 粗体文本 ¶斜体 1*斜体文本* 斜体文本 ¶引用 12&gt; 引用&gt; 文本  引用 文本   建议每一行引用都使用符号&gt;。  ¶无序列表 12- 无序文本- 无序文本  无序文本 无序文本  ¶有序列表 121. 有序文本2. 有序文本  有序文本 有序文本   如果列表项有换行，则建议给无序列">
 <meta property="og:type" content="article">
-<meta property="og:title" content="markdown总结">
+<meta property="og:title" content="markdown 总结">
 <meta property="og:url" content="http://example.com/2023/08/25/markdown%E6%80%BB%E7%BB%93/index.html">
 <meta property="og:site_name" content="jyf111&#39;s blog">
 <meta property="og:description" content="¶基本语法 ¶n 级标题 123# 一级标题## 二级标题 ¶粗体 1**粗体文本** 粗体文本 ¶斜体 1*斜体文本* 斜体文本 ¶引用 12&gt; 引用&gt; 文本  引用 文本   建议每一行引用都使用符号&gt;。  ¶无序列表 12- 无序文本- 无序文本  无序文本 无序文本  ¶有序列表 121. 有序文本2. 有序文本  有序文本 有序文本   如果列表项有换行，则建议给无序列">
 <meta property="og:locale" content="zh_CN">
 <meta property="og:image" content="http://example.com/post-images/markdown-cheat.png">
 <meta property="article:published_time" content="2023-08-24T16:01:08.000Z">
-<meta property="article:modified_time" content="2023-08-26T05:51:44.326Z">
+<meta property="article:modified_time" content="2023-08-26T09:01:08.557Z">
 <meta property="article:author" content="jyf111">
 <meta property="article:tag" content="工具">
 <meta name="twitter:card" content="summary">
@@ -39,7 +39,7 @@
       
     
     <!-- title -->
-    <title>markdown总结</title>
+    <title>markdown 总结</title>
     <!-- async scripts -->
     <!-- Google Analytics -->
 
@@ -68,9 +68,7 @@
 		</script>
 		<script src='https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-MML-AM_CHTML' async></script>
 	
-<!-- hexo injector head_end start -->
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/katex.min.css">
-<!-- hexo injector head_end end --><meta name="generator" content="Hexo 6.3.0"></head>
+<meta name="generator" content="Hexo 6.3.0"></head>
 
 <body class="max-width mx-auto px3 ltr">
     
@@ -124,7 +122,7 @@
   <header>
     
     <h1 class="posttitle p-name" itemprop="name headline">
-        markdown总结
+        markdown 总结
     </h1>
 
 
@@ -138,7 +136,7 @@
       
         <time datetime="2023-08-24T16:01:08.000Z" class="dt-published" itemprop="datePublished">2023-08-25</time>
         
-        (Updated: <time datetime="2023-08-26T05:51:44.326Z" class="dt-updated" itemprop="dateModified">2023-08-26</time>)
+        (Updated: <time datetime="2023-08-26T09:01:08.557Z" class="dt-updated" itemprop="dateModified">2023-08-26</time>)
         
       
     </div>
@@ -159,7 +157,7 @@
             <i class="fa-solid fa-hourglass"></i>
             
             
-                9 mins to read
+                10 mins to read
             
             </span>
         
@@ -220,7 +218,7 @@
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&lt;www.example.com&gt;</span><br></pre></td></tr></table></figure>
 <p>&lt;<a target="_blank" rel="noopener" href="http://www.example.com">www.example.com</a>&gt;</p>
 <h2 id="扩展语法"><a class="header-anchor" href="#扩展语法">¶</a>扩展语法</h2>
-<p>只介绍 Github 风格的 Markdown（GFM），尽量保持兼容性。</p>
+<p>只介绍 Github 偏好的 Markdown（GFM），尽量保持兼容性。</p>
 <h3 id="自动链接"><a class="header-anchor" href="#自动链接">¶</a>自动链接</h3>
 <p><a target="_blank" rel="noopener" href="http://www.example.com">www.example.com</a></p>
 <p>禁用自动链接：</p>
@@ -304,10 +302,10 @@
 <figure class="highlight markdown"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">+++ <span class="strong">**点击查看**</span></span><br><span class="line">隐藏内容。</span><br><span class="line"></span><br><span class="line"><span class="code">```python</span></span><br><span class="line"><span class="code">def expand():</span></span><br><span class="line"><span class="code">  return &quot;exapndable&quot;</span></span><br><span class="line"><span class="code">\```</span></span><br><span class="line"></span><br><span class="line">+++</span><br></pre></td></tr></table></figure>
 <details>
 <summary><span class="details-marker">&nbsp;</span><strong>点击查看</strong></summary><p>隐藏内容。</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">def</span> <span class="title function_">expand</span>():</span><br><span class="line">  <span class="keyword">return</span> <span class="string">&quot;exapndable&quot;</span></span><br></pre></td></tr></table></figure>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">def</span> <span class="title function_">expand</span>():</span><br><span class="line">  <span class="keyword">return</span> <span class="string">&quot;expandable&quot;</span></span><br></pre></td></tr></table></figure>
 </details>
 <h3 id="数学公式"><a class="header-anchor" href="#数学公式">¶</a>数学公式</h3>
-<figure class="highlight latex"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">$</span>a = b + c * d - e<span class="built_in">_</span>0 * f<span class="built_in">$</span></span><br><span class="line"></span><br><span class="line"><span class="built_in">$</span><span class="built_in">$</span><span class="keyword">\frac</span>&#123;<span class="keyword">\partial</span> u&#125;&#123;<span class="keyword">\partial</span> t&#125;</span><br><span class="line">= h<span class="built_in">^</span>2 <span class="keyword">\left</span>( <span class="keyword">\frac</span>&#123;<span class="keyword">\partial</span><span class="built_in">^</span>2 u&#125;&#123;<span class="keyword">\partial</span> x<span class="built_in">^</span>2&#125; +</span><br><span class="line"><span class="keyword">\frac</span>&#123;<span class="keyword">\partial</span><span class="built_in">^</span>2 u&#125;&#123;<span class="keyword">\partial</span> y<span class="built_in">^</span>2&#125; +</span><br><span class="line"><span class="keyword">\frac</span>&#123;<span class="keyword">\partial</span><span class="built_in">^</span>2 u&#125;&#123;<span class="keyword">\partial</span> z<span class="built_in">^</span>2&#125;<span class="keyword">\right</span>)<span class="built_in">$</span><span class="built_in">$</span></span><br><span class="line"></span><br><span class="line"><span class="built_in">$</span><span class="built_in">$</span></span><br><span class="line"><span class="keyword">\left</span>[</span><br><span class="line">    <span class="keyword">\begin</span>&#123;array&#125;&#123;cc|c&#125;</span><br><span class="line">      1<span class="built_in">&amp;</span>2<span class="built_in">&amp;</span>3<span class="keyword">\newline</span></span><br><span class="line">      4<span class="built_in">&amp;</span>5<span class="built_in">&amp;</span>6</span><br><span class="line">    <span class="keyword">\end</span>&#123;array&#125;</span><br><span class="line"><span class="keyword">\right</span>]</span><br><span class="line"><span class="built_in">$</span><span class="built_in">$</span></span><br></pre></td></tr></table></figure>
+<figure class="highlight latex"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">$</span>a = b + c * d - e<span class="built_in">_</span>0 * f<span class="built_in">$</span></span><br><span class="line"></span><br><span class="line"><span class="built_in">$</span><span class="built_in">$</span><span class="keyword">\frac</span>&#123;<span class="keyword">\partial</span> u&#125;&#123;<span class="keyword">\partial</span> t&#125;</span><br><span class="line">= h<span class="built_in">^</span>2 <span class="keyword">\left</span>( <span class="keyword">\frac</span>&#123;<span class="keyword">\partial</span><span class="built_in">^</span>2 u&#125;&#123;<span class="keyword">\partial</span> x<span class="built_in">^</span>2&#125; +</span><br><span class="line"><span class="keyword">\frac</span>&#123;<span class="keyword">\partial</span><span class="built_in">^</span>2 u&#125;&#123;<span class="keyword">\partial</span> y<span class="built_in">^</span>2&#125; +</span><br><span class="line"><span class="keyword">\frac</span>&#123;<span class="keyword">\partial</span><span class="built_in">^</span>2 u&#125;&#123;<span class="keyword">\partial</span> z<span class="built_in">^</span>2&#125;<span class="keyword">\right</span>)<span class="built_in">$</span><span class="built_in">$</span></span><br><span class="line"></span><br><span class="line"><span class="built_in">$</span><span class="built_in">$</span></span><br><span class="line"><span class="keyword">\left</span>[</span><br><span class="line">    <span class="keyword">\begin</span>&#123;array&#125;&#123;cc|c&#125;</span><br><span class="line">      1<span class="built_in">&amp;</span>2<span class="built_in">&amp;</span>3<span class="keyword">\newline</span></span><br><span class="line">      4<span class="built_in">&amp;</span>5<span class="built_in">&amp;</span>6</span><br><span class="line">    <span class="keyword">\end</span>&#123;array&#125;</span><br><span class="line"><span class="keyword">\right</span>]</span><br><span class="line"><span class="built_in">$</span><span class="built_in">$</span></span><br><span class="line"></span><br><span class="line"><span class="built_in">$</span><span class="built_in">$</span></span><br><span class="line"><span class="keyword">\begin</span>&#123;eqnarray&#125;</span><br><span class="line"><span class="keyword">\nabla</span><span class="keyword">\cdot</span><span class="keyword">\vec</span>&#123;E&#125; <span class="built_in">&amp;</span>=<span class="built_in">&amp;</span> <span class="keyword">\frac</span>&#123;<span class="keyword">\rho</span>&#125;&#123;<span class="keyword">\epsilon</span><span class="built_in">_</span>0&#125; <span class="keyword">\\</span></span><br><span class="line"><span class="keyword">\nabla</span><span class="keyword">\cdot</span><span class="keyword">\vec</span>&#123;B&#125; <span class="built_in">&amp;</span>=<span class="built_in">&amp;</span> 0 <span class="keyword">\\</span></span><br><span class="line"><span class="keyword">\nabla</span><span class="keyword">\times</span><span class="keyword">\vec</span>&#123;E&#125; <span class="built_in">&amp;</span>=<span class="built_in">&amp;</span> -<span class="keyword">\frac</span>&#123;<span class="keyword">\partial</span> B&#125;&#123;<span class="keyword">\partial</span> t&#125; <span class="keyword">\\</span></span><br><span class="line"><span class="keyword">\nabla</span><span class="keyword">\times</span><span class="keyword">\vec</span>&#123;B&#125; <span class="built_in">&amp;</span>=<span class="built_in">&amp;</span> <span class="keyword">\mu</span><span class="built_in">_</span>0<span class="keyword">\left</span>(<span class="keyword">\vec</span>&#123;J&#125;+<span class="keyword">\epsilon</span><span class="built_in">_</span>0<span class="keyword">\frac</span>&#123;<span class="keyword">\partial</span> E&#125;&#123;<span class="keyword">\partial</span> t&#125; <span class="keyword">\right</span>)</span><br><span class="line"><span class="keyword">\end</span>&#123;eqnarray&#125;</span><br><span class="line"><span class="built_in">$</span><span class="built_in">$</span></span><br></pre></td></tr></table></figure>
 <p>$a = b + c * d - e_0 * f$</p>
 <p>$$\frac{\partial u}{\partial t}<br>
 = h^2 \left( \frac{\partial^2 u}{\partial x^2} +<br>
@@ -320,6 +318,14 @@
 4&amp;5&amp;6<br>
 \end{array}<br>
 \right]<br>
+$$</p>
+<p>$$<br>
+\begin{eqnarray}<br>
+\nabla\cdot\vec{E} &amp;=&amp; \frac{\rho}{\epsilon_0} \<br>
+\nabla\cdot\vec{B} &amp;=&amp; 0 \<br>
+\nabla\times\vec{E} &amp;=&amp; -\frac{\partial B}{\partial t} \<br>
+\nabla\times\vec{B} &amp;=&amp; \mu_0\left(\vec{J}+\epsilon_0\frac{\partial E}{\partial t} \right)<br>
+\end{eqnarray}<br>
 $$</p>
 <h2 id="排版-Tips"><a class="header-anchor" href="#排版-Tips">¶</a>排版 Tips</h2>
 <ol>
