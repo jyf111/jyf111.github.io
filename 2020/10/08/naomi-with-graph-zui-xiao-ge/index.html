@@ -68,6 +68,9 @@
 		</script>
 		<script src='https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-MML-AM_CHTML' async></script>
 	
+
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/ui@4.0/dist/fancybox.css" />
+
 <meta name="generator" content="Hexo 6.3.0"></head>
 
 <body class="max-width mx-auto px3 ltr">
@@ -171,7 +174,8 @@ $dist_1 = 0$<br>
 $dist_i \not = 0, i \not= 1$<br>
 $|dist_i-dist_j| \leq 1,(i,j) \in E$</p>
 <p>考虑对每个点拆成n-1个点，S和第一个点相连，第i个点和第i+1个点相连，第n-1个点和T相连，边权即为$(a_i-j)^2$，由于$dist_1=0$，所以直接让1拆出的第一个点和S不连边，最后再加上$a_i^2$​的贡献。再考虑第三个限制，如果i和j有边，就让i拆出的第x个点向j拆出的第x-1个点连边，j同理。这样如果割掉i点拆出的x和x+1之间的边，就表示$dist_i=x$，并且此时对于和i有边的j，必须割掉x-1和x或者x和x+1或者x+1和x+2这三条边之一。所以这样建图再跑最小割即可。<br>
-<img src="/post-images/1602154040898.jpg" alt=""></p>
+<a data-fancybox="gallery" data-src="/post-images/1602154040898.jpg" data-caption=""><img src="/post-images/1602154040898.jpg" alt="">
+</a></p>
 
   </div>
 </article>
@@ -286,6 +290,10 @@ $|dist_i-dist_j| \leq 1,(i,j) \in E$</p>
 <!-- Disqus Comments -->
 
 <!-- utterances Comments -->
+
+<!-- FancyBox -->
+
+<script src="https://cdn.jsdelivr.net/npm/@fancyapps/ui@4.0/dist/fancybox.umd.js"></script>
 
 
 </body>

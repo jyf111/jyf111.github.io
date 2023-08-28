@@ -6,17 +6,21 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="HandheldFriendly" content="True">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=5" />
-    <meta name="description" content="## 温故而知新">
+    <meta name="description" content="¶Neovim配置 ¶安装 Ubuntu apt安装的版本较旧，所以选择自行安装0.9.1版本。 123456curl -LO https:&#x2F;&#x2F;github.com&#x2F;neovim&#x2F;neovim&#x2F;releases&#x2F;download&#x2F;v0.9.1&#x2F;nvim.appimagechmod u+x nvim.appimage.&#x2F;nvim.appimage --appimage-extract.&#x2F;squash">
 <meta property="og:type" content="article">
 <meta property="og:title" content="vim 总结">
 <meta property="og:url" content="http://example.com/2023/08/25/vim%E6%80%BB%E7%BB%93/index.html">
 <meta property="og:site_name" content="jyf111&#39;s blog">
-<meta property="og:description" content="## 温故而知新">
+<meta property="og:description" content="¶Neovim配置 ¶安装 Ubuntu apt安装的版本较旧，所以选择自行安装0.9.1版本。 123456curl -LO https:&#x2F;&#x2F;github.com&#x2F;neovim&#x2F;neovim&#x2F;releases&#x2F;download&#x2F;v0.9.1&#x2F;nvim.appimagechmod u+x nvim.appimage.&#x2F;nvim.appimage --appimage-extract.&#x2F;squash">
 <meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="http://example.com/post-images/nvim-dash.png">
+<meta property="og:image" content="http://example.com/post-images/nvim-startup.png">
+<meta property="og:image" content="http://example.com/post-images/nvim-cpp.png">
 <meta property="article:published_time" content="2023-08-25T07:41:25.000Z">
-<meta property="article:modified_time" content="2023-08-26T09:01:32.098Z">
+<meta property="article:modified_time" content="2023-08-28T11:31:38.103Z">
 <meta property="article:author" content="jyf111">
 <meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://example.com/post-images/nvim-dash.png">
     
     
       
@@ -65,6 +69,9 @@
 		</script>
 		<script src='https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-MML-AM_CHTML' async></script>
 	
+
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/ui@4.0/dist/fancybox.css" />
+
 <meta name="generator" content="Hexo 6.3.0"></head>
 
 <body class="max-width mx-auto px3 ltr">
@@ -105,6 +112,10 @@
     <br/>
     
     
+      <div id="toc">
+        <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#Neovim%E9%85%8D%E7%BD%AE"><span class="toc-number">1.</span> <span class="toc-text">Neovim配置</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%AE%89%E8%A3%85"><span class="toc-number">1.1.</span> <span class="toc-text">安装</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%8D%B8%E8%BD%BD"><span class="toc-number">1.2.</span> <span class="toc-text">卸载</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E9%85%8D%E7%BD%AE"><span class="toc-number">1.3.</span> <span class="toc-text">配置</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E8%B5%B7%E7%82%B9"><span class="toc-number">1.3.1.</span> <span class="toc-text">起点</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%8F%92%E4%BB%B6%E7%AE%A1%E7%90%86"><span class="toc-number">1.3.2.</span> <span class="toc-text">插件管理</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E7%94%A8%E6%88%B7%E7%95%8C%E9%9D%A2"><span class="toc-number">1.3.3.</span> <span class="toc-text">用户界面</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#%E4%B8%BB%E9%A2%98"><span class="toc-number">1.3.3.1.</span> <span class="toc-text">主题</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#%E9%9D%A2%E6%9D%BF"><span class="toc-number">1.3.3.2.</span> <span class="toc-text">面板</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#%E7%AA%97%E5%8F%A3%E6%B5%8F%E8%A7%88"><span class="toc-number">1.3.3.3.</span> <span class="toc-text">窗口浏览</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#Buffer-line"><span class="toc-number">1.3.3.4.</span> <span class="toc-text">Buffer line</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#%E5%B9%B3%E6%BB%91%E6%BB%9A%E5%8A%A8"><span class="toc-number">1.3.3.5.</span> <span class="toc-text">平滑滚动</span></a></li></ol></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%B7%A5%E5%85%B7"><span class="toc-number">1.3.4.</span> <span class="toc-text">工具</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#%E5%A4%87%E5%BF%98%E5%8D%95"><span class="toc-number">1.3.4.1.</span> <span class="toc-text">备忘单</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#%E6%96%87%E4%BB%B6%E6%A0%91"><span class="toc-number">1.3.4.2.</span> <span class="toc-text">文件树</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#%E6%96%87%E4%BB%B6%E6%9F%A5%E6%89%BE"><span class="toc-number">1.3.4.3.</span> <span class="toc-text">文件查找</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#%E7%BB%88%E7%AB%AF"><span class="toc-number">1.3.4.4.</span> <span class="toc-text">终端</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#%E9%97%AE%E9%A2%98%E5%88%97%E8%A1%A8"><span class="toc-number">1.3.4.5.</span> <span class="toc-text">问题列表</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#%E8%A1%8C%E8%B7%B3%E8%BD%AC"><span class="toc-number">1.3.4.6.</span> <span class="toc-text">行跳转</span></a></li></ol></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E7%BC%96%E8%BE%91"><span class="toc-number">1.3.5.</span> <span class="toc-text">编辑</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#%E6%B3%A8%E9%87%8A"><span class="toc-number">1.3.5.1.</span> <span class="toc-text">注释</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#%E9%AB%98%E4%BA%AE"><span class="toc-number">1.3.5.2.</span> <span class="toc-text">高亮</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#todo-%E9%AB%98%E4%BA%AE"><span class="toc-number">1.3.5.3.</span> <span class="toc-text">todo 高亮</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#%E5%BF%AB%E9%80%9F%E8%B7%B3%E8%BD%AC"><span class="toc-number">1.3.5.4.</span> <span class="toc-text">快速跳转</span></a></li></ol></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E8%AF%AD%E8%A8%80"><span class="toc-number">1.3.6.</span> <span class="toc-text">语言</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#LSP"><span class="toc-number">1.3.6.1.</span> <span class="toc-text">LSP</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#markdown"><span class="toc-number">1.3.6.2.</span> <span class="toc-text">markdown</span></a></li></ol></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%88%AA%E5%9B%BE%E5%B1%95%E7%A4%BA"><span class="toc-number">1.4.</span> <span class="toc-text">截图展示</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%B8%B8%E7%94%A8%E9%94%AE"><span class="toc-number">2.</span> <span class="toc-text">常用键</span></a></li></ol>
+      </div>
+    
   </span>
 </div>
 
@@ -129,7 +140,7 @@
       
         <time datetime="2023-08-25T07:41:25.000Z" class="dt-published" itemprop="datePublished">2023-08-25</time>
         
-        (Updated: <time datetime="2023-08-26T09:01:32.098Z" class="dt-updated" itemprop="dateModified">2023-08-26</time>)
+        (Updated: <time datetime="2023-08-28T11:31:38.103Z" class="dt-updated" itemprop="dateModified">2023-08-28</time>)
         
       
     </div>
@@ -145,7 +156,7 @@
             <i class="fa-solid fa-hourglass"></i>
             
             
-                1 min to read
+                15 mins to read
             
             </span>
         
@@ -155,7 +166,200 @@
   
 
   <div class="content e-content" itemprop="articleBody">
-    
+    <h2 id="Neovim配置"><a class="header-anchor" href="#Neovim配置">¶</a>Neovim配置</h2>
+<h3 id="安装"><a class="header-anchor" href="#安装">¶</a>安装</h3>
+<p>Ubuntu apt安装的版本较旧，所以选择自行安装0.9.1版本。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">curl -LO https://github.com/neovim/neovim/releases/download/v0.9.1/nvim.appimage</span><br><span class="line"><span class="built_in">chmod</span> u+x nvim.appimage</span><br><span class="line">./nvim.appimage --appimage-extract</span><br><span class="line">./squashfs-root/AppRun --version</span><br><span class="line">sudo <span class="built_in">mv</span> squashfs-root /</span><br><span class="line">sudo <span class="built_in">ln</span> -s /squashfs-root/AppRun /usr/bin/nvim</span><br></pre></td></tr></table></figure>
+<h3 id="卸载"><a class="header-anchor" href="#卸载">¶</a>卸载</h3>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">sudo <span class="built_in">rm</span> /usr/local/bin/nvim</span><br><span class="line">sudo <span class="built_in">rm</span> -rf /usr/local/share/nvim/</span><br><span class="line"><span class="comment"># 移除配置</span></span><br><span class="line"><span class="built_in">rm</span> -rf <span class="variable">$HOME</span>/.config/nvim</span><br><span class="line"><span class="built_in">rm</span> -rf <span class="variable">$HOME</span>/.local/share/nvim</span><br></pre></td></tr></table></figure>
+<h3 id="配置"><a class="header-anchor" href="#配置">¶</a>配置</h3>
+<h4 id="起点"><a class="header-anchor" href="#起点">¶</a>起点</h4>
+<p>选择<code>NvChad</code>作为配置的起点。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">git <span class="built_in">clone</span> https://github.com/NvChad/NvChad ~/.config/nvim --depth 1 &amp;&amp; nvim</span><br><span class="line"><span class="comment"># 输入N，不采用示例配置</span></span><br></pre></td></tr></table></figure>
+<p>在<code>custom/init.lua</code>中设置<code>vim.g.mapleader = &quot;,&quot;</code>，将<code>&lt;leader&gt;</code>设置为逗号。</p>
+<p>插件配置参考<a target="_blank" rel="noopener" href="https://github.com/ayamir/nvimdots">ayamir/nvimdots</a>、<a target="_blank" rel="noopener" href="https://www.lazyvim.org/">lazyvim</a>和<a target="_blank" rel="noopener" href="https://github.com/BrunoKrugel/dotfiles">BrunoKrugel/dotfiles</a>。</p>
+<p>下面只介绍涉及到快捷键或者命令的插件，作为备忘。</p>
+<h4 id="插件管理"><a class="header-anchor" href="#插件管理">¶</a>插件管理</h4>
+<p>使用<code>folke/lazy.nvim</code>。</p>
+<ul>
+<li>打开Lazy面板：<code>:Lazy</code></li>
+</ul>
+<h4 id="用户界面"><a class="header-anchor" href="#用户界面">¶</a>用户界面</h4>
+<h5 id="主题"><a class="header-anchor" href="#主题">¶</a>主题</h5>
+<p>使用<code>NvChad</code>自带的<code>base46</code>。</p>
+<ul>
+<li>选择主题：<code>&lt;leader&gt;th</code></li>
+</ul>
+<p>选用<code>catppuccin</code>，并设置<code>transparency=true</code>（可选）。</p>
+<h5 id="面板"><a class="header-anchor" href="#面板">¶</a>面板</h5>
+<p>使用<code>NvChad</code>自带的<code>NvDash</code>，设置<code>load_on_startup=true</code>（可选）。</p>
+<h5 id="窗口浏览"><a class="header-anchor" href="#窗口浏览">¶</a>窗口浏览</h5>
+<ul>
+<li>向下切分：<code>:sp</code></li>
+<li>向右切分：<code>:vsp</code></li>
+<li>上下左右移动：<code>&lt;C-h/j/k/l&gt;</code></li>
+<li>关闭当前窗口：<code>:q</code></li>
+</ul>
+<h5 id="Buffer-line"><a class="header-anchor" href="#Buffer-line">¶</a>Buffer line</h5>
+<p>使用<code>NvChad</code>自带的<code>tabufline</code>。</p>
+<ul>
+<li>下一个Buffer：<code>&lt;Tab&gt;</code></li>
+<li>上一个Buffer：<code>&lt;S-Tab&gt;</code></li>
+<li>关闭当前Buffer：<code>&lt;leader&gt;x</code></li>
+</ul>
+<h5 id="平滑滚动"><a class="header-anchor" href="#平滑滚动">¶</a>平滑滚动</h5>
+<figure class="highlight lua"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">  <span class="string">&quot;karb94/neoscroll.nvim&quot;</span>,</span><br><span class="line">  keys = &#123; <span class="string">&quot;&lt;C-d&gt;&quot;</span>, <span class="string">&quot;&lt;C-u&gt;&quot;</span>, <span class="string">&quot;&lt;C-b&gt;&quot;</span>, <span class="string">&quot;&lt;C-f&gt;&quot;</span>, <span class="string">&quot;zt&quot;</span>, <span class="string">&quot;zz&quot;</span>, <span class="string">&quot;zb&quot;</span> &#125;,</span><br><span class="line">  <span class="built_in">config</span> = <span class="function"><span class="keyword">function</span><span class="params">()</span></span></span><br><span class="line">    <span class="built_in">require</span> (<span class="string">&quot;neoscroll&quot;</span>).setup &#123; mappings = &#123;</span><br><span class="line">      <span class="string">&quot;&lt;C-u&gt;&quot;</span>,</span><br><span class="line">      <span class="string">&quot;&lt;C-d&gt;&quot;</span>,</span><br><span class="line">      <span class="string">&quot;&lt;C-b&gt;&quot;</span>,</span><br><span class="line">      <span class="string">&quot;&lt;C-f&gt;&quot;</span>,</span><br><span class="line">      <span class="string">&quot;zt&quot;</span>,</span><br><span class="line">      <span class="string">&quot;zz&quot;</span>,</span><br><span class="line">      <span class="string">&quot;zb&quot;</span>,</span><br><span class="line">    &#125;&#125;</span><br><span class="line">  <span class="keyword">end</span>,</span><br><span class="line">&#125;,</span><br></pre></td></tr></table></figure>
+<ul>
+<li>向上滚动半页：<code>&lt;C-u&gt;</code></li>
+<li>向下滚动半页：<code>&lt;C-d&gt;</code></li>
+<li>向上滚动一页：<code>&lt;C-b&gt;</code></li>
+<li>向下滚动一页：<code>&lt;C-f&gt;</code></li>
+<li>将当前行置于顶部：<code>zt</code></li>
+<li>将当前行置于中央：<code>zz</code></li>
+<li>将当前行置于底部：<code>zb</code></li>
+</ul>
+<h4 id="工具"><a class="header-anchor" href="#工具">¶</a>工具</h4>
+<h5 id="备忘单"><a class="header-anchor" href="#备忘单">¶</a>备忘单</h5>
+<ul>
+<li><code>NvCheatSheet</code>: <code>&lt;leader&gt;ch</code></li>
+</ul>
+<h5 id="文件树"><a class="header-anchor" href="#文件树">¶</a>文件树</h5>
+<p>插件：<code>nvim-tree/nvim-tree.lua</code></p>
+<p><code>:h nvim-tree-mappings-default</code></p>
+<ul>
+<li><code>:NvimTreeToggle</code>: <code>&lt;C-n&gt;</code></li>
+<li><code>:NvimTreeFocus</code>: <code>&lt;leader&gt;e</code></li>
+<li>上下移动：<code>j</code>/<code>k</code></li>
+<li>进入文件夹/打开文件：<code>&lt;CR&gt;</code></li>
+<li>关闭文件夹：<code>&lt;BS&gt;</code></li>
+<li>预览：<code>&lt;Tab&gt;</code></li>
+<li>退出：<code>q</code></li>
+<li>创建文件：<code>a</code></li>
+<li>删除文件：<code>d</code></li>
+<li>重命名文件：<code>r</code></li>
+<li>标记：<code>m</code></li>
+<li>复制文件：<code>c</code></li>
+<li>粘贴文件：<code>p</code></li>
+<li>剪切文件：<code>x</code></li>
+<li>搜索：<code>S</code></li>
+</ul>
+<h5 id="文件查找"><a class="header-anchor" href="#文件查找">¶</a>文件查找</h5>
+<p>插件：<code>nvim-telescope/telescope.nvim</code></p>
+<ul>
+<li>查找文件：<code>&lt;leader&gt;ff</code></li>
+<li>查找文件中的内容：<code>&lt;leader&gt;fw</code></li>
+<li>查找打开的Buffer中的文件：<code>&lt;leader&gt;fb</code></li>
+<li>查找所有文件：<code>&lt;leader&gt;fa</code></li>
+<li>查找git commit：<code>&lt;leader&gt;cm</code></li>
+<li>查找git status：<code>&lt;leader&gt;gt</code></li>
+<li>查找帮助文件：<code>&lt;leader&gt;fh</code></li>
+<li>查找主题：<code>&lt;leader&gt;th</code></li>
+<li>上下移动：<code>&lt;Up&gt;</code>/<code>&lt;Down&gt;</code>或在Normal模式下<code>j</code>/<code>k</code></li>
+<li>选择：<code>&lt;CR&gt;</code></li>
+<li>在预览窗口上下移动：<code>&lt;C-u&gt;</code>/<code>&lt;C-d&gt;</code></li>
+<li><code>?</code>：打开快捷键面板</li>
+</ul>
+<h5 id="终端"><a class="header-anchor" href="#终端">¶</a>终端</h5>
+<p>使用<code>NvChad</code>自带的<code>Nvterm</code>。</p>
+<ul>
+<li>在下方打开/关闭一个终端：<code>&lt;A-h&gt;</code></li>
+<li>在右方打开/关闭一个终端：<code>&lt;A-v&gt;</code></li>
+<li>打开/关闭一个浮动终端：<code>&lt;A-i&gt;</code></li>
+</ul>
+<h5 id="问题列表"><a class="header-anchor" href="#问题列表">¶</a>问题列表</h5>
+<figure class="highlight lua"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">  <span class="string">&quot;folke/trouble.nvim&quot;</span>,</span><br><span class="line">  cmd = &#123; <span class="string">&quot;TroubleToggle&quot;</span>, <span class="string">&quot;Trouble&quot;</span> &#125;,</span><br><span class="line">  opts = overrides.trouble,</span><br><span class="line">&#125;,</span><br></pre></td></tr></table></figure>
+<ul>
+<li>切换列表：<code>TroubleToggle</code> <code>&lt;leader&gt;tt</code></li>
+</ul>
+<h5 id="行跳转"><a class="header-anchor" href="#行跳转">¶</a>行跳转</h5>
+<figure class="highlight lua"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">  <span class="string">&quot;nacro90/numb.nvim&quot;</span>,</span><br><span class="line">  event = <span class="string">&quot;CmdlineEnter&quot;</span>,</span><br><span class="line">  <span class="built_in">config</span> = <span class="function"><span class="keyword">function</span><span class="params">()</span></span></span><br><span class="line">    <span class="built_in">require</span>(<span class="string">&quot;custom.configs.numb&quot;</span>)</span><br><span class="line">  <span class="keyword">end</span>,</span><br><span class="line">&#125;,</span><br></pre></td></tr></table></figure>
+<ul>
+<li>跳转到某行：<code>:&lt;number&gt;</code>，该插件可以提供实时预览功能</li>
+</ul>
+<h4 id="编辑"><a class="header-anchor" href="#编辑">¶</a>编辑</h4>
+<h5 id="注释"><a class="header-anchor" href="#注释">¶</a>注释</h5>
+<p>插件：<code>numToStr/Comment.nvim</code></p>
+<ul>
+<li>切换当前行注释：<code>gcc</code></li>
+<li>切换行注释：<code>gc</code></li>
+<li>切换块注释：<code>gb</code></li>
+</ul>
+<h5 id="高亮"><a class="header-anchor" href="#高亮">¶</a>高亮</h5>
+<p>插件：<code>nvim-treesitter/nvim-treesitter</code></p>
+<ul>
+<li>查看所有语言安装情况：<code>:TSInstallInfo</code></li>
+<li>更新：<code>TSUpdateSync</code></li>
+<li>安装：<code>TSInstall lang</code></li>
+<li>卸载：<code>TSUninstall lang</code></li>
+<li>增量选择功能：
+<ul>
+<li>扩大选择：<code>&lt;CR&gt;</code></li>
+<li>缩小选择：<code>&lt;BS&gt;</code></li>
+</ul>
+</li>
+</ul>
+<h5 id="todo-高亮"><a class="header-anchor" href="#todo-高亮">¶</a>todo 高亮</h5>
+<p>插件：<code>folke/todo-comments.nvim</code></p>
+<figure class="highlight lua"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">  <span class="string">&quot;folke/todo-comments.nvim&quot;</span>,</span><br><span class="line">  cmd = &#123; <span class="string">&quot;TodoTrouble&quot;</span>, <span class="string">&quot;TodoTelescope&quot;</span> &#125;,</span><br><span class="line">  event = &#123; <span class="string">&quot;BufReadPost&quot;</span>, <span class="string">&quot;BufNewFile&quot;</span> &#125;,</span><br><span class="line">  <span class="built_in">config</span> = <span class="literal">true</span>,</span><br><span class="line">&#125;,</span><br></pre></td></tr></table></figure>
+<ul>
+<li>TODO:</li>
+<li>PERF:</li>
+<li>NOTE:</li>
+<li>FIX:</li>
+<li>WARN:</li>
+<li>TEST</li>
+</ul>
+<hr>
+<ul>
+<li>列出所有todos：<code>:TodoTrouble</code> <code>&lt;leader&gt;td</code></li>
+<li>查找todos：<code>:TodoTelescope</code> <code>&lt;leader&gt;ts</code></li>
+</ul>
+<h5 id="快速跳转"><a class="header-anchor" href="#快速跳转">¶</a>快速跳转</h5>
+<figure class="highlight lua"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">  <span class="string">&quot;folke/flash.nvim&quot;</span>,</span><br><span class="line">  event = <span class="string">&quot;VeryLazy&quot;</span>,</span><br><span class="line">  <span class="comment">---@type Flash.Config</span></span><br><span class="line">  opts = &#123;&#125;,</span><br><span class="line">  <span class="comment">-- stylua: ignore</span></span><br><span class="line">  keys = &#123;</span><br><span class="line">    &#123; <span class="string">&quot;s&quot;</span>, mode = &#123; <span class="string">&quot;n&quot;</span>, <span class="string">&quot;x&quot;</span>, <span class="string">&quot;o&quot;</span> &#125;, <span class="function"><span class="keyword">function</span><span class="params">()</span></span> <span class="built_in">require</span>(<span class="string">&quot;flash&quot;</span>).jump() <span class="keyword">end</span>, desc = <span class="string">&quot;Flash&quot;</span> &#125;,</span><br><span class="line">    &#123; <span class="string">&quot;S&quot;</span>, mode = &#123; <span class="string">&quot;n&quot;</span>, <span class="string">&quot;o&quot;</span>, <span class="string">&quot;x&quot;</span> &#125;, <span class="function"><span class="keyword">function</span><span class="params">()</span></span> <span class="built_in">require</span>(<span class="string">&quot;flash&quot;</span>).treesitter() <span class="keyword">end</span>, desc = <span class="string">&quot;Flash Treesitter&quot;</span> &#125;,</span><br><span class="line">    &#123; <span class="string">&quot;r&quot;</span>, mode = <span class="string">&quot;o&quot;</span>, <span class="function"><span class="keyword">function</span><span class="params">()</span></span> <span class="built_in">require</span>(<span class="string">&quot;flash&quot;</span>).remote() <span class="keyword">end</span>, desc = <span class="string">&quot;Remote Flash&quot;</span> &#125;,</span><br><span class="line">    &#123; <span class="string">&quot;R&quot;</span>, mode = &#123; <span class="string">&quot;o&quot;</span>, <span class="string">&quot;x&quot;</span> &#125;, <span class="function"><span class="keyword">function</span><span class="params">()</span></span> <span class="built_in">require</span>(<span class="string">&quot;flash&quot;</span>).treesitter_search() <span class="keyword">end</span>, desc = <span class="string">&quot;Treesitter Search&quot;</span> &#125;,</span><br><span class="line">    &#123; <span class="string">&quot;&lt;c-s&gt;&quot;</span>, mode = &#123; <span class="string">&quot;c&quot;</span> &#125;, <span class="function"><span class="keyword">function</span><span class="params">()</span></span> <span class="built_in">require</span>(<span class="string">&quot;flash&quot;</span>).toggle() <span class="keyword">end</span>, desc = <span class="string">&quot;Toggle Flash Search&quot;</span> &#125;,</span><br><span class="line">  &#125;,</span><br><span class="line">&#125;,</span><br></pre></td></tr></table></figure>
+<p>根据位置提示快速跳转。</p>
+<ul>
+<li>集成到了搜索 (<code>/</code>)中</li>
+<li>按<code>s</code>/<code>S</code>（<code>s</code>是全局，<code>S</code>是treesitter中的所有父节点），然后输入任意前缀</li>
+</ul>
+<h4 id="语言"><a class="header-anchor" href="#语言">¶</a>语言</h4>
+<h5 id="LSP"><a class="header-anchor" href="#LSP">¶</a>LSP</h5>
+<p>插件：<code>neovim/nvim-lspconfig</code>（配置）、<code>williamboman/mason.nvim</code>（安装管理）、<code>williamboman/mason-lspconfig.nvim</code></p>
+<ul>
+<li>查看LSP状态：<code>:LspInfo</code></li>
+<li>重启LSP：<code>:LspRestart</code></li>
+<li>启动LSP：<code>:LspStart</code></li>
+<li>停止LSP：<code>:LspStop</code></li>
+<li>打开Mason面板：<code>:Mason</code></li>
+<li>Mason安装：<code>:MasonInstall &lt;package&gt;</code> <code>:MasonUninstall</code></li>
+<li>Mason卸载：<code>:MasonUninstall &lt;package&gt;</code> <code>:MasonUninstall</code></li>
+<li>Mason更新：<code>:MasonUpdate</code></li>
+<li>Mason日志：<code>:MasonLog</code></li>
+</ul>
+<p>Lsp快捷键：</p>
+<ul>
+<li>code action: <code>&lt;leader&gt;ca</code></li>
+<li>hover：<code>K</code></li>
+<li>查看引用：<code>gr</code></li>
+<li>查看定义：<code>gd</code></li>
+<li>查看实现：<code>gi</code></li>
+<li>查看声明：<code>gD</code></li>
+<li>签名：<code>&lt;leader&gt;ls</code></li>
+</ul>
+<h5 id="markdown"><a class="header-anchor" href="#markdown">¶</a>markdown</h5>
+<figure class="highlight lua"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">  <span class="string">&quot;iamcco/markdown-preview.nvim&quot;</span>,</span><br><span class="line">  lazy = <span class="literal">true</span>,</span><br><span class="line">  ft = <span class="string">&quot;markdown&quot;</span>,</span><br><span class="line">  build = <span class="string">&quot;:call mkdp#util#install()&quot;</span>,</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<ul>
+<li><code>:MarkdownPreview</code></li>
+<li><code>:MarkdownPreviewStop</code></li>
+</ul>
+<h3 id="截图展示"><a class="header-anchor" href="#截图展示">¶</a>截图展示</h3>
+<p><a data-fancybox="gallery" data-src="/post-images/nvim-dash.png" data-caption="nvim dashboard"><img src="/post-images/nvim-dash.png" alt="nvim dashboard">
+</a></p>
+<p><a data-fancybox="gallery" data-src="/post-images/nvim-startup.png" data-caption="nvim startup time"><img src="/post-images/nvim-startup.png" alt="nvim startup time">
+</a></p>
+<p><a data-fancybox="gallery" data-src="/post-images/nvim-cpp.png" data-caption="nvim cpp file"><img src="/post-images/nvim-cpp.png" alt="nvim cpp file">
+</a></p>
+<h2 id="常用键"><a class="header-anchor" href="#常用键">¶</a>常用键</h2>
+
   </div>
 </article>
 
@@ -181,9 +385,15 @@
 
     
     
+      <div id="toc-footer" style="display: none">
+        <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#Neovim%E9%85%8D%E7%BD%AE"><span class="toc-number">1.</span> <span class="toc-text">Neovim配置</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%AE%89%E8%A3%85"><span class="toc-number">1.1.</span> <span class="toc-text">安装</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%8D%B8%E8%BD%BD"><span class="toc-number">1.2.</span> <span class="toc-text">卸载</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E9%85%8D%E7%BD%AE"><span class="toc-number">1.3.</span> <span class="toc-text">配置</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E8%B5%B7%E7%82%B9"><span class="toc-number">1.3.1.</span> <span class="toc-text">起点</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%8F%92%E4%BB%B6%E7%AE%A1%E7%90%86"><span class="toc-number">1.3.2.</span> <span class="toc-text">插件管理</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E7%94%A8%E6%88%B7%E7%95%8C%E9%9D%A2"><span class="toc-number">1.3.3.</span> <span class="toc-text">用户界面</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#%E4%B8%BB%E9%A2%98"><span class="toc-number">1.3.3.1.</span> <span class="toc-text">主题</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#%E9%9D%A2%E6%9D%BF"><span class="toc-number">1.3.3.2.</span> <span class="toc-text">面板</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#%E7%AA%97%E5%8F%A3%E6%B5%8F%E8%A7%88"><span class="toc-number">1.3.3.3.</span> <span class="toc-text">窗口浏览</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#Buffer-line"><span class="toc-number">1.3.3.4.</span> <span class="toc-text">Buffer line</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#%E5%B9%B3%E6%BB%91%E6%BB%9A%E5%8A%A8"><span class="toc-number">1.3.3.5.</span> <span class="toc-text">平滑滚动</span></a></li></ol></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%B7%A5%E5%85%B7"><span class="toc-number">1.3.4.</span> <span class="toc-text">工具</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#%E5%A4%87%E5%BF%98%E5%8D%95"><span class="toc-number">1.3.4.1.</span> <span class="toc-text">备忘单</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#%E6%96%87%E4%BB%B6%E6%A0%91"><span class="toc-number">1.3.4.2.</span> <span class="toc-text">文件树</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#%E6%96%87%E4%BB%B6%E6%9F%A5%E6%89%BE"><span class="toc-number">1.3.4.3.</span> <span class="toc-text">文件查找</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#%E7%BB%88%E7%AB%AF"><span class="toc-number">1.3.4.4.</span> <span class="toc-text">终端</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#%E9%97%AE%E9%A2%98%E5%88%97%E8%A1%A8"><span class="toc-number">1.3.4.5.</span> <span class="toc-text">问题列表</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#%E8%A1%8C%E8%B7%B3%E8%BD%AC"><span class="toc-number">1.3.4.6.</span> <span class="toc-text">行跳转</span></a></li></ol></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E7%BC%96%E8%BE%91"><span class="toc-number">1.3.5.</span> <span class="toc-text">编辑</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#%E6%B3%A8%E9%87%8A"><span class="toc-number">1.3.5.1.</span> <span class="toc-text">注释</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#%E9%AB%98%E4%BA%AE"><span class="toc-number">1.3.5.2.</span> <span class="toc-text">高亮</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#todo-%E9%AB%98%E4%BA%AE"><span class="toc-number">1.3.5.3.</span> <span class="toc-text">todo 高亮</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#%E5%BF%AB%E9%80%9F%E8%B7%B3%E8%BD%AC"><span class="toc-number">1.3.5.4.</span> <span class="toc-text">快速跳转</span></a></li></ol></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E8%AF%AD%E8%A8%80"><span class="toc-number">1.3.6.</span> <span class="toc-text">语言</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#LSP"><span class="toc-number">1.3.6.1.</span> <span class="toc-text">LSP</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#markdown"><span class="toc-number">1.3.6.2.</span> <span class="toc-text">markdown</span></a></li></ol></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%88%AA%E5%9B%BE%E5%B1%95%E7%A4%BA"><span class="toc-number">1.4.</span> <span class="toc-text">截图展示</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%B8%B8%E7%94%A8%E9%94%AE"><span class="toc-number">2.</span> <span class="toc-text">常用键</span></a></li></ol>
+      </div>
+    
 
     <div id="actions-footer">
         <a id="menu" class="icon" href="#" onclick="$('#nav-footer').toggle();return false;"><i class="fa-solid fa-bars fa-lg" aria-hidden="true"></i> 菜单</a>
+        
+          <a id="toc" class="icon" href="#" onclick="$('#toc-footer').toggle();return false;"><i class="fa-solid fa-list fa-lg" aria-hidden="true"></i> 目录</a>
         
         <a id="top" style="display:none" class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fa-solid fa-chevron-up fa-lg" aria-hidden="true"></i> 返回顶部</a>
     </div>
@@ -269,6 +479,10 @@
 <!-- Disqus Comments -->
 
 <!-- utterances Comments -->
+
+<!-- FancyBox -->
+
+<script src="https://cdn.jsdelivr.net/npm/@fancyapps/ui@4.0/dist/fancybox.umd.js"></script>
 
 
 </body>

@@ -70,6 +70,9 @@
 		</script>
 		<script src='https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-MML-AM_CHTML' async></script>
 	
+
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/ui@4.0/dist/fancybox.css" />
+
 <meta name="generator" content="Hexo 6.3.0"></head>
 
 <body class="max-width mx-auto px3 ltr">
@@ -176,10 +179,13 @@ arm的debian虚拟机上的g++将arm文件汇编、链接后转成可执行文�
 看了一下debian9有g++6，debian10有g++8。我一开始以为要把整个系统都升级，结果大半夜跑了2个小时还没完，等不了就ctrl+c了，然后发现虚拟机坏了，gg。<br>
 第二天重下了虚拟机，重新来过。尝试了一下直接装debian10的g++到debian8上。具体做法就是在镜像源里加了buster，（8的别名是jessie，9的别名是stretch，10的别名是buster）。然后apt-<br>
 get update，apt-get install g++，它会自动帮你把各种依赖都安装升级。<br>
-<img src="/post-images/1624337438397.png" alt=""><br>
+<a data-fancybox="gallery" data-src="/post-images/1624337438397.png" data-caption=""><img src="/post-images/1624337438397.png" alt="">
+</a><br>
 然后就能愉快的跑了<br>
-<img src="/post-images/1624337477434.png" alt=""><br>
-<img src="/post-images/1624337482828.png" alt=""><br>
+<a data-fancybox="gallery" data-src="/post-images/1624337477434.png" data-caption=""><img src="/post-images/1624337477434.png" alt="">
+</a><br>
+<a data-fancybox="gallery" data-src="/post-images/1624337482828.png" data-caption=""><img src="/post-images/1624337482828.png" alt="">
+</a><br>
 最后记得apt-get autoremove清理下旧版本</p>
 
   </div>
@@ -295,6 +301,10 @@ get update，apt-get install g++，它会自动帮你把各种依赖都安装升
 <!-- Disqus Comments -->
 
 <!-- utterances Comments -->
+
+<!-- FancyBox -->
+
+<script src="https://cdn.jsdelivr.net/npm/@fancyapps/ui@4.0/dist/fancybox.umd.js"></script>
 
 
 </body>

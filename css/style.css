@@ -1634,7 +1634,7 @@ code {
   box-sizing: border-box;
   color: #3c70c6;
   margin: 0 2px 0 2px;
-  padding: 0 2px 0 2px;
+  background-color: #f5f5f5;
 }
 .highlight {
   overflow-x: auto;
