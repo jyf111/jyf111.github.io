@@ -6,12 +6,12 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="HandheldFriendly" content="True">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=5" />
-    <meta name="description" content="$b_k &#x3D; \sum_{i \mid k} a_i$ 求数组b 考虑下标i和j,对其质因数分解,当且仅当i的所有质因数的幂次&lt;&#x3D;j的,i才是j的因数,可以有贡献 发现这个实际上就是一个关于质因子分解后的指数的高维前缀和，使用类似FMT的方法就可以了 复杂度$O(n\log \log n)$ 123for(int i&#x3D;1; i&lt;&#x3D;prime[0]; i++)  for(int j&#x3D;1;">
+    <meta name="description" content="$b_k &#x3D; \sum_{i \mid k} a_i$求数组b考虑下标i和j,对其质因数分解,当且仅当i的所有质因数的幂次&lt;&#x3D;j的,i才是j的因数,可以有贡献发现这个实际上就是一个关于质因子分解后的指数的高维前缀和，使用类似FMT的方法就可以了复杂度$O(n\log \log n)$ 123for(int i&#x3D;1; i&lt;&#x3D;prime[0]; i++)  for(int j&#x3D;1; 1ll">
 <meta property="og:type" content="article">
 <meta property="og:title" content="P5495 Dirichlet 前缀和">
 <meta property="og:url" content="http://example.com/2020/05/15/p5495-dirichlet-qian-zhui-he/index.html">
 <meta property="og:site_name" content="jyf111&#39;s blog">
-<meta property="og:description" content="$b_k &#x3D; \sum_{i \mid k} a_i$ 求数组b 考虑下标i和j,对其质因数分解,当且仅当i的所有质因数的幂次&lt;&#x3D;j的,i才是j的因数,可以有贡献 发现这个实际上就是一个关于质因子分解后的指数的高维前缀和，使用类似FMT的方法就可以了 复杂度$O(n\log \log n)$ 123for(int i&#x3D;1; i&lt;&#x3D;prime[0]; i++)  for(int j&#x3D;1;">
+<meta property="og:description" content="$b_k &#x3D; \sum_{i \mid k} a_i$求数组b考虑下标i和j,对其质因数分解,当且仅当i的所有质因数的幂次&lt;&#x3D;j的,i才是j的因数,可以有贡献发现这个实际上就是一个关于质因子分解后的指数的高维前缀和，使用类似FMT的方法就可以了复杂度$O(n\log \log n)$ 123for(int i&#x3D;1; i&lt;&#x3D;prime[0]; i++)  for(int j&#x3D;1; 1ll">
 <meta property="og:locale" content="zh_CN">
 <meta property="article:published_time" content="2020-05-15T05:33:44.000Z">
 <meta property="article:modified_time" content="2023-08-24T13:20:28.164Z">
@@ -164,11 +164,7 @@
   
 
   <div class="content e-content" itemprop="articleBody">
-    <p>$b_k = \sum_{i \mid k} a_i$<br>
-求数组b<br>
-考虑下标i和j,对其质因数分解,当且仅当i的所有质因数的幂次&lt;=j的,i才是j的因数,可以有贡献<br>
-发现这个实际上就是一个关于质因子分解后的指数的高维前缀和，使用类似FMT的方法就可以了<br>
-复杂度$O(n\log \log n)$</p>
+    <p>$b_k = \sum_{i \mid k} a_i$求数组b考虑下标i和j,对其质因数分解,当且仅当i的所有质因数的幂次&lt;=j的,i才是j的因数,可以有贡献发现这个实际上就是一个关于质因子分解后的指数的高维前缀和，使用类似FMT的方法就可以了复杂度$O(n\log \log n)$</p>
 <figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">for</span>(<span class="type">int</span> i=<span class="number">1</span>; i&lt;=prime[<span class="number">0</span>]; i++)</span><br><span class="line">  <span class="keyword">for</span>(<span class="type">int</span> j=<span class="number">1</span>; <span class="number">1ll</span>*j*prime[i]&lt;=n; j++)</span><br><span class="line">    b[j*prime[i]] += b[j];</span><br></pre></td></tr></table></figure>
 
   </div>

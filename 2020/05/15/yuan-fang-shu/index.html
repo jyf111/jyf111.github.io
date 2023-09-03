@@ -6,12 +6,12 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="HandheldFriendly" content="True">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=5" />
-    <meta name="description" content="¶概念 点双联通分量:不存在割点&#x2F;任意两点间有至少两条点不重复路径 特殊:两个点一条边 每条边属于一个点双,每个割点可以属于多个点双 圆方树中原图的每个点对应一个圆点,一个点双对应一个方点 对于每一个点双连通分量，它对应的方点向这个点双连通分量中的每个圆点连边 每个点双形成一个“菊花图”，多个“菊花图”通过原图中的割点连接在一起(因为点双的分隔点是割点) ¶性质 圆点只和方点相连,方点只和圆点相连">
+    <meta name="description" content="¶概念 点双联通分量:不存在割点&#x2F;任意两点间有至少两条点不重复路径特殊:两个点一条边每条边属于一个点双,每个割点可以属于多个点双圆方树中原图的每个点对应一个圆点,一个点双对应一个方点对于每一个点双连通分量，它对应的方点向这个点双连通分量中的每个圆点连边每个点双形成一个“菊花图”，多个“菊花图”通过原图中的割点连接在一起(因为点双的分隔点是割点) ¶性质 圆点只和方点相连,方点只和圆点相连度数大于1">
 <meta property="og:type" content="article">
 <meta property="og:title" content="圆方树">
 <meta property="og:url" content="http://example.com/2020/05/15/yuan-fang-shu/index.html">
 <meta property="og:site_name" content="jyf111&#39;s blog">
-<meta property="og:description" content="¶概念 点双联通分量:不存在割点&#x2F;任意两点间有至少两条点不重复路径 特殊:两个点一条边 每条边属于一个点双,每个割点可以属于多个点双 圆方树中原图的每个点对应一个圆点,一个点双对应一个方点 对于每一个点双连通分量，它对应的方点向这个点双连通分量中的每个圆点连边 每个点双形成一个“菊花图”，多个“菊花图”通过原图中的割点连接在一起(因为点双的分隔点是割点) ¶性质 圆点只和方点相连,方点只和圆点相连">
+<meta property="og:description" content="¶概念 点双联通分量:不存在割点&#x2F;任意两点间有至少两条点不重复路径特殊:两个点一条边每条边属于一个点双,每个割点可以属于多个点双圆方树中原图的每个点对应一个圆点,一个点双对应一个方点对于每一个点双连通分量，它对应的方点向这个点双连通分量中的每个圆点连边每个点双形成一个“菊花图”，多个“菊花图”通过原图中的割点连接在一起(因为点双的分隔点是割点) ¶性质 圆点只和方点相连,方点只和圆点相连度数大于1">
 <meta property="og:locale" content="zh_CN">
 <meta property="article:published_time" content="2020-05-15T05:33:44.000Z">
 <meta property="article:modified_time" content="2023-08-24T13:20:41.214Z">
@@ -169,19 +169,11 @@
 
   <div class="content e-content" itemprop="articleBody">
     <h2 id="概念"><a class="header-anchor" href="#概念">¶</a>概念</h2>
-<p>点双联通分量:不存在割点/任意两点间有至少两条点不重复路径<br>
-特殊:两个点一条边<br>
-每条边属于一个点双,每个割点可以属于多个点双<br>
-圆方树中原图的每个点对应一个圆点,一个点双对应一个方点<br>
-对于每一个点双连通分量，它对应的方点向这个点双连通分量中的每个圆点连边<br>
-每个点双形成一个“菊花图”，多个“菊花图”通过原图中的割点连接在一起(因为点双的分隔点是割点)</p>
+<p>点双联通分量:不存在割点/任意两点间有至少两条点不重复路径特殊:两个点一条边每条边属于一个点双,每个割点可以属于多个点双圆方树中原图的每个点对应一个圆点,一个点双对应一个方点对于每一个点双连通分量，它对应的方点向这个点双连通分量中的每个圆点连边每个点双形成一个“菊花图”，多个“菊花图”通过原图中的割点连接在一起(因为点双的分隔点是割点)</p>
 <h2 id="性质"><a class="header-anchor" href="#性质">¶</a>性质</h2>
-<p>圆点只和方点相连,方点只和圆点相连<br>
-度数大于1的圆点是原图的割点<br>
-圆方树是无根树,无论取哪个点为根开始dfs见树,形态都一样</p>
+<p>圆点只和方点相连,方点只和圆点相连度数大于1的圆点是原图的割点圆方树是无根树,无论取哪个点为根开始dfs见树,形态都一样</p>
 <h2 id="建树"><a class="header-anchor" href="#建树">¶</a>建树</h2>
-<p>注意两倍空间<br>
-建完树栈中可能还有点,注意多组数据清空</p>
+<p>注意两倍空间建完树栈中可能还有点,注意多组数据清空</p>
 <figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line">vector&lt;<span class="type">int</span>&gt; G[N], T[N&lt;&lt;<span class="number">1</span>];</span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">tarjan</span><span class="params">(<span class="type">int</span> u, <span class="type">int</span> fa)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">  low[u] = dfn[u] = ++clk;</span><br><span class="line">  stk[++top] = u;</span><br><span class="line">  <span class="keyword">for</span>(<span class="type">int</span> v : G[u])</span><br><span class="line">  &#123;</span><br><span class="line">    <span class="keyword">if</span>(!dfn[v])</span><br><span class="line">    &#123;</span><br><span class="line">      <span class="built_in">tarjan</span>(v, u);</span><br><span class="line">      low[u] = <span class="built_in">min</span>(low[u], low[v]);</span><br><span class="line">      <span class="keyword">if</span>(low[v]&gt;=dfn[u])</span><br><span class="line">      &#123;</span><br><span class="line">        ++cnt;</span><br><span class="line">        <span class="keyword">for</span>(<span class="type">int</span> x=<span class="number">0</span>; x!=v; top--)</span><br><span class="line">        &#123;</span><br><span class="line">          x = stk[top];</span><br><span class="line">          T[cnt].<span class="built_in">pb</span>(x);</span><br><span class="line">          T[x].<span class="built_in">pb</span>(cnt);</span><br><span class="line">        &#125;</span><br><span class="line">        T[cnt].<span class="built_in">pb</span>(u);</span><br><span class="line">        T[u].<span class="built_in">pb</span>(cnt);</span><br><span class="line">      &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">else</span> <span class="keyword">if</span>(v!=fa) low[u] = <span class="built_in">min</span>(low[u], dfn[v]);</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
   </div>
 </article>

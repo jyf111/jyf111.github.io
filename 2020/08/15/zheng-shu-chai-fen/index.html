@@ -6,12 +6,12 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="HandheldFriendly" content="True">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=5" />
-    <meta name="description" content="¶不能相等 将正整数n划分成不能相等的若干个正整数的和的方案数 由于不能相等，所以划分成的数字个数不超过$\sqrt n$​ 设$f_{i,j}$​表示将i划分成j个不同数字的和的方案数 $f_{i,j} &#x3D; f_{i-j,j} + f_{i-j,j-1}$​ $O(n\sqrt n)$ 1234567891011121314151617#include &lt;bits&#x2F;stdc++.h&gt;">
+    <meta name="description" content="¶不能相等 将正整数n划分成不能相等的若干个正整数的和的方案数由于不能相等，所以划分成的数字个数不超过$\sqrt n$​设$f_{i,j}$​表示将i划分成j个不同数字的和的方案数$f_{i,j} &#x3D; f_{i-j,j} + f_{i-j,j-1}$​$O(n\sqrt n)$ 1234567891011121314151617#include &lt;bits&#x2F;stdc++.h&gt;usin">
 <meta property="og:type" content="article">
 <meta property="og:title" content="整数拆分">
 <meta property="og:url" content="http://example.com/2020/08/15/zheng-shu-chai-fen/index.html">
 <meta property="og:site_name" content="jyf111&#39;s blog">
-<meta property="og:description" content="¶不能相等 将正整数n划分成不能相等的若干个正整数的和的方案数 由于不能相等，所以划分成的数字个数不超过$\sqrt n$​ 设$f_{i,j}$​表示将i划分成j个不同数字的和的方案数 $f_{i,j} &#x3D; f_{i-j,j} + f_{i-j,j-1}$​ $O(n\sqrt n)$ 1234567891011121314151617#include &lt;bits&#x2F;stdc++.h&gt;">
+<meta property="og:description" content="¶不能相等 将正整数n划分成不能相等的若干个正整数的和的方案数由于不能相等，所以划分成的数字个数不超过$\sqrt n$​设$f_{i,j}$​表示将i划分成j个不同数字的和的方案数$f_{i,j} &#x3D; f_{i-j,j} + f_{i-j,j-1}$​$O(n\sqrt n)$ 1234567891011121314151617#include &lt;bits&#x2F;stdc++.h&gt;usin">
 <meta property="og:locale" content="zh_CN">
 <meta property="article:published_time" content="2020-08-15T05:33:43.000Z">
 <meta property="article:modified_time" content="2023-08-25T04:30:38.984Z">
@@ -158,7 +158,7 @@
             <i class="fa-solid fa-hourglass"></i>
             
             
-                3 mins to read
+                2 mins to read
             
             </span>
         
@@ -169,49 +169,20 @@
 
   <div class="content e-content" itemprop="articleBody">
     <h2 id="不能相等"><a class="header-anchor" href="#不能相等">¶</a>不能相等</h2>
-<p>将正整数n划分成不能相等的若干个正整数的和的方案数<br>
-由于不能相等，所以划分成的数字个数不超过$\sqrt n$​<br>
-设$f_{i,j}$​表示将i划分成j个不同数字的和的方案数<br>
-$f_{i,j} = f_{i-j,j} + f_{i-j,j-1}$​<br>
-$O(n\sqrt n)$</p>
+<p>将正整数n划分成不能相等的若干个正整数的和的方案数由于不能相等，所以划分成的数字个数不超过$\sqrt n$​设$f_{i,j}$​表示将i划分成j个不同数字的和的方案数$f_{i,j} = f_{i-j,j} + f_{i-j,j-1}$​$O(n\sqrt n)$</p>
 <figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;bits/stdc++.h&gt;</span></span></span><br><span class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> std;</span><br><span class="line"><span class="type">const</span> <span class="type">int</span> N = <span class="number">5e4</span> + <span class="number">5</span>, B = <span class="number">350</span>, mod = <span class="number">1e9</span> + <span class="number">7</span>;</span><br><span class="line"><span class="type">int</span> n, f[N][B];</span><br><span class="line"><span class="function"><span class="keyword">inline</span> <span class="type">int</span> <span class="title">add</span><span class="params">(<span class="type">int</span> x, <span class="type">int</span> y)</span> </span>&#123; <span class="keyword">return</span> (x+y&gt;=mod) ? x+y-mod : x+y; &#125;</span><br><span class="line"><span class="function"><span class="type">int</span> <span class="title">main</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">  <span class="built_in">scanf</span>(<span class="string">&quot;%d&quot;</span>, &amp;n);</span><br><span class="line">  f[<span class="number">0</span>][<span class="number">0</span>] = <span class="number">1</span>;</span><br><span class="line">  <span class="keyword">for</span>(<span class="type">int</span> i=<span class="number">1</span>; i&lt;=n; i++)</span><br><span class="line">    <span class="keyword">for</span>(<span class="type">int</span> j=<span class="number">1</span>; j&lt;=i &amp;&amp; j&lt;B; j++)</span><br><span class="line">      f[i][j] = <span class="built_in">add</span>(f[i-j][j], f[i-j][j<span class="number">-1</span>]);</span><br><span class="line">  <span class="type">int</span> ans = <span class="number">0</span>;</span><br><span class="line">  <span class="keyword">for</span>(<span class="type">int</span> j=<span class="number">1</span>; j&lt;B; j++) ans = <span class="built_in">add</span>(ans, f[n][j]);</span><br><span class="line">  <span class="built_in">printf</span>(<span class="string">&quot;%d\n&quot;</span>, ans);</span><br><span class="line">  <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <h2 id="能相等"><a class="header-anchor" href="#能相等">¶</a>能相等</h2>
-<p>将正整数n划分成若干正整数的和的方案数<br>
-设定阈值$B=\sqrt n$<br>
-对于&lt;B的部分，直接做完全背包<br>
-对于&gt;=B的部分，选择的数字个数不超过B<br>
-设$f_{i,j}$​表示将i划分成j个不同数字的和的方案数<br>
-$f_{i,j} = f_{i-B,j-1} + f_{i-j,j}$<br>
-$O(n\sqrt n)O$ 但只能解决单次询问</p>
+<p>将正整数n划分成若干正整数的和的方案数设定阈值$B=\sqrt n$对于&lt;B的部分，直接做完全背包对于&gt;=B的部分，选择的数字个数不超过B设$f_{i,j}$​表示将i划分成j个不同数字的和的方案数$f_{i,j} = f_{i-B,j-1} + f_{i-j,j}$$O(n\sqrt n)O$ 但只能解决单次询问</p>
 <figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;bits/stdc++.h&gt;</span></span></span><br><span class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> std;</span><br><span class="line"><span class="type">const</span> <span class="type">int</span> N = <span class="number">5e4</span> + <span class="number">5</span>, B = <span class="number">350</span>, mod = <span class="number">1e9</span> + <span class="number">7</span>;</span><br><span class="line"><span class="type">int</span> n, f0[N], f1[N], f[N][B];</span><br><span class="line"><span class="function"><span class="keyword">inline</span> <span class="type">int</span> <span class="title">Mul</span><span class="params">(<span class="type">int</span> a, <span class="type">int</span> b)</span> </span>&#123; <span class="keyword">return</span> <span class="number">1ll</span>*a*b%mod; &#125;</span><br><span class="line"><span class="function"><span class="keyword">inline</span> <span class="type">void</span> <span class="title">add</span><span class="params">(<span class="type">int</span> &amp;a, <span class="type">int</span> b)</span> </span>&#123; a+=b; <span class="keyword">if</span>(a&gt;=mod) a-=mod; &#125;</span><br><span class="line"><span class="function"><span class="keyword">inline</span> <span class="type">int</span> <span class="title">Add</span><span class="params">(<span class="type">int</span> a, <span class="type">int</span> b)</span> </span>&#123; <span class="keyword">return</span> (a+b&gt;=mod) ? a+b-mod : a+b; &#125;</span><br><span class="line"><span class="function"><span class="type">int</span> <span class="title">main</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">  <span class="built_in">scanf</span>(<span class="string">&quot;%d&quot;</span>, &amp;n);</span><br><span class="line">  f0[<span class="number">0</span>] = f1[<span class="number">0</span>] = <span class="number">1</span>;</span><br><span class="line">  <span class="keyword">for</span>(<span class="type">int</span> j=<span class="number">1</span>; j&lt;B &amp;&amp; j&lt;=n; j++)</span><br><span class="line">    <span class="keyword">for</span>(<span class="type">int</span> i=j; i&lt;=n; i++)</span><br><span class="line">      f0[i] = <span class="built_in">Add</span>(f0[i], f0[i-j]);</span><br><span class="line">  f[<span class="number">0</span>][<span class="number">0</span>] = <span class="number">1</span>;</span><br><span class="line">  <span class="keyword">for</span>(<span class="type">int</span> i=B; i&lt;=n; i++)</span><br><span class="line">    <span class="keyword">for</span>(<span class="type">int</span> j=<span class="number">1</span>; j&lt;=B; j++)</span><br><span class="line">    &#123;</span><br><span class="line">      f[i][j] = <span class="built_in">Add</span>(f[i-B][j<span class="number">-1</span>], f[i-j][j]);</span><br><span class="line">      f1[i] = <span class="built_in">Add</span>(f1[i], f[i][j]);</span><br><span class="line">    &#125;</span><br><span class="line">  <span class="type">int</span> ans = <span class="number">0</span>;</span><br><span class="line">  <span class="keyword">for</span>(<span class="type">int</span> i=<span class="number">0</span>; i&lt;=n; i++) <span class="built_in">add</span>(ans, <span class="built_in">Mul</span>(f0[i], f1[n-i]));</span><br><span class="line">  <span class="built_in">printf</span>(<span class="string">&quot;%d\n&quot;</span>, ans);</span><br><span class="line">  <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>五边形数$\frac{n(3n-1)}{2}$<br>
-欧拉函数<br>
-$\phi(n) = \prod \limits_{i=1}^{\infty}<br>
-(1-x^i) = \prod<br>
-\limits_{i=-\infty}^{\infty}(-1)^ix^{\frac{i(3i-1)}{2}}$​<br>
-即展开后只留下幂次为广义五边形数的项<br>
-考虑整数拆分的生成函数<br>
-$F(x) = \sum<br>
-\limits_{i=1}^{\infty} P(i)x^i =\prod \limits_{i=1}^{\infty}(1+x^i+x^{2i}…)<br>
-= \prod<br>
-\limits_{i=1}^{\infty}\frac{1}{1-x^i}$​<br>
-即$F(x)\phi(x)=1$<br>
-可以得到$P(n)-P(n-1)-P(n-2)+P(n-5)+P(n-7)-…=0$<br>
-容易发现P(n)可由$n-\dfrac{i(3*i-1)}{2}$​以及$n-\dfrac{i(3*i+1)}{2}$​更新得到<br>
-由于五边形数是$n^2$级别增长的，所以可以$O(n\sqrt n)$递推得到$P(1)\dots P(n)$</p>
+<p>五边形数$\frac{n(3n-1)}{2}$欧拉函数$\phi(n) = \prod \limits_{i=1}^{\infty}(1-x^i) = \prod\limits_{i=-\infty}^{\infty}(-1)^ix^{\frac{i(3i-1)}{2}}$​即展开后只留下幂次为广义五边形数的项考虑整数拆分的生成函数$F(x) = \sum\limits_{i=1}^{\infty} P(i)x^i =\prod \limits_{i=1}^{\infty}(1+x^i+x^{2i}…)= \prod\limits_{i=1}^{\infty}\frac{1}{1-x^i}$​即$F(x)\phi(x)=1$可以得到$P(n)-P(n-1)-P(n-2)+P(n-5)+P(n-7)-…=0$容易发现P(n)可由$n-\dfrac{i(3*i-1)}{2}$​以及$n-\dfrac{i(3*i+1)}{2}$​更新得到由于五边形数是$n^2$级别增长的，所以可以$O(n\sqrt n)$递推得到$P(1)\dots P(n)$</p>
 <figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;bits/stdc++.h&gt;</span></span></span><br><span class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> std;</span><br><span class="line"><span class="type">const</span> <span class="type">int</span> N = <span class="number">5e4</span> + <span class="number">5</span>, B = <span class="number">350</span>, mod = <span class="number">1e9</span> + <span class="number">7</span>;</span><br><span class="line"><span class="type">int</span> n, m, i, j, f[B], g[N];</span><br><span class="line"><span class="function"><span class="type">int</span> <span class="title">main</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">  <span class="built_in">scanf</span>(<span class="string">&quot;%d&quot;</span>, &amp;n);</span><br><span class="line">  <span class="keyword">for</span>(f[<span class="number">1</span>]=<span class="number">1</span>,f[<span class="number">2</span>]=<span class="number">2</span>,f[<span class="number">3</span>]=<span class="number">5</span>,f[<span class="number">4</span>]=<span class="number">7</span>,i=<span class="number">5</span>; f[i<span class="number">-1</span>]&lt;n; i++) f[i] = <span class="number">3</span> + <span class="number">2</span>*f[i<span class="number">-2</span>] - f[i<span class="number">-4</span>];</span><br><span class="line">  <span class="keyword">for</span>(g[<span class="number">0</span>]=i=<span class="number">1</span>; i&lt;=n; i++)</span><br><span class="line">    <span class="keyword">for</span>(j=<span class="number">1</span>; f[j]&lt;=i; j++)</span><br><span class="line">      <span class="keyword">if</span>((j+<span class="number">1</span>)&gt;&gt;<span class="number">1</span>&amp;<span class="number">1</span>) g[i] = (g[i] + g[i-f[j]])%mod;</span><br><span class="line">      <span class="keyword">else</span> g[i] = (g[i]-g[i-f[j]]+mod)%mod;</span><br><span class="line">  <span class="built_in">printf</span>(<span class="string">&quot;%d\n&quot;</span>, (g[n]&lt;<span class="number">0</span>) ? g[n]+mod : g[n]);</span><br><span class="line">  <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <p>沈阳的I题是询问n个点深度不超过2的树的个数，显然是个n-1的整数拆分，然而$n \leq 5\times10^5$</p>
 <ol>
 <li>
-<p>$O(n\sqrt n)$<br>
-取模优化，g数组开成longlong，这样对于$g_i$​只要在最后取一次模即可，因为最多根号次加法所以不会爆longlong<br>
-cachemiss优化，$g_i$​用变量x代替，这样可以一定程度上减少cache的miss<br>
-循环优化，大力循环展开<br>
-然后就能过了</p>
+<p>$O(n\sqrt n)$取模优化，g数组开成longlong，这样对于$g_i$​只要在最后取一次模即可，因为最多根号次加法所以不会爆longlongcachemiss优化，$g_i$​用变量x代替，这样可以一定程度上减少cache的miss循环优化，大力循环展开然后就能过了</p>
 </li>
 <li>
-<p>$O(n\log n)$<br>
-更快也更简单，只需要对$\phi$求个逆即可</p>
+<p>$O(n\log n)$更快也更简单，只需要对$\phi$求个逆即可</p>
 </li>
 </ol>
 

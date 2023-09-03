@@ -6,12 +6,12 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="HandheldFriendly" content="True">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=5" />
-    <meta name="description" content="考虑一个单源最短路径问题，但是图的边权范围是1-k，k不大，那就可以用以下方法 本质上在一个队列中同时最多只有k+1种不同的dis的取值，因此只需要用k+1个队列来维护即可，当前队列为空时，就循环移位找到下一个非空的队列即可 复杂度为$O(nk+m)$ 12345678910111213141516171819queue&lt;int&gt; q[K+1];q[0].push(s);d[s] &#x3D;">
+    <meta name="description" content="考虑一个单源最短路径问题，但是图的边权范围是1-k，k不大，那就可以用以下方法本质上在一个队列中同时最多只有k+1种不同的dis的取值，因此只需要用k+1个队列来维护即可，当前队列为空时，就循环移位找到下一个非空的队列即可复杂度为$O(nk+m)$ 12345678910111213141516171819queue&lt;int&gt; q[K+1];q[0].push(s);d[s] &#x3D; 0;">
 <meta property="og:type" content="article">
 <meta property="og:title" content="1-k bfs">
 <meta property="og:url" content="http://example.com/2021/03/24/1-k-bfs/index.html">
 <meta property="og:site_name" content="jyf111&#39;s blog">
-<meta property="og:description" content="考虑一个单源最短路径问题，但是图的边权范围是1-k，k不大，那就可以用以下方法 本质上在一个队列中同时最多只有k+1种不同的dis的取值，因此只需要用k+1个队列来维护即可，当前队列为空时，就循环移位找到下一个非空的队列即可 复杂度为$O(nk+m)$ 12345678910111213141516171819queue&lt;int&gt; q[K+1];q[0].push(s);d[s] &#x3D;">
+<meta property="og:description" content="考虑一个单源最短路径问题，但是图的边权范围是1-k，k不大，那就可以用以下方法本质上在一个队列中同时最多只有k+1种不同的dis的取值，因此只需要用k+1个队列来维护即可，当前队列为空时，就循环移位找到下一个非空的队列即可复杂度为$O(nk+m)$ 12345678910111213141516171819queue&lt;int&gt; q[K+1];q[0].push(s);d[s] &#x3D; 0;">
 <meta property="og:locale" content="zh_CN">
 <meta property="article:published_time" content="2021-03-24T05:33:43.000Z">
 <meta property="article:modified_time" content="2023-08-24T08:43:19.617Z">
@@ -164,9 +164,7 @@
   
 
   <div class="content e-content" itemprop="articleBody">
-    <p>考虑一个单源最短路径问题，但是图的边权范围是1-k，k不大，那就可以用以下方法<br>
-本质上在一个队列中同时最多只有k+1种不同的dis的取值，因此只需要用k+1个队列来维护即可，当前队列为空时，就循环移位找到下一个非空的队列即可<br>
-复杂度为$O(nk+m)$</p>
+    <p>考虑一个单源最短路径问题，但是图的边权范围是1-k，k不大，那就可以用以下方法本质上在一个队列中同时最多只有k+1种不同的dis的取值，因此只需要用k+1个队列来维护即可，当前队列为空时，就循环移位找到下一个非空的队列即可复杂度为$O(nk+m)$</p>
 <figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">queue&lt;<span class="type">int</span>&gt; q[K+<span class="number">1</span>];</span><br><span class="line">q[<span class="number">0</span>].<span class="built_in">push</span>(s);</span><br><span class="line">d[s] = <span class="number">0</span>;</span><br><span class="line"><span class="type">int</span> idx = <span class="number">0</span>, inq = <span class="number">1</span>;</span><br><span class="line"><span class="keyword">while</span>(inq&gt;<span class="number">0</span>) &#123;</span><br><span class="line">  <span class="keyword">while</span>(q[idx].<span class="built_in">empty</span>()) idx = (idx+<span class="number">1</span>)%(k+<span class="number">1</span>);</span><br><span class="line">  <span class="type">int</span> u = q[idx].<span class="built_in">front</span>(); q[dx].<span class="built_in">pop</span>();</span><br><span class="line">  inq--;</span><br><span class="line">  <span class="keyword">if</span>(vis[u]) <span class="keyword">continue</span>;</span><br><span class="line">  vis[u] = <span class="number">1</span>;</span><br><span class="line">  <span class="keyword">for</span>(<span class="keyword">auto</span> it : G[u]) &#123;</span><br><span class="line">    <span class="type">int</span> v = it.fi, w = it.se;</span><br><span class="line">    <span class="keyword">if</span>(d[v]&gt;d[u]+w) &#123;</span><br><span class="line">      d[v] = d[u] + w;</span><br><span class="line">      q[d[v]%(k+<span class="number">1</span>)].<span class="built_in">push</span>(v);</span><br><span class="line">      ++inq;</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
   </div>
 </article>

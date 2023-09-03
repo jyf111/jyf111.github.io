@@ -6,12 +6,12 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="HandheldFriendly" content="True">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=5" />
-    <meta name="description" content="n个球放进k个盒子，根据球是否相同、盒子是否相同、盒子是否可以为空，可以总结出8个模型。 前置芝士：组合数、斯特林数、快速幂、贝尔数、整数拆分等 ¶球不同，盒子相同（不同），不能空盒 盒子相同时为第二类斯特林数，不同时再乘以$k!$即可 可以nk递推，可以容斥 ¶球不同，盒子不同，可以空盒 每个球有k种方法 $k^n$ ¶球不同，盒子相同，可以空盒 枚举空盒的数量，答案为第二类斯特林数一行求和 也">
+    <meta name="description" content="n个球放进k个盒子，根据球是否相同、盒子是否相同、盒子是否可以为空，可以总结出8个模型。前置芝士：组合数、斯特林数、快速幂、贝尔数、整数拆分等 ¶球不同，盒子相同（不同），不能空盒 盒子相同时为第二类斯特林数，不同时再乘以$k!$即可可以nk递推，可以容斥 ¶球不同，盒子不同，可以空盒 每个球有k种方法 $k^n$ ¶球不同，盒子相同，可以空盒 枚举空盒的数量，答案为第二类斯特林数一行求和也相当与">
 <meta property="og:type" content="article">
 <meta property="og:title" content="小球与盒子">
 <meta property="og:url" content="http://example.com/2020/05/25/xiao-qiu-yu-he-zi/index.html">
 <meta property="og:site_name" content="jyf111&#39;s blog">
-<meta property="og:description" content="n个球放进k个盒子，根据球是否相同、盒子是否相同、盒子是否可以为空，可以总结出8个模型。 前置芝士：组合数、斯特林数、快速幂、贝尔数、整数拆分等 ¶球不同，盒子相同（不同），不能空盒 盒子相同时为第二类斯特林数，不同时再乘以$k!$即可 可以nk递推，可以容斥 ¶球不同，盒子不同，可以空盒 每个球有k种方法 $k^n$ ¶球不同，盒子相同，可以空盒 枚举空盒的数量，答案为第二类斯特林数一行求和 也">
+<meta property="og:description" content="n个球放进k个盒子，根据球是否相同、盒子是否相同、盒子是否可以为空，可以总结出8个模型。前置芝士：组合数、斯特林数、快速幂、贝尔数、整数拆分等 ¶球不同，盒子相同（不同），不能空盒 盒子相同时为第二类斯特林数，不同时再乘以$k!$即可可以nk递推，可以容斥 ¶球不同，盒子不同，可以空盒 每个球有k种方法 $k^n$ ¶球不同，盒子相同，可以空盒 枚举空盒的数量，答案为第二类斯特林数一行求和也相当与">
 <meta property="og:locale" content="zh_CN">
 <meta property="article:published_time" content="2020-05-25T05:33:44.000Z">
 <meta property="article:modified_time" content="2023-08-24T13:15:45.744Z">
@@ -168,25 +168,19 @@
   
 
   <div class="content e-content" itemprop="articleBody">
-    <p>n个球放进k个盒子，根据球是否相同、盒子是否相同、盒子是否可以为空，可以总结出8个模型。<br>
-前置芝士：组合数、斯特林数、快速幂、贝尔数、整数拆分等</p>
+    <p>n个球放进k个盒子，根据球是否相同、盒子是否相同、盒子是否可以为空，可以总结出8个模型。前置芝士：组合数、斯特林数、快速幂、贝尔数、整数拆分等</p>
 <h2 id="球不同，盒子相同（不同），不能空盒"><a class="header-anchor" href="#球不同，盒子相同（不同），不能空盒">¶</a>球不同，盒子相同（不同），不能空盒</h2>
-<p>盒子相同时为第二类斯特林数，不同时再乘以$k!$即可<br>
-可以nk递推，可以容斥</p>
+<p>盒子相同时为第二类斯特林数，不同时再乘以$k!$即可可以nk递推，可以容斥</p>
 <h2 id="球不同，盒子不同，可以空盒"><a class="header-anchor" href="#球不同，盒子不同，可以空盒">¶</a>球不同，盒子不同，可以空盒</h2>
 <p>每个球有k种方法 $k^n$</p>
 <h2 id="球不同，盒子相同，可以空盒"><a class="header-anchor" href="#球不同，盒子相同，可以空盒">¶</a>球不同，盒子相同，可以空盒</h2>
-<p>枚举空盒的数量，答案为第二类斯特林数一行求和<br>
-也相当与是贝尔数</p>
+<p>枚举空盒的数量，答案为第二类斯特林数一行求和也相当与是贝尔数</p>
 <h2 id="球相同，盒子不同，不能空盒"><a class="header-anchor" href="#球相同，盒子不同，不能空盒">¶</a>球相同，盒子不同，不能空盒</h2>
-<p>$x_1+x_2+\dots+x_n = k$的正整数解个数<br>
-C(n-1, k-1)</p>
+<p>$x_1+x_2+\dots+x_n = k$的正整数解个数C(n-1, k-1)</p>
 <h2 id="球相同，盒子不同，可以空盒"><a class="header-anchor" href="#球相同，盒子不同，可以空盒">¶</a>球相同，盒子不同，可以空盒</h2>
-<p>$x_1+x_2+\dots+x_n = k$的非负整数解个数<br>
-C(n+k-1, k-1)</p>
+<p>$x_1+x_2+\dots+x_n = k$的非负整数解个数C(n+k-1, k-1)</p>
 <h2 id="球相同，盒子相同，不能空盒"><a class="header-anchor" href="#球相同，盒子相同，不能空盒">¶</a>球相同，盒子相同，不能空盒</h2>
-<p>整数n拆分成k份=用最大数为k拆分n<br>
-D(n-k, k) 将n-k用$\le k$的数拆分</p>
+<p>整数n拆分成k份=用最大数为k拆分nD(n-k, k) 将n-k用$\le k$的数拆分</p>
 <h2 id="球相同，盒子相同，可以空盒"><a class="header-anchor" href="#球相同，盒子相同，可以空盒">¶</a>球相同，盒子相同，可以空盒</h2>
 <p>D(n, k) = D(n, k-1) + D(n-k, k)</p>
 

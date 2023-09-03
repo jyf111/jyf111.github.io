@@ -173,13 +173,9 @@
 <p>使用两个对顶栈stk1和stk2，push操作就直接加到stk2的尾部，pop操作就从stk1中弹出，如果stk1为空，就把stk2中的所有元素依次pop后push入stk1</p>
 <h2 id="双端队列"><a class="header-anchor" href="#双端队列">¶</a>双端队列</h2>
 <p>支持push_front、push_back、pop_front、pop_back操作</p>
-<p>同样用两个对顶栈来实现，但是如果pop_front和pop_back操作交替进行，使用上面的方法就会TLE。考虑均摊的思想，如果在pop时该栈空了，就把另一个栈栈底的$\frac<br>
-n2$​个元素push过去</p>
+<p>同样用两个对顶栈来实现，但是如果pop_front和pop_back操作交替进行，使用上面的方法就会TLE。考虑均摊的思想，如果在pop时该栈空了，就把另一个栈栈底的$\fracn2$​个元素push过去</p>
 <h2 id="摊还"><a class="header-anchor" href="#摊还">¶</a>摊还</h2>
-<p>考虑现在总共有n个物品，然后在m个位置可能会消耗物品，我们可以把这n个物品均分到这m个位置，如果某个位置的物品被消耗完说明物品数至少减少了$\frac<br>
-1m$​，之后我们统计当前物品的数量后再进行均分。<br>
-$T(n)=T(\frac{n(m-1)}{m})+O(n)$<br>
-$T(n)=O(n)$</p>
+<p>考虑现在总共有n个物品，然后在m个位置可能会消耗物品，我们可以把这n个物品均分到这m个位置，如果某个位置的物品被消耗完说明物品数至少减少了$\frac1m$​，之后我们统计当前物品的数量后再进行均分。$T(n)=T(\frac{n(m-1)}{m})+O(n)$$T(n)=O(n)$</p>
 
   </div>
 </article>

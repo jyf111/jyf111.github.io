@@ -6,12 +6,12 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="HandheldFriendly" content="True">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=5" />
-    <meta name="description" content="¶A 给定一棵树，定义点对（s, t）间距离为路径上边权和+s和t的点权和 dp记录每个点子树中到该点的最大和次大距离即可 比赛的时候用树直径两次dfs的方法wa了，应该是有问题 ¶B 给定n个数，每次可以选择一段区间，使区间-1，问最少几次操作可以使所有数变为1 区间操作利用差分就可以转化成两次单点操作，再贪心考虑就很简单了 ¶C 小学数学 ¶D 条件概率，$P(A|B) &#x3D; \frac {P(">
+    <meta name="description" content="¶A 给定一棵树，定义点对（s, t）间距离为路径上边权和+s和t的点权和dp记录每个点子树中到该点的最大和次大距离即可比赛的时候用树直径两次dfs的方法wa了，应该是有问题 ¶B 给定n个数，每次可以选择一段区间，使区间-1，问最少几次操作可以使所有数变为1区间操作利用差分就可以转化成两次单点操作，再贪心考虑就很简单了 ¶C 小学数学 ¶D 条件概率，$P(A|B) &#x3D; \frac {P(AB)">
 <meta property="og:type" content="article">
 <meta property="og:title" content="“科林明伦杯”哈尔滨理工大学第十届程序设计竞赛">
 <meta property="og:url" content="http://example.com/2020/05/31/ke-lin-ming-lun-bei-ha-er-bin-li-gong-da-xue-di-shi-jie-cheng-xu-she-ji-jing-sai/index.html">
 <meta property="og:site_name" content="jyf111&#39;s blog">
-<meta property="og:description" content="¶A 给定一棵树，定义点对（s, t）间距离为路径上边权和+s和t的点权和 dp记录每个点子树中到该点的最大和次大距离即可 比赛的时候用树直径两次dfs的方法wa了，应该是有问题 ¶B 给定n个数，每次可以选择一段区间，使区间-1，问最少几次操作可以使所有数变为1 区间操作利用差分就可以转化成两次单点操作，再贪心考虑就很简单了 ¶C 小学数学 ¶D 条件概率，$P(A|B) &#x3D; \frac {P(">
+<meta property="og:description" content="¶A 给定一棵树，定义点对（s, t）间距离为路径上边权和+s和t的点权和dp记录每个点子树中到该点的最大和次大距离即可比赛的时候用树直径两次dfs的方法wa了，应该是有问题 ¶B 给定n个数，每次可以选择一段区间，使区间-1，问最少几次操作可以使所有数变为1区间操作利用差分就可以转化成两次单点操作，再贪心考虑就很简单了 ¶C 小学数学 ¶D 条件概率，$P(A|B) &#x3D; \frac {P(AB)">
 <meta property="og:locale" content="zh_CN">
 <meta property="article:published_time" content="2020-05-31T05:33:44.000Z">
 <meta property="article:modified_time" content="2023-08-24T13:13:40.224Z">
@@ -169,42 +169,30 @@
 
   <div class="content e-content" itemprop="articleBody">
     <h2 id="A"><a class="header-anchor" href="#A">¶</a>A</h2>
-<p>给定一棵树，定义点对（s, t）间距离为<strong>路径上边权和+s和t的点权和</strong><br>
-dp记录每个点子树中到该点的最大和次大距离即可<br>
-比赛的时候用树直径两次dfs的方法wa了，应该是有问题</p>
+<p>给定一棵树，定义点对（s, t）间距离为<strong>路径上边权和+s和t的点权和</strong>dp记录每个点子树中到该点的最大和次大距离即可比赛的时候用树直径两次dfs的方法wa了，应该是有问题</p>
 <h2 id="B"><a class="header-anchor" href="#B">¶</a>B</h2>
-<p>给定n个数，每次可以选择一段区间，使区间-1，问最少几次操作可以使所有数变为1<br>
-区间操作利用差分就可以转化成两次单点操作，再贪心考虑就很简单了</p>
+<p>给定n个数，每次可以选择一段区间，使区间-1，问最少几次操作可以使所有数变为1区间操作利用差分就可以转化成两次单点操作，再贪心考虑就很简单了</p>
 <h2 id="C"><a class="header-anchor" href="#C">¶</a>C</h2>
 <p>小学数学</p>
 <h2 id="D"><a class="header-anchor" href="#D">¶</a>D</h2>
-<p>条件概率，$P(A|B) = \frac {P(AB)} {P(B)}$<br>
-P(AB):至少m枚硬币是反面，且恰好k枚硬币是正面同时发生，由于正面固定，所以反面为n-k，当$n-k&lt;m$时概率为0,否则为$C(n,k)/(2^n)$<br>
-P(B):从m到n枚举反面硬币个数，$\sum_{i=m}^{n} C(n,i)/(2^n)$<br>
-代入公式即可</p>
+<p>条件概率，$P(A|B) = \frac {P(AB)} {P(B)}$P(AB):至少m枚硬币是反面，且恰好k枚硬币是正面同时发生，由于正面固定，所以反面为n-k，当$n-k&lt;m$时概率为0,否则为$C(n,k)/(2^n)$P(B):从m到n枚举反面硬币个数，$\sum_{i=m}^{n} C(n,i)/(2^n)$代入公式即可</p>
 <h2 id="E"><a class="header-anchor" href="#E">¶</a>E</h2>
 <p>简单贪心，从小到大去战胜，并且每次用刚好大于的那个</p>
 <h2 id="F"><a class="header-anchor" href="#F">¶</a>F</h2>
-<p>显然是个fibonacci，数据范围有点坑，我开了ull还是wa，改成py就过了<br>
-😡😤</p>
+<p>显然是个fibonacci，数据范围有点坑，我开了ull还是wa，改成py就过了😡😤</p>
 <h2 id="G"><a class="header-anchor" href="#G">¶</a>G</h2>
 <p>显然最大流</p>
 <h2 id="H"><a class="header-anchor" href="#H">¶</a>H</h2>
-<p>每增加一条边，最多可以与之前的所有直线都产生一个交点<br>
-蜜汁数据范围，又要大数，不过py不香吗</p>
+<p>每增加一条边，最多可以与之前的所有直线都产生一个交点蜜汁数据范围，又要大数，不过py不香吗</p>
 <h2 id="I"><a class="header-anchor" href="#I">¶</a>I</h2>
-<p>给定n个数，定义n个数组，第i个数组为删去$a_i$​后形成的，问这n个数组字典序从大到小的排列顺序<br>
-考虑相邻两个数$a_i, a_{i+1}$</p>
+<p>给定n个数，定义n个数组，第i个数组为删去$a_i$​后形成的，问这n个数组字典序从大到小的排列顺序考虑相邻两个数$a_i, a_{i+1}$</p>
 <ul>
 <li>$a_i &lt; a_{i+1}$​ i比后面所有的都要劣</li>
 <li>$a_i &gt; a_{i+1}$ i比后面所有的都要优</li>
-<li>$a_i = a_{i+1}$​ i比i+1优<br>
-考虑将相同的一起考虑，然后用两个栈来模拟即可</li>
+<li>$a_i = a_{i+1}$​ i比i+1优考虑将相同的一起考虑，然后用两个栈来模拟即可</li>
 </ul>
 <h2 id="J"><a class="header-anchor" href="#J">¶</a>J</h2>
-<p>问一个串中最长的与前缀相同的非前缀串的长度<br>
-比赛的时候无脑二分+kmp<br>
-next[i]表示s[0:i]这个前缀与后缀相同的最长长度（前缀最长border），所以所有next取个max即可</p>
+<p>问一个串中最长的与前缀相同的非前缀串的长度比赛的时候无脑二分+kmpnext[i]表示s[0:i]这个前缀与后缀相同的最长长度（前缀最长border），所以所有next取个max即可</p>
 
   </div>
 </article>

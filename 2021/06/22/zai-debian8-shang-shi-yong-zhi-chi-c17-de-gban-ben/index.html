@@ -6,12 +6,12 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="HandheldFriendly" content="True">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=5" />
-    <meta name="description" content="最近调试编译器遇到一个比较矛盾的事情。cpp文件通过我的compiler转成arm汇编，然后通过qemu- arm的debian虚拟机上的g++将arm文件汇编、链接后转成可执行文件就可以跑结果了。 然而我的compiler用了一些c++17的特性（optional、stringview），debian8最新只有g++4.9.2，没法支持c++17。我只能在本地转成arm汇编再传上去测试，效率太低">
+    <meta name="description" content="最近调试编译器遇到一个比较矛盾的事情。cpp文件通过我的compiler转成arm汇编，然后通过qemu-arm的debian虚拟机上的g++将arm文件汇编、链接后转成可执行文件就可以跑结果了。然而我的compiler用了一些c++17的特性（optional、stringview），debian8最新只有g++4.9.2，没法支持c++17。我只能在本地转成arm汇编再传上去测试，效率太低。我">
 <meta property="og:type" content="article">
 <meta property="og:title" content="在debian8上使用支持c++17的g++版本">
 <meta property="og:url" content="http://example.com/2021/06/22/zai-debian8-shang-shi-yong-zhi-chi-c17-de-gban-ben/index.html">
 <meta property="og:site_name" content="jyf111&#39;s blog">
-<meta property="og:description" content="最近调试编译器遇到一个比较矛盾的事情。cpp文件通过我的compiler转成arm汇编，然后通过qemu- arm的debian虚拟机上的g++将arm文件汇编、链接后转成可执行文件就可以跑结果了。 然而我的compiler用了一些c++17的特性（optional、stringview），debian8最新只有g++4.9.2，没法支持c++17。我只能在本地转成arm汇编再传上去测试，效率太低">
+<meta property="og:description" content="最近调试编译器遇到一个比较矛盾的事情。cpp文件通过我的compiler转成arm汇编，然后通过qemu-arm的debian虚拟机上的g++将arm文件汇编、链接后转成可执行文件就可以跑结果了。然而我的compiler用了一些c++17的特性（optional、stringview），debian8最新只有g++4.9.2，没法支持c++17。我只能在本地转成arm汇编再传上去测试，效率太低。我">
 <meta property="og:locale" content="zh_CN">
 <meta property="og:image" content="http://example.com/post-images/1624337438397.png">
 <meta property="og:image" content="http://example.com/post-images/1624337477434.png">
@@ -168,25 +168,15 @@
   
 
   <div class="content e-content" itemprop="articleBody">
-    <p>最近调试编译器遇到一个比较矛盾的事情。cpp文件通过我的compiler转成arm汇编，然后通过qemu-<br>
-arm的debian虚拟机上的g++将arm文件汇编、链接后转成可执行文件就可以跑结果了。<br>
-然而我的compiler用了一些c++17的特性（optional、stringview），debian8最新只有g++4.9.2，没法支持c++17。我只能在本地转成arm汇编再传上去测试，效率太低。我想把两个过程都放到debian上，然后写个脚本一键测试。于是有两种选择</p>
+    <p>最近调试编译器遇到一个比较矛盾的事情。cpp文件通过我的compiler转成arm汇编，然后通过qemu-arm的debian虚拟机上的g++将arm文件汇编、链接后转成可执行文件就可以跑结果了。然而我的compiler用了一些c++17的特性（optional、stringview），debian8最新只有g++4.9.2，没法支持c++17。我只能在本地转成arm汇编再传上去测试，效率太低。我想把两个过程都放到debian上，然后写个脚本一键测试。于是有两种选择</p>
 <ul>
 <li>把代码的c++17相关删了🤡</li>
 <li>让虚拟机支持-std=c++17</li>
 </ul>
-<p>显然还是要努力试一下后者。<br>
-看了一下debian9有g++6，debian10有g++8。我一开始以为要把整个系统都升级，结果大半夜跑了2个小时还没完，等不了就ctrl+c了，然后发现虚拟机坏了，gg。<br>
-第二天重下了虚拟机，重新来过。尝试了一下直接装debian10的g++到debian8上。具体做法就是在镜像源里加了buster，（8的别名是jessie，9的别名是stretch，10的别名是buster）。然后apt-<br>
-get update，apt-get install g++，它会自动帮你把各种依赖都安装升级。<br>
-<a data-fancybox="gallery" data-src="/post-images/1624337438397.png" data-caption=""><img src="/post-images/1624337438397.png" alt="">
-</a><br>
-然后就能愉快的跑了<br>
-<a data-fancybox="gallery" data-src="/post-images/1624337477434.png" data-caption=""><img src="/post-images/1624337477434.png" alt="">
-</a><br>
-<a data-fancybox="gallery" data-src="/post-images/1624337482828.png" data-caption=""><img src="/post-images/1624337482828.png" alt="">
-</a><br>
-最后记得apt-get autoremove清理下旧版本</p>
+<p>显然还是要努力试一下后者。看了一下debian9有g++6，debian10有g++8。我一开始以为要把整个系统都升级，结果大半夜跑了2个小时还没完，等不了就ctrl+c了，然后发现虚拟机坏了，gg。第二天重下了虚拟机，重新来过。尝试了一下直接装debian10的g++到debian8上。具体做法就是在镜像源里加了buster，（8的别名是jessie，9的别名是stretch，10的别名是buster）。然后apt-get update，apt-get install g++，它会自动帮你把各种依赖都安装升级。<a data-fancybox="gallery" data-src="/post-images/1624337438397.png" data-caption=""><img src="/post-images/1624337438397.png" alt="">
+</a>然后就能愉快的跑了<a data-fancybox="gallery" data-src="/post-images/1624337477434.png" data-caption=""><img src="/post-images/1624337477434.png" alt="">
+</a><a data-fancybox="gallery" data-src="/post-images/1624337482828.png" data-caption=""><img src="/post-images/1624337482828.png" alt="">
+</a>最后记得apt-get autoremove清理下旧版本</p>
 
   </div>
 </article>

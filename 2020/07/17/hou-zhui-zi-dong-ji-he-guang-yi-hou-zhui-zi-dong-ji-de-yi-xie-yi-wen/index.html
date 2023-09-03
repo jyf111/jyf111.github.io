@@ -6,12 +6,12 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="HandheldFriendly" content="True">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=5" />
-    <meta name="description" content="感觉sam，特别是parent树上的复杂度很玄学？！   暴力跳parent树的复杂度是多少？ 第一种情况是建广义sam，然后每个串暴力跳parent标记，复杂度似乎是$n\sqrt n$​（维护多串的根号trick） 第二种是sam上直接无脑暴力跳到某个长度范围内，一般情况是要写倍增的，但是我在2019徐州L、p4094上直接暴力跳也都过了，而且比倍增快（常数小）。。如果是aaaaa…的话par">
+    <meta name="description" content="感觉sam，特别是parent树上的复杂度很玄学？！   暴力跳parent树的复杂度是多少？第一种情况是建广义sam，然后每个串暴力跳parent标记，复杂度似乎是$n\sqrt n$​（维护多串的根号trick）第二种是sam上直接无脑暴力跳到某个长度范围内，一般情况是要写倍增的，但是我在2019徐州L、p4094上直接暴力跳也都过了，而且比倍增快（常数小）。。如果是aaaaa…的话paren">
 <meta property="og:type" content="article">
 <meta property="og:title" content="后缀自动机和广义后缀自动机的一些疑问">
 <meta property="og:url" content="http://example.com/2020/07/17/hou-zhui-zi-dong-ji-he-guang-yi-hou-zhui-zi-dong-ji-de-yi-xie-yi-wen/index.html">
 <meta property="og:site_name" content="jyf111&#39;s blog">
-<meta property="og:description" content="感觉sam，特别是parent树上的复杂度很玄学？！   暴力跳parent树的复杂度是多少？ 第一种情况是建广义sam，然后每个串暴力跳parent标记，复杂度似乎是$n\sqrt n$​（维护多串的根号trick） 第二种是sam上直接无脑暴力跳到某个长度范围内，一般情况是要写倍增的，但是我在2019徐州L、p4094上直接暴力跳也都过了，而且比倍增快（常数小）。。如果是aaaaa…的话par">
+<meta property="og:description" content="感觉sam，特别是parent树上的复杂度很玄学？！   暴力跳parent树的复杂度是多少？第一种情况是建广义sam，然后每个串暴力跳parent标记，复杂度似乎是$n\sqrt n$​（维护多串的根号trick）第二种是sam上直接无脑暴力跳到某个长度范围内，一般情况是要写倍增的，但是我在2019徐州L、p4094上直接暴力跳也都过了，而且比倍增快（常数小）。。如果是aaaaa…的话paren">
 <meta property="og:locale" content="zh_CN">
 <meta property="article:published_time" content="2020-07-17T05:33:44.000Z">
 <meta property="article:modified_time" content="2023-08-24T12:06:38.635Z">
@@ -167,19 +167,13 @@
     <p>感觉sam，特别是parent树上的复杂度很玄学？！</p>
 <ul>
 <li>
-<p>暴力跳parent树的复杂度是多少？<br>
-第一种情况是建广义sam，然后每个串暴力跳parent标记，复杂度似乎是$n\sqrt n$​（维护多串的根号trick）<br>
-第二种是sam上直接无脑暴力跳到某个长度范围内，一般情况是要写倍增的，但是我在2019徐州L、p4094上直接暴力跳也都过了，而且比倍增快（常数小）。。如果是aaaaa…的话parent树是链，应该能卡，所以还是要写倍增吧</p>
+<p>暴力跳parent树的复杂度是多少？第一种情况是建广义sam，然后每个串暴力跳parent标记，复杂度似乎是$n\sqrt n$​（维护多串的根号trick）第二种是sam上直接无脑暴力跳到某个长度范围内，一般情况是要写倍增的，但是我在2019徐州L、p4094上直接暴力跳也都过了，而且比倍增快（常数小）。。如果是aaaaa…的话parent树是链，应该能卡，所以还是要写倍增吧</p>
 </li>
 <li>
-<p>trie上建广义sam<br>
-正解是bfs的做法，但是需要显示的建出trie，如果不建会错，我认为是重边的影响（不确定）。<br>
-如果直接dfs，复杂度会取决于trie上$\sum dep(leaf)$（15国家论文），感觉可以卡成$n^2$，然而我在2019徐州L、2019wfG上直接dfs建就过了，由于不用建trie，时间和空间上都挺优秀，目前还不知道是数据问题还是什么。p3346由于叶子只有20个，所以dfs肯定是对的。</p>
+<p>trie上建广义sam正解是bfs的做法，但是需要显示的建出trie，如果不建会错，我认为是重边的影响（不确定）。如果直接dfs，复杂度会取决于trie上$\sum dep(leaf)$（15国家论文），感觉可以卡成$n^2$，然而我在2019徐州L、2019wfG上直接dfs建就过了，由于不用建trie，时间和空间上都挺优秀，目前还不知道是数据问题还是什么。p3346由于叶子只有20个，所以dfs肯定是对的。</p>
 </li>
 <li>
-<p>广义sam能不能基数排序<br>
-突然意识到广义sam基数排序后的结果与拓扑序可能有出入，不过我好几道exsam用基数排序得到的拓扑序去做也过了。。很迷<br>
-还是老老实实把parent树建出来吧。</p>
+<p>广义sam能不能基数排序突然意识到广义sam基数排序后的结果与拓扑序可能有出入，不过我好几道exsam用基数排序得到的拓扑序去做也过了。。很迷还是老老实实把parent树建出来吧。</p>
 </li>
 <li>
 <p>注意：线段树合并求endpos集合的时候，一定要新开点，否则可能会影响子树的信息。</p>

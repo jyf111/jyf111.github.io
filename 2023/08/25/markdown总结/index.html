@@ -6,16 +6,16 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="HandheldFriendly" content="True">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=5" />
-    <meta name="description" content="¶基本语法 ¶n 级标题 123# 一级标题## 二级标题 ¶粗体 1**粗体文本** 粗体文本 ¶斜体 1*斜体文本* 斜体文本 ¶引用 12&gt; 引用&gt; 文本  引用 文本   建议每一行引用都使用符号&gt;。  ¶无序列表 12- 无序文本- 无序文本  无序文本 无序文本  ¶有序列表 121. 有序文本2. 有序文本  有序文本 有序文本   如果列表项有换行，则建议给无序列">
+    <meta name="description" content="¶基本语法 ¶n 级标题 123# 一级标题## 二级标题 ¶粗体 1**粗体文本** 粗体文本 ¶斜体 1*斜体文本* 斜体文本 ¶引用 12&gt; 引用&gt; 文本  引用文本   建议每一行引用都使用符号&gt;。  ¶无序列表 12- 无序文本- 无序文本  无序文本 无序文本  ¶有序列表 121. 有序文本2. 有序文本  有序文本 有序文本   如果列表项有换行，则建议给无序列表">
 <meta property="og:type" content="article">
 <meta property="og:title" content="markdown 总结">
 <meta property="og:url" content="http://example.com/2023/08/25/markdown%E6%80%BB%E7%BB%93/index.html">
 <meta property="og:site_name" content="jyf111&#39;s blog">
-<meta property="og:description" content="¶基本语法 ¶n 级标题 123# 一级标题## 二级标题 ¶粗体 1**粗体文本** 粗体文本 ¶斜体 1*斜体文本* 斜体文本 ¶引用 12&gt; 引用&gt; 文本  引用 文本   建议每一行引用都使用符号&gt;。  ¶无序列表 12- 无序文本- 无序文本  无序文本 无序文本  ¶有序列表 121. 有序文本2. 有序文本  有序文本 有序文本   如果列表项有换行，则建议给无序列">
+<meta property="og:description" content="¶基本语法 ¶n 级标题 123# 一级标题## 二级标题 ¶粗体 1**粗体文本** 粗体文本 ¶斜体 1*斜体文本* 斜体文本 ¶引用 12&gt; 引用&gt; 文本  引用文本   建议每一行引用都使用符号&gt;。  ¶无序列表 12- 无序文本- 无序文本  无序文本 无序文本  ¶有序列表 121. 有序文本2. 有序文本  有序文本 有序文本   如果列表项有换行，则建议给无序列表">
 <meta property="og:locale" content="zh_CN">
 <meta property="og:image" content="http://example.com/post-images/markdown-cheat.png">
 <meta property="article:published_time" content="2023-08-24T16:01:08.000Z">
-<meta property="article:modified_time" content="2023-08-27T06:02:37.602Z">
+<meta property="article:modified_time" content="2023-09-03T15:28:46.416Z">
 <meta property="article:author" content="jyf111">
 <meta property="article:tag" content="工具">
 <meta name="twitter:card" content="summary">
@@ -139,7 +139,7 @@
       
         <time datetime="2023-08-24T16:01:08.000Z" class="dt-published" itemprop="datePublished">2023-08-25</time>
         
-        (Updated: <time datetime="2023-08-27T06:02:37.602Z" class="dt-updated" itemprop="dateModified">2023-08-27</time>)
+        (Updated: <time datetime="2023-09-03T15:28:46.416Z" class="dt-updated" itemprop="dateModified">2023-09-03</time>)
         
       
     </div>
@@ -182,8 +182,7 @@
 <h3 id="引用"><a class="header-anchor" href="#引用">¶</a>引用</h3>
 <figure class="highlight markdown"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="quote">&gt; 引用</span></span><br><span class="line"><span class="quote">&gt; 文本</span></span><br></pre></td></tr></table></figure>
 <blockquote>
-<p>引用<br>
-文本</p>
+<p>引用文本</p>
 </blockquote>
 <ul>
 <li>建议每一行引用都使用符号<code>&gt;</code>。</li>
@@ -275,12 +274,7 @@
 <hr>
 <p>表情符号：</p>
 <figure class="highlight markdown"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">:cry: :joy: :smile: :warning: :memo: :bulb:</span><br></pre></td></tr></table></figure>
-<p>😢<br>
-😂<br>
-😄<br>
-⚠️<br>
-📝<br>
-💡</p>
+<p>😢😂😄⚠️📝💡</p>
 <p>参阅 <a target="_blank" rel="noopener" href="https://gist.github.com/rxaviers/7360908">表情短代码列表</a></p>
 <h2 id="Tricks"><a class="header-anchor" href="#Tricks">¶</a>Tricks</h2>
 <p>主要是利用 HTML 实现一些额外的功能。</p>
@@ -288,7 +282,7 @@
 <figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">ins</span>&gt;</span>下划线文本<span class="tag">&lt;/<span class="name">ins</span>&gt;</span></span><br></pre></td></tr></table></figure>
 <p><ins>下划线文本</ins></p>
 <h3 id="缩进"><a class="header-anchor" href="#缩进">¶</a>缩进</h3>
-<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="symbol">&amp;nbsp;</span><span class="symbol">&amp;nbsp;</span><span class="symbol">&amp;nbsp;</span><span class="symbol">&amp;nbsp;</span>缩进文本</span><br></pre></td></tr></table></figure>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">$nbsp <span class="comment">&lt;!-- No-Break Space 不换行空格 --&gt;</span></span><br><span class="line">$emsp <span class="comment">&lt;!-- Em Space 全角空格 --&gt;</span></span><br><span class="line">$ensp <span class="comment">&lt;!-- En Space 半角空格 --&gt;</span></span><br><span class="line"><span class="symbol">&amp;nbsp;</span><span class="symbol">&amp;nbsp;</span><span class="symbol">&amp;nbsp;</span><span class="symbol">&amp;nbsp;</span>缩进文本</span><br></pre></td></tr></table></figure>
 <p>    缩进文本</p>
 <h3 id="居中"><a class="header-anchor" href="#居中">¶</a>居中</h3>
 <figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">&lt;center\&gt;居中文本\&lt;/center\&gt; # 标准已弃用</span><br><span class="line"><span class="tag">&lt;<span class="name">p</span> <span class="attr">style</span>=<span class="string">&quot;text-align:center&quot;</span>&gt;</span>居中文本<span class="tag">&lt;/<span class="name">p</span>&gt;</span></span><br></pre></td></tr></table></figure>
@@ -311,26 +305,9 @@
 <h3 id="数学公式"><a class="header-anchor" href="#数学公式">¶</a>数学公式</h3>
 <figure class="highlight latex"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">$</span>a = b + c * d - e<span class="built_in">_</span>0 * f<span class="built_in">$</span></span><br><span class="line"></span><br><span class="line"><span class="built_in">$</span><span class="built_in">$</span><span class="keyword">\frac</span>&#123;<span class="keyword">\partial</span> u&#125;&#123;<span class="keyword">\partial</span> t&#125;</span><br><span class="line">= h<span class="built_in">^</span>2 <span class="keyword">\left</span>( <span class="keyword">\frac</span>&#123;<span class="keyword">\partial</span><span class="built_in">^</span>2 u&#125;&#123;<span class="keyword">\partial</span> x<span class="built_in">^</span>2&#125; +</span><br><span class="line"><span class="keyword">\frac</span>&#123;<span class="keyword">\partial</span><span class="built_in">^</span>2 u&#125;&#123;<span class="keyword">\partial</span> y<span class="built_in">^</span>2&#125; +</span><br><span class="line"><span class="keyword">\frac</span>&#123;<span class="keyword">\partial</span><span class="built_in">^</span>2 u&#125;&#123;<span class="keyword">\partial</span> z<span class="built_in">^</span>2&#125;<span class="keyword">\right</span>)<span class="built_in">$</span><span class="built_in">$</span></span><br><span class="line"></span><br><span class="line"><span class="built_in">$</span><span class="built_in">$</span></span><br><span class="line"><span class="keyword">\left</span>[</span><br><span class="line">    <span class="keyword">\begin</span>&#123;array&#125;&#123;cc|c&#125;</span><br><span class="line">      1<span class="built_in">&amp;</span>2<span class="built_in">&amp;</span>3<span class="keyword">\newline</span></span><br><span class="line">      4<span class="built_in">&amp;</span>5<span class="built_in">&amp;</span>6</span><br><span class="line">    <span class="keyword">\end</span>&#123;array&#125;</span><br><span class="line"><span class="keyword">\right</span>]</span><br><span class="line"><span class="built_in">$</span><span class="built_in">$</span></span><br><span class="line"></span><br><span class="line"><span class="built_in">$</span><span class="built_in">$</span></span><br><span class="line"><span class="keyword">\begin</span>&#123;eqnarray&#125;</span><br><span class="line"><span class="keyword">\nabla</span><span class="keyword">\cdot</span><span class="keyword">\vec</span>&#123;E&#125; <span class="built_in">&amp;</span>=<span class="built_in">&amp;</span> <span class="keyword">\frac</span>&#123;<span class="keyword">\rho</span>&#125;&#123;<span class="keyword">\epsilon</span><span class="built_in">_</span>0&#125; <span class="keyword">\\</span></span><br><span class="line"><span class="keyword">\nabla</span><span class="keyword">\cdot</span><span class="keyword">\vec</span>&#123;B&#125; <span class="built_in">&amp;</span>=<span class="built_in">&amp;</span> 0 <span class="keyword">\\</span></span><br><span class="line"><span class="keyword">\nabla</span><span class="keyword">\times</span><span class="keyword">\vec</span>&#123;E&#125; <span class="built_in">&amp;</span>=<span class="built_in">&amp;</span> -<span class="keyword">\frac</span>&#123;<span class="keyword">\partial</span> B&#125;&#123;<span class="keyword">\partial</span> t&#125; <span class="keyword">\\</span></span><br><span class="line"><span class="keyword">\nabla</span><span class="keyword">\times</span><span class="keyword">\vec</span>&#123;B&#125; <span class="built_in">&amp;</span>=<span class="built_in">&amp;</span> <span class="keyword">\mu</span><span class="built_in">_</span>0<span class="keyword">\left</span>(<span class="keyword">\vec</span>&#123;J&#125;+<span class="keyword">\epsilon</span><span class="built_in">_</span>0<span class="keyword">\frac</span>&#123;<span class="keyword">\partial</span> E&#125;&#123;<span class="keyword">\partial</span> t&#125; <span class="keyword">\right</span>)</span><br><span class="line"><span class="keyword">\end</span>&#123;eqnarray&#125;</span><br><span class="line"><span class="built_in">$</span><span class="built_in">$</span></span><br></pre></td></tr></table></figure>
 <p>$a = b + c * d - e_0 * f$</p>
-<p>$$\frac{\partial u}{\partial t}<br>
-= h^2 \left( \frac{\partial^2 u}{\partial x^2} +<br>
-\frac{\partial^2 u}{\partial y^2} +<br>
-\frac{\partial^2 u}{\partial z^2}\right)$$</p>
-<p>$$<br>
-\left[<br>
-\begin{array}{cc|c}<br>
-1&amp;2&amp;3\newline<br>
-4&amp;5&amp;6<br>
-\end{array}<br>
-\right]<br>
-$$</p>
-<p>$$<br>
-\begin{eqnarray}<br>
-\nabla\cdot\vec{E} &amp;=&amp; \frac{\rho}{\epsilon_0} \<br>
-\nabla\cdot\vec{B} &amp;=&amp; 0 \<br>
-\nabla\times\vec{E} &amp;=&amp; -\frac{\partial B}{\partial t} \<br>
-\nabla\times\vec{B} &amp;=&amp; \mu_0\left(\vec{J}+\epsilon_0\frac{\partial E}{\partial t} \right)<br>
-\end{eqnarray}<br>
-$$</p>
+<p>$$\frac{\partial u}{\partial t}= h^2 \left( \frac{\partial^2 u}{\partial x^2} +\frac{\partial^2 u}{\partial y^2} +\frac{\partial^2 u}{\partial z^2}\right)$$</p>
+<p>$$\left[\begin{array}{cc|c}1&amp;2&amp;3\newline4&amp;5&amp;6\end{array}\right]$$</p>
+<p>$$\begin{eqnarray}\nabla\cdot\vec{E} &amp;=&amp; \frac{\rho}{\epsilon_0} \\nabla\cdot\vec{B} &amp;=&amp; 0 \\nabla\times\vec{E} &amp;=&amp; -\frac{\partial B}{\partial t} \\nabla\times\vec{B} &amp;=&amp; \mu_0\left(\vec{J}+\epsilon_0\frac{\partial E}{\partial t} \right)\end{eqnarray}$$</p>
 <h2 id="排版-Tips"><a class="header-anchor" href="#排版-Tips">¶</a>排版 Tips</h2>
 <ol>
 <li>安装<code>markdownlint</code>插件。</li>

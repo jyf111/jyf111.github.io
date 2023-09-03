@@ -181,18 +181,11 @@
 <h3 id="控制运行的线程数"><a class="header-anchor" href="#控制运行的线程数">¶</a>控制运行的线程数</h3>
 <p>Thread local storage：<code>thread_local</code>表明该变量的作用域是线程，每个线程都有一份拷贝。</p>
 <p>对于TBB而言，你不知道任务和线程之间的对应关系。</p>
-<p><code>enumerable_thread_specific</code>：provides thread local storage that acts like an<br>
-STL container with one element per thread. The container permits iterating<br>
-over the elements using the usual STL iteration idioms. Any thread can iterate<br>
-over all the local copies, seeing the other threads local<br>
-data.（每个线程有一份拷贝，并且所有拷贝被组织成一个容器，可以顺序遍历容器来结合最终结果）</p>
+<p><code>enumerable_thread_specific</code>：provides thread local storage that acts like anSTL container with one element per thread. The container permits iteratingover the elements using the usual STL iteration idioms. Any thread can iterateover all the local copies, seeing the other threads localdata.（每个线程有一份拷贝，并且所有拷贝被组织成一个容器，可以顺序遍历容器来结合最终结果）</p>
 <figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">using</span> <span class="type">ets_vector_t</span> = enumerable_thread_specific&lt;vector&lt;<span class="type">int</span>&gt;&gt;;</span><br><span class="line"><span class="function"><span class="type">ets_vector_t</span> <span class="title">partial</span><span class="params">(N)</span></span>;</span><br><span class="line"><span class="built_in">parallel_for</span>(<span class="number">0</span>, <span class="number">10</span>, [&amp;](<span class="type">int</span> i) &#123;</span><br><span class="line">  <span class="type">ets_vector_t</span>::reference local = partial.<span class="built_in">local</span>();</span><br><span class="line">  <span class="keyword">for</span> (<span class="type">int</span>&amp; x : local) x = <span class="number">20</span>;</span><br><span class="line">&#125;);</span><br><span class="line"><span class="function">vector&lt;<span class="type">int</span>&gt; <span class="title">sum</span><span class="params">(N)</span></span>;</span><br><span class="line"><span class="keyword">for</span> (<span class="keyword">auto</span>&amp; it : partial)</span><br><span class="line">  <span class="keyword">for</span> (<span class="type">int</span> j = <span class="number">0</span>; j &lt; N; ++j) sum[j] += it[j];</span><br></pre></td></tr></table></figure>
 <p>用法就是包装一个tbb::enumerable_thread_specific，然后在内部使用local得到自己的那份拷贝，此外可以遍历整个容器，得到每一份拷贝。（如果该线程第一次调用local，就会创建一份，否则会使用自己已经创建的那份）</p>
 <p>可以使用<code>size()</code>得到有几个拷贝，但是该容器只支持顺序遍历，不能随机访问(不支持<code>[]</code>)。所以如果指定线程想查看对方的私有拷贝，这是不行的，你既不知道它的下标，也没办法直接访问</p>
-<p><code>combinable</code>：provides thread local storage for holding per-thread<br>
-subcomputations that will later be reduced to a single result. Each thread can<br>
-only see its local data or, after calling combine, the combined data.<br>
-（用于存储中间结果，只能看到自己的数据）</p>
+<p><code>combinable</code>：provides thread local storage for holding per-threadsubcomputations that will later be reduced to a single result. Each thread canonly see its local data or, after calling combine, the combined data.（用于存储中间结果，只能看到自己的数据）</p>
 <figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">combinable&lt;vector&lt;<span class="type">int</span>&gt;&gt; partial&#123;[]()&#123;<span class="keyword">return</span> <span class="built_in">vector</span>&lt;<span class="type">int</span>&gt;(N); &#125;&#125;;</span><br><span class="line"><span class="built_in">parallel_for</span>(<span class="number">0</span>, <span class="number">10</span>, [&amp;](<span class="type">int</span> i) &#123;</span><br><span class="line">  <span class="keyword">auto</span>&amp; local = partial.<span class="built_in">local</span>();</span><br><span class="line">&#125;);</span><br><span class="line"><span class="function">vector&lt;<span class="type">int</span>&gt; <span class="title">sum</span><span class="params">(N)</span></span>;</span><br><span class="line">partial.<span class="built_in">combine_each</span>([&amp;](<span class="type">const</span> vector&lt;<span class="type">int</span>&gt;&amp; a) &#123;</span><br><span class="line">  <span class="keyword">for</span> (<span class="type">int</span> i = <span class="number">0</span>; i &lt; N; ++i) sum[i] += a[i];</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
 <p>combinable需要传入一个lambda，在local中会调用，用于初始化。</p>
 <p>通过combine_each将每份拷贝的结果合并起来。</p>
@@ -201,9 +194,7 @@ only see its local data or, after calling combine, the combined data.<br>
 <p>Task</p>
 <p><code>parallel_invoke(f1,f2...)</code>（隐式的task spawning和barrier）</p>
 <figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">task_group g;</span><br><span class="line">g.<span class="built_in">run</span>(f1);</span><br><span class="line">g.<span class="built_in">run</span>(f2);</span><br><span class="line">...</span><br><span class="line">g.<span class="built_in">wait</span>();</span><br></pre></td></tr></table></figure>
-<p><code>run_and_wait(f)</code>：we avoid the overhead of enqueueing-schedulingdequeuing<br>
-steps, and second, we avoid the potential stealing that can happen while the<br>
-task is in the queue.</p>
+<p><code>run_and_wait(f)</code>：we avoid the overhead of enqueueing-schedulingdequeuingsteps, and second, we avoid the potential stealing that can happen while thetask is in the queue.</p>
 <p><code>cancel()</code></p>
 <p>如果有大量任务，线性spawn不如递归spawn（满二叉的形式）</p>
 <hr>

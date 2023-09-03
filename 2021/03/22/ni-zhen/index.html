@@ -6,12 +6,12 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="HandheldFriendly" content="True">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=5" />
-    <meta name="description" content="$M(S,I)$表示一个拟阵，其中I是S的某些子集的集合，满足这些子集在某种定义下是独立的 一个拟阵M需要满足如下三个性质：  空集属于I 若集合A属于I，则A的任意一个子集也属于I（遗传性） 若集合A属于I，任意一个size大于A的属于I的集合B中总能找到元素加入A，使其仍在I中（交换性）  满足以上定义的最好的解释例子就是线性无关向量组。 基：最大独立集，即I中size最大的那个子集 环：最小">
+    <meta name="description" content="$M(S,I)$表示一个拟阵，其中I是S的某些子集的集合，满足这些子集在某种定义下是独立的一个拟阵M需要满足如下三个性质：  空集属于I 若集合A属于I，则A的任意一个子集也属于I（遗传性） 若集合A属于I，任意一个size大于A的属于I的集合B中总能找到元素加入A，使其仍在I中（交换性）  满足以上定义的最好的解释例子就是线性无关向量组。基：最大独立集，即I中size最大的那个子集环：最小的非独">
 <meta property="og:type" content="article">
 <meta property="og:title" content="拟阵">
 <meta property="og:url" content="http://example.com/2021/03/22/ni-zhen/index.html">
 <meta property="og:site_name" content="jyf111&#39;s blog">
-<meta property="og:description" content="$M(S,I)$表示一个拟阵，其中I是S的某些子集的集合，满足这些子集在某种定义下是独立的 一个拟阵M需要满足如下三个性质：  空集属于I 若集合A属于I，则A的任意一个子集也属于I（遗传性） 若集合A属于I，任意一个size大于A的属于I的集合B中总能找到元素加入A，使其仍在I中（交换性）  满足以上定义的最好的解释例子就是线性无关向量组。 基：最大独立集，即I中size最大的那个子集 环：最小">
+<meta property="og:description" content="$M(S,I)$表示一个拟阵，其中I是S的某些子集的集合，满足这些子集在某种定义下是独立的一个拟阵M需要满足如下三个性质：  空集属于I 若集合A属于I，则A的任意一个子集也属于I（遗传性） 若集合A属于I，任意一个size大于A的属于I的集合B中总能找到元素加入A，使其仍在I中（交换性）  满足以上定义的最好的解释例子就是线性无关向量组。基：最大独立集，即I中size最大的那个子集环：最小的非独">
 <meta property="og:locale" content="zh_CN">
 <meta property="article:published_time" content="2021-03-22T05:33:44.000Z">
 <meta property="article:modified_time" content="2023-08-24T15:10:46.282Z">
@@ -164,16 +164,13 @@
   
 
   <div class="content e-content" itemprop="articleBody">
-    <p>$M(S,I)$表示一个拟阵，其中I是S的某些子集的集合，满足这些子集在某种定义下是独立的<br>
-一个拟阵M需要满足如下三个性质：</p>
+    <p>$M(S,I)$表示一个拟阵，其中I是S的某些子集的集合，满足这些子集在某种定义下是独立的一个拟阵M需要满足如下三个性质：</p>
 <ul>
 <li>空集属于I</li>
 <li>若集合A属于I，则A的任意一个子集也属于I（遗传性）</li>
 <li>若集合A属于I，任意一个size大于A的属于I的集合B中总能找到元素加入A，使其仍在I中（交换性）</li>
 </ul>
-<p>满足以上定义的最好的解释例子就是线性无关向量组。<br>
-基：最大独立集，即I中size最大的那个子集<br>
-环：最小的非独立集，去掉任意元素后就是一个独立集</p>
+<p>满足以上定义的最好的解释例子就是线性无关向量组。基：最大独立集，即I中size最大的那个子集环：最小的非独立集，去掉任意元素后就是一个独立集</p>
 <p>典型的拟阵：</p>
 <ul>
 <li>uniform matroid：size$\leq k$的子集</li>
@@ -182,23 +179,7 @@
 <li>graphic matroid：每个元素是一条边，一个集合中的边没有环就独立</li>
 <li>上一个拟阵的对偶拟阵：对于一个集合，保留在S中且不在该集合中的所有边后，整个图连通则独立。注：必须是删边，如果是考虑集合中的边连通的话，显然不满足遗传性。</li>
 </ul>
-<p>拟阵交<br>
-考虑现在有两个拟阵（其中的一个独立集本质上就代表着满足了某种约束的集合），那么我们要求同时满足这两个拟阵的约束条件下的最大独立集，这时候就要用到拟阵交了。<br>
-该算法的流程是不断维护当前的共同独立集I，然后尝试加入一个新的元素s：<br>
-定义一种交换图，对于任意两个元素x，y，若满足$x\in I, y \notin<br>
-I,I-\{x\}+\{y\}\in<br>
-{I_1}$​，就从x向y连一条有向边；若满足$x\in I, y<br>
-\notin I,I-\{x\}+\{y\}\in<br>
-{I_2}$​，就从y向x连一条有向边。简单说来就是如果把I中的某个元素x替换成没有选的某个元素y后，如果该独立集符合$I_1$​的定义，就加一条$x\rightarrow<br>
-y$的边，如果符合$I_2$​的定义，就加一条$x \leftarrow y$的边。<br>
-对于所有不在I中的元素x，若$I+\{x\}\in I_1$​，则源点S向其连边<br>
-对于所有不在I中的元素x，若$I+\{x\}\in I_2$​，则其向汇点T连边<br>
-然后从S向T跑一遍<strong>最短路</strong>，如果有这样的路径就把路径上的所有元素的状态取反（对称差）<br>
-上述过程称为一次增广<br>
-不断进行增广操作就可以得到最大独立集了<br>
-复杂度为$O(r^2n(C_1+C_2))$，其中r为秩，$C_1$​和$C_2$​分别表示M1和M2检查当前集合是否为独立集的调用次数<br>
-再考虑如果每个元素是带权的话，其实也很简单，如果一个元素当前在I，就把它的权值定为$-w$，否则定为$w$，然后跑最长路就可以得到最大权独立集了。<br>
-上述算法的一个瓶颈其实是在检查是否为独立集上，这点一定要仔细实现。要支持加入一个元素判断是否还是独立集，删除一个元素并加入一个元素判断是否是独立集</p>
+<p>拟阵交考虑现在有两个拟阵（其中的一个独立集本质上就代表着满足了某种约束的集合），那么我们要求同时满足这两个拟阵的约束条件下的最大独立集，这时候就要用到拟阵交了。该算法的流程是不断维护当前的共同独立集I，然后尝试加入一个新的元素s：定义一种交换图，对于任意两个元素x，y，若满足$x\in I, y \notinI,I-\{x\}+\{y\}\in{I_1}$​，就从x向y连一条有向边；若满足$x\in I, y\notin I,I-\{x\}+\{y\}\in{I_2}$​，就从y向x连一条有向边。简单说来就是如果把I中的某个元素x替换成没有选的某个元素y后，如果该独立集符合$I_1$​的定义，就加一条$x\rightarrowy$的边，如果符合$I_2$​的定义，就加一条$x \leftarrow y$的边。对于所有不在I中的元素x，若$I+\{x\}\in I_1$​，则源点S向其连边对于所有不在I中的元素x，若$I+\{x\}\in I_2$​，则其向汇点T连边然后从S向T跑一遍<strong>最短路</strong>，如果有这样的路径就把路径上的所有元素的状态取反（对称差）上述过程称为一次增广不断进行增广操作就可以得到最大独立集了复杂度为$O(r^2n(C_1+C_2))$，其中r为秩，$C_1$​和$C_2$​分别表示M1和M2检查当前集合是否为独立集的调用次数再考虑如果每个元素是带权的话，其实也很简单，如果一个元素当前在I，就把它的权值定为$-w$，否则定为$w$，然后跑最长路就可以得到最大权独立集了。上述算法的一个瓶颈其实是在检查是否为独立集上，这点一定要仔细实现。要支持加入一个元素判断是否还是独立集，删除一个元素并加入一个元素判断是否是独立集</p>
 <figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="type">bool</span> <span class="title">aug</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">  <span class="type">int</span> S = n, T = n + <span class="number">1</span>;</span><br><span class="line">  <span class="keyword">for</span>(<span class="type">int</span> i=<span class="number">0</span>; i&lt;n; i++) <span class="keyword">if</span>(in[i])</span><br><span class="line">    <span class="keyword">for</span>(<span class="type">int</span> j=<span class="number">0</span>; j&lt;n; j++) <span class="keyword">if</span>(!in[j])</span><br><span class="line">    &#123;</span><br><span class="line">      in[i] = <span class="number">0</span>, in[j] = <span class="number">1</span>;</span><br><span class="line">      <span class="keyword">if</span>(m1.<span class="built_in">check</span>(in)) G[i].<span class="built_in">push_back</span>(j);</span><br><span class="line">      <span class="keyword">if</span>(m2.<span class="built_in">check</span>(in)) G[j].<span class="built_in">push_back</span>(i);</span><br><span class="line">      in[i] = <span class="number">1</span>, in[j] = <span class="number">0</span>;</span><br><span class="line">    &#125;</span><br><span class="line">  <span class="keyword">for</span>(<span class="type">int</span> i=<span class="number">0</span>; i&lt;n; i++) <span class="keyword">if</span>(!in[i])</span><br><span class="line">  &#123;</span><br><span class="line">    in[i] = <span class="number">1</span>;</span><br><span class="line">    <span class="keyword">if</span>(m1.<span class="built_in">check</span>(in)) G[S].<span class="built_in">push_back</span>(i);</span><br><span class="line">    <span class="keyword">if</span>(m2.<span class="built_in">check</span>(in)) G[i].<span class="built_in">push_back</span>(T);</span><br><span class="line">    in[i] = <span class="number">0</span>;</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="function">vector&lt;<span class="type">int</span>&gt; <span class="title">dis</span><span class="params">(n+<span class="number">2</span>, -inf)</span>, <span class="title">pre</span><span class="params">(n+<span class="number">2</span>)</span>, <span class="title">inq</span><span class="params">(n+<span class="number">2</span>)</span></span>;</span><br><span class="line">  queue&lt;<span class="type">int</span>&gt; q;</span><br><span class="line">  q.<span class="built_in">push</span>(S), dis[S] = <span class="number">0</span>;</span><br><span class="line">  <span class="keyword">while</span>(!q.<span class="built_in">empty</span>())</span><br><span class="line">  &#123;</span><br><span class="line">    <span class="type">int</span> u = q.<span class="built_in">front</span>(); q.<span class="built_in">pop</span>();</span><br><span class="line">    inq[u] = <span class="number">0</span>;</span><br><span class="line">    <span class="type">int</span> cost = <span class="number">0</span>;</span><br><span class="line">    <span class="keyword">if</span>(u&lt;n) cost = in[u] ? -w[u] : w[u];</span><br><span class="line">    <span class="keyword">for</span>(<span class="type">int</span> v : G[u])</span><br><span class="line">    &#123;</span><br><span class="line">      <span class="keyword">if</span>(dis[v]&lt;dis[u]+cost)</span><br><span class="line">      &#123;</span><br><span class="line">        dis[v] = dis[u] + cost;</span><br><span class="line">        pre[v] = u;</span><br><span class="line">        <span class="keyword">if</span>(!inq[v]) q.<span class="built_in">push</span>(v), inq[v] = <span class="number">1</span>;</span><br><span class="line">      &#125;</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="keyword">if</span>(pre[T]==<span class="number">-1</span>) <span class="keyword">return</span> <span class="literal">false</span>;</span><br><span class="line">  <span class="keyword">for</span>(<span class="type">int</span> x=pre[T]; x!=S; x=pre[x]) in[x] ^= <span class="number">1</span>;</span><br><span class="line">  <span class="keyword">return</span> <span class="literal">true</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
   </div>
 </article>

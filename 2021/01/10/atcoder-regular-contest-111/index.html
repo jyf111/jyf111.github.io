@@ -6,12 +6,12 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="HandheldFriendly" content="True">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=5" />
-    <meta name="description" content="¶A 求$\lfloor \frac{10^n}{m} \rfloor$ $1\leq n \leq 10^{18},1\leq m \leq 10000$ 把$x % y$改写成$\lfloor \frac{x}{y} \rfloor$ 求出$p&#x3D;10^n % m$，再求出$q&#x3D;(10^n-p) % m^2$ 那么答案就是$\frac{10^n-p}{m} - \frac{10^n-p-q}{m">
+    <meta name="description" content="¶A 求$\lfloor \frac{10^n}{m} \rfloor$$1\leq n \leq 10^{18},1\leq m \leq 10000$ 把$x % y$改写成$\lfloor \frac{x}{y} \rfloor$求出$p&#x3D;10^n % m$，再求出$q&#x3D;(10^n-p) % m^2$那么答案就是$\frac{10^n-p}{m} - \frac{10^n-p-q}{m}$​">
 <meta property="og:type" content="article">
 <meta property="og:title" content="AtCoder Regular Contest 111">
 <meta property="og:url" content="http://example.com/2021/01/10/atcoder-regular-contest-111/index.html">
 <meta property="og:site_name" content="jyf111&#39;s blog">
-<meta property="og:description" content="¶A 求$\lfloor \frac{10^n}{m} \rfloor$ $1\leq n \leq 10^{18},1\leq m \leq 10000$ 把$x % y$改写成$\lfloor \frac{x}{y} \rfloor$ 求出$p&#x3D;10^n % m$，再求出$q&#x3D;(10^n-p) % m^2$ 那么答案就是$\frac{10^n-p}{m} - \frac{10^n-p-q}{m">
+<meta property="og:description" content="¶A 求$\lfloor \frac{10^n}{m} \rfloor$$1\leq n \leq 10^{18},1\leq m \leq 10000$ 把$x % y$改写成$\lfloor \frac{x}{y} \rfloor$求出$p&#x3D;10^n % m$，再求出$q&#x3D;(10^n-p) % m^2$那么答案就是$\frac{10^n-p}{m} - \frac{10^n-p-q}{m}$​">
 <meta property="og:locale" content="zh_CN">
 <meta property="article:published_time" content="2021-01-10T05:33:44.000Z">
 <meta property="article:modified_time" content="2023-08-24T15:13:25.962Z">
@@ -158,7 +158,7 @@
             <i class="fa-solid fa-hourglass"></i>
             
             
-                4 mins to read
+                3 mins to read
             
             </span>
         
@@ -169,37 +169,19 @@
 
   <div class="content e-content" itemprop="articleBody">
     <h2 id="A"><a class="header-anchor" href="#A">¶</a>A</h2>
-<p>求$\lfloor \frac{10^n}{m} \rfloor$<br>
-$1\leq n \leq 10^{18},1\leq m \leq 10000$</p>
-<p>把$x % y$改写成$\lfloor \frac{x}{y} \rfloor$<br>
-求出$p=10^n % m$，再求出$q=(10^n-p) % m^2$<br>
-那么答案就是$\frac{10^n-p}{m} - \frac{10^n-p-q}{m}$​，即$\frac{q}{m}$<br>
-快速幂即可</p>
+<p>求$\lfloor \frac{10^n}{m} \rfloor$$1\leq n \leq 10^{18},1\leq m \leq 10000$</p>
+<p>把$x % y$改写成$\lfloor \frac{x}{y} \rfloor$求出$p=10^n % m$，再求出$q=(10^n-p) % m^2$那么答案就是$\frac{10^n-p}{m} - \frac{10^n-p-q}{m}$​，即$\frac{q}{m}$快速幂即可</p>
 <h2 id="B"><a class="header-anchor" href="#B">¶</a>B</h2>
 <p>有n张牌，每张有两面，各有数字$a_i$​和$b_i$​，每张牌选择一面朝上，问你最多能有几种数字。</p>
-<p>相当于给$a_i$​和$b_i$​连边，然后对于每个连通块如果是树，那就要少一种，否则全可以有<br>
-然后比赛时候我却只想到一个二分图的建法，甚至还在犹豫要不要用HK冲（太菜惹。。）<br>
-最后也是乱搞过去的，如果某个数字只有一张牌有，那就让翻，这样按照拓扑把这些贪心掉之后，剩下的每个数字都至少有两个牌有，那么这些数字都可以有（其实和题解的结论一样）</p>
+<p>相当于给$a_i$​和$b_i$​连边，然后对于每个连通块如果是树，那就要少一种，否则全可以有然后比赛时候我却只想到一个二分图的建法，甚至还在犹豫要不要用HK冲（太菜惹。。）最后也是乱搞过去的，如果某个数字只有一张牌有，那就让翻，这样按照拓扑把这些贪心掉之后，剩下的每个数字都至少有两个牌有，那么这些数字都可以有（其实和题解的结论一样）</p>
 <h2 id="C"><a class="header-anchor" href="#C">¶</a>C</h2>
 <p>每个人有权值$a_i$​，有物品$p_i$​，且重$b_i$​，每次可以选择两个人交换他们的物品，问你最少多少次使得所有i满足$p_i=i$，一个额外条件是如果$a_i\le b_i$​后这个人就不能再交换了。</p>
-<p>可以任意交换，要最少次数，显然是考虑每个置换环<br>
-贪心的想肯定是先让$a_i$​小的人先归位，尽可能让$a_i$​大的人作中介<br>
-所以按照$a$排序后一个个换即可<br>
-题解说的是如果换不了就一定无解。我写的时候是如果一次换不了，就尝试让$a$最大的那个作中介，似乎不会出现这种情况？</p>
+<p>可以任意交换，要最少次数，显然是考虑每个置换环贪心的想肯定是先让$a_i$​小的人先归位，尽可能让$a_i$​大的人作中介所以按照$a$排序后一个个换即可题解说的是如果换不了就一定无解。我写的时候是如果一次换不了，就尝试让$a$最大的那个作中介，似乎不会出现这种情况？</p>
 <h2 id="D"><a class="header-anchor" href="#D">¶</a>D</h2>
 <p>一个无向图，让你给所有边定向，使得每个点可以达到的点数满足给定的数组$c$，保证存在解</p>
-<p>因为一定有解，那么对于一条边，如果两个点的c不同，一定是让大的连向小的，所以只用考虑相等的。我当时想的是肯定是环，但是这样很难构造。其实本质就是让你把这个无向图定向成一个强连通的图。先跑出一个dfs树，然后对于树边从dfs序小的到大的，对于非树边从dfs序大的到小的即可。<br>
-我边的数组也只开了100，导致一直wa（不知道为什么不是re），自闭了</p>
+<p>因为一定有解，那么对于一条边，如果两个点的c不同，一定是让大的连向小的，所以只用考虑相等的。我当时想的是肯定是环，但是这样很难构造。其实本质就是让你把这个无向图定向成一个强连通的图。先跑出一个dfs树，然后对于树边从dfs序小的到大的，对于非树边从dfs序大的到小的即可。我边的数组也只开了100，导致一直wa（不知道为什么不是re），自闭了</p>
 <h2 id="E"><a class="header-anchor" href="#E">¶</a>E</h2>
-<p>给定A,B,C,D，让你求有多少个正整数i满足$[A+Bi,A+Ci]$区间内没有D的倍数<br>
-显然区间长度$\geq D$的时候一定有D的倍数<br>
-所有i一定满足$\leq \lfloor \frac{D-2}{C-B} \rfloor$<br>
-其次就是$\lfloor \frac{A+Bi-1}{D} \rfloor= \lfloor \frac{A+Ci}{D}<br>
-\rfloor$<br>
-又由于这两者最多相差1，所以只要求出$\sum \limits_{i=1}^{up} \lfloor<br>
-\frac{A+Ci}{D} \rfloor - \lfloor \frac{A+Bi-1}{D}<br>
-\rfloor$，就是包含D的倍数的不合法区间了，用up减掉即可。这东西就是一个基本的类欧几里得了$\sum<br>
-\limits_{i=0}^{n} \lfloor \frac{ai+b}{c} \rfloor$，套个板子即可</p>
+<p>给定A,B,C,D，让你求有多少个正整数i满足$[A+Bi,A+Ci]$区间内没有D的倍数显然区间长度$\geq D$的时候一定有D的倍数所有i一定满足$\leq \lfloor \frac{D-2}{C-B} \rfloor$其次就是$\lfloor \frac{A+Bi-1}{D} \rfloor= \lfloor \frac{A+Ci}{D}\rfloor$又由于这两者最多相差1，所以只要求出$\sum \limits_{i=1}^{up} \lfloor\frac{A+Ci}{D} \rfloor - \lfloor \frac{A+Bi-1}{D}\rfloor$，就是包含D的倍数的不合法区间了，用up减掉即可。这东西就是一个基本的类欧几里得了$\sum\limits_{i=0}^{n} \lfloor \frac{ai+b}{c} \rfloor$，套个板子即可</p>
 <p>比赛就写ABC，D没写出来，E没看，感觉这次DE挺套路的，然后ABC我写的有点慢，BC也都是猜的结论不太敢写，想了好久</p>
 
   </div>

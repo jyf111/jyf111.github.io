@@ -6,12 +6,12 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="HandheldFriendly" content="True">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=5" />
-    <meta name="description" content="每条边最多在一个简单环上的图 每个环都是一个点双(方点),可以很方便的用圆方树来维护 求仙人掌图上两点间的最短路 注意仙人掌上的圆方树的建法: 每个简单环新建一个方点,环上每个点与方点连边,权值为到起点的最短距离,如果u是割点,向v连边权值为原图的边权(两个圆点连边) 做法 先建出圆方树 考虑u和v在树上的LCA:  p为圆点,则答案就是树上两点的距离 p为方点,找出p的两个儿子a(u的祖先),b">
+    <meta name="description" content="每条边最多在一个简单环上的图每个环都是一个点双(方点),可以很方便的用圆方树来维护 求仙人掌图上两点间的最短路注意仙人掌上的圆方树的建法:每个简单环新建一个方点,环上每个点与方点连边,权值为到起点的最短距离,如果u是割点,向v连边权值为原图的边权(两个圆点连边) 做法 先建出圆方树考虑u和v在树上的LCA:  p为圆点,则答案就是树上两点的距离 p为方点,找出p的两个儿子a(u的祖先),b(v的祖">
 <meta property="og:type" content="article">
 <meta property="og:title" content="P5236 【模板】静态仙人掌">
 <meta property="og:url" content="http://example.com/2020/05/15/p5236-mo-ban-jing-tai-xian-ren-zhang/index.html">
 <meta property="og:site_name" content="jyf111&#39;s blog">
-<meta property="og:description" content="每条边最多在一个简单环上的图 每个环都是一个点双(方点),可以很方便的用圆方树来维护 求仙人掌图上两点间的最短路 注意仙人掌上的圆方树的建法: 每个简单环新建一个方点,环上每个点与方点连边,权值为到起点的最短距离,如果u是割点,向v连边权值为原图的边权(两个圆点连边) 做法 先建出圆方树 考虑u和v在树上的LCA:  p为圆点,则答案就是树上两点的距离 p为方点,找出p的两个儿子a(u的祖先),b">
+<meta property="og:description" content="每条边最多在一个简单环上的图每个环都是一个点双(方点),可以很方便的用圆方树来维护 求仙人掌图上两点间的最短路注意仙人掌上的圆方树的建法:每个简单环新建一个方点,环上每个点与方点连边,权值为到起点的最短距离,如果u是割点,向v连边权值为原图的边权(两个圆点连边) 做法 先建出圆方树考虑u和v在树上的LCA:  p为圆点,则答案就是树上两点的距离 p为方点,找出p的两个儿子a(u的祖先),b(v的祖">
 <meta property="og:locale" content="zh_CN">
 <meta property="article:published_time" content="2020-05-15T05:33:44.000Z">
 <meta property="article:modified_time" content="2023-08-25T03:48:56.345Z">
@@ -168,14 +168,10 @@
   
 
   <div class="content e-content" itemprop="articleBody">
-    <p>每条边最多在一个简单环上的图<br>
-每个环都是一个点双(方点),可以很方便的用圆方树来维护</p>
-<p>求仙人掌图上两点间的最短路<br>
-注意仙人掌上的圆方树的建法:<br>
-每个简单环新建一个方点,环上每个点与方点连边,权值为到起点的最短距离,如果u是割点,向v连边权值为原图的边权(两个圆点连边)</p>
+    <p>每条边最多在一个简单环上的图每个环都是一个点双(方点),可以很方便的用圆方树来维护</p>
+<p>求仙人掌图上两点间的最短路注意仙人掌上的圆方树的建法:每个简单环新建一个方点,环上每个点与方点连边,权值为到起点的最短距离,如果u是割点,向v连边权值为原图的边权(两个圆点连边)</p>
 <h1>做法</h1>
-<p>先建出圆方树<br>
-考虑u和v在树上的LCA:</p>
+<p>先建出圆方树考虑u和v在树上的LCA:</p>
 <ul>
 <li>p为圆点,则答案就是树上两点的距离</li>
 <li>p为方点,找出p的两个儿子a(u的祖先),b(v的祖先),a和b处在一个环上,答案是dis(a,b)+dis(a,u)+dis(b,v),注意dis(a,b)要取min</li>

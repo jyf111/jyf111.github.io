@@ -14,7 +14,7 @@
 <meta property="og:description" content="Binutils 是由很多处理汇编文件、目标文件以及库的二进制开发工具组成的集合。 ¶as 汇编器，将汇编代码转化为目标文件。在不提供-o选项时，默认输出到a.out文件。 12as file.s -o file.oas --32&#x2F;--64 file.s # 32&#x2F;64 bit ¶目标文件 也叫可重定位文件，是经过编译但还未进行链接的中间文件。 ¶ld 链接器，将若干目标文件链接为可执行文件。 1">
 <meta property="og:locale" content="zh_CN">
 <meta property="article:published_time" content="2023-09-03T11:03:22.000Z">
-<meta property="article:modified_time" content="2023-09-03T13:44:16.157Z">
+<meta property="article:modified_time" content="2023-09-03T14:00:03.807Z">
 <meta property="article:author" content="jyf111">
 <meta property="article:tag" content="工具">
 <meta name="twitter:card" content="summary">
@@ -137,7 +137,7 @@
       
         <time datetime="2023-09-03T11:03:22.000Z" class="dt-published" itemprop="datePublished">2023-09-03</time>
         
-        (Updated: <time datetime="2023-09-03T13:44:16.157Z" class="dt-updated" itemprop="dateModified">2023-09-03</time>)
+        (Updated: <time datetime="2023-09-03T14:00:03.807Z" class="dt-updated" itemprop="dateModified">2023-09-03</time>)
         
       
     </div>
@@ -177,8 +177,7 @@
 <h2 id="ld"><a class="header-anchor" href="#ld">¶</a>ld</h2>
 <p>链接器，将若干目标文件链接为可执行文件。</p>
 <figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">ld file1.o file2.o -o exe</span><br><span class="line">ld file.o --dynamic-linker /lib64/ld-linux-x86-64.so.2 -e main -lc -o exe</span><br></pre></td></tr></table></figure>
-<p>虽然说<code>gcc</code>在将源代码编译成汇编后就是依靠<code>as</code>和<code>ld</code>来生成最终的可执行文件（<code>gcc -v</code>显示的是<code>collect2</code>，不过这其实只是<code>ld</code>的封装），但是手动使用<code>gcc -S</code>，<code>as</code>和<code>ld</code><br>
-来生成可执行文件会产生很多问题（我到现在都还没成功），比如入口函数、程序终止等等。</p>
+<p>虽然说<code>gcc</code>在将源代码编译成汇编后就是依靠<code>as</code>和<code>ld</code>来生成最终的可执行文件（<code>gcc -v</code>显示的是<code>collect2</code>，不过这其实只是<code>ld</code>的封装），但是手动使用<code>gcc -S</code>，<code>as</code>和<code>ld</code>来生成可执行文件会产生很多问题（我到现在都还没成功），比如入口函数、程序终止等等。</p>
 <h2 id="nm"><a class="header-anchor" href="#nm">¶</a>nm</h2>
 <p>列出目标文件或可执行文件中的符号表。</p>
 <figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">nm file</span><br><span class="line">-g # 列出全局符号</span><br><span class="line">-u # 列出未定义符号</span><br><span class="line">-a # 列出所有符号</span><br><span class="line">--demangle # 还原C++中修饰了的符号</span><br></pre></td></tr></table></figure>

@@ -6,12 +6,12 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="HandheldFriendly" content="True">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=5" />
-    <meta name="description" content="对于一维，用单调队列就可以解决。 二维的话，先对每一列做一遍，然后压缩成一维 更高维同理。。。 这里主要记录一下前k优最值的记录 例如现在要求固定区间的最小值和次小值。我们只需要维护两个单增队列。每当移动r指针，先维护第一个队列的单调性，弹出的元素塞到第二个队列中。那么次大值就是第一个栈中的次大值或者第二个栈中的最大值。 另外可以采用双栈模拟队列的方式，栈中存的是pair(当前元素大小，栈底到当前">
+    <meta name="description" content="对于一维，用单调队列就可以解决。二维的话，先对每一列做一遍，然后压缩成一维更高维同理。。。 这里主要记录一下前k优最值的记录例如现在要求固定区间的最小值和次小值。我们只需要维护两个单增队列。每当移动r指针，先维护第一个队列的单调性，弹出的元素塞到第二个队列中。那么次大值就是第一个栈中的次大值或者第二个栈中的最大值。 另外可以采用双栈模拟队列的方式，栈中存的是pair(当前元素大小，栈底到当前元素的">
 <meta property="og:type" content="article">
 <meta property="og:title" content="固定区间最值查询">
 <meta property="og:url" content="http://example.com/2021/09/28/gu-ding-qu-jian-zui-zhi-cha-xun/index.html">
 <meta property="og:site_name" content="jyf111&#39;s blog">
-<meta property="og:description" content="对于一维，用单调队列就可以解决。 二维的话，先对每一列做一遍，然后压缩成一维 更高维同理。。。 这里主要记录一下前k优最值的记录 例如现在要求固定区间的最小值和次小值。我们只需要维护两个单增队列。每当移动r指针，先维护第一个队列的单调性，弹出的元素塞到第二个队列中。那么次大值就是第一个栈中的次大值或者第二个栈中的最大值。 另外可以采用双栈模拟队列的方式，栈中存的是pair(当前元素大小，栈底到当前">
+<meta property="og:description" content="对于一维，用单调队列就可以解决。二维的话，先对每一列做一遍，然后压缩成一维更高维同理。。。 这里主要记录一下前k优最值的记录例如现在要求固定区间的最小值和次小值。我们只需要维护两个单增队列。每当移动r指针，先维护第一个队列的单调性，弹出的元素塞到第二个队列中。那么次大值就是第一个栈中的次大值或者第二个栈中的最大值。 另外可以采用双栈模拟队列的方式，栈中存的是pair(当前元素大小，栈底到当前元素的">
 <meta property="og:locale" content="zh_CN">
 <meta property="article:published_time" content="2021-09-28T05:33:44.000Z">
 <meta property="article:modified_time" content="2023-08-24T09:12:46.786Z">
@@ -164,11 +164,8 @@
   
 
   <div class="content e-content" itemprop="articleBody">
-    <p>对于一维，用单调队列就可以解决。<br>
-二维的话，先对每一列做一遍，然后压缩成一维<br>
-更高维同理。。。</p>
-<p>这里主要记录一下前k优最值的记录<br>
-例如现在要求固定区间的最小值和次小值。我们只需要维护两个单增队列。每当移动r指针，先维护第一个队列的单调性，弹出的元素塞到第二个队列中。那么次大值就是第一个栈中的次大值或者第二个栈中的最大值。</p>
+    <p>对于一维，用单调队列就可以解决。二维的话，先对每一列做一遍，然后压缩成一维更高维同理。。。</p>
+<p>这里主要记录一下前k优最值的记录例如现在要求固定区间的最小值和次小值。我们只需要维护两个单增队列。每当移动r指针，先维护第一个队列的单调性，弹出的元素塞到第二个队列中。那么次大值就是第一个栈中的次大值或者第二个栈中的最大值。</p>
 <p>另外可以采用双栈模拟队列的方式，栈中存的是pair(当前元素大小，栈底到当前元素的最小值)。同理对于k小值只要修改second为k维的tuple即可。</p>
 
   </div>

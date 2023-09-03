@@ -175,8 +175,7 @@
 <p>日志级别：info、warn、error、critical</p>
 <p>mt后缀表示多线程（multi threaded），st后缀表示单线程</p>
 <blockquote>
-<p>spdlog takes the “include what you need” approach - your code should include<br>
-the features that actually needed.</p>
+<p>spdlog takes the “include what you need” approach - your code should includethe features that actually needed.</p>
 </blockquote>
 <p>输出使用fmt库，类似python</p>
 <p>编译器log过滤</p>
@@ -187,10 +186,8 @@ the features that actually needed.</p>
 <figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// Release all spdlog resources, and drop all loggers in the registry.</span></span><br><span class="line"><span class="comment">// This is optional (only mandatory if using windows + async log).</span></span><br><span class="line">spdlog::<span class="built_in">shutdown</span>();</span><br></pre></td></tr></table></figure>
 <h3 id="logger"><a class="header-anchor" href="#logger">¶</a>logger</h3>
 <blockquote>
-<p>Each logger contains a vector of one or more<br>
-<code>std::shared_ptr&lt;spdlog::sink&gt;</code>.</p>
-<p>On each log call (if the log level is right) the logger will call the<br>
-<code>sink(log_msg)</code> function on each of them.</p>
+<p>Each logger contains a vector of one or more<code>std::shared_ptr&lt;spdlog::sink&gt;</code>.</p>
+<p>On each log call (if the log level is right) the logger will call the<code>sink(log_msg)</code> function on each of them.</p>
 </blockquote>
 <p>spdlog会默认创建一个全局的logger（stdout、color、mt），直接使用<code>spdlog::info(..)</code>调用的就是该logger</p>
 <figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">spdlog::<span class="built_in">set_default_logger</span>(some_other_logger);</span><br><span class="line">spdlog::<span class="built_in">info</span>(<span class="string">&quot;Use the new default logger&quot;</span>);</span><br><span class="line"></span><br><span class="line"><span class="keyword">auto</span> console = spdlog::<span class="built_in">stdout_color_mt</span>(<span class="string">&quot;some_unique_name&quot;</span>); <span class="comment">// create logger</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">auto</span> file_logger = spdlog::<span class="built_in">rotating_logger_mt</span>(<span class="string">&quot;file_logger&quot;</span>, <span class="string">&quot;logs/mylogfile&quot;</span>, <span class="number">1048576</span> * <span class="number">5</span>, <span class="number">3</span>); <span class="comment">// rotate 3个文件循环log</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">auto</span> sink = std::<span class="built_in">make_shared</span>&lt;spdlog::sinks::stdout_sink_mt&gt;();</span><br><span class="line"><span class="keyword">auto</span> my_logger= std::<span class="built_in">make_shared</span>&lt;spdlog::logger&gt;(<span class="string">&quot;mylogger&quot;</span>, sink); <span class="comment">// manually,不会register</span></span><br><span class="line"></span><br><span class="line">std::vector&lt;spdlog::sink_ptr&gt; sinks;</span><br><span class="line">sinks.<span class="built_in">push_back</span>(std::<span class="built_in">make_shared</span>&lt;spdlog::sinks::stdout_sink_st&gt;());</span><br><span class="line">sinks.<span class="built_in">push_back</span>(std::<span class="built_in">make_shared</span>&lt;spdlog::sinks::daily_file_sink_st&gt;(<span class="string">&quot;logfile&quot;</span>, <span class="number">23</span>, <span class="number">59</span>));</span><br><span class="line"><span class="keyword">auto</span> combined_logger = std::<span class="built_in">make_shared</span>&lt;spdlog::logger&gt;(<span class="string">&quot;name&quot;</span>, <span class="built_in">begin</span>(sinks), <span class="built_in">end</span>(sinks)); <span class="comment">// one log and multiple sink</span></span><br><span class="line"><span class="comment">//register it if you need to access it globally</span></span><br><span class="line">spdlog::<span class="built_in">register_logger</span>(combined_logger);</span><br></pre></td></tr></table></figure>
@@ -201,8 +198,7 @@ the features that actually needed.</p>
 <h3 id="register"><a class="header-anchor" href="#register">¶</a>register</h3>
 <blockquote>
 <p>spdlog maintains a global (per process) registry of the created loggers.</p>
-<p>The purpose is for loggers to be accessed easily from anywhere in the<br>
-project without passing them around.（避免参数传递）</p>
+<p>The purpose is for loggers to be accessed easily from anywhere in theproject without passing them around.（避免参数传递）</p>
 </blockquote>
 <figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">spdlog::<span class="built_in">get</span>(<span class="string">&quot;logger_name&quot;</span>); <span class="comment">// 内部有lock，最好使用一个变量保存</span></span><br><span class="line">spdlog::<span class="built_in">register_logger</span>(some_logger);</span><br><span class="line">spdlog::<span class="built_in">drop</span>(<span class="string">&quot;logger_name&quot;</span>);</span><br><span class="line"><span class="comment">//or remove them all</span></span><br><span class="line">spdlog::<span class="built_in">drop_all</span>()</span><br></pre></td></tr></table></figure>
 <h3 id="format"><a class="header-anchor" href="#format">¶</a>format</h3>

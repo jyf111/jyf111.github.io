@@ -6,12 +6,12 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="HandheldFriendly" content="True">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=5" />
-    <meta name="description" content="除了两道题没什么人过外比较简单 ¶A 小学数学 ¶B 初中物理 ¶C 模拟题，带一点点推理 ¶D 给定a,b，让你求一个x，满足$a^x&#x3D;x^b$ 其中$2\leq a,b \leq 10000$ 容易想到x可以表示$a^t$的形式 考虑$t\geq 1$的情况 $a^t &#x3D; tb$ 可以直接暴力枚举t，幂次的增速是迅速的 考虑$t\le 1$的情况 小数没法枚举了，但是可以找到a的因子d，使得d">
+    <meta name="description" content="除了两道题没什么人过外比较简单 ¶A 小学数学 ¶B 初中物理 ¶C 模拟题，带一点点推理 ¶D 给定a,b，让你求一个x，满足$a^x&#x3D;x^b$其中$2\leq a,b \leq 10000$容易想到x可以表示$a^t$的形式考虑$t\geq 1$的情况$a^t &#x3D; tb$可以直接暴力枚举t，幂次的增速是迅速的考虑$t\le 1$的情况小数没法枚举了，但是可以找到a的因子d，使得d的幂次&#x3D;a，转">
 <meta property="og:type" content="article">
 <meta property="og:title" content="ICPC Central Russia Regional Contest (CRRC 19) gym102780">
 <meta property="og:url" content="http://example.com/2021/01/09/icpc-central-russia-regional-contest-crrc-19-gym102780/index.html">
 <meta property="og:site_name" content="jyf111&#39;s blog">
-<meta property="og:description" content="除了两道题没什么人过外比较简单 ¶A 小学数学 ¶B 初中物理 ¶C 模拟题，带一点点推理 ¶D 给定a,b，让你求一个x，满足$a^x&#x3D;x^b$ 其中$2\leq a,b \leq 10000$ 容易想到x可以表示$a^t$的形式 考虑$t\geq 1$的情况 $a^t &#x3D; tb$ 可以直接暴力枚举t，幂次的增速是迅速的 考虑$t\le 1$的情况 小数没法枚举了，但是可以找到a的因子d，使得d">
+<meta property="og:description" content="除了两道题没什么人过外比较简单 ¶A 小学数学 ¶B 初中物理 ¶C 模拟题，带一点点推理 ¶D 给定a,b，让你求一个x，满足$a^x&#x3D;x^b$其中$2\leq a,b \leq 10000$容易想到x可以表示$a^t$的形式考虑$t\geq 1$的情况$a^t &#x3D; tb$可以直接暴力枚举t，幂次的增速是迅速的考虑$t\le 1$的情况小数没法枚举了，但是可以找到a的因子d，使得d的幂次&#x3D;a，转">
 <meta property="og:locale" content="zh_CN">
 <meta property="article:published_time" content="2021-01-09T05:33:44.000Z">
 <meta property="article:modified_time" content="2023-08-24T15:16:14.352Z">
@@ -176,20 +176,11 @@
 <h2 id="C"><a class="header-anchor" href="#C">¶</a>C</h2>
 <p>模拟题，带一点点推理</p>
 <h2 id="D"><a class="header-anchor" href="#D">¶</a>D</h2>
-<p>给定a,b，让你求一个x，满足$a^x=x^b$<br>
-其中$2\leq a,b \leq 10000$<br>
-容易想到x可以表示$a^t$的形式<br>
-考虑$t\geq 1$的情况<br>
-$a^t = tb$<br>
-可以直接暴力枚举t，幂次的增速是迅速的<br>
-考虑$t\le 1$的情况<br>
-小数没法枚举了，但是可以找到a的因子d，使得d的幂次=a，转而用d的幂次去表示x即可</p>
+<p>给定a,b，让你求一个x，满足$a^x=x^b$其中$2\leq a,b \leq 10000$容易想到x可以表示$a^t$的形式考虑$t\geq 1$的情况$a^t = tb$可以直接暴力枚举t，幂次的增速是迅速的考虑$t\le 1$的情况小数没法枚举了，但是可以找到a的因子d，使得d的幂次=a，转而用d的幂次去表示x即可</p>
 <h2 id="F"><a class="header-anchor" href="#F">¶</a>F</h2>
-<p>给定一个字符串，两个人轮流操作，每次操作可以选择一种字母，然后删除一个或者二个或者全部，问谁赢。<br>
-可以把每种字母想成一堆石子，那就是一个只能取1个或2个或全部的NIM游戏，跑一下sg即可，其实直接手推也行</p>
+<p>给定一个字符串，两个人轮流操作，每次操作可以选择一种字母，然后删除一个或者二个或者全部，问谁赢。可以把每种字母想成一堆石子，那就是一个只能取1个或2个或全部的NIM游戏，跑一下sg即可，其实直接手推也行</p>
 <h2 id="H"><a class="header-anchor" href="#H">¶</a>H</h2>
-<p>一个数n，两个轮流让其减1，减5，或者减13，问谁赢<br>
-跟F差不多，跑一下dp即可</p>
+<p>一个数n，两个轮流让其减1，减5，或者减13，问谁赢跟F差不多，跑一下dp即可</p>
 <h2 id="I"><a class="header-anchor" href="#I">¶</a>I</h2>
 <p>有一个$n \times n$的网格，现在有一个特殊点，然后每次你可以进行三种询问</p>
 <ul>
@@ -197,18 +188,11 @@ $a^t = tb$<br>
 <li>询问某条线段是否包含特殊点</li>
 <li>询问某个三角形是否包含特殊点</li>
 </ul>
-<p>$n \leq 10^8$，询问次数不超过60<br>
-看到这个数据范围和询问次数就想到二分，x和y可以分开做，那么我们相当于要通过一次询问判断这个特殊点的坐标是小于x还是大于x。这边有个条件就是询问的点的坐标可以超过n，在$10^9$以内就行，那就很简单了，每次问一个右边的特别大的三角形，保证可以盖住大于x的这块矩形就可以了</p>
+<p>$n \leq 10^8$，询问次数不超过60看到这个数据范围和询问次数就想到二分，x和y可以分开做，那么我们相当于要通过一次询问判断这个特殊点的坐标是小于x还是大于x。这边有个条件就是询问的点的坐标可以超过n，在$10^9$以内就行，那就很简单了，每次问一个右边的特别大的三角形，保证可以盖住大于x的这块矩形就可以了</p>
 <h2 id="J"><a class="header-anchor" href="#J">¶</a>J</h2>
-<p>让你用不超过5个数，使得它们的立方和等于x<br>
-$x\leq 10^{100000}$<br>
-考虑$(x-1)^3 + (x+1)^3 = 2x^3 + 6x$<br>
-那如果x是6的倍数，让y=x/6，然后用y-1，y+1，-y, -y这四个数就可以表示出x了<br>
-其余按照%6讨论一下即可<br>
-比如x%6=2，就先表示出x-8，再加个$2^3$即可</p>
+<p>让你用不超过5个数，使得它们的立方和等于x$x\leq 10^{100000}$考虑$(x-1)^3 + (x+1)^3 = 2x^3 + 6x$那如果x是6的倍数，让y=x/6，然后用y-1，y+1，-y, -y这四个数就可以表示出x了其余按照%6讨论一下即可比如x%6=2，就先表示出x-8，再加个$2^3$即可</p>
 <h2 id="K"><a class="header-anchor" href="#K">¶</a>K</h2>
-<p>给定n个不同的数，每次可以交换相邻的两个数，问你最少交换几次，使得这n个数先减后增<br>
-从大到小考虑每个数，最大的数只能放在最左边或者最右边，然后似乎就有种$n^2$的dp了，但是仔细思考可以发现最大的数放在左边还是右边是不影响次大的数的，所以每个数贪心的放就行了</p>
+<p>给定n个不同的数，每次可以交换相邻的两个数，问你最少交换几次，使得这n个数先减后增从大到小考虑每个数，最大的数只能放在最左边或者最右边，然后似乎就有种$n^2$的dp了，但是仔细思考可以发现最大的数放在左边还是右边是不影响次大的数的，所以每个数贪心的放就行了</p>
 
   </div>
 </article>

@@ -6,12 +6,12 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="HandheldFriendly" content="True">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=5" />
-    <meta name="description" content="ABC签到 ¶F 对小数据写个爆搜后很容易发现规律 ¶D 利用扩展欧拉定理，$n*{a^n} \equiv n % p*{a^{n % (p-1)}}$ 令$j &#x3D; n%(p-1)$, $i &#x3D; n%p$, $j-i&#x3D;k$ 我们枚举a的幂次j（从0到p-2），利用逆元算出i的值 满足条件的$n &#x3D; t(p-1)*p + kp + i$，t为整数，算出[1,x]范围内符合条件的t的个数即可 ¶E 有">
+    <meta name="description" content="ABC签到 ¶F 对小数据写个爆搜后很容易发现规律 ¶D 利用扩展欧拉定理，$n*{a^n} \equiv n % p*{a^{n % (p-1)}}$令$j &#x3D; n%(p-1)$, $i &#x3D; n%p$, $j-i&#x3D;k$我们枚举a的幂次j（从0到p-2），利用逆元算出i的值满足条件的$n &#x3D; t(p-1)*p + kp + i$，t为整数，算出[1,x]范围内符合条件的t的个数即可 ¶E 有向图，">
 <meta property="og:type" content="article">
 <meta property="og:title" content="厦门大学“网宿杯“17届程序设计竞赛决赛">
 <meta property="og:url" content="http://example.com/2020/05/31/sha-men-da-xue-wang-su-bei-17-jie-cheng-xu-she-ji-jing-sai-jue-sai/index.html">
 <meta property="og:site_name" content="jyf111&#39;s blog">
-<meta property="og:description" content="ABC签到 ¶F 对小数据写个爆搜后很容易发现规律 ¶D 利用扩展欧拉定理，$n*{a^n} \equiv n % p*{a^{n % (p-1)}}$ 令$j &#x3D; n%(p-1)$, $i &#x3D; n%p$, $j-i&#x3D;k$ 我们枚举a的幂次j（从0到p-2），利用逆元算出i的值 满足条件的$n &#x3D; t(p-1)*p + kp + i$，t为整数，算出[1,x]范围内符合条件的t的个数即可 ¶E 有">
+<meta property="og:description" content="ABC签到 ¶F 对小数据写个爆搜后很容易发现规律 ¶D 利用扩展欧拉定理，$n*{a^n} \equiv n % p*{a^{n % (p-1)}}$令$j &#x3D; n%(p-1)$, $i &#x3D; n%p$, $j-i&#x3D;k$我们枚举a的幂次j（从0到p-2），利用逆元算出i的值满足条件的$n &#x3D; t(p-1)*p + kp + i$，t为整数，算出[1,x]范围内符合条件的t的个数即可 ¶E 有向图，">
 <meta property="og:locale" content="zh_CN">
 <meta property="article:published_time" content="2020-05-31T05:33:44.000Z">
 <meta property="article:modified_time" content="2023-08-24T16:18:16.672Z">
@@ -172,24 +172,18 @@
 <h2 id="F"><a class="header-anchor" href="#F">¶</a>F</h2>
 <p>对小数据写个爆搜后很容易发现规律</p>
 <h2 id="D"><a class="header-anchor" href="#D">¶</a>D</h2>
-<p>利用扩展欧拉定理，$n*{a^n} \equiv n % p*{a^{n % (p-1)}}$<br>
-令$j = n%(p-1)$, $i = n%p$, $j-i=k$<br>
-我们枚举a的幂次j（从0到p-2），利用逆元算出i的值<br>
-满足条件的$n = t(p-1)*p + kp + i$，t为整数，算出[1,x]范围内符合条件的t的个数即可</p>
+<p>利用扩展欧拉定理，$n*{a^n} \equiv n % p*{a^{n % (p-1)}}$令$j = n%(p-1)$, $i = n%p$, $j-i=k$我们枚举a的幂次j（从0到p-2），利用逆元算出i的值满足条件的$n = t(p-1)*p + kp + i$，t为整数，算出[1,x]范围内符合条件的t的个数即可</p>
 <h2 id="E"><a class="header-anchor" href="#E">¶</a>E</h2>
 <p>有向图，每条边权值为kx+b,问x在[0,H]范围内最短路最长是多少，容易发现从1到n的路径合并后还是一个kx+b，对于某一天，就相当于众多直线在该天的值中取min，可以发现这是一个上凸包，求最大值三分即可</p>
 <h2 id="H"><a class="header-anchor" href="#H">¶</a>H</h2>
-<p>对一个数做gcd的下降速度是很快的，每次至少减半，所以用线段树合理剪枝就能过，复杂度不会证。<br>
-剪枝方法：</p>
+<p>对一个数做gcd的下降速度是很快的，每次至少减半，所以用线段树合理剪枝就能过，复杂度不会证。剪枝方法：</p>
 <ul>
 <li>区间最大值=1，说明该段区间所有值都是1，直接return</li>
 <li>区间最大值=最小值=x，return</li>
 </ul>
 <p>只做第一个剪枝，很容易被所有数相等然后每次操作也等于该数的数据卡掉，加上第二个剪枝，就过了，是否正确不知</p>
 <h2 id="I"><a class="header-anchor" href="#I">¶</a>I</h2>
-<p>在森林中每次可以取走<strong>若干</strong>个根，初始是一棵1为根的树，不能操作者输<br>
-比赛的时候看错题了，我以为每次只能取一个根<br>
-首先叶子是必胜态，再考虑一个节点的所有儿子，如果都是必败态，那你就是必胜态。如果存在某个儿子是必胜态，你就是必败态，因为你取走该节点后，对手只要把所有是必胜态的节点的根取走，那你面对的所有节点都是必败态的了</p>
+<p>在森林中每次可以取走<strong>若干</strong>个根，初始是一棵1为根的树，不能操作者输比赛的时候看错题了，我以为每次只能取一个根首先叶子是必胜态，再考虑一个节点的所有儿子，如果都是必败态，那你就是必胜态。如果存在某个儿子是必胜态，你就是必败态，因为你取走该节点后，对手只要把所有是必胜态的节点的根取走，那你面对的所有节点都是必败态的了</p>
 
   </div>
 </article>
