@@ -1,0 +1,364 @@
+<!DOCTYPE html>
+<html lang=zh>
+<head>
+    <!-- so meta -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="HandheldFriendly" content="True">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=5" />
+    <meta name="description" content="Binutils 是由很多处理汇编文件、目标文件以及库的二进制开发工具组成的集合。 ¶as 汇编器，将汇编代码转化为目标文件。在不提供-o选项时，默认输出到a.out文件。 12as file.s -o file.oas --32&#x2F;--64 file.s # 32&#x2F;64 bit ¶目标文件 也叫可重定位文件，是经过编译但还未进行链接的中间文件。 ¶ld 链接器，将若干目标文件链接为可执行文件。 1">
+<meta property="og:type" content="article">
+<meta property="og:title" content="GNU Binutils">
+<meta property="og:url" content="http://example.com/2023/09/03/GNU-Binutils/index.html">
+<meta property="og:site_name" content="jyf111&#39;s blog">
+<meta property="og:description" content="Binutils 是由很多处理汇编文件、目标文件以及库的二进制开发工具组成的集合。 ¶as 汇编器，将汇编代码转化为目标文件。在不提供-o选项时，默认输出到a.out文件。 12as file.s -o file.oas --32&#x2F;--64 file.s # 32&#x2F;64 bit ¶目标文件 也叫可重定位文件，是经过编译但还未进行链接的中间文件。 ¶ld 链接器，将若干目标文件链接为可执行文件。 1">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2023-09-03T11:03:22.000Z">
+<meta property="article:modified_time" content="2023-09-03T13:38:59.857Z">
+<meta property="article:author" content="jyf111">
+<meta property="article:tag" content="工具">
+<meta name="twitter:card" content="summary">
+    
+    
+      
+        
+          <link rel="shortcut icon" href="/images/favicon.ico">
+        
+      
+      
+        
+          <link rel="icon" type="image/png" href="/images/favicon-192x192.png" sizes="192x192">
+        
+      
+      
+        
+          <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png">
+        
+      
+    
+    <!-- title -->
+    <title>GNU Binutils</title>
+    <!-- async scripts -->
+    <!-- Google Analytics -->
+
+
+    <!-- Umami Analytics -->
+
+
+    <!-- styles -->
+    
+<link rel="stylesheet" href="/css/style.css">
+
+    <!-- persian styles -->
+    
+    <!-- rss -->
+    
+    
+	<!-- mathjax -->
+	
+		<script type="text/x-mathjax-config">
+		  MathJax.Hub.Config({
+			tex2jax: {
+			  skipTags: ['script', 'noscript', 'style', 'textarea', 'pre'],
+			  inlineMath: [['$','$']]
+			}
+		  });
+		</script>
+		<script src='https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-MML-AM_CHTML' async></script>
+	
+
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/ui@4.0/dist/fancybox.css" />
+
+<meta name="generator" content="Hexo 6.3.0"></head>
+
+<body class="max-width mx-auto px3 ltr">
+    
+      <div id="header-post">
+  <a id="menu-icon" href="#" aria-label="目录"><i class="fa-solid fa-bars fa-lg"></i></a>
+  <a id="menu-icon-tablet" href="#" aria-label="目录"><i class="fa-solid fa-bars fa-lg"></i></a>
+  <a id="top-icon-tablet" href="#" aria-label="顶部" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');" style="display:none;"><i class="fa-solid fa-chevron-up fa-lg"></i></a>
+  <span id="menu">
+    <span id="nav">
+      <ul>
+        <!--
+       --><li><a href="/">首页</a></li><!--
+     --><!--
+       --><li><a href="/archives/">归档</a></li><!--
+     --><!--
+       --><li><a href="/tags/">标签</a></li><!--
+     --><!--
+       --><li><a href="/search/">搜索</a></li><!--
+     -->
+      </ul>
+    </span>
+    <br/>
+    <span id="actions">
+      <ul>
+        
+        
+        <li><a class="icon" aria-label="下一篇" href="/2023/08/26/tabby%E7%BB%88%E7%AB%AF%E6%A8%A1%E6%8B%9F%E5%99%A8/"><i class="fa-solid fa-chevron-right" aria-hidden="true" onmouseover="$('#i-next').toggle();" onmouseout="$('#i-next').toggle();"></i></a></li>
+        
+        <li><a class="icon" aria-label="返回顶部" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fa-solid fa-chevron-up" aria-hidden="true" onmouseover="$('#i-top').toggle();" onmouseout="$('#i-top').toggle();"></i></a></li>
+      </ul>
+      <span id="i-prev" class="info" style="display:none;">上一篇</span>
+      <span id="i-next" class="info" style="display:none;">下一篇</span>
+      <span id="i-top" class="info" style="display:none;">返回顶部</span>
+    </span>
+    <br/>
+    
+    
+      <div id="toc">
+        <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#as"><span class="toc-number">1.</span> <span class="toc-text">as</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%9B%AE%E6%A0%87%E6%96%87%E4%BB%B6"><span class="toc-number">1.1.</span> <span class="toc-text">目标文件</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#ld"><span class="toc-number">2.</span> <span class="toc-text">ld</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#nm"><span class="toc-number">3.</span> <span class="toc-text">nm</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#size"><span class="toc-number">4.</span> <span class="toc-text">size</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#strings"><span class="toc-number">5.</span> <span class="toc-text">strings</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#strip"><span class="toc-number">6.</span> <span class="toc-text">strip</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#c-filt"><span class="toc-number">7.</span> <span class="toc-text">c++filt</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#addr2line"><span class="toc-number">8.</span> <span class="toc-text">addr2line</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#gprof"><span class="toc-number">9.</span> <span class="toc-text">gprof</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#ar"><span class="toc-number">10.</span> <span class="toc-text">ar</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#ranlib"><span class="toc-number">11.</span> <span class="toc-text">ranlib</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#readelf"><span class="toc-number">12.</span> <span class="toc-text">readelf</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#objdump"><span class="toc-number">13.</span> <span class="toc-text">objdump</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#objcopy"><span class="toc-number">14.</span> <span class="toc-text">objcopy</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#libiberty"><span class="toc-number">15.</span> <span class="toc-text">libiberty</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#libbfd"><span class="toc-number">16.</span> <span class="toc-text">libbfd</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#libopcodes"><span class="toc-number">17.</span> <span class="toc-text">libopcodes</span></a></li></ol>
+      </div>
+    
+  </span>
+</div>
+
+    
+    <div class="content index py4 ">
+        
+        <article class="post h-entry" itemscope itemtype="http://schema.org/BlogPosting">
+  <header>
+    
+    <h1 class="posttitle p-name" itemprop="name headline">
+        GNU Binutils
+    </h1>
+
+
+
+    <div class="meta">
+      <span class="author p-author h-card" itemprop="author" itemscope itemtype="http://schema.org/Person">
+        <span class="p-name" itemprop="name">jyf111</span>
+      </span>
+      
+    <div class="postdate">
+      
+        <time datetime="2023-09-03T11:03:22.000Z" class="dt-published" itemprop="datePublished">2023-09-03</time>
+        
+        (Updated: <time datetime="2023-09-03T13:38:59.857Z" class="dt-updated" itemprop="dateModified">2023-09-03</time>)
+        
+      
+    </div>
+
+
+      
+
+      
+    <div class="article-tag">
+        <i class="fa-solid fa-tag"></i>
+        <a class="p-category" href="/tags/%E5%B7%A5%E5%85%B7/" rel="tag">工具</a>
+    </div>
+
+
+      
+        
+            <span class=count-symbol-post> 
+            <i class="fa-solid fa-hourglass"></i>
+            
+            
+                5 mins to read
+            
+            </span>
+        
+      
+    </div>
+  </header>
+  
+
+  <div class="content e-content" itemprop="articleBody">
+    <p>Binutils 是由很多处理汇编文件、目标文件以及库的二进制开发工具组成的集合。</p>
+<h2 id="as"><a class="header-anchor" href="#as">¶</a>as</h2>
+<p>汇编器，将汇编代码转化为目标文件。在不提供<code>-o</code>选项时，默认输出到a.out文件。</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">as file.s -o file.o</span><br><span class="line">as --32/--64 file.s # 32/64 bit</span><br></pre></td></tr></table></figure>
+<h3 id="目标文件"><a class="header-anchor" href="#目标文件">¶</a>目标文件</h3>
+<p>也叫可重定位文件，是经过编译但还未进行链接的中间文件。</p>
+<h2 id="ld"><a class="header-anchor" href="#ld">¶</a>ld</h2>
+<p>链接器，将若干目标文件链接为可执行文件。</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">ld file1.o file2.o -o exe</span><br><span class="line">ld file.o --dynamic-linker /lib64/ld-linux-x86-64.so.2 -e main -lc -o exe</span><br></pre></td></tr></table></figure>
+<p>虽然说<code>gcc</code>在将源代码编译成汇编后就是依靠<code>as</code>和<code>ld</code>来生成最终的可执行文件（<code>gcc -v</code>显示的是<code>collect2</code>，不过这其实只是<code>ld</code>的封装），但是手动使用<code>gcc -S</code>，<code>as</code>和<code>ld</code><br>
+来生成可执行文件会产生很多问题（我到现在都还没成功），比如入口函数、程序终止等等。</p>
+<h2 id="nm"><a class="header-anchor" href="#nm">¶</a>nm</h2>
+<p>列出目标文件或可执行文件中的符号表。</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">nm file</span><br><span class="line">-g # 列出全局符号</span><br><span class="line">-u # 列出未定义符号</span><br><span class="line">-a # 列出所有符号</span><br><span class="line">--demangle # 还原C++中修饰了的符号</span><br></pre></td></tr></table></figure>
+<p>符号类型：大写为全局，小写为局部。</p>
+<ul>
+<li>U: 未定义符号</li>
+<li>T: 文本符号</li>
+<li>D: 数据符号</li>
+<li>B: bss符号</li>
+<li>A: 绝对符号</li>
+</ul>
+<h2 id="size"><a class="header-anchor" href="#size">¶</a>size</h2>
+<p>列出目标文件或可执行文件中各个节的大小信息。</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">size file</span><br></pre></td></tr></table></figure>
+<p>输出包括text，data，bss，dec，hex和filename列，其中dec和hex是总大小的十进制和十六进制表示。</p>
+<h2 id="strings"><a class="header-anchor" href="#strings">¶</a>strings</h2>
+<p>列出目标文件或可执行文件中可打印的字符串，默认只搜索数据段。</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">strings file</span><br><span class="line">strings -a file</span><br><span class="line">string -n number file # 限制长度至少为number</span><br></pre></td></tr></table></figure>
+<h2 id="strip"><a class="header-anchor" href="#strip">¶</a>strip</h2>
+<p>去除符号表，减小文件大小并加速执行。</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">strip file</span><br><span class="line">strip --strip-all file</span><br><span class="line">strip --strip-debug file</span><br><span class="line">strip --strip-unneeded file</span><br><span class="line">strip file -o stripped_file # 默认是替换源文件，-o则生成一个新文件</span><br></pre></td></tr></table></figure>
+<h2 id="c-filt"><a class="header-anchor" href="#c-filt">¶</a>c++filt</h2>
+<p>还原修饰的C++符号。</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">c++filt _Z1fv</span><br></pre></td></tr></table></figure>
+<h2 id="addr2line"><a class="header-anchor" href="#addr2line">¶</a>addr2line</h2>
+<p>将可执行文件中的地址翻译为对应的行号和文件名，需要编译信息（<code>-g</code>）。</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">addr2line -e exe --functions --demangle address </span><br></pre></td></tr></table></figure>
+<p>可以将汇编代码和源文件代码一一对应起来，帮助理解。</p>
+<h2 id="gprof"><a class="header-anchor" href="#gprof">¶</a>gprof</h2>
+<p>用于程序性能分析，需要<code>-pg</code>选项以在每个函数入口处插入<code>mcount</code>函数用于插桩。</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">./exe # 运行后会生成一个gmon.out文件</span><br><span class="line">gprof exe gmon.out &gt; analysis.txt</span><br></pre></td></tr></table></figure>
+<p>缺点：</p>
+<ul>
+<li>计时基于采样，不准确</li>
+<li>只分析用户态代码</li>
+<li>不分析共享库代码</li>
+<li>只观测主线程，且不一定线程安全</li>
+</ul>
+<h2 id="ar"><a class="header-anchor" href="#ar">¶</a>ar</h2>
+<p>用于建立、修改静态库或从静态库中提取文件。其中静态库中包含了按照特定结构组织起来的一组目标文件（称为成员，有.a、.so、.o等类型），并保留各个文件的原始信息。</p>
+<p>注：<code>ar</code>命令创建的文件用于存储编译后的目标文件以供链接，而<code>tar</code>命令创建的文件用于组织和归档文件和目录。这两种命令的主要用途和文件格式完全不同。</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ar crv liba.a file1.o file2.o</span><br></pre></td></tr></table></figure>
+<h2 id="ranlib"><a class="header-anchor" href="#ranlib">¶</a>ranlib</h2>
+<p>在更新静态库后，更新符号表信息（一般不需要使用，该功能会由<code>ar</code>进行）</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ranlib liba.a</span><br></pre></td></tr></table></figure>
+<h2 id="readelf"><a class="header-anchor" href="#readelf">¶</a>readelf</h2>
+<p>显示ELF格式文件的信息</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">readelf -h file</span><br><span class="line">readelf -a file</span><br><span class="line">readelf -s file # 符号表</span><br><span class="line">readelf -r file # 可重定位表</span><br><span class="line">readelf -S file # 节头表</span><br><span class="line">readelf -l file # 程序头表</span><br><span class="line">-W # 输出不换行</span><br></pre></td></tr></table></figure>
+<h2 id="objdump"><a class="header-anchor" href="#objdump">¶</a>objdump</h2>
+<p>显示目标文件的信息</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">objdump -d file # 反汇编</span><br><span class="line">objdump -d -S file # 与源代码对应</span><br><span class="line">objdump -d -l file # 与源代码中的行号对应</span><br><span class="line">objdump -M intel -d file # 使用intel格式</span><br><span class="line">objdump -f file # 查看文件头信息</span><br></pre></td></tr></table></figure>
+<h2 id="objcopy"><a class="header-anchor" href="#objcopy">¶</a>objcopy</h2>
+<p>将一种类型的目标文件转化为另一种类型。</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">objcopy --only-keep-debug file file.debuginfo # 抽取出调试信息</span><br></pre></td></tr></table></figure>
+<h2 id="libiberty"><a class="header-anchor" href="#libiberty">¶</a>libiberty</h2>
+<h2 id="libbfd"><a class="header-anchor" href="#libbfd">¶</a>libbfd</h2>
+<h2 id="libopcodes"><a class="header-anchor" href="#libopcodes">¶</a>libopcodes</h2>
+
+  </div>
+</article>
+
+
+
+        
+          <div id="footer-post-container">
+  <div id="footer-post">
+
+    <div id="nav-footer" style="display: none">
+      <ul>
+        
+          <li><a href="/">首页</a></li>
+        
+          <li><a href="/archives/">归档</a></li>
+        
+          <li><a href="/tags/">标签</a></li>
+        
+          <li><a href="/search/">搜索</a></li>
+        
+      </ul>
+    </div>
+
+    
+    
+      <div id="toc-footer" style="display: none">
+        <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#as"><span class="toc-number">1.</span> <span class="toc-text">as</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%9B%AE%E6%A0%87%E6%96%87%E4%BB%B6"><span class="toc-number">1.1.</span> <span class="toc-text">目标文件</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#ld"><span class="toc-number">2.</span> <span class="toc-text">ld</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#nm"><span class="toc-number">3.</span> <span class="toc-text">nm</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#size"><span class="toc-number">4.</span> <span class="toc-text">size</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#strings"><span class="toc-number">5.</span> <span class="toc-text">strings</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#strip"><span class="toc-number">6.</span> <span class="toc-text">strip</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#c-filt"><span class="toc-number">7.</span> <span class="toc-text">c++filt</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#addr2line"><span class="toc-number">8.</span> <span class="toc-text">addr2line</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#gprof"><span class="toc-number">9.</span> <span class="toc-text">gprof</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#ar"><span class="toc-number">10.</span> <span class="toc-text">ar</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#ranlib"><span class="toc-number">11.</span> <span class="toc-text">ranlib</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#readelf"><span class="toc-number">12.</span> <span class="toc-text">readelf</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#objdump"><span class="toc-number">13.</span> <span class="toc-text">objdump</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#objcopy"><span class="toc-number">14.</span> <span class="toc-text">objcopy</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#libiberty"><span class="toc-number">15.</span> <span class="toc-text">libiberty</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#libbfd"><span class="toc-number">16.</span> <span class="toc-text">libbfd</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#libopcodes"><span class="toc-number">17.</span> <span class="toc-text">libopcodes</span></a></li></ol>
+      </div>
+    
+
+    <div id="actions-footer">
+        <a id="menu" class="icon" href="#" onclick="$('#nav-footer').toggle();return false;"><i class="fa-solid fa-bars fa-lg" aria-hidden="true"></i> 菜单</a>
+        
+          <a id="toc" class="icon" href="#" onclick="$('#toc-footer').toggle();return false;"><i class="fa-solid fa-list fa-lg" aria-hidden="true"></i> 目录</a>
+        
+        <a id="top" style="display:none" class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fa-solid fa-chevron-up fa-lg" aria-hidden="true"></i> 返回顶部</a>
+    </div>
+
+  </div>
+</div>
+
+        
+        <footer id="footer">
+  <div class="footer-left">
+    Copyright &copy;
+    
+    
+    2020-2023
+    jyf111
+  </div>
+  <div class="footer-right">
+    <nav>
+      <ul>
+        <!--
+       --><li><a href="/">首页</a></li><!--
+     --><!--
+       --><li><a href="/archives/">归档</a></li><!--
+     --><!--
+       --><li><a href="/tags/">标签</a></li><!--
+     --><!--
+       --><li><a href="/search/">搜索</a></li><!--
+     -->
+      </ul>
+    </nav>
+  </div>
+</footer>
+
+    </div>
+    <!-- styles -->
+
+
+
+  <link rel="preload" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" crossorigin="anonymous" onload="this.onload=null;this.rel='stylesheet'"/>
+
+
+    <!-- jquery -->
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js" crossorigin="anonymous"></script>
+
+
+
+
+<!-- clipboard -->
+
+  
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.7/clipboard.min.js" crossorigin="anonymous"></script>
+  
+  <script type="text/javascript">
+  $(function() {
+    // copy-btn HTML
+    var btn = "<span class=\"btn-copy tooltipped tooltipped-sw\" aria-label=\"复制到粘贴板！\">";
+    btn += '<i class="fa-regular fa-clone"></i>';
+    btn += '</span>';
+    // mount it!
+    $(".highlight table").before(btn);
+    var clip = new ClipboardJS('.btn-copy', {
+      text: function(trigger) {
+        return Array.from(trigger.nextElementSibling.querySelectorAll('.code')).reduce((str,it)=>str+it.innerText+'\n','')
+      }
+    });
+    clip.on('success', function(e) {
+      e.trigger.setAttribute('aria-label', "复制成功！");
+      e.clearSelection();
+    })
+  })
+  </script>
+
+
+<script src="/js/main.js"></script>
+
+<!-- search -->
+
+<!-- Baidu Analytics -->
+
+<!-- Cloudflare Analytics -->
+
+<!-- Disqus Comments -->
+
+<!-- utterances Comments -->
+
+<!-- FancyBox -->
+
+<script src="https://cdn.jsdelivr.net/npm/@fancyapps/ui@4.0/dist/fancybox.umd.js"></script>
+
+
+</body>
+</html>
