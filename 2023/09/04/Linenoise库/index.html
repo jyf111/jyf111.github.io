@@ -6,17 +6,16 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="HandheldFriendly" content="True">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=5" />
-    <meta name="description" content="wsl和vmware之间切换需要在powershell中输入以下命令并重启（需要管理员权限） wsl和vmware是可以共存的，只是vmware会慢一些（我实际使用没有明显感觉） 1bcdedit &#x2F;set hypervisorlaunchtype off&#x2F;auto wsl位于 1C:\Users\这里是你自己的user的名字\AppData\Local\Packages\CanonicalGro">
+    <meta name="description" content="## 温故而知新">
 <meta property="og:type" content="article">
-<meta property="og:title" content="wsl">
-<meta property="og:url" content="http://example.com/2021/04/09/wsl/index.html">
+<meta property="og:title" content="Linenoise库">
+<meta property="og:url" content="http://example.com/2023/09/04/Linenoise%E5%BA%93/index.html">
 <meta property="og:site_name" content="jyf111&#39;s blog">
-<meta property="og:description" content="wsl和vmware之间切换需要在powershell中输入以下命令并重启（需要管理员权限） wsl和vmware是可以共存的，只是vmware会慢一些（我实际使用没有明显感觉） 1bcdedit &#x2F;set hypervisorlaunchtype off&#x2F;auto wsl位于 1C:\Users\这里是你自己的user的名字\AppData\Local\Packages\CanonicalGro">
+<meta property="og:description" content="## 温故而知新">
 <meta property="og:locale" content="zh_CN">
-<meta property="article:published_time" content="2021-04-09T05:33:44.000Z">
-<meta property="article:modified_time" content="2023-09-08T14:09:20.450Z">
+<meta property="article:published_time" content="2023-09-04T11:40:11.000Z">
+<meta property="article:modified_time" content="2023-09-04T11:40:11.617Z">
 <meta property="article:author" content="jyf111">
-<meta property="article:tag" content="工具">
 <meta name="twitter:card" content="summary">
     
     
@@ -37,7 +36,7 @@
       
     
     <!-- title -->
-    <title>wsl</title>
+    <title>Linenoise库</title>
     <!-- async scripts -->
     <!-- Google Analytics -->
 
@@ -95,10 +94,10 @@
     <span id="actions">
       <ul>
         
-        <li><a class="icon" aria-label="上一篇" href="/2021/06/22/zai-debian8-shang-shi-yong-zhi-chi-c17-de-gban-ben/"><i class="fa-solid fa-chevron-left" aria-hidden="true" onmouseover="$('#i-prev').toggle();" onmouseout="$('#i-prev').toggle();"></i></a></li>
+        <li><a class="icon" aria-label="上一篇" href="/2023/09/08/Leetcode-41-%E7%BC%BA%E5%A4%B1%E7%9A%84%E7%AC%AC%E4%B8%80%E4%B8%AA%E6%AD%A3%E6%95%B0/"><i class="fa-solid fa-chevron-left" aria-hidden="true" onmouseover="$('#i-prev').toggle();" onmouseout="$('#i-prev').toggle();"></i></a></li>
         
         
-        <li><a class="icon" aria-label="下一篇" href="/2021/03/28/yue-se-fu-huan/"><i class="fa-solid fa-chevron-right" aria-hidden="true" onmouseover="$('#i-next').toggle();" onmouseout="$('#i-next').toggle();"></i></a></li>
+        <li><a class="icon" aria-label="下一篇" href="/2023/09/04/Perl-%E8%AF%AD%E8%A8%80/"><i class="fa-solid fa-chevron-right" aria-hidden="true" onmouseover="$('#i-next').toggle();" onmouseout="$('#i-next').toggle();"></i></a></li>
         
         <li><a class="icon" aria-label="返回顶部" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fa-solid fa-chevron-up" aria-hidden="true" onmouseover="$('#i-top').toggle();" onmouseout="$('#i-top').toggle();"></i></a></li>
       </ul>
@@ -119,7 +118,7 @@
   <header>
     
     <h1 class="posttitle p-name" itemprop="name headline">
-        wsl
+        Linenoise库
     </h1>
 
 
@@ -131,9 +130,9 @@
       
     <div class="postdate">
       
-        <time datetime="2021-04-09T05:33:44.000Z" class="dt-published" itemprop="datePublished">2021-04-09</time>
+        <time datetime="2023-09-04T11:40:11.000Z" class="dt-published" itemprop="datePublished">2023-09-04</time>
         
-        (Updated: <time datetime="2023-09-08T14:09:20.450Z" class="dt-updated" itemprop="dateModified">2023-09-08</time>)
+        (Updated: <time datetime="2023-09-04T11:40:11.617Z" class="dt-updated" itemprop="dateModified">2023-09-04</time>)
         
       
     </div>
@@ -142,11 +141,6 @@
       
 
       
-    <div class="article-tag">
-        <i class="fa-solid fa-tag"></i>
-        <a class="p-category" href="/tags/%E5%B7%A5%E5%85%B7/" rel="tag">工具</a>
-    </div>
-
 
       
         
@@ -164,13 +158,7 @@
   
 
   <div class="content e-content" itemprop="articleBody">
-    <p>wsl和vmware之间切换需要在powershell中输入以下命令并重启（需要管理员权限）</p>
-<p>wsl和vmware是可以共存的，只是vmware会慢一些（我实际使用没有明显感觉）</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">bcdedit /set hypervisorlaunchtype off/auto</span><br></pre></td></tr></table></figure>
-<p>wsl位于</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">C:\Users\这里是你自己的user的名字\AppData\Local\Packages\CanonicalGroupLimited.Ubuntu18.04onWindows_79rhkp1fndgsc\LocalState\rootfs</span><br></pre></td></tr></table></figure>
-<p>通过如下方式可以将wsl从c盘移动到d盘<br><a target="_blank" rel="noopener" href="https://blog.csdn.net/w851685279/article/details/108904106?utm_medium=distribute.pc_relevant.none-task-blog-baidujs_title-1&amp;spm=1001.2101.3001.4242">https://blog.csdn.net/w851685279/article/details/108904106?utm_medium=distribute.pc_relevant.none-task-blog-baidujs_title-1&amp;spm=1001.2101.3001.4242</a></p>
-
+    
   </div>
 </article>
 

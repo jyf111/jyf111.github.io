@@ -4,6 +4,38 @@
   
     
     <entry>
+      <title>Leetcode 41. 缺失的第一个正数</title>
+      <link href="/2023/09/08/Leetcode-41-%E7%BC%BA%E5%A4%B1%E7%9A%84%E7%AC%AC%E4%B8%80%E4%B8%AA%E6%AD%A3%E6%95%B0/"/>
+      <url>/2023/09/08/Leetcode-41-%E7%BC%BA%E5%A4%B1%E7%9A%84%E7%AC%AC%E4%B8%80%E4%B8%AA%E6%AD%A3%E6%95%B0/</url>
+      
+        <content type="html"><![CDATA[<h2 id="题意"><a class="header-anchor" href="#题意">¶</a>题意</h2><p>给定一个长度为$n$的数组$a$，对其中的所有正数求mex。要求时间复杂度$O(n)$，额外空间复杂度$O(1)$。</p><h2 id="做法"><a class="header-anchor" href="#做法">¶</a>做法</h2><p>排序，时间复杂度不行。</p><p>桶排序，空间复杂度不行。</p><p>显然只能对$a$数组本身进行原地的操作 (in place)，最后希望能根据$a[i]$的取值判断出$i$是否存在与原数组中。</p><p>那就按下标顺序从小到大依次标记。设当前下表为$i$，如果$a[i]\gt i$，就先标记$a[a[i]]$，然后再覆盖$a[a[i]]$处的值来标记$a[i]$的存在；而如果$a[i]\le i$，直接对a[a[i]]进行标记即可。</p><p>下一个难点是用什么值来标记。显然可以取不在原数组中的任意值，但是$O(n)$算不出来，而原数组的取值范围又是整个int区间，不能用max+1，min-1这个trick。我的做法就是用n+1来标记，但需要把原数组中的n+1都先改成n+2（一开始没意识到要改，wa了一次），因为可以知道答案一定是小于等于n+1的，所以大于等于n+1的数的取值是无所谓的。</p><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">Solution</span> &#123;</span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="function"><span class="type">int</span> <span class="title">firstMissingPositive</span><span class="params">(vector&lt;<span class="type">int</span>&gt;&amp; nums)</span> </span>&#123;</span><br><span class="line">        <span class="type">int</span> n = nums.<span class="built_in">size</span>();</span><br><span class="line">        nums.<span class="built_in">push_back</span>(<span class="number">0</span>);</span><br><span class="line">        <span class="keyword">for</span> (<span class="type">int</span> &amp;x : nums) <span class="keyword">if</span> (x == n + <span class="number">1</span>) x = n + <span class="number">2</span>;</span><br><span class="line">        <span class="keyword">for</span> (<span class="type">int</span> i = <span class="number">0</span>; i &lt; n; i++) &#123;</span><br><span class="line">            <span class="type">int</span> j = i, x = nums[j];</span><br><span class="line">            <span class="keyword">while</span> (x &gt; i &amp;&amp; x &lt;= n) &#123;</span><br><span class="line">                <span class="type">int</span> tmp = nums[x];</span><br><span class="line">                nums[x] = n + <span class="number">1</span>;</span><br><span class="line">                x = tmp;</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="keyword">if</span> (x &gt;= <span class="number">0</span> &amp;&amp; x &lt;= i) nums[x] = n + <span class="number">1</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="type">int</span> d = <span class="number">1</span>;</span><br><span class="line">        <span class="keyword">while</span> (d &lt;= n &amp;&amp; nums[d] == n + <span class="number">1</span>) ++d;</span><br><span class="line">        <span class="keyword">return</span> d;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure><p>看了题解才意识到这是置换的做法。此外还有一种正负的做法：显然负数是没用的，所以可以用负号作为标记的手段，于此同时绝对值保留为原取值，这样都不用担心覆盖的问题，不需要进行置换，更好写了。本质有点类似压位，反正就是在一个int来通过正负号来额外表达一些信息，同时能保留原本的信息。</p>]]></content>
+      
+      
+      
+        <tags>
+            
+            <tag> 算法 </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
+    
+    <entry>
+      <title>Linenoise库</title>
+      <link href="/2023/09/04/Linenoise%E5%BA%93/"/>
+      <url>/2023/09/04/Linenoise%E5%BA%93/</url>
+      
+        <content type="html"><![CDATA[]]></content>
+      
+      
+      
+    </entry>
+    
+    
+    
+    <entry>
       <title>Perl 语言</title>
       <link href="/2023/09/04/Perl-%E8%AF%AD%E8%A8%80/"/>
       <url>/2023/09/04/Perl-%E8%AF%AD%E8%A8%80/</url>
@@ -46,7 +78,7 @@
       <link href="/2023/09/03/Csmith%E2%80%94%E2%80%94%E7%94%9F%E6%88%90%E7%94%A8%E4%BA%8E%E6%B5%8B%E8%AF%95%E7%9A%84%E9%9A%8F%E6%9C%BAC%E7%A8%8B%E5%BA%8F/"/>
       <url>/2023/09/03/Csmith%E2%80%94%E2%80%94%E7%94%9F%E6%88%90%E7%94%A8%E4%BA%8E%E6%B5%8B%E8%AF%95%E7%9A%84%E9%9A%8F%E6%9C%BAC%E7%A8%8B%E5%BA%8F/</url>
       
-        <content type="html"><![CDATA[<p>Csmith 能够随机生成<strong>没有未定义行为</strong>的C程序，用于编译器、静态分析器等处理源代码的工具的测试。</p><p>注意：生成的程序可能包含死循环，并且毕竟是随机生成的，与人写的代码还是有很大区别的。</p><h2 id="差分测试"><a class="header-anchor" href="#差分测试">¶</a>差分测试</h2><p>包含如下三步：</p><ul><li>使用Csmith生成大量有效的C程序</li><li>用不同版本的编译器运行同一个C程序</li><li>比较编译器的输出，以多数的结果作为正确输出</li></ul><h2 id="安装"><a class="header-anchor" href="#安装">¶</a>安装</h2><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">git <span class="built_in">clone</span> https://github.com/csmith-project/csmith.git</span><br><span class="line"><span class="built_in">cd</span> csmith</span><br><span class="line">sudo apt install g++ cmake m4</span><br><span class="line">cmake -DCMAKE_INSTALL_PREFIX=<span class="variable">$HOME</span>/csmith .</span><br><span class="line">make &amp;&amp; make install</span><br></pre></td></tr></table></figure><p>这里的<code>m4</code>是一个文本处理工具，通常用于宏处理和文本替换。它可以用来编写、维护和生成各种类型的文本文件，包括配置文件、脚本、程序源代码等。</p><h2 id="运行"><a class="header-anchor" href="#运行">¶</a>运行</h2><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">export</span> PATH=<span class="variable">$PATH</span>:<span class="variable">$HME</span>/csmith/bin</span><br><span class="line">csmith &gt; random1.c</span><br></pre></td></tr></table></figure><p>注：生成的程序的输出固定为<code>checksum = xxx</code>的形式，通过比较运行后输出的checksum的值来判断编译器是否正确编译。</p>]]></content>
+        <content type="html"><![CDATA[<p>Csmith 能够随机生成<strong>没有未定义行为</strong>的C程序（借助静态规则和运行时检查），用于编译器、静态分析器等处理源代码的工具的测试。</p><p>注意：生成的程序可能包含死循环，并且毕竟是随机生成的，与人写的代码还是有很大区别的。而且Csmith 只能生成<strong>C</strong>程序，不能生成**C++**程序。<a href="https://github.com/intel/yarpgen">yarpgen</a>可以随机生成C++程序。</p><h2 id="随机测试-差分测试"><a class="header-anchor" href="#随机测试-差分测试">¶</a>随机测试+差分测试</h2><p>包含如下三步：</p><ul><li>使用Csmith生成大量有效的C程序</li><li>用不同版本的编译器运行同一个C程序</li><li>比较编译器的输出，以多数的结果作为正确输出</li></ul><p><a data-fancybox="gallery" data-src="/post-images/Csmith.png" data-caption="Csmith 随机测试+差分测试"><img src="/post-images/Csmith.png" alt="Csmith 随机测试+差分测试"></a></p><h2 id="安装"><a class="header-anchor" href="#安装">¶</a>安装</h2><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">git <span class="built_in">clone</span> https://github.com/csmith-project/csmith.git</span><br><span class="line"><span class="built_in">cd</span> csmith</span><br><span class="line">sudo apt install g++ cmake m4</span><br><span class="line">cmake -DCMAKE_INSTALL_PREFIX=<span class="variable">$HOME</span>/csmith .</span><br><span class="line">make &amp;&amp; make install</span><br></pre></td></tr></table></figure><p>这里的<code>m4</code>是一个文本处理工具，通常用于宏处理和文本替换。它可以用来编写、维护和生成各种类型的文本文件，包括配置文件、脚本、程序源代码等。</p><h2 id="运行"><a class="header-anchor" href="#运行">¶</a>运行</h2><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">export</span> PATH=<span class="variable">$PATH</span>:<span class="variable">$HME</span>/csmith/bin</span><br><span class="line">csmith &gt; random1.c</span><br></pre></td></tr></table></figure><p>注：生成的程序的输出固定为<code>checksum = xxx</code>的形式，通过比较运行后输出的checksum的值来判断编译器是否正确编译。</p>]]></content>
       
       
       
@@ -363,7 +395,7 @@
       <link href="/2021/04/09/wsl/"/>
       <url>/2021/04/09/wsl/</url>
       
-        <content type="html"><![CDATA[<p>wsl和vmware之间切换需要在powershell中输入以下命令并重启（需要管理员权限）</p><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">bcdedit /set hypervisorlaunchtype off/auto</span><br></pre></td></tr></table></figure><p>wsl位于</p><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">C:\Users\这里是你自己的user的名字\AppData\Local\Packages\CanonicalGroupLimited.Ubuntu18.04onWindows_79rhkp1fndgsc\LocalState\rootfs</span><br></pre></td></tr></table></figure><p>通过如下方式可以将wsl从c盘移动到d盘<a href="https://blog.csdn.net/w851685279/article/details/108904106?utm_medium=distribute.pc_relevant.none-task-blog-baidujs_title-1&amp;spm=1001.2101.3001.4242">https://blog.csdn.net/w851685279/article/details/108904106?utm_medium=distribute.pc_relevant.none-task-blog-baidujs_title-1&amp;spm=1001.2101.3001.4242</a></p>]]></content>
+        <content type="html"><![CDATA[<p>wsl和vmware之间切换需要在powershell中输入以下命令并重启（需要管理员权限）</p><p>wsl和vmware是可以共存的，只是vmware会慢一些（我实际使用没有明显感觉）</p><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">bcdedit /set hypervisorlaunchtype off/auto</span><br></pre></td></tr></table></figure><p>wsl位于</p><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">C:\Users\这里是你自己的user的名字\AppData\Local\Packages\CanonicalGroupLimited.Ubuntu18.04onWindows_79rhkp1fndgsc\LocalState\rootfs</span><br></pre></td></tr></table></figure><p>通过如下方式可以将wsl从c盘移动到d盘<br><a href="https://blog.csdn.net/w851685279/article/details/108904106?utm_medium=distribute.pc_relevant.none-task-blog-baidujs_title-1&amp;spm=1001.2101.3001.4242">https://blog.csdn.net/w851685279/article/details/108904106?utm_medium=distribute.pc_relevant.none-task-blog-baidujs_title-1&amp;spm=1001.2101.3001.4242</a></p>]]></content>
       
       
       
