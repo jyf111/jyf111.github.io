@@ -1,0 +1,353 @@
+<!DOCTYPE html>
+<html lang=zh>
+<head>
+    <!-- so meta -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="HandheldFriendly" content="True">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=5" />
+    <meta name="description" content="¶105 ¶代码 123456789101112131415161718#include &lt;iostream&gt;using namespace std;class A &amp;#123;public:  A() &amp;#123; cout &lt;&lt; &quot;a&quot;; &amp;#125;  ~A() &amp;#123; cout &lt;&lt; &quot;A&quot;; &amp;#125;&amp;">
+<meta property="og:type" content="article">
+<meta property="og:title" content="cppquiz">
+<meta property="og:url" content="http://example.com/2023/09/11/cppquiz/index.html">
+<meta property="og:site_name" content="jyf111&#39;s blog">
+<meta property="og:description" content="¶105 ¶代码 123456789101112131415161718#include &lt;iostream&gt;using namespace std;class A &amp;#123;public:  A() &amp;#123; cout &lt;&lt; &quot;a&quot;; &amp;#125;  ~A() &amp;#123; cout &lt;&lt; &quot;A&quot;; &amp;#125;&amp;">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2023-09-11T04:26:56.000Z">
+<meta property="article:modified_time" content="2023-09-11T12:24:30.094Z">
+<meta property="article:author" content="jyf111">
+<meta property="article:tag" content="语言">
+<meta name="twitter:card" content="summary">
+    
+    
+      
+        
+          <link rel="shortcut icon" href="/images/favicon.ico">
+        
+      
+      
+        
+          <link rel="icon" type="image/png" href="/images/favicon-192x192.png" sizes="192x192">
+        
+      
+      
+        
+          <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png">
+        
+      
+    
+    <!-- title -->
+    <title>cppquiz</title>
+    <!-- async scripts -->
+    <!-- Google Analytics -->
+
+
+    <!-- Umami Analytics -->
+
+
+    <!-- styles -->
+    
+<link rel="stylesheet" href="/css/style.css">
+
+    <!-- persian styles -->
+    
+    <!-- rss -->
+    
+    
+	<!-- mathjax -->
+	
+		<script type="text/x-mathjax-config">
+		  MathJax.Hub.Config({
+			tex2jax: {
+			  skipTags: ['script', 'noscript', 'style', 'textarea', 'pre'],
+			  inlineMath: [['$','$']]
+			}
+		  });
+		</script>
+		<script src='https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-MML-AM_CHTML' async></script>
+	
+
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/ui@4.0/dist/fancybox.css" />
+
+<meta name="generator" content="Hexo 6.3.0"></head>
+
+<body class="max-width mx-auto px3 ltr">
+    
+      <div id="header-post">
+  <a id="menu-icon" href="#" aria-label="目录"><i class="fa-solid fa-bars fa-lg"></i></a>
+  <a id="menu-icon-tablet" href="#" aria-label="目录"><i class="fa-solid fa-bars fa-lg"></i></a>
+  <a id="top-icon-tablet" href="#" aria-label="顶部" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');" style="display:none;"><i class="fa-solid fa-chevron-up fa-lg"></i></a>
+  <span id="menu">
+    <span id="nav">
+      <ul>
+        <!--
+       --><li><a href="/">首页</a></li><!--
+     --><!--
+       --><li><a href="/archives/">归档</a></li><!--
+     --><!--
+       --><li><a href="/tags/">标签</a></li><!--
+     --><!--
+       --><li><a href="/search/">搜索</a></li><!--
+     -->
+      </ul>
+    </span>
+    <br/>
+    <span id="actions">
+      <ul>
+        
+        
+        <li><a class="icon" aria-label="下一篇" href="/2023/09/08/Leetcode-41-%E7%BC%BA%E5%A4%B1%E7%9A%84%E7%AC%AC%E4%B8%80%E4%B8%AA%E6%AD%A3%E6%95%B0/"><i class="fa-solid fa-chevron-right" aria-hidden="true" onmouseover="$('#i-next').toggle();" onmouseout="$('#i-next').toggle();"></i></a></li>
+        
+        <li><a class="icon" aria-label="返回顶部" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fa-solid fa-chevron-up" aria-hidden="true" onmouseover="$('#i-top').toggle();" onmouseout="$('#i-top').toggle();"></i></a></li>
+      </ul>
+      <span id="i-prev" class="info" style="display:none;">上一篇</span>
+      <span id="i-next" class="info" style="display:none;">下一篇</span>
+      <span id="i-top" class="info" style="display:none;">返回顶部</span>
+    </span>
+    <br/>
+    
+    
+      <div id="toc">
+        <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#105"><span class="toc-number">1.</span> <span class="toc-text">105</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%BB%A3%E7%A0%81"><span class="toc-number">1.1.</span> <span class="toc-text">代码</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%BE%93%E5%87%BA"><span class="toc-number">1.2.</span> <span class="toc-text">输出</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%88%86%E6%9E%90"><span class="toc-number">1.3.</span> <span class="toc-text">分析</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#217"><span class="toc-number">2.</span> <span class="toc-text">217</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%BB%A3%E7%A0%81-s2"><span class="toc-number">2.1.</span> <span class="toc-text">代码</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%BE%93%E5%87%BA-s2"><span class="toc-number">2.2.</span> <span class="toc-text">输出</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%88%86%E6%9E%90-s2"><span class="toc-number">2.3.</span> <span class="toc-text">分析</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#295"><span class="toc-number">3.</span> <span class="toc-text">295</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%BE%93%E5%87%BA-s3"><span class="toc-number">3.1.</span> <span class="toc-text">输出</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%88%86%E6%9E%90-s3"><span class="toc-number">3.2.</span> <span class="toc-text">分析</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#49"><span class="toc-number">4.</span> <span class="toc-text">49</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E9%A2%98%E7%9B%AE"><span class="toc-number">4.1.</span> <span class="toc-text">题目</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%BE%93%E5%87%BA-s4"><span class="toc-number">4.2.</span> <span class="toc-text">输出</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%88%86%E6%9E%90-s4"><span class="toc-number">4.3.</span> <span class="toc-text">分析</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#14"><span class="toc-number">5.</span> <span class="toc-text">14</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%BB%A3%E7%A0%81-s3"><span class="toc-number">5.1.</span> <span class="toc-text">代码</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%BE%93%E5%87%BA-s5"><span class="toc-number">5.2.</span> <span class="toc-text">输出</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%88%86%E6%9E%90-s5"><span class="toc-number">5.3.</span> <span class="toc-text">分析</span></a></li></ol></li></ol>
+      </div>
+    
+  </span>
+</div>
+
+    
+    <div class="content index py4 ">
+        
+        <article class="post h-entry" itemscope itemtype="http://schema.org/BlogPosting">
+  <header>
+    
+    <h1 class="posttitle p-name" itemprop="name headline">
+        cppquiz
+    </h1>
+
+
+
+    <div class="meta">
+      <span class="author p-author h-card" itemprop="author" itemscope itemtype="http://schema.org/Person">
+        <span class="p-name" itemprop="name">jyf111</span>
+      </span>
+      
+    <div class="postdate">
+      
+        <time datetime="2023-09-11T04:26:56.000Z" class="dt-published" itemprop="datePublished">2023-09-11</time>
+        
+        (Updated: <time datetime="2023-09-11T12:24:30.094Z" class="dt-updated" itemprop="dateModified">2023-09-11</time>)
+        
+      
+    </div>
+
+
+      
+
+      
+    <div class="article-tag">
+        <i class="fa-solid fa-tag"></i>
+        <a class="p-category" href="/tags/%E8%AF%AD%E8%A8%80/" rel="tag">语言</a>
+    </div>
+
+
+      
+        
+            <span class=count-symbol-post> 
+            <i class="fa-solid fa-hourglass"></i>
+            
+            
+                5 mins to read
+            
+            </span>
+        
+      
+    </div>
+  </header>
+  
+
+  <div class="content e-content" itemprop="articleBody">
+    <h2 id="105"><a class="header-anchor" href="#105">¶</a>105</h2>
+<h3 id="代码"><a class="header-anchor" href="#代码">¶</a>代码</h3>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;iostream&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> std;</span><br><span class="line"></span><br><span class="line"><span class="keyword">class</span> <span class="title class_">A</span> &#123;</span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">  <span class="built_in">A</span>() &#123; cout &lt;&lt; <span class="string">&quot;a&quot;</span>; &#125;</span><br><span class="line">  ~<span class="built_in">A</span>() &#123; cout &lt;&lt; <span class="string">&quot;A&quot;</span>; &#125;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="type">int</span> i = <span class="number">1</span>;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">int</span> <span class="title">main</span><span class="params">()</span> </span>&#123;</span><br><span class="line">label:</span><br><span class="line">  A a;</span><br><span class="line">  <span class="keyword">if</span> (i--)</span><br><span class="line">    <span class="keyword">goto</span> label;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="输出"><a class="header-anchor" href="#输出">¶</a>输出</h3>
+<p><code>aAaA</code></p>
+<h3 id="分析"><a class="header-anchor" href="#分析">¶</a>分析</h3>
+<p><code>goto</code>本质就是跳转，可以把label标签到goto间当作一个作用域，因此和循环语句类似，类a是会在goto时进行销毁的。</p>
+<ul>
+<li>
+<p>在退出一个作用域，具有自动存储期的对象会按照构造的<strong>相反</strong>顺序销毁。</p>
+</li>
+<li>
+<p>以跳转方式离开作用域时会在跳转<strong>前</strong>进行销毁。</p>
+</li>
+</ul>
+<p>自动存储期：函数中不使用<code>static</code>定义出来的变量。</p>
+<ol>
+<li>
+<p>程序在执行到对象声明时构造相应的对象 (<code>int a = 1</code>)，在执行到包含该声明的程序块的结尾时析构该对象 (<code>&#125;</code>)。</p>
+</li>
+<li>
+<p>如果不显式地进行初始化，则该对象的初始值不确定。</p>
+</li>
+</ol>
+<h2 id="217"><a class="header-anchor" href="#217">¶</a>217</h2>
+<h3 id="代码-s2"><a class="header-anchor" href="#代码-s2">¶</a>代码</h3>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;iostream&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">int</span> <span class="title">main</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    <span class="type">int</span> i = <span class="number">1</span>;</span><br><span class="line">    <span class="type">int</span> <span class="type">const</span>&amp; a = i &gt; <span class="number">0</span> ? i : <span class="number">1</span>;</span><br><span class="line">    i = <span class="number">2</span>;</span><br><span class="line">    std::cout &lt;&lt; i &lt;&lt; a;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="输出-s2"><a class="header-anchor" href="#输出-s2">¶</a>输出</h3>
+<p><code>21</code></p>
+<h3 id="分析-s2"><a class="header-anchor" href="#分析-s2">¶</a>分析</h3>
+<p>这里变量a不是i的引用，而是三元表达式返回的临时变量的引用（因为1是临时值）。</p>
+<p><code>int const&amp;</code>等价于<code>const int&amp;</code>，这里的const都是底层const（与指针不同），因为引用本身就具有const语义：必须被初始化且不能被再次赋值（即使是相同值）。</p>
+<h2 id="295"><a class="header-anchor" href="#295">¶</a>295</h2>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;iostream&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="type">char</span> a[<span class="number">2</span>] = <span class="string">&quot;0&quot;</span>;</span><br><span class="line"></span><br><span class="line"><span class="keyword">struct</span> <span class="title class_">a_string</span> &#123;</span><br><span class="line">   <span class="built_in">a_string</span>() &#123; *a=<span class="string">&#x27;1&#x27;</span>; &#125;</span><br><span class="line">   ~<span class="built_in">a_string</span>() &#123; *a=<span class="string">&#x27;0&#x27;</span>; &#125;</span><br><span class="line">   <span class="function"><span class="type">const</span> <span class="type">char</span>* <span class="title">c_str</span><span class="params">()</span> <span class="type">const</span> </span>&#123; <span class="keyword">return</span> a; &#125;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">print</span><span class="params">(<span class="type">const</span> <span class="type">char</span>* s)</span> </span>&#123; std::cout &lt;&lt; s; &#125;</span><br><span class="line"><span class="function">a_string <span class="title">make_string</span><span class="params">()</span> </span>&#123; <span class="keyword">return</span> a_string&#123;&#125;; &#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">int</span> <span class="title">main</span><span class="params">()</span> </span>&#123;</span><br><span class="line">   a_string s1 = <span class="built_in">make_string</span>();</span><br><span class="line">   <span class="built_in">print</span>(s1.<span class="built_in">c_str</span>());</span><br><span class="line"></span><br><span class="line">   <span class="type">const</span> <span class="type">char</span>* s2 = <span class="built_in">make_string</span>().<span class="built_in">c_str</span>();</span><br><span class="line">   <span class="built_in">print</span>(s2);</span><br><span class="line"></span><br><span class="line">   <span class="built_in">print</span>(<span class="built_in">make_string</span>().<span class="built_in">c_str</span>());</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="输出-s3"><a class="header-anchor" href="#输出-s3">¶</a>输出</h3>
+<p><code>101</code></p>
+<h3 id="分析-s3"><a class="header-anchor" href="#分析-s3">¶</a>分析</h3>
+<p>临时变量的销毁作为求值包含它的<strong>完整表达式</strong>的最后一步。</p>
+<p>s1不是临时变量，在main结束前才销毁。</p>
+<p>第二个make_string()产生的临时变量在赋值后销毁。</p>
+<p>第三个make_string()在打印后销毁。</p>
+<h2 id="49"><a class="header-anchor" href="#49">¶</a>49</h2>
+<h3 id="题目"><a class="header-anchor" href="#题目">¶</a>题目</h3>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;iostream&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="keyword">class</span> <span class="title class_">C</span> &#123;</span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">  <span class="built_in">C</span>(<span class="type">int</span> i) : <span class="built_in">i</span>(i) &#123; std::cout &lt;&lt; i; &#125;</span><br><span class="line">  ~<span class="built_in">C</span>() &#123; std::cout &lt;&lt; i + <span class="number">5</span>; &#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">private</span>:</span><br><span class="line">  <span class="type">int</span> i;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">int</span> <span class="title">main</span><span class="params">()</span> </span>&#123;</span><br><span class="line">  <span class="type">const</span> C &amp;c = <span class="built_in">C</span>(<span class="number">1</span>);</span><br><span class="line">  <span class="built_in">C</span>(<span class="number">2</span>);</span><br><span class="line">  <span class="built_in">C</span>(<span class="number">3</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="输出-s4"><a class="header-anchor" href="#输出-s4">¶</a>输出</h3>
+<p><code>127386</code></p>
+<h3 id="分析-s4"><a class="header-anchor" href="#分析-s4">¶</a>分析</h3>
+<p>和上一题一样，临时变量会在用完后立即销毁。除了C(1)被绑定到const引用上，延长了生命周期。</p>
+<h2 id="14"><a class="header-anchor" href="#14">¶</a>14</h2>
+<h3 id="代码-s3"><a class="header-anchor" href="#代码-s3">¶</a>代码</h3>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;iostream&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="keyword">class</span> <span class="title class_">A</span> &#123;</span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">  <span class="built_in">A</span>() &#123; std::cout &lt;&lt; <span class="string">&quot;a&quot;</span>; &#125;</span><br><span class="line">  ~<span class="built_in">A</span>() &#123; std::cout &lt;&lt; <span class="string">&quot;A&quot;</span>; &#125;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="keyword">class</span> <span class="title class_">B</span> &#123;</span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">  <span class="built_in">B</span>() &#123; std::cout &lt;&lt; <span class="string">&quot;b&quot;</span>; &#125;</span><br><span class="line">  ~<span class="built_in">B</span>() &#123; std::cout &lt;&lt; <span class="string">&quot;B&quot;</span>; &#125;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="keyword">class</span> <span class="title class_">C</span> &#123;</span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">  <span class="built_in">C</span>() &#123; std::cout &lt;&lt; <span class="string">&quot;c&quot;</span>; &#125;</span><br><span class="line">  ~<span class="built_in">C</span>() &#123; std::cout &lt;&lt; <span class="string">&quot;C&quot;</span>; &#125;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line">A a;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">foo</span><span class="params">()</span> </span>&#123; <span class="type">static</span> C c; &#125;</span><br><span class="line"><span class="function"><span class="type">int</span> <span class="title">main</span><span class="params">()</span> </span>&#123;</span><br><span class="line">  B b;</span><br><span class="line">  <span class="built_in">foo</span>();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="输出-s5"><a class="header-anchor" href="#输出-s5">¶</a>输出</h3>
+<p><code>abcBCA</code></p>
+<h3 id="分析-s5"><a class="header-anchor" href="#分析-s5">¶</a>分析</h3>
+<p>变量a在全局空间声明，是静态的。其动态初始化可能在main之前完成，也可能在main中调用任何函数前或者被第一次使用时完成（这是实现定义的）。</p>
+<p>函数内的静态变量则在第一次经过它是被构造。</p>
+<p>最后所有静态变量按照初始化的<strong>相反</strong>顺序进行销毁。</p>
+
+  </div>
+</article>
+
+
+
+        
+          <div id="footer-post-container">
+  <div id="footer-post">
+
+    <div id="nav-footer" style="display: none">
+      <ul>
+        
+          <li><a href="/">首页</a></li>
+        
+          <li><a href="/archives/">归档</a></li>
+        
+          <li><a href="/tags/">标签</a></li>
+        
+          <li><a href="/search/">搜索</a></li>
+        
+      </ul>
+    </div>
+
+    
+    
+      <div id="toc-footer" style="display: none">
+        <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#105"><span class="toc-number">1.</span> <span class="toc-text">105</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%BB%A3%E7%A0%81"><span class="toc-number">1.1.</span> <span class="toc-text">代码</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%BE%93%E5%87%BA"><span class="toc-number">1.2.</span> <span class="toc-text">输出</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%88%86%E6%9E%90"><span class="toc-number">1.3.</span> <span class="toc-text">分析</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#217"><span class="toc-number">2.</span> <span class="toc-text">217</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%BB%A3%E7%A0%81-s2"><span class="toc-number">2.1.</span> <span class="toc-text">代码</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%BE%93%E5%87%BA-s2"><span class="toc-number">2.2.</span> <span class="toc-text">输出</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%88%86%E6%9E%90-s2"><span class="toc-number">2.3.</span> <span class="toc-text">分析</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#295"><span class="toc-number">3.</span> <span class="toc-text">295</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%BE%93%E5%87%BA-s3"><span class="toc-number">3.1.</span> <span class="toc-text">输出</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%88%86%E6%9E%90-s3"><span class="toc-number">3.2.</span> <span class="toc-text">分析</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#49"><span class="toc-number">4.</span> <span class="toc-text">49</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E9%A2%98%E7%9B%AE"><span class="toc-number">4.1.</span> <span class="toc-text">题目</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%BE%93%E5%87%BA-s4"><span class="toc-number">4.2.</span> <span class="toc-text">输出</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%88%86%E6%9E%90-s4"><span class="toc-number">4.3.</span> <span class="toc-text">分析</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#14"><span class="toc-number">5.</span> <span class="toc-text">14</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%BB%A3%E7%A0%81-s3"><span class="toc-number">5.1.</span> <span class="toc-text">代码</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%BE%93%E5%87%BA-s5"><span class="toc-number">5.2.</span> <span class="toc-text">输出</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%88%86%E6%9E%90-s5"><span class="toc-number">5.3.</span> <span class="toc-text">分析</span></a></li></ol></li></ol>
+      </div>
+    
+
+    <div id="actions-footer">
+        <a id="menu" class="icon" href="#" onclick="$('#nav-footer').toggle();return false;"><i class="fa-solid fa-bars fa-lg" aria-hidden="true"></i> 菜单</a>
+        
+          <a id="toc" class="icon" href="#" onclick="$('#toc-footer').toggle();return false;"><i class="fa-solid fa-list fa-lg" aria-hidden="true"></i> 目录</a>
+        
+        <a id="top" style="display:none" class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fa-solid fa-chevron-up fa-lg" aria-hidden="true"></i> 返回顶部</a>
+    </div>
+
+  </div>
+</div>
+
+        
+        <footer id="footer">
+  <div class="footer-left">
+    Copyright &copy;
+    
+    
+    2020-2023
+    jyf111
+  </div>
+  <div class="footer-right">
+    <nav>
+      <ul>
+        <!--
+       --><li><a href="/">首页</a></li><!--
+     --><!--
+       --><li><a href="/archives/">归档</a></li><!--
+     --><!--
+       --><li><a href="/tags/">标签</a></li><!--
+     --><!--
+       --><li><a href="/search/">搜索</a></li><!--
+     -->
+      </ul>
+    </nav>
+  </div>
+</footer>
+
+    </div>
+    <!-- styles -->
+
+
+
+  <link rel="preload" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" crossorigin="anonymous" onload="this.onload=null;this.rel='stylesheet'"/>
+
+
+    <!-- jquery -->
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js" crossorigin="anonymous"></script>
+
+
+
+
+<!-- clipboard -->
+
+  
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.7/clipboard.min.js" crossorigin="anonymous"></script>
+  
+  <script type="text/javascript">
+  $(function() {
+    // copy-btn HTML
+    var btn = "<span class=\"btn-copy tooltipped tooltipped-sw\" aria-label=\"复制到粘贴板！\">";
+    btn += '<i class="fa-regular fa-clone"></i>';
+    btn += '</span>';
+    // mount it!
+    $(".highlight table").before(btn);
+    var clip = new ClipboardJS('.btn-copy', {
+      text: function(trigger) {
+        return Array.from(trigger.nextElementSibling.querySelectorAll('.code')).reduce((str,it)=>str+it.innerText+'\n','')
+      }
+    });
+    clip.on('success', function(e) {
+      e.trigger.setAttribute('aria-label', "复制成功！");
+      e.clearSelection();
+    })
+  })
+  </script>
+
+
+<script src="/js/main.js"></script>
+
+<!-- search -->
+
+<!-- Baidu Analytics -->
+
+<!-- Cloudflare Analytics -->
+
+<!-- Disqus Comments -->
+
+<!-- utterances Comments -->
+
+<!-- FancyBox -->
+
+<script src="https://cdn.jsdelivr.net/npm/@fancyapps/ui@4.0/dist/fancybox.umd.js"></script>
+
+
+</body>
+</html>

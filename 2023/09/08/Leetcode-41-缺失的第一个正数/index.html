@@ -6,15 +6,15 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="HandheldFriendly" content="True">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=5" />
-    <meta name="description" content="¶题意 给定一个长度为$n$的数组$a$，对其中的所有正数求mex。要求时间复杂度$O(n)$，额外空间复杂度$O(1)$。 ¶做法 排序，时间复杂度不行。 桶排序，空间复杂度不行。 显然只能对$a$数组本身进行原地的操作 (in place)，最后希望能根据$a[i]$的取值判断出$i$是否存在与原数组中。 那就按下标顺序从小到大依次标记。设当前下表为$i$，如果$a[i]\gt i$，就先标记">
+    <meta name="description" content="¶题意 给定一个长度为$n$的数组$a$，对其中的所有正数求mex。要求时间复杂度$O(n)$，额外空间复杂度$O(1)$。 ¶做法 排序，时间复杂度不行。 桶排序，空间复杂度不行。 显然只能对$a$数组本身进行原地的操作 (in place)，最后希望能根据$a[i]$的取值判断出$i$是否存在于原数组中。 那就按下标顺序从小到大依次标记。设当前下标为$i$，如果$a[i]\gt i$，就先标记">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Leetcode 41. 缺失的第一个正数">
 <meta property="og:url" content="http://example.com/2023/09/08/Leetcode-41-%E7%BC%BA%E5%A4%B1%E7%9A%84%E7%AC%AC%E4%B8%80%E4%B8%AA%E6%AD%A3%E6%95%B0/index.html">
 <meta property="og:site_name" content="jyf111&#39;s blog">
-<meta property="og:description" content="¶题意 给定一个长度为$n$的数组$a$，对其中的所有正数求mex。要求时间复杂度$O(n)$，额外空间复杂度$O(1)$。 ¶做法 排序，时间复杂度不行。 桶排序，空间复杂度不行。 显然只能对$a$数组本身进行原地的操作 (in place)，最后希望能根据$a[i]$的取值判断出$i$是否存在与原数组中。 那就按下标顺序从小到大依次标记。设当前下表为$i$，如果$a[i]\gt i$，就先标记">
+<meta property="og:description" content="¶题意 给定一个长度为$n$的数组$a$，对其中的所有正数求mex。要求时间复杂度$O(n)$，额外空间复杂度$O(1)$。 ¶做法 排序，时间复杂度不行。 桶排序，空间复杂度不行。 显然只能对$a$数组本身进行原地的操作 (in place)，最后希望能根据$a[i]$的取值判断出$i$是否存在于原数组中。 那就按下标顺序从小到大依次标记。设当前下标为$i$，如果$a[i]\gt i$，就先标记">
 <meta property="og:locale" content="zh_CN">
 <meta property="article:published_time" content="2023-09-08T14:44:51.000Z">
-<meta property="article:modified_time" content="2023-09-08T14:59:39.439Z">
+<meta property="article:modified_time" content="2023-09-08T15:03:23.349Z">
 <meta property="article:author" content="jyf111">
 <meta property="article:tag" content="算法">
 <meta name="twitter:card" content="summary">
@@ -95,6 +95,8 @@
     <span id="actions">
       <ul>
         
+        <li><a class="icon" aria-label="上一篇" href="/2023/09/11/cppquiz/"><i class="fa-solid fa-chevron-left" aria-hidden="true" onmouseover="$('#i-prev').toggle();" onmouseout="$('#i-prev').toggle();"></i></a></li>
+        
         
         <li><a class="icon" aria-label="下一篇" href="/2023/09/04/Linenoise%E5%BA%93/"><i class="fa-solid fa-chevron-right" aria-hidden="true" onmouseover="$('#i-next').toggle();" onmouseout="$('#i-next').toggle();"></i></a></li>
         
@@ -135,7 +137,7 @@
       
         <time datetime="2023-09-08T14:44:51.000Z" class="dt-published" itemprop="datePublished">2023-09-08</time>
         
-        (Updated: <time datetime="2023-09-08T14:59:39.439Z" class="dt-updated" itemprop="dateModified">2023-09-08</time>)
+        (Updated: <time datetime="2023-09-08T15:03:23.349Z" class="dt-updated" itemprop="dateModified">2023-09-08</time>)
         
       
     </div>
@@ -171,11 +173,12 @@
 <h2 id="做法"><a class="header-anchor" href="#做法">¶</a>做法</h2>
 <p>排序，时间复杂度不行。</p>
 <p>桶排序，空间复杂度不行。</p>
-<p>显然只能对$a$数组本身进行原地的操作 (in place)，最后希望能根据$a[i]$的取值判断出$i$是否存在与原数组中。</p>
-<p>那就按下标顺序从小到大依次标记。设当前下表为$i$，如果$a[i]\gt i$，就先标记$a[a[i]]$，然后再覆盖$a[a[i]]$处的值来标记$a[i]$的存在；而如果$a[i]\le i$，直接对a[a[i]]进行标记即可。</p>
+<p>显然只能对$a$数组本身进行原地的操作 (in place)，最后希望能根据$a[i]$的取值判断出$i$是否存在于原数组中。</p>
+<p>那就按下标顺序从小到大依次标记。设当前下标为$i$，如果$a[i]\gt i$，就先标记$a[a[i]]$，然后再覆盖$a[a[i]]$处的值来标记$a[i]$的存在；而如果$a[i]\le i$，直接对$a[a[i]]$进行标记即可。</p>
 <p>下一个难点是用什么值来标记。显然可以取不在原数组中的任意值，但是$O(n)$算不出来，而原数组的取值范围又是整个int区间，不能用max+1，min-1这个trick。我的做法就是用n+1来标记，但需要把原数组中的n+1都先改成n+2（一开始没意识到要改，wa了一次），因为可以知道答案一定是小于等于n+1的，所以大于等于n+1的数的取值是无所谓的。</p>
 <figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">Solution</span> &#123;</span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="function"><span class="type">int</span> <span class="title">firstMissingPositive</span><span class="params">(vector&lt;<span class="type">int</span>&gt;&amp; nums)</span> </span>&#123;</span><br><span class="line">        <span class="type">int</span> n = nums.<span class="built_in">size</span>();</span><br><span class="line">        nums.<span class="built_in">push_back</span>(<span class="number">0</span>);</span><br><span class="line">        <span class="keyword">for</span> (<span class="type">int</span> &amp;x : nums) <span class="keyword">if</span> (x == n + <span class="number">1</span>) x = n + <span class="number">2</span>;</span><br><span class="line">        <span class="keyword">for</span> (<span class="type">int</span> i = <span class="number">0</span>; i &lt; n; i++) &#123;</span><br><span class="line">            <span class="type">int</span> j = i, x = nums[j];</span><br><span class="line">            <span class="keyword">while</span> (x &gt; i &amp;&amp; x &lt;= n) &#123;</span><br><span class="line">                <span class="type">int</span> tmp = nums[x];</span><br><span class="line">                nums[x] = n + <span class="number">1</span>;</span><br><span class="line">                x = tmp;</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="keyword">if</span> (x &gt;= <span class="number">0</span> &amp;&amp; x &lt;= i) nums[x] = n + <span class="number">1</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="type">int</span> d = <span class="number">1</span>;</span><br><span class="line">        <span class="keyword">while</span> (d &lt;= n &amp;&amp; nums[d] == n + <span class="number">1</span>) ++d;</span><br><span class="line">        <span class="keyword">return</span> d;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
-<p>看了题解才意识到这是置换的做法。此外还有一种正负的做法：显然负数是没用的，所以可以用负号作为标记的手段，于此同时绝对值保留为原取值，这样都不用担心覆盖的问题，不需要进行置换，更好写了。本质有点类似压位，反正就是在一个int来通过正负号来额外表达一些信息，同时能保留原本的信息。</p>
+<p>看了题解才意识到这是置换的做法。</p>
+<p>此外还有一种正负的做法（或者称为哈希）：显然负数是没用的，所以可以用负号作为标记的手段，与此同时绝对值保留为原取值，这样都不用担心覆盖的问题，不需要进行置换，更好写了。本质有点类似压位，反正就是在一个int的32bit里表达更多的信息。</p>
 
   </div>
 </article>
