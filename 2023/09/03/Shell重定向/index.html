@@ -6,12 +6,12 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="HandheldFriendly" content="True">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=5" />
-    <meta name="description" content="输入&#x2F;输出重定向12345678command &gt; file # 输出重定向到filecommand &lt; file # 输入重定向到filecommand &gt;&gt; file # 输出以追加的方式重定向到filen &gt; file # 文件描述符为n的文件重定向到filen &gt;&gt; filen &gt;&amp; m # 输出文件合并n &lt;&amp; m&amp;l">
+    <meta name="description" content="¶输入&#x2F;输出重定向 12345678command &gt; file # 输出重定向到filecommand &lt; file # 输入重定向到filecommand &gt;&gt; file # 输出以追加的方式重定向到filen &gt; file # 文件描述符为n的文件重定向到filen &gt;&gt; filen &gt;&amp; m # 输出文件合并n &lt;&amp; m">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Shell重定向">
 <meta property="og:url" content="http://example.com/2023/09/03/Shell%E9%87%8D%E5%AE%9A%E5%90%91/index.html">
 <meta property="og:site_name" content="jyf111&#39;s blog">
-<meta property="og:description" content="输入&#x2F;输出重定向12345678command &gt; file # 输出重定向到filecommand &lt; file # 输入重定向到filecommand &gt;&gt; file # 输出以追加的方式重定向到filen &gt; file # 文件描述符为n的文件重定向到filen &gt;&gt; filen &gt;&amp; m # 输出文件合并n &lt;&amp; m&amp;l">
+<meta property="og:description" content="¶输入&#x2F;输出重定向 12345678command &gt; file # 输出重定向到filecommand &lt; file # 输入重定向到filecommand &gt;&gt; file # 输出以追加的方式重定向到filen &gt; file # 文件描述符为n的文件重定向到filen &gt;&gt; filen &gt;&amp; m # 输出文件合并n &lt;&amp; m">
 <meta property="og:locale" content="zh_CN">
 <meta property="article:published_time" content="2023-09-03T14:12:53.000Z">
 <meta property="article:modified_time" content="2023-09-03T16:00:32.236Z">
@@ -158,7 +158,7 @@
             <i class="fa-solid fa-hourglass"></i>
             
             
-                3 mins to read
+                2 mins to read
             
             </span>
         
@@ -168,7 +168,8 @@
   
 
   <div class="content e-content" itemprop="articleBody">
-    <h2 id="输入-输出重定向"><a href="#输入-输出重定向" class="headerlink" title="输入/输出重定向"></a>输入/输出重定向</h2><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">command</span> &gt; file <span class="comment"># 输出重定向到file</span></span><br><span class="line"><span class="built_in">command</span> &lt; file <span class="comment"># 输入重定向到file</span></span><br><span class="line"><span class="built_in">command</span> &gt;&gt; file <span class="comment"># 输出以追加的方式重定向到file</span></span><br><span class="line">n &gt; file <span class="comment"># 文件描述符为n的文件重定向到file</span></span><br><span class="line">n &gt;&gt; file</span><br><span class="line">n &gt;&amp; m <span class="comment"># 输出文件合并</span></span><br><span class="line">n &lt;&amp; m</span><br><span class="line">&lt;&lt; <span class="string">tag # 将开始标记tag</span>和结束标记tag间的内容作为输入</span><br></pre></td></tr></table></figure>
+    <h2 id="输入-输出重定向"><a class="header-anchor" href="#输入-输出重定向">¶</a>输入/输出重定向</h2>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">command</span> &gt; file <span class="comment"># 输出重定向到file</span></span><br><span class="line"><span class="built_in">command</span> &lt; file <span class="comment"># 输入重定向到file</span></span><br><span class="line"><span class="built_in">command</span> &gt;&gt; file <span class="comment"># 输出以追加的方式重定向到file</span></span><br><span class="line">n &gt; file <span class="comment"># 文件描述符为n的文件重定向到file</span></span><br><span class="line">n &gt;&gt; file</span><br><span class="line">n &gt;&amp; m <span class="comment"># 输出文件合并</span></span><br><span class="line">n &lt;&amp; m</span><br><span class="line">&lt;&lt; <span class="string">tag # 将开始标记tag</span>和结束标记tag间的内容作为输入</span><br></pre></td></tr></table></figure>
 <ul>
 <li>标准输入：stdin，文件描述符为0</li>
 <li>标准输出：stdout，文件描述符为1</li>
@@ -176,20 +177,24 @@
 <li>/dev/null</li>
 </ul>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">command</span> &gt; file 2&gt;&amp;1 <span class="comment"># stdout和stderr都输出到file</span></span><br></pre></td></tr></table></figure>
-<h2 id="Here-document"><a href="#Here-document" class="headerlink" title="Here document"></a>Here document</h2><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">n &lt;&lt; <span class="string">delimiter</span></span><br><span class="line"><span class="string">document</span></span><br><span class="line"><span class="string">delimiter</span></span><br></pre></td></tr></table></figure>
+<h2 id="Here-document"><a class="header-anchor" href="#Here-document">¶</a>Here document</h2>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">n &lt;&lt; <span class="string">delimiter</span></span><br><span class="line"><span class="string">document</span></span><br><span class="line"><span class="string">delimiter</span></span><br></pre></td></tr></table></figure>
 <p>将两个delimiter间的内容重定向输出后作为标准输入传递给文件描述符n。其中结尾的delimiter需要顶格写，周围不能有空格，但开始的delimiter周围的空格会被忽略。</p>
 <p>delimiter应选择不会在document中出现，且不会引起混淆的字符串（字母开头，可包含字母和数字）。</p>
 <p>使用<code>&lt;&lt;-</code>，可以让document保持缩进。</p>
 <p>delimiter如果加单/双引号，则document中的内容不会进行shell替换，如变量、命令等。</p>
 <p>输出重定向在开始的delimiter后指定。</p>
-<h2 id="Here-string"><a href="#Here-string" class="headerlink" title="Here string"></a>Here string</h2><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">n &lt;&lt;&lt; <span class="string">word # 等价于echo word</span> | n</span><br></pre></td></tr></table></figure>
+<h2 id="Here-string"><a class="header-anchor" href="#Here-string">¶</a>Here string</h2>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">n &lt;&lt;&lt; <span class="string">word # 等价于echo word</span> | n</span><br></pre></td></tr></table></figure>
 <p>word加单引号不会进行shell替换,双引号时会。</p>
-<h2 id="Command-substitution"><a href="#Command-substitution" class="headerlink" title="Command substitution"></a>Command substitution</h2><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">$(<span class="built_in">command</span>)</span><br><span class="line">`<span class="built_in">command</span>`</span><br><span class="line">text=<span class="string">&quot;<span class="subst">$(command)</span>&quot;</span></span><br></pre></td></tr></table></figure>
+<h2 id="Command-substitution"><a class="header-anchor" href="#Command-substitution">¶</a>Command substitution</h2>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">$(<span class="built_in">command</span>)</span><br><span class="line">`<span class="built_in">command</span>`</span><br><span class="line">text=<span class="string">&quot;<span class="subst">$(command)</span>&quot;</span></span><br></pre></td></tr></table></figure>
 <p>命令替换允许执行命令并用命令的输出替换命令文本。</p>
-<h2 id="Process-substitution"><a href="#Process-substitution" class="headerlink" title="Process substitution"></a>Process substitution</h2><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">&lt;(<span class="built_in">command</span>)</span><br><span class="line">&gt;(<span class="built_in">command</span>)</span><br><span class="line">diff &lt;(<span class="built_in">ls</span> dir1) &lt;(<span class="built_in">ls</span> dir2) <span class="comment"># 比较两个命令的输出</span></span><br></pre></td></tr></table></figure>
+<h2 id="Process-substitution"><a class="header-anchor" href="#Process-substitution">¶</a>Process substitution</h2>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">&lt;(<span class="built_in">command</span>)</span><br><span class="line">&gt;(<span class="built_in">command</span>)</span><br><span class="line">diff &lt;(<span class="built_in">ls</span> dir1) &lt;(<span class="built_in">ls</span> dir2) <span class="comment"># 比较两个命令的输出</span></span><br></pre></td></tr></table></figure>
 <p>进程替换允许将命令的输出保存到一个临时文件（命名管道）中，然后作为另一个命令的输入。</p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">$ <span class="built_in">echo</span> &lt;(<span class="built_in">ls</span>)</span><br><span class="line">/proc/self/fd/13</span><br><span class="line">$ <span class="built_in">cat</span> &lt;&lt;&lt;<span class="string">&quot;<span class="subst">$(ls)</span>&quot;</span></span><br><span class="line">$ <span class="built_in">cat</span> &lt; &lt;(<span class="built_in">ls</span>)</span><br><span class="line">$ <span class="built_in">echo</span> <span class="string">&quot;<span class="subst">$(ls)</span>&quot;</span> | <span class="built_in">cat</span></span><br></pre></td></tr></table></figure>
-<p>注：诸如管道、输入重定向、here document、here string都是将内容推送到标准输入流中，<br>而进程替换则是保存到一个临时文件中，并用临时文件名来替换命令。<br>这显然更强大。可以通过<code>&lt; &lt;(command)</code>来推送到标准输入流。</p>
+<p>注：诸如管道、输入重定向、here document、here string都是将内容推送到标准输入流中，而进程替换则是保存到一个临时文件中，并用临时文件名来替换命令。这显然更强大。可以通过<code>&lt; &lt;(command)</code>来推送到标准输入流。</p>
 <p>另外注意是否添加引号可能会有区别。</p>
 
   </div>
