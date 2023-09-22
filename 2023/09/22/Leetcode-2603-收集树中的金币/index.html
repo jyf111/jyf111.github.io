@@ -1,0 +1,313 @@
+<!DOCTYPE html>
+<html lang=zh>
+<head>
+    <!-- so meta -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="HandheldFriendly" content="True">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=5" />
+    <meta name="description" content="¶题意 给定一棵$n$个点的无向无根树，每个点有或没有金币。 现在让你从某个节点出发，每次可以收集距离当前点2以内的所以金币，或者移动到一个相邻节点。 问你收集所有金币并返回到出发点最少的步数。 ¶做法 首先考虑固定出发点的情况，答案是什么。显然就是去掉所有叶子节点距离小于等于2的边后剩余边的个数乘以2。 换根DP明显可以解决。 然后我写了1个小时，调了30分钟（实在想不到问题在哪，手画了一下十几">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Leetcode 2603. 收集树中的金币">
+<meta property="og:url" content="http://example.com/2023/09/22/Leetcode-2603-%E6%94%B6%E9%9B%86%E6%A0%91%E4%B8%AD%E7%9A%84%E9%87%91%E5%B8%81/index.html">
+<meta property="og:site_name" content="jyf111&#39;s blog">
+<meta property="og:description" content="¶题意 给定一棵$n$个点的无向无根树，每个点有或没有金币。 现在让你从某个节点出发，每次可以收集距离当前点2以内的所以金币，或者移动到一个相邻节点。 问你收集所有金币并返回到出发点最少的步数。 ¶做法 首先考虑固定出发点的情况，答案是什么。显然就是去掉所有叶子节点距离小于等于2的边后剩余边的个数乘以2。 换根DP明显可以解决。 然后我写了1个小时，调了30分钟（实在想不到问题在哪，手画了一下十几">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2023-09-22T04:43:29.000Z">
+<meta property="article:modified_time" content="2023-09-22T15:40:37.349Z">
+<meta property="article:author" content="jyf111">
+<meta property="article:tag" content="算法">
+<meta name="twitter:card" content="summary">
+    
+    
+      
+        
+          <link rel="shortcut icon" href="/images/favicon.ico">
+        
+      
+      
+        
+          <link rel="icon" type="image/png" href="/images/favicon-192x192.png" sizes="192x192">
+        
+      
+      
+        
+          <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png">
+        
+      
+    
+    <!-- title -->
+    <title>Leetcode 2603. 收集树中的金币</title>
+    <!-- async scripts -->
+    <!-- Google Analytics -->
+
+
+    <!-- Umami Analytics -->
+
+
+    <!-- styles -->
+    
+<link rel="stylesheet" href="/css/style.css">
+
+    <!-- persian styles -->
+    
+    <!-- rss -->
+    
+    
+	<!-- mathjax -->
+	
+		<script type="text/x-mathjax-config">
+		  MathJax.Hub.Config({
+			tex2jax: {
+			  skipTags: ['script', 'noscript', 'style', 'textarea', 'pre'],
+			  inlineMath: [['$','$']]
+			}
+		  });
+		</script>
+		<script src='https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-MML-AM_CHTML' async></script>
+	
+
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/ui@4.0/dist/fancybox.css" />
+
+<meta name="generator" content="Hexo 6.3.0"></head>
+
+<body class="max-width mx-auto px3 ltr">
+    
+      <div id="header-post">
+  <a id="menu-icon" href="#" aria-label="目录"><i class="fa-solid fa-bars fa-lg"></i></a>
+  <a id="menu-icon-tablet" href="#" aria-label="目录"><i class="fa-solid fa-bars fa-lg"></i></a>
+  <a id="top-icon-tablet" href="#" aria-label="顶部" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');" style="display:none;"><i class="fa-solid fa-chevron-up fa-lg"></i></a>
+  <span id="menu">
+    <span id="nav">
+      <ul>
+        <!--
+       --><li><a href="/">首页</a></li><!--
+     --><!--
+       --><li><a href="/archives/">归档</a></li><!--
+     --><!--
+       --><li><a href="/tags/">标签</a></li><!--
+     --><!--
+       --><li><a href="/search/">搜索</a></li><!--
+     -->
+      </ul>
+    </span>
+    <br/>
+    <span id="actions">
+      <ul>
+        
+        
+        <li><a class="icon" aria-label="下一篇" href="/2023/09/21/%E5%8D%8F%E7%A8%8B/"><i class="fa-solid fa-chevron-right" aria-hidden="true" onmouseover="$('#i-next').toggle();" onmouseout="$('#i-next').toggle();"></i></a></li>
+        
+        <li><a class="icon" aria-label="返回顶部" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fa-solid fa-chevron-up" aria-hidden="true" onmouseover="$('#i-top').toggle();" onmouseout="$('#i-top').toggle();"></i></a></li>
+      </ul>
+      <span id="i-prev" class="info" style="display:none;">上一篇</span>
+      <span id="i-next" class="info" style="display:none;">下一篇</span>
+      <span id="i-top" class="info" style="display:none;">返回顶部</span>
+    </span>
+    <br/>
+    
+    
+      <div id="toc">
+        <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E9%A2%98%E6%84%8F"><span class="toc-number">1.</span> <span class="toc-text">题意</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%81%9A%E6%B3%95"><span class="toc-number">2.</span> <span class="toc-text">做法</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%AD%A3%E8%A7%A3"><span class="toc-number">3.</span> <span class="toc-text">正解</span></a></li></ol>
+      </div>
+    
+  </span>
+</div>
+
+    
+    <div class="content index py4 ">
+        
+        <article class="post h-entry" itemscope itemtype="http://schema.org/BlogPosting">
+  <header>
+    
+    <h1 class="posttitle p-name" itemprop="name headline">
+        Leetcode 2603. 收集树中的金币
+    </h1>
+
+
+
+    <div class="meta">
+      <span class="author p-author h-card" itemprop="author" itemscope itemtype="http://schema.org/Person">
+        <span class="p-name" itemprop="name">jyf111</span>
+      </span>
+      
+    <div class="postdate">
+      
+        <time datetime="2023-09-22T04:43:29.000Z" class="dt-published" itemprop="datePublished">2023-09-22</time>
+        
+        (Updated: <time datetime="2023-09-22T15:40:37.349Z" class="dt-updated" itemprop="dateModified">2023-09-22</time>)
+        
+      
+    </div>
+
+
+      
+
+      
+    <div class="article-tag">
+        <i class="fa-solid fa-tag"></i>
+        <a class="p-category" href="/tags/%E7%AE%97%E6%B3%95/" rel="tag">算法</a>
+    </div>
+
+
+      
+        
+            <span class=count-symbol-post> 
+            <i class="fa-solid fa-hourglass"></i>
+            
+            
+            
+            
+                1 min to read
+            
+            </span>
+        
+      
+    </div>
+  </header>
+  
+
+  <div class="content e-content" itemprop="articleBody">
+    <h2 id="题意"><a class="header-anchor" href="#题意">¶</a>题意</h2>
+<p>给定一棵$n$个点的无向无根树，每个点有或没有金币。</p>
+<p>现在让你从某个节点出发，每次可以收集距离当前点2以内的所以金币，或者移动到一个相邻节点。</p>
+<p>问你收集所有金币并返回到出发点最少的步数。</p>
+<h2 id="做法"><a class="header-anchor" href="#做法">¶</a>做法</h2>
+<p>首先考虑固定出发点的情况，答案是什么。显然就是去掉所有叶子节点距离小于等于2的边后剩余边的个数乘以2。</p>
+<p>换根DP明显可以解决。</p>
+<p>然后我写了1个小时，调了30分钟（实在想不到问题在哪，手画了一下十几个点的错误数据才意识到问题）。</p>
+<p>代码写的也是异常丑陋，懒得在递归函数里传一堆参数，所以全改成类的私有变量了。</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">Solution</span> &#123;</span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="function"><span class="type">int</span> <span class="title">collectTheCoins</span><span class="params">(vector&lt;<span class="type">int</span>&gt;&amp; coins, vector&lt;vector&lt;<span class="type">int</span>&gt;&gt;&amp; edges)</span> </span>&#123;</span><br><span class="line">        n = coins.<span class="built_in">size</span>();</span><br><span class="line">        dp.<span class="built_in">resize</span>(<span class="number">0</span>);</span><br><span class="line">        dp.<span class="built_in">resize</span>(n);</span><br><span class="line">        dp2.<span class="built_in">resize</span>(<span class="number">0</span>);</span><br><span class="line">        dp2.<span class="built_in">resize</span>(n);</span><br><span class="line">        G.<span class="built_in">resize</span>(<span class="number">0</span>);</span><br><span class="line">        G.<span class="built_in">resize</span>(n);</span><br><span class="line">        c = coins;</span><br><span class="line">        <span class="keyword">for</span> (<span class="type">const</span> <span class="keyword">auto</span>&amp; e : edges) &#123;</span><br><span class="line">            G[e[<span class="number">0</span>]].<span class="built_in">push_back</span>(e[<span class="number">1</span>]);</span><br><span class="line">            G[e[<span class="number">1</span>]].<span class="built_in">push_back</span>(e[<span class="number">0</span>]);</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="built_in">dfs</span>(<span class="number">0</span>, <span class="number">-1</span>);</span><br><span class="line">        <span class="built_in">dfs2</span>(<span class="number">0</span>, <span class="number">-1</span>);</span><br><span class="line">        <span class="type">int</span> ans = <span class="number">2</span> * n;</span><br><span class="line">        <span class="keyword">for</span> (<span class="type">int</span> i = <span class="number">0</span>; i &lt; n; i++) ans = <span class="built_in">min</span>(ans, dp[i][<span class="number">3</span>] + dp2[i][<span class="number">3</span>]);</span><br><span class="line">        <span class="keyword">return</span> ans;</span><br><span class="line">    &#125;</span><br><span class="line"><span class="keyword">private</span>:</span><br><span class="line">    <span class="function"><span class="type">void</span> <span class="title">dfs</span><span class="params">(<span class="type">int</span> u, <span class="type">int</span> fa)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">for</span> (<span class="type">int</span> v : G[u]) &#123;</span><br><span class="line">            <span class="keyword">if</span> (v == fa) <span class="keyword">continue</span>;</span><br><span class="line">            <span class="built_in">dfs</span>(v, u);</span><br><span class="line">            <span class="keyword">if</span> (c[v]) dp[u][<span class="number">0</span>]++;</span><br><span class="line">            dp[u][<span class="number">1</span>] += dp[v][<span class="number">0</span>];</span><br><span class="line">            dp[u][<span class="number">2</span>] += dp[v][<span class="number">1</span>] + dp[v][<span class="number">2</span>];</span><br><span class="line">            <span class="keyword">if</span> (dp[v][<span class="number">1</span>] || dp[v][<span class="number">2</span>]) &#123;</span><br><span class="line">                dp[u][<span class="number">3</span>] += dp[v][<span class="number">3</span>] + <span class="number">2</span>;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="function"><span class="type">void</span> <span class="title">dfs2</span><span class="params">(<span class="type">int</span> u, <span class="type">int</span> fa)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">for</span> (<span class="type">int</span> v : G[u]) &#123;</span><br><span class="line">            <span class="keyword">if</span> (v == fa) <span class="keyword">continue</span>;</span><br><span class="line">            <span class="keyword">if</span> (c[u]) dp2[v][<span class="number">0</span>]++;</span><br><span class="line">            dp2[v][<span class="number">1</span>] += dp2[u][<span class="number">0</span>] + dp[u][<span class="number">0</span>] - c[v];</span><br><span class="line">            dp2[v][<span class="number">2</span>] += dp2[u][<span class="number">1</span>] + dp2[u][<span class="number">2</span>] + dp[u][<span class="number">1</span>] + dp[u][<span class="number">2</span>] - dp[v][<span class="number">0</span>] - dp[v][<span class="number">1</span>] - dp[v][<span class="number">2</span>]; </span><br><span class="line">            <span class="comment">// 一开始错就是因为没加父节点u的子树内的部分，比如父节点有一个有金币的儿子，它只被统计在dp[u][0]中，</span></span><br><span class="line">            <span class="comment">// 但正是由于这个金币，父节点的另一个儿子的儿子就需要往父亲走了</span></span><br><span class="line">            <span class="type">bool</span> ok = <span class="literal">false</span>;</span><br><span class="line">            <span class="keyword">if</span> (dp2[u][<span class="number">1</span>] || dp2[u][<span class="number">2</span>] || dp2[u][<span class="number">3</span>]) &#123;</span><br><span class="line">                dp2[v][<span class="number">3</span>] += dp2[u][<span class="number">3</span>];</span><br><span class="line">                ok = <span class="literal">true</span>;</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="keyword">if</span> (dp[u][<span class="number">1</span>] + dp[u][<span class="number">2</span>] - dp[v][<span class="number">0</span>] - dp[v][<span class="number">1</span>] - dp[v][<span class="number">2</span>] &gt; <span class="number">0</span>) &#123;</span><br><span class="line">                dp2[v][<span class="number">3</span>] += dp[u][<span class="number">3</span>];</span><br><span class="line">                <span class="keyword">if</span> (dp[v][<span class="number">1</span>] || dp[v][<span class="number">2</span>]) &#123;</span><br><span class="line">                    dp2[v][<span class="number">3</span>] -= dp[v][<span class="number">3</span>] - <span class="number">2</span>;</span><br><span class="line">                &#125;</span><br><span class="line">                ok = <span class="literal">true</span>;</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="keyword">if</span> (ok) dp2[v][<span class="number">3</span>] += <span class="number">2</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">for</span> (<span class="type">int</span> v : G[u]) &#123;</span><br><span class="line">            <span class="keyword">if</span> (v == fa) <span class="keyword">continue</span>;</span><br><span class="line">            <span class="built_in">dfs2</span>(v, u);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="type">int</span> n;</span><br><span class="line">    vector&lt;array&lt;<span class="type">int</span>, 4&gt;&gt; dp, dp2;</span><br><span class="line">    vector&lt;<span class="type">int</span>&gt; c;</span><br><span class="line">    vector&lt;vector&lt;<span class="type">int</span>&gt;&gt; G;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+<h2 id="正解"><a class="header-anchor" href="#正解">¶</a>正解</h2>
+<p>拓扑排序。</p>
+<p>对于树中的叶子节点，如果没有金币，直接删除即可。</p>
+<p>不断删除后，现在的树的所有叶子节点都有金币，显然我们可以继续删掉两层叶子节点。</p>
+<p>答案就是剩下的边数乘以2了。其实就是贪心，并不需要算出从每个点出发的答案具体是什么。</p>
+
+  </div>
+</article>
+
+
+
+        
+          <div id="footer-post-container">
+  <div id="footer-post">
+
+    <div id="nav-footer" style="display: none">
+      <ul>
+        
+          <li><a href="/">首页</a></li>
+        
+          <li><a href="/archives/">归档</a></li>
+        
+          <li><a href="/tags/">标签</a></li>
+        
+          <li><a href="/search/">搜索</a></li>
+        
+      </ul>
+    </div>
+
+    
+    
+      <div id="toc-footer" style="display: none">
+        <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E9%A2%98%E6%84%8F"><span class="toc-number">1.</span> <span class="toc-text">题意</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%81%9A%E6%B3%95"><span class="toc-number">2.</span> <span class="toc-text">做法</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%AD%A3%E8%A7%A3"><span class="toc-number">3.</span> <span class="toc-text">正解</span></a></li></ol>
+      </div>
+    
+
+    <div id="actions-footer">
+        <a id="menu" class="icon" href="#" onclick="$('#nav-footer').toggle();return false;"><i class="fa-solid fa-bars fa-lg" aria-hidden="true"></i> 菜单</a>
+        
+          <a id="toc" class="icon" href="#" onclick="$('#toc-footer').toggle();return false;"><i class="fa-solid fa-list fa-lg" aria-hidden="true"></i> 目录</a>
+        
+        <a id="top" style="display:none" class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fa-solid fa-chevron-up fa-lg" aria-hidden="true"></i> 返回顶部</a>
+    </div>
+
+  </div>
+</div>
+
+        
+        <footer id="footer">
+  <div class="footer-left">
+    Copyright &copy;
+    
+    
+    2020-2023
+    jyf111
+  </div>
+  <div class="footer-right">
+    <nav>
+      <ul>
+        <!--
+       --><li><a href="/">首页</a></li><!--
+     --><!--
+       --><li><a href="/archives/">归档</a></li><!--
+     --><!--
+       --><li><a href="/tags/">标签</a></li><!--
+     --><!--
+       --><li><a href="/search/">搜索</a></li><!--
+     -->
+      </ul>
+    </nav>
+  </div>
+</footer>
+
+    </div>
+    <!-- styles -->
+
+
+
+  <link rel="preload" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" crossorigin="anonymous" onload="this.onload=null;this.rel='stylesheet'"/>
+
+
+    <!-- jquery -->
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js" crossorigin="anonymous"></script>
+
+
+
+
+<!-- clipboard -->
+
+  
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.7/clipboard.min.js" crossorigin="anonymous"></script>
+  
+  <script type="text/javascript">
+  $(function() {
+    // copy-btn HTML
+    var btn = "<span class=\"btn-copy tooltipped tooltipped-sw\" aria-label=\"复制到粘贴板！\">";
+    btn += '<i class="fa-regular fa-clone"></i>';
+    btn += '</span>';
+    // mount it!
+    $(".highlight table").before(btn);
+    var clip = new ClipboardJS('.btn-copy', {
+      text: function(trigger) {
+        return Array.from(trigger.nextElementSibling.querySelectorAll('.code')).reduce((str,it)=>str+it.innerText+'\n','')
+      }
+    });
+    clip.on('success', function(e) {
+      e.trigger.setAttribute('aria-label', "复制成功！");
+      e.clearSelection();
+    })
+  })
+  </script>
+
+
+<script src="/js/main.js"></script>
+
+<!-- search -->
+
+<!-- Baidu Analytics -->
+
+<!-- Cloudflare Analytics -->
+
+<!-- Disqus Comments -->
+
+<!-- utterances Comments -->
+
+<!-- FancyBox -->
+
+<script src="https://cdn.jsdelivr.net/npm/@fancyapps/ui@4.0/dist/fancybox.umd.js"></script>
+
+
+</body>
+</html>
