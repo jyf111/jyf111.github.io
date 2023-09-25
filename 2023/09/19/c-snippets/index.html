@@ -14,7 +14,7 @@
 <meta property="og:description" content="12345#define die(msg)                                      \do &amp;#123;                                                  \    perror(msg);                                      \    exit(EXIT_FAILURE);">
 <meta property="og:locale" content="zh_CN">
 <meta property="article:published_time" content="2023-09-19T10:15:32.000Z">
-<meta property="article:modified_time" content="2023-09-21T09:53:48.773Z">
+<meta property="article:modified_time" content="2023-09-25T10:23:47.497Z">
 <meta property="article:author" content="jyf111">
 <meta property="article:tag" content="语言">
 <meta name="twitter:card" content="summary">
@@ -110,7 +110,7 @@
     
     
       <div id="toc">
-        <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%8C%BF%E5%90%8D%E6%9E%9A%E4%B8%BE"><span class="toc-number">1.</span> <span class="toc-text">匿名枚举</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#jmp"><span class="toc-number">2.</span> <span class="toc-text">jmp</span></a></li></ol>
+        <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%8C%BF%E5%90%8D%E6%9E%9A%E4%B8%BE"><span class="toc-number">1.</span> <span class="toc-text">匿名枚举</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#jmp"><span class="toc-number">2.</span> <span class="toc-text">jmp</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E9%9B%B6%E9%95%BF%E6%95%B0%E7%BB%84"><span class="toc-number">3.</span> <span class="toc-text">零长数组</span></a></li></ol>
       </div>
     
   </span>
@@ -137,7 +137,7 @@
       
         <time datetime="2023-09-19T10:15:32.000Z" class="dt-published" itemprop="datePublished">2023-09-19</time>
         
-        (Updated: <time datetime="2023-09-21T09:53:48.773Z" class="dt-updated" itemprop="dateModified">2023-09-21</time>)
+        (Updated: <time datetime="2023-09-25T10:23:47.497Z" class="dt-updated" itemprop="dateModified">2023-09-25</time>)
         
       
     </div>
@@ -158,9 +158,7 @@
             <i class="fa-solid fa-hourglass"></i>
             
             
-            
-            
-                2 mins to read
+              (3 mins to read)
             
             </span>
         
@@ -171,13 +169,14 @@
 
   <div class="content e-content" itemprop="articleBody">
     <figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">define</span> die(msg)                                      \</span></span><br><span class="line"><span class="meta">do &#123;                                                  \</span></span><br><span class="line"><span class="meta">    perror(msg);                                      \</span></span><br><span class="line"><span class="meta">    exit(EXIT_FAILURE);                               \</span></span><br><span class="line"><span class="meta">&#125; while (0)</span></span><br></pre></td></tr></table></figure>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">define</span> ARRAY_SIZE(arr) (sizeof(arr) / sizeof((arr)[0]))</span></span><br><span class="line"><span class="comment">// 在sizeof中数组类型是不会退化的</span></span><br></pre></td></tr></table></figure>
 <figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">free</span>(<span class="literal">NULL</span>); <span class="comment">// 在C标准中，这是合法的，不会发生任何操作</span></span><br></pre></td></tr></table></figure>
 <blockquote>
 <p>If ptr is a null pointer, no action occurs.</p>
 </blockquote>
 <p>So, no need to check for NULL before <code>free</code>, it only adds more dummy code to read and is thus a bad practice.</p>
 <figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">define</span> offsetof(TYPE, MEMBER) ((int)&amp;(((TYPE *)0)-&gt;MEMBER))</span></span><br><span class="line"></span><br><span class="line"><span class="meta">#<span class="keyword">define</span> container_of(ptr, type, member) (&#123;                      \</span></span><br><span class="line"><span class="meta">        const typeof( ((type *)0)-&gt;member ) *__mptr = (ptr);    \</span></span><br><span class="line"><span class="meta">        (type *)( (char *)__mptr - offsetof(type,member) );&#125;)</span></span><br></pre></td></tr></table></figure>
-<p><code>offsetof</code>在给定结构体类型和一个成员名时，计算结构体中该成员相对于首地址的偏移量。这里加了取地址，从而不会解引用<code>0-&gt;MEMBER</code>。<code>container_of</code>在给定结构体类型，以及其中一个成员的名称及其地址时，得到结构体的首地址。这里<code>(&#123;x;y;&#125;)</code>是GNU的扩展，它会计算每个表达式并返回最后一个表达式的值。此外第一行只是用于类型检查。以上宏可以用于实现无侵入式的链表。</p>
+<p><code>offsetof</code>在给定结构体类型和一个成员名时，计算结构体中该成员相对于首地址的偏移量。这里加了取地址，从而不会解引用<code>0-&gt;MEMBER</code>。<code>container_of</code>在给定结构体类型，以及其中一个成员的名称及其地址时，得到结构体的首地址。这里<code>(&#123;x;y;&#125;)</code>是GNU的扩展，它会计算每个表达式并返回最后一个表达式的值。此外第一行只是用于类型检查，其中<code>typeof</code>也是GNU的扩展，类似C++中的<code>decltype</code>。以上宏可以用于实现无侵入式的链表。</p>
 <h2 id="匿名枚举"><a class="header-anchor" href="#匿名枚举">¶</a>匿名枚举</h2>
 <p><a target="_blank" rel="noopener" href="https://stackoverflow.com/questions/7147008/the-usage-of-anonymous-enums">https://stackoverflow.com/questions/7147008/the-usage-of-anonymous-enums</a></p>
 <figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">enum</span> &#123;</span> color = <span class="number">1</span> &#125;; </span><br></pre></td></tr></table></figure>
@@ -188,6 +187,11 @@
 <li><code>longjmp(jmp_buf buf, i)</code>：加载buf保存的上下文，即调用<code>setjmp</code>的位置，并使得<code>setjmp</code>返回i。</li>
 </ul>
 <p>在C语言中实现错误处理（try catch）、协程等。</p>
+<h2 id="零长数组"><a class="header-anchor" href="#零长数组">¶</a>零长数组</h2>
+<p>也叫柔性数组。</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">struct</span> <span class="title">line</span> &#123;</span></span><br><span class="line">    <span class="type">int</span> length;</span><br><span class="line">    <span class="type">char</span> contents[<span class="number">0</span>]; <span class="comment">// or char contents[]</span></span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">struct</span> <span class="title">line</span> *<span class="title">thisline</span> =</span> <span class="built_in">malloc</span>(<span class="keyword">sizeof</span>(<span class="keyword">struct</span> line) + this_length);</span><br><span class="line">thisline-&gt;length = this_length;</span><br><span class="line">assert(<span class="keyword">sizeof</span>(contents) == <span class="number">0</span>);</span><br><span class="line"><span class="comment">// 在结构体外也能声明int a[0]，但是不能int a[]，其实类似于一个label</span></span><br></pre></td></tr></table></figure>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">define</span> LIKELY(x) __builtin_expect(!!(x), 1) <span class="comment">// x很可能为真</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">define</span> UNLIKELY(x) __builtin_expect(!!(x), 0) <span class="comment">// x很可能为假</span></span></span><br><span class="line"><span class="comment">// __builtin_expect(exp, c)表示exp等于c的概率很大，用于引导CPU的分支预测</span></span><br></pre></td></tr></table></figure>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;linux/prefetch.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">define</span> prefetch(x) __builtin_prefetch(x)</span></span><br><span class="line"><span class="meta">#<span class="keyword">define</span> prefetchw(x) __builtin_prefetch(x,1)</span></span><br><span class="line">__builtin_prefetch(<span class="type">const</span> <span class="type">void</span> *addr, <span class="type">int</span> rw, <span class="type">int</span> locality) <span class="comment">// 主动将数据读取到addr中，rw=1表示可写，0表示只读</span></span><br></pre></td></tr></table></figure>
 
   </div>
 </article>
@@ -215,7 +219,7 @@
     
     
       <div id="toc-footer" style="display: none">
-        <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%8C%BF%E5%90%8D%E6%9E%9A%E4%B8%BE"><span class="toc-number">1.</span> <span class="toc-text">匿名枚举</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#jmp"><span class="toc-number">2.</span> <span class="toc-text">jmp</span></a></li></ol>
+        <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%8C%BF%E5%90%8D%E6%9E%9A%E4%B8%BE"><span class="toc-number">1.</span> <span class="toc-text">匿名枚举</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#jmp"><span class="toc-number">2.</span> <span class="toc-text">jmp</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E9%9B%B6%E9%95%BF%E6%95%B0%E7%BB%84"><span class="toc-number">3.</span> <span class="toc-text">零长数组</span></a></li></ol>
       </div>
     
 
