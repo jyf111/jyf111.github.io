@@ -6,15 +6,15 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="HandheldFriendly" content="True">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=5" />
-    <meta name="description" content="¶无穷大 1234567float(&amp;#x27;inf&amp;#x27;)float(&amp;#x27;-inf&amp;#x27;)math.inf-math.inffloat(&amp;#x27;inf&amp;#x27;) &#x3D;&#x3D; math.inf # Truetype(float(&amp;#x27;inf&amp;#x27;)) &#x3D;&#x3D; floattype(math.inf) &#x3D;&#x3D; float ¶map 1mp &#x3D; &amp;#123;&amp;#x27;(">
+    <meta name="description" content="-Wall -Wextra -Wshadow -Wundef -Wconversion -fno-common：避免全局变量 -Wfloat-equal -Wunreachable-code -Wformat&#x3D;2：检查printf和scanf的格式控制符 -fmudflap：在运行时检查指针操作以捕获未定义行为 -fno-exceptions：在代码中使用异常时，报错 -fomit-frame-">
 <meta property="og:type" content="article">
-<meta property="og:title" content="python snippets">
-<meta property="og:url" content="http://example.com/2023/09/16/python-snippets/index.html">
+<meta property="og:title" content="编译选项">
+<meta property="og:url" content="http://example.com/2023/09/26/%E7%BC%96%E8%AF%91%E9%80%89%E9%A1%B9/index.html">
 <meta property="og:site_name" content="jyf111&#39;s blog">
-<meta property="og:description" content="¶无穷大 1234567float(&amp;#x27;inf&amp;#x27;)float(&amp;#x27;-inf&amp;#x27;)math.inf-math.inffloat(&amp;#x27;inf&amp;#x27;) &#x3D;&#x3D; math.inf # Truetype(float(&amp;#x27;inf&amp;#x27;)) &#x3D;&#x3D; floattype(math.inf) &#x3D;&#x3D; float ¶map 1mp &#x3D; &amp;#123;&amp;#x27;(">
+<meta property="og:description" content="-Wall -Wextra -Wshadow -Wundef -Wconversion -fno-common：避免全局变量 -Wfloat-equal -Wunreachable-code -Wformat&#x3D;2：检查printf和scanf的格式控制符 -fmudflap：在运行时检查指针操作以捕获未定义行为 -fno-exceptions：在代码中使用异常时，报错 -fomit-frame-">
 <meta property="og:locale" content="zh_CN">
-<meta property="article:published_time" content="2023-09-16T05:27:04.000Z">
-<meta property="article:modified_time" content="2023-09-30T02:42:09.991Z">
+<meta property="article:published_time" content="2023-09-26T09:26:49.000Z">
+<meta property="article:modified_time" content="2023-09-30T10:32:38.625Z">
 <meta property="article:author" content="jyf111">
 <meta property="article:tag" content="语言">
 <meta name="twitter:card" content="summary">
@@ -37,7 +37,7 @@
       
     
     <!-- title -->
-    <title>python snippets</title>
+    <title>编译选项</title>
     <!-- async scripts -->
     <!-- Google Analytics -->
 
@@ -95,10 +95,10 @@
     <span id="actions">
       <ul>
         
-        <li><a class="icon" aria-label="上一篇" href="/2023/09/19/c-snippets/"><i class="fa-solid fa-chevron-left" aria-hidden="true" onmouseover="$('#i-prev').toggle();" onmouseout="$('#i-prev').toggle();"></i></a></li>
+        <li><a class="icon" aria-label="上一篇" href="/2023/09/26/do-benchmark/"><i class="fa-solid fa-chevron-left" aria-hidden="true" onmouseover="$('#i-prev').toggle();" onmouseout="$('#i-prev').toggle();"></i></a></li>
         
         
-        <li><a class="icon" aria-label="下一篇" href="/2023/09/11/cppquiz/"><i class="fa-solid fa-chevron-right" aria-hidden="true" onmouseover="$('#i-next').toggle();" onmouseout="$('#i-next').toggle();"></i></a></li>
+        <li><a class="icon" aria-label="下一篇" href="/2023/09/26/%E6%A3%80%E6%B5%8B%E5%86%85%E5%AD%98%E9%97%AE%E9%A2%98/"><i class="fa-solid fa-chevron-right" aria-hidden="true" onmouseover="$('#i-next').toggle();" onmouseout="$('#i-next').toggle();"></i></a></li>
         
         <li><a class="icon" aria-label="返回顶部" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fa-solid fa-chevron-up" aria-hidden="true" onmouseover="$('#i-top').toggle();" onmouseout="$('#i-top').toggle();"></i></a></li>
       </ul>
@@ -108,10 +108,6 @@
     </span>
     <br/>
     
-    
-      <div id="toc">
-        <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%97%A0%E7%A9%B7%E5%A4%A7"><span class="toc-number">1.</span> <span class="toc-text">无穷大</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#map"><span class="toc-number">2.</span> <span class="toc-text">map</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%87%AA%E5%AE%9A%E4%B9%89%E6%AF%94%E8%BE%83"><span class="toc-number">3.</span> <span class="toc-text">自定义比较</span></a></li></ol>
-      </div>
     
   </span>
 </div>
@@ -123,7 +119,7 @@
   <header>
     
     <h1 class="posttitle p-name" itemprop="name headline">
-        python snippets
+        编译选项
     </h1>
 
 
@@ -135,9 +131,9 @@
       
     <div class="postdate">
       
-        <time datetime="2023-09-16T05:27:04.000Z" class="dt-published" itemprop="datePublished">2023-09-16</time>
+        <time datetime="2023-09-26T09:26:49.000Z" class="dt-published" itemprop="datePublished">2023-09-26</time>
         
-        (Updated: <time datetime="2023-09-30T02:42:09.991Z" class="dt-updated" itemprop="dateModified">2023-09-30</time>)
+        (Updated: <time datetime="2023-09-30T10:32:38.625Z" class="dt-updated" itemprop="dateModified">2023-09-30</time>)
         
       
     </div>
@@ -168,12 +164,31 @@
   
 
   <div class="content e-content" itemprop="articleBody">
-    <h2 id="无穷大"><a class="header-anchor" href="#无穷大">¶</a>无穷大</h2>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">float</span>(<span class="string">&#x27;inf&#x27;</span>)</span><br><span class="line"><span class="built_in">float</span>(<span class="string">&#x27;-inf&#x27;</span>)</span><br><span class="line">math.inf</span><br><span class="line">-math.inf</span><br><span class="line"><span class="built_in">float</span>(<span class="string">&#x27;inf&#x27;</span>) == math.inf <span class="comment"># True</span></span><br><span class="line"><span class="built_in">type</span>(<span class="built_in">float</span>(<span class="string">&#x27;inf&#x27;</span>)) == <span class="built_in">float</span></span><br><span class="line"><span class="built_in">type</span>(math.inf) == <span class="built_in">float</span></span><br></pre></td></tr></table></figure>
-<h2 id="map"><a class="header-anchor" href="#map">¶</a>map</h2>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">mp = &#123;<span class="string">&#x27;(&#x27;</span>:<span class="number">0</span>, <span class="string">&#x27;&#123;&#x27;</span>:<span class="number">1</span>, <span class="string">&#x27;[&#x27;</span>:<span class="number">2</span>&#125;</span><br></pre></td></tr></table></figure>
-<h2 id="自定义比较"><a class="header-anchor" href="#自定义比较">¶</a>自定义比较</h2>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">lst.sort(<span class="keyword">lambda</span> x: <span class="number">10</span> * x)</span><br><span class="line"></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">cmp</span>(<span class="params">i, j</span>):</span><br><span class="line">    <span class="keyword">if</span> a[i] &lt; a[j]: <span class="keyword">return</span> -<span class="number">1</span></span><br><span class="line">    <span class="keyword">elif</span> a[i] &gt; a[j]: <span class="keyword">return</span> <span class="number">1</span></span><br><span class="line">    <span class="keyword">else</span>: <span class="keyword">return</span> <span class="number">0</span></span><br><span class="line">lst.sort(functools.cmp_to_key(cmp))</span><br><span class="line"><span class="comment"># list.sort()和sorted都保证是stable的</span></span><br></pre></td></tr></table></figure>
+    <ul>
+<li><code>-Wall</code> <code>-Wextra</code></li>
+<li><code>-Wshadow</code></li>
+<li><code>-Wundef</code></li>
+<li><code>-Wconversion</code></li>
+<li><code>-fno-common</code>：避免全局变量</li>
+<li><code>-Wfloat-equal</code></li>
+<li><code>-Wunreachable-code</code></li>
+<li><code>-Wformat=2</code>：检查<code>printf</code>和<code>scanf</code>的格式控制符</li>
+<li><code>-fmudflap</code>：在运行时检查指针操作以捕获未定义行为</li>
+<li><code>-fno-exceptions</code>：在代码中使用异常时，报错</li>
+<li><code>-fomit-frame-pointer</code>：省略栈帧</li>
+<li><code>-fno-plt</code></li>
+<li><code>-no-pie</code>：关闭位置无关</li>
+<li><code>-fPIE</code></li>
+<li><code>-fPIC</code>：生成位置无关代码，用于生成共享库</li>
+<li><code>-m32</code>：编译32位程序</li>
+<li><code>-pedantic</code>：对非C++标准的扩展发出警告</li>
+<li><code>-fanalyzer</code>：启用静态分析，以报告更多问题（有更高的overhead）。</li>
+<li><code>-fstack-protector</code>：检查缓冲区溢出</li>
+<li><code>-march=native</code> <code>-mtune=native</code>：根据CPU进行特定优化</li>
+<li><code>-I</code> <code>-L</code>：指定链接时查找的include文件夹和共享库文件夹，环境变量<code>$LD_LIBRARY_PATH</code>为运行时查找的共享库文件夹</li>
+<li><code>-save-temps</code>：保留所有编译的中间文件（<code>.c</code>, <code>.i</code>, <code>.s</code>, <code>.o</code>）</li>
+<li><code>-v</code>：输出详细信息</li>
+</ul>
 
   </div>
 </article>
@@ -200,15 +215,9 @@
 
     
     
-      <div id="toc-footer" style="display: none">
-        <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%97%A0%E7%A9%B7%E5%A4%A7"><span class="toc-number">1.</span> <span class="toc-text">无穷大</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#map"><span class="toc-number">2.</span> <span class="toc-text">map</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%87%AA%E5%AE%9A%E4%B9%89%E6%AF%94%E8%BE%83"><span class="toc-number">3.</span> <span class="toc-text">自定义比较</span></a></li></ol>
-      </div>
-    
 
     <div id="actions-footer">
         <a id="menu" class="icon" href="#" onclick="$('#nav-footer').toggle();return false;"><i class="fa-solid fa-bars fa-lg" aria-hidden="true"></i> 菜单</a>
-        
-          <a id="toc" class="icon" href="#" onclick="$('#toc-footer').toggle();return false;"><i class="fa-solid fa-list fa-lg" aria-hidden="true"></i> 目录</a>
         
         <a id="top" style="display:none" class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fa-solid fa-chevron-up fa-lg" aria-hidden="true"></i> 返回顶部</a>
     </div>
