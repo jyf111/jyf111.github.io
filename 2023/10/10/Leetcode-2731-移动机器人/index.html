@@ -1,0 +1,311 @@
+<!DOCTYPE html>
+<html lang=zh>
+<head>
+    <!-- so meta -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="HandheldFriendly" content="True">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=5" />
+    <meta name="description" content="¶题意 有n个机器人位于一个无限长横轴，每个机器人每秒会向左或向右移动一格，特别地，如果两个机器人位于同一格，就发生相撞，并各自转为反向移动。现在问$d$秒后，所有机器人两两距离之和。 $n \le 10^5, d \le 10^9$ ¶做法 关键点是机器人相撞后反向应该理解成穿透。 现在考虑任意两个机器人，如果方向为LL或RR则距离保持不变，如果为LR则距离每秒加2，而如果为RL，在相撞前每秒减">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Leetcode 2731. 移动机器人">
+<meta property="og:url" content="http://example.com/2023/10/10/Leetcode-2731-%E7%A7%BB%E5%8A%A8%E6%9C%BA%E5%99%A8%E4%BA%BA/index.html">
+<meta property="og:site_name" content="jyf111&#39;s blog">
+<meta property="og:description" content="¶题意 有n个机器人位于一个无限长横轴，每个机器人每秒会向左或向右移动一格，特别地，如果两个机器人位于同一格，就发生相撞，并各自转为反向移动。现在问$d$秒后，所有机器人两两距离之和。 $n \le 10^5, d \le 10^9$ ¶做法 关键点是机器人相撞后反向应该理解成穿透。 现在考虑任意两个机器人，如果方向为LL或RR则距离保持不变，如果为LR则距离每秒加2，而如果为RL，在相撞前每秒减">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2023-10-10T11:18:34.000Z">
+<meta property="article:modified_time" content="2023-10-10T11:36:04.750Z">
+<meta property="article:author" content="jyf111">
+<meta property="article:tag" content="算法">
+<meta name="twitter:card" content="summary">
+    
+    
+      
+        
+          <link rel="shortcut icon" href="/images/favicon.ico">
+        
+      
+      
+        
+          <link rel="icon" type="image/png" href="/images/favicon-192x192.png" sizes="192x192">
+        
+      
+      
+        
+          <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png">
+        
+      
+    
+    <!-- title -->
+    <title>Leetcode 2731. 移动机器人</title>
+    <!-- async scripts -->
+    <!-- Google Analytics -->
+
+
+    <!-- Umami Analytics -->
+
+
+    <!-- styles -->
+    
+<link rel="stylesheet" href="/css/style.css">
+
+    <!-- persian styles -->
+    
+    <!-- rss -->
+    
+    
+	<!-- mathjax -->
+	
+		<script type="text/x-mathjax-config">
+		  MathJax.Hub.Config({
+			tex2jax: {
+			  skipTags: ['script', 'noscript', 'style', 'textarea', 'pre'],
+			  inlineMath: [['$','$']]
+			}
+		  });
+		</script>
+		<script src='https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-MML-AM_CHTML' async></script>
+	
+
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/ui@4.0/dist/fancybox.css" />
+
+<meta name="generator" content="Hexo 6.3.0"></head>
+
+<body class="max-width mx-auto px3 ltr">
+    
+      <div id="header-post">
+  <a id="menu-icon" href="#" aria-label="目录"><i class="fa-solid fa-bars fa-lg"></i></a>
+  <a id="menu-icon-tablet" href="#" aria-label="目录"><i class="fa-solid fa-bars fa-lg"></i></a>
+  <a id="top-icon-tablet" href="#" aria-label="顶部" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');" style="display:none;"><i class="fa-solid fa-chevron-up fa-lg"></i></a>
+  <span id="menu">
+    <span id="nav">
+      <ul>
+        <!--
+       --><li><a href="/">首页</a></li><!--
+     --><!--
+       --><li><a href="/archives/">归档</a></li><!--
+     --><!--
+       --><li><a href="/tags/">标签</a></li><!--
+     --><!--
+       --><li><a href="/search/">搜索</a></li><!--
+     -->
+      </ul>
+    </span>
+    <br/>
+    <span id="actions">
+      <ul>
+        
+        <li><a class="icon" aria-label="上一篇" href="/2023/10/13/%E5%88%86%E5%B8%83%E5%BC%8FID%E7%94%9F%E6%88%90%E7%AE%97%E6%B3%95/"><i class="fa-solid fa-chevron-left" aria-hidden="true" onmouseover="$('#i-prev').toggle();" onmouseout="$('#i-prev').toggle();"></i></a></li>
+        
+        
+        <li><a class="icon" aria-label="下一篇" href="/2023/10/08/rust-snippets/"><i class="fa-solid fa-chevron-right" aria-hidden="true" onmouseover="$('#i-next').toggle();" onmouseout="$('#i-next').toggle();"></i></a></li>
+        
+        <li><a class="icon" aria-label="返回顶部" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fa-solid fa-chevron-up" aria-hidden="true" onmouseover="$('#i-top').toggle();" onmouseout="$('#i-top').toggle();"></i></a></li>
+      </ul>
+      <span id="i-prev" class="info" style="display:none;">上一篇</span>
+      <span id="i-next" class="info" style="display:none;">下一篇</span>
+      <span id="i-top" class="info" style="display:none;">返回顶部</span>
+    </span>
+    <br/>
+    
+    
+      <div id="toc">
+        <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E9%A2%98%E6%84%8F"><span class="toc-number">1.</span> <span class="toc-text">题意</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%81%9A%E6%B3%95"><span class="toc-number">2.</span> <span class="toc-text">做法</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%AD%A3%E8%A7%A3"><span class="toc-number">3.</span> <span class="toc-text">正解</span></a></li></ol>
+      </div>
+    
+  </span>
+</div>
+
+    
+    <div class="content index py4 ">
+        
+        <article class="post h-entry" itemscope itemtype="http://schema.org/BlogPosting">
+  <header>
+    
+    <h1 class="posttitle p-name" itemprop="name headline">
+        Leetcode 2731. 移动机器人
+    </h1>
+
+
+
+    <div class="meta">
+      <span class="author p-author h-card" itemprop="author" itemscope itemtype="http://schema.org/Person">
+        <span class="p-name" itemprop="name">jyf111</span>
+      </span>
+      
+    <div class="postdate">
+      
+        <time datetime="2023-10-10T11:18:34.000Z" class="dt-published" itemprop="datePublished">2023-10-10</time>
+        
+        (Updated: <time datetime="2023-10-10T11:36:04.750Z" class="dt-updated" itemprop="dateModified">2023-10-10</time>)
+        
+      
+    </div>
+
+
+      
+
+      
+    <div class="article-tag">
+        <i class="fa-solid fa-tag"></i>
+        <a class="p-category" href="/tags/%E7%AE%97%E6%B3%95/" rel="tag">算法</a>
+    </div>
+
+
+      
+        
+            <span class=count-symbol-post> 
+            <i class="fa-solid fa-hourglass"></i>
+            
+            
+              (4 mins to read)
+            
+            </span>
+        
+      
+    </div>
+  </header>
+  
+
+  <div class="content e-content" itemprop="articleBody">
+    <h2 id="题意"><a class="header-anchor" href="#题意">¶</a>题意</h2>
+<p>有n个机器人位于一个无限长横轴，每个机器人每秒会向左或向右移动一格，特别地，如果两个机器人位于同一格，就发生相撞，并各自转为反向移动。现在问$d$秒后，所有机器人两两距离之和。</p>
+<p>$n \le 10^5, d \le 10^9$</p>
+<h2 id="做法"><a class="header-anchor" href="#做法">¶</a>做法</h2>
+<p>关键点是机器人相撞后反向应该理解成穿透。</p>
+<p>现在考虑任意两个机器人，如果方向为<code>LL</code>或<code>RR</code>则距离保持不变，如果为<code>LR</code>则距离每秒加2，而如果为<code>RL</code>，在相撞前每秒减2（[1, dis / 2]），相撞后每秒加2 ([dis / 2 + 1, d]，其中dis为奇数时，dis/2+1秒的距离不变)。</p>
+<p>显然可以$O(n^2)$计算。然后我就想着优化成$O(n)$。</p>
+<p>难点在<code>LR</code>的贡献计算，考虑一个<code>L</code>，现在要$O(1)$的统计后面所有的<code>R</code>。进一步地，可以将这些<code>R</code>分为两类，一类是一直减2，一类在减2后会加2。只需要计算加2的总时间即可。由于这里需要向下取整，以及涉及到一个dis为奇数时的特殊case（这里想了很久怎么处理这种棘手的情况），所以还需要分奇偶维护两个后缀和来算。</p>
+<p>另一个恶心的地方是输入的机器人位置不是有序的。</p>
+<p>于是我就写了1个多小时，还wa了2发。。🤧</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">const</span> <span class="type">int</span> MOD = <span class="number">1e9</span> + <span class="number">7</span>;</span><br><span class="line"><span class="keyword">class</span> <span class="title class_">Solution</span> &#123;</span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="function"><span class="type">int</span> <span class="title">sumDistance</span><span class="params">(vector&lt;<span class="type">int</span>&gt;&amp; nums, string s, <span class="type">int</span> d)</span> </span>&#123;</span><br><span class="line">        <span class="type">int</span> n = nums.<span class="built_in">size</span>();</span><br><span class="line">        <span class="function">vector&lt;<span class="type">int</span>&gt; <span class="title">id</span><span class="params">(n)</span></span>;</span><br><span class="line">        <span class="built_in">iota</span>(id.<span class="built_in">begin</span>(), id.<span class="built_in">end</span>(), <span class="number">0</span>);</span><br><span class="line">        <span class="built_in">sort</span>(id.<span class="built_in">begin</span>(), id.<span class="built_in">end</span>(), [&amp;](<span class="type">int</span> x, <span class="type">int</span> y) &#123;</span><br><span class="line">            <span class="keyword">return</span> nums[x] &lt; nums[y];</span><br><span class="line">        &#125;);</span><br><span class="line">        <span class="type">int</span> ans = <span class="number">0</span>;</span><br><span class="line">        <span class="type">long</span> <span class="type">long</span> pres = <span class="number">0</span>;</span><br><span class="line">        <span class="keyword">for</span> (<span class="type">int</span> i = <span class="number">0</span>; i &lt; n; i++) &#123;</span><br><span class="line">            pres += nums[id[i]];</span><br><span class="line">            <span class="built_in">Add</span>(ans, (<span class="number">1ll</span> * nums[id[i]] * (i + <span class="number">1</span>) - pres) % MOD);</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="type">int</span> cntl = <span class="number">0</span>;</span><br><span class="line">        <span class="keyword">for</span> (<span class="type">int</span> i = <span class="number">0</span>; i &lt; n; i++) &#123;</span><br><span class="line">            <span class="keyword">if</span> (s[id[i]] == <span class="string">&#x27;L&#x27;</span>) ++cntl;</span><br><span class="line">            <span class="keyword">else</span> <span class="built_in">Add</span>(ans, <span class="number">2ll</span> * cntl * d % MOD);</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="type">long</span> <span class="type">long</span> sodd = <span class="number">0</span>, seven = <span class="number">0</span>;</span><br><span class="line">        <span class="keyword">for</span> (<span class="type">int</span> i = <span class="number">0</span>, j = <span class="number">0</span>, codd = <span class="number">0</span>, ceven = <span class="number">0</span>; i &lt; n; i++) &#123;</span><br><span class="line">            <span class="keyword">if</span> (s[id[i]] == <span class="string">&#x27;L&#x27;</span>) &#123;</span><br><span class="line">                --cntl;</span><br><span class="line">                <span class="keyword">if</span> (nums[id[i]] &amp; <span class="number">1</span>) --codd, sodd -= nums[id[i]];</span><br><span class="line">                <span class="keyword">else</span> --ceven, seven -= nums[id[i]];</span><br><span class="line">            &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">                <span class="built_in">Sub</span>(ans, <span class="number">2ll</span> * cntl * d % MOD);</span><br><span class="line">                <span class="keyword">while</span> (j &lt; n) &#123;</span><br><span class="line">                    <span class="keyword">if</span> (s[id[j]] == <span class="string">&#x27;R&#x27;</span>) ++j;</span><br><span class="line">                    <span class="keyword">else</span> &#123;</span><br><span class="line">                        <span class="type">int</span> t = nums[id[j]] - nums[id[i]];</span><br><span class="line">                        <span class="keyword">if</span> (d &gt;= t / <span class="number">2</span> + <span class="number">1</span>) &#123;</span><br><span class="line">                            <span class="keyword">if</span> (nums[id[j]] &amp; <span class="number">1</span>) ++codd, sodd += nums[id[j]];</span><br><span class="line">                            <span class="keyword">else</span> ++ceven, seven += nums[id[j]];</span><br><span class="line">                            ++j;</span><br><span class="line">                        &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">                            <span class="keyword">break</span>;</span><br><span class="line">                        &#125;</span><br><span class="line">                    &#125;</span><br><span class="line">                &#125;</span><br><span class="line">                <span class="keyword">if</span> (i &lt; j) &#123;</span><br><span class="line">                    <span class="keyword">if</span> (nums[id[i]] &amp; <span class="number">1</span>) &#123;</span><br><span class="line">                        <span class="built_in">Sub</span>(ans, <span class="number">2</span> * ceven);</span><br><span class="line">                        <span class="built_in">Add</span>(ans, <span class="number">4ll</span> * (codd + ceven) * d % MOD);</span><br><span class="line">                        <span class="built_in">Sub</span>(ans, <span class="number">2ll</span> * (sodd - <span class="number">1ll</span> * codd * nums[id[i]]) % MOD);</span><br><span class="line">                        <span class="built_in">Sub</span>(ans, <span class="number">2ll</span> * (seven - ceven - <span class="number">1ll</span> * ceven * nums[id[i]]) % MOD);</span><br><span class="line">                    &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">                        <span class="built_in">Sub</span>(ans, <span class="number">2</span> * codd);</span><br><span class="line">                        <span class="built_in">Add</span>(ans, <span class="number">4ll</span> * (codd + ceven) * d % MOD);</span><br><span class="line">                        <span class="built_in">Sub</span>(ans, <span class="number">2ll</span> * (sodd - codd - <span class="number">1ll</span> * codd * nums[id[i]]) % MOD);</span><br><span class="line">                        <span class="built_in">Sub</span>(ans, <span class="number">2ll</span> * (seven - <span class="number">1ll</span> * ceven * nums[id[i]]) % MOD);</span><br><span class="line">                    &#125;</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> ans;</span><br><span class="line">    &#125;   </span><br><span class="line"><span class="keyword">private</span>:</span><br><span class="line">    <span class="function"><span class="type">void</span> <span class="title">Add</span><span class="params">(<span class="type">int</span> &amp;x, <span class="type">int</span> y)</span> </span>&#123;</span><br><span class="line">        x += y;</span><br><span class="line">        <span class="keyword">if</span> (x &gt;= MOD) x -= MOD;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="function"><span class="type">void</span> <span class="title">Sub</span><span class="params">(<span class="type">int</span> &amp;x, <span class="type">int</span> y)</span> </span>&#123;</span><br><span class="line">        x += MOD - y;</span><br><span class="line">        <span class="keyword">if</span> (x &gt;= MOD) x -= MOD;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+<h2 id="正解"><a class="header-anchor" href="#正解">¶</a>正解</h2>
+<p>理解到穿透这一点后，我们直接算出$d$秒后每个小车的距离，然后一个前缀和算答案不就完事了。。（看到题解发现我傻了）</p>
+
+  </div>
+</article>
+
+
+
+        
+          <div id="footer-post-container">
+  <div id="footer-post">
+
+    <div id="nav-footer" style="display: none">
+      <ul>
+        
+          <li><a href="/">首页</a></li>
+        
+          <li><a href="/archives/">归档</a></li>
+        
+          <li><a href="/tags/">标签</a></li>
+        
+          <li><a href="/search/">搜索</a></li>
+        
+      </ul>
+    </div>
+
+    
+    
+      <div id="toc-footer" style="display: none">
+        <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E9%A2%98%E6%84%8F"><span class="toc-number">1.</span> <span class="toc-text">题意</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%81%9A%E6%B3%95"><span class="toc-number">2.</span> <span class="toc-text">做法</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%AD%A3%E8%A7%A3"><span class="toc-number">3.</span> <span class="toc-text">正解</span></a></li></ol>
+      </div>
+    
+
+    <div id="actions-footer">
+        <a id="menu" class="icon" href="#" onclick="$('#nav-footer').toggle();return false;"><i class="fa-solid fa-bars fa-lg" aria-hidden="true"></i> 菜单</a>
+        
+          <a id="toc" class="icon" href="#" onclick="$('#toc-footer').toggle();return false;"><i class="fa-solid fa-list fa-lg" aria-hidden="true"></i> 目录</a>
+        
+        <a id="top" style="display:none" class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fa-solid fa-chevron-up fa-lg" aria-hidden="true"></i> 返回顶部</a>
+    </div>
+
+  </div>
+</div>
+
+        
+        <footer id="footer">
+  <div class="footer-left">
+    Copyright &copy;
+    
+    
+    2020-2023
+    jyf111
+  </div>
+  <div class="footer-right">
+    <nav>
+      <ul>
+        <!--
+       --><li><a href="/">首页</a></li><!--
+     --><!--
+       --><li><a href="/archives/">归档</a></li><!--
+     --><!--
+       --><li><a href="/tags/">标签</a></li><!--
+     --><!--
+       --><li><a href="/search/">搜索</a></li><!--
+     -->
+      </ul>
+    </nav>
+  </div>
+</footer>
+
+    </div>
+    <!-- styles -->
+
+
+
+  <link rel="preload" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" crossorigin="anonymous" onload="this.onload=null;this.rel='stylesheet'"/>
+
+
+    <!-- jquery -->
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js" crossorigin="anonymous"></script>
+
+
+
+
+<!-- clipboard -->
+
+  
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.7/clipboard.min.js" crossorigin="anonymous"></script>
+  
+  <script type="text/javascript">
+  $(function() {
+    // copy-btn HTML
+    var btn = "<span class=\"btn-copy tooltipped tooltipped-sw\" aria-label=\"复制到粘贴板！\">";
+    btn += '<i class="fa-regular fa-clone"></i>';
+    btn += '</span>';
+    // mount it!
+    $(".highlight table").before(btn);
+    var clip = new ClipboardJS('.btn-copy', {
+      text: function(trigger) {
+        return Array.from(trigger.nextElementSibling.querySelectorAll('.code')).reduce((str,it)=>str+it.innerText+'\n','')
+      }
+    });
+    clip.on('success', function(e) {
+      e.trigger.setAttribute('aria-label', "复制成功！");
+      e.clearSelection();
+    })
+  })
+  </script>
+
+
+<script src="/js/main.js"></script>
+
+<!-- search -->
+
+<!-- Baidu Analytics -->
+
+<!-- Cloudflare Analytics -->
+
+<!-- Disqus Comments -->
+
+<!-- utterances Comments -->
+
+<!-- FancyBox -->
+
+<script src="https://cdn.jsdelivr.net/npm/@fancyapps/ui@4.0/dist/fancybox.umd.js"></script>
+
+
+</body>
+</html>
