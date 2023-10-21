@@ -1,0 +1,346 @@
+<!DOCTYPE html>
+<html lang=zh>
+<head>
+    <!-- so meta -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="HandheldFriendly" content="True">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=5" />
+    <meta name="description" content="¶命令  cargo new &amp;#123;&amp;#123;project&amp;#125;&amp;#125; [--bin&#x2F;--lib] cargo check cargo run cargo build [--release] cargo clean cargo update [-p &amp;#123;&amp;#123;lib&amp;#125;&amp;#125;]：更新依赖  ¶Cargo.lock 包含依赖项的准确信息，自动生成。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Cargo包管理工具">
+<meta property="og:url" content="http://example.com/2023/10/21/Cargo%E5%8C%85%E7%AE%A1%E7%90%86%E5%B7%A5%E5%85%B7/index.html">
+<meta property="og:site_name" content="jyf111&#39;s blog">
+<meta property="og:description" content="¶命令  cargo new &amp;#123;&amp;#123;project&amp;#125;&amp;#125; [--bin&#x2F;--lib] cargo check cargo run cargo build [--release] cargo clean cargo update [-p &amp;#123;&amp;#123;lib&amp;#125;&amp;#125;]：更新依赖  ¶Cargo.lock 包含依赖项的准确信息，自动生成。">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2023-10-21T11:50:49.000Z">
+<meta property="article:modified_time" content="2023-10-21T12:39:07.233Z">
+<meta property="article:author" content="jyf111">
+<meta property="article:tag" content="工具">
+<meta name="twitter:card" content="summary">
+    
+    
+      
+        
+          <link rel="shortcut icon" href="/images/favicon.ico">
+        
+      
+      
+        
+          <link rel="icon" type="image/png" href="/images/favicon-192x192.png" sizes="192x192">
+        
+      
+      
+        
+          <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png">
+        
+      
+    
+    <!-- title -->
+    <title>Cargo包管理工具</title>
+    <!-- async scripts -->
+    <!-- Google Analytics -->
+
+
+    <!-- Umami Analytics -->
+
+
+    <!-- styles -->
+    
+<link rel="stylesheet" href="/css/style.css">
+
+    <!-- persian styles -->
+    
+    <!-- rss -->
+    
+    
+	<!-- mathjax -->
+	
+		<script type="text/x-mathjax-config">
+		  MathJax.Hub.Config({
+			tex2jax: {
+			  skipTags: ['script', 'noscript', 'style', 'textarea', 'pre'],
+			  inlineMath: [['$','$']]
+			}
+		  });
+		</script>
+		<script src='https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-MML-AM_CHTML' async></script>
+	
+
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/ui@4.0/dist/fancybox.css" />
+
+<meta name="generator" content="Hexo 6.3.0"></head>
+
+<body class="max-width mx-auto px3 ltr">
+    
+      <div id="header-post">
+  <a id="menu-icon" href="#" aria-label="目录"><i class="fa-solid fa-bars fa-lg"></i></a>
+  <a id="menu-icon-tablet" href="#" aria-label="目录"><i class="fa-solid fa-bars fa-lg"></i></a>
+  <a id="top-icon-tablet" href="#" aria-label="顶部" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');" style="display:none;"><i class="fa-solid fa-chevron-up fa-lg"></i></a>
+  <span id="menu">
+    <span id="nav">
+      <ul>
+        <!--
+       --><li><a href="/">首页</a></li><!--
+     --><!--
+       --><li><a href="/archives/">归档</a></li><!--
+     --><!--
+       --><li><a href="/tags/">标签</a></li><!--
+     --><!--
+       --><li><a href="/search/">搜索</a></li><!--
+     -->
+      </ul>
+    </span>
+    <br/>
+    <span id="actions">
+      <ul>
+        
+        <li><a class="icon" aria-label="上一篇" href="/2023/10/21/Git-hook/"><i class="fa-solid fa-chevron-left" aria-hidden="true" onmouseover="$('#i-prev').toggle();" onmouseout="$('#i-prev').toggle();"></i></a></li>
+        
+        
+        <li><a class="icon" aria-label="下一篇" href="/2023/10/21/EditorConfig/"><i class="fa-solid fa-chevron-right" aria-hidden="true" onmouseover="$('#i-next').toggle();" onmouseout="$('#i-next').toggle();"></i></a></li>
+        
+        <li><a class="icon" aria-label="返回顶部" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fa-solid fa-chevron-up" aria-hidden="true" onmouseover="$('#i-top').toggle();" onmouseout="$('#i-top').toggle();"></i></a></li>
+      </ul>
+      <span id="i-prev" class="info" style="display:none;">上一篇</span>
+      <span id="i-next" class="info" style="display:none;">下一篇</span>
+      <span id="i-top" class="info" style="display:none;">返回顶部</span>
+    </span>
+    <br/>
+    
+    
+      <div id="toc">
+        <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%91%BD%E4%BB%A4"><span class="toc-number">1.</span> <span class="toc-text">命令</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Cargo-lock"><span class="toc-number">2.</span> <span class="toc-text">Cargo.lock</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Cargo-toml"><span class="toc-number">3.</span> <span class="toc-text">Cargo.toml</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#package"><span class="toc-number">3.1.</span> <span class="toc-text">package</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#dependencies"><span class="toc-number">3.2.</span> <span class="toc-text">dependencies</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#features"><span class="toc-number">3.3.</span> <span class="toc-text">features</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#profile"><span class="toc-number">3.4.</span> <span class="toc-text">profile</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#rustfmt"><span class="toc-number">4.</span> <span class="toc-text">rustfmt</span></a></li></ol>
+      </div>
+    
+  </span>
+</div>
+
+    
+    <div class="content index py4 ">
+        
+        <article class="post h-entry" itemscope itemtype="http://schema.org/BlogPosting">
+  <header>
+    
+    <h1 class="posttitle p-name" itemprop="name headline">
+        Cargo包管理工具
+    </h1>
+
+
+
+    <div class="meta">
+      <span class="author p-author h-card" itemprop="author" itemscope itemtype="http://schema.org/Person">
+        <span class="p-name" itemprop="name">jyf111</span>
+      </span>
+      
+    <div class="postdate">
+      
+        <time datetime="2023-10-21T11:50:49.000Z" class="dt-published" itemprop="datePublished">2023-10-21</time>
+        
+        (Updated: <time datetime="2023-10-21T12:39:07.233Z" class="dt-updated" itemprop="dateModified">2023-10-21</time>)
+        
+      
+    </div>
+
+
+      
+
+      
+    <div class="article-tag">
+        <i class="fa-solid fa-tag"></i>
+        <a class="p-category" href="/tags/%E5%B7%A5%E5%85%B7/" rel="tag">工具</a>
+    </div>
+
+
+      
+        
+            <span class=count-symbol-post> 
+            <i class="fa-solid fa-hourglass"></i>
+            
+            
+              (1 min to read)
+            
+            </span>
+        
+      
+    </div>
+  </header>
+  
+
+  <div class="content e-content" itemprop="articleBody">
+    <h2 id="命令"><a class="header-anchor" href="#命令">¶</a>命令</h2>
+<ul>
+<li><code>cargo new &#123;&#123;project&#125;&#125; [--bin/--lib]</code></li>
+<li><code>cargo check</code></li>
+<li><code>cargo run</code></li>
+<li><code>cargo build [--release]</code></li>
+<li><code>cargo clean</code></li>
+<li><code>cargo update [-p &#123;&#123;lib&#125;&#125;]</code>：更新依赖</li>
+</ul>
+<h2 id="Cargo-lock"><a class="header-anchor" href="#Cargo-lock">¶</a>Cargo.lock</h2>
+<p>包含依赖项的准确信息，自动生成。</p>
+<p>在构建二进制文件时应该包含lock文件，而在构建库时，应该放在.gitignore中。</p>
+<h2 id="Cargo-toml"><a class="header-anchor" href="#Cargo-toml">¶</a>Cargo.toml</h2>
+<p>包含Cargo编译的所有元数据。</p>
+<h3 id="package"><a class="header-anchor" href="#package">¶</a>package</h3>
+<ul>
+<li>name：包名（必要）</li>
+<li>version：包版本（必要）</li>
+<li>authors</li>
+<li>edition：Rust版本</li>
+<li>rust-version：支持的最低Rust版本</li>
+<li>description</li>
+<li>documentation：文档链接</li>
+<li>readme</li>
+<li>homepage</li>
+<li>repository</li>
+<li>license</li>
+<li>license-file</li>
+<li>keywords</li>
+<li>categories</li>
+</ul>
+<h3 id="dependencies"><a class="header-anchor" href="#dependencies">¶</a>dependencies</h3>
+<ul>
+<li><code>target.'cfg(target_arch = &quot;x86_64&quot;)'.dependencies</code>：平台特定的依赖项</li>
+<li><code>dev-dependencies</code>：开发依赖</li>
+<li><code>build-dependencies</code>：构建依赖</li>
+</ul>
+<h3 id="features"><a class="header-anchor" href="#features">¶</a>features</h3>
+<p>表达条件编译和可选依赖项。</p>
+<h3 id="profile"><a class="header-anchor" href="#profile">¶</a>profile</h3>
+<p>更改编译器设置，改变优化、调试符号等，分为dev、release、test、bench四个。</p>
+<h2 id="rustfmt"><a class="header-anchor" href="#rustfmt">¶</a>rustfmt</h2>
+<p>乱入一下rust的格式化工具。</p>
+<ul>
+<li><code>rustfmt &#123;&#123;filename&#125;&#125;</code>：格式化单个文件</li>
+<li><code>cargo fmt</code>：格式化整个项目</li>
+</ul>
+<p><code>rustfmt.toml</code>为配置文件，rustfmt默认是四个空格，可以用<code>tab_spaces=2</code>修改。</p>
+
+  </div>
+</article>
+
+
+
+        
+          <div id="footer-post-container">
+  <div id="footer-post">
+
+    <div id="nav-footer" style="display: none">
+      <ul>
+        
+          <li><a href="/">首页</a></li>
+        
+          <li><a href="/archives/">归档</a></li>
+        
+          <li><a href="/tags/">标签</a></li>
+        
+          <li><a href="/search/">搜索</a></li>
+        
+      </ul>
+    </div>
+
+    
+    
+      <div id="toc-footer" style="display: none">
+        <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%91%BD%E4%BB%A4"><span class="toc-number">1.</span> <span class="toc-text">命令</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Cargo-lock"><span class="toc-number">2.</span> <span class="toc-text">Cargo.lock</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Cargo-toml"><span class="toc-number">3.</span> <span class="toc-text">Cargo.toml</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#package"><span class="toc-number">3.1.</span> <span class="toc-text">package</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#dependencies"><span class="toc-number">3.2.</span> <span class="toc-text">dependencies</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#features"><span class="toc-number">3.3.</span> <span class="toc-text">features</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#profile"><span class="toc-number">3.4.</span> <span class="toc-text">profile</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#rustfmt"><span class="toc-number">4.</span> <span class="toc-text">rustfmt</span></a></li></ol>
+      </div>
+    
+
+    <div id="actions-footer">
+        <a id="menu" class="icon" href="#" onclick="$('#nav-footer').toggle();return false;"><i class="fa-solid fa-bars fa-lg" aria-hidden="true"></i> 菜单</a>
+        
+          <a id="toc" class="icon" href="#" onclick="$('#toc-footer').toggle();return false;"><i class="fa-solid fa-list fa-lg" aria-hidden="true"></i> 目录</a>
+        
+        <a id="top" style="display:none" class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fa-solid fa-chevron-up fa-lg" aria-hidden="true"></i> 返回顶部</a>
+    </div>
+
+  </div>
+</div>
+
+        
+        <footer id="footer">
+  <div class="footer-left">
+    Copyright &copy;
+    
+    
+    2020-2023
+    jyf111
+  </div>
+  <div class="footer-right">
+    <nav>
+      <ul>
+        <!--
+       --><li><a href="/">首页</a></li><!--
+     --><!--
+       --><li><a href="/archives/">归档</a></li><!--
+     --><!--
+       --><li><a href="/tags/">标签</a></li><!--
+     --><!--
+       --><li><a href="/search/">搜索</a></li><!--
+     -->
+      </ul>
+    </nav>
+  </div>
+</footer>
+
+    </div>
+    <!-- styles -->
+
+
+
+  <link rel="preload" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" crossorigin="anonymous" onload="this.onload=null;this.rel='stylesheet'"/>
+
+
+    <!-- jquery -->
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js" crossorigin="anonymous"></script>
+
+
+
+
+<!-- clipboard -->
+
+  
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.7/clipboard.min.js" crossorigin="anonymous"></script>
+  
+  <script type="text/javascript">
+  $(function() {
+    // copy-btn HTML
+    var btn = "<span class=\"btn-copy tooltipped tooltipped-sw\" aria-label=\"复制到粘贴板！\">";
+    btn += '<i class="fa-regular fa-clone"></i>';
+    btn += '</span>';
+    // mount it!
+    $(".highlight table").before(btn);
+    var clip = new ClipboardJS('.btn-copy', {
+      text: function(trigger) {
+        return Array.from(trigger.nextElementSibling.querySelectorAll('.code')).reduce((str,it)=>str+it.innerText+'\n','')
+      }
+    });
+    clip.on('success', function(e) {
+      e.trigger.setAttribute('aria-label', "复制成功！");
+      e.clearSelection();
+    })
+  })
+  </script>
+
+
+<script src="/js/main.js"></script>
+
+<!-- search -->
+
+<!-- Baidu Analytics -->
+
+<!-- Cloudflare Analytics -->
+
+<!-- Disqus Comments -->
+
+<!-- utterances Comments -->
+
+<!-- FancyBox -->
+
+<script src="https://cdn.jsdelivr.net/npm/@fancyapps/ui@4.0/dist/fancybox.umd.js"></script>
+
+
+</body>
+</html>

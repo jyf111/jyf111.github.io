@@ -6,15 +6,15 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="HandheldFriendly" content="True">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=5" />
-    <meta name="description" content="¶AddressSanitizer 相比Valgrind快，主要就是替换了程序中的malloc()和free()。 在编译时添加以下选项为编译参数（CFLAGS&#x2F;CXXFLAGS）以及链接参数（LDFLAGS）：  -fsanitize&#x3D;address：内存错误 -fsanitize&#x3D;leak：内存泄露 -fsanitize&#x3D;thread：多线程竞争 -fsanitize&#x3D;undefined：未定">
+    <meta name="description" content="¶AddressSanitizer 相比Valgrind快，主要就是替换了程序中的malloc()和free()。 在编译时添加以下选项为编译参数（CFLAGS&#x2F;CXXFLAGS）以及链接参数（LDFLAGS）：  -fsanitize&#x3D;address：内存错误（通过替换malloc，在每次申请内存块的前后都设置guard） -fsanitize&#x3D;leak：内存泄露 -fsanitize&#x3D;thre">
 <meta property="og:type" content="article">
 <meta property="og:title" content="检测内存问题">
 <meta property="og:url" content="http://example.com/2023/09/26/%E6%A3%80%E6%B5%8B%E5%86%85%E5%AD%98%E9%97%AE%E9%A2%98/index.html">
 <meta property="og:site_name" content="jyf111&#39;s blog">
-<meta property="og:description" content="¶AddressSanitizer 相比Valgrind快，主要就是替换了程序中的malloc()和free()。 在编译时添加以下选项为编译参数（CFLAGS&#x2F;CXXFLAGS）以及链接参数（LDFLAGS）：  -fsanitize&#x3D;address：内存错误 -fsanitize&#x3D;leak：内存泄露 -fsanitize&#x3D;thread：多线程竞争 -fsanitize&#x3D;undefined：未定">
+<meta property="og:description" content="¶AddressSanitizer 相比Valgrind快，主要就是替换了程序中的malloc()和free()。 在编译时添加以下选项为编译参数（CFLAGS&#x2F;CXXFLAGS）以及链接参数（LDFLAGS）：  -fsanitize&#x3D;address：内存错误（通过替换malloc，在每次申请内存块的前后都设置guard） -fsanitize&#x3D;leak：内存泄露 -fsanitize&#x3D;thre">
 <meta property="og:locale" content="zh_CN">
 <meta property="article:published_time" content="2023-09-26T04:26:02.000Z">
-<meta property="article:modified_time" content="2023-09-30T10:10:17.957Z">
+<meta property="article:modified_time" content="2023-10-17T04:22:24.013Z">
 <meta property="article:author" content="jyf111">
 <meta property="article:tag" content="工具">
 <meta name="twitter:card" content="summary">
@@ -137,7 +137,7 @@
       
         <time datetime="2023-09-26T04:26:02.000Z" class="dt-published" itemprop="datePublished">2023-09-26</time>
         
-        (Updated: <time datetime="2023-09-30T10:10:17.957Z" class="dt-updated" itemprop="dateModified">2023-09-30</time>)
+        (Updated: <time datetime="2023-10-17T04:22:24.013Z" class="dt-updated" itemprop="dateModified">2023-10-17</time>)
         
       
     </div>
@@ -172,7 +172,7 @@
 <p>相比Valgrind快，主要就是替换了程序中的<code>malloc()</code>和<code>free()</code>。</p>
 <p>在编译时添加以下选项为编译参数（CFLAGS/CXXFLAGS）以及链接参数（LDFLAGS）：</p>
 <ul>
-<li><code>-fsanitize=address</code>：内存错误</li>
+<li><code>-fsanitize=address</code>：内存错误（通过替换malloc，在每次申请内存块的前后都设置guard）</li>
 <li><code>-fsanitize=leak</code>：内存泄露</li>
 <li><code>-fsanitize=thread</code>：多线程竞争</li>
 <li><code>-fsanitize=undefined</code>：未定义操作</li>
