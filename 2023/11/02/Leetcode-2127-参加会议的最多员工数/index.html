@@ -1,0 +1,310 @@
+<!DOCTYPE html>
+<html lang=zh>
+<head>
+    <!-- so meta -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="HandheldFriendly" content="True">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=5" />
+    <meta name="description" content="¶题意 有n个人，每个人有另外一个喜欢的人，现在有一个圆桌，要求座位上的每个人都和他喜欢的人相邻，问座位上最多能有几个人。 ¶做法 每个节点都有一条出边，构成若干棵内向基环树。 现在考虑每棵基环树，显然可以让环上的所有人都坐下。 但是从样例1就可以看出一种特殊的case，如果环的大小为2，此时是可以继续加人的。设环上的两个点为x和y，那么可以再塞进x子树内的最长链以及y子树内的最长链，而且可以继续">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Leetcode 2127. 参加会议的最多员工数">
+<meta property="og:url" content="http://example.com/2023/11/02/Leetcode-2127-%E5%8F%82%E5%8A%A0%E4%BC%9A%E8%AE%AE%E7%9A%84%E6%9C%80%E5%A4%9A%E5%91%98%E5%B7%A5%E6%95%B0/index.html">
+<meta property="og:site_name" content="jyf111&#39;s blog">
+<meta property="og:description" content="¶题意 有n个人，每个人有另外一个喜欢的人，现在有一个圆桌，要求座位上的每个人都和他喜欢的人相邻，问座位上最多能有几个人。 ¶做法 每个节点都有一条出边，构成若干棵内向基环树。 现在考虑每棵基环树，显然可以让环上的所有人都坐下。 但是从样例1就可以看出一种特殊的case，如果环的大小为2，此时是可以继续加人的。设环上的两个点为x和y，那么可以再塞进x子树内的最长链以及y子树内的最长链，而且可以继续">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2023-11-02T13:29:03.000Z">
+<meta property="article:modified_time" content="2023-11-02T13:56:40.009Z">
+<meta property="article:author" content="jyf111">
+<meta property="article:tag" content="算法">
+<meta name="twitter:card" content="summary">
+    
+    
+      
+        
+          <link rel="shortcut icon" href="/images/favicon.ico">
+        
+      
+      
+        
+          <link rel="icon" type="image/png" href="/images/favicon-192x192.png" sizes="192x192">
+        
+      
+      
+        
+          <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png">
+        
+      
+    
+    <!-- title -->
+    <title>Leetcode 2127. 参加会议的最多员工数</title>
+    <!-- async scripts -->
+    <!-- Google Analytics -->
+
+
+    <!-- Umami Analytics -->
+
+
+    <!-- styles -->
+    
+<link rel="stylesheet" href="/css/style.css">
+
+    <!-- persian styles -->
+    
+    <!-- rss -->
+    
+    
+	<!-- mathjax -->
+	
+		<script type="text/x-mathjax-config">
+		  MathJax.Hub.Config({
+			tex2jax: {
+			  skipTags: ['script', 'noscript', 'style', 'textarea', 'pre'],
+			  inlineMath: [['$','$']]
+			}
+		  });
+		</script>
+		<script src='https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-MML-AM_CHTML' async></script>
+	
+
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/ui@4.0/dist/fancybox.css" />
+
+<meta name="generator" content="Hexo 6.3.0"></head>
+
+<body class="max-width mx-auto px3 ltr">
+    
+      <div id="header-post">
+  <a id="menu-icon" href="#" aria-label="目录"><i class="fa-solid fa-bars fa-lg"></i></a>
+  <a id="menu-icon-tablet" href="#" aria-label="目录"><i class="fa-solid fa-bars fa-lg"></i></a>
+  <a id="top-icon-tablet" href="#" aria-label="顶部" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');" style="display:none;"><i class="fa-solid fa-chevron-up fa-lg"></i></a>
+  <span id="menu">
+    <span id="nav">
+      <ul>
+        <!--
+       --><li><a href="/">首页</a></li><!--
+     --><!--
+       --><li><a href="/archives/">归档</a></li><!--
+     --><!--
+       --><li><a href="/tags/">标签</a></li><!--
+     --><!--
+       --><li><a href="/search/">搜索</a></li><!--
+     -->
+      </ul>
+    </span>
+    <br/>
+    <span id="actions">
+      <ul>
+        
+        <li><a class="icon" aria-label="上一篇" href="/2023/11/02/%E6%8E%92%E5%BA%8F%E7%AE%97%E6%B3%95%E6%80%BB%E7%BB%93/"><i class="fa-solid fa-chevron-left" aria-hidden="true" onmouseover="$('#i-prev').toggle();" onmouseout="$('#i-prev').toggle();"></i></a></li>
+        
+        
+        <li><a class="icon" aria-label="下一篇" href="/2023/11/02/%E9%9D%99%E6%80%81%E5%88%86%E6%9E%90%E5%B7%A5%E5%85%B7%E6%80%BB%E7%BB%93/"><i class="fa-solid fa-chevron-right" aria-hidden="true" onmouseover="$('#i-next').toggle();" onmouseout="$('#i-next').toggle();"></i></a></li>
+        
+        <li><a class="icon" aria-label="返回顶部" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fa-solid fa-chevron-up" aria-hidden="true" onmouseover="$('#i-top').toggle();" onmouseout="$('#i-top').toggle();"></i></a></li>
+      </ul>
+      <span id="i-prev" class="info" style="display:none;">上一篇</span>
+      <span id="i-next" class="info" style="display:none;">下一篇</span>
+      <span id="i-top" class="info" style="display:none;">返回顶部</span>
+    </span>
+    <br/>
+    
+    
+      <div id="toc">
+        <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E9%A2%98%E6%84%8F"><span class="toc-number">1.</span> <span class="toc-text">题意</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%81%9A%E6%B3%95"><span class="toc-number">2.</span> <span class="toc-text">做法</span></a></li></ol>
+      </div>
+    
+  </span>
+</div>
+
+    
+    <div class="content index py4 ">
+        
+        <article class="post h-entry" itemscope itemtype="http://schema.org/BlogPosting">
+  <header>
+    
+    <h1 class="posttitle p-name" itemprop="name headline">
+        Leetcode 2127. 参加会议的最多员工数
+    </h1>
+
+
+
+    <div class="meta">
+      <span class="author p-author h-card" itemprop="author" itemscope itemtype="http://schema.org/Person">
+        <span class="p-name" itemprop="name">jyf111</span>
+      </span>
+      
+    <div class="postdate">
+      
+        <time datetime="2023-11-02T13:29:03.000Z" class="dt-published" itemprop="datePublished">2023-11-02</time>
+        
+        (Updated: <time datetime="2023-11-02T13:56:40.009Z" class="dt-updated" itemprop="dateModified">2023-11-02</time>)
+        
+      
+    </div>
+
+
+      
+
+      
+    <div class="article-tag">
+        <i class="fa-solid fa-tag"></i>
+        <a class="p-category" href="/tags/%E7%AE%97%E6%B3%95/" rel="tag">算法</a>
+    </div>
+
+
+      
+        
+            <span class=count-symbol-post> 
+            <i class="fa-solid fa-hourglass"></i>
+            
+            
+              (6 mins to read)
+            
+            </span>
+        
+      
+    </div>
+  </header>
+  
+
+  <div class="content e-content" itemprop="articleBody">
+    <h2 id="题意"><a class="header-anchor" href="#题意">¶</a>题意</h2>
+<p>有n个人，每个人有另外一个喜欢的人，现在有一个圆桌，要求座位上的每个人都和他喜欢的人相邻，问座位上最多能有几个人。</p>
+<h2 id="做法"><a class="header-anchor" href="#做法">¶</a>做法</h2>
+<p>每个节点都有一条出边，构成若干棵内向基环树。</p>
+<p>现在考虑每棵基环树，显然可以让环上的所有人都坐下。</p>
+<p>但是从样例1就可以看出一种特殊的case，如果环的大小为2，此时是可以继续加人的。设环上的两个点为x和y，那么可以再塞进x子树内的最长链以及y子树内的最长链，而且可以继续把其它大小为2的环以及对应的链拼接进来。</p>
+<p>因此这道题只需要找出每棵基环树的环的大小，如果大于2，取max；否则再找出这两个点各自子树内的最长链，取sum。最后两种情况再去max即可。</p>
+<p>做的时候看到样例就意识到环的大小为2是个特殊点，但是没想到可以拼接，而且也没确定每个联通块都是基环树这一点，所以写的很乱（完全在瞎写），也WA了好几次。。😭我一开始以为大小为2的环最多只能多带1个人，为了判断这个环还有其他点，我从一个非环上的点开始爬，最后再处理纯环（如果知道每个连通块都是基环树这一点，完全没必要分成两块代码写）。后来发现结论不对之后，这个代码框架其实不太好，但也懒得改了，所以调试起来也很烦，手画了好几个错的样例。。</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">Solution</span> &#123;</span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="function"><span class="type">int</span> <span class="title">maximumInvitations</span><span class="params">(vector&lt;<span class="type">int</span>&gt;&amp; favorite)</span> </span>&#123;</span><br><span class="line">        <span class="type">int</span> n = favorite.<span class="built_in">size</span>();</span><br><span class="line">        <span class="type">int</span> ans = <span class="number">0</span>, ans2 = <span class="number">0</span>;</span><br><span class="line">        <span class="function">vector&lt;<span class="type">int</span>&gt; <span class="title">cnt</span><span class="params">(n)</span>, <span class="title">vis</span><span class="params">(n)</span></span>;</span><br><span class="line">        vector&lt;vector&lt;<span class="type">int</span>&gt;&gt; <span class="built_in">G</span>(n);</span><br><span class="line">        <span class="keyword">for</span> (<span class="type">int</span> i = <span class="number">0</span>; i &lt; favorite.<span class="built_in">size</span>(); i++) &#123;</span><br><span class="line">            cnt[favorite[i]]++;</span><br><span class="line">            G[i].<span class="built_in">push_back</span>(favorite[i]);</span><br><span class="line">            G[favorite[i]].<span class="built_in">push_back</span>(i);</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="function">vector&lt;<span class="type">int</span>&gt; <span class="title">tmp</span><span class="params">(n)</span></span>;</span><br><span class="line">        function&lt;<span class="type">int</span>(<span class="type">int</span>, <span class="type">int</span>)&gt; get = [&amp;](<span class="type">int</span> u, <span class="type">int</span> u2) &#123;</span><br><span class="line">            <span class="type">int</span> d = <span class="number">1</span>;</span><br><span class="line">            tmp[u] = <span class="number">1</span>;</span><br><span class="line">            <span class="keyword">for</span> (<span class="type">int</span> v : G[u]) &#123;</span><br><span class="line">                <span class="keyword">if</span> (v != u2 &amp;&amp; !tmp[v]) &#123;</span><br><span class="line">                    d = <span class="built_in">max</span>(d, <span class="built_in">get</span>(v, u2) + <span class="number">1</span>);</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="keyword">return</span> d;</span><br><span class="line">        &#125;;</span><br><span class="line">        <span class="type">int</span> two = <span class="number">0</span>;</span><br><span class="line">        <span class="keyword">for</span> (<span class="type">int</span> i = <span class="number">0</span>; i &lt; n; i++) &#123;</span><br><span class="line">            <span class="keyword">if</span> (!cnt[i]) &#123;</span><br><span class="line">                vector&lt;<span class="type">int</span>&gt; loop;</span><br><span class="line">                <span class="type">int</span> j = i;</span><br><span class="line">                <span class="keyword">for</span> (<span class="type">int</span> j = i; ; j = favorite[j]) &#123;</span><br><span class="line">                    loop.<span class="built_in">push_back</span>(j);</span><br><span class="line">                    <span class="keyword">if</span> (!vis[j]) &#123;</span><br><span class="line">                        vis[j] = <span class="number">1</span>;</span><br><span class="line">                    &#125; <span class="keyword">else</span> <span class="keyword">if</span> (vis[j] == <span class="number">1</span>) &#123;</span><br><span class="line">                        <span class="type">int</span> sz = loop.<span class="built_in">size</span>();</span><br><span class="line">                        <span class="keyword">for</span> (<span class="type">int</span> i = <span class="number">0</span>; i &lt; sz; i++) &#123;</span><br><span class="line">                            <span class="keyword">if</span> (i &gt; <span class="number">0</span>) cnt[loop[i]]--;</span><br><span class="line">                            vis[loop[i]] = <span class="number">2</span>;</span><br><span class="line">                            <span class="keyword">if</span> (j == loop[i] &amp;&amp; i != sz - <span class="number">1</span>) &#123;</span><br><span class="line">                                <span class="type">int</span> x = i, y = sz - x - <span class="number">1</span>;</span><br><span class="line">                                <span class="keyword">if</span> (y == <span class="number">2</span>) &#123;</span><br><span class="line">                                    <span class="type">int</span> cur = <span class="built_in">get</span>(j, loop[i + <span class="number">1</span>]) + <span class="built_in">get</span>(loop[i + <span class="number">1</span>], j);</span><br><span class="line">                                    ans2 = <span class="built_in">max</span>(ans2, cur);</span><br><span class="line">                                    two += cur;</span><br><span class="line">                                &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">                                    ans = <span class="built_in">max</span>(ans, y);</span><br><span class="line">                                &#125;</span><br><span class="line">                            &#125;</span><br><span class="line">                        &#125;</span><br><span class="line">                        <span class="keyword">break</span>;</span><br><span class="line">                    &#125; <span class="keyword">else</span> <span class="keyword">if</span> (vis[j] == <span class="number">2</span>) &#123;</span><br><span class="line">                        <span class="type">int</span> sz = loop.<span class="built_in">size</span>();</span><br><span class="line">                        <span class="keyword">for</span> (<span class="type">int</span> i = <span class="number">1</span>; i &lt; sz; i++) &#123;</span><br><span class="line">                            cnt[loop[i]]--;</span><br><span class="line">                        &#125;</span><br><span class="line">                        <span class="keyword">break</span>;</span><br><span class="line">                    &#125;</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="built_in">memset</span>(vis.<span class="built_in">data</span>(), <span class="number">0</span>, n &lt;&lt; <span class="number">2</span>);</span><br><span class="line">        <span class="keyword">for</span> (<span class="type">int</span> i = <span class="number">0</span>; i &lt; n; i++) &#123;</span><br><span class="line">            <span class="keyword">while</span> (cnt[i]) &#123;</span><br><span class="line">                vector&lt;<span class="type">int</span>&gt; loop;</span><br><span class="line">                <span class="type">int</span> j = i;</span><br><span class="line">                <span class="keyword">for</span> (<span class="type">int</span> j = i; ; j = favorite[j]) &#123;</span><br><span class="line">                    loop.<span class="built_in">push_back</span>(j);</span><br><span class="line">                    <span class="keyword">if</span> (!vis[j]) &#123;</span><br><span class="line">                        vis[j] = <span class="number">1</span>;</span><br><span class="line">                    &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">                        <span class="type">int</span> sz = loop.<span class="built_in">size</span>();</span><br><span class="line">                        <span class="keyword">if</span> (sz == <span class="number">3</span>) &#123;</span><br><span class="line">                            two += <span class="number">2</span>;</span><br><span class="line">                            ans2 = <span class="built_in">max</span>(ans2, <span class="number">2</span>);</span><br><span class="line">                        &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">                            ans = <span class="built_in">max</span>(ans, sz - <span class="number">1</span>);</span><br><span class="line">                        &#125;</span><br><span class="line">                        <span class="keyword">for</span> (<span class="type">int</span> i = <span class="number">0</span>; i &lt; sz; i++) &#123;</span><br><span class="line">                            vis[loop[i]] = <span class="number">0</span>;</span><br><span class="line">                            <span class="keyword">if</span> (i &gt; <span class="number">0</span>) cnt[loop[i]]--;</span><br><span class="line">                        &#125;</span><br><span class="line">                        <span class="keyword">break</span>;</span><br><span class="line">                    &#125;</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        ans = <span class="built_in">max</span>(ans, two);</span><br><span class="line">        <span class="keyword">return</span> ans;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+<p>基环树找环可以把所有非环上的边用拓扑排序去掉。</p>
+<p>下面代码的<code>rg</code>包含了所有非环边，而环边用<code>favorite</code>数组就可以拿到。此外，其实可以直接在拓扑排序的时候算出最长链，也就不需要建<code>rg</code>了。</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">Solution</span> &#123;</span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="function"><span class="type">int</span> <span class="title">maximumInvitations</span><span class="params">(vector&lt;<span class="type">int</span>&gt; &amp;favorite)</span> </span>&#123;</span><br><span class="line">        <span class="type">int</span> n = favorite.<span class="built_in">size</span>();</span><br><span class="line">        <span class="function">vector&lt;<span class="type">int</span>&gt; <span class="title">deg</span><span class="params">(n)</span></span>;</span><br><span class="line">        <span class="keyword">for</span> (<span class="type">int</span> f: favorite) &#123;</span><br><span class="line">            deg[f]++; <span class="comment">// 统计基环树每个节点的入度</span></span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        vector&lt;vector&lt;<span class="type">int</span>&gt;&gt; <span class="built_in">rg</span>(n); <span class="comment">// 反图</span></span><br><span class="line">        queue&lt;<span class="type">int</span>&gt; q;</span><br><span class="line">        <span class="keyword">for</span> (<span class="type">int</span> i = <span class="number">0</span>; i &lt; n; i++) &#123;</span><br><span class="line">            <span class="keyword">if</span> (deg[i] == <span class="number">0</span>) &#123;</span><br><span class="line">                q.<span class="built_in">push</span>(i);</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">while</span> (!q.<span class="built_in">empty</span>()) &#123; <span class="comment">// 拓扑排序，剪掉图上所有树枝</span></span><br><span class="line">            <span class="type">int</span> x = q.<span class="built_in">front</span>();</span><br><span class="line">            q.<span class="built_in">pop</span>();</span><br><span class="line">            <span class="type">int</span> y = favorite[x]; <span class="comment">// x 只有一条出边</span></span><br><span class="line">            rg[y].<span class="built_in">push_back</span>(x);</span><br><span class="line">            <span class="keyword">if</span> (--deg[y] == <span class="number">0</span>) &#123;</span><br><span class="line">                q.<span class="built_in">push</span>(y);</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="comment">// 通过反图 rg 寻找树枝上最深的链</span></span><br><span class="line">        function&lt;<span class="type">int</span>(<span class="type">int</span>)&gt; rdfs = [&amp;](<span class="type">int</span> x) -&gt; <span class="type">int</span> &#123;</span><br><span class="line">            <span class="type">int</span> max_depth = <span class="number">1</span>;</span><br><span class="line">            <span class="keyword">for</span> (<span class="type">int</span> son: rg[x]) &#123;</span><br><span class="line">                max_depth = <span class="built_in">max</span>(max_depth, <span class="built_in">rdfs</span>(son) + <span class="number">1</span>);</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="keyword">return</span> max_depth;</span><br><span class="line">        &#125;;</span><br><span class="line"></span><br><span class="line">        <span class="type">int</span> max_ring_size = <span class="number">0</span>, sum_chain_size = <span class="number">0</span>;</span><br><span class="line">        <span class="keyword">for</span> (<span class="type">int</span> i = <span class="number">0</span>; i &lt; n; i++) &#123;</span><br><span class="line">            <span class="keyword">if</span> (deg[i] == <span class="number">0</span>) <span class="keyword">continue</span>;</span><br><span class="line"></span><br><span class="line">            <span class="comment">// 遍历基环上的点</span></span><br><span class="line">            deg[i] = <span class="number">0</span>; <span class="comment">// 将基环上的点的入度标记为 0，避免重复访问</span></span><br><span class="line">            <span class="type">int</span> ring_size = <span class="number">1</span>; <span class="comment">// 基环长度</span></span><br><span class="line">            <span class="keyword">for</span> (<span class="type">int</span> x = favorite[i]; x != i; x = favorite[x]) &#123;</span><br><span class="line">                deg[x] = <span class="number">0</span>; <span class="comment">// 将基环上的点的入度标记为 0，避免重复访问</span></span><br><span class="line">                ring_size++;</span><br><span class="line">            &#125;</span><br><span class="line"></span><br><span class="line">            <span class="keyword">if</span> (ring_size == <span class="number">2</span>) &#123; <span class="comment">// 基环长度为 2</span></span><br><span class="line">                sum_chain_size += <span class="built_in">rdfs</span>(i) + <span class="built_in">rdfs</span>(favorite[i]); <span class="comment">// 累加两条最长链的长度</span></span><br><span class="line">            &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">                max_ring_size = <span class="built_in">max</span>(max_ring_size, ring_size); <span class="comment">// 取所有基环长度的最大值</span></span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> <span class="built_in">max</span>(max_ring_size, sum_chain_size);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+
+  </div>
+</article>
+
+
+
+        
+          <div id="footer-post-container">
+  <div id="footer-post">
+
+    <div id="nav-footer" style="display: none">
+      <ul>
+        
+          <li><a href="/">首页</a></li>
+        
+          <li><a href="/archives/">归档</a></li>
+        
+          <li><a href="/tags/">标签</a></li>
+        
+          <li><a href="/search/">搜索</a></li>
+        
+      </ul>
+    </div>
+
+    
+    
+      <div id="toc-footer" style="display: none">
+        <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E9%A2%98%E6%84%8F"><span class="toc-number">1.</span> <span class="toc-text">题意</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%81%9A%E6%B3%95"><span class="toc-number">2.</span> <span class="toc-text">做法</span></a></li></ol>
+      </div>
+    
+
+    <div id="actions-footer">
+        <a id="menu" class="icon" href="#" onclick="$('#nav-footer').toggle();return false;"><i class="fa-solid fa-bars fa-lg" aria-hidden="true"></i> 菜单</a>
+        
+          <a id="toc" class="icon" href="#" onclick="$('#toc-footer').toggle();return false;"><i class="fa-solid fa-list fa-lg" aria-hidden="true"></i> 目录</a>
+        
+        <a id="top" style="display:none" class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fa-solid fa-chevron-up fa-lg" aria-hidden="true"></i> 返回顶部</a>
+    </div>
+
+  </div>
+</div>
+
+        
+        <footer id="footer">
+  <div class="footer-left">
+    Copyright &copy;
+    
+    
+    2020-2023
+    jyf111
+  </div>
+  <div class="footer-right">
+    <nav>
+      <ul>
+        <!--
+       --><li><a href="/">首页</a></li><!--
+     --><!--
+       --><li><a href="/archives/">归档</a></li><!--
+     --><!--
+       --><li><a href="/tags/">标签</a></li><!--
+     --><!--
+       --><li><a href="/search/">搜索</a></li><!--
+     -->
+      </ul>
+    </nav>
+  </div>
+</footer>
+
+    </div>
+    <!-- styles -->
+
+
+
+  <link rel="preload" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" crossorigin="anonymous" onload="this.onload=null;this.rel='stylesheet'"/>
+
+
+    <!-- jquery -->
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js" crossorigin="anonymous"></script>
+
+
+
+
+<!-- clipboard -->
+
+  
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.7/clipboard.min.js" crossorigin="anonymous"></script>
+  
+  <script type="text/javascript">
+  $(function() {
+    // copy-btn HTML
+    var btn = "<span class=\"btn-copy tooltipped tooltipped-sw\" aria-label=\"复制到粘贴板！\">";
+    btn += '<i class="fa-regular fa-clone"></i>';
+    btn += '</span>';
+    // mount it!
+    $(".highlight table").before(btn);
+    var clip = new ClipboardJS('.btn-copy', {
+      text: function(trigger) {
+        return Array.from(trigger.nextElementSibling.querySelectorAll('.code')).reduce((str,it)=>str+it.innerText+'\n','')
+      }
+    });
+    clip.on('success', function(e) {
+      e.trigger.setAttribute('aria-label', "复制成功！");
+      e.clearSelection();
+    })
+  })
+  </script>
+
+
+<script src="/js/main.js"></script>
+
+<!-- search -->
+
+<!-- Baidu Analytics -->
+
+<!-- Cloudflare Analytics -->
+
+<!-- Disqus Comments -->
+
+<!-- utterances Comments -->
+
+<!-- FancyBox -->
+
+<script src="https://cdn.jsdelivr.net/npm/@fancyapps/ui@4.0/dist/fancybox.umd.js"></script>
+
+
+</body>
+</html>

@@ -1,0 +1,406 @@
+<!DOCTYPE html>
+<html lang=zh>
+<head>
+    <!-- so meta -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="HandheldFriendly" content="True">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=5" />
+    <meta name="description" content="¶readv&#x2F;writev 123456struct iovec &amp;#123;    ptr_t iov_base; &#x2F;* Starting address *&#x2F;    size_t iov_len; &#x2F;* Length in bytes *&#x2F;&amp;#125;;ssize_t readv(int fd, const struct iovec *iov, int iovcnt);ssize_t writ">
+<meta property="og:type" content="article">
+<meta property="og:title" content="CS144">
+<meta property="og:url" content="http://example.com/2023/11/14/CS144/index.html">
+<meta property="og:site_name" content="jyf111&#39;s blog">
+<meta property="og:description" content="¶readv&#x2F;writev 123456struct iovec &amp;#123;    ptr_t iov_base; &#x2F;* Starting address *&#x2F;    size_t iov_len; &#x2F;* Length in bytes *&#x2F;&amp;#125;;ssize_t readv(int fd, const struct iovec *iov, int iovcnt);ssize_t writ">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2023-11-14T04:49:17.000Z">
+<meta property="article:modified_time" content="2023-11-14T16:22:11.735Z">
+<meta property="article:author" content="jyf111">
+<meta name="twitter:card" content="summary">
+    
+    
+      
+        
+          <link rel="shortcut icon" href="/images/favicon.ico">
+        
+      
+      
+        
+          <link rel="icon" type="image/png" href="/images/favicon-192x192.png" sizes="192x192">
+        
+      
+      
+        
+          <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png">
+        
+      
+    
+    <!-- title -->
+    <title>CS144</title>
+    <!-- async scripts -->
+    <!-- Google Analytics -->
+
+
+    <!-- Umami Analytics -->
+
+
+    <!-- styles -->
+    
+<link rel="stylesheet" href="/css/style.css">
+
+    <!-- persian styles -->
+    
+    <!-- rss -->
+    
+    
+	<!-- mathjax -->
+	
+		<script type="text/x-mathjax-config">
+		  MathJax.Hub.Config({
+			tex2jax: {
+			  skipTags: ['script', 'noscript', 'style', 'textarea', 'pre'],
+			  inlineMath: [['$','$']]
+			}
+		  });
+		</script>
+		<script src='https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-MML-AM_CHTML' async></script>
+	
+
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/ui@4.0/dist/fancybox.css" />
+
+<meta name="generator" content="Hexo 6.3.0"></head>
+
+<body class="max-width mx-auto px3 ltr">
+    
+      <div id="header-post">
+  <a id="menu-icon" href="#" aria-label="目录"><i class="fa-solid fa-bars fa-lg"></i></a>
+  <a id="menu-icon-tablet" href="#" aria-label="目录"><i class="fa-solid fa-bars fa-lg"></i></a>
+  <a id="top-icon-tablet" href="#" aria-label="顶部" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');" style="display:none;"><i class="fa-solid fa-chevron-up fa-lg"></i></a>
+  <span id="menu">
+    <span id="nav">
+      <ul>
+        <!--
+       --><li><a href="/">首页</a></li><!--
+     --><!--
+       --><li><a href="/archives/">归档</a></li><!--
+     --><!--
+       --><li><a href="/tags/">标签</a></li><!--
+     --><!--
+       --><li><a href="/search/">搜索</a></li><!--
+     -->
+      </ul>
+    </span>
+    <br/>
+    <span id="actions">
+      <ul>
+        
+        <li><a class="icon" aria-label="上一篇" href="/2023/11/15/Zsh%E9%85%8D%E7%BD%AE/"><i class="fa-solid fa-chevron-left" aria-hidden="true" onmouseover="$('#i-prev').toggle();" onmouseout="$('#i-prev').toggle();"></i></a></li>
+        
+        
+        <li><a class="icon" aria-label="下一篇" href="/2023/11/13/WAL%E9%A2%84%E5%86%99%E6%97%A5%E5%BF%97/"><i class="fa-solid fa-chevron-right" aria-hidden="true" onmouseover="$('#i-next').toggle();" onmouseout="$('#i-next').toggle();"></i></a></li>
+        
+        <li><a class="icon" aria-label="返回顶部" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fa-solid fa-chevron-up" aria-hidden="true" onmouseover="$('#i-top').toggle();" onmouseout="$('#i-top').toggle();"></i></a></li>
+      </ul>
+      <span id="i-prev" class="info" style="display:none;">上一篇</span>
+      <span id="i-next" class="info" style="display:none;">下一篇</span>
+      <span id="i-top" class="info" style="display:none;">返回顶部</span>
+    </span>
+    <br/>
+    
+    
+      <div id="toc">
+        <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#readv-writev"><span class="toc-number">1.</span> <span class="toc-text">readv&#x2F;writev</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#span"><span class="toc-number">2.</span> <span class="toc-text">span</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#check0"><span class="toc-number">3.</span> <span class="toc-text">check0</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#webget"><span class="toc-number">3.1.</span> <span class="toc-text">webget</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#in-memory-byte-stream"><span class="toc-number">3.2.</span> <span class="toc-text">in-memory byte stream</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#check1"><span class="toc-number">4.</span> <span class="toc-text">check1</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#reassembler"><span class="toc-number">4.1.</span> <span class="toc-text">reassembler</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#check2"><span class="toc-number">5.</span> <span class="toc-text">check2</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#64-bit-index-to-32-bit-ackno"><span class="toc-number">5.1.</span> <span class="toc-text">64-bit index to 32-bit ackno</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#TCP-receiver"><span class="toc-number">5.2.</span> <span class="toc-text">TCP receiver</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#check3"><span class="toc-number">6.</span> <span class="toc-text">check3</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#TCP-sender"><span class="toc-number">6.1.</span> <span class="toc-text">TCP sender</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#check4"><span class="toc-number">7.</span> <span class="toc-text">check4</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#ARP"><span class="toc-number">7.1.</span> <span class="toc-text">ARP</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#check5"><span class="toc-number">8.</span> <span class="toc-text">check5</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#IP%E8%B7%AF%E7%94%B1%E8%A1%A8"><span class="toc-number">8.1.</span> <span class="toc-text">IP路由表</span></a></li></ol></li></ol>
+      </div>
+    
+  </span>
+</div>
+
+    
+    <div class="content index py4 ">
+        
+        <article class="post h-entry" itemscope itemtype="http://schema.org/BlogPosting">
+  <header>
+    
+    <h1 class="posttitle p-name" itemprop="name headline">
+        CS144
+    </h1>
+
+
+
+    <div class="meta">
+      <span class="author p-author h-card" itemprop="author" itemscope itemtype="http://schema.org/Person">
+        <span class="p-name" itemprop="name">jyf111</span>
+      </span>
+      
+    <div class="postdate">
+      
+        <time datetime="2023-11-14T04:49:17.000Z" class="dt-published" itemprop="datePublished">2023-11-14</time>
+        
+        (Updated: <time datetime="2023-11-14T16:22:11.735Z" class="dt-updated" itemprop="dateModified">2023-11-15</time>)
+        
+      
+    </div>
+
+
+      
+
+      
+
+      
+        
+            <span class=count-symbol-post> 
+            <i class="fa-solid fa-hourglass"></i>
+            
+            
+              (9 mins to read)
+            
+            </span>
+        
+      
+    </div>
+  </header>
+  
+
+  <div class="content e-content" itemprop="articleBody">
+    <h2 id="readv-writev"><a class="header-anchor" href="#readv-writev">¶</a>readv/writev</h2>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">struct</span> <span class="title class_">iovec</span> &#123;</span><br><span class="line">    <span class="type">ptr_t</span> iov_base; <span class="comment">/* Starting address */</span></span><br><span class="line">    <span class="type">size_t</span> iov_len; <span class="comment">/* Length in bytes */</span></span><br><span class="line">&#125;;</span><br><span class="line"><span class="function"><span class="type">ssize_t</span> <span class="title">readv</span><span class="params">(<span class="type">int</span> fd, <span class="type">const</span> <span class="keyword">struct</span> iovec *iov, <span class="type">int</span> iovcnt)</span></span>;</span><br><span class="line"><span class="function"><span class="type">ssize_t</span> <span class="title">writev</span><span class="params">(<span class="type">int</span> fd, <span class="type">const</span> <span class="keyword">struct</span> iovec *iov, <span class="type">int</span> iovcnt)</span></span>;</span><br></pre></td></tr></table></figure>
+<p>结构体iovec代表一个缓冲区（可以类比于string_view）。readv和writev用于读写多段非连续的缓冲区。</p>
+<h2 id="span"><a class="header-anchor" href="#span">¶</a>span</h2>
+<p>一段连续数组上的视图（string_view只能时是char*上的）。当Extend为static时，在模板中存储数组的大小，此时只需要一个指向数组开头的指针；而当Extend为dynamic时，还需要存储数组的大小。</p>
+<h2 id="check0"><a class="header-anchor" href="#check0">¶</a>check0</h2>
+<h3 id="webget"><a class="header-anchor" href="#webget">¶</a>webget</h3>
+<p>熟悉Socket、FileDescriptor、Address这几个类及其接口即可，主要是connect，write、read、eof、shutdown。</p>
+<h3 id="in-memory-byte-stream"><a class="header-anchor" href="#in-memory-byte-stream">¶</a>in-memory byte stream</h3>
+<p>实现一个定长的buffer，其实就是经典的ring buffer。</p>
+<p>如果写入过多，buffer放不下，直接丢弃。</p>
+<p>最简单的写法是用<code>std::deque&lt;char&gt;</code>，但更好的写法应该是用一个char*数组（或<code>std::string</code>）加两个头尾指针实现的。</p>
+<p>如果只使用头尾指针，难点是如何区分空和满状态，也可以引入一个<code>size_</code>来指示当前的大小。</p>
+<p>在写入的时候使用<code>std::memcpy</code>应该比<code>string.replace</code>好一些，replace更适合处理src和dst长度不一样的情况。</p>
+<h2 id="check1"><a class="header-anchor" href="#check1">¶</a>check1</h2>
+<h3 id="reassembler"><a class="header-anchor" href="#reassembler">¶</a>reassembler</h3>
+<p>让可能乱序、重叠（这里不考虑修改）的data按正确顺序加入到ring buffer中。</p>
+<p>主要是实现以下接口，插入一个在<code>first_idnex</code>位置开始的data。</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="type">void</span> <span class="title">insert</span><span class="params">( <span class="type">uint64_t</span> first_index, std::string data,</span></span></span><br><span class="line"><span class="params"><span class="function"><span class="type">bool</span> is_last_substring, Writer&amp; output )</span></span>;</span><br></pre></td></tr></table></figure>
+<p>需要维护下一个加入到ring buffer中的index（<code>next_index_</code>），以及正在等待的暂存字符序列（<code>pending_</code>，只考虑后续ring buffer的available capacity个字符，以控制吞吐量）。</p>
+<p>每次加入一个data：</p>
+<ul>
+<li>计算出需要考虑的区间</li>
+<li>如果该区间从<code>next_index_</code>开始，不断将连续的暂存字符序列的队首写入到ring buffer中（一种写法是把data先放到暂存字符序列里，然后再不断弹出，另一种是先删掉暂存字符序列里和data重合的，然后再不断弹出）</li>
+<li>否则存到字符序列的对应位置</li>
+</ul>
+<p>难点应该是字符序列用什么数据结构，要求能够从首部删除，并支持随机访问。</p>
+<p>一开始我用的是<code>std::deque&lt;std::optional&lt;char&gt;&gt;</code>，后来改成了<code>std::unordered_map&lt;uint64_t, char&gt;</code>，感觉更合适一些，但实际测出来还是deque更快，unordered_map甚至直接TLE了，在大数据下性能还是太不稳定了。</p>
+<h2 id="check2"><a class="header-anchor" href="#check2">¶</a>check2</h2>
+<p><code>next_index_</code>其实就是TCP中的术语ackno，而<code>available capacity</code>其实就是window size。</p>
+<h3 id="64-bit-index-to-32-bit-ackno"><a class="header-anchor" href="#64-bit-index-to-32-bit-ackno">¶</a>64-bit index to 32-bit ackno</h3>
+<p>在TCP中ackno只有32位，但是bytestream的下标是64位的，而且ackno从一个随机值开始。</p>
+<ul>
+<li>ISN：initial sequence number</li>
+<li>SYN：beginning of stream</li>
+<li>FIN：end of strea</li>
+</ul>
+<p>SYN和FIN分别会占用一个序列号，表示字符流的开始和结束。</p>
+<p>sequence number就是从ISN开始的32位数，absolute number是从0开始的64位数，而stream index则是在absolute number的基础上忽略SYN和FIN。</p>
+<p>难点主要是前两个的互相转化。</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="type">static</span> Wrap32 <span class="title">Wrap32::wrap</span><span class="params">( uint64 t n, Wrap32 zero point )</span></span>;</span><br><span class="line"><span class="function">uint64 t <span class="title">unwrap</span><span class="params">( Wrap32 zero point, uint64 t checkpoint )</span> <span class="type">const</span></span>;</span><br></pre></td></tr></table></figure>
+<p>Wrap32是uint32的包装类，无符号数的溢出就是取模，是正常行为。</p>
+<p>一个sequence number会对应多个absolute number（若x满足，则x+2^32也满足），因此checkpoint用于找到距离它最近的那个absolute number。</p>
+<p>我的做法是先加足够多的2^32，让其大于等于checkpoint，然后再检查减掉一个2^32会不会更接近。</p>
+<h3 id="TCP-receiver"><a class="header-anchor" href="#TCP-receiver">¶</a>TCP receiver</h3>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">struct</span> <span class="title class_">TCPSenderMessage</span></span><br><span class="line">&#123;</span><br><span class="line">    Wrap32 seqno &#123; <span class="number">0</span> &#125;;</span><br><span class="line">    <span class="type">bool</span> SYN &#123; <span class="literal">false</span> &#125;;</span><br><span class="line">    Buffer payload &#123;&#125;;</span><br><span class="line">    <span class="type">bool</span> FIN &#123; <span class="literal">false</span> &#125;;</span><br><span class="line">    <span class="comment">// How many sequence numbers does this segment use?</span></span><br><span class="line">    <span class="function"><span class="type">size_t</span> <span class="title">sequence_length</span><span class="params">()</span> <span class="type">const</span> </span>&#123; <span class="keyword">return</span> SYN + payload.<span class="built_in">size</span>() + FIN; &#125;</span><br><span class="line">&#125;;</span><br><span class="line"><span class="keyword">struct</span> <span class="title class_">TCPReceiverMessage</span></span><br><span class="line">&#123;</span><br><span class="line">    std::optional&lt;Wrap32&gt; ackno &#123;&#125;;</span><br><span class="line">    <span class="type">uint16_t</span> window_size &#123;&#125;;</span><br><span class="line">&#125;;</span><br><span class="line"><span class="keyword">class</span> <span class="title class_">TCPReceiver</span></span><br><span class="line">&#123;</span><br><span class="line">    <span class="keyword">public</span>:</span><br><span class="line">    <span class="comment">/* The TCPReceiver receives TCPSenderMessages, inserting their payload</span></span><br><span class="line"><span class="comment">    * into the Reassemble at the correct stream index. */</span></span><br><span class="line">    <span class="function"><span class="type">void</span> <span class="title">receive</span><span class="params">( TCPSenderMessage message, Reassembler&amp; reassembler, Writer&amp; inbound_stream )</span></span>;</span><br><span class="line">    <span class="comment">/* The TCPReceiver sends TCPReceiverMessages back to the TCPSender. */</span></span><br><span class="line">    <span class="function">TCPReceiverMessage <span class="title">send</span><span class="params">( <span class="type">const</span> Writer&amp; inbound_stream )</span> <span class="type">const</span></span>;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+<p>TCP receiver接收一个TCP消息，需要维护ISN（从而可以在SN和ASN之间转换），然后放到Reassembler里重组到ring buffer中的正确位置，然后给发送者告知ackno和window_size。</p>
+<p>一个细节是window_size是16位的，所以最大只能是65536。</p>
+<h2 id="check3"><a class="header-anchor" href="#check3">¶</a>check3</h2>
+<h3 id="TCP-sender"><a class="header-anchor" href="#TCP-sender">¶</a>TCP sender</h3>
+<p>TCP sender不断发送TCP消息（分成一个个segment，确保每个segment不超过接收方的window_size，并且paylod给定的MTU（文档写的是1492，但代码里是1000）），然后根据接收方回应的ackno追踪哪些segment被正确收到，哪些segment需要超时重传。</p>
+<p>如果某个segment被部分收到，此时需要分割该segment。类似地，某些连续的segment可以合并起来重传。但是本实验不考虑这些。</p>
+<p>在还未收到接收方的window_size时，默认windows_size为1。</p>
+<p>需要维护等待发送的segments（<code>pending_segments_</code>，一个队列）和正在发送（尚未确认送达）的segments（<code>in_flight_segments_</code>，一个按照seqno升序的优先队列）当前的接收窗口为<code>[ackno_, ackno_ + window_size_)</code></p>
+<p>难点主要是很多细节问题。</p>
+<ul>
+<li>将buffer分割为若干segment
+<ul>
+<li>先根据已发送的seqno和接收窗口的右侧计算还可以发送的大小<code>window_space</code></li>
+<li>根据<code>window_space</code>和<code>TCPConfig::MAX_PAYLOAD_SIZE</code>计算当前segment的长度</li>
+<li><code>window_space</code>需要考虑SYN和FIN的占用，而<code>TCPConfig::MAX_PAYLOAD_SIZE</code>只是限制payload的大小</li>
+<li>当<code>window_space</code>为0时，如果没有在发送中的段，并且buffer还不为空或者buffer已经结束（已经关闭且当前segment把buffer取空了）但还没发送FIN，则应将window_space设为1，否则就得不到接收方的ackno反馈，无法更新了</li>
+<li>如果buffer已经结束，此时需要设置FIN，但还要考虑window_space的限制</li>
+<li>如何判断是否还有要发送的segment
+<ul>
+<li>buffer为空，但是还没发SYN。SYN是一定要发送的</li>
+<li>buffer已经结束，但是还没发FIN，这种情况是因为<code>window_space</code>的限制，没能在前一个segment设置FIN</li>
+<li>buffer非空，肯定还得发</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>发送segment
+<ul>
+<li>取出seqno最小的那个segment，如果重传计时未开始，就初始化计时</li>
+</ul>
+</li>
+<li>接收到TCPReceiverMessage
+<ul>
+<li>ackno可能大于已经发送的最大的seqno+1，即该ackno是异常的，此时应该忽略</li>
+<li>ackno可能为空，但已经收到过非空的ackno，说明是重传过的延迟段，忽略</li>
+<li>否则更新window_size和ackno</li>
+<li>删掉正在发送队列中确认被收到的segments</li>
+<li>如果存在成功接收的segments，则重置超时重传，如果没有正在发送的segments了，还应该关闭计时器</li>
+</ul>
+</li>
+<li>增加时间
+<ul>
+<li>在达到重传时间时，仅重传序列号最小的那个segment（从<code>in_flight</code>移动到<code>pending</code>里），并重置计时</li>
+<li>仅在<code>window_size</code>大于0时，才翻倍重传时间</li>
+</ul>
+</li>
+</ul>
+<h2 id="check4"><a class="header-anchor" href="#check4">¶</a>check4</h2>
+<h3 id="ARP"><a class="header-anchor" href="#ARP">¶</a>ARP</h3>
+<p>NetworkInterface负责将IP数据包封装成以太网数据帧发送到下一跳，并在接收到以太网数据帧时拆封为底层的IP数据包。</p>
+<p>关键是需要知道一个IP地址对应的MAC地址，这需要用到ARP协议。</p>
+<ul>
+<li>如果不知道下一跳IP的映射，就广播一条ARP请求，ARP请求的目的IP为下一跳IP，源IP和源MAC为自己的IP和MAC；封装的以太网帧的源MAC为自己的MAC，目的MAC为广播MAC。并将要发送的IP数据包放到待发送队列中（<code>pending_dgrams_</code>）</li>
+<li>忽略目的MAC不属于自己的以太网帧</li>
+<li>如果收到的是IP数据包，就解封返回</li>
+<li>如果收到的是ARP请求且目的IP与自己IP相同，就回复一条ARP应答，将自己的IP地址和MAC地址填入源IP和源MAC中，目的IP和MAC则是发送请求者的IP和MAC</li>
+<li>同时，对于收到的ARP请求，可以学习它的源IP和MAC映射，存到一个cache中，并将对应IP等待的IP数据包发送出去</li>
+<li>IP和MAC映射可能发生变化，因此cache有一个时限（30s），为了避免ARP请求泛洪，在一定时间内（5s）不重复广播</li>
+</ul>
+<p>ARP请求可能永远得不到回复，对应发送的IP数据包就永远发不出去，在本实验中不需要考虑该问题。</p>
+<p>cache可以用<code>std::unordered_map</code>，用两个<code>std::queue</code>存等待发送的以太网帧和等待ARP回复后封装的数据包，再用两个<code>std::map</code>记录每次ARP请求的时间以及保存cache的时间。</p>
+<h2 id="check5"><a class="header-anchor" href="#check5">¶</a>check5</h2>
+<h3 id="IP路由表"><a class="header-anchor" href="#IP路由表">¶</a>IP路由表</h3>
+<p>添加一条路由信息，包括IP前缀，前缀长度，可能的下一跳地址，对应的NetworkInterface。</p>
+<p>路由表用<code>std::array&lt;std::unordered_map&lt;uint32_t, std::pair&lt;std::optional&lt;Address&gt;, uint32_t&gt;&gt;, 33&gt;</code>实现。</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="type">void</span> <span class="title">add_route</span><span class="params">(<span class="type">uint32_t</span> route_prefix,</span></span></span><br><span class="line"><span class="params"><span class="function">    <span class="type">uint8_t</span> prefix_length,</span></span></span><br><span class="line"><span class="params"><span class="function">    optional&lt;Address&gt; next_hop,</span></span></span><br><span class="line"><span class="params"><span class="function">    <span class="type">size_t</span> interface_num)</span></span>;</span><br></pre></td></tr></table></figure>
+<p>根据最长匹配原则查找对应的路由，将IP数据包转交给对应的NetworkInterface发送。</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="type">void</span> <span class="title">route</span><span class="params">()</span></span>;</span><br></pre></td></tr></table></figure>
+
+  </div>
+</article>
+
+
+
+        
+          <div id="footer-post-container">
+  <div id="footer-post">
+
+    <div id="nav-footer" style="display: none">
+      <ul>
+        
+          <li><a href="/">首页</a></li>
+        
+          <li><a href="/archives/">归档</a></li>
+        
+          <li><a href="/tags/">标签</a></li>
+        
+          <li><a href="/search/">搜索</a></li>
+        
+      </ul>
+    </div>
+
+    
+    
+      <div id="toc-footer" style="display: none">
+        <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#readv-writev"><span class="toc-number">1.</span> <span class="toc-text">readv&#x2F;writev</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#span"><span class="toc-number">2.</span> <span class="toc-text">span</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#check0"><span class="toc-number">3.</span> <span class="toc-text">check0</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#webget"><span class="toc-number">3.1.</span> <span class="toc-text">webget</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#in-memory-byte-stream"><span class="toc-number">3.2.</span> <span class="toc-text">in-memory byte stream</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#check1"><span class="toc-number">4.</span> <span class="toc-text">check1</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#reassembler"><span class="toc-number">4.1.</span> <span class="toc-text">reassembler</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#check2"><span class="toc-number">5.</span> <span class="toc-text">check2</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#64-bit-index-to-32-bit-ackno"><span class="toc-number">5.1.</span> <span class="toc-text">64-bit index to 32-bit ackno</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#TCP-receiver"><span class="toc-number">5.2.</span> <span class="toc-text">TCP receiver</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#check3"><span class="toc-number">6.</span> <span class="toc-text">check3</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#TCP-sender"><span class="toc-number">6.1.</span> <span class="toc-text">TCP sender</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#check4"><span class="toc-number">7.</span> <span class="toc-text">check4</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#ARP"><span class="toc-number">7.1.</span> <span class="toc-text">ARP</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#check5"><span class="toc-number">8.</span> <span class="toc-text">check5</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#IP%E8%B7%AF%E7%94%B1%E8%A1%A8"><span class="toc-number">8.1.</span> <span class="toc-text">IP路由表</span></a></li></ol></li></ol>
+      </div>
+    
+
+    <div id="actions-footer">
+        <a id="menu" class="icon" href="#" onclick="$('#nav-footer').toggle();return false;"><i class="fa-solid fa-bars fa-lg" aria-hidden="true"></i> 菜单</a>
+        
+          <a id="toc" class="icon" href="#" onclick="$('#toc-footer').toggle();return false;"><i class="fa-solid fa-list fa-lg" aria-hidden="true"></i> 目录</a>
+        
+        <a id="top" style="display:none" class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fa-solid fa-chevron-up fa-lg" aria-hidden="true"></i> 返回顶部</a>
+    </div>
+
+  </div>
+</div>
+
+        
+        <footer id="footer">
+  <div class="footer-left">
+    Copyright &copy;
+    
+    
+    2020-2023
+    jyf111
+  </div>
+  <div class="footer-right">
+    <nav>
+      <ul>
+        <!--
+       --><li><a href="/">首页</a></li><!--
+     --><!--
+       --><li><a href="/archives/">归档</a></li><!--
+     --><!--
+       --><li><a href="/tags/">标签</a></li><!--
+     --><!--
+       --><li><a href="/search/">搜索</a></li><!--
+     -->
+      </ul>
+    </nav>
+  </div>
+</footer>
+
+    </div>
+    <!-- styles -->
+
+
+
+  <link rel="preload" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" crossorigin="anonymous" onload="this.onload=null;this.rel='stylesheet'"/>
+
+
+    <!-- jquery -->
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js" crossorigin="anonymous"></script>
+
+
+
+
+<!-- clipboard -->
+
+  
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.7/clipboard.min.js" crossorigin="anonymous"></script>
+  
+  <script type="text/javascript">
+  $(function() {
+    // copy-btn HTML
+    var btn = "<span class=\"btn-copy tooltipped tooltipped-sw\" aria-label=\"复制到粘贴板！\">";
+    btn += '<i class="fa-regular fa-clone"></i>';
+    btn += '</span>';
+    // mount it!
+    $(".highlight table").before(btn);
+    var clip = new ClipboardJS('.btn-copy', {
+      text: function(trigger) {
+        return Array.from(trigger.nextElementSibling.querySelectorAll('.code')).reduce((str,it)=>str+it.innerText+'\n','')
+      }
+    });
+    clip.on('success', function(e) {
+      e.trigger.setAttribute('aria-label', "复制成功！");
+      e.clearSelection();
+    })
+  })
+  </script>
+
+
+<script src="/js/main.js"></script>
+
+<!-- search -->
+
+<!-- Baidu Analytics -->
+
+<!-- Cloudflare Analytics -->
+
+<!-- Disqus Comments -->
+
+<!-- utterances Comments -->
+
+<!-- FancyBox -->
+
+<script src="https://cdn.jsdelivr.net/npm/@fancyapps/ui@4.0/dist/fancybox.umd.js"></script>
+
+
+</body>
+</html>
