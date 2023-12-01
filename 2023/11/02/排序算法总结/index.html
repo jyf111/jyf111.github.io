@@ -14,7 +14,7 @@
 <meta property="og:description" content="¶插入排序 从前往后依次把当前元素插入到前缀的有序序列的相应位置即可。 $O(n^2)$，稳定 1234567for (int i &#x3D; 1; i &lt; n; i++) &amp;#123;    int key &#x3D; a[i];    for (int j &#x3D; i - 1; j &gt;&#x3D; 0 &amp;&amp; a[j] &gt; key; j--) &amp;#123;        a[j + 1] &#x3D;">
 <meta property="og:locale" content="zh_CN">
 <meta property="article:published_time" content="2023-11-02T14:55:16.000Z">
-<meta property="article:modified_time" content="2023-11-02T15:59:20.891Z">
+<meta property="article:modified_time" content="2023-12-01T13:55:54.534Z">
 <meta property="article:author" content="jyf111">
 <meta property="article:tag" content="算法">
 <meta name="twitter:card" content="summary">
@@ -110,7 +110,7 @@
     
     
       <div id="toc">
-        <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%8F%92%E5%85%A5%E6%8E%92%E5%BA%8F"><span class="toc-number">1.</span> <span class="toc-text">插入排序</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%B8%8C%E5%B0%94%E6%8E%92%E5%BA%8F"><span class="toc-number">2.</span> <span class="toc-text">希尔排序</span></a></li></ol>
+        <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%8F%92%E5%85%A5%E6%8E%92%E5%BA%8F"><span class="toc-number">1.</span> <span class="toc-text">插入排序</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%B8%8C%E5%B0%94%E6%8E%92%E5%BA%8F"><span class="toc-number">2.</span> <span class="toc-text">希尔排序</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E9%80%89%E6%8B%A9%E6%8E%92%E5%BA%8F"><span class="toc-number">3.</span> <span class="toc-text">选择排序</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%86%92%E6%B3%A1%E6%8E%92%E5%BA%8F"><span class="toc-number">4.</span> <span class="toc-text">冒泡排序</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%A0%86%E6%8E%92%E5%BA%8F"><span class="toc-number">5.</span> <span class="toc-text">堆排序</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%8E%9F%E5%9C%B0%E5%BB%BA%E5%A0%86"><span class="toc-number">5.1.</span> <span class="toc-text">原地建堆</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%BF%BD%E5%8A%A0%E5%85%83%E7%B4%A0"><span class="toc-number">5.2.</span> <span class="toc-text">追加元素</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%88%A0%E9%99%A4%E5%A0%86%E9%A1%B6"><span class="toc-number">5.3.</span> <span class="toc-text">删除堆顶</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%BF%AB%E9%80%9F%E6%8E%92%E5%BA%8F"><span class="toc-number">6.</span> <span class="toc-text">快速排序</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#std-sort"><span class="toc-number">7.</span> <span class="toc-text">std::sort</span></a></li></ol>
       </div>
     
   </span>
@@ -137,7 +137,7 @@
       
         <time datetime="2023-11-02T14:55:16.000Z" class="dt-published" itemprop="datePublished">2023-11-02</time>
         
-        (Updated: <time datetime="2023-11-02T15:59:20.891Z" class="dt-updated" itemprop="dateModified">2023-11-02</time>)
+        (Updated: <time datetime="2023-12-01T13:55:54.534Z" class="dt-updated" itemprop="dateModified">2023-12-01</time>)
         
       
     </div>
@@ -158,7 +158,7 @@
             <i class="fa-solid fa-hourglass"></i>
             
             
-              (1 min to read)
+              (3 mins to read)
             
             </span>
         
@@ -177,6 +177,28 @@
 <p>将一定间隔的元素组成一组进行插入排序，然后每一轮缩小间隔，直至间隔为1。（前期，乱序的元素可以大跨步地归位）。</p>
 <p>通常增量序列选择$n/2, n/4, \dots, 1$（最坏仍然是$O(n^2)$），$2^k+1$/$3^k+1$（最坏是$O(n^{3/2}$），$2^p3^q$（最坏时$O(n\log^2 n$）。</p>
 <figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">int</span> gap = <span class="number">1</span>;</span><br><span class="line"><span class="keyword">while</span> (gap &lt; n / <span class="number">3</span>) &#123;</span><br><span class="line">    gap = <span class="number">3</span> * gap + <span class="number">1</span>;</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">while</span> (gap &gt;= <span class="number">1</span>)</span><br><span class="line">    <span class="keyword">for</span> (<span class="type">int</span> i = gap; i &lt; n; i++) &#123;</span><br><span class="line">        <span class="type">int</span> key = a[i];</span><br><span class="line">        <span class="keyword">for</span> (<span class="type">int</span> j = i - gap; j &gt;= <span class="number">0</span> &amp;&amp; a[j] &gt; key; j -= gap) &#123;</span><br><span class="line">            a[j + gap] = a[j];</span><br><span class="line">        &#125;</span><br><span class="line">        a[j + gap] = key;</span><br><span class="line">    &#125;</span><br><span class="line">    gap /= <span class="number">3</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="选择排序"><a class="header-anchor" href="#选择排序">¶</a>选择排序</h2>
+<p>按照数值从小到大依次归位。$O(n^2)$，稳定</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">for</span> (<span class="type">int</span> i = <span class="number">0</span>; i &lt; n; i++) &#123;</span><br><span class="line">    <span class="type">int</span> mn = i;</span><br><span class="line">    <span class="keyword">for</span> (<span class="type">int</span> j = i + <span class="number">1</span>; j &lt; n; j++)</span><br><span class="line">        <span class="keyword">if</span> (a[j] &lt; a[mn])</span><br><span class="line">                mn = j;</span><br><span class="line">    std::<span class="built_in">swap</span>(a[i], a[mn]);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="冒泡排序"><a class="header-anchor" href="#冒泡排序">¶</a>冒泡排序</h2>
+<p>扫描n-1轮，在每一轮中，如果前一个数大于后一个数（即逆序），就进行交换，这样第i轮，第i大的数就归位了。 $O(n^2)$，稳定</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">for</span> (<span class="type">int</span> i = <span class="number">0</span>; i &lt; n - <span class="number">1</span>; i++)</span><br><span class="line">    <span class="keyword">for</span> (<span class="type">int</span> j = <span class="number">0</span>; j &lt; n - <span class="number">1</span> - i; j++)</span><br><span class="line">        <span class="keyword">if</span> (a[j] &gt; a[j + <span class="number">1</span>])</span><br><span class="line">            std::<span class="built_in">swap</span>(a[j], a[j + <span class="number">1</span>]);</span><br></pre></td></tr></table></figure>
+<h2 id="堆排序"><a class="header-anchor" href="#堆排序">¶</a>堆排序</h2>
+<p>升序需要先构建大顶堆，然后不断把堆顶移动数组的末尾，并维持大顶堆。$O(n\log n)$，不稳定</p>
+<p>关键是堆的一些操作。</p>
+<p>位置<code>i</code>的左儿子和右儿子分别是<code>i&lt;&lt;1</code>和<code>i&lt;&lt;1|1</code></p>
+<h3 id="原地建堆"><a class="header-anchor" href="#原地建堆">¶</a>原地建堆</h3>
+<p>从最后一个非叶子节点开始往前调整，把当前点和儿子节点中最大的那个交换上来。$O(n)$</p>
+<h3 id="追加元素"><a class="header-anchor" href="#追加元素">¶</a>追加元素</h3>
+<p>先放在数组末尾，然后从下往上交换调整即可。$O(\log n)$</p>
+<h3 id="删除堆顶"><a class="header-anchor" href="#删除堆顶">¶</a>删除堆顶</h3>
+<p>从上往下交换调整即可。$O(\log n)$</p>
+<h2 id="快速排序"><a class="header-anchor" href="#快速排序">¶</a>快速排序</h2>
+<h2 id="std-sort"><a class="header-anchor" href="#std-sort">¶</a>std::sort</h2>
+<p>使用一种混合的introsort。</p>
+<p>如果规模小于16，直接插入排序。</p>
+<p>在快排深度大于一个阈值时，切换为堆排序，来避免快排最坏$O(N^2)$复杂度的问题。</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="function">procedure <span class="title">sort</span><span class="params">(A : array)</span>:</span></span><br><span class="line"><span class="function">    maxdepth ← ⌊log2(length(A))⌋ × <span class="number">2</span></span></span><br><span class="line"><span class="function">    introsort(A, maxdepth)</span></span><br><span class="line"><span class="function"></span></span><br><span class="line"><span class="function">procedure introsort(A, maxdepth):</span></span><br><span class="line"><span class="function">    n ← length(A)</span></span><br><span class="line"><span class="function">    if n &lt; <span class="number">16</span>:</span></span><br><span class="line"><span class="function">        insertionsort(A)</span></span><br><span class="line"><span class="function">    else if maxdepth =</span> <span class="number">0</span>:</span><br><span class="line">        <span class="built_in">heapsort</span>(A)</span><br><span class="line">    <span class="keyword">else</span>:</span><br><span class="line">        p ← <span class="built_in">partition</span>(A)  <span class="comment">// assume this function does pivot selection, p is the final position of the pivot</span></span><br><span class="line">        <span class="built_in">introsort</span>(A[<span class="number">1</span>:p<span class="number">-1</span>], maxdepth - <span class="number">1</span>)</span><br><span class="line">        <span class="built_in">introsort</span>(A[p+<span class="number">1</span>:n], maxdepth - <span class="number">1</span>)</span><br></pre></td></tr></table></figure>
 
   </div>
 </article>
@@ -204,7 +226,7 @@
     
     
       <div id="toc-footer" style="display: none">
-        <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%8F%92%E5%85%A5%E6%8E%92%E5%BA%8F"><span class="toc-number">1.</span> <span class="toc-text">插入排序</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%B8%8C%E5%B0%94%E6%8E%92%E5%BA%8F"><span class="toc-number">2.</span> <span class="toc-text">希尔排序</span></a></li></ol>
+        <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%8F%92%E5%85%A5%E6%8E%92%E5%BA%8F"><span class="toc-number">1.</span> <span class="toc-text">插入排序</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%B8%8C%E5%B0%94%E6%8E%92%E5%BA%8F"><span class="toc-number">2.</span> <span class="toc-text">希尔排序</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E9%80%89%E6%8B%A9%E6%8E%92%E5%BA%8F"><span class="toc-number">3.</span> <span class="toc-text">选择排序</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%86%92%E6%B3%A1%E6%8E%92%E5%BA%8F"><span class="toc-number">4.</span> <span class="toc-text">冒泡排序</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%A0%86%E6%8E%92%E5%BA%8F"><span class="toc-number">5.</span> <span class="toc-text">堆排序</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%8E%9F%E5%9C%B0%E5%BB%BA%E5%A0%86"><span class="toc-number">5.1.</span> <span class="toc-text">原地建堆</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%BF%BD%E5%8A%A0%E5%85%83%E7%B4%A0"><span class="toc-number">5.2.</span> <span class="toc-text">追加元素</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%88%A0%E9%99%A4%E5%A0%86%E9%A1%B6"><span class="toc-number">5.3.</span> <span class="toc-text">删除堆顶</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%BF%AB%E9%80%9F%E6%8E%92%E5%BA%8F"><span class="toc-number">6.</span> <span class="toc-text">快速排序</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#std-sort"><span class="toc-number">7.</span> <span class="toc-text">std::sort</span></a></li></ol>
       </div>
     
 

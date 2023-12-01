@@ -1,0 +1,345 @@
+<!DOCTYPE html>
+<html lang=zh>
+<head>
+    <!-- so meta -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="HandheldFriendly" content="True">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=5" />
+    <meta name="description" content="$O(1)$单点插入、删除、查询。在数据库里主要用在join和group by中。 ¶静态哈希表 benchmark1benchmark2 有些哈希表是不稳定的（flat_map），存储在其中的value的地址可能因为插入和删除而失效（因为发生了rehash）。稳定的方法通常需要通过间接寻址（node_map）。 node_map和flat_map的区别是flat_map将value直接存到数组中">
+<meta property="og:type" content="article">
+<meta property="og:title" content="哈希">
+<meta property="og:url" content="http://example.com/2023/11/22/%E5%93%88%E5%B8%8C/index.html">
+<meta property="og:site_name" content="jyf111&#39;s blog">
+<meta property="og:description" content="$O(1)$单点插入、删除、查询。在数据库里主要用在join和group by中。 ¶静态哈希表 benchmark1benchmark2 有些哈希表是不稳定的（flat_map），存储在其中的value的地址可能因为插入和删除而失效（因为发生了rehash）。稳定的方法通常需要通过间接寻址（node_map）。 node_map和flat_map的区别是flat_map将value直接存到数组中">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2023-11-22T11:42:57.000Z">
+<meta property="article:modified_time" content="2023-12-01T08:04:40.336Z">
+<meta property="article:author" content="jyf111">
+<meta property="article:tag" content="算法">
+<meta name="twitter:card" content="summary">
+    
+    
+      
+        
+          <link rel="shortcut icon" href="/images/favicon.ico">
+        
+      
+      
+        
+          <link rel="icon" type="image/png" href="/images/favicon-192x192.png" sizes="192x192">
+        
+      
+      
+        
+          <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png">
+        
+      
+    
+    <!-- title -->
+    <title>哈希</title>
+    <!-- async scripts -->
+    <!-- Google Analytics -->
+
+
+    <!-- Umami Analytics -->
+
+
+    <!-- styles -->
+    
+<link rel="stylesheet" href="/css/style.css">
+
+    <!-- persian styles -->
+    
+    <!-- rss -->
+    
+    
+	<!-- mathjax -->
+	
+		<script type="text/x-mathjax-config">
+		  MathJax.Hub.Config({
+			tex2jax: {
+			  skipTags: ['script', 'noscript', 'style', 'textarea', 'pre'],
+			  inlineMath: [['$','$']]
+			}
+		  });
+		</script>
+		<script src='https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-MML-AM_CHTML' async></script>
+	
+
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/ui@4.0/dist/fancybox.css" />
+
+<meta name="generator" content="Hexo 6.3.0"></head>
+
+<body class="max-width mx-auto px3 ltr">
+    
+      <div id="header-post">
+  <a id="menu-icon" href="#" aria-label="目录"><i class="fa-solid fa-bars fa-lg"></i></a>
+  <a id="menu-icon-tablet" href="#" aria-label="目录"><i class="fa-solid fa-bars fa-lg"></i></a>
+  <a id="top-icon-tablet" href="#" aria-label="顶部" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');" style="display:none;"><i class="fa-solid fa-chevron-up fa-lg"></i></a>
+  <span id="menu">
+    <span id="nav">
+      <ul>
+        <!--
+       --><li><a href="/">首页</a></li><!--
+     --><!--
+       --><li><a href="/archives/">归档</a></li><!--
+     --><!--
+       --><li><a href="/tags/">标签</a></li><!--
+     --><!--
+       --><li><a href="/search/">搜索</a></li><!--
+     -->
+      </ul>
+    </span>
+    <br/>
+    <span id="actions">
+      <ul>
+        
+        <li><a class="icon" aria-label="上一篇" href="/2023/11/22/ThreadPool/"><i class="fa-solid fa-chevron-left" aria-hidden="true" onmouseover="$('#i-prev').toggle();" onmouseout="$('#i-prev').toggle();"></i></a></li>
+        
+        
+        <li><a class="icon" aria-label="下一篇" href="/2023/11/20/%E5%85%AB%E8%82%A1%E8%AE%B0%E5%BD%95/"><i class="fa-solid fa-chevron-right" aria-hidden="true" onmouseover="$('#i-next').toggle();" onmouseout="$('#i-next').toggle();"></i></a></li>
+        
+        <li><a class="icon" aria-label="返回顶部" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fa-solid fa-chevron-up" aria-hidden="true" onmouseover="$('#i-top').toggle();" onmouseout="$('#i-top').toggle();"></i></a></li>
+      </ul>
+      <span id="i-prev" class="info" style="display:none;">上一篇</span>
+      <span id="i-next" class="info" style="display:none;">下一篇</span>
+      <span id="i-top" class="info" style="display:none;">返回顶部</span>
+    </span>
+    <br/>
+    
+    
+      <div id="toc">
+        <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E9%9D%99%E6%80%81%E5%93%88%E5%B8%8C%E8%A1%A8"><span class="toc-number">1.</span> <span class="toc-text">静态哈希表</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%BC%80%E6%94%BE%E5%AF%BB%E5%9D%80"><span class="toc-number">1.1.</span> <span class="toc-text">开放寻址</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%B8%83%E8%B0%B7%E9%B8%9F%E5%93%88%E5%B8%8C"><span class="toc-number">1.2.</span> <span class="toc-text">布谷鸟哈希</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%9F%A5%E6%89%BE"><span class="toc-number">1.2.1.</span> <span class="toc-text">查找</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%88%A0%E9%99%A4"><span class="toc-number">1.2.2.</span> <span class="toc-text">删除</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%8F%92%E5%85%A5"><span class="toc-number">1.2.3.</span> <span class="toc-text">插入</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%B8%83%E8%B0%B7%E9%B8%9F%E8%BF%87%E6%BB%A4%E5%99%A8"><span class="toc-number">1.2.4.</span> <span class="toc-text">布谷鸟过滤器</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#std-unordered-map"><span class="toc-number">1.3.</span> <span class="toc-text">std::unordered_map</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#robin-hood-unordered-flat-map"><span class="toc-number">1.4.</span> <span class="toc-text">robin_hood::unordered_flat_map</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#slotmap"><span class="toc-number">1.5.</span> <span class="toc-text">slotmap</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%BC%98%E5%8C%96"><span class="toc-number">1.6.</span> <span class="toc-text">优化</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%8A%A8%E6%80%81%E5%93%88%E5%B8%8C%E8%A1%A8"><span class="toc-number">2.</span> <span class="toc-text">动态哈希表</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%8B%89%E9%93%BE%E6%B3%95"><span class="toc-number">2.1.</span> <span class="toc-text">拉链法</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%8F%AF%E6%89%A9%E5%B1%95%E5%93%88%E5%B8%8C"><span class="toc-number">2.2.</span> <span class="toc-text">可扩展哈希</span></a></li></ol></li></ol>
+      </div>
+    
+  </span>
+</div>
+
+    
+    <div class="content index py4 ">
+        
+        <article class="post h-entry" itemscope itemtype="http://schema.org/BlogPosting">
+  <header>
+    
+    <h1 class="posttitle p-name" itemprop="name headline">
+        哈希
+    </h1>
+
+
+
+    <div class="meta">
+      <span class="author p-author h-card" itemprop="author" itemscope itemtype="http://schema.org/Person">
+        <span class="p-name" itemprop="name">jyf111</span>
+      </span>
+      
+    <div class="postdate">
+      
+        <time datetime="2023-11-22T11:42:57.000Z" class="dt-published" itemprop="datePublished">2023-11-22</time>
+        
+        (Updated: <time datetime="2023-12-01T08:04:40.336Z" class="dt-updated" itemprop="dateModified">2023-12-01</time>)
+        
+      
+    </div>
+
+
+      
+
+      
+    <div class="article-tag">
+        <i class="fa-solid fa-tag"></i>
+        <a class="p-category" href="/tags/%E7%AE%97%E6%B3%95/" rel="tag">算法</a>
+    </div>
+
+
+      
+        
+            <span class=count-symbol-post> 
+            <i class="fa-solid fa-hourglass"></i>
+            
+            
+              (3 mins to read)
+            
+            </span>
+        
+      
+    </div>
+  </header>
+  
+
+  <div class="content e-content" itemprop="articleBody">
+    <p>$O(1)$单点插入、删除、查询。在数据库里主要用在<code>join</code>和<code>group by</code>中。</p>
+<h2 id="静态哈希表"><a class="header-anchor" href="#静态哈希表">¶</a>静态哈希表</h2>
+<p><a target="_blank" rel="noopener" href="https://martin.ankerl.com/2022/08/27/hashmap-bench-01/">benchmark1</a><a target="_blank" rel="noopener" href="https://martin.ankerl.com/2019/04/01/hashmap-benchmarks-01-overview/">benchmark2</a></p>
+<p>有些哈希表是不稳定的（<code>flat_map</code>），存储在其中的value的地址可能因为插入和删除而失效（因为发生了rehash）。稳定的方法通常需要通过间接寻址（<code>node_map</code>）。</p>
+<p><code>node_map</code>和<code>flat_map</code>的区别是<code>flat_map</code>将value直接存到数组中，因此在rehash时地址会改变，而<code>node_map</code>将value存在另一个保持不变的数组中，其优点是提供了稳定性，并且可以存储不可移动或不可复制的元素，并且也更适合大value对象（因为把大对象直接存到数组中会破坏cache），但也导致了额外开销。</p>
+<p>关键点：哈希函数、冲突解决方法。</p>
+<p>MurmurHash、Facebook XXHash</p>
+<h3 id="开放寻址"><a class="header-anchor" href="#开放寻址">¶</a>开放寻址</h3>
+<ul>
+<li>线性探测：如果映射位置已经被占用，就检查紧接着的下一个位置，不断重复</li>
+<li>二次探测：如果被占用，则检查+1^2, -1^2, +2^2, -2^2…</li>
+</ul>
+<p>删除的时候一种是所有元素都重hash，另一种是用tombstome标记。</p>
+<h3 id="布谷鸟哈希"><a class="header-anchor" href="#布谷鸟哈希">¶</a>布谷鸟哈希</h3>
+<p>布谷鸟在孵化时会将一些蛋/幼鸟推出巢外，布谷鸟哈希在插入新key时，可能把旧key移动到其它位置。</p>
+<p>通用的讲：布谷鸟哈希使用n个哈希函数，然后将key插入到其中第一个空闲的哈希位置，如果都非空，就选择踢掉一个冲突的key，并重新插入这个冲突的key。</p>
+<p>这里介绍使用两个哈希表$T_1$和$T_2$，以及两个哈希函数$h_1$和$h_2$的版本。</p>
+<h4 id="查找"><a class="header-anchor" href="#查找">¶</a>查找</h4>
+<p>查找$T_1[h_1(x)]$和$T_2[h_2(x)]$即可。</p>
+<h4 id="删除"><a class="header-anchor" href="#删除">¶</a>删除</h4>
+<p>同理。</p>
+<h4 id="插入"><a class="header-anchor" href="#插入">¶</a>插入</h4>
+<p>如果$T_1[h_1(x)]$为空，就插入；否则替换为$x$（踢掉旧值$x’$），并将原有的$x’$插入到$T_2$，不断重复至多MAX_LOOP次（这个过程中可能发生死循环）。超过固定阈值，就扩展两个哈希表，进行重哈希。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">def</span> <span class="title function_">insert</span>(<span class="params">x</span>):</span><br><span class="line">    <span class="keyword">if</span> lookup(x):</span><br><span class="line">        <span class="keyword">return</span></span><br><span class="line">    <span class="keyword">for</span> _ <span class="keyword">in</span> <span class="built_in">range</span>(MAX_LOOP):</span><br><span class="line">        <span class="keyword">if</span> T1[h1(x)] <span class="keyword">is</span> empty:</span><br><span class="line">            T1[h1(x)] = x</span><br><span class="line">            <span class="keyword">return</span></span><br><span class="line">        swap(x, T1[h1(x)])</span><br><span class="line">        <span class="keyword">if</span> T2[h2(x)] <span class="keyword">is</span> empty:</span><br><span class="line">            T2[h2(x)] = x</span><br><span class="line">            <span class="keyword">return</span></span><br><span class="line">        swap(x, T2[h2(x)])</span><br><span class="line">    rehash()</span><br><span class="line">    insert(x)</span><br></pre></td></tr></table></figure>
+<p>如果将$T_1[h_1(x)]$和$T_2[h_2(x)]$看作一条边，就构成一张图。</p>
+<p>其优点是最坏复杂度有保证，并且查找过程可以完全向量化，适用于大量单点查询的场景。</p>
+<p>其缺点是缓存不友好。rocksdb的一个优化方案是在某个哈希映射冲突时，进一步尝试连续的若干位置（+1,+2,…），这被称作布谷鸟块，这样可以通过预取这个块来加速（85%的key都在第一个布谷鸟块中）。</p>
+<h4 id="布谷鸟过滤器"><a class="header-anchor" href="#布谷鸟过滤器">¶</a>布谷鸟过滤器</h4>
+<p>相比于布隆过滤器，能够支持删除操作。</p>
+<h3 id="std-unordered-map"><a class="header-anchor" href="#std-unordered-map">¶</a>std::unordered_map</h3>
+<p>使用拉链法实现，有多个桶，每个桶都是一个链表。<code>max_load_factor</code>是元素个数除以桶个数的上限（默认为1），当超过这个上限时，说明桶的个数过少了，就会将<code>bucket_size</code>扩大2倍，然后重新进行hash。</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">unordered_map</span> &#123;</span><br><span class="line">  <span class="keyword">private</span>:</span><br><span class="line">    list&lt;pair&lt;<span class="type">int</span>,<span class="type">int</span>&gt;&gt; *buckets;</span><br><span class="line">    <span class="type">int</span> bucket_size;</span><br><span class="line">    <span class="type">int</span> total_elements;</span><br><span class="line">    <span class="type">float</span> max_load_factor;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>这种实现方式是很慢的，因为数据局部性很差，cache不友好。但因为C++标准规定在插入或删除元素时其他元素必须有效，因此选择了拉链法，但更现代的hashmap通常采用线性探测或其变种。</p>
+<h3 id="robin-hood-unordered-flat-map"><a class="header-anchor" href="#robin-hood-unordered-flat-map">¶</a>robin_hood::unordered_flat_map</h3>
+<p>robin hood是线性探测的变种。通过劫富济贫来优化每个元素的实际位置与其哈希位置的距离。在插入时，如果当前元素的距离已经比占用元素的距离大（占用元素更富有），那就取代这个占用元素，让占用元素继续找下一个空的位置。避免了线性探测中某些元素极度贫困的问题，需要连续多次探测。</p>
+<h3 id="slotmap"><a class="header-anchor" href="#slotmap">¶</a>slotmap</h3>
+<p>与常规的hashmap需要自己提供key和value不同，slotmap只在插入时只需要提供value，然后会自动返回一个唯一且永久有效的key。</p>
+<h3 id="优化"><a class="header-anchor" href="#优化">¶</a>优化</h3>
+<ul>
+<li>通常会根据键值的类型、大小以及取值分布选择合适的哈希函数和解决冲突方式</li>
+<li>使用版本号实现快速的清空操作</li>
+</ul>
+<h2 id="动态哈希表"><a class="header-anchor" href="#动态哈希表">¶</a>动态哈希表</h2>
+<h3 id="拉链法"><a class="header-anchor" href="#拉链法">¶</a>拉链法</h3>
+<p>拉链法可以算作一种动态哈希表的类型。因为线性探测中元素的个数只能固定在预设的N个，要扩大只能rehash，而拉链法中链表没有大小限制，但实际会通过负载因子来进行平衡。</p>
+<p>可以套上布隆过滤器避免无用的查找。</p>
+<h3 id="可扩展哈希"><a class="header-anchor" href="#可扩展哈希">¶</a>可扩展哈希</h3>
+
+  </div>
+</article>
+
+
+
+        
+          <div id="footer-post-container">
+  <div id="footer-post">
+
+    <div id="nav-footer" style="display: none">
+      <ul>
+        
+          <li><a href="/">首页</a></li>
+        
+          <li><a href="/archives/">归档</a></li>
+        
+          <li><a href="/tags/">标签</a></li>
+        
+          <li><a href="/search/">搜索</a></li>
+        
+      </ul>
+    </div>
+
+    
+    
+      <div id="toc-footer" style="display: none">
+        <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E9%9D%99%E6%80%81%E5%93%88%E5%B8%8C%E8%A1%A8"><span class="toc-number">1.</span> <span class="toc-text">静态哈希表</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%BC%80%E6%94%BE%E5%AF%BB%E5%9D%80"><span class="toc-number">1.1.</span> <span class="toc-text">开放寻址</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%B8%83%E8%B0%B7%E9%B8%9F%E5%93%88%E5%B8%8C"><span class="toc-number">1.2.</span> <span class="toc-text">布谷鸟哈希</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%9F%A5%E6%89%BE"><span class="toc-number">1.2.1.</span> <span class="toc-text">查找</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%88%A0%E9%99%A4"><span class="toc-number">1.2.2.</span> <span class="toc-text">删除</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%8F%92%E5%85%A5"><span class="toc-number">1.2.3.</span> <span class="toc-text">插入</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%B8%83%E8%B0%B7%E9%B8%9F%E8%BF%87%E6%BB%A4%E5%99%A8"><span class="toc-number">1.2.4.</span> <span class="toc-text">布谷鸟过滤器</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#std-unordered-map"><span class="toc-number">1.3.</span> <span class="toc-text">std::unordered_map</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#robin-hood-unordered-flat-map"><span class="toc-number">1.4.</span> <span class="toc-text">robin_hood::unordered_flat_map</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#slotmap"><span class="toc-number">1.5.</span> <span class="toc-text">slotmap</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%BC%98%E5%8C%96"><span class="toc-number">1.6.</span> <span class="toc-text">优化</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%8A%A8%E6%80%81%E5%93%88%E5%B8%8C%E8%A1%A8"><span class="toc-number">2.</span> <span class="toc-text">动态哈希表</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%8B%89%E9%93%BE%E6%B3%95"><span class="toc-number">2.1.</span> <span class="toc-text">拉链法</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%8F%AF%E6%89%A9%E5%B1%95%E5%93%88%E5%B8%8C"><span class="toc-number">2.2.</span> <span class="toc-text">可扩展哈希</span></a></li></ol></li></ol>
+      </div>
+    
+
+    <div id="actions-footer">
+        <a id="menu" class="icon" href="#" onclick="$('#nav-footer').toggle();return false;"><i class="fa-solid fa-bars fa-lg" aria-hidden="true"></i> 菜单</a>
+        
+          <a id="toc" class="icon" href="#" onclick="$('#toc-footer').toggle();return false;"><i class="fa-solid fa-list fa-lg" aria-hidden="true"></i> 目录</a>
+        
+        <a id="top" style="display:none" class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fa-solid fa-chevron-up fa-lg" aria-hidden="true"></i> 返回顶部</a>
+    </div>
+
+  </div>
+</div>
+
+        
+        <footer id="footer">
+  <div class="footer-left">
+    Copyright &copy;
+    
+    
+    2020-2023
+    jyf111
+  </div>
+  <div class="footer-right">
+    <nav>
+      <ul>
+        <!--
+       --><li><a href="/">首页</a></li><!--
+     --><!--
+       --><li><a href="/archives/">归档</a></li><!--
+     --><!--
+       --><li><a href="/tags/">标签</a></li><!--
+     --><!--
+       --><li><a href="/search/">搜索</a></li><!--
+     -->
+      </ul>
+    </nav>
+  </div>
+</footer>
+
+    </div>
+    <!-- styles -->
+
+
+
+  <link rel="preload" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" crossorigin="anonymous" onload="this.onload=null;this.rel='stylesheet'"/>
+
+
+    <!-- jquery -->
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js" crossorigin="anonymous"></script>
+
+
+
+
+<!-- clipboard -->
+
+  
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.7/clipboard.min.js" crossorigin="anonymous"></script>
+  
+  <script type="text/javascript">
+  $(function() {
+    // copy-btn HTML
+    var btn = "<span class=\"btn-copy tooltipped tooltipped-sw\" aria-label=\"复制到粘贴板！\">";
+    btn += '<i class="fa-regular fa-clone"></i>';
+    btn += '</span>';
+    // mount it!
+    $(".highlight table").before(btn);
+    var clip = new ClipboardJS('.btn-copy', {
+      text: function(trigger) {
+        return Array.from(trigger.nextElementSibling.querySelectorAll('.code')).reduce((str,it)=>str+it.innerText+'\n','')
+      }
+    });
+    clip.on('success', function(e) {
+      e.trigger.setAttribute('aria-label', "复制成功！");
+      e.clearSelection();
+    })
+  })
+  </script>
+
+
+<script src="/js/main.js"></script>
+
+<!-- search -->
+
+<!-- Baidu Analytics -->
+
+<!-- Cloudflare Analytics -->
+
+<!-- Disqus Comments -->
+
+<!-- utterances Comments -->
+
+<!-- FancyBox -->
+
+<script src="https://cdn.jsdelivr.net/npm/@fancyapps/ui@4.0/dist/fancybox.umd.js"></script>
+
+
+</body>
+</html>

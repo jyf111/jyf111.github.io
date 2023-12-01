@@ -6,15 +6,15 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="HandheldFriendly" content="True">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=5" />
-    <meta name="description" content="¶decltype ¶std::decay 执行与函数参数值传递时相同的类型退化。  数组和数组的引用退化为指针 函数和函数的引用会添加指针 否则执行std::remove_cvref（即std::remove_cv&lt;std::remove_reference&lt;T&gt;&gt;，先移除引用，再移除顶层CV）  ¶void_t 12template&lt; class... &gt;u">
+    <meta name="description" content="¶decltype decltype(x)和decltype((x))是有区别的。 第一个其实是decltype(identifier)，第二个则是decltype(expression)。 ¶std::decay 执行与函数参数值传递时相同的类型退化。  数组和数组的引用退化为指针 函数和函数的引用会添加指针 否则执行std::remove_cvref（即std::remove_cv&lt;st">
 <meta property="og:type" content="article">
 <meta property="og:title" content="cpp模板">
 <meta property="og:url" content="http://example.com/2023/11/11/cpp%E6%A8%A1%E6%9D%BF/index.html">
 <meta property="og:site_name" content="jyf111&#39;s blog">
-<meta property="og:description" content="¶decltype ¶std::decay 执行与函数参数值传递时相同的类型退化。  数组和数组的引用退化为指针 函数和函数的引用会添加指针 否则执行std::remove_cvref（即std::remove_cv&lt;std::remove_reference&lt;T&gt;&gt;，先移除引用，再移除顶层CV）  ¶void_t 12template&lt; class... &gt;u">
+<meta property="og:description" content="¶decltype decltype(x)和decltype((x))是有区别的。 第一个其实是decltype(identifier)，第二个则是decltype(expression)。 ¶std::decay 执行与函数参数值传递时相同的类型退化。  数组和数组的引用退化为指针 函数和函数的引用会添加指针 否则执行std::remove_cvref（即std::remove_cv&lt;st">
 <meta property="og:locale" content="zh_CN">
 <meta property="article:published_time" content="2023-11-11T06:18:12.000Z">
-<meta property="article:modified_time" content="2023-11-11T15:30:52.120Z">
+<meta property="article:modified_time" content="2023-11-18T06:02:52.114Z">
 <meta property="article:author" content="jyf111">
 <meta property="article:tag" content="语言">
 <meta name="twitter:card" content="summary">
@@ -137,7 +137,7 @@
       
         <time datetime="2023-11-11T06:18:12.000Z" class="dt-published" itemprop="datePublished">2023-11-11</time>
         
-        (Updated: <time datetime="2023-11-11T15:30:52.120Z" class="dt-updated" itemprop="dateModified">2023-11-11</time>)
+        (Updated: <time datetime="2023-11-18T06:02:52.114Z" class="dt-updated" itemprop="dateModified">2023-11-18</time>)
         
       
     </div>
@@ -169,6 +169,8 @@
 
   <div class="content e-content" itemprop="articleBody">
     <h2 id="decltype"><a class="header-anchor" href="#decltype">¶</a>decltype</h2>
+<p><code>decltype(x)</code>和<code>decltype((x))</code>是有区别的。</p>
+<p>第一个其实是<code>decltype(identifier)</code>，第二个则是<code>decltype(expression)</code>。</p>
 <h2 id="std-decay"><a class="header-anchor" href="#std-decay">¶</a>std::decay</h2>
 <p>执行与函数参数值传递时相同的类型退化。</p>
 <ul>

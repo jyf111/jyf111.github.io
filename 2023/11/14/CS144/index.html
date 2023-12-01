@@ -6,17 +6,21 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="HandheldFriendly" content="True">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=5" />
-    <meta name="description" content="¶readv&#x2F;writev 123456struct iovec &amp;#123;    ptr_t iov_base; &#x2F;* Starting address *&#x2F;    size_t iov_len; &#x2F;* Length in bytes *&#x2F;&amp;#125;;ssize_t readv(int fd, const struct iovec *iov, int iovcnt);ssize_t writ">
+    <meta name="description" content="¶check0 ¶webget 熟悉Socket、FileDescriptor、Address这几个类及其接口即可，主要是connect，write、read、eof、shutdown这几个函数。 作为客户端，即连接的发起方，先创建一个socket，然后调用connect，再通过read和write读写，最后shutdown关闭。注意，客户端不需要显式地bind地址，在connect内部会进行bi">
 <meta property="og:type" content="article">
 <meta property="og:title" content="CS144">
 <meta property="og:url" content="http://example.com/2023/11/14/CS144/index.html">
 <meta property="og:site_name" content="jyf111&#39;s blog">
-<meta property="og:description" content="¶readv&#x2F;writev 123456struct iovec &amp;#123;    ptr_t iov_base; &#x2F;* Starting address *&#x2F;    size_t iov_len; &#x2F;* Length in bytes *&#x2F;&amp;#125;;ssize_t readv(int fd, const struct iovec *iov, int iovcnt);ssize_t writ">
+<meta property="og:description" content="¶check0 ¶webget 熟悉Socket、FileDescriptor、Address这几个类及其接口即可，主要是connect，write、read、eof、shutdown这几个函数。 作为客户端，即连接的发起方，先创建一个socket，然后调用connect，再通过read和write读写，最后shutdown关闭。注意，客户端不需要显式地bind地址，在connect内部会进行bi">
 <meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="http://example.com/post-images/receiver-state.png">
+<meta property="og:image" content="http://example.com/post-images/sender-state.png">
+<meta property="og:image" content="http://example.com/post-images/tcp-state.png">
 <meta property="article:published_time" content="2023-11-14T04:49:17.000Z">
-<meta property="article:modified_time" content="2023-11-14T16:22:11.735Z">
+<meta property="article:modified_time" content="2023-11-19T11:44:44.537Z">
 <meta property="article:author" content="jyf111">
 <meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://example.com/post-images/receiver-state.png">
     
     
       
@@ -109,7 +113,7 @@
     
     
       <div id="toc">
-        <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#readv-writev"><span class="toc-number">1.</span> <span class="toc-text">readv&#x2F;writev</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#span"><span class="toc-number">2.</span> <span class="toc-text">span</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#check0"><span class="toc-number">3.</span> <span class="toc-text">check0</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#webget"><span class="toc-number">3.1.</span> <span class="toc-text">webget</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#in-memory-byte-stream"><span class="toc-number">3.2.</span> <span class="toc-text">in-memory byte stream</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#check1"><span class="toc-number">4.</span> <span class="toc-text">check1</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#reassembler"><span class="toc-number">4.1.</span> <span class="toc-text">reassembler</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#check2"><span class="toc-number">5.</span> <span class="toc-text">check2</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#64-bit-index-to-32-bit-ackno"><span class="toc-number">5.1.</span> <span class="toc-text">64-bit index to 32-bit ackno</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#TCP-receiver"><span class="toc-number">5.2.</span> <span class="toc-text">TCP receiver</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#check3"><span class="toc-number">6.</span> <span class="toc-text">check3</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#TCP-sender"><span class="toc-number">6.1.</span> <span class="toc-text">TCP sender</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#check4"><span class="toc-number">7.</span> <span class="toc-text">check4</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#ARP"><span class="toc-number">7.1.</span> <span class="toc-text">ARP</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#check5"><span class="toc-number">8.</span> <span class="toc-text">check5</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#IP%E8%B7%AF%E7%94%B1%E8%A1%A8"><span class="toc-number">8.1.</span> <span class="toc-text">IP路由表</span></a></li></ol></li></ol>
+        <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#check0"><span class="toc-number">1.</span> <span class="toc-text">check0</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#webget"><span class="toc-number">1.1.</span> <span class="toc-text">webget</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#span"><span class="toc-number">1.1.1.</span> <span class="toc-text">span</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#address"><span class="toc-number">1.1.2.</span> <span class="toc-text">address</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#file-descriptor"><span class="toc-number">1.1.3.</span> <span class="toc-text">file_descriptor</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#readv-writev"><span class="toc-number">1.1.3.1.</span> <span class="toc-text">readv&#x2F;writev</span></a></li></ol></li><li class="toc-item toc-level-4"><a class="toc-link" href="#socket"><span class="toc-number">1.1.4.</span> <span class="toc-text">socket</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#bind"><span class="toc-number">1.1.4.1.</span> <span class="toc-text">bind</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#connect"><span class="toc-number">1.1.4.2.</span> <span class="toc-text">connect</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#shutdown"><span class="toc-number">1.1.4.3.</span> <span class="toc-text">shutdown</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#listen"><span class="toc-number">1.1.4.4.</span> <span class="toc-text">listen</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#accept"><span class="toc-number">1.1.4.5.</span> <span class="toc-text">accept</span></a></li></ol></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#in-memory-byte-stream"><span class="toc-number">1.2.</span> <span class="toc-text">in-memory byte stream</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#buffer"><span class="toc-number">1.2.1.</span> <span class="toc-text">buffer</span></a></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#check1"><span class="toc-number">2.</span> <span class="toc-text">check1</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#reassembler"><span class="toc-number">2.1.</span> <span class="toc-text">reassembler</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#check2"><span class="toc-number">3.</span> <span class="toc-text">check2</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#64-bit-index-to-32-bit-ackno"><span class="toc-number">3.1.</span> <span class="toc-text">64-bit index to 32-bit ackno</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#TCP-receiver"><span class="toc-number">3.2.</span> <span class="toc-text">TCP receiver</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#check3"><span class="toc-number">4.</span> <span class="toc-text">check3</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#TCP-sender"><span class="toc-number">4.1.</span> <span class="toc-text">TCP sender</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#TCP-Connection"><span class="toc-number">5.</span> <span class="toc-text">TCP Connection</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#TCPPeer"><span class="toc-number">5.1.</span> <span class="toc-text">TCPPeer</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#CS144TCPSocket"><span class="toc-number">6.</span> <span class="toc-text">CS144TCPSocket</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#tcp-over-ip"><span class="toc-number">6.1.</span> <span class="toc-text">tcp_over_ip</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#tun"><span class="toc-number">6.2.</span> <span class="toc-text">tun</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#tuntap-adapter"><span class="toc-number">6.3.</span> <span class="toc-text">tuntap_adapter</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#LocalStreamSocket"><span class="toc-number">6.4.</span> <span class="toc-text">LocalStreamSocket</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#eventloop"><span class="toc-number">6.5.</span> <span class="toc-text">eventloop</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#TCPSpongeSocket"><span class="toc-number">6.6.</span> <span class="toc-text">TCPSpongeSocket</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#check4"><span class="toc-number">7.</span> <span class="toc-text">check4</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#ARP"><span class="toc-number">7.1.</span> <span class="toc-text">ARP</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#check5"><span class="toc-number">8.</span> <span class="toc-text">check5</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#IP%E8%B7%AF%E7%94%B1%E8%A1%A8"><span class="toc-number">8.1.</span> <span class="toc-text">IP路由表</span></a></li></ol></li></ol>
       </div>
     
   </span>
@@ -136,7 +140,7 @@
       
         <time datetime="2023-11-14T04:49:17.000Z" class="dt-published" itemprop="datePublished">2023-11-14</time>
         
-        (Updated: <time datetime="2023-11-14T16:22:11.735Z" class="dt-updated" itemprop="dateModified">2023-11-15</time>)
+        (Updated: <time datetime="2023-11-19T11:44:44.537Z" class="dt-updated" itemprop="dateModified">2023-11-19</time>)
         
       
     </div>
@@ -152,7 +156,7 @@
             <i class="fa-solid fa-hourglass"></i>
             
             
-              (9 mins to read)
+              (17 mins to read)
             
             </span>
         
@@ -162,20 +166,56 @@
   
 
   <div class="content e-content" itemprop="articleBody">
-    <h2 id="readv-writev"><a class="header-anchor" href="#readv-writev">¶</a>readv/writev</h2>
-<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">struct</span> <span class="title class_">iovec</span> &#123;</span><br><span class="line">    <span class="type">ptr_t</span> iov_base; <span class="comment">/* Starting address */</span></span><br><span class="line">    <span class="type">size_t</span> iov_len; <span class="comment">/* Length in bytes */</span></span><br><span class="line">&#125;;</span><br><span class="line"><span class="function"><span class="type">ssize_t</span> <span class="title">readv</span><span class="params">(<span class="type">int</span> fd, <span class="type">const</span> <span class="keyword">struct</span> iovec *iov, <span class="type">int</span> iovcnt)</span></span>;</span><br><span class="line"><span class="function"><span class="type">ssize_t</span> <span class="title">writev</span><span class="params">(<span class="type">int</span> fd, <span class="type">const</span> <span class="keyword">struct</span> iovec *iov, <span class="type">int</span> iovcnt)</span></span>;</span><br></pre></td></tr></table></figure>
-<p>结构体iovec代表一个缓冲区（可以类比于string_view）。readv和writev用于读写多段非连续的缓冲区。</p>
-<h2 id="span"><a class="header-anchor" href="#span">¶</a>span</h2>
-<p>一段连续数组上的视图（string_view只能时是char*上的）。当Extend为static时，在模板中存储数组的大小，此时只需要一个指向数组开头的指针；而当Extend为dynamic时，还需要存储数组的大小。</p>
-<h2 id="check0"><a class="header-anchor" href="#check0">¶</a>check0</h2>
+    <h2 id="check0"><a class="header-anchor" href="#check0">¶</a>check0</h2>
 <h3 id="webget"><a class="header-anchor" href="#webget">¶</a>webget</h3>
-<p>熟悉Socket、FileDescriptor、Address这几个类及其接口即可，主要是connect，write、read、eof、shutdown。</p>
+<p>熟悉Socket、FileDescriptor、Address这几个类及其接口即可，主要是connect，write、read、eof、shutdown这几个函数。</p>
+<p>作为客户端，即连接的发起方，先创建一个socket，然后调用connect，再通过read和write读写，最后shutdown关闭。注意，客户端不需要显式地bind地址，在connect内部会进行bind操作，客户端的IP地址和端口设置由内核完成，显然它知道哪个端口是不被占用的，也知道哪个IP会更好（根据路由表）。</p>
+<p>webget还是值得看一下源码的，了解一下Linux下TCP socket用modern C++怎么写。</p>
+<ul>
+<li>用<code>CheckSystemCall</code>把所有系统调用都包装了起来，统一进行错误处理</li>
+<li>用<code>std::unique_ptr&lt;T, deleter&gt;</code>包装了所有需要自行free空间的函数调用</li>
+</ul>
+<h4 id="span"><a class="header-anchor" href="#span">¶</a>span</h4>
+<p>一段连续数组上的视图（<code>std::string_view</code>只能是char*上的）。当Extend为static时，在模板中存储数组的大小，此时只需要一个指向数组开头的指针；而当Extend为dynamic时，还需要存储数组的大小。</p>
+<h4 id="address"><a class="header-anchor" href="#address">¶</a>address</h4>
+<p><code>getaddrinfo</code>返回一个<code>addrinfo</code>的结构体，包含IP地址和端口信息。<code>getnameinfo</code>与<code>getaddrinfo</code>相反，通过<code>addrinfo</code>结构体得到对应的host（即node）和serv（即service）信息。</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="type">int</span> <span class="title">getaddrinfo</span><span class="params">(<span class="type">const</span> <span class="type">char</span> *node, <span class="type">const</span> <span class="type">char</span> *service,</span></span></span><br><span class="line"><span class="params"><span class="function">                       <span class="type">const</span> <span class="keyword">struct</span> addrinfo *hints,</span></span></span><br><span class="line"><span class="params"><span class="function">                       <span class="keyword">struct</span> addrinfo **res)</span></span>;</span><br><span class="line"><span class="function"><span class="type">int</span> <span class="title">getnameinfo</span><span class="params">(<span class="type">const</span> <span class="keyword">struct</span> sockaddr *addr, <span class="type">socklen_t</span> addrlen,</span></span></span><br><span class="line"><span class="params"><span class="function">                       <span class="type">char</span> *host, <span class="type">socklen_t</span> hostlen,</span></span></span><br><span class="line"><span class="params"><span class="function">                       <span class="type">char</span> *serv, <span class="type">socklen_t</span> servlen, <span class="type">int</span> flags)</span></span>;</span><br></pre></td></tr></table></figure>
+<h4 id="file-descriptor"><a class="header-anchor" href="#file-descriptor">¶</a>file_descriptor</h4>
+<p>包装了一下fd上的操作，如<code>read</code>、<code>write</code>、<code>close</code>，设置阻塞，查看是否关闭，是否EOF。</p>
+<h5 id="readv-writev"><a class="header-anchor" href="#readv-writev">¶</a>readv/writev</h5>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">struct</span> <span class="title class_">iovec</span> &#123;</span><br><span class="line">    <span class="type">ptr_t</span> iov_base; <span class="comment">/* Starting address */</span></span><br><span class="line">    <span class="type">size_t</span> iov_len; <span class="comment">/* Length in bytes */</span></span><br><span class="line">&#125;;</span><br><span class="line"><span class="function"><span class="type">ssize_t</span> <span class="title">readv</span><span class="params">(<span class="type">int</span> fd, <span class="type">const</span> <span class="keyword">struct</span> iovec *iov, <span class="type">int</span> iovcnt)</span></span>;</span><br><span class="line"><span class="function"><span class="type">ssize_t</span> <span class="title">writev</span><span class="params">(<span class="type">int</span> fd, <span class="type">const</span> <span class="keyword">struct</span> iovec *iov, <span class="type">int</span> iovcnt)</span></span>;</span><br></pre></td></tr></table></figure>
+<p>结构体iovec代表一个缓冲区（可以类比string_view）。readv和writev用于读写多段非连续的缓冲区。</p>
+<h4 id="socket"><a class="header-anchor" href="#socket">¶</a>socket</h4>
+<p>构造socket。获取当前socket的地址信息。获取对端socket的地址信息。</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="type">int</span> <span class="title">socket</span><span class="params">(<span class="type">int</span> domain, <span class="type">int</span> type, <span class="type">int</span> protocol)</span></span>;</span><br><span class="line"><span class="function"><span class="type">int</span> <span class="title">getsockname</span><span class="params">(<span class="type">int</span> sockfd, <span class="keyword">struct</span> sockaddr *addr, <span class="type">socklen_t</span> *addrlen)</span></span>;</span><br><span class="line"><span class="function"><span class="type">int</span> <span class="title">getpeername</span><span class="params">(<span class="type">int</span> sockfd, <span class="keyword">struct</span> sockaddr *addr, <span class="type">socklen_t</span> *addrlen)</span></span>;</span><br></pre></td></tr></table></figure>
+<p>创建TCPSocket：<code>AF_INET</code>表示IPV4协议，<code>AF_UNIX</code>和<code>AF_LOCAL</code>表示本地通信</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">socket</span>(AF_INET, SOCK_STREAM, <span class="number">0</span>);</span><br></pre></td></tr></table></figure>
+<h5 id="bind"><a class="header-anchor" href="#bind">¶</a>bind</h5>
+<p>为socket绑定一个地址。</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="type">int</span> <span class="title">bind</span><span class="params">(<span class="type">int</span> sockfd, <span class="type">const</span> <span class="keyword">struct</span> sockaddr *addr,</span></span></span><br><span class="line"><span class="params"><span class="function">                <span class="type">socklen_t</span> addrlen)</span></span>;</span><br></pre></td></tr></table></figure>
+<h5 id="connect"><a class="header-anchor" href="#connect">¶</a>connect</h5>
+<p>向addr对应的socket发起连接。</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="type">int</span> <span class="title">connect</span><span class="params">(<span class="type">int</span> sockfd, <span class="type">const</span> <span class="keyword">struct</span> sockaddr *addr,</span></span></span><br><span class="line"><span class="params"><span class="function">                   <span class="type">socklen_t</span> addrlen)</span></span>;</span><br></pre></td></tr></table></figure>
+<h5 id="shutdown"><a class="header-anchor" href="#shutdown">¶</a>shutdown</h5>
+<p>关闭连接。how分为<code>SHUT_RD</code>、<code>SHUT_WR</code>、<code>SHUT_RDWR</code>，分别表示不允许进一步读、写、读/写。</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="type">int</span> <span class="title">shutdown</span><span class="params">(<span class="type">int</span> sockfd, <span class="type">int</span> how)</span></span>;</span><br></pre></td></tr></table></figure>
+<h5 id="listen"><a class="header-anchor" href="#listen">¶</a>listen</h5>
+<p>让socket被动监听。<code>backlog</code>用于指定等待队列中请求连接的socket的个数。</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="type">int</span> <span class="title">listen</span><span class="params">(<span class="type">int</span> sockfd, <span class="type">int</span> backlog)</span></span>;</span><br></pre></td></tr></table></figure>
+<h5 id="accept"><a class="header-anchor" href="#accept">¶</a>accept</h5>
+<p>与等待队列中第一个socket建立连接。如果等待队列为空，且socket的属性为阻塞，则会一直等待。非阻塞则可以使用<code>select</code>、<code>poll</code>、<code>epoll</code>来获取请求连接事件。</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="type">int</span> <span class="title">accept</span><span class="params">(<span class="type">int</span> sockfd, <span class="keyword">struct</span> sockaddr *addr, <span class="type">socklen_t</span> *addrlen)</span></span>;</span><br></pre></td></tr></table></figure>
 <h3 id="in-memory-byte-stream"><a class="header-anchor" href="#in-memory-byte-stream">¶</a>in-memory byte stream</h3>
 <p>实现一个定长的buffer，其实就是经典的ring buffer。</p>
 <p>如果写入过多，buffer放不下，直接丢弃。</p>
-<p>最简单的写法是用<code>std::deque&lt;char&gt;</code>，但更好的写法应该是用一个char*数组（或<code>std::string</code>）加两个头尾指针实现的。</p>
-<p>如果只使用头尾指针，难点是如何区分空和满状态，也可以引入一个<code>size_</code>来指示当前的大小。</p>
-<p>在写入的时候使用<code>std::memcpy</code>应该比<code>string.replace</code>好一些，replace更适合处理src和dst长度不一样的情况。</p>
+<p>最简单的写法是用<code>std::deque&lt;char&gt;</code>，但更好的写法应该是用一个char*数组（或<code>std::string</code>）加两个头尾指针实现。</p>
+<p>如果只使用头尾指针，难点是如何区分空和满状态，可以留一个空位，也可以引入一个<code>size_</code>来表示当前的大小。</p>
+<p>在写入的时候选择<code>std::string::copy</code>，而<code>std::string::replace</code>更适合处理src和dst长度不一样的情况。</p>
+<p>在最新版本的实验代码中追加函数的参数改为了<code>std::string data</code>，而不是引用类型，因此应该充分利用移动语义。一种更高效的写法是使用<code>std::queue&lt;std::string&gt;</code>加<code>std::queue&lt;std::string_view&gt;</code>实现。新版本的<code>peek</code>函数只会查看首字符，而不是多个字符，因此用<code>std::queue</code>即可。</p>
+<p>一个细节是处于错误状态时<code>Writer::is_closed</code>和<code>Reader::is_finished</code>的判断，根据测试用例，应该不考虑错误。</p>
+<h4 id="buffer"><a class="header-anchor" href="#buffer">¶</a>buffer</h4>
+<p>Buffer是一个指向std::string的共享智能指针，这样多个Buffer底层可以是同一个string。在旧版代码中，传入的参数是引用类型的，所以不好直接使用string_view，可以借助这个Buffer，来避免底层的string提前被释放。</p>
+<p>旧版代码还提供了一个<code>BufferViewList</code>，本意应该是用这个来实现ring buffer的。这是一个<code>std::deque&lt;std::string_view&gt;</code>，其核心是<code>remove_prefix</code>操作。</p>
 <h2 id="check1"><a class="header-anchor" href="#check1">¶</a>check1</h2>
 <h3 id="reassembler"><a class="header-anchor" href="#reassembler">¶</a>reassembler</h3>
 <p>让可能乱序、重叠（这里不考虑修改）的data按正确顺序加入到ring buffer中。</p>
@@ -185,11 +225,13 @@
 <p>每次加入一个data：</p>
 <ul>
 <li>计算出需要考虑的区间</li>
-<li>如果该区间从<code>next_index_</code>开始，不断将连续的暂存字符序列的队首写入到ring buffer中（一种写法是把data先放到暂存字符序列里，然后再不断弹出，另一种是先删掉暂存字符序列里和data重合的，然后再不断弹出）</li>
+<li>如果该区间从<code>next_index_</code>开始，不断将连续的暂存字符序列的队首写入到ring buffer中（一种写法是把data先放到暂存字符序列里，然后再不断弹出，另一种是先删掉暂存字符序列里和data重合的，然后再不断弹出，正常情况下顺序的data还是占大多数，因此后一种可以利用移动语义，更好）</li>
 <li>否则存到字符序列的对应位置</li>
 </ul>
-<p>难点应该是字符序列用什么数据结构，要求能够从首部删除，并支持随机访问。</p>
-<p>一开始我用的是<code>std::deque&lt;std::optional&lt;char&gt;&gt;</code>，后来改成了<code>std::unordered_map&lt;uint64_t, char&gt;</code>，感觉更合适一些，但实际测出来还是deque更快，unordered_map甚至直接TLE了，在大数据下性能还是太不稳定了。</p>
+<p>难点应该是字符序列用什么数据结构，要求能够从首部删除，最好能支持随机访问。</p>
+<p>一开始我用的是<code>std::deque&lt;std::optional&lt;char&gt;&gt;</code>，后来改成了<code>std::unordered_map&lt;uint64_t, char&gt;</code>，感觉更合适一些，但实际测出来还是deque更快，unordered_map甚至直接TLE了，在大数据下性能还是太不稳定了。我也尝试了<code>std::list&lt;char&gt;</code>，但感觉也一般，因为添加到字符序列时每次都要完整扫一遍。我认为最合适的应该是类似块状数组（<code>std::deque</code>就属于这种）或块状链表的形式。</p>
+<p>如果用的是<code>std::deque&lt;std::optional&lt;char&gt;&gt;</code>，还需要实时维护<code>unassembled_bytes</code>，这个函数最好能<code>O(1)</code>回答。这在新版本里体会不到，但是在旧版的<code>TCPConnection</code>中检查连接是否active会频繁调用，很影响性能。</p>
+<p>一个细节是<code>is_last_substring</code>被设置，但由于available capacity过小，data没写完，此时<code>is_last_</code>仍然应保持false（这在最新版实验的测试用例里没有覆盖到）。</p>
 <h2 id="check2"><a class="header-anchor" href="#check2">¶</a>check2</h2>
 <p><code>next_index_</code>其实就是TCP中的术语ackno，而<code>available capacity</code>其实就是window size。</p>
 <h3 id="64-bit-index-to-32-bit-ackno"><a class="header-anchor" href="#64-bit-index-to-32-bit-ackno">¶</a>64-bit index to 32-bit ackno</h3>
@@ -208,11 +250,12 @@
 <p>我的做法是先加足够多的2^32，让其大于等于checkpoint，然后再检查减掉一个2^32会不会更接近。</p>
 <h3 id="TCP-receiver"><a class="header-anchor" href="#TCP-receiver">¶</a>TCP receiver</h3>
 <figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">struct</span> <span class="title class_">TCPSenderMessage</span></span><br><span class="line">&#123;</span><br><span class="line">    Wrap32 seqno &#123; <span class="number">0</span> &#125;;</span><br><span class="line">    <span class="type">bool</span> SYN &#123; <span class="literal">false</span> &#125;;</span><br><span class="line">    Buffer payload &#123;&#125;;</span><br><span class="line">    <span class="type">bool</span> FIN &#123; <span class="literal">false</span> &#125;;</span><br><span class="line">    <span class="comment">// How many sequence numbers does this segment use?</span></span><br><span class="line">    <span class="function"><span class="type">size_t</span> <span class="title">sequence_length</span><span class="params">()</span> <span class="type">const</span> </span>&#123; <span class="keyword">return</span> SYN + payload.<span class="built_in">size</span>() + FIN; &#125;</span><br><span class="line">&#125;;</span><br><span class="line"><span class="keyword">struct</span> <span class="title class_">TCPReceiverMessage</span></span><br><span class="line">&#123;</span><br><span class="line">    std::optional&lt;Wrap32&gt; ackno &#123;&#125;;</span><br><span class="line">    <span class="type">uint16_t</span> window_size &#123;&#125;;</span><br><span class="line">&#125;;</span><br><span class="line"><span class="keyword">class</span> <span class="title class_">TCPReceiver</span></span><br><span class="line">&#123;</span><br><span class="line">    <span class="keyword">public</span>:</span><br><span class="line">    <span class="comment">/* The TCPReceiver receives TCPSenderMessages, inserting their payload</span></span><br><span class="line"><span class="comment">    * into the Reassemble at the correct stream index. */</span></span><br><span class="line">    <span class="function"><span class="type">void</span> <span class="title">receive</span><span class="params">( TCPSenderMessage message, Reassembler&amp; reassembler, Writer&amp; inbound_stream )</span></span>;</span><br><span class="line">    <span class="comment">/* The TCPReceiver sends TCPReceiverMessages back to the TCPSender. */</span></span><br><span class="line">    <span class="function">TCPReceiverMessage <span class="title">send</span><span class="params">( <span class="type">const</span> Writer&amp; inbound_stream )</span> <span class="type">const</span></span>;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
-<p>TCP receiver接收一个TCP消息，需要维护ISN（从而可以在SN和ASN之间转换），然后放到Reassembler里重组到ring buffer中的正确位置，然后给发送者告知ackno和window_size。</p>
-<p>一个细节是window_size是16位的，所以最大只能是65536。</p>
+<p>TCP receiver接收一个TCP消息，需要维护ISN（即带有SYN标志的TCP消息的seqno；从而可以在SN和ASN之间转换），然后放到Reassembler里重组到ring buffer中的正确位置。如果该TCP段带有FIN标志，则关闭buffer。</p>
+<p>发送者需要维护ackno（这里采用的是累计确认，已经重组完加入到byte_stream的字节数+1，还要考虑SYN和FIN）和window_size（byte_stream的availabel_capacity）。</p>
+<p>一个细节是TCP中window_size只有16位，所以最大只能是65536。（旧版的实验代码中，receiver返回的window_size是<code>size_t</code>的，而截断逻辑丢给了<code>TCPConnect</code>处理，有点坑）</p>
 <h2 id="check3"><a class="header-anchor" href="#check3">¶</a>check3</h2>
 <h3 id="TCP-sender"><a class="header-anchor" href="#TCP-sender">¶</a>TCP sender</h3>
-<p>TCP sender不断发送TCP消息（分成一个个segment，确保每个segment不超过接收方的window_size，并且paylod给定的MTU（文档写的是1492，但代码里是1000）），然后根据接收方回应的ackno追踪哪些segment被正确收到，哪些segment需要超时重传。</p>
+<p>TCP sender不断发送TCP消息（分成一个个segment，确保每个segment不超过接收方的window_size，并且paylod的长度不超过给定的MTU（文档写的是1492，但代码里是1000）），然后根据接收方回应的ackno追踪哪些segment被正确收到，哪些segment需要超时重传。</p>
 <p>如果某个segment被部分收到，此时需要分割该segment。类似地，某些连续的segment可以合并起来重传。但是本实验不考虑这些。</p>
 <p>在还未收到接收方的window_size时，默认windows_size为1。</p>
 <p>需要维护等待发送的segments（<code>pending_segments_</code>，一个队列）和正在发送（尚未确认送达）的segments（<code>in_flight_segments_</code>，一个按照seqno升序的优先队列）当前的接收窗口为<code>[ackno_, ackno_ + window_size_)</code></p>
@@ -223,7 +266,7 @@
 <li>先根据已发送的seqno和接收窗口的右侧计算还可以发送的大小<code>window_space</code></li>
 <li>根据<code>window_space</code>和<code>TCPConfig::MAX_PAYLOAD_SIZE</code>计算当前segment的长度</li>
 <li><code>window_space</code>需要考虑SYN和FIN的占用，而<code>TCPConfig::MAX_PAYLOAD_SIZE</code>只是限制payload的大小</li>
-<li>当<code>window_space</code>为0时，如果没有在发送中的段，并且buffer还不为空或者buffer已经结束（已经关闭且当前segment把buffer取空了）但还没发送FIN，则应将window_space设为1，否则就得不到接收方的ackno反馈，无法更新了</li>
+<li>当<code>window_space</code>为0时，如果没有在发送中的段，并且buffer还不为空或者buffer已经结束（buffer为空且已经关闭）但还没发送FIN（换句话说就是当前还有要发送的东西），则应将window_space设为1，否则就得不到接收方的ackno反馈，无法更新了</li>
 <li>如果buffer已经结束，此时需要设置FIN，但还要考虑window_space的限制</li>
 <li>如何判断是否还有要发送的segment
 <ul>
@@ -255,6 +298,128 @@
 </ul>
 </li>
 </ul>
+<h2 id="TCP-Connection"><a class="header-anchor" href="#TCP-Connection">¶</a>TCP Connection</h2>
+<p>封装了前面的<code>TCPReceiver</code>和<code>TCPSender</code>。</p>
+<p>虽然是实现了TCP的状态机，但我在写的时候完全没有用任何<code>state</code>，不过还是总结一下TCP的状态以及转换。</p>
+<ul>
+<li>LISTEN：等待对方连接</li>
+<li>SYN_RCVD：收到对方的SYN</li>
+<li>SYN_SENT：本方发送了SYN</li>
+<li>ESTABLISHED：完成三次握手</li>
+<li>CLOSE_WAIT：对方发送了FIN</li>
+<li>LAST_ACK：CLOSE_WAIT后，本方发送了FIN</li>
+<li>FIN_WAIT_1：本方发送了FIN，还未收到ACK</li>
+<li>FIN_WAIT_2：收到了之前发送的FIN的ACK</li>
+<li>CLOSING：在本方发送了FIN后，也收到了对方的FIN</li>
+<li>TIME_WAIT：双方都发送了FIN和ACK，等待2 MSL</li>
+<li>CLOSED：连接正常关闭</li>
+<li>RESET：连接异常关闭</li>
+</ul>
+<p>在sponge中Receiver和Sender是分开实现的，因此各自有独立的状态：</p>
+<p>Receiver：</p>
+<ul>
+<li>ERROR：buffer被设为error</li>
+<li>LISTEN：还未收到ackno</li>
+<li>SYN_RECV：收到ackno，但buffer还没结束</li>
+<li>FIN_RECV：收到ackno，buffer已经结束</li>
+</ul>
+<p>Sender：</p>
+<ul>
+<li>ERROR：buffer被设为error</li>
+<li>CLOSED：next_seq为0</li>
+<li>SYN_SENT：next_seq &gt; 0，next_seq = bytes_in_flight，即还没有应答</li>
+<li>SYN_ACKED：buffer还没空或还没结束，或者buffer的大小+2小于next_seq（由于窗口大小还有没发的TCP段），说明还有没收到的ack</li>
+<li>FIN_SENT：还有bytes_in_flight</li>
+<li>FIN_ACKED：没有bytes_in_flight</li>
+</ul>
+<p>Sender和Receiver各自的状态组合对应了TCP整体的状态。</p>
+<p><a data-fancybox="gallery" data-src="/post-images/receiver-state.png" data-caption="receiver-state"><img src="/post-images/receiver-state.png" alt="receiver-state">
+</a><a data-fancybox="gallery" data-src="/post-images/sender-state.png" data-caption="sender-state"><img src="/post-images/sender-state.png" alt="sender-state">
+</a><a data-fancybox="gallery" data-src="/post-images/tcp-state.png" data-caption="tcp-state"><img src="/post-images/tcp-state.png" alt="tcp-state">
+</a></p>
+<p>这里的难点主要是判断连接是否活跃上。</p>
+<ul>
+<li>发起连接
+<ul>
+<li>发送一个带SYN标记的TCP段，因为是主动发起方，没有ack，但仍需要设置window_size</li>
+</ul>
+</li>
+<li>发送数据
+<ul>
+<li>写到sender的buffer里，如果有发送的段，则
+<ul>
+<li>补充ackno和window_size</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>接收TCP段
+<ul>
+<li>收到的带有RST标记，设置不活跃即可</li>
+<li>带有ACK标记，需要通知receiver更新ackno和window_size，此时如果已经发送过SYN，则可能有新的段可以发送，所以调用<code>write(&quot;&quot;)</code></li>
+<li>发给receiver进行重组</li>
+<li>如果该段占有数据，则需要回复一个ack表示收到，如果不占数据就不需要回了，否则会无限pingpong
+<ul>
+<li>如果该段带有FIN，并且本方还未发送FIN，这说明本法是被动关闭连接的，此时不再需要linger，只有主动方需要</li>
+<li>如果还没发送过SYN，则需要设置SYN，此时处于三次握手的第二步</li>
+<li>设置ackno和window_size</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>连接是否活跃
+<ul>
+<li>如果收发过RST标记的段，此时已经设置为不活跃了</li>
+<li>如果还有未重组的字节，或者输入还没有结束，说明活跃</li>
+<li>如果还没发送FIN，说明活跃</li>
+<li>如果有正在发送的字节，说明活跃</li>
+<li>如果需要linger，则在10倍的初始重传时间后不活跃</li>
+<li>不需要linger，则直接不活跃</li>
+</ul>
+</li>
+<li>增加时间
+<ul>
+<li>给sender增加时间，如果有重传的段，则
+<ul>
+<li>设置它的ackno和window_size</li>
+<li>如果重传时间超过8次，设置RST标记，并设置连接不活跃</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>关闭输入
+<ul>
+<li>关闭后还需要发送FIN标记的TCP段，调用write(“”)即可</li>
+</ul>
+</li>
+<li>关闭连接
+<ul>
+<li>如果析构的时候连接还处于活跃状态，则发送一个RST标记的TCP段，并设置连接不活跃。</li>
+</ul>
+</li>
+</ul>
+<h3 id="TCPPeer"><a class="header-anchor" href="#TCPPeer">¶</a>TCPPeer</h3>
+<p>新版实验没有这部分内容，但是提供了一个<code>TCPPeer</code>的类。</p>
+<h2 id="CS144TCPSocket"><a class="header-anchor" href="#CS144TCPSocket">¶</a>CS144TCPSocket</h2>
+<p>学习怎么把前面的东西包装为一个真正可用的socket的。</p>
+<h3 id="tcp-over-ip"><a class="header-anchor" href="#tcp-over-ip">¶</a>tcp_over_ip</h3>
+<p>负责在TCP段和IP数据包之间转换。</p>
+<p>TCP段通过添加IP头变成IP数据包，IP头包括源IP、和目的IP。源端口和目的端口则在TCP段头中设置。</p>
+<p>将IP数据包拆解为TCP段时，需要检查源和目的地址，如果不符合就丢弃。</p>
+<h3 id="tun"><a class="header-anchor" href="#tun">¶</a>tun</h3>
+<p>TUN/TAP是操作系统内核提供的完全由软件实现的虚拟网络设备，其中TAP等同于一个以太网设备，操作以太网数据帧；TUN是网络层设备，操作IP数据包。</p>
+<p>TUN设备可以通过<code>ioctl</code>创建，后续只要用<code>read</code>/<code>write</code>读写即可。</p>
+<h3 id="tuntap-adapter"><a class="header-anchor" href="#tuntap-adapter">¶</a>tuntap_adapter</h3>
+<p>包装了对TUN设备的读写操作。</p>
+<p>读取的时候是读到一个IP数据包，把他拆解成TCP段返回。</p>
+<p>写入的时候是在把TCP段封装成IP数据包。</p>
+<h3 id="LocalStreamSocket"><a class="header-anchor" href="#LocalStreamSocket">¶</a>LocalStreamSocket</h3>
+<p>是<code>socket(AF_UNIX, SOCK_STREAM, 0)</code>的一个包装。</p>
+<h3 id="eventloop"><a class="header-anchor" href="#eventloop">¶</a>eventloop</h3>
+<p>对<code>poll</code>的包装，每次产生事件就执行注册的回调函数。</p>
+<h3 id="TCPSpongeSocket"><a class="header-anchor" href="#TCPSpongeSocket">¶</a>TCPSpongeSocket</h3>
+<p>可以看到，在用户态TCPSocket实现中，只能自己在connect函数里设置源IP和端口。</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">using</span> TCPOverIPv4SpongeSocket = TCPSpongeSocket&lt;TCPOverIPv4OverTunFdAdapter&gt;;</span><br><span class="line"><span class="keyword">class</span> <span class="title class_">CS144TCPSocket</span> : <span class="keyword">public</span> TCPOverIPv4SpongeSocket;</span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">CS144TCPSocket::connect</span><span class="params">(<span class="type">const</span> Address &amp;address)</span> </span>&#123;</span><br><span class="line">    TCPConfig tcp_config;</span><br><span class="line">    tcp_config.rt_timeout = <span class="number">100</span>;</span><br><span class="line"></span><br><span class="line">    FdAdapterConfig multiplexer_config;</span><br><span class="line">    multiplexer_config.source = &#123;<span class="string">&quot;169.254.144.9&quot;</span>, <span class="built_in">to_string</span>(<span class="built_in">uint16_t</span>(<span class="built_in">random_device</span>()()))&#125;;</span><br><span class="line">    multiplexer_config.destination = address;</span><br><span class="line"></span><br><span class="line">    TCPOverIPv4SpongeSocket::<span class="built_in">connect</span>(tcp_config, multiplexer_config);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <h2 id="check4"><a class="header-anchor" href="#check4">¶</a>check4</h2>
 <h3 id="ARP"><a class="header-anchor" href="#ARP">¶</a>ARP</h3>
 <p>NetworkInterface负责将IP数据包封装成以太网数据帧发送到下一跳，并在接收到以太网数据帧时拆封为底层的IP数据包。</p>
@@ -271,11 +436,12 @@
 <p>cache可以用<code>std::unordered_map</code>，用两个<code>std::queue</code>存等待发送的以太网帧和等待ARP回复后封装的数据包，再用两个<code>std::map</code>记录每次ARP请求的时间以及保存cache的时间。</p>
 <h2 id="check5"><a class="header-anchor" href="#check5">¶</a>check5</h2>
 <h3 id="IP路由表"><a class="header-anchor" href="#IP路由表">¶</a>IP路由表</h3>
-<p>添加一条路由信息，包括IP前缀，前缀长度，可能的下一跳地址，对应的NetworkInterface。</p>
+<p>添加一条路由信息，包括IP前缀，前缀长度，下一跳地址（如果没有，则是直连地址），对应的NetworkInterface。</p>
 <p>路由表用<code>std::array&lt;std::unordered_map&lt;uint32_t, std::pair&lt;std::optional&lt;Address&gt;, uint32_t&gt;&gt;, 33&gt;</code>实现。</p>
 <figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="type">void</span> <span class="title">add_route</span><span class="params">(<span class="type">uint32_t</span> route_prefix,</span></span></span><br><span class="line"><span class="params"><span class="function">    <span class="type">uint8_t</span> prefix_length,</span></span></span><br><span class="line"><span class="params"><span class="function">    optional&lt;Address&gt; next_hop,</span></span></span><br><span class="line"><span class="params"><span class="function">    <span class="type">size_t</span> interface_num)</span></span>;</span><br></pre></td></tr></table></figure>
 <p>根据最长匹配原则查找对应的路由，将IP数据包转交给对应的NetworkInterface发送。</p>
 <figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="type">void</span> <span class="title">route</span><span class="params">()</span></span>;</span><br></pre></td></tr></table></figure>
+<p>一个细节是prefix_length为0需要特殊考虑，因为位移32位是未定义行为。</p>
 
   </div>
 </article>
@@ -303,7 +469,7 @@
     
     
       <div id="toc-footer" style="display: none">
-        <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#readv-writev"><span class="toc-number">1.</span> <span class="toc-text">readv&#x2F;writev</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#span"><span class="toc-number">2.</span> <span class="toc-text">span</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#check0"><span class="toc-number">3.</span> <span class="toc-text">check0</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#webget"><span class="toc-number">3.1.</span> <span class="toc-text">webget</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#in-memory-byte-stream"><span class="toc-number">3.2.</span> <span class="toc-text">in-memory byte stream</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#check1"><span class="toc-number">4.</span> <span class="toc-text">check1</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#reassembler"><span class="toc-number">4.1.</span> <span class="toc-text">reassembler</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#check2"><span class="toc-number">5.</span> <span class="toc-text">check2</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#64-bit-index-to-32-bit-ackno"><span class="toc-number">5.1.</span> <span class="toc-text">64-bit index to 32-bit ackno</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#TCP-receiver"><span class="toc-number">5.2.</span> <span class="toc-text">TCP receiver</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#check3"><span class="toc-number">6.</span> <span class="toc-text">check3</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#TCP-sender"><span class="toc-number">6.1.</span> <span class="toc-text">TCP sender</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#check4"><span class="toc-number">7.</span> <span class="toc-text">check4</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#ARP"><span class="toc-number">7.1.</span> <span class="toc-text">ARP</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#check5"><span class="toc-number">8.</span> <span class="toc-text">check5</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#IP%E8%B7%AF%E7%94%B1%E8%A1%A8"><span class="toc-number">8.1.</span> <span class="toc-text">IP路由表</span></a></li></ol></li></ol>
+        <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#check0"><span class="toc-number">1.</span> <span class="toc-text">check0</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#webget"><span class="toc-number">1.1.</span> <span class="toc-text">webget</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#span"><span class="toc-number">1.1.1.</span> <span class="toc-text">span</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#address"><span class="toc-number">1.1.2.</span> <span class="toc-text">address</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#file-descriptor"><span class="toc-number">1.1.3.</span> <span class="toc-text">file_descriptor</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#readv-writev"><span class="toc-number">1.1.3.1.</span> <span class="toc-text">readv&#x2F;writev</span></a></li></ol></li><li class="toc-item toc-level-4"><a class="toc-link" href="#socket"><span class="toc-number">1.1.4.</span> <span class="toc-text">socket</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#bind"><span class="toc-number">1.1.4.1.</span> <span class="toc-text">bind</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#connect"><span class="toc-number">1.1.4.2.</span> <span class="toc-text">connect</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#shutdown"><span class="toc-number">1.1.4.3.</span> <span class="toc-text">shutdown</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#listen"><span class="toc-number">1.1.4.4.</span> <span class="toc-text">listen</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#accept"><span class="toc-number">1.1.4.5.</span> <span class="toc-text">accept</span></a></li></ol></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#in-memory-byte-stream"><span class="toc-number">1.2.</span> <span class="toc-text">in-memory byte stream</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#buffer"><span class="toc-number">1.2.1.</span> <span class="toc-text">buffer</span></a></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#check1"><span class="toc-number">2.</span> <span class="toc-text">check1</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#reassembler"><span class="toc-number">2.1.</span> <span class="toc-text">reassembler</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#check2"><span class="toc-number">3.</span> <span class="toc-text">check2</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#64-bit-index-to-32-bit-ackno"><span class="toc-number">3.1.</span> <span class="toc-text">64-bit index to 32-bit ackno</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#TCP-receiver"><span class="toc-number">3.2.</span> <span class="toc-text">TCP receiver</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#check3"><span class="toc-number">4.</span> <span class="toc-text">check3</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#TCP-sender"><span class="toc-number">4.1.</span> <span class="toc-text">TCP sender</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#TCP-Connection"><span class="toc-number">5.</span> <span class="toc-text">TCP Connection</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#TCPPeer"><span class="toc-number">5.1.</span> <span class="toc-text">TCPPeer</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#CS144TCPSocket"><span class="toc-number">6.</span> <span class="toc-text">CS144TCPSocket</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#tcp-over-ip"><span class="toc-number">6.1.</span> <span class="toc-text">tcp_over_ip</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#tun"><span class="toc-number">6.2.</span> <span class="toc-text">tun</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#tuntap-adapter"><span class="toc-number">6.3.</span> <span class="toc-text">tuntap_adapter</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#LocalStreamSocket"><span class="toc-number">6.4.</span> <span class="toc-text">LocalStreamSocket</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#eventloop"><span class="toc-number">6.5.</span> <span class="toc-text">eventloop</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#TCPSpongeSocket"><span class="toc-number">6.6.</span> <span class="toc-text">TCPSpongeSocket</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#check4"><span class="toc-number">7.</span> <span class="toc-text">check4</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#ARP"><span class="toc-number">7.1.</span> <span class="toc-text">ARP</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#check5"><span class="toc-number">8.</span> <span class="toc-text">check5</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#IP%E8%B7%AF%E7%94%B1%E8%A1%A8"><span class="toc-number">8.1.</span> <span class="toc-text">IP路由表</span></a></li></ol></li></ol>
       </div>
     
 
