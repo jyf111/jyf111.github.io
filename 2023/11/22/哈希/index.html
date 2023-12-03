@@ -6,15 +6,15 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="HandheldFriendly" content="True">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=5" />
-    <meta name="description" content="$O(1)$单点插入、删除、查询。在数据库里主要用在join和group by中。 ¶静态哈希表 benchmark1benchmark2 有些哈希表是不稳定的（flat_map），存储在其中的value的地址可能因为插入和删除而失效（因为发生了rehash）。稳定的方法通常需要通过间接寻址（node_map）。 node_map和flat_map的区别是flat_map将value直接存到数组中">
+    <meta name="description" content="$O(1)$单点插入、删除、查询。在数据库里主要用在join和group by中。 ¶静态哈希表 benchmark1 benchmark2 有些哈希表是不稳定的（flat_map），存储在其中的value的地址可能因为插入和删除而失效（因为发生了rehash）。稳定的方法通常需要通过间接寻址（node_map）。 node_map和flat_map的区别是flat_map将value直接存到数组">
 <meta property="og:type" content="article">
 <meta property="og:title" content="哈希">
 <meta property="og:url" content="http://example.com/2023/11/22/%E5%93%88%E5%B8%8C/index.html">
 <meta property="og:site_name" content="jyf111&#39;s blog">
-<meta property="og:description" content="$O(1)$单点插入、删除、查询。在数据库里主要用在join和group by中。 ¶静态哈希表 benchmark1benchmark2 有些哈希表是不稳定的（flat_map），存储在其中的value的地址可能因为插入和删除而失效（因为发生了rehash）。稳定的方法通常需要通过间接寻址（node_map）。 node_map和flat_map的区别是flat_map将value直接存到数组中">
+<meta property="og:description" content="$O(1)$单点插入、删除、查询。在数据库里主要用在join和group by中。 ¶静态哈希表 benchmark1 benchmark2 有些哈希表是不稳定的（flat_map），存储在其中的value的地址可能因为插入和删除而失效（因为发生了rehash）。稳定的方法通常需要通过间接寻址（node_map）。 node_map和flat_map的区别是flat_map将value直接存到数组">
 <meta property="og:locale" content="zh_CN">
 <meta property="article:published_time" content="2023-11-22T11:42:57.000Z">
-<meta property="article:modified_time" content="2023-12-01T08:04:40.336Z">
+<meta property="article:modified_time" content="2023-12-02T03:02:54.252Z">
 <meta property="article:author" content="jyf111">
 <meta property="article:tag" content="算法">
 <meta name="twitter:card" content="summary">
@@ -137,7 +137,7 @@
       
         <time datetime="2023-11-22T11:42:57.000Z" class="dt-published" itemprop="datePublished">2023-11-22</time>
         
-        (Updated: <time datetime="2023-12-01T08:04:40.336Z" class="dt-updated" itemprop="dateModified">2023-12-01</time>)
+        (Updated: <time datetime="2023-12-02T03:02:54.252Z" class="dt-updated" itemprop="dateModified">2023-12-02</time>)
         
       
     </div>
@@ -170,7 +170,8 @@
   <div class="content e-content" itemprop="articleBody">
     <p>$O(1)$单点插入、删除、查询。在数据库里主要用在<code>join</code>和<code>group by</code>中。</p>
 <h2 id="静态哈希表"><a class="header-anchor" href="#静态哈希表">¶</a>静态哈希表</h2>
-<p><a target="_blank" rel="noopener" href="https://martin.ankerl.com/2022/08/27/hashmap-bench-01/">benchmark1</a><a target="_blank" rel="noopener" href="https://martin.ankerl.com/2019/04/01/hashmap-benchmarks-01-overview/">benchmark2</a></p>
+<p><a target="_blank" rel="noopener" href="https://martin.ankerl.com/2022/08/27/hashmap-bench-01/">benchmark1</a></p>
+<p><a target="_blank" rel="noopener" href="https://martin.ankerl.com/2019/04/01/hashmap-benchmarks-01-overview/">benchmark2</a></p>
 <p>有些哈希表是不稳定的（<code>flat_map</code>），存储在其中的value的地址可能因为插入和删除而失效（因为发生了rehash）。稳定的方法通常需要通过间接寻址（<code>node_map</code>）。</p>
 <p><code>node_map</code>和<code>flat_map</code>的区别是<code>flat_map</code>将value直接存到数组中，因此在rehash时地址会改变，而<code>node_map</code>将value存在另一个保持不变的数组中，其优点是提供了稳定性，并且可以存储不可移动或不可复制的元素，并且也更适合大value对象（因为把大对象直接存到数组中会破坏cache），但也导致了额外开销。</p>
 <p>关键点：哈希函数、冲突解决方法。</p>
