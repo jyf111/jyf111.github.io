@@ -13,13 +13,13 @@
 <meta property="og:site_name" content="jyf111&#39;s blog">
 <meta property="og:description" content="¶std::ref 在传参时默认是拷贝，通过添加std::ref来使用引用。这在std::bind、std::thread以及模板（std::make_pair、std::make_tuple）等间接进行函数调用的地方有用。 ¶std::reference_wrapper std::ref产生的就是一个包含引用的std::reference_wrapper的对象。从而能够声明一个引用数组。 ref">
 <meta property="og:locale" content="zh_CN">
-<meta property="og:image" content="http://example.com/2023/12/01/cpp%E7%AC%94%E8%AE%B0/post-images/cpp-argument-passing.png">
+<meta property="og:image" content="http://example.com/post-images/cpp-argument-passing.png">
 <meta property="article:published_time" content="2023-12-01T08:05:01.000Z">
-<meta property="article:modified_time" content="2023-12-03T06:51:24.757Z">
+<meta property="article:modified_time" content="2023-12-04T03:12:00.989Z">
 <meta property="article:author" content="jyf111">
 <meta property="article:tag" content="语言">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:image" content="http://example.com/2023/12/01/cpp%E7%AC%94%E8%AE%B0/post-images/cpp-argument-passing.png">
+<meta name="twitter:image" content="http://example.com/post-images/cpp-argument-passing.png">
     
     
       
@@ -139,7 +139,7 @@
       
         <time datetime="2023-12-01T08:05:01.000Z" class="dt-published" itemprop="datePublished">2023-12-01</time>
         
-        (Updated: <time datetime="2023-12-03T06:51:24.757Z" class="dt-updated" itemprop="dateModified">2023-12-03</time>)
+        (Updated: <time datetime="2023-12-04T03:12:00.989Z" class="dt-updated" itemprop="dateModified">2023-12-04</time>)
         
       
     </div>
@@ -189,7 +189,7 @@
 <p>正因为这个，<code>reinterpret_cast&lt;double*&gt;(char*)</code>在标准中其实是未定义的，但当前的编译器都保证生成的代码是正确的。标准做法则只能用memcpy来进行，所以C++20引入了constexpr的<code>byte_cast</code>。</p>
 <p>同样地，C语言的宏<code>offset</code>在C++里其实也是个未定义行为。</p>
 <p><code>static_cast</code>对指针类型的转换是很严格的，只能是相同类型的CV限定。</p>
-<p><a data-fancybox="gallery" data-src="post-images/cpp-argument-passing.png" data-caption="cpp-argument-passing"><img src="post-images/cpp-argument-passing.png" alt="cpp-argument-passing">
+<p><a data-fancybox="gallery" data-src="/post-images/cpp-argument-passing.png" data-caption="cpp-argument-passing"><img src="/post-images/cpp-argument-passing.png" alt="cpp-argument-passing">
 </a></p>
 
   </div>
