@@ -14,8 +14,9 @@
 <meta property="og:description" content="¶std::ref 在传参时默认是拷贝，通过添加std::ref来使用引用。这在std::bind、std::thread以及模板（std::make_pair、std::make_tuple）等间接进行函数调用的地方有用。 ¶std::reference_wrapper std::ref产生的就是一个包含引用的std::reference_wrapper的对象。从而能够声明一个引用数组。 ref">
 <meta property="og:locale" content="zh_CN">
 <meta property="og:image" content="http://example.com/post-images/cpp-argument-passing.png">
+<meta property="og:image" content="http://example.com/post-images/cpp-argument-passing.png">
 <meta property="article:published_time" content="2023-12-01T08:05:01.000Z">
-<meta property="article:modified_time" content="2023-12-04T03:12:00.989Z">
+<meta property="article:modified_time" content="2023-12-05T02:54:27.701Z">
 <meta property="article:author" content="jyf111">
 <meta property="article:tag" content="语言">
 <meta name="twitter:card" content="summary">
@@ -139,7 +140,7 @@
       
         <time datetime="2023-12-01T08:05:01.000Z" class="dt-published" itemprop="datePublished">2023-12-01</time>
         
-        (Updated: <time datetime="2023-12-04T03:12:00.989Z" class="dt-updated" itemprop="dateModified">2023-12-04</time>)
+        (Updated: <time datetime="2023-12-05T02:54:27.701Z" class="dt-updated" itemprop="dateModified">2023-12-05</time>)
         
       
     </div>
@@ -180,6 +181,7 @@
 <p>编译器其实会将类函数<code>ABC::print()</code>转化为一个全局的函数<code>void _ABC_print(ABC *this)</code>。</p>
 <p>编译器优化会假设程序不包含UB，因此会假设<code>this != nullptr</code>，从而进行某些优化，导致不符合预期。</p>
 <figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">ABC</span>&#123;</span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">        <span class="type">int</span> a;</span><br><span class="line">        <span class="function"><span class="type">void</span> <span class="title">print</span><span class="params">()</span></span>&#123;cout&lt;&lt;<span class="string">&quot;hello&quot;</span>&lt;&lt;endl;&#125;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">int</span> <span class="title">main</span><span class="params">()</span></span>&#123;</span><br><span class="line">        ABC *ptr = <span class="literal">NULL</span>:</span><br><span class="line">        ptr-&gt;<span class="built_in">print</span>();</span><br><span class="line">        <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p><code>delete this</code>是合法的，只要该对象时动态分配的，并且之后不再使用</p>
 <h2 id="严格别名"><a class="header-anchor" href="#严格别名">¶</a>严格别名</h2>
 <p><code>-fstrict-aliasing</code></p>
 <p>严格别名规则指编译器在看到多个别名时，如果它们不满足严格别名要求，就认为它们指向不同的内存区域，从而进行优化，导致产生与我们预期不符的代码。</p>
@@ -190,6 +192,8 @@
 <p>同样地，C语言的宏<code>offset</code>在C++里其实也是个未定义行为。</p>
 <p><code>static_cast</code>对指针类型的转换是很严格的，只能是相同类型的CV限定。</p>
 <p><a data-fancybox="gallery" data-src="/post-images/cpp-argument-passing.png" data-caption="cpp-argument-passing"><img src="/post-images/cpp-argument-passing.png" alt="cpp-argument-passing">
+</a></p>
+<p><a data-fancybox="gallery" data-src="/post-images/cpp-argument-passing.png" data-caption="cpp-performace"><img src="/post-images/cpp-argument-passing.png" alt="cpp-performace">
 </a></p>
 
   </div>
