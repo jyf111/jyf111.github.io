@@ -6,18 +6,18 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="HandheldFriendly" content="True">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=5" />
-    <meta name="description" content="¶vim常用键 verb + noun (cperator [number] motion&#x2F;object) ¶命令  :e：打开文件 :wq, :x, :xa：x等于wq vim +line_number path&#x2F;to&#x2F;file：打开文件的指定行 !ls：执行外部命令  ¶编辑  i：光标前插入 a：光标后插入 o：下一行插入 O：上一行插入 I：当前行开头插入 A：当前行结尾插入 u：撤销上一">
+    <meta name="description" content="¶vim常用键 verb + noun (cperator [number] motion&#x2F;object) ¶命令  :e file：打开文件 :enew :e：重新加载当前文件 :wq, :x：x等于wq vim +line_number path&#x2F;to&#x2F;file：打开文件的指定行（省略line_number则位于文件末尾） !cmd：执行外部命令  ¶编辑  i：光标前插入 a：光标后插入 o">
 <meta property="og:type" content="article">
 <meta property="og:title" content="vim 总结">
 <meta property="og:url" content="http://example.com/2023/08/25/vim%E6%80%BB%E7%BB%93/index.html">
 <meta property="og:site_name" content="jyf111&#39;s blog">
-<meta property="og:description" content="¶vim常用键 verb + noun (cperator [number] motion&#x2F;object) ¶命令  :e：打开文件 :wq, :x, :xa：x等于wq vim +line_number path&#x2F;to&#x2F;file：打开文件的指定行 !ls：执行外部命令  ¶编辑  i：光标前插入 a：光标后插入 o：下一行插入 O：上一行插入 I：当前行开头插入 A：当前行结尾插入 u：撤销上一">
+<meta property="og:description" content="¶vim常用键 verb + noun (cperator [number] motion&#x2F;object) ¶命令  :e file：打开文件 :enew :e：重新加载当前文件 :wq, :x：x等于wq vim +line_number path&#x2F;to&#x2F;file：打开文件的指定行（省略line_number则位于文件末尾） !cmd：执行外部命令  ¶编辑  i：光标前插入 a：光标后插入 o">
 <meta property="og:locale" content="zh_CN">
 <meta property="og:image" content="http://example.com/post-images/nvim-dash.png">
 <meta property="og:image" content="http://example.com/post-images/nvim-startup.png">
 <meta property="og:image" content="http://example.com/post-images/nvim-cpp.png">
 <meta property="article:published_time" content="2023-08-25T07:41:25.000Z">
-<meta property="article:modified_time" content="2023-10-29T14:44:30.030Z">
+<meta property="article:modified_time" content="2024-01-13T08:11:08.414Z">
 <meta property="article:author" content="jyf111">
 <meta property="article:tag" content="工具">
 <meta name="twitter:card" content="summary">
@@ -99,7 +99,7 @@
     <span id="actions">
       <ul>
         
-        <li><a class="icon" aria-label="上一篇" href="/2023/08/26/tabby%E7%BB%88%E7%AB%AF%E6%A8%A1%E6%8B%9F%E5%99%A8/"><i class="fa-solid fa-chevron-left" aria-hidden="true" onmouseover="$('#i-prev').toggle();" onmouseout="$('#i-prev').toggle();"></i></a></li>
+        <li><a class="icon" aria-label="上一篇" href="/2023/08/26/%E7%BB%88%E7%AB%AF%E6%A8%A1%E6%8B%9F%E5%99%A8/"><i class="fa-solid fa-chevron-left" aria-hidden="true" onmouseover="$('#i-prev').toggle();" onmouseout="$('#i-prev').toggle();"></i></a></li>
         
         
         <li><a class="icon" aria-label="下一篇" href="/2023/08/25/leetcode%E6%A8%A1%E6%9D%BF%E6%80%BB%E7%BB%93/"><i class="fa-solid fa-chevron-right" aria-hidden="true" onmouseover="$('#i-next').toggle();" onmouseout="$('#i-next').toggle();"></i></a></li>
@@ -141,7 +141,7 @@
       
         <time datetime="2023-08-25T07:41:25.000Z" class="dt-published" itemprop="datePublished">2023-08-25</time>
         
-        (Updated: <time datetime="2023-10-29T14:44:30.030Z" class="dt-updated" itemprop="dateModified">2023-10-29</time>)
+        (Updated: <time datetime="2024-01-13T08:11:08.414Z" class="dt-updated" itemprop="dateModified">2024-01-13</time>)
         
       
     </div>
@@ -176,10 +176,12 @@
 <p><code>verb + noun</code> (cperator [number] motion/object)</p>
 <h3 id="命令"><a class="header-anchor" href="#命令">¶</a>命令</h3>
 <ul>
-<li><code>:e</code>：打开文件</li>
-<li><code>:wq</code>, <code>:x</code>, <code>:xa</code>：<code>x</code>等于<code>wq</code></li>
-<li><code>vim +line_number path/to/file</code>：打开文件的指定行</li>
-<li><code>!ls</code>：执行外部命令</li>
+<li><code>:e file</code>：打开文件</li>
+<li><code>:enew</code></li>
+<li><code>:e</code>：重新加载当前文件</li>
+<li><code>:wq</code>, <code>:x</code>：<code>x</code>等于<code>wq</code></li>
+<li><code>vim +line_number path/to/file</code>：打开文件的指定行（省略line_number则位于文件末尾）</li>
+<li><code>!cmd</code>：执行外部命令</li>
 </ul>
 <h3 id="编辑"><a class="header-anchor" href="#编辑">¶</a>编辑</h3>
 <ul>
@@ -236,6 +238,9 @@
 </li>
 <li>
 <p><code>%</code>：移动到匹配的括号处</p>
+</li>
+<li>
+<p><code>n%</code>：移动到文件的n%位置处</p>
 </li>
 <li>
 <p><code>^</code>：当前行开头（第一个非空白字符）</p>
@@ -400,10 +405,10 @@
 </ul>
 <h2 id="Neovim配置"><a class="header-anchor" href="#Neovim配置">¶</a>Neovim配置</h2>
 <h3 id="安装"><a class="header-anchor" href="#安装">¶</a>安装</h3>
-<p>Ubuntu apt安装的版本较旧，所以选择自行安装0.9.1版本。</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">curl -LO https://github.com/neovim/neovim/releases/download/v0.9.1/nvim.appimage</span><br><span class="line"><span class="built_in">chmod</span> u+x nvim.appimage</span><br><span class="line">./nvim.appimage --appimage-extract</span><br><span class="line">./squashfs-root/AppRun --version</span><br><span class="line">sudo <span class="built_in">mv</span> squashfs-root /</span><br><span class="line">sudo <span class="built_in">ln</span> -s /squashfs-root/AppRun /usr/bin/nvim</span><br></pre></td></tr></table></figure>
+<p>Ubuntu apt安装的版本较旧，所以选择自行安装最新版本（目前是0.9.5）。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">curl -LO https://github.com/neovim/neovim/releases/download/v0.9.5/nvim.appimage</span><br><span class="line"><span class="built_in">chmod</span> u+x nvim.appimage</span><br><span class="line">./nvim.appimage --appimage-extract</span><br><span class="line">./squashfs-root/AppRun --version</span><br><span class="line">sudo <span class="built_in">mv</span> squashfs-root /</span><br><span class="line">sudo <span class="built_in">ln</span> -s /squashfs-root/AppRun /usr/local/bin/nvim</span><br><span class="line"><span class="built_in">rm</span> ./nvim.appimage</span><br></pre></td></tr></table></figure>
 <h3 id="卸载"><a class="header-anchor" href="#卸载">¶</a>卸载</h3>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">sudo <span class="built_in">rm</span> /usr/local/bin/nvim</span><br><span class="line">sudo <span class="built_in">rm</span> -rf /usr/local/share/nvim/</span><br><span class="line"><span class="comment"># 移除配置</span></span><br><span class="line"><span class="built_in">rm</span> -rf <span class="variable">$HOME</span>/.config/nvim</span><br><span class="line"><span class="built_in">rm</span> -rf <span class="variable">$HOME</span>/.local/share/nvim</span><br></pre></td></tr></table></figure>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">sudo <span class="built_in">rm</span> /usr/local/bin/nvim</span><br><span class="line">sudo <span class="built_in">rm</span> -rf /squashfs-root</span><br><span class="line"><span class="comment"># 移除配置</span></span><br><span class="line"><span class="built_in">rm</span> -rf <span class="variable">$HOME</span>/.config/nvim</span><br><span class="line"><span class="built_in">rm</span> -rf <span class="variable">$HOME</span>/.local/share/nvim</span><br></pre></td></tr></table></figure>
 <h3 id="配置"><a class="header-anchor" href="#配置">¶</a>配置</h3>
 <h4 id="起点"><a class="header-anchor" href="#起点">¶</a>起点</h4>
 <p>选择<code>NvChad</code>作为配置的起点。</p>
