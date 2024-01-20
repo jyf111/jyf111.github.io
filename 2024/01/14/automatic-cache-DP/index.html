@@ -1,0 +1,302 @@
+<!DOCTYPE html>
+<html lang=zh>
+<head>
+    <!-- so meta -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="HandheldFriendly" content="True">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=5" />
+    <meta name="description" content="https:&#x2F;&#x2F;codeforces.com&#x2F;blog&#x2F;entry&#x2F;124683 个人认为不是很使用，仅作为开拓视野（🧐原来还可以这样）。 众所周知，在Python中存在@cache这个装饰器，从而可以非常方便的写一些递归式的DP。 1234from functools import cache@cachedef factorial(n):    return n * factorial(n -">
+<meta property="og:type" content="article">
+<meta property="og:title" content="automatic-cache-DP">
+<meta property="og:url" content="http://example.com/2024/01/14/automatic-cache-DP/index.html">
+<meta property="og:site_name" content="jyf111&#39;s blog">
+<meta property="og:description" content="https:&#x2F;&#x2F;codeforces.com&#x2F;blog&#x2F;entry&#x2F;124683 个人认为不是很使用，仅作为开拓视野（🧐原来还可以这样）。 众所周知，在Python中存在@cache这个装饰器，从而可以非常方便的写一些递归式的DP。 1234from functools import cache@cachedef factorial(n):    return n * factorial(n -">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2024-01-14T12:13:24.000Z">
+<meta property="article:modified_time" content="2024-01-14T12:34:40.367Z">
+<meta property="article:author" content="jyf111">
+<meta property="article:tag" content="算法">
+<meta name="twitter:card" content="summary">
+    
+    
+      
+        
+          <link rel="shortcut icon" href="/images/favicon.ico">
+        
+      
+      
+        
+          <link rel="icon" type="image/png" href="/images/favicon-192x192.png" sizes="192x192">
+        
+      
+      
+        
+          <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png">
+        
+      
+    
+    <!-- title -->
+    <title>automatic-cache-DP</title>
+    <!-- async scripts -->
+    <!-- Google Analytics -->
+
+
+    <!-- Umami Analytics -->
+
+
+    <!-- styles -->
+    
+<link rel="stylesheet" href="/css/style.css">
+
+    <!-- persian styles -->
+    
+    <!-- rss -->
+    
+    
+	<!-- mathjax -->
+	
+		<script type="text/x-mathjax-config">
+		  MathJax.Hub.Config({
+			tex2jax: {
+			  skipTags: ['script', 'noscript', 'style', 'textarea', 'pre'],
+			  inlineMath: [['$','$']]
+			}
+		  });
+		</script>
+		<script src='https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-MML-AM_CHTML' async></script>
+	
+
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/ui@4.0/dist/fancybox.css" />
+
+<meta name="generator" content="Hexo 6.3.0"></head>
+
+<body class="max-width mx-auto px3 ltr">
+    
+      <div id="header-post">
+  <a id="menu-icon" href="#" aria-label="目录"><i class="fa-solid fa-bars fa-lg"></i></a>
+  <a id="menu-icon-tablet" href="#" aria-label="目录"><i class="fa-solid fa-bars fa-lg"></i></a>
+  <a id="top-icon-tablet" href="#" aria-label="顶部" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');" style="display:none;"><i class="fa-solid fa-chevron-up fa-lg"></i></a>
+  <span id="menu">
+    <span id="nav">
+      <ul>
+        <!--
+       --><li><a href="/">首页</a></li><!--
+     --><!--
+       --><li><a href="/archives/">归档</a></li><!--
+     --><!--
+       --><li><a href="/tags/">标签</a></li><!--
+     --><!--
+       --><li><a href="/search/">搜索</a></li><!--
+     -->
+      </ul>
+    </span>
+    <br/>
+    <span id="actions">
+      <ul>
+        
+        <li><a class="icon" aria-label="上一篇" href="/2024/01/16/%E6%95%B0%E4%BD%8DDP%E6%A8%A1%E6%9D%BF%E6%80%BB%E7%BB%93/"><i class="fa-solid fa-chevron-left" aria-hidden="true" onmouseover="$('#i-prev').toggle();" onmouseout="$('#i-prev').toggle();"></i></a></li>
+        
+        
+        <li><a class="icon" aria-label="下一篇" href="/2024/01/13/%E7%8F%82%E6%9C%B5%E8%8E%89%E6%A0%91%E2%80%94%E2%80%94%E7%BB%B4%E6%8A%A4%E8%BF%9E%E7%BB%AD%E5%8C%BA%E9%97%B4/"><i class="fa-solid fa-chevron-right" aria-hidden="true" onmouseover="$('#i-next').toggle();" onmouseout="$('#i-next').toggle();"></i></a></li>
+        
+        <li><a class="icon" aria-label="返回顶部" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fa-solid fa-chevron-up" aria-hidden="true" onmouseover="$('#i-top').toggle();" onmouseout="$('#i-top').toggle();"></i></a></li>
+      </ul>
+      <span id="i-prev" class="info" style="display:none;">上一篇</span>
+      <span id="i-next" class="info" style="display:none;">下一篇</span>
+      <span id="i-top" class="info" style="display:none;">返回顶部</span>
+    </span>
+    <br/>
+    
+    
+  </span>
+</div>
+
+    
+    <div class="content index py4 ">
+        
+        <article class="post h-entry" itemscope itemtype="http://schema.org/BlogPosting">
+  <header>
+    
+    <h1 class="posttitle p-name" itemprop="name headline">
+        automatic-cache-DP
+    </h1>
+
+
+
+    <div class="meta">
+      <span class="author p-author h-card" itemprop="author" itemscope itemtype="http://schema.org/Person">
+        <span class="p-name" itemprop="name">jyf111</span>
+      </span>
+      
+    <div class="postdate">
+      
+        <time datetime="2024-01-14T12:13:24.000Z" class="dt-published" itemprop="datePublished">2024-01-14</time>
+        
+        (Updated: <time datetime="2024-01-14T12:34:40.367Z" class="dt-updated" itemprop="dateModified">2024-01-14</time>)
+        
+      
+    </div>
+
+
+      
+
+      
+    <div class="article-tag">
+        <i class="fa-solid fa-tag"></i>
+        <a class="p-category" href="/tags/%E7%AE%97%E6%B3%95/" rel="tag">算法</a>
+    </div>
+
+
+      
+        
+            <span class=count-symbol-post> 
+            <i class="fa-solid fa-hourglass"></i>
+            
+            
+              (9 mins to read)
+            
+            </span>
+        
+      
+    </div>
+  </header>
+  
+
+  <div class="content e-content" itemprop="articleBody">
+    <p><a target="_blank" rel="noopener" href="https://codeforces.com/blog/entry/124683">https://codeforces.com/blog/entry/124683</a></p>
+<p>个人认为不是很使用，仅作为开拓视野（🧐原来还可以这样）。</p>
+<p>众所周知，在Python中存在<code>@cache</code>这个装饰器，从而可以非常方便的写一些递归式的DP。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> functools <span class="keyword">import</span> cache</span><br><span class="line"><span class="meta">@cache</span></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">factorial</span>(<span class="params">n</span>):</span><br><span class="line">    <span class="keyword">return</span> n * factorial(n - <span class="number">1</span>) <span class="keyword">if</span> n <span class="keyword">else</span> <span class="number">1</span></span><br></pre></td></tr></table></figure>
+<p>下面在C++中实现类似的功能。</p>
+<p><code>use_cache</code>的第一个模板参数<code>Signature</code>是函数签名，第二个模板参数<code>Lambda</code>则是被包装的lambda函数，它返回一个仿函数<code>Cache</code>，其成员包括该lambda函数<code>f</code>，以及用于记忆化的哈希表<code>memo</code>。所有<code>f</code>的参数会打包成一个tuple作为<code>memo</code>的key，而<code>f</code>的返回值则作为<code>memo</code>的value。</p>
+<p>显然所有参数都是值拷贝的，要使用引用，需要用<code>std::reference_wrapper</code>进行包裹。</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">template</span> &lt;<span class="keyword">typename</span> Signature, <span class="keyword">typename</span> Lambda&gt;</span><br><span class="line"><span class="keyword">struct</span> <span class="title class_">Cache</span>;</span><br><span class="line"></span><br><span class="line"><span class="keyword">template</span> &lt;<span class="keyword">typename</span> ReturnType, <span class="keyword">typename</span>... Args, <span class="keyword">typename</span> Lambda&gt;</span><br><span class="line"><span class="keyword">struct</span> <span class="title class_">Cache</span>&lt;<span class="built_in">ReturnType</span>(Args...), Lambda&gt; &#123;</span><br><span class="line">    <span class="keyword">template</span> &lt;<span class="keyword">typename</span>... DummyArgs&gt;</span><br><span class="line">    <span class="function">ReturnType <span class="title">operator</span><span class="params">()</span><span class="params">(DummyArgs&amp;&amp;... args)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">auto</span> tied_args = std::<span class="built_in">tie</span>(args...);</span><br><span class="line">        <span class="keyword">auto</span> it = memo.<span class="built_in">find</span>(tied_args);</span><br><span class="line">        <span class="keyword">if</span> (it == memo.<span class="built_in">end</span>()) &#123;</span><br><span class="line">            <span class="keyword">auto</span>&amp;&amp; ans = <span class="built_in">f</span>(*<span class="keyword">this</span>, std::forward&lt;DummyArgs&gt;(args)...);</span><br><span class="line">            memo[tied_args] = ans;</span><br><span class="line">            <span class="keyword">return</span> ans;</span><br><span class="line">        &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">            <span class="keyword">return</span> it-&gt;second;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">template</span> &lt;<span class="keyword">class</span> <span class="title class_">_Lambda</span>&gt;</span><br><span class="line">    <span class="built_in">Cache</span>(std::tuple&lt;&gt;, _Lambda&amp;&amp; _f) : <span class="built_in">f</span>(std::forward&lt;_Lambda&gt;(_f)) &#123;&#125;</span><br><span class="line"></span><br><span class="line">    Lambda f;</span><br><span class="line">    <span class="keyword">using</span> TiedArgs = std::tuple&lt;std::<span class="type">decay_t</span>&lt;Args&gt;...&gt;;</span><br><span class="line">    pbds::unordered_map&lt;TiedArgs, ReturnType, hashing::custom_hash&lt;TiedArgs&gt;&gt; memo;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="keyword">template</span> &lt;<span class="keyword">class</span> <span class="title class_">Signature</span>, <span class="keyword">class</span> <span class="title class_">Lambda</span>&gt;</span><br><span class="line"><span class="function"><span class="keyword">auto</span> <span class="title">use_cache</span><span class="params">(Lambda&amp;&amp; f)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="built_in">Cache</span>&lt;Signature, Lambda&gt;(std::tuple&#123;&#125;, std::forward&lt;Lambda&gt;(f));</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>为了支持较多的参数类型，如<code>tuple</code>、<code>container</code>等，需要手写hash。下面是一个很不错的示例，其实关键就是写一个好的<code>hash_combine</code>函数（显然异或是不好的）。</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">namespace</span> hashing &#123;</span><br><span class="line">    <span class="keyword">using</span> i64 = std::<span class="type">int64_t</span>;</span><br><span class="line">    <span class="keyword">using</span> u64 = std::<span class="type">uint64_t</span>;</span><br><span class="line">    <span class="type">static</span> <span class="type">const</span> u64 FIXED_RANDOM = std::chrono::steady_clock::<span class="built_in">now</span>().<span class="built_in">time_since_epoch</span>().<span class="built_in">count</span>();</span><br><span class="line"></span><br><span class="line"><span class="meta">#<span class="keyword">if</span> USE_AES</span></span><br><span class="line">    <span class="function">std::mt19937 <span class="title">rd</span><span class="params">(FIXED_RANDOM)</span></span>;</span><br><span class="line">    <span class="type">const</span> __m128i KEY1&#123;(i64)<span class="built_in">rd</span>(), (i64)<span class="built_in">rd</span>()&#125;;</span><br><span class="line">    <span class="type">const</span> __m128i KEY2&#123;(i64)<span class="built_in">rd</span>(), (i64)<span class="built_in">rd</span>()&#125;;</span><br><span class="line"><span class="meta">#<span class="keyword">endif</span></span></span><br><span class="line"></span><br><span class="line">    <span class="keyword">template</span> &lt;<span class="keyword">class</span> <span class="title class_">T</span>, <span class="keyword">class</span> <span class="title class_">D</span> = <span class="type">void</span>&gt;</span><br><span class="line">    <span class="keyword">struct</span> custom_hash &#123;&#125;;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// https://www.boost.org/doc/libs/1_55_0/doc/html/hash/combine.html</span></span><br><span class="line">    <span class="keyword">template</span> &lt;<span class="keyword">class</span> <span class="title class_">T</span>&gt;</span><br><span class="line">    <span class="function"><span class="keyword">inline</span> <span class="type">void</span> <span class="title">hash_combine</span><span class="params">(u64&amp; seed, <span class="type">const</span> T&amp; v)</span> </span>&#123;</span><br><span class="line">        custom_hash&lt;T&gt; hasher;</span><br><span class="line">        seed ^= <span class="built_in">hasher</span>(v) + <span class="number">0x9e3779b97f4a7c15</span> + (seed &lt;&lt; <span class="number">12</span>) + (seed &gt;&gt; <span class="number">4</span>);</span><br><span class="line">    &#125;;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// http://xorshift.di.unimi.it/splitmix64.c</span></span><br><span class="line">    <span class="keyword">template</span> &lt;<span class="keyword">class</span> <span class="title class_">T</span>&gt;</span><br><span class="line">    <span class="keyword">struct</span> <span class="title class_">custom_hash</span>&lt;T, <span class="keyword">typename</span> std::enable_if&lt;std::is_integral&lt;T&gt;::value&gt;::type&gt; &#123;</span><br><span class="line">        <span class="function">u64 <span class="title">operator</span><span class="params">()</span><span class="params">(T _x)</span> <span class="type">const</span> </span>&#123;</span><br><span class="line">            u64 x = _x;</span><br><span class="line"><span class="meta">#<span class="keyword">if</span> USE_AES</span></span><br><span class="line">            <span class="comment">// implementation defined till C++17, defined from C++20</span></span><br><span class="line">            __m128i m&#123;<span class="built_in">i64</span>(<span class="built_in">u64</span>(x) * <span class="number">0xbf58476d1ce4e5b9</span>u64), (i64)FIXED_RANDOM&#125;;</span><br><span class="line">            __m128i y = _mm_aesenc_si128(m, KEY1);</span><br><span class="line">            __m128i z = _mm_aesenc_si128(y, KEY2);</span><br><span class="line">            <span class="keyword">return</span> z[<span class="number">0</span>];</span><br><span class="line"><span class="meta">#<span class="keyword">else</span></span></span><br><span class="line">            x += <span class="number">0x9e3779b97f4a7c15</span> + FIXED_RANDOM;</span><br><span class="line">            x = (x ^ (x &gt;&gt; <span class="number">30</span>)) * <span class="number">0xbf58476d1ce4e5b9</span>;</span><br><span class="line">            x = (x ^ (x &gt;&gt; <span class="number">27</span>)) * <span class="number">0x94d049bb133111eb</span>;</span><br><span class="line">            <span class="keyword">return</span> x ^ (x &gt;&gt; <span class="number">31</span>);</span><br><span class="line"><span class="meta">#<span class="keyword">endif</span></span></span><br><span class="line">        &#125;</span><br><span class="line">    &#125;;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">template</span> &lt;<span class="keyword">class</span> <span class="title class_">T</span>&gt;</span><br><span class="line">    <span class="keyword">struct</span> <span class="title class_">custom_hash</span>&lt;T, std::<span class="type">void_t</span>&lt;<span class="keyword">decltype</span>(std::<span class="built_in">begin</span>(std::<span class="built_in">declval</span>&lt;T&gt;()))&gt;&gt; &#123;</span><br><span class="line">        <span class="function">u64 <span class="title">operator</span><span class="params">()</span><span class="params">(<span class="type">const</span> T&amp; a)</span> <span class="type">const</span> </span>&#123;</span><br><span class="line">            u64 value = FIXED_RANDOM;</span><br><span class="line">            <span class="keyword">for</span> (<span class="keyword">auto</span>&amp; x : a) <span class="built_in">hash_combine</span>(value, x);</span><br><span class="line">            <span class="keyword">return</span> value;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">template</span> &lt;<span class="keyword">class</span>... T&gt;</span><br><span class="line">    <span class="keyword">struct</span> <span class="title class_">custom_hash</span>&lt;std::tuple&lt;T...&gt;&gt; &#123;</span><br><span class="line">        <span class="function">u64 <span class="title">operator</span><span class="params">()</span><span class="params">(<span class="type">const</span> std::tuple&lt;T...&gt;&amp; a)</span> <span class="type">const</span> </span>&#123;</span><br><span class="line">            u64 value = FIXED_RANDOM;</span><br><span class="line">            std::<span class="built_in">apply</span>([&amp;value](T <span class="type">const</span>&amp;... args) &#123; (<span class="built_in">hash_combine</span>(value, args), ...); &#125;, a);</span><br><span class="line">            <span class="keyword">return</span> value;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">template</span> &lt;<span class="keyword">class</span> <span class="title class_">T</span>, <span class="keyword">class</span> <span class="title class_">U</span>&gt;</span><br><span class="line">    <span class="keyword">struct</span> <span class="title class_">custom_hash</span>&lt;std::pair&lt;T, U&gt;&gt; &#123;</span><br><span class="line">        <span class="function">u64 <span class="title">operator</span><span class="params">()</span><span class="params">(<span class="type">const</span> std::pair&lt;T, U&gt;&amp; a)</span> <span class="type">const</span> </span>&#123;</span><br><span class="line">            u64 value = FIXED_RANDOM;</span><br><span class="line">            <span class="built_in">hash_combine</span>(value, a.first);</span><br><span class="line">            <span class="built_in">hash_combine</span>(value, a.second);</span><br><span class="line">            <span class="keyword">return</span> value;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;;</span><br><span class="line"></span><br><span class="line">&#125;;  <span class="comment">// namespace hashing</span></span><br></pre></td></tr></table></figure>
+<p>最后，众所周知<code>std::unordered_map</code>的访存很差，性能不好，所以作者选择了<code>gp_hash_table</code>，并提供了一些用户友好的alias。</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&quot;ext/pb_ds/assoc_container.hpp&quot;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&quot;ext/pb_ds/tree_policy.hpp&quot;</span></span></span><br><span class="line"></span><br><span class="line"><span class="keyword">namespace</span> pbds &#123;</span><br><span class="line">    <span class="keyword">using</span> <span class="keyword">namespace</span> __gnu_pbds;</span><br><span class="line"><span class="meta">#<span class="keyword">ifdef</span> PB_DS_ASSOC_CNTNR_HPP</span></span><br><span class="line">    <span class="keyword">template</span> &lt;<span class="keyword">class</span> <span class="title class_">Key</span>, <span class="keyword">class</span> <span class="title class_">Value</span>, <span class="keyword">class</span> <span class="title class_">Hash</span>&gt;</span><br><span class="line">    <span class="keyword">using</span> unordered_map = gp_hash_table&lt;Key, Value, Hash, std::equal_to&lt;Key&gt;, direct_mask_range_hashing&lt;&gt;, linear_probe_fn&lt;&gt;,</span><br><span class="line">                                        hash_standard_resize_policy&lt;hash_exponential_size_policy&lt;&gt;, hash_load_check_resize_trigger&lt;&gt;, <span class="literal">true</span>&gt;&gt;;</span><br><span class="line">    <span class="keyword">template</span> &lt;<span class="keyword">class</span> <span class="title class_">Key</span>, <span class="keyword">class</span> <span class="title class_">Hash</span>&gt;</span><br><span class="line">    <span class="keyword">using</span> unordered_set = pbds::unordered_map&lt;Key, null_type, Hash&gt;;</span><br><span class="line"><span class="meta">#<span class="keyword">endif</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">ifdef</span> PB_DS_TREE_POLICY_HPP</span></span><br><span class="line">    <span class="keyword">template</span> &lt;<span class="keyword">typename</span> T&gt;</span><br><span class="line">    <span class="keyword">using</span> ordered_set = tree&lt;T, null_type, std::less&lt;T&gt;, rb_tree_tag, tree_order_statistics_node_update&gt;;</span><br><span class="line">    <span class="keyword">template</span> &lt;<span class="keyword">typename</span> T&gt;</span><br><span class="line">    <span class="keyword">using</span> ordered_multiset = tree&lt;T, null_type, std::less_equal&lt;T&gt;, rb_tree_tag, tree_order_statistics_node_update&gt;;</span><br><span class="line">    <span class="keyword">template</span> &lt;<span class="keyword">class</span> <span class="title class_">Key</span>, <span class="keyword">class</span> <span class="title class_">Value</span>, <span class="keyword">class</span> <span class="title class_">Compare</span> = std::less&lt;Key&gt;&gt;</span><br><span class="line">    <span class="keyword">using</span> ordered_map = tree&lt;Key, Value, Compare, rb_tree_tag, tree_order_statistics_node_update&gt;;</span><br><span class="line"><span class="meta">#<span class="keyword">endif</span></span></span><br><span class="line">&#125;  <span class="comment">// namespace pbds</span></span><br></pre></td></tr></table></figure>
+<p>使用方式如下：</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">auto</span> factorial = <span class="built_in">use_cache</span>&lt;<span class="built_in">int</span>(<span class="type">int</span>)&gt;([](<span class="keyword">auto</span>&amp;&amp; self, <span class="type">int</span> n) -&gt; <span class="type">int</span> &#123;</span><br><span class="line">    <span class="keyword">if</span> (n) <span class="keyword">return</span> n * <span class="built_in">self</span>(n - <span class="number">1</span>);</span><br><span class="line">    <span class="keyword">else</span> <span class="keyword">return</span> <span class="number">1</span>;    </span><br><span class="line">&#125;);</span><br><span class="line"></span><br><span class="line"><span class="keyword">auto</span> solve = use_cache&lt;<span class="built_in">bool</span>(<span class="type">char</span>, pair&lt;<span class="type">int</span>, string&gt;)&gt;([&amp;](<span class="keyword">auto</span>&amp;&amp; self, <span class="type">char</span> c, pair&lt;<span class="type">int</span>, string&gt; p) -&gt; <span class="type">bool</span> &#123;</span><br><span class="line">    <span class="comment">// note that v was captured by &amp;</span></span><br><span class="line">    <span class="comment">// use c, p, v as needed</span></span><br><span class="line">    <span class="comment">// let&#x27;s say you have c1 and p1 as arguments for a recursive call</span></span><br><span class="line">    <span class="keyword">auto</span> x = <span class="built_in">self</span>(c1, p1); <span class="comment">// recursive call - do as many of them as needed</span></span><br><span class="line">    <span class="comment">// use c, p, v as needed</span></span><br><span class="line">    <span class="keyword">return</span> y; <span class="comment">// return something</span></span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+
+  </div>
+</article>
+
+
+
+        
+          <div id="footer-post-container">
+  <div id="footer-post">
+
+    <div id="nav-footer" style="display: none">
+      <ul>
+        
+          <li><a href="/">首页</a></li>
+        
+          <li><a href="/archives/">归档</a></li>
+        
+          <li><a href="/tags/">标签</a></li>
+        
+          <li><a href="/search/">搜索</a></li>
+        
+      </ul>
+    </div>
+
+    
+    
+
+    <div id="actions-footer">
+        <a id="menu" class="icon" href="#" onclick="$('#nav-footer').toggle();return false;"><i class="fa-solid fa-bars fa-lg" aria-hidden="true"></i> 菜单</a>
+        
+        <a id="top" style="display:none" class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fa-solid fa-chevron-up fa-lg" aria-hidden="true"></i> 返回顶部</a>
+    </div>
+
+  </div>
+</div>
+
+        
+        <footer id="footer">
+  <div class="footer-left">
+    Copyright &copy;
+    
+    
+    2020-2024
+    jyf111
+  </div>
+  <div class="footer-right">
+    <nav>
+      <ul>
+        <!--
+       --><li><a href="/">首页</a></li><!--
+     --><!--
+       --><li><a href="/archives/">归档</a></li><!--
+     --><!--
+       --><li><a href="/tags/">标签</a></li><!--
+     --><!--
+       --><li><a href="/search/">搜索</a></li><!--
+     -->
+      </ul>
+    </nav>
+  </div>
+</footer>
+
+    </div>
+    <!-- styles -->
+
+
+
+  <link rel="preload" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" crossorigin="anonymous" onload="this.onload=null;this.rel='stylesheet'"/>
+
+
+    <!-- jquery -->
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js" crossorigin="anonymous"></script>
+
+
+
+
+<!-- clipboard -->
+
+  
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.7/clipboard.min.js" crossorigin="anonymous"></script>
+  
+  <script type="text/javascript">
+  $(function() {
+    // copy-btn HTML
+    var btn = "<span class=\"btn-copy tooltipped tooltipped-sw\" aria-label=\"复制到粘贴板！\">";
+    btn += '<i class="fa-regular fa-clone"></i>';
+    btn += '</span>';
+    // mount it!
+    $(".highlight table").before(btn);
+    var clip = new ClipboardJS('.btn-copy', {
+      text: function(trigger) {
+        return Array.from(trigger.nextElementSibling.querySelectorAll('.code')).reduce((str,it)=>str+it.innerText+'\n','')
+      }
+    });
+    clip.on('success', function(e) {
+      e.trigger.setAttribute('aria-label', "复制成功！");
+      e.clearSelection();
+    })
+  })
+  </script>
+
+
+<script src="/js/main.js"></script>
+
+<!-- search -->
+
+<!-- Baidu Analytics -->
+
+<!-- Cloudflare Analytics -->
+
+<!-- Disqus Comments -->
+
+<!-- utterances Comments -->
+
+<!-- FancyBox -->
+
+<script src="https://cdn.jsdelivr.net/npm/@fancyapps/ui@4.0/dist/fancybox.umd.js"></script>
+
+
+</body>
+</html>

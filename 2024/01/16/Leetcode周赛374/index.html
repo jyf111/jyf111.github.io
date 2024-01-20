@@ -1,0 +1,321 @@
+<!DOCTYPE html>
+<html lang=zh>
+<head>
+    <!-- so meta -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="HandheldFriendly" content="True">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=5" />
+    <meta name="description" content="这是目前第一次周赛都没AK😭（当然之前第一次打周赛就经历了FST🤡） 这场主要是第三题没想到好的方法，写法比较麻烦，浪费了很多时间。第四题一时间也没想出来，处于半放弃状态了。 ¶2953. 统计完全子字符串 ¶题意 给定字符串word和整数$k$，word的一个子字符串s被称为完全字符串，仅当：  s中每个字符恰好出现$k$次 s中相邻字符在字母表中顺序至多相差2  求word中完全子字符串的">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Leetcode周赛374">
+<meta property="og:url" content="http://example.com/2024/01/16/Leetcode%E5%91%A8%E8%B5%9B374/index.html">
+<meta property="og:site_name" content="jyf111&#39;s blog">
+<meta property="og:description" content="这是目前第一次周赛都没AK😭（当然之前第一次打周赛就经历了FST🤡） 这场主要是第三题没想到好的方法，写法比较麻烦，浪费了很多时间。第四题一时间也没想出来，处于半放弃状态了。 ¶2953. 统计完全子字符串 ¶题意 给定字符串word和整数$k$，word的一个子字符串s被称为完全字符串，仅当：  s中每个字符恰好出现$k$次 s中相邻字符在字母表中顺序至多相差2  求word中完全子字符串的">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2024-01-16T15:27:36.000Z">
+<meta property="article:modified_time" content="2024-01-20T14:45:09.565Z">
+<meta property="article:author" content="jyf111">
+<meta property="article:tag" content="算法">
+<meta name="twitter:card" content="summary">
+    
+    
+      
+        
+          <link rel="shortcut icon" href="/images/favicon.ico">
+        
+      
+      
+        
+          <link rel="icon" type="image/png" href="/images/favicon-192x192.png" sizes="192x192">
+        
+      
+      
+        
+          <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png">
+        
+      
+    
+    <!-- title -->
+    <title>Leetcode周赛374</title>
+    <!-- async scripts -->
+    <!-- Google Analytics -->
+
+
+    <!-- Umami Analytics -->
+
+
+    <!-- styles -->
+    
+<link rel="stylesheet" href="/css/style.css">
+
+    <!-- persian styles -->
+    
+    <!-- rss -->
+    
+    
+	<!-- mathjax -->
+	
+		<script type="text/x-mathjax-config">
+		  MathJax.Hub.Config({
+			tex2jax: {
+			  skipTags: ['script', 'noscript', 'style', 'textarea', 'pre'],
+			  inlineMath: [['$','$']]
+			}
+		  });
+		</script>
+		<script src='https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-MML-AM_CHTML' async></script>
+	
+
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/ui@4.0/dist/fancybox.css" />
+
+<meta name="generator" content="Hexo 6.3.0"></head>
+
+<body class="max-width mx-auto px3 ltr">
+    
+      <div id="header-post">
+  <a id="menu-icon" href="#" aria-label="目录"><i class="fa-solid fa-bars fa-lg"></i></a>
+  <a id="menu-icon-tablet" href="#" aria-label="目录"><i class="fa-solid fa-bars fa-lg"></i></a>
+  <a id="top-icon-tablet" href="#" aria-label="顶部" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');" style="display:none;"><i class="fa-solid fa-chevron-up fa-lg"></i></a>
+  <span id="menu">
+    <span id="nav">
+      <ul>
+        <!--
+       --><li><a href="/">首页</a></li><!--
+     --><!--
+       --><li><a href="/archives/">归档</a></li><!--
+     --><!--
+       --><li><a href="/tags/">标签</a></li><!--
+     --><!--
+       --><li><a href="/search/">搜索</a></li><!--
+     -->
+      </ul>
+    </span>
+    <br/>
+    <span id="actions">
+      <ul>
+        
+        <li><a class="icon" aria-label="上一篇" href="/2024/01/20/Leetcode-2809-%E4%BD%BF%E6%95%B0%E7%BB%84%E5%92%8C%E5%B0%8F%E4%BA%8E%E7%AD%89%E4%BA%8Ex%E7%9A%84%E6%9C%80%E5%B0%91%E6%97%B6%E9%97%B4/"><i class="fa-solid fa-chevron-left" aria-hidden="true" onmouseover="$('#i-prev').toggle();" onmouseout="$('#i-prev').toggle();"></i></a></li>
+        
+        
+        <li><a class="icon" aria-label="下一篇" href="/2024/01/16/%E6%95%B0%E4%BD%8DDP%E6%A8%A1%E6%9D%BF%E6%80%BB%E7%BB%93/"><i class="fa-solid fa-chevron-right" aria-hidden="true" onmouseover="$('#i-next').toggle();" onmouseout="$('#i-next').toggle();"></i></a></li>
+        
+        <li><a class="icon" aria-label="返回顶部" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fa-solid fa-chevron-up" aria-hidden="true" onmouseover="$('#i-top').toggle();" onmouseout="$('#i-top').toggle();"></i></a></li>
+      </ul>
+      <span id="i-prev" class="info" style="display:none;">上一篇</span>
+      <span id="i-next" class="info" style="display:none;">下一篇</span>
+      <span id="i-top" class="info" style="display:none;">返回顶部</span>
+    </span>
+    <br/>
+    
+    
+      <div id="toc">
+        <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#2953-%E7%BB%9F%E8%AE%A1%E5%AE%8C%E5%85%A8%E5%AD%90%E5%AD%97%E7%AC%A6%E4%B8%B2"><span class="toc-number">1.</span> <span class="toc-text">2953. 统计完全子字符串</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E9%A2%98%E6%84%8F"><span class="toc-number">1.1.</span> <span class="toc-text">题意</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%81%9A%E6%B3%95"><span class="toc-number">1.2.</span> <span class="toc-text">做法</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2954-%E7%BB%9F%E8%AE%A1%E6%84%9F%E5%86%92%E5%BA%8F%E5%88%97%E7%9A%84%E6%95%B0%E7%9B%AE"><span class="toc-number">2.</span> <span class="toc-text">2954. 统计感冒序列的数目</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%81%9A%E6%B3%95-s2"><span class="toc-number">3.</span> <span class="toc-text">做法</span></a></li></ol>
+      </div>
+    
+  </span>
+</div>
+
+    
+    <div class="content index py4 ">
+        
+        <article class="post h-entry" itemscope itemtype="http://schema.org/BlogPosting">
+  <header>
+    
+    <h1 class="posttitle p-name" itemprop="name headline">
+        Leetcode周赛374
+    </h1>
+
+
+
+    <div class="meta">
+      <span class="author p-author h-card" itemprop="author" itemscope itemtype="http://schema.org/Person">
+        <span class="p-name" itemprop="name">jyf111</span>
+      </span>
+      
+    <div class="postdate">
+      
+        <time datetime="2024-01-16T15:27:36.000Z" class="dt-published" itemprop="datePublished">2024-01-16</time>
+        
+        (Updated: <time datetime="2024-01-20T14:45:09.565Z" class="dt-updated" itemprop="dateModified">2024-01-20</time>)
+        
+      
+    </div>
+
+
+      
+
+      
+    <div class="article-tag">
+        <i class="fa-solid fa-tag"></i>
+        <a class="p-category" href="/tags/%E7%AE%97%E6%B3%95/" rel="tag">算法</a>
+    </div>
+
+
+      
+        
+            <span class=count-symbol-post> 
+            <i class="fa-solid fa-hourglass"></i>
+            
+            
+              (5 mins to read)
+            
+            </span>
+        
+      
+    </div>
+  </header>
+  
+
+  <div class="content e-content" itemprop="articleBody">
+    <p>这是目前第一次周赛都没AK😭（<s>当然之前第一次打周赛就经历了FST🤡</s>）</p>
+<p>这场主要是第三题没想到好的方法，写法比较麻烦，浪费了很多时间。第四题一时间也没想出来，处于半放弃状态了。</p>
+<h2 id="2953-统计完全子字符串"><a class="header-anchor" href="#2953-统计完全子字符串">¶</a>2953. 统计完全子字符串</h2>
+<h3 id="题意"><a class="header-anchor" href="#题意">¶</a>题意</h3>
+<p>给定字符串<code>word</code>和整数$k$，<code>word</code>的一个子字符串<code>s</code>被称为完全字符串，仅当：</p>
+<ul>
+<li><code>s</code>中每个字符<strong>恰好</strong>出现$k$次</li>
+<li><code>s</code>中相邻字符在字母表中顺序至多相差2</li>
+</ul>
+<p>求word中完全子字符串的数量。</p>
+<p>$len(word) \le 10^5, 1\le k \le len(word)$</p>
+<h3 id="做法"><a class="header-anchor" href="#做法">¶</a>做法</h3>
+<p>第二个条件是很容易想到可以尺取的，关键是对于子区间$[i, j]$怎么快速统计满足第一个条件的子字符串。</p>
+<p>首先枚举起始点$i$，显然最多只有26个可行的子字符串，即最后一个字符是第$k$次出现的a、b、c、…、z，依次检查即可。另一种做法是枚举这个子字符串中包含的字母个数，字母个数如果是$x$，那么长度就是$kx$。其实以上两种方式是相似的，本质都是只需要检查26个子串即可。复杂度为$O(n<em>26</em>26)$。</p>
+<p>我比赛时的做法是先枚举首字符，这样结尾一定落在该字符第$k$次出现到第$k+1$出现这个区间里，这个可以尺取。复杂度可以是$O(n<em>26)$，但是很难写，还不如写成$O(n</em>26*26)$的了。</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">Solution</span> &#123;</span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="function"><span class="type">int</span> <span class="title">countCompleteSubstrings</span><span class="params">(string word, <span class="type">int</span> k)</span> </span>&#123;</span><br><span class="line">        <span class="type">int</span> n = word.<span class="built_in">size</span>();</span><br><span class="line">        <span class="type">int</span> ans = <span class="number">0</span>;</span><br><span class="line">        <span class="keyword">for</span> (<span class="type">int</span> i = <span class="number">0</span>; i &lt; n; ) &#123;</span><br><span class="line">            <span class="type">int</span> j = i + <span class="number">1</span>;</span><br><span class="line">            <span class="keyword">while</span> (j &lt; n &amp;&amp; <span class="built_in">abs</span>(word[j] - word[j - <span class="number">1</span>]) &lt;= <span class="number">2</span>) ++j;</span><br><span class="line">            array&lt;<span class="type">int</span>, 26&gt; cnt&#123;&#125;;</span><br><span class="line">            vector&lt;vector&lt;<span class="type">int</span>&gt;&gt; <span class="built_in">pos</span>(<span class="number">26</span>);</span><br><span class="line">            <span class="keyword">for</span> (<span class="type">int</span> k = i; k &lt; j; k++) pos[word[k] - <span class="string">&#x27;a&#x27;</span>].<span class="built_in">push_back</span>(k);</span><br><span class="line">            <span class="keyword">for</span> (<span class="type">int</span> c = <span class="number">0</span>; c &lt; <span class="number">26</span>; c++) &#123;</span><br><span class="line">                <span class="keyword">if</span> (pos[c].<span class="built_in">size</span>() &lt; k) <span class="keyword">continue</span>;</span><br><span class="line">                <span class="type">int</span> bad = <span class="number">0</span>;</span><br><span class="line">                <span class="keyword">for</span> (<span class="type">int</span> l = pos[c][<span class="number">0</span>], r = l, t = <span class="number">0</span>; l &lt; j; t++) &#123;</span><br><span class="line">                    <span class="keyword">if</span> (l == r) &#123;</span><br><span class="line">                        cnt[word[r] - <span class="string">&#x27;a&#x27;</span>] = <span class="number">1</span>;</span><br><span class="line">                        <span class="keyword">if</span> (cnt[word[r] - <span class="string">&#x27;a&#x27;</span>] != k) ++bad;</span><br><span class="line">                        <span class="keyword">if</span> (!bad) ++ans;</span><br><span class="line">                        ++r;</span><br><span class="line">                    &#125;</span><br><span class="line">                    <span class="type">int</span> nxt = j;</span><br><span class="line">                    <span class="keyword">if</span> (t + k &lt; pos[c].<span class="built_in">size</span>()) nxt = pos[c][t + k];</span><br><span class="line">                    <span class="keyword">while</span> (r &lt; nxt) &#123;</span><br><span class="line">                        cnt[word[r] - <span class="string">&#x27;a&#x27;</span>]++;</span><br><span class="line">                        <span class="keyword">if</span> (cnt[word[r] - <span class="string">&#x27;a&#x27;</span>] != k) &#123;</span><br><span class="line">                            <span class="keyword">if</span> (cnt[word[r] - <span class="string">&#x27;a&#x27;</span>] == <span class="number">1</span> || cnt[word[r] - <span class="string">&#x27;a&#x27;</span>] == k + <span class="number">1</span>) ++bad;</span><br><span class="line">                        &#125; <span class="keyword">else</span> <span class="keyword">if</span> (k &gt; <span class="number">1</span>) --bad;</span><br><span class="line">                        ++r;</span><br><span class="line">                        <span class="keyword">if</span> (!bad) &#123;</span><br><span class="line">                            ++ans;</span><br><span class="line">                        &#125;</span><br><span class="line">                    &#125;</span><br><span class="line">                    <span class="type">int</span> nxt2 = j;</span><br><span class="line">                    <span class="keyword">if</span> (t + <span class="number">1</span> &lt; pos[c].<span class="built_in">size</span>()) nxt2 = pos[c][t + <span class="number">1</span>];</span><br><span class="line">                    <span class="keyword">while</span> (l &lt; nxt2) &#123;</span><br><span class="line">                        <span class="keyword">if</span> (cnt[word[l] - <span class="string">&#x27;a&#x27;</span>] == k) &#123;</span><br><span class="line">                            <span class="keyword">if</span> (k!=<span class="number">1</span>) ++bad;</span><br><span class="line">                        &#125;</span><br><span class="line">                        <span class="keyword">else</span> <span class="keyword">if</span> (cnt[word[l] - <span class="string">&#x27;a&#x27;</span>] == <span class="number">1</span> || cnt[word[l] - <span class="string">&#x27;a&#x27;</span>] == k + <span class="number">1</span>) --bad;</span><br><span class="line">                        cnt[word[l] - <span class="string">&#x27;a&#x27;</span>]--;</span><br><span class="line">                        ++l;</span><br><span class="line">                    &#125;</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">            i = j;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> ans;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+<h2 id="2954-统计感冒序列的数目"><a class="header-anchor" href="#2954-统计感冒序列的数目">¶</a>2954. 统计感冒序列的数目</h2>
+<p>给定整数$n$和升序数组<code>sick</code>，该数组包含了所有初始被感染的小孩的下标，在每一秒小孩$i$会进一步感染$i - 1$<strong>或</strong>$i + 1$，每秒至多一个小孩会被感染。问所有可能的感染序列。答案模1e9 + 7。</p>
+<p>$n \le 10^5$</p>
+<h2 id="做法-s2"><a class="header-anchor" href="#做法-s2">¶</a>做法</h2>
+<p>当时第一想法以为是填坑DP，但看了一眼至少得$O(n^2)$，然后就没有然后了。。寄了，摆了</p>
+<p>一个很重要的观察是初始的sick把$[0, n - 1]$划分成了若干的段，它们是互不干扰的。考虑小孩$i$，它左侧最近的感染者是$j$，右侧最近的感染者是$k$，$i$要么被$j$感染，要么被$k$感染。下面独立考虑每个段，如果开头或结尾的段，则只有一种感染方式，否则就有$2^{k-j-1}$种。最后只需要将每个段依次两两合并即可。考虑一个长度为$x$和一个长度为$y$的段，总共有$x+1$个空位，插入$y$个数，相当于$x+1$个大于等于0的变量求和等于$y$，方案数为$C(x+y, x)$。</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">const</span> <span class="type">int</span> N = <span class="number">1e5</span> + <span class="number">5</span>;</span><br><span class="line"><span class="type">const</span> <span class="type">int</span> MOD = <span class="number">1e9</span> + <span class="number">7</span>;</span><br><span class="line"><span class="type">int</span> fac[N], ifac[N];</span><br><span class="line"><span class="function"><span class="type">int</span> <span class="title">Pow</span><span class="params">(<span class="type">int</span> a, <span class="type">int</span> b)</span> </span>&#123;</span><br><span class="line">	<span class="type">int</span> ans = <span class="number">1</span>;</span><br><span class="line">	<span class="keyword">while</span> (b) &#123;</span><br><span class="line">		<span class="keyword">if</span> (b&amp;<span class="number">1</span>) ans = <span class="number">1ll</span>*ans*a%MOD;</span><br><span class="line">		a = <span class="number">1ll</span>*a*a%MOD;</span><br><span class="line">		b &gt;&gt;= <span class="number">1</span>;</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">return</span> ans;</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">init</span><span class="params">(<span class="type">int</span> n)</span> </span>&#123;</span><br><span class="line">	fac[<span class="number">0</span>] = <span class="number">1</span>;</span><br><span class="line">	<span class="keyword">for</span> (<span class="type">int</span> i=<span class="number">1</span>; i&lt;=n; i++) fac[i] = <span class="number">1ll</span>*fac[i<span class="number">-1</span>]*i%MOD;</span><br><span class="line">	ifac[n] = <span class="built_in">Pow</span>(fac[n], MOD<span class="number">-2</span>);</span><br><span class="line">	<span class="keyword">for</span> (<span class="type">int</span> i=n<span class="number">-1</span>; i&gt;=<span class="number">0</span>; i--) ifac[i] = <span class="number">1ll</span>*ifac[i+<span class="number">1</span>]*(i+<span class="number">1</span>)%MOD;</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="type">int</span> <span class="title">C</span><span class="params">(<span class="type">int</span> a, <span class="type">int</span> b)</span> </span>&#123;</span><br><span class="line">	<span class="keyword">if</span> (a&lt;b||b&lt;<span class="number">0</span>) <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">	<span class="keyword">return</span> <span class="number">1ll</span>*fac[a]*ifac[b]%MOD*ifac[a-b]%MOD;</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">class</span> <span class="title class_">Solution</span> &#123;</span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="function"><span class="type">int</span> <span class="title">numberOfSequence</span><span class="params">(<span class="type">int</span> n, vector&lt;<span class="type">int</span>&gt;&amp; sick)</span> </span>&#123;</span><br><span class="line">        <span class="built_in">init</span>(n + <span class="number">1</span>);</span><br><span class="line">        <span class="function">vector&lt;<span class="type">int</span>&gt; <span class="title">two</span><span class="params">(n + <span class="number">1</span>)</span></span>;</span><br><span class="line">        two[<span class="number">0</span>] = <span class="number">1</span>;</span><br><span class="line">        <span class="keyword">for</span> (<span class="type">int</span> i = <span class="number">1</span>; i &lt;= n; i++) two[i] = (two[i - <span class="number">1</span>] &lt;&lt; <span class="number">1</span>) % MOD;</span><br><span class="line">        <span class="type">int</span> ans = <span class="number">1</span>;</span><br><span class="line">        <span class="type">int</span> pre = sick[<span class="number">0</span>];</span><br><span class="line">        <span class="keyword">for</span> (<span class="type">int</span> i = <span class="number">0</span>; i + <span class="number">1</span> &lt; sick.<span class="built_in">size</span>(); i++) &#123;</span><br><span class="line">            <span class="type">int</span> cur = sick[i + <span class="number">1</span>] - sick[i] - <span class="number">1</span>;</span><br><span class="line">            <span class="keyword">if</span> (!cur) <span class="keyword">continue</span>;</span><br><span class="line">            ans = <span class="number">1ll</span>*ans*two[cur - <span class="number">1</span>]%MOD*<span class="built_in">C</span>(cur + pre, pre)%MOD;</span><br><span class="line">            pre += cur;</span><br><span class="line">        &#125;</span><br><span class="line">        ans = <span class="number">1ll</span>*ans*<span class="built_in">C</span>(n - <span class="number">1</span> - sick.<span class="built_in">back</span>() + pre, pre)%MOD;</span><br><span class="line">        <span class="keyword">return</span> ans;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+
+  </div>
+</article>
+
+
+
+        
+          <div id="footer-post-container">
+  <div id="footer-post">
+
+    <div id="nav-footer" style="display: none">
+      <ul>
+        
+          <li><a href="/">首页</a></li>
+        
+          <li><a href="/archives/">归档</a></li>
+        
+          <li><a href="/tags/">标签</a></li>
+        
+          <li><a href="/search/">搜索</a></li>
+        
+      </ul>
+    </div>
+
+    
+    
+      <div id="toc-footer" style="display: none">
+        <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#2953-%E7%BB%9F%E8%AE%A1%E5%AE%8C%E5%85%A8%E5%AD%90%E5%AD%97%E7%AC%A6%E4%B8%B2"><span class="toc-number">1.</span> <span class="toc-text">2953. 统计完全子字符串</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E9%A2%98%E6%84%8F"><span class="toc-number">1.1.</span> <span class="toc-text">题意</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%81%9A%E6%B3%95"><span class="toc-number">1.2.</span> <span class="toc-text">做法</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2954-%E7%BB%9F%E8%AE%A1%E6%84%9F%E5%86%92%E5%BA%8F%E5%88%97%E7%9A%84%E6%95%B0%E7%9B%AE"><span class="toc-number">2.</span> <span class="toc-text">2954. 统计感冒序列的数目</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%81%9A%E6%B3%95-s2"><span class="toc-number">3.</span> <span class="toc-text">做法</span></a></li></ol>
+      </div>
+    
+
+    <div id="actions-footer">
+        <a id="menu" class="icon" href="#" onclick="$('#nav-footer').toggle();return false;"><i class="fa-solid fa-bars fa-lg" aria-hidden="true"></i> 菜单</a>
+        
+          <a id="toc" class="icon" href="#" onclick="$('#toc-footer').toggle();return false;"><i class="fa-solid fa-list fa-lg" aria-hidden="true"></i> 目录</a>
+        
+        <a id="top" style="display:none" class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fa-solid fa-chevron-up fa-lg" aria-hidden="true"></i> 返回顶部</a>
+    </div>
+
+  </div>
+</div>
+
+        
+        <footer id="footer">
+  <div class="footer-left">
+    Copyright &copy;
+    
+    
+    2020-2024
+    jyf111
+  </div>
+  <div class="footer-right">
+    <nav>
+      <ul>
+        <!--
+       --><li><a href="/">首页</a></li><!--
+     --><!--
+       --><li><a href="/archives/">归档</a></li><!--
+     --><!--
+       --><li><a href="/tags/">标签</a></li><!--
+     --><!--
+       --><li><a href="/search/">搜索</a></li><!--
+     -->
+      </ul>
+    </nav>
+  </div>
+</footer>
+
+    </div>
+    <!-- styles -->
+
+
+
+  <link rel="preload" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" crossorigin="anonymous" onload="this.onload=null;this.rel='stylesheet'"/>
+
+
+    <!-- jquery -->
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js" crossorigin="anonymous"></script>
+
+
+
+
+<!-- clipboard -->
+
+  
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.7/clipboard.min.js" crossorigin="anonymous"></script>
+  
+  <script type="text/javascript">
+  $(function() {
+    // copy-btn HTML
+    var btn = "<span class=\"btn-copy tooltipped tooltipped-sw\" aria-label=\"复制到粘贴板！\">";
+    btn += '<i class="fa-regular fa-clone"></i>';
+    btn += '</span>';
+    // mount it!
+    $(".highlight table").before(btn);
+    var clip = new ClipboardJS('.btn-copy', {
+      text: function(trigger) {
+        return Array.from(trigger.nextElementSibling.querySelectorAll('.code')).reduce((str,it)=>str+it.innerText+'\n','')
+      }
+    });
+    clip.on('success', function(e) {
+      e.trigger.setAttribute('aria-label', "复制成功！");
+      e.clearSelection();
+    })
+  })
+  </script>
+
+
+<script src="/js/main.js"></script>
+
+<!-- search -->
+
+<!-- Baidu Analytics -->
+
+<!-- Cloudflare Analytics -->
+
+<!-- Disqus Comments -->
+
+<!-- utterances Comments -->
+
+<!-- FancyBox -->
+
+<script src="https://cdn.jsdelivr.net/npm/@fancyapps/ui@4.0/dist/fancybox.umd.js"></script>
+
+
+</body>
+</html>
