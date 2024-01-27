@@ -15,7 +15,7 @@
 <meta property="og:locale" content="zh_CN">
 <meta property="og:image" content="http://example.com/post-images/value-catogory.png">
 <meta property="article:published_time" content="2023-09-11T04:26:56.000Z">
-<meta property="article:modified_time" content="2023-10-02T11:22:43.296Z">
+<meta property="article:modified_time" content="2024-01-27T07:55:31.806Z">
 <meta property="article:author" content="jyf111">
 <meta property="article:tag" content="语言">
 <meta name="twitter:card" content="summary">
@@ -139,7 +139,7 @@
       
         <time datetime="2023-09-11T04:26:56.000Z" class="dt-published" itemprop="datePublished">2023-09-11</time>
         
-        (Updated: <time datetime="2023-10-02T11:22:43.296Z" class="dt-updated" itemprop="dateModified">2023-10-02</time>)
+        (Updated: <time datetime="2024-01-27T07:55:31.806Z" class="dt-updated" itemprop="dateModified">2024-01-27</time>)
         
       
     </div>
@@ -205,7 +205,7 @@
 <p>RAII表示资源获取即初始化，其将资源与对象的生命联系起来，在构造函数中<strong>申请或获取</strong>资源，在析构函数中释放资源RAII并不是指资源一定要在构造函数中自行申请，而是资源的获取和释放与对象的生命周期相关联。在不同情况下，资源的获取可以通过构造函数参数传递，也可以通过对象的构造函数自行申请。关键是确保资源的正确管理与对象的生命周期一致，以避免资源泄漏和不正确的资源使用。</p>
 <p>Rule of Five：在C++11及以后，还要再加上移动构造和移动赋值。</p>
 <p>Rule of Zero：与此同时，一个类除非与资源管理有关，否则不应该自定义任何特殊函数。单一职责原理。因为一个特殊的成员就去自行编写这几个特殊函数很容易产生问题和麻烦。</p>
-<p><code>std::move()</code>无条件地将实参强制转换为右值引用（作用类似<code>static_cast</code>）</p>
+<p><code>std::move()</code>无条件地将实参强制转换为右值引用（作用类似<code>static_cast</code>）。在C++中move是non-destructive的，被移动后的对象状态仍是一种valid state，需要保证它能<strong>正常且需要被调用析构函数</strong>。</p>
 <h3 id="完美转发"><a class="header-anchor" href="#完美转发">¶</a>完美转发</h3>
 <p><code>emplace_back</code>就是用的这个技术，避免了一个临时对象的构造（难点是怎么在函数调用间保持参数的正确类型）。</p>
 <p>引用折叠规则：只有右值+右值（即A&amp;&amp; &amp;&amp;）仍然为右值，否则都将变为左值。</p>

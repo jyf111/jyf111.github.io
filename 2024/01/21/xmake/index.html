@@ -1,0 +1,327 @@
+<!DOCTYPE html>
+<html lang=zh>
+<head>
+    <!-- so meta -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="HandheldFriendly" content="True">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=5" />
+    <meta name="description" content="XMake是一个基于Lua的现代化C&#x2F;C++构建系统。 XMake &#x3D; Build backend + Project generator + Package manager （包管理器是相比于CMake最大的优势） ¶Install 1234curl -fsSL https:&#x2F;&#x2F;xmake.io&#x2F;shget.text | bashxmake --versionxmake updatexmake">
+<meta property="og:type" content="article">
+<meta property="og:title" content="xmake">
+<meta property="og:url" content="http://example.com/2024/01/21/xmake/index.html">
+<meta property="og:site_name" content="jyf111&#39;s blog">
+<meta property="og:description" content="XMake是一个基于Lua的现代化C&#x2F;C++构建系统。 XMake &#x3D; Build backend + Project generator + Package manager （包管理器是相比于CMake最大的优势） ¶Install 1234curl -fsSL https:&#x2F;&#x2F;xmake.io&#x2F;shget.text | bashxmake --versionxmake updatexmake">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2024-01-21T14:32:39.000Z">
+<meta property="article:modified_time" content="2024-01-21T15:41:05.064Z">
+<meta property="article:author" content="jyf111">
+<meta property="article:tag" content="工具">
+<meta name="twitter:card" content="summary">
+    
+    
+      
+        
+          <link rel="shortcut icon" href="/images/favicon.ico">
+        
+      
+      
+        
+          <link rel="icon" type="image/png" href="/images/favicon-192x192.png" sizes="192x192">
+        
+      
+      
+        
+          <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png">
+        
+      
+    
+    <!-- title -->
+    <title>xmake</title>
+    <!-- async scripts -->
+    <!-- Google Analytics -->
+
+
+    <!-- Umami Analytics -->
+
+
+    <!-- styles -->
+    
+<link rel="stylesheet" href="/css/style.css">
+
+    <!-- persian styles -->
+    
+    <!-- rss -->
+    
+    
+	<!-- mathjax -->
+	
+		<script type="text/x-mathjax-config">
+		  MathJax.Hub.Config({
+			tex2jax: {
+			  skipTags: ['script', 'noscript', 'style', 'textarea', 'pre'],
+			  inlineMath: [['$','$']]
+			}
+		  });
+		</script>
+		<script src='https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-MML-AM_CHTML' async></script>
+	
+
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/ui@4.0/dist/fancybox.css" />
+
+<meta name="generator" content="Hexo 6.3.0"></head>
+
+<body class="max-width mx-auto px3 ltr">
+    
+      <div id="header-post">
+  <a id="menu-icon" href="#" aria-label="目录"><i class="fa-solid fa-bars fa-lg"></i></a>
+  <a id="menu-icon-tablet" href="#" aria-label="目录"><i class="fa-solid fa-bars fa-lg"></i></a>
+  <a id="top-icon-tablet" href="#" aria-label="顶部" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');" style="display:none;"><i class="fa-solid fa-chevron-up fa-lg"></i></a>
+  <span id="menu">
+    <span id="nav">
+      <ul>
+        <!--
+       --><li><a href="/">首页</a></li><!--
+     --><!--
+       --><li><a href="/archives/">归档</a></li><!--
+     --><!--
+       --><li><a href="/tags/">标签</a></li><!--
+     --><!--
+       --><li><a href="/search/">搜索</a></li><!--
+     -->
+      </ul>
+    </span>
+    <br/>
+    <span id="actions">
+      <ul>
+        
+        <li><a class="icon" aria-label="上一篇" href="/2024/01/24/%E9%98%B2%E6%8A%96%E4%B8%8E%E8%8A%82%E6%B5%81/"><i class="fa-solid fa-chevron-left" aria-hidden="true" onmouseover="$('#i-prev').toggle();" onmouseout="$('#i-prev').toggle();"></i></a></li>
+        
+        
+        <li><a class="icon" aria-label="下一篇" href="/2024/01/20/Hazard-Pointers/"><i class="fa-solid fa-chevron-right" aria-hidden="true" onmouseover="$('#i-next').toggle();" onmouseout="$('#i-next').toggle();"></i></a></li>
+        
+        <li><a class="icon" aria-label="返回顶部" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fa-solid fa-chevron-up" aria-hidden="true" onmouseover="$('#i-top').toggle();" onmouseout="$('#i-top').toggle();"></i></a></li>
+      </ul>
+      <span id="i-prev" class="info" style="display:none;">上一篇</span>
+      <span id="i-next" class="info" style="display:none;">下一篇</span>
+      <span id="i-top" class="info" style="display:none;">返回顶部</span>
+    </span>
+    <br/>
+    
+    
+      <div id="toc">
+        <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#Install"><span class="toc-number">1.</span> <span class="toc-text">Install</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Use"><span class="toc-number">2.</span> <span class="toc-text">Use</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Commands"><span class="toc-number">3.</span> <span class="toc-text">Commands</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Code"><span class="toc-number">4.</span> <span class="toc-text">Code</span></a></li></ol>
+      </div>
+    
+  </span>
+</div>
+
+    
+    <div class="content index py4 ">
+        
+        <article class="post h-entry" itemscope itemtype="http://schema.org/BlogPosting">
+  <header>
+    
+    <h1 class="posttitle p-name" itemprop="name headline">
+        xmake
+    </h1>
+
+
+
+    <div class="meta">
+      <span class="author p-author h-card" itemprop="author" itemscope itemtype="http://schema.org/Person">
+        <span class="p-name" itemprop="name">jyf111</span>
+      </span>
+      
+    <div class="postdate">
+      
+        <time datetime="2024-01-21T14:32:39.000Z" class="dt-published" itemprop="datePublished">2024-01-21</time>
+        
+        (Updated: <time datetime="2024-01-21T15:41:05.064Z" class="dt-updated" itemprop="dateModified">2024-01-21</time>)
+        
+      
+    </div>
+
+
+      
+
+      
+    <div class="article-tag">
+        <i class="fa-solid fa-tag"></i>
+        <a class="p-category" href="/tags/%E5%B7%A5%E5%85%B7/" rel="tag">工具</a>
+    </div>
+
+
+      
+        
+            <span class=count-symbol-post> 
+            <i class="fa-solid fa-hourglass"></i>
+            
+            
+              (4 mins to read)
+            
+            </span>
+        
+      
+    </div>
+  </header>
+  
+
+  <div class="content e-content" itemprop="articleBody">
+    <p>XMake是一个基于Lua的现代化C/C++构建系统。</p>
+<p>XMake = Build backend + Project generator + Package manager （包管理器是相比于CMake最大的优势）</p>
+<h2 id="Install"><a class="header-anchor" href="#Install">¶</a>Install</h2>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">curl -fsSL https://xmake.io/shget.text | bash</span><br><span class="line">xmake --version</span><br><span class="line">xmake update</span><br><span class="line">xmake uninstall</span><br></pre></td></tr></table></figure>
+<h2 id="Use"><a class="header-anchor" href="#Use">¶</a>Use</h2>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">xmake create hello</span><br><span class="line"><span class="built_in">cd</span> hello</span><br><span class="line">xmake [build]</span><br><span class="line">xmake run</span><br></pre></td></tr></table></figure>
+<p>xmake.lua:</p>
+<figure class="highlight lua"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">add_rules(<span class="string">&quot;mode.debug&quot;</span>, <span class="string">&quot;mode.release&quot;</span>)</span><br><span class="line">target(<span class="string">&quot;hello&quot;</span>)</span><br><span class="line">    set_kind(<span class="string">&quot;binary&quot;</span>)</span><br><span class="line">    add_files(<span class="string">&quot;src/main.cpp&quot;</span>)</span><br></pre></td></tr></table></figure>
+<h2 id="Commands"><a class="header-anchor" href="#Commands">¶</a>Commands</h2>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">xmake create</span><br><span class="line">xmake config</span><br><span class="line">xmake build</span><br><span class="line">xmake install</span><br><span class="line">xmake run</span><br><span class="line">xmake clean</span><br><span class="line"></span><br><span class="line">xmake config -m debug <span class="comment"># debug mode</span></span><br><span class="line">xmake config --toolchain=clang</span><br><span class="line">xmake project -k compile_commands</span><br><span class="line">xmake project -k cmake</span><br><span class="line">xmake -v <span class="comment"># verbose output</span></span><br></pre></td></tr></table></figure>
+<h2 id="Code"><a class="header-anchor" href="#Code">¶</a>Code</h2>
+<p>常用选项：</p>
+<figure class="highlight lua"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">add_cxxflags(<span class="string">&quot;-fno-strict-aliasing&quot;</span>, <span class="string">&quot;-fno-implicit-templates&quot;</span>)</span><br><span class="line">set_languages(<span class="string">&quot;c11&quot;</span>, <span class="string">&quot;cxx20&quot;</span>) <span class="comment">-- 设置计标准</span></span><br><span class="line">add_includedirs(<span class="string">&quot;include&quot;</span>) <span class="comment">-- 添加头文件搜索目录</span></span><br><span class="line">add_linkdirs(<span class="string">&quot;ext/lib&quot;</span>) <span class="comment">-- 添加库搜索目录</span></span><br><span class="line">add_links(<span class="string">&quot;myext&quot;</span>) <span class="comment">-- 添加链接库</span></span><br><span class="line">add_defines(<span class="string">&quot;MYMACRO=hello&quot;</span>)</span><br><span class="line">set_warnings(<span class="string">&quot;all&quot;</span>)</span><br><span class="line">is_plat()</span><br><span class="line">is_arch()</span><br><span class="line">is_host()</span><br><span class="line">is_mode()</span><br></pre></td></tr></table></figure>
+<p>main + 静态库示例：</p>
+<figure class="highlight lua"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">add_rules(<span class="string">&quot;mode.debug&quot;</span>, <span class="string">&quot;mode.release&quot;</span>)</span><br><span class="line">set_languages(<span class="string">&quot;cxx20&quot;</span>)</span><br><span class="line">target(<span class="string">&quot;mylib&quot;</span>)</span><br><span class="line">    set_kind(<span class="string">&quot;static&quot;</span>)</span><br><span class="line">    add_includedirs(<span class="string">&quot;include&quot;</span>, &#123;public = <span class="literal">true</span>&#125;)</span><br><span class="line">    add_files(<span class="string">&quot;src/mylib.cpp&quot;</span>)</span><br><span class="line">target(<span class="string">&quot;myexe&quot;</span>)</span><br><span class="line">    set_kind(<span class="string">&quot;binary&quot;</span>)</span><br><span class="line">    add_files(<span class="string">&quot;src/myexe.cpp&quot;</span>)</span><br><span class="line">    add_deps(<span class="string">&quot;mylib&quot;</span>, &#123;inherit = <span class="literal">false</span>&#125;) <span class="comment">-- 可以继承目标依赖的配置信息，默认的private不会被继承，public会被继承，interface则只作用于继承的子target，而不作用与当前target</span></span><br></pre></td></tr></table></figure>
+<p>main + 动态库示例：（和静态库几乎一样，只需要改下lib的kind即可）</p>
+<figure class="highlight lua"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">target(<span class="string">&quot;foo&quot;</span>)</span><br><span class="line">    set_kind(<span class="string">&quot;shared&quot;</span>)</span><br><span class="line">    add_files(<span class="string">&quot;src/interface.cpp&quot;</span>)</span><br><span class="line">    add_defines(<span class="string">&quot;TEST&quot;</span>, &#123;public = <span class="literal">true</span>&#125;)</span><br><span class="line">    add_includedirs(<span class="string">&quot;src&quot;</span>, &#123;interface = <span class="literal">true</span>&#125;)</span><br><span class="line"> </span><br><span class="line">target(<span class="string">&quot;foo_demo&quot;</span>)</span><br><span class="line">    set_kind(<span class="string">&quot;binary&quot;</span>)</span><br><span class="line">    add_deps(<span class="string">&quot;foo&quot;</span>)</span><br><span class="line">    add_files(<span class="string">&quot;src/main.cpp&quot;</span>)</span><br></pre></td></tr></table></figure>
+<p>第三方库依赖：（默认安装在<code>~/.xmake</code>目录下）</p>
+<ul>
+<li><code>xrepo search/info/fetch/install/remove &lt;package&gt;</code></li>
+<li><code>xrepo clean</code></li>
+<li><code>xrepo scan</code></li>
+</ul>
+<figure class="highlight lua"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">add_rules(<span class="string">&quot;mode.debug&quot;</span>, <span class="string">&quot;mode.release&quot;</span>)</span><br><span class="line">add_requires(<span class="string">&quot;imgui 1.88&quot;</span>, &#123;configs = &#123;glfw_opengl3 = <span class="literal">true</span>&#125;&#125;)</span><br><span class="line">target(<span class="string">&quot;imgui-demo&quot;</span>)</span><br><span class="line">    set_kind(<span class="string">&quot;binary&quot;</span>)</span><br><span class="line">    add_files(<span class="string">&quot;src/main.cpp&quot;</span>)</span><br><span class="line">    add_packages(<span class="string">&quot;imgui&quot;</span>)</span><br></pre></td></tr></table></figure>
+<figure class="highlight lua"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">add_requires(<span class="string">&quot;boost&quot;</span>, &#123;configs = &#123;filesystem = <span class="literal">true</span>, serialization = <span class="literal">true</span>, ...&#125;&#125;)</span><br></pre></td></tr></table></figure>
+<p>自定义选项：</p>
+<figure class="highlight lua"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">option(<span class="string">&quot;myopt&quot;</span>)</span><br><span class="line">    set_showmenu(<span class="literal">true</span>)</span><br><span class="line">    set_description(<span class="string">&quot;The test config option&quot;</span>)</span><br><span class="line">option_end()</span><br><span class="line"></span><br><span class="line">target(<span class="string">&quot;test&quot;</span>)</span><br><span class="line">    set_kind(<span class="string">&quot;binary&quot;</span>)</span><br><span class="line">    add_files(<span class="string">&quot;src/*.cpp&quot;</span>)</span><br><span class="line">    <span class="keyword">if</span> is_config(<span class="string">&quot;myopt&quot;</span>, <span class="string">&quot;hello&quot;</span>) <span class="keyword">then</span></span><br><span class="line">        add_defines(<span class="string">&quot;HELLO&quot;</span>)</span><br><span class="line">    <span class="keyword">end</span></span><br></pre></td></tr></table></figure>
+<p>内置变量：</p>
+<figure class="highlight lua"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">$(projectdir)</span><br><span class="line">$(buildir)</span><br><span class="line">$(curdir)</span><br></pre></td></tr></table></figure>
+
+  </div>
+</article>
+
+
+
+        
+          <div id="footer-post-container">
+  <div id="footer-post">
+
+    <div id="nav-footer" style="display: none">
+      <ul>
+        
+          <li><a href="/">首页</a></li>
+        
+          <li><a href="/archives/">归档</a></li>
+        
+          <li><a href="/tags/">标签</a></li>
+        
+          <li><a href="/search/">搜索</a></li>
+        
+      </ul>
+    </div>
+
+    
+    
+      <div id="toc-footer" style="display: none">
+        <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#Install"><span class="toc-number">1.</span> <span class="toc-text">Install</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Use"><span class="toc-number">2.</span> <span class="toc-text">Use</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Commands"><span class="toc-number">3.</span> <span class="toc-text">Commands</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Code"><span class="toc-number">4.</span> <span class="toc-text">Code</span></a></li></ol>
+      </div>
+    
+
+    <div id="actions-footer">
+        <a id="menu" class="icon" href="#" onclick="$('#nav-footer').toggle();return false;"><i class="fa-solid fa-bars fa-lg" aria-hidden="true"></i> 菜单</a>
+        
+          <a id="toc" class="icon" href="#" onclick="$('#toc-footer').toggle();return false;"><i class="fa-solid fa-list fa-lg" aria-hidden="true"></i> 目录</a>
+        
+        <a id="top" style="display:none" class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fa-solid fa-chevron-up fa-lg" aria-hidden="true"></i> 返回顶部</a>
+    </div>
+
+  </div>
+</div>
+
+        
+        <footer id="footer">
+  <div class="footer-left">
+    Copyright &copy;
+    
+    
+    2020-2024
+    jyf111
+  </div>
+  <div class="footer-right">
+    <nav>
+      <ul>
+        <!--
+       --><li><a href="/">首页</a></li><!--
+     --><!--
+       --><li><a href="/archives/">归档</a></li><!--
+     --><!--
+       --><li><a href="/tags/">标签</a></li><!--
+     --><!--
+       --><li><a href="/search/">搜索</a></li><!--
+     -->
+      </ul>
+    </nav>
+  </div>
+</footer>
+
+    </div>
+    <!-- styles -->
+
+
+
+  <link rel="preload" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" crossorigin="anonymous" onload="this.onload=null;this.rel='stylesheet'"/>
+
+
+    <!-- jquery -->
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js" crossorigin="anonymous"></script>
+
+
+
+
+<!-- clipboard -->
+
+  
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.7/clipboard.min.js" crossorigin="anonymous"></script>
+  
+  <script type="text/javascript">
+  $(function() {
+    // copy-btn HTML
+    var btn = "<span class=\"btn-copy tooltipped tooltipped-sw\" aria-label=\"复制到粘贴板！\">";
+    btn += '<i class="fa-regular fa-clone"></i>';
+    btn += '</span>';
+    // mount it!
+    $(".highlight table").before(btn);
+    var clip = new ClipboardJS('.btn-copy', {
+      text: function(trigger) {
+        return Array.from(trigger.nextElementSibling.querySelectorAll('.code')).reduce((str,it)=>str+it.innerText+'\n','')
+      }
+    });
+    clip.on('success', function(e) {
+      e.trigger.setAttribute('aria-label', "复制成功！");
+      e.clearSelection();
+    })
+  })
+  </script>
+
+
+<script src="/js/main.js"></script>
+
+<!-- search -->
+
+<!-- Baidu Analytics -->
+
+<!-- Cloudflare Analytics -->
+
+<!-- Disqus Comments -->
+
+<!-- utterances Comments -->
+
+<!-- FancyBox -->
+
+<script src="https://cdn.jsdelivr.net/npm/@fancyapps/ui@4.0/dist/fancybox.umd.js"></script>
+
+
+</body>
+</html>

@@ -16,7 +16,7 @@
 <meta property="og:image" content="http://example.com/post-images/cpu-cache.png">
 <meta property="og:image" content="http://example.com/post-images/cache.png">
 <meta property="article:published_time" content="2023-11-20T07:59:47.000Z">
-<meta property="article:modified_time" content="2023-12-05T05:26:55.610Z">
+<meta property="article:modified_time" content="2024-01-26T12:50:36.328Z">
 <meta property="article:author" content="jyf111">
 <meta property="article:tag" content="知识点">
 <meta name="twitter:card" content="summary">
@@ -140,7 +140,7 @@
       
         <time datetime="2023-11-20T07:59:47.000Z" class="dt-published" itemprop="datePublished">2023-11-20</time>
         
-        (Updated: <time datetime="2023-12-05T05:26:55.610Z" class="dt-updated" itemprop="dateModified">2023-12-05</time>)
+        (Updated: <time datetime="2024-01-26T12:50:36.328Z" class="dt-updated" itemprop="dateModified">2024-01-26</time>)
         
       
     </div>
@@ -203,7 +203,7 @@
 <p>递归lambda</p>
 <ul>
 <li>C++11，使用<code>std::function</code>，这样每次都要先经过<code>std::function</code>，性能很差</li>
-<li>C++14，使用一个额外的右值引用自身的参数</li>
+<li>C++14，使用一个额外的右值引用自身的参数，注意必须写明返回类型</li>
 </ul>
 <figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">auto</span> fib = [](<span class="keyword">auto</span> &amp;&amp;fib, <span class="type">int</span> n)  -&gt; <span class="type">int</span> &#123;</span><br><span class="line">    <span class="keyword">if</span>(n &lt;= <span class="number">2</span>) <span class="keyword">return</span> <span class="number">1</span>;</span><br><span class="line">    <span class="keyword">else</span> <span class="keyword">return</span> <span class="built_in">fib</span>(fib, n - <span class="number">1</span>) + <span class="built_in">fib</span>(fib, n - <span class="number">2</span>);</span><br><span class="line">&#125;;</span><br><span class="line"><span class="built_in">fib</span>(fib, <span class="number">5</span>);</span><br></pre></td></tr></table></figure>
 <h3 id="volatile"><a class="header-anchor" href="#volatile">¶</a>volatile</h3>
