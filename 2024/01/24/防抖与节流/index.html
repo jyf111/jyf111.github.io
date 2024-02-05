@@ -6,16 +6,16 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="HandheldFriendly" content="True">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=5" />
-    <meta name="description" content="用于优化高频率执行代码。比如在浏览器中scroll等事件会频繁触发，导致不断地调用该时间上的回调函数，降低前端的性能。 ¶Debounce 仅在一个时间周期结束时才执行，如果重复触发，则重新计时。 12345678910111213function debounce(func, wait) &amp;#123;    let timeout;     return function () &amp;#123;">
+    <meta name="description" content="用于优化高频率执行代码。比如在浏览器中scroll等事件会频繁触发，导致不断地调用该时间上的回调函数，降低前端的性能。 Debounce仅在一个时间周期结束时才执行，如果重复触发，则重新计时。 12345678910111213function debounce(func, wait) &amp;#123;    let timeout;     return function () &amp;#123;">
 <meta property="og:type" content="article">
 <meta property="og:title" content="防抖与节流">
 <meta property="og:url" content="http://example.com/2024/01/24/%E9%98%B2%E6%8A%96%E4%B8%8E%E8%8A%82%E6%B5%81/index.html">
 <meta property="og:site_name" content="jyf111&#39;s blog">
-<meta property="og:description" content="用于优化高频率执行代码。比如在浏览器中scroll等事件会频繁触发，导致不断地调用该时间上的回调函数，降低前端的性能。 ¶Debounce 仅在一个时间周期结束时才执行，如果重复触发，则重新计时。 12345678910111213function debounce(func, wait) &amp;#123;    let timeout;     return function () &amp;#123;">
+<meta property="og:description" content="用于优化高频率执行代码。比如在浏览器中scroll等事件会频繁触发，导致不断地调用该时间上的回调函数，降低前端的性能。 Debounce仅在一个时间周期结束时才执行，如果重复触发，则重新计时。 12345678910111213function debounce(func, wait) &amp;#123;    let timeout;     return function () &amp;#123;">
 <meta property="og:locale" content="zh_CN">
 <meta property="og:image" content="http://example.com/post-images/debounce.png">
 <meta property="article:published_time" content="2024-01-24T12:33:41.000Z">
-<meta property="article:modified_time" content="2024-01-24T13:43:15.524Z">
+<meta property="article:modified_time" content="2024-02-05T14:39:12.240Z">
 <meta property="article:author" content="jyf111">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:image" content="http://example.com/post-images/debounce.png">
@@ -96,6 +96,8 @@
     <span id="actions">
       <ul>
         
+        <li><a class="icon" aria-label="上一篇" href="/2024/01/28/Leetcode-365-%E6%B0%B4%E5%A3%B6%E9%97%AE%E9%A2%98/"><i class="fa-solid fa-chevron-left" aria-hidden="true" onmouseover="$('#i-prev').toggle();" onmouseout="$('#i-prev').toggle();"></i></a></li>
+        
         
         <li><a class="icon" aria-label="下一篇" href="/2024/01/21/xmake/"><i class="fa-solid fa-chevron-right" aria-hidden="true" onmouseover="$('#i-next').toggle();" onmouseout="$('#i-next').toggle();"></i></a></li>
         
@@ -109,7 +111,7 @@
     
     
       <div id="toc">
-        <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#Debounce"><span class="toc-number">1.</span> <span class="toc-text">Debounce</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Throttle"><span class="toc-number">2.</span> <span class="toc-text">Throttle</span></a></li></ol>
+        <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#Debounce"><span class="toc-number">1.</span> <span class="toc-text">Debounce</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Throttle"><span class="toc-number">2.</span> <span class="toc-text">Throttle</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%BB%A4%E6%B3%A2"><span class="toc-number">3.</span> <span class="toc-text">滤波</span></a></li></ol>
       </div>
     
   </span>
@@ -136,7 +138,7 @@
       
         <time datetime="2024-01-24T12:33:41.000Z" class="dt-published" itemprop="datePublished">2024-01-24</time>
         
-        (Updated: <time datetime="2024-01-24T13:43:15.524Z" class="dt-updated" itemprop="dateModified">2024-01-24</time>)
+        (Updated: <time datetime="2024-02-05T14:39:12.240Z" class="dt-updated" itemprop="dateModified">2024-02-05</time>)
         
       
     </div>
@@ -152,7 +154,7 @@
             <i class="fa-solid fa-hourglass"></i>
             
             
-              (1 min to read)
+              (2 mins to read)
             
             </span>
         
@@ -162,9 +164,8 @@
   
 
   <div class="content e-content" itemprop="articleBody">
-    <p>用于优化高频率执行代码。比如在浏览器中<code>scroll</code>等事件会频繁触发，导致不断地调用该时间上的回调函数，降低前端的性能。</p>
-<h2 id="Debounce"><a class="header-anchor" href="#Debounce">¶</a>Debounce</h2>
-<p>仅在一个时间周期结束时才执行，如果重复触发，则重新计时。</p>
+    <p>用于优化高频率执行代码。<br>比如在浏览器中<code>scroll</code>等事件会频繁触发，导致不断地调用该时间上的回调函数，<br>降低前端的性能。</p>
+<h2 id="Debounce"><a href="#Debounce" class="headerlink" title="Debounce"></a>Debounce</h2><p>仅在一个时间周期结束时才执行，如果重复触发，则重新计时。</p>
 <figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">function</span> <span class="title function_">debounce</span>(<span class="params">func, wait</span>) &#123;</span><br><span class="line">    <span class="keyword">let</span> timeout;</span><br><span class="line"> </span><br><span class="line">    <span class="keyword">return</span> <span class="keyword">function</span> (<span class="params"></span>) &#123;</span><br><span class="line">        <span class="keyword">let</span> context = <span class="variable language_">this</span>; <span class="comment">// 保存this指向</span></span><br><span class="line">        <span class="keyword">let</span> args = <span class="variable language_">arguments</span>; <span class="comment">// 拿到event对象</span></span><br><span class="line"> </span><br><span class="line">        <span class="built_in">clearTimeout</span>(timeout)</span><br><span class="line">        timeout = <span class="built_in">setTimeout</span>(<span class="keyword">function</span>(<span class="params"></span>)&#123;</span><br><span class="line">            func.<span class="title function_">apply</span>(context, args)</span><br><span class="line">        &#125;, wait);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <p>应用场景：</p>
 <ul>
@@ -177,15 +178,16 @@
 <li>只有在连续一段时间内都是1（从上升沿，即0变1开始计时），才为1，降低抖动的影响</li>
 <li>每次变成1，就保持一段时间，一直返回1，用于延长或截断信号的发送</li>
 </ul>
-<p><a data-fancybox="gallery" data-src="/post-images/debounce.png" data-caption="switch-debound"><img src="/post-images/debounce.png" alt="switch-debound">
-</a></p>
-<h2 id="Throttle"><a class="header-anchor" href="#Throttle">¶</a>Throttle</h2>
-<p>在一个时间周期内，仅在第一次触发时执行。</p>
+<p><img src="/post-images/debounce.png" alt="switch-debound"></p>
+<h2 id="Throttle"><a href="#Throttle" class="headerlink" title="Throttle"></a>Throttle</h2><p>在一个时间周期内，仅在第一次触发时执行。</p>
 <figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">function</span> <span class="title function_">throttled</span>(<span class="params">fn, delay = <span class="number">500</span></span>) &#123;</span><br><span class="line">    <span class="keyword">let</span> timer = <span class="literal">null</span></span><br><span class="line">    <span class="keyword">return</span> <span class="keyword">function</span> (<span class="params">...args</span>) &#123;</span><br><span class="line">        <span class="keyword">if</span> (!timer) &#123;</span><br><span class="line">            timer = <span class="built_in">setTimeout</span>(<span class="function">() =&gt;</span> &#123;</span><br><span class="line">                fn.<span class="title function_">apply</span>(<span class="variable language_">this</span>, args)</span><br><span class="line">                timer = <span class="literal">null</span></span><br><span class="line">            &#125;, delay);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <p>应用场景：</p>
 <ul>
 <li>滚动加载，每隔一段时间执行一次。</li>
 </ul>
+<h2 id="滤波"><a href="#滤波" class="headerlink" title="滤波"></a>滤波</h2><p>顾名思义，就是过滤掉一些特定的波（去掉不想要的噪声，保留想要的）。</p>
+<p>卡尔曼滤波，又叫二次型估计，能从先前一系列包含噪声的观测量中，提供对系统当前状态的相对准确且平滑的估计。<br>之所以称为滤波，就是因为它会过滤掉之前观测量中的噪声和不确定性。</p>
+<p>前面提到的防抖也可以算一种消抖滤波，在嵌入式开发信号处理中会用。</p>
 
   </div>
 </article>
@@ -213,7 +215,7 @@
     
     
       <div id="toc-footer" style="display: none">
-        <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#Debounce"><span class="toc-number">1.</span> <span class="toc-text">Debounce</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Throttle"><span class="toc-number">2.</span> <span class="toc-text">Throttle</span></a></li></ol>
+        <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#Debounce"><span class="toc-number">1.</span> <span class="toc-text">Debounce</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Throttle"><span class="toc-number">2.</span> <span class="toc-text">Throttle</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%BB%A4%E6%B3%A2"><span class="toc-number">3.</span> <span class="toc-text">滤波</span></a></li></ol>
       </div>
     
 

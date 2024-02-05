@@ -6,17 +6,20 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="HandheldFriendly" content="True">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=5" />
-    <meta name="description" content="## 温故而知新">
+    <meta name="description" content="A thread pool maintains multiple threads waiting for tasks to be allocated for concurrent execution by the supervising program.By maintaining a pool of threads, the model increases performance and av">
 <meta property="og:type" content="article">
 <meta property="og:title" content="ThreadPool">
 <meta property="og:url" content="http://example.com/2023/11/22/ThreadPool/index.html">
 <meta property="og:site_name" content="jyf111&#39;s blog">
-<meta property="og:description" content="## 温故而知新">
+<meta property="og:description" content="A thread pool maintains multiple threads waiting for tasks to be allocated for concurrent execution by the supervising program.By maintaining a pool of threads, the model increases performance and av">
 <meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="http://example.com/post-images/threadpool.png">
 <meta property="article:published_time" content="2023-11-22T14:06:46.000Z">
-<meta property="article:modified_time" content="2023-11-22T14:06:46.048Z">
+<meta property="article:modified_time" content="2024-01-29T13:12:05.735Z">
 <meta property="article:author" content="jyf111">
+<meta property="article:tag" content="算法">
 <meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://example.com/post-images/threadpool.png">
     
     
       
@@ -108,6 +111,10 @@
     <br/>
     
     
+      <div id="toc">
+        <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#progschj-ThreadPool"><span class="toc-number">1.</span> <span class="toc-text">progschj&#x2F;ThreadPool</span></a></li></ol>
+      </div>
+    
   </span>
 </div>
 
@@ -132,7 +139,7 @@
       
         <time datetime="2023-11-22T14:06:46.000Z" class="dt-published" itemprop="datePublished">2023-11-22</time>
         
-        (Updated: <time datetime="2023-11-22T14:06:46.048Z" class="dt-updated" itemprop="dateModified">2023-11-22</time>)
+        (Updated: <time datetime="2024-01-29T13:12:05.735Z" class="dt-updated" itemprop="dateModified">2024-01-29</time>)
         
       
     </div>
@@ -141,6 +148,11 @@
       
 
       
+    <div class="article-tag">
+        <i class="fa-solid fa-tag"></i>
+        <a class="p-category" href="/tags/%E7%AE%97%E6%B3%95/" rel="tag">算法</a>
+    </div>
+
 
       
         
@@ -148,7 +160,7 @@
             <i class="fa-solid fa-hourglass"></i>
             
             
-              (1 min to read)
+              (5 mins to read)
             
             </span>
         
@@ -158,7 +170,15 @@
   
 
   <div class="content e-content" itemprop="articleBody">
-    
+    <blockquote>
+<p>A thread pool maintains multiple threads waiting for tasks to be allocated for concurrent execution by the supervising program.<br>By maintaining a pool of threads, the model increases performance and avoids latency in execution due to frequent creation and destruction of threads for short-lived tasks.</p>
+</blockquote>
+<p><img src="/post-images/threadpool.png" alt="thread-pool"></p>
+<p>通过提前创建好若干个线程，然后将这些线程统一管理，放在一个容器中。<br>当有异步任务需要执行的时候，从该容器中取得空闲（当前不处于执行异步任务的状态）的线程，<br>将这个异步任务交给这个线程（唤醒）进行处理。<br>当这个任务执行完成之后，该线程不进行销毁，重新回到空闲状态（阻塞），等待新的任务到来。</p>
+<p>避免了线程频繁创建和销毁带来的性能开销。</p>
+<h2 id="progschj-ThreadPool"><a href="#progschj-ThreadPool" class="headerlink" title="progschj/ThreadPool"></a><a target="_blank" rel="noopener" href="https://github.com/progschj/ThreadPool">progschj/ThreadPool</a></h2><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">ThreadPool</span> &#123;</span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="built_in">ThreadPool</span>(<span class="type">size_t</span>);</span><br><span class="line">    <span class="function"><span class="keyword">template</span>&lt;<span class="keyword">class</span> F, <span class="keyword">class</span>... Args&gt;</span></span><br><span class="line"><span class="function">    <span class="keyword">auto</span> <span class="title">enqueue</span><span class="params">(F&amp;&amp; f, Args&amp;&amp;... args)</span> </span></span><br><span class="line"><span class="function">        -&gt; std::future&lt;<span class="keyword">typename</span> std::result_of&lt;<span class="title">F</span><span class="params">(Args...)</span>&gt;::type&gt;</span>;</span><br><span class="line">    ~<span class="built_in">ThreadPool</span>();</span><br><span class="line"><span class="keyword">private</span>:</span><br><span class="line">    <span class="comment">// need to keep track of threads so we can join them</span></span><br><span class="line">    std::vector&lt; std::thread &gt; workers;</span><br><span class="line">    <span class="comment">// the task queue</span></span><br><span class="line">    std::queue&lt; std::function&lt;<span class="type">void</span>()&gt; &gt; tasks; <span class="comment">// 统一为无参数无返回值的函数</span></span><br><span class="line">    </span><br><span class="line">    <span class="comment">// synchronization</span></span><br><span class="line">    std::mutex queue_mutex;</span><br><span class="line">    std::condition_variable condition;</span><br><span class="line">    <span class="type">bool</span> stop;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="comment">// the constructor just launches some amount of workers</span></span><br><span class="line"><span class="function"><span class="keyword">inline</span> <span class="title">ThreadPool::ThreadPool</span><span class="params">(<span class="type">size_t</span> threads)</span></span></span><br><span class="line"><span class="function">    :   stop(false)</span></span><br><span class="line"><span class="function">&#123;</span></span><br><span class="line">    <span class="keyword">for</span>(<span class="type">size_t</span> i = <span class="number">0</span>;i&lt;threads;++i)</span><br><span class="line">        workers.<span class="built_in">emplace_back</span>(</span><br><span class="line">            [<span class="keyword">this</span>]</span><br><span class="line">            &#123;</span><br><span class="line">                <span class="keyword">for</span>(;;)</span><br><span class="line">                &#123;</span><br><span class="line">                    std::function&lt;<span class="built_in">void</span>()&gt; task;</span><br><span class="line"></span><br><span class="line">                    &#123;</span><br><span class="line">                        std::unique_lock&lt;std::mutex&gt; <span class="built_in">lock</span>(<span class="keyword">this</span>-&gt;queue_mutex);</span><br><span class="line">                        <span class="keyword">this</span>-&gt;condition.<span class="built_in">wait</span>(lock,</span><br><span class="line">                            [<span class="keyword">this</span>]&#123; <span class="keyword">return</span> <span class="keyword">this</span>-&gt;stop || !<span class="keyword">this</span>-&gt;tasks.<span class="built_in">empty</span>(); &#125;);</span><br><span class="line">                        <span class="comment">// 等价于，std::wait会检查并避免假醒情况</span></span><br><span class="line">                        <span class="comment">// while (!stop_waiting()) &#123;</span></span><br><span class="line">                        <span class="comment">//     wait(lock);</span></span><br><span class="line">                        <span class="comment">// &#125;</span></span><br><span class="line">                        <span class="keyword">if</span>(<span class="keyword">this</span>-&gt;stop &amp;&amp; <span class="keyword">this</span>-&gt;tasks.<span class="built_in">empty</span>())</span><br><span class="line">                            <span class="keyword">return</span>;</span><br><span class="line">                        task = std::<span class="built_in">move</span>(<span class="keyword">this</span>-&gt;tasks.<span class="built_in">front</span>());</span><br><span class="line">                        <span class="keyword">this</span>-&gt;tasks.<span class="built_in">pop</span>();</span><br><span class="line">                    &#125;</span><br><span class="line"></span><br><span class="line">                    <span class="built_in">task</span>();</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">        );</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// add new work item to the pool</span></span><br><span class="line"><span class="function"><span class="keyword">template</span>&lt;<span class="keyword">class</span> F, <span class="keyword">class</span>... Args&gt;</span></span><br><span class="line"><span class="function"><span class="keyword">auto</span> <span class="title">ThreadPool::enqueue</span><span class="params">(F&amp;&amp; f, Args&amp;&amp;... args)</span> </span></span><br><span class="line"><span class="function">    -&gt; std::future&lt;<span class="keyword">typename</span> std::result_of&lt;<span class="title">F</span><span class="params">(Args...)</span>&gt;::type&gt;</span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="keyword">using</span> return_type = <span class="keyword">typename</span> std::result_of&lt;<span class="built_in">F</span>(Args...)&gt;::type;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">auto</span> task = std::make_shared&lt; std::packaged_task&lt;<span class="built_in">return_type</span>()&gt; &gt;( <span class="comment">// 这里使用shared_ptr应该是为了保活，否则emplace到tasks中的lambda还没执行，捕获的task地址就被析构调用了</span></span><br><span class="line">                                                                       <span class="comment">// 而如果用拷贝的话，又不是对应前面提前取到的futrue了</span></span><br><span class="line">                                                                       <span class="comment">// 此外，shared_ptr的包装使得packaged_task可以被拷贝和移动</span></span><br><span class="line">                                                                       <span class="comment">// packaged_task本身是不可拷贝，只能移动的，但是std::function又只能接收可拷贝的lambda</span></span><br><span class="line">            std::<span class="built_in">bind</span>(std::forward&lt;F&gt;(f), std::forward&lt;Args&gt;(args)...)</span><br><span class="line">        );</span><br><span class="line">        </span><br><span class="line">    std::future&lt;return_type&gt; res = task-&gt;<span class="built_in">get_future</span>();</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="function">std::unique_lock&lt;std::mutex&gt; <span class="title">lock</span><span class="params">(queue_mutex)</span></span>;</span><br><span class="line"></span><br><span class="line">        <span class="comment">// don&#x27;t allow enqueueing after stopping the pool</span></span><br><span class="line">        <span class="keyword">if</span>(stop)</span><br><span class="line">            <span class="keyword">throw</span> std::<span class="built_in">runtime_error</span>(<span class="string">&quot;enqueue on stopped ThreadPool&quot;</span>);</span><br><span class="line"></span><br><span class="line">        <span class="comment">// packaged_task内部有一个std::promise，在执行完包装的task后会调用promise的set_value，从而future可以通过get拿到结果</span></span><br><span class="line">        tasks.<span class="built_in">emplace</span>([task]()&#123; (*task)(); &#125;); <span class="comment">// 额外用一个lambda包装成无返回值的</span></span><br><span class="line">    &#125;</span><br><span class="line">    condition.<span class="built_in">notify_one</span>();</span><br><span class="line">    <span class="keyword">return</span> res;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// the destructor joins all threads</span></span><br><span class="line"><span class="keyword">inline</span> ThreadPool::~<span class="built_in">ThreadPool</span>()</span><br><span class="line">&#123;</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="function">std::unique_lock&lt;std::mutex&gt; <span class="title">lock</span><span class="params">(queue_mutex)</span></span>;</span><br><span class="line">        stop = <span class="literal">true</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    condition.<span class="built_in">notify_all</span>();</span><br><span class="line">    <span class="keyword">for</span>(std::thread &amp;worker: workers)</span><br><span class="line">        worker.<span class="built_in">join</span>();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>另一个类似的C++版本：<a target="_blank" rel="noopener" href="https://github.com/mtrebi/thread-pool">https://github.com/mtrebi/thread-pool</a></p>
+
   </div>
 </article>
 
@@ -184,9 +204,15 @@
 
     
     
+      <div id="toc-footer" style="display: none">
+        <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#progschj-ThreadPool"><span class="toc-number">1.</span> <span class="toc-text">progschj&#x2F;ThreadPool</span></a></li></ol>
+      </div>
+    
 
     <div id="actions-footer">
         <a id="menu" class="icon" href="#" onclick="$('#nav-footer').toggle();return false;"><i class="fa-solid fa-bars fa-lg" aria-hidden="true"></i> 菜单</a>
+        
+          <a id="toc" class="icon" href="#" onclick="$('#toc-footer').toggle();return false;"><i class="fa-solid fa-list fa-lg" aria-hidden="true"></i> 目录</a>
         
         <a id="top" style="display:none" class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fa-solid fa-chevron-up fa-lg" aria-hidden="true"></i> 返回顶部</a>
     </div>
