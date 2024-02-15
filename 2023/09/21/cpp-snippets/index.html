@@ -14,7 +14,7 @@
 <meta property="og:description" content="std::monostate用于模拟空值的状态（就是一个空的结构体）。 std::variant会默认调用第一个类型的默认构造函数，如果第一个类型没有默认构造函数，就会编译错误。 在从一种状态转换到另一种状态时出现异常会罕见的变为valueless_by_exception，并且在index()时会返回variant_npos。 12345678910template&lt; class T &amp;g">
 <meta property="og:locale" content="zh_CN">
 <meta property="article:published_time" content="2023-09-21T02:29:23.000Z">
-<meta property="article:modified_time" content="2024-01-28T12:19:58.608Z">
+<meta property="article:modified_time" content="2024-02-15T08:38:18.270Z">
 <meta property="article:author" content="jyf111">
 <meta property="article:tag" content="语言">
 <meta name="twitter:card" content="summary">
@@ -137,7 +137,7 @@
       
         <time datetime="2023-09-21T02:29:23.000Z" class="dt-published" itemprop="datePublished">2023-09-21</time>
         
-        (Updated: <time datetime="2024-01-28T12:19:58.608Z" class="dt-updated" itemprop="dateModified">2024-01-28</time>)
+        (Updated: <time datetime="2024-02-15T08:38:18.270Z" class="dt-updated" itemprop="dateModified">2024-02-15</time>)
         
       
     </div>
@@ -310,7 +310,7 @@
 <p><code>extern &quot;C&quot; &#123;...&#125;</code>作用到其中所有具有外部链接的函数和变量上。</p>
 <p>注意，不带大括号时，extern直接作用到后续的语句上，因此这只是一个声明。<br>而在带大括号时，则是声明加定义，除非写成<code>extern &quot;C&quot; &#123; extern int a; &#125;</code>。<br>当然，这个细微差别仅在定义变量时存在，而在更常见的定义函数时不存在。</p>
 <p>除了<code>static</code>，在C++中<code>const</code>变量也会变成内部链接。</p>
-<h2 id="std-jthread"><a href="#std-jthread" class="headerlink" title="std::jthread"></a>std::jthread</h2><p><code>jthread</code>即<code>joining thread</code>，<br>不同于<code>std::thread</code>，<code>std::jthread</code>会在析构时自动调用<code>join</code>，而<code>std::thread</code>在析构时<br>调用<code>std::terminate</code>。<br>此外，还可以请求<code>jthread</code>暂停执行，以对线程执行进行额外控制（通过<code>std::stop_token</code>）。</p>
+<h2 id="std-jthread"><a href="#std-jthread" class="headerlink" title="std::jthread"></a>std::jthread</h2><p><code>jthread</code>即<code>joining thread</code>，<br>不同于<code>std::thread</code>，<code>std::jthread</code>会在析构时自动调用<code>join</code>，而<code>std::thread</code>在析构时<br>调用<code>std::terminate</code>。<br>此外，还可以请求<code>jthread</code>暂停执行，以对线程执行进行额外控制（通过<code>std::stop_token.stop_requested()</code>和<code>jthread.request_stop()</code>）。</p>
 
   </div>
 </article>
