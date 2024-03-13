@@ -1,0 +1,372 @@
+<!DOCTYPE html>
+<html lang=zh>
+<head>
+    <!-- so meta -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="HandheldFriendly" content="True">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=5" />
+    <meta name="description" content="initialization occurs only when an object is first created   initialization gives an object its initial state   for a class type with constructors, initialization invokes a constructor  ¶copy-initial">
+<meta property="og:type" content="article">
+<meta property="og:title" content="C++初始化总结">
+<meta property="og:url" content="http://example.com/2024/03/11/C-%E5%88%9D%E5%A7%8B%E5%8C%96%E6%80%BB%E7%BB%93/index.html">
+<meta property="og:site_name" content="jyf111&#39;s blog">
+<meta property="og:description" content="initialization occurs only when an object is first created   initialization gives an object its initial state   for a class type with constructors, initialization invokes a constructor  ¶copy-initial">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2024-03-11T13:29:56.000Z">
+<meta property="article:modified_time" content="2024-03-11T16:10:27.807Z">
+<meta property="article:author" content="jyf111">
+<meta property="article:tag" content="语言">
+<meta name="twitter:card" content="summary">
+    
+    
+      
+        
+          <link rel="shortcut icon" href="/images/favicon.ico">
+        
+      
+      
+        
+          <link rel="icon" type="image/png" href="/images/favicon-192x192.png" sizes="192x192">
+        
+      
+      
+        
+          <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png">
+        
+      
+    
+    <!-- title -->
+    <title>C++初始化总结</title>
+    <!-- async scripts -->
+    <!-- Google Analytics -->
+
+
+    <!-- Umami Analytics -->
+
+
+    <!-- styles -->
+    
+<link rel="stylesheet" href="/css/style.css">
+
+    <!-- persian styles -->
+    
+    <!-- rss -->
+    
+    
+	<!-- mathjax -->
+	
+		<script type="text/x-mathjax-config">
+		  MathJax.Hub.Config({
+			tex2jax: {
+			  skipTags: ['script', 'noscript', 'style', 'textarea', 'pre'],
+			  inlineMath: [['$','$']]
+			}
+		  });
+		</script>
+		<script src='https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-MML-AM_CHTML' async></script>
+	
+
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/ui@4.0/dist/fancybox.css" />
+
+<meta name="generator" content="Hexo 6.3.0"></head>
+
+<body class="max-width mx-auto px3 ltr">
+    
+      <div id="header-post">
+  <a id="menu-icon" href="#" aria-label="目录"><i class="fa-solid fa-bars fa-lg"></i></a>
+  <a id="menu-icon-tablet" href="#" aria-label="目录"><i class="fa-solid fa-bars fa-lg"></i></a>
+  <a id="top-icon-tablet" href="#" aria-label="顶部" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');" style="display:none;"><i class="fa-solid fa-chevron-up fa-lg"></i></a>
+  <span id="menu">
+    <span id="nav">
+      <ul>
+        <!--
+       --><li><a href="/">首页</a></li><!--
+     --><!--
+       --><li><a href="/archives/">归档</a></li><!--
+     --><!--
+       --><li><a href="/tags/">标签</a></li><!--
+     --><!--
+       --><li><a href="/search/">搜索</a></li><!--
+     -->
+      </ul>
+    </span>
+    <br/>
+    <span id="actions">
+      <ul>
+        
+        <li><a class="icon" aria-label="上一篇" href="/2024/03/13/%E8%BF%87%E7%A8%8B%E9%97%B4%E4%BC%98%E5%8C%96/"><i class="fa-solid fa-chevron-left" aria-hidden="true" onmouseover="$('#i-prev').toggle();" onmouseout="$('#i-prev').toggle();"></i></a></li>
+        
+        
+        <li><a class="icon" aria-label="下一篇" href="/2024/03/09/C-%E7%BC%96%E8%AF%91%E9%93%BE%E6%8E%A5/"><i class="fa-solid fa-chevron-right" aria-hidden="true" onmouseover="$('#i-next').toggle();" onmouseout="$('#i-next').toggle();"></i></a></li>
+        
+        <li><a class="icon" aria-label="返回顶部" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fa-solid fa-chevron-up" aria-hidden="true" onmouseover="$('#i-top').toggle();" onmouseout="$('#i-top').toggle();"></i></a></li>
+      </ul>
+      <span id="i-prev" class="info" style="display:none;">上一篇</span>
+      <span id="i-next" class="info" style="display:none;">下一篇</span>
+      <span id="i-top" class="info" style="display:none;">返回顶部</span>
+    </span>
+    <br/>
+    
+    
+      <div id="toc">
+        <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#copy-initialization"><span class="toc-number">1.</span> <span class="toc-text">copy-initialization</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#aggregate-initialization"><span class="toc-number">2.</span> <span class="toc-text">aggregate-initialization</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#without-explicit-initializer"><span class="toc-number">3.</span> <span class="toc-text">without explicit initializer</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#constructors"><span class="toc-number">4.</span> <span class="toc-text">constructors</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#direct-initialization"><span class="toc-number">4.1.</span> <span class="toc-text">direct-initialization</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#explicit-constructors"><span class="toc-number">4.2.</span> <span class="toc-text">explicit constructors</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#default-initialization"><span class="toc-number">4.3.</span> <span class="toc-text">default initialization</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#value-initialization"><span class="toc-number">4.4.</span> <span class="toc-text">value initialization</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#uniform-initialization-syntax"><span class="toc-number">5.</span> <span class="toc-text">uniform initialization syntax</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#direct-list-initialization"><span class="toc-number">6.</span> <span class="toc-text">direct-list-initialization</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#copy-list-initialization"><span class="toc-number">7.</span> <span class="toc-text">copy-list-initialization</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#initializer-list"><span class="toc-number">8.</span> <span class="toc-text">initializer list</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%80%BB%E7%BB%93"><span class="toc-number">9.</span> <span class="toc-text">总结</span></a></li></ol>
+      </div>
+    
+  </span>
+</div>
+
+    
+    <div class="content index py4 ">
+        
+        <article class="post h-entry" itemscope itemtype="http://schema.org/BlogPosting">
+  <header>
+    
+    <h1 class="posttitle p-name" itemprop="name headline">
+        C++初始化总结
+    </h1>
+
+
+
+    <div class="meta">
+      <span class="author p-author h-card" itemprop="author" itemscope itemtype="http://schema.org/Person">
+        <span class="p-name" itemprop="name">jyf111</span>
+      </span>
+      
+    <div class="postdate">
+      
+        <time datetime="2024-03-11T13:29:56.000Z" class="dt-published" itemprop="datePublished">2024-03-11</time>
+        
+        (Updated: <time datetime="2024-03-11T16:10:27.807Z" class="dt-updated" itemprop="dateModified">2024-03-12</time>)
+        
+      
+    </div>
+
+
+      
+
+      
+    <div class="article-tag">
+        <i class="fa-solid fa-tag"></i>
+        <a class="p-category" href="/tags/%E8%AF%AD%E8%A8%80/" rel="tag">语言</a>
+    </div>
+
+
+      
+        
+            <span class=count-symbol-post> 
+            <i class="fa-solid fa-hourglass"></i>
+            
+            
+              (6 mins to read)
+            
+            </span>
+        
+      
+    </div>
+  </header>
+  
+
+  <div class="content e-content" itemprop="articleBody">
+    <blockquote>
+<p>initialization occurs only when an object is first created</p>
+</blockquote>
+<blockquote>
+<p>initialization gives an object its initial state</p>
+</blockquote>
+<blockquote>
+<p>for a class type with constructors, initialization invokes a constructor</p>
+</blockquote>
+<h2 id="copy-initialization"><a class="header-anchor" href="#copy-initialization">¶</a>copy-initialization</h2>
+<p><code>T object = other;</code></p>
+<h2 id="aggregate-initialization"><a class="header-anchor" href="#aggregate-initialization">¶</a>aggregate-initialization</h2>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">struct</span> <span class="title class_">S</span> &#123;</span><br><span class="line">    <span class="type">int</span> a;</span><br><span class="line">    <span class="type">float</span> b;</span><br><span class="line">&#125;;</span><br><span class="line">S s = &#123;<span class="number">1</span>&#125;;</span><br></pre></td></tr></table></figure>
+<p>remaining fields are zero-initialized.</p>
+<p>aggregate type的要求粗糙地说是：</p>
+<ol>
+<li>无用户自定义构造函数</li>
+<li>无私有、保护成员</li>
+<li>无虚函数</li>
+</ol>
+<p>aggregate-initialization的缺点是使用者有完全的自由，但是有时候类的成员是存在一些潜在的数据依赖的（contract），比如<code>size_t len; char* buf;</code>，<code>&#123;5, nullptr&#125;</code>是不该被允许的。</p>
+<h2 id="without-explicit-initializer"><a class="header-anchor" href="#without-explicit-initializer">¶</a>without explicit initializer</h2>
+<ul>
+<li>zero-initialized: object with static or thread storage duration (static, thread_local)</li>
+<li>indeterminate value: accessing the value is UB</li>
+</ul>
+<h2 id="constructors"><a class="header-anchor" href="#constructors">¶</a>constructors</h2>
+<h3 id="direct-initialization"><a class="header-anchor" href="#direct-initialization">¶</a>direct-initialization</h3>
+<ul>
+<li><code>T object (arg1, arg2, ...);</code>：直接调用构造函数初始化</li>
+<li><code>T object &#123;arg1, arg2, ...&#125;;</code></li>
+<li><code>T (arg1, arg2, ...);</code></li>
+</ul>
+<h3 id="explicit-constructors"><a class="header-anchor" href="#explicit-constructors">¶</a>explicit constructors</h3>
+<p>拷贝初始化不考虑explicit的构造函数。</p>
+<p>这也是直接初始化和拷贝初始化最关键的不同，拷贝初始化需要考虑类型转换问题，它会构造一个隐式的类型转换链。</p>
+<h3 id="default-initialization"><a class="header-anchor" href="#default-initialization">¶</a>default initialization</h3>
+<p>类会调用默认构造函数。</p>
+<h3 id="value-initialization"><a class="header-anchor" href="#value-initialization">¶</a>value initialization</h3>
+<ul>
+<li><code>T();</code></li>
+<li><code>T&#123;&#125;;</code></li>
+<li><code>T object &#123;&#125;;</code></li>
+</ul>
+<p>注意<code>T object()</code>被视作一个函数声明。</p>
+<p>before C++03 缺点：</p>
+<ul>
+<li>scalar, aggregate, class type do not have uniform initialization syntax</li>
+<li>potential narrow conversion (<code>short s = i;</code>)</li>
+<li>value initialization is difficult (<code>the most vexing parse</code>)</li>
+<li>intialize STL containers is difficult</li>
+<li>the above issues make template type initialization difficult</li>
+</ul>
+<p>Modern C++ adopts brace initialization!</p>
+<h2 id="uniform-initialization-syntax"><a class="header-anchor" href="#uniform-initialization-syntax">¶</a>uniform initialization syntax</h2>
+<p>all types can be initialized via braces <code>&#123;&#125;</code>，并且它直接阻止缩窄转换。</p>
+<p>empty braces conduct value-initialization</p>
+<h2 id="direct-list-initialization"><a class="header-anchor" href="#direct-list-initialization">¶</a>direct-list-initialization</h2>
+<p>类似于使用圆括号的direct-initialization，这里使用大括号</p>
+<h2 id="copy-list-initialization"><a class="header-anchor" href="#copy-list-initialization">¶</a>copy-list-initialization</h2>
+<p>使用大括号的copy-initialization</p>
+<h2 id="initializer-list"><a class="header-anchor" href="#initializer-list">¶</a>initializer list</h2>
+<p>初始化列表通常按值传递，因为它采用<strong>浅拷贝</strong>语义，可以视作视图。</p>
+<p>STL容器都包含了初始化列表为参数的构造函数。并且初始化列表的优先级是很高的，能解释成初始化列表，就会解释成初始化列表。</p>
+<p>如果提供了初始化列表的构造函数，要特别注意其它带有多个相同类型的构造函数。</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="function">std::vector&lt;<span class="type">int</span>&gt; <span class="title">v</span><span class="params">(<span class="number">12</span>)</span></span>; <span class="comment">// with size 12</span></span><br><span class="line">std::vector&lt;<span class="type">int</span>&gt; v&#123;<span class="number">12</span>&#125;; <span class="comment">// with one element 12 (calls construtor taking initializer_list)</span></span><br></pre></td></tr></table></figure>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">std::make_unique&lt;std::vector&lt;<span class="type">int</span>&gt;&gt;(<span class="number">1</span>, <span class="number">2</span>);</span><br><span class="line"><span class="comment">// whats this?</span></span><br><span class="line"><span class="comment">// it depends on std::unique_ptr&lt;T&gt;(new T(std::forward&lt;Args&gt;(args...)))</span></span><br><span class="line"><span class="comment">// 注意标准库用的是()而不是&#123;&#125;初始化</span></span><br><span class="line"><span class="comment">// 这又导致一个问题是aggregate type没法初始化了，所以C++20又允许aggregate type使用()初始化</span></span><br></pre></td></tr></table></figure>
+<h2 id="总结"><a class="header-anchor" href="#总结">¶</a>总结</h2>
+<p>direct-initialization, copy-initialization, brace-initialization</p>
+<ul>
+<li>scalar type使用copy-initialization，因为这符合习惯 (most readable)，而且编译器会帮你优化</li>
+<li>aggregate and class type尽量使用brace-initialization (direct-list-initialization)，更安全并避免不必要的拷贝与隐式转换，但有时为了区别与初始化列表必须选择圆括号，注意区分</li>
+</ul>
+<p>zero-initialization, value-initialization, default-initialization</p>
+
+  </div>
+</article>
+
+
+
+        
+          <div id="footer-post-container">
+  <div id="footer-post">
+
+    <div id="nav-footer" style="display: none">
+      <ul>
+        
+          <li><a href="/">首页</a></li>
+        
+          <li><a href="/archives/">归档</a></li>
+        
+          <li><a href="/tags/">标签</a></li>
+        
+          <li><a href="/search/">搜索</a></li>
+        
+      </ul>
+    </div>
+
+    
+    
+      <div id="toc-footer" style="display: none">
+        <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#copy-initialization"><span class="toc-number">1.</span> <span class="toc-text">copy-initialization</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#aggregate-initialization"><span class="toc-number">2.</span> <span class="toc-text">aggregate-initialization</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#without-explicit-initializer"><span class="toc-number">3.</span> <span class="toc-text">without explicit initializer</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#constructors"><span class="toc-number">4.</span> <span class="toc-text">constructors</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#direct-initialization"><span class="toc-number">4.1.</span> <span class="toc-text">direct-initialization</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#explicit-constructors"><span class="toc-number">4.2.</span> <span class="toc-text">explicit constructors</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#default-initialization"><span class="toc-number">4.3.</span> <span class="toc-text">default initialization</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#value-initialization"><span class="toc-number">4.4.</span> <span class="toc-text">value initialization</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#uniform-initialization-syntax"><span class="toc-number">5.</span> <span class="toc-text">uniform initialization syntax</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#direct-list-initialization"><span class="toc-number">6.</span> <span class="toc-text">direct-list-initialization</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#copy-list-initialization"><span class="toc-number">7.</span> <span class="toc-text">copy-list-initialization</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#initializer-list"><span class="toc-number">8.</span> <span class="toc-text">initializer list</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%80%BB%E7%BB%93"><span class="toc-number">9.</span> <span class="toc-text">总结</span></a></li></ol>
+      </div>
+    
+
+    <div id="actions-footer">
+        <a id="menu" class="icon" href="#" onclick="$('#nav-footer').toggle();return false;"><i class="fa-solid fa-bars fa-lg" aria-hidden="true"></i> 菜单</a>
+        
+          <a id="toc" class="icon" href="#" onclick="$('#toc-footer').toggle();return false;"><i class="fa-solid fa-list fa-lg" aria-hidden="true"></i> 目录</a>
+        
+        <a id="top" style="display:none" class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fa-solid fa-chevron-up fa-lg" aria-hidden="true"></i> 返回顶部</a>
+    </div>
+
+  </div>
+</div>
+
+        
+        <footer id="footer">
+  <div class="footer-left">
+    Copyright &copy;
+    
+    
+    2020-2024
+    jyf111
+  </div>
+  <div class="footer-right">
+    <nav>
+      <ul>
+        <!--
+       --><li><a href="/">首页</a></li><!--
+     --><!--
+       --><li><a href="/archives/">归档</a></li><!--
+     --><!--
+       --><li><a href="/tags/">标签</a></li><!--
+     --><!--
+       --><li><a href="/search/">搜索</a></li><!--
+     -->
+      </ul>
+    </nav>
+  </div>
+</footer>
+
+    </div>
+    <!-- styles -->
+
+
+
+  <link rel="preload" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" crossorigin="anonymous" onload="this.onload=null;this.rel='stylesheet'"/>
+
+
+    <!-- jquery -->
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js" crossorigin="anonymous"></script>
+
+
+
+
+<!-- clipboard -->
+
+  
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.7/clipboard.min.js" crossorigin="anonymous"></script>
+  
+  <script type="text/javascript">
+  $(function() {
+    // copy-btn HTML
+    var btn = "<span class=\"btn-copy tooltipped tooltipped-sw\" aria-label=\"复制到粘贴板！\">";
+    btn += '<i class="fa-regular fa-clone"></i>';
+    btn += '</span>';
+    // mount it!
+    $(".highlight table").before(btn);
+    var clip = new ClipboardJS('.btn-copy', {
+      text: function(trigger) {
+        return Array.from(trigger.nextElementSibling.querySelectorAll('.code')).reduce((str,it)=>str+it.innerText+'\n','')
+      }
+    });
+    clip.on('success', function(e) {
+      e.trigger.setAttribute('aria-label', "复制成功！");
+      e.clearSelection();
+    })
+  })
+  </script>
+
+
+<script src="/js/main.js"></script>
+
+<!-- search -->
+
+<!-- Baidu Analytics -->
+
+<!-- Cloudflare Analytics -->
+
+<!-- Disqus Comments -->
+
+<!-- utterances Comments -->
+
+<!-- FancyBox -->
+
+<script src="https://cdn.jsdelivr.net/npm/@fancyapps/ui@4.0/dist/fancybox.umd.js"></script>
+
+
+</body>
+</html>

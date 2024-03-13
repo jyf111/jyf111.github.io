@@ -16,7 +16,7 @@
 <meta property="og:image" content="http://example.com/post-images/cpu-cache.png">
 <meta property="og:image" content="http://example.com/post-images/cache.png">
 <meta property="article:published_time" content="2023-11-20T07:59:47.000Z">
-<meta property="article:modified_time" content="2024-01-26T12:50:36.328Z">
+<meta property="article:modified_time" content="2024-03-12T16:11:23.567Z">
 <meta property="article:author" content="jyf111">
 <meta property="article:tag" content="知识点">
 <meta name="twitter:card" content="summary">
@@ -140,7 +140,7 @@
       
         <time datetime="2023-11-20T07:59:47.000Z" class="dt-published" itemprop="datePublished">2023-11-20</time>
         
-        (Updated: <time datetime="2024-01-26T12:50:36.328Z" class="dt-updated" itemprop="dateModified">2024-01-26</time>)
+        (Updated: <time datetime="2024-03-12T16:11:23.567Z" class="dt-updated" itemprop="dateModified">2024-03-13</time>)
         
       
     </div>
@@ -161,7 +161,7 @@
             <i class="fa-solid fa-hourglass"></i>
             
             
-              (24 mins to read)
+              (37 mins to read)
             
             </span>
         
@@ -216,9 +216,15 @@
 <li>在类内是设置属于整个类，所有类共享，而不是绑定到具体的对象实例</li>
 </ul>
 <h3 id="inline"><a class="header-anchor" href="#inline">¶</a>inline</h3>
-<p>inline最初用于提示编译器将函数内联优先于函数调用，可以用<code>__attribute__((always_inline))</code>。</p>
-<p>现在inline用于表明修饰的变量和函数只有一个实例，由编译器保证这一点主要用在头文件中（类比之间的<code>extern</code>声明和定义分开的方式）。</p>
-<p>在类内定义的函数都会隐式内联。constexpr函数会隐式内联。</p>
+<p>inline最初用于<strong>提示</strong>编译器将函数内联优先于函数调用（已弃用），但如果要强制内联应该用<code>__attribute__((always_inline))</code>。</p>
+<p>唯一定义原则（ODR）：注意区分声明（extern）与定义。</p>
+<p>C++17后inline用于表明修饰的变量和函数允许被重复定义，只会有一个实例，由编译器保证这一点，编译器会选择任意定义作为实际定义。（多个编译单元共同享有一份变量或函数）</p>
+<p>主要用在头文件中（类比之前用<code>extern</code>声明和定义分开的方式）。</p>
+<p>因为在头文件中定义的全局变量和函数如果被多个源文件包含，就会产生重复定义问题。如果使用static，则每个源文件的变量和函数是独立的；而使用inline，则各个源文件会共享。</p>
+<p>为了避免不同源文件内定义的函数、类的冲突，可以使用匿名命名空间（相当于是给符号的名称加了一个随机的前缀）；当然函数也可以用static修饰，但是类就没法用static了。</p>
+<p>注意避免同一个inline变量设置不同的初值，这显然是未定义行为。</p>
+<p>inline修饰会生成弱符号。</p>
+<p>在类内定义的函数会默认内联。constexpr函数会内联。直接实现的模板函数也会内联。</p>
 <h3 id="explicit"><a class="header-anchor" href="#explicit">¶</a>explicit</h3>
 <p>作用在单参数构造函数是避免隐式转换。也可以作用在多参数构造函数上，表示禁止使用<code>&#123;&#125;</code>进行初始化。</p>
 <p><code>()</code>在空时为值初始化，非空时为直接初始化（即通过构造函数）。<code>&#123;&#125;</code>使用列表初始化，在空时即值初始化，非空时为聚合初始化。</p>
@@ -322,7 +328,7 @@
 <ul>
 <li>const_cast</li>
 </ul>
-<p>用来移除CV限定符。把const的变量变成非const是未定义的，去掉const主要用在指针和引用上。</p>
+<p>用来移除CV限定符。把const的变量变成非const是未定义的，去掉const主要用在指针和引用上。如指向或引用的元素在定义时是非const的，就去可以合法的去掉指针和引用的底层const。</p>
 <ul>
 <li>dynamic_cast</li>
 </ul>

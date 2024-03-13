@@ -6,16 +6,16 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="HandheldFriendly" content="True">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=5" />
-    <meta name="description" content="Undefined behaviour：未定义行为。标准没有规定程序在该状态下的行为，也就是可以发生任何事情。这是不行的。 Unspecified behavior：未指定行为。这是可以的，但是可能有多种有效的结果。 Implementation-defined behavior：实现定义行为。与未指定行为类似，但是需要在编译手册中记录。 Ill-formed, no diagnostic re">
+    <meta name="description" content="Undefined behaviour：未定义行为。标准没有规定程序在该状态下的行为，也就是可以发生任何事情。这是不行的。the entire program is ill-formed. Unspecified behavior：未指定行为。这是可以的，但是可能有多种有效的结果。one of several specified outcomes must occur. Implementati">
 <meta property="og:type" content="article">
 <meta property="og:title" content="cppquiz">
 <meta property="og:url" content="http://example.com/2023/09/11/cppquiz/index.html">
 <meta property="og:site_name" content="jyf111&#39;s blog">
-<meta property="og:description" content="Undefined behaviour：未定义行为。标准没有规定程序在该状态下的行为，也就是可以发生任何事情。这是不行的。 Unspecified behavior：未指定行为。这是可以的，但是可能有多种有效的结果。 Implementation-defined behavior：实现定义行为。与未指定行为类似，但是需要在编译手册中记录。 Ill-formed, no diagnostic re">
+<meta property="og:description" content="Undefined behaviour：未定义行为。标准没有规定程序在该状态下的行为，也就是可以发生任何事情。这是不行的。the entire program is ill-formed. Unspecified behavior：未指定行为。这是可以的，但是可能有多种有效的结果。one of several specified outcomes must occur. Implementati">
 <meta property="og:locale" content="zh_CN">
 <meta property="og:image" content="http://example.com/post-images/value-catogory.png">
 <meta property="article:published_time" content="2023-09-11T04:26:56.000Z">
-<meta property="article:modified_time" content="2024-03-09T07:09:34.154Z">
+<meta property="article:modified_time" content="2024-03-10T15:49:00.074Z">
 <meta property="article:author" content="jyf111">
 <meta property="article:tag" content="语言">
 <meta name="twitter:card" content="summary">
@@ -139,7 +139,7 @@
       
         <time datetime="2023-09-11T04:26:56.000Z" class="dt-published" itemprop="datePublished">2023-09-11</time>
         
-        (Updated: <time datetime="2024-03-09T07:09:34.154Z" class="dt-updated" itemprop="dateModified">2024-03-09</time>)
+        (Updated: <time datetime="2024-03-10T15:49:00.074Z" class="dt-updated" itemprop="dateModified">2024-03-10</time>)
         
       
     </div>
@@ -160,7 +160,7 @@
             <i class="fa-solid fa-hourglass"></i>
             
             
-              (53 mins to read)
+              (1:20)
             
             </span>
         
@@ -171,9 +171,9 @@
 
   <div class="content e-content" itemprop="articleBody">
     <ul>
-<li>Undefined behaviour：未定义行为。标准没有规定程序在该状态下的行为，也就是可以发生任何事情。这是不行的。</li>
-<li>Unspecified behavior：未指定行为。这是可以的，但是可能有多种有效的结果。</li>
-<li>Implementation-defined behavior：实现定义行为。与未指定行为类似，但是需要在编译手册中记录。</li>
+<li>Undefined behaviour：未定义行为。标准没有规定程序在该状态下的行为，也就是可以发生任何事情。这是不行的。the entire program is ill-formed.</li>
+<li>Unspecified behavior：未指定行为。这是可以的，但是可能有多种有效的结果。one of several specified outcomes must occur.</li>
+<li>Implementation-defined behavior：实现定义行为。与未指定行为类似，但是需要在编译手册中记录。implementation must <strong>document</strong> what happens but it must be well-defined.</li>
 <li>Ill-formed, no diagnostic required：错误且无需诊断。等价于未定义行为，只是这种说法更侧重于编译期（代码层面），而未定义行为更侧重于运行期。</li>
 </ul>
 <p>未定义行为是被认为不允许出现的，无厘头行为（编译器会假定程序不包含UB以进行优化）。而实现定义行为是因为不同CPU、操作系统、编译器无法对该行为达成共识。</p>
@@ -1003,7 +1003,10 @@
 </details>
 <h3 id="分析-s58"><a class="header-anchor" href="#分析-s58">¶</a>分析</h3>
 <details>
-<summary><span class="details-marker">&nbsp;</span><strong>点击查看</strong></summary><p>修改const对象总是未定义行为。<code>const_cast</code>的用途不是这个。</p>
+<summary><span class="details-marker">&nbsp;</span><strong>点击查看</strong></summary><p>修改一个被定义为const的对象总是未定义行为。<code>const_cast</code>的用途不是这个。</p>
+<p>有一个经典的例子：</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="type">void</span> <span class="title">f</span><span class="params">(<span class="type">const</span> <span class="type">int</span>&amp; x)</span></span>;</span><br><span class="line"><span class="function"><span class="type">bool</span> <span class="title">g</span><span class="params">(<span class="type">int</span> x)</span> </span>&#123;</span><br><span class="line">    <span class="type">int</span> y = x;</span><br><span class="line">    <span class="built_in">f</span>(x);</span><br><span class="line">    <span class="keyword">return</span> x == y;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>这里编译器不会认为x一定等于y，因为x没有被定义为const，所以在f中可以用<code>const_cast&lt;int&amp;&gt;</code>去掉const语义进行修改，这是合法的。</p>
 </details>
 <h2 id="224"><a class="header-anchor" href="#224">¶</a>224</h2>
 <h3 id="代码-s59"><a class="header-anchor" href="#代码-s59">¶</a>代码</h3>

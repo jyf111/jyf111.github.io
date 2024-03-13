@@ -6,15 +6,15 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="HandheldFriendly" content="True">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=5" />
-    <meta name="description" content="多态：一个接口表现出不同的行为。 函数重载是一种ad-hoc polymorphism，泛型是一种parametric polymorphism，虚函数则是subtyping polymorphism。 ¶动态多态 多态类型：声明或继承了至少一个虚函数的类型。 对于多态类型，有些信息只能在运行时（比如父类和子类定义在不同的文件中，只可能借助LTO来确定，因为C++编译器以单个文件作为编译单元；更根">
+    <meta name="description" content="多态：单个接口提供不同行为。 多台Polymorphism在希腊语中就是多种形式。 函数重载是一种ad-hoc polymorphism，泛型是一种parametric polymorphism，虚函数则是subtyping polymorphism。 ¶动态多态 多态类型：声明或继承了至少一个虚函数的类型。 对于多态类型，有些信息只能在运行时（比如父类和子类定义在不同的文件中，只可能借助LTO来">
 <meta property="og:type" content="article">
 <meta property="og:title" content="虚函数深入">
 <meta property="og:url" content="http://example.com/2024/03/09/%E8%99%9A%E5%87%BD%E6%95%B0%E6%B7%B1%E5%85%A5/index.html">
 <meta property="og:site_name" content="jyf111&#39;s blog">
-<meta property="og:description" content="多态：一个接口表现出不同的行为。 函数重载是一种ad-hoc polymorphism，泛型是一种parametric polymorphism，虚函数则是subtyping polymorphism。 ¶动态多态 多态类型：声明或继承了至少一个虚函数的类型。 对于多态类型，有些信息只能在运行时（比如父类和子类定义在不同的文件中，只可能借助LTO来确定，因为C++编译器以单个文件作为编译单元；更根">
+<meta property="og:description" content="多态：单个接口提供不同行为。 多台Polymorphism在希腊语中就是多种形式。 函数重载是一种ad-hoc polymorphism，泛型是一种parametric polymorphism，虚函数则是subtyping polymorphism。 ¶动态多态 多态类型：声明或继承了至少一个虚函数的类型。 对于多态类型，有些信息只能在运行时（比如父类和子类定义在不同的文件中，只可能借助LTO来">
 <meta property="og:locale" content="zh_CN">
 <meta property="article:published_time" content="2024-03-09T07:14:13.000Z">
-<meta property="article:modified_time" content="2024-03-09T12:48:14.678Z">
+<meta property="article:modified_time" content="2024-03-13T14:47:10.958Z">
 <meta property="article:author" content="jyf111">
 <meta property="article:tag" content="语言">
 <meta name="twitter:card" content="summary">
@@ -137,7 +137,7 @@
       
         <time datetime="2024-03-09T07:14:13.000Z" class="dt-published" itemprop="datePublished">2024-03-09</time>
         
-        (Updated: <time datetime="2024-03-09T12:48:14.678Z" class="dt-updated" itemprop="dateModified">2024-03-09</time>)
+        (Updated: <time datetime="2024-03-13T14:47:10.958Z" class="dt-updated" itemprop="dateModified">2024-03-13</time>)
         
       
     </div>
@@ -158,7 +158,7 @@
             <i class="fa-solid fa-hourglass"></i>
             
             
-              (5 mins to read)
+              (9 mins to read)
             
             </span>
         
@@ -168,14 +168,16 @@
   
 
   <div class="content e-content" itemprop="articleBody">
-    <p>多态：一个接口表现出不同的行为。</p>
+    <p>多态：单个接口提供不同行为。</p>
+<p>多台Polymorphism在希腊语中就是多种形式。</p>
 <p>函数重载是一种ad-hoc polymorphism，泛型是一种parametric polymorphism，虚函数则是subtyping polymorphism。</p>
 <h2 id="动态多态"><a class="header-anchor" href="#动态多态">¶</a>动态多态</h2>
 <p>多态类型：<strong>声明或继承</strong>了至少一个虚函数的类型。</p>
 <p>对于多态类型，有些信息只能在运行时（比如父类和子类定义在不同的文件中，只可能借助LTO来确定，因为C++编译器以单个文件作为编译单元；更根本的是比如一个分支的走向依赖于IO输入，不可能在编译器确定）才能确定（实际类型、调用的具体函数）</p>
 <h3 id="单继承"><a class="header-anchor" href="#单继承">¶</a>单继承</h3>
 <p>多态类型的起始8个字节为虚表指针，指向实际的虚表地址（位于常量区）。</p>
-<p>虚表包含RTTI信息（type_info，运行时类型信息，放在最开始以避免虚函数个数不确定的影响），以及按照声明顺序排布的各个虚函数的地址。如果子类覆写了父类的虚函数，则子类的虚表的对应位置就是子类的函数地址，而不是父类的函数地址。</p>
+<p>虚表包含RTTI信息（type_info，运行时类型信息，放在最开始以避免虚函数个数不确定的影响），以及按照声明顺序排布的各个虚函数的地址。</p>
+<p>如果子类覆写了父类的虚函数，则子类的虚表的对应位置就是子类的函数地址，而不是父类的函数地址。具体地，在生成子类时，先调用父类的构造函数，此时虚表指针指向父类的虚函数表，接着调用子类的构造函数，此时再将虚表指针指向子类的虚函数表。</p>
 <figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">A* a = <span class="keyword">new</span> B;</span><br><span class="line">a-&gt;<span class="built_in">f</span>(); <span class="comment">// (a-&gt;vptr + offset(f)) --&gt; B::f()</span></span><br></pre></td></tr></table></figure>
 <h3 id="多继承"><a class="header-anchor" href="#多继承">¶</a>多继承</h3>
 <p>假设C继承了A和B，那么C中就会有两个虚表指针，分别位于基类A的起始地址和基类B的起始地址处。（其实也很显然，为了使用一个偏移去调用，无法合成一个虚表指针）这里基类A和B的排布按照继承时的声明顺序。</p>
@@ -187,9 +189,13 @@
 <h3 id="缺点"><a class="header-anchor" href="#缺点">¶</a>缺点</h3>
 <ul>
 <li>内存占用：多了一个虚表指针</li>
-<li>无法内联</li>
-<li>cache miss，多了一次额外寻址</li>
+<li>cache miss：多了一次额外寻址</li>
+<li>无法内联：所以对于比较短的函数，虚函数调用的overhead相对较大</li>
 </ul>
+<p>在现代编译器的优化（比如去虚拟化，在很多场景下虚函数调用只存在唯一的可能性）下，虚函数的开销是很微小的，没必要过度担忧。如果真的是虚函数调用成为了性能瓶颈，更应该考虑的是使用CRTP？更改代码设计，避免继承？</p>
+<blockquote>
+<p>benchmark和编译器优化是有所冲突的。使用某种design，再做benchmark看这种design的overhead是否是acceptable的，而不是通过benchmark来决定design。</p>
+</blockquote>
 <h3 id="类型擦除"><a class="header-anchor" href="#类型擦除">¶</a>类型擦除</h3>
 <h4 id="std-function"><a class="header-anchor" href="#std-function">¶</a>std::function</h4>
 <h4 id="std-any"><a class="header-anchor" href="#std-any">¶</a>std::any</h4>
@@ -203,6 +209,7 @@
 <p><code>-Wno-pmf-conversions</code></p>
 <figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">struct</span> <span class="title class_">B</span> &#123;</span><br><span class="line">    <span class="keyword">virtual</span> ~<span class="built_in">B</span>();</span><br><span class="line">    <span class="function"><span class="keyword">virtual</span> <span class="type">int</span> <span class="title">vfoo</span><span class="params">(<span class="type">int</span>)</span> </span>= <span class="number">0</span>;</span><br><span class="line">&#125;;</span><br><span class="line"><span class="function"><span class="keyword">typedef</span> <span class="title">int</span> <span class="params">(<span class="type">pf_t</span>)</span><span class="params">(B*, <span class="type">int</span>)</span></span>;</span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">frequent_call_vfoo</span><span class="params">(B* b)</span> </span>&#123;</span><br><span class="line">   <span class="comment">// 很多时候编译器可以自动优化，无需使用该技巧</span></span><br><span class="line">   <span class="comment">// 有些时候编译器无法自动优化，该技巧就有用了</span></span><br><span class="line">   <span class="type">pf_t</span> pf = (<span class="type">pf_t</span>)(b-&gt;*(&amp;B::vfoo)); <span class="comment">// 提取虚函数指针</span></span><br><span class="line">   <span class="keyword">for</span> (.....) &#123;</span><br><span class="line">       <span class="built_in">pf</span>(b, some_int); <span class="comment">// equivalent to b-&gt;vfoo(some_int)</span></span><br><span class="line">   &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <p>虚函数查表这个过程直接自己写到代码中了（extract the pointer to the function and call it directly），可以优化频繁的虚函数调用。</p>
+<p>本质上就是把一个成员函数通过增加this指针参数改成一个普通函数。</p>
 <blockquote>
 <p>如果虚函数有很多参数，一般不需要这种技巧，因为传递参数也需要CPU时间，通过 vtab 获取虚函数地址的操作，在编译器和 CPU 的配合之下，很大程度上可以将它的延迟隐藏在传递参数的时间之内（CPU的指令级并行如多发射、pipeline等）。</p>
 </blockquote>

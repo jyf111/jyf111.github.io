@@ -1,0 +1,315 @@
+<!DOCTYPE html>
+<html lang=zh>
+<head>
+    <!-- so meta -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="HandheldFriendly" content="True">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=5" />
+    <meta name="description" content="build_system ¶gcc&#x2F;clang 但是直接用编译指令一方面是很麻烦，指令会很长，另一方面是编译太慢，每次都需要重新编译。 ¶Makefile 自动维护依赖，增量构建。 但是用户可能用不同的编译器，不同的平台，于是有了一个configure文件（autotool），可以通过.&#x2F;configure基于Makefile.in模板生成适合用户所在平台的Makefile。 ¶CMake CMa">
+<meta property="og:type" content="article">
+<meta property="og:title" content="构建系统">
+<meta property="og:url" content="http://example.com/2024/03/13/%E6%9E%84%E5%BB%BA%E7%B3%BB%E7%BB%9F/index.html">
+<meta property="og:site_name" content="jyf111&#39;s blog">
+<meta property="og:description" content="build_system ¶gcc&#x2F;clang 但是直接用编译指令一方面是很麻烦，指令会很长，另一方面是编译太慢，每次都需要重新编译。 ¶Makefile 自动维护依赖，增量构建。 但是用户可能用不同的编译器，不同的平台，于是有了一个configure文件（autotool），可以通过.&#x2F;configure基于Makefile.in模板生成适合用户所在平台的Makefile。 ¶CMake CMa">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2024-03-13T15:02:12.000Z">
+<meta property="article:modified_time" content="2024-03-13T15:32:43.477Z">
+<meta property="article:author" content="jyf111">
+<meta property="article:tag" content="工具">
+<meta name="twitter:card" content="summary">
+    
+    
+      
+        
+          <link rel="shortcut icon" href="/images/favicon.ico">
+        
+      
+      
+        
+          <link rel="icon" type="image/png" href="/images/favicon-192x192.png" sizes="192x192">
+        
+      
+      
+        
+          <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png">
+        
+      
+    
+    <!-- title -->
+    <title>构建系统</title>
+    <!-- async scripts -->
+    <!-- Google Analytics -->
+
+
+    <!-- Umami Analytics -->
+
+
+    <!-- styles -->
+    
+<link rel="stylesheet" href="/css/style.css">
+
+    <!-- persian styles -->
+    
+    <!-- rss -->
+    
+    
+	<!-- mathjax -->
+	
+		<script type="text/x-mathjax-config">
+		  MathJax.Hub.Config({
+			tex2jax: {
+			  skipTags: ['script', 'noscript', 'style', 'textarea', 'pre'],
+			  inlineMath: [['$','$']]
+			}
+		  });
+		</script>
+		<script src='https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-MML-AM_CHTML' async></script>
+	
+
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/ui@4.0/dist/fancybox.css" />
+
+<meta name="generator" content="Hexo 6.3.0"></head>
+
+<body class="max-width mx-auto px3 ltr">
+    
+      <div id="header-post">
+  <a id="menu-icon" href="#" aria-label="目录"><i class="fa-solid fa-bars fa-lg"></i></a>
+  <a id="menu-icon-tablet" href="#" aria-label="目录"><i class="fa-solid fa-bars fa-lg"></i></a>
+  <a id="top-icon-tablet" href="#" aria-label="顶部" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');" style="display:none;"><i class="fa-solid fa-chevron-up fa-lg"></i></a>
+  <span id="menu">
+    <span id="nav">
+      <ul>
+        <!--
+       --><li><a href="/">首页</a></li><!--
+     --><!--
+       --><li><a href="/archives/">归档</a></li><!--
+     --><!--
+       --><li><a href="/tags/">标签</a></li><!--
+     --><!--
+       --><li><a href="/search/">搜索</a></li><!--
+     -->
+      </ul>
+    </span>
+    <br/>
+    <span id="actions">
+      <ul>
+        
+        
+        <li><a class="icon" aria-label="下一篇" href="/2024/03/13/%E8%BF%87%E7%A8%8B%E9%97%B4%E4%BC%98%E5%8C%96/"><i class="fa-solid fa-chevron-right" aria-hidden="true" onmouseover="$('#i-next').toggle();" onmouseout="$('#i-next').toggle();"></i></a></li>
+        
+        <li><a class="icon" aria-label="返回顶部" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fa-solid fa-chevron-up" aria-hidden="true" onmouseover="$('#i-top').toggle();" onmouseout="$('#i-top').toggle();"></i></a></li>
+      </ul>
+      <span id="i-prev" class="info" style="display:none;">上一篇</span>
+      <span id="i-next" class="info" style="display:none;">下一篇</span>
+      <span id="i-top" class="info" style="display:none;">返回顶部</span>
+    </span>
+    <br/>
+    
+    
+      <div id="toc">
+        <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#gcc-clang"><span class="toc-number">1.</span> <span class="toc-text">gcc&#x2F;clang</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Makefile"><span class="toc-number">2.</span> <span class="toc-text">Makefile</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#CMake"><span class="toc-number">3.</span> <span class="toc-text">CMake</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%A7%A3%E5%86%B3%E4%BE%9D%E8%B5%96%E5%86%B2%E7%AA%81"><span class="toc-number">4.</span> <span class="toc-text">解决依赖冲突</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%A7%A3%E5%86%B3%E5%BE%AA%E7%8E%AF%E4%BE%9D%E8%B5%96"><span class="toc-number">5.</span> <span class="toc-text">解决循环依赖</span></a></li></ol>
+      </div>
+    
+  </span>
+</div>
+
+    
+    <div class="content index py4 ">
+        
+        <article class="post h-entry" itemscope itemtype="http://schema.org/BlogPosting">
+  <header>
+    
+    <h1 class="posttitle p-name" itemprop="name headline">
+        构建系统
+    </h1>
+
+
+
+    <div class="meta">
+      <span class="author p-author h-card" itemprop="author" itemscope itemtype="http://schema.org/Person">
+        <span class="p-name" itemprop="name">jyf111</span>
+      </span>
+      
+    <div class="postdate">
+      
+        <time datetime="2024-03-13T15:02:12.000Z" class="dt-published" itemprop="datePublished">2024-03-13</time>
+        
+        (Updated: <time datetime="2024-03-13T15:32:43.477Z" class="dt-updated" itemprop="dateModified">2024-03-13</time>)
+        
+      
+    </div>
+
+
+      
+
+      
+    <div class="article-tag">
+        <i class="fa-solid fa-tag"></i>
+        <a class="p-category" href="/tags/%E5%B7%A5%E5%85%B7/" rel="tag">工具</a>
+    </div>
+
+
+      
+        
+            <span class=count-symbol-post> 
+            <i class="fa-solid fa-hourglass"></i>
+            
+            
+              (2 mins to read)
+            
+            </span>
+        
+      
+    </div>
+  </header>
+  
+
+  <div class="content e-content" itemprop="articleBody">
+    <p><a href="/post-images/build_system.webp">build_system</a></p>
+<h2 id="gcc-clang"><a class="header-anchor" href="#gcc-clang">¶</a>gcc/clang</h2>
+<p>但是直接用编译指令一方面是很麻烦，指令会很长，另一方面是编译太慢，每次都需要重新编译。</p>
+<h2 id="Makefile"><a class="header-anchor" href="#Makefile">¶</a>Makefile</h2>
+<p>自动维护依赖，增量构建。</p>
+<p>但是用户可能用不同的编译器，不同的平台，于是有了一个configure文件（autotool），可以通过<code>./configure</code>基于<code>Makefile.in</code>模板生成适合用户所在平台的Makefile。</p>
+<h2 id="CMake"><a class="header-anchor" href="#CMake">¶</a>CMake</h2>
+<p>CMake则是构建系统的构建系统，编写一份<code>CMakeLists.txt</code>就可以生成对应平台的相应构建系统（如Make、Ninja），然后再用该构建系统构建项目。CMake可以检测用户的平台和编译器。</p>
+<p>对象库：CMake自创的概念，不是一个真正的库，不会像静态库或动态库那样生成<code>.a</code>或<code>.so</code>文件，而是一个基于包含的源文件编译出的对象文件的临时集合，这只是一种组织代码的方式，可以管理公共的依赖项，并且保证了跨平台的统一性。</p>
+<figure class="highlight cmake"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">add_library</span>(mylib OBJECT lib.cpp)</span><br><span class="line"><span class="keyword">add_executable</span>(myapp main.cpp $&lt;TARGET_OBJECTS:mylib&gt;)</span><br></pre></td></tr></table></figure>
+<p><code>$&lt;...&gt;</code>是一个generator-expression，是在构建过程中执行的表达式。</p>
+<p>target的传播：</p>
+<ul>
+<li>interface: only cares about others and allows inheritance</li>
+<li>private: only cares about himself and does no allow inheritance</li>
+<li>public: interface + private, it cares about every one and allows inheritance</li>
+</ul>
+<h2 id="解决依赖冲突"><a class="header-anchor" href="#解决依赖冲突">¶</a>解决依赖冲突</h2>
+<h2 id="解决循环依赖"><a class="header-anchor" href="#解决循环依赖">¶</a>解决循环依赖</h2>
+
+  </div>
+</article>
+
+
+
+        
+          <div id="footer-post-container">
+  <div id="footer-post">
+
+    <div id="nav-footer" style="display: none">
+      <ul>
+        
+          <li><a href="/">首页</a></li>
+        
+          <li><a href="/archives/">归档</a></li>
+        
+          <li><a href="/tags/">标签</a></li>
+        
+          <li><a href="/search/">搜索</a></li>
+        
+      </ul>
+    </div>
+
+    
+    
+      <div id="toc-footer" style="display: none">
+        <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#gcc-clang"><span class="toc-number">1.</span> <span class="toc-text">gcc&#x2F;clang</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Makefile"><span class="toc-number">2.</span> <span class="toc-text">Makefile</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#CMake"><span class="toc-number">3.</span> <span class="toc-text">CMake</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%A7%A3%E5%86%B3%E4%BE%9D%E8%B5%96%E5%86%B2%E7%AA%81"><span class="toc-number">4.</span> <span class="toc-text">解决依赖冲突</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%A7%A3%E5%86%B3%E5%BE%AA%E7%8E%AF%E4%BE%9D%E8%B5%96"><span class="toc-number">5.</span> <span class="toc-text">解决循环依赖</span></a></li></ol>
+      </div>
+    
+
+    <div id="actions-footer">
+        <a id="menu" class="icon" href="#" onclick="$('#nav-footer').toggle();return false;"><i class="fa-solid fa-bars fa-lg" aria-hidden="true"></i> 菜单</a>
+        
+          <a id="toc" class="icon" href="#" onclick="$('#toc-footer').toggle();return false;"><i class="fa-solid fa-list fa-lg" aria-hidden="true"></i> 目录</a>
+        
+        <a id="top" style="display:none" class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fa-solid fa-chevron-up fa-lg" aria-hidden="true"></i> 返回顶部</a>
+    </div>
+
+  </div>
+</div>
+
+        
+        <footer id="footer">
+  <div class="footer-left">
+    Copyright &copy;
+    
+    
+    2020-2024
+    jyf111
+  </div>
+  <div class="footer-right">
+    <nav>
+      <ul>
+        <!--
+       --><li><a href="/">首页</a></li><!--
+     --><!--
+       --><li><a href="/archives/">归档</a></li><!--
+     --><!--
+       --><li><a href="/tags/">标签</a></li><!--
+     --><!--
+       --><li><a href="/search/">搜索</a></li><!--
+     -->
+      </ul>
+    </nav>
+  </div>
+</footer>
+
+    </div>
+    <!-- styles -->
+
+
+
+  <link rel="preload" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" crossorigin="anonymous" onload="this.onload=null;this.rel='stylesheet'"/>
+
+
+    <!-- jquery -->
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js" crossorigin="anonymous"></script>
+
+
+
+
+<!-- clipboard -->
+
+  
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.7/clipboard.min.js" crossorigin="anonymous"></script>
+  
+  <script type="text/javascript">
+  $(function() {
+    // copy-btn HTML
+    var btn = "<span class=\"btn-copy tooltipped tooltipped-sw\" aria-label=\"复制到粘贴板！\">";
+    btn += '<i class="fa-regular fa-clone"></i>';
+    btn += '</span>';
+    // mount it!
+    $(".highlight table").before(btn);
+    var clip = new ClipboardJS('.btn-copy', {
+      text: function(trigger) {
+        return Array.from(trigger.nextElementSibling.querySelectorAll('.code')).reduce((str,it)=>str+it.innerText+'\n','')
+      }
+    });
+    clip.on('success', function(e) {
+      e.trigger.setAttribute('aria-label', "复制成功！");
+      e.clearSelection();
+    })
+  })
+  </script>
+
+
+<script src="/js/main.js"></script>
+
+<!-- search -->
+
+<!-- Baidu Analytics -->
+
+<!-- Cloudflare Analytics -->
+
+<!-- Disqus Comments -->
+
+<!-- utterances Comments -->
+
+<!-- FancyBox -->
+
+<script src="https://cdn.jsdelivr.net/npm/@fancyapps/ui@4.0/dist/fancybox.umd.js"></script>
+
+
+</body>
+</html>

@@ -6,16 +6,17 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="HandheldFriendly" content="True">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=5" />
-    <meta name="description" content="## 温故而知新">
+    <meta name="description" content="C++中的编译单元是一个cpp文件，它会展开其中所有include进来的头文件，然后进行编译。因此头文件会被大量地重复编译。 预编译头文件（PCH，precompiled header）就是预先把头文件编译好，以避免对头文件的重复编译。主要是用于基本不会改变的头文件。 clang pch  Precompiled headers are meant to improve overall compi">
 <meta property="og:type" content="article">
 <meta property="og:title" content="预编译头文件PCH">
 <meta property="og:url" content="http://example.com/2024/02/19/%E9%A2%84%E7%BC%96%E8%AF%91%E5%A4%B4%E6%96%87%E4%BB%B6PCH/index.html">
 <meta property="og:site_name" content="jyf111&#39;s blog">
-<meta property="og:description" content="## 温故而知新">
+<meta property="og:description" content="C++中的编译单元是一个cpp文件，它会展开其中所有include进来的头文件，然后进行编译。因此头文件会被大量地重复编译。 预编译头文件（PCH，precompiled header）就是预先把头文件编译好，以避免对头文件的重复编译。主要是用于基本不会改变的头文件。 clang pch  Precompiled headers are meant to improve overall compi">
 <meta property="og:locale" content="zh_CN">
 <meta property="article:published_time" content="2024-02-18T17:20:20.000Z">
-<meta property="article:modified_time" content="2024-02-18T17:20:20.798Z">
+<meta property="article:modified_time" content="2024-03-09T15:48:24.315Z">
 <meta property="article:author" content="jyf111">
+<meta property="article:tag" content="语言">
 <meta name="twitter:card" content="summary">
     
     
@@ -132,7 +133,7 @@
       
         <time datetime="2024-02-18T17:20:20.000Z" class="dt-published" itemprop="datePublished">2024-02-19</time>
         
-        (Updated: <time datetime="2024-02-18T17:20:20.798Z" class="dt-updated" itemprop="dateModified">2024-02-19</time>)
+        (Updated: <time datetime="2024-03-09T15:48:24.315Z" class="dt-updated" itemprop="dateModified">2024-03-09</time>)
         
       
     </div>
@@ -141,6 +142,11 @@
       
 
       
+    <div class="article-tag">
+        <i class="fa-solid fa-tag"></i>
+        <a class="p-category" href="/tags/%E8%AF%AD%E8%A8%80/" rel="tag">语言</a>
+    </div>
+
 
       
         
@@ -148,7 +154,7 @@
             <i class="fa-solid fa-hourglass"></i>
             
             
-              (1 min to read)
+              (2 mins to read)
             
             </span>
         
@@ -158,7 +164,13 @@
   
 
   <div class="content e-content" itemprop="articleBody">
-    
+    <p>C++中的编译单元是一个cpp文件，它会展开其中所有include进来的头文件，然后进行编译。因此头文件会被大量地重复编译。</p>
+<p>预编译头文件（PCH，precompiled header）就是预先把头文件编译好，以避免对头文件的重复编译。主要是用于基本不会改变的头文件。</p>
+<p><a target="_blank" rel="noopener" href="https://clang.llvm.org/docs/PCHInternals.html">clang pch</a></p>
+<blockquote>
+<p>Precompiled headers are meant to improve overall compile times for projects, so the design of precompiled headers is entirely driven by performance concerns. The use case for precompiled headers is relatively simple: when there is a common set of headers that is included in nearly every source file in the project, we precompile that bundle of headers into a single precompiled header (PCH file). Then, when compiling the source files in the project, we load the PCH file first (as a prefix header), which acts as a stand-in for that bundle of headers.</p>
+</blockquote>
+
   </div>
 </article>
 
