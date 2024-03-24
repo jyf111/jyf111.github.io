@@ -6,15 +6,15 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="HandheldFriendly" content="True">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=5" />
-    <meta name="description" content="¶内存布局 1clang++ -Xclang -fdump-record-layouts -c main.cpp  多态对象的起始是虚函数表。 按继承顺序排布各个类，声明顺序排布各个成员，需要结合对齐规则。  12345678910111213141516171819202122232425262728293031323334353637383940414243444546474849505152">
+    <meta name="description" content="内存布局1clang++ -Xclang -fdump-record-layouts -c main.cpp  多态对象的起始是虚函数表。 按继承顺序排布各个类，声明顺序排布各个成员，需要结合对齐规则。  1234567891011121314151617181920212223242526272829303132333435363738394041424344454647484950515253">
 <meta property="og:type" content="article">
 <meta property="og:title" content="内存对齐">
 <meta property="og:url" content="http://example.com/2024/03/09/%E5%86%85%E5%AD%98%E5%AF%B9%E9%BD%90/index.html">
 <meta property="og:site_name" content="jyf111&#39;s blog">
-<meta property="og:description" content="¶内存布局 1clang++ -Xclang -fdump-record-layouts -c main.cpp  多态对象的起始是虚函数表。 按继承顺序排布各个类，声明顺序排布各个成员，需要结合对齐规则。  12345678910111213141516171819202122232425262728293031323334353637383940414243444546474849505152">
+<meta property="og:description" content="内存布局1clang++ -Xclang -fdump-record-layouts -c main.cpp  多态对象的起始是虚函数表。 按继承顺序排布各个类，声明顺序排布各个成员，需要结合对齐规则。  1234567891011121314151617181920212223242526272829303132333435363738394041424344454647484950515253">
 <meta property="og:locale" content="zh_CN">
 <meta property="article:published_time" content="2024-03-09T03:37:13.000Z">
-<meta property="article:modified_time" content="2024-03-13T14:53:14.688Z">
+<meta property="article:modified_time" content="2024-03-23T15:44:33.607Z">
 <meta property="article:author" content="jyf111">
 <meta property="article:tag" content="语言">
 <meta name="twitter:card" content="summary">
@@ -137,7 +137,7 @@
       
         <time datetime="2024-03-09T03:37:13.000Z" class="dt-published" itemprop="datePublished">2024-03-09</time>
         
-        (Updated: <time datetime="2024-03-13T14:53:14.688Z" class="dt-updated" itemprop="dateModified">2024-03-13</time>)
+        (Updated: <time datetime="2024-03-23T15:44:33.607Z" class="dt-updated" itemprop="dateModified">2024-03-23</time>)
         
       
     </div>
@@ -168,8 +168,7 @@
   
 
   <div class="content e-content" itemprop="articleBody">
-    <h2 id="内存布局"><a class="header-anchor" href="#内存布局">¶</a>内存布局</h2>
-<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">clang++ -Xclang -fdump-record-layouts -c main.cpp</span><br></pre></td></tr></table></figure>
+    <h2 id="内存布局"><a href="#内存布局" class="headerlink" title="内存布局"></a>内存布局</h2><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">clang++ -Xclang -fdump-record-layouts -c main.cpp</span><br></pre></td></tr></table></figure>
 <ul>
 <li>多态对象的起始是虚函数表。</li>
 <li>按继承顺序排布各个类，声明顺序排布各个成员，需要结合对齐规则。</li>
@@ -179,16 +178,13 @@
 <p>为什么要内存对齐？</p>
 <ul>
 <li>CPU效率，访存往往会取连续的一段（如64字节）进行cache</li>
-<li>CPU限制，比如只能以word的倍数进行访存</li>
+<li>CPU限制，比如只能以word（如4字节）为单位进行访存。此时非word的倍数就是未对齐访存，有些处理器直接不支持，而支持的处理器也需要更多条指令</li>
 <li>并发的false sharing问题</li>
 </ul>
-<h2 id="pragma"><a class="header-anchor" href="#pragma">¶</a>pragma</h2>
-<p>指示编译器以特定对齐方式对齐结构体成员，其中对齐单位=min(n, 结构体成员的最大大小)</p>
+<h2 id="pragma"><a href="#pragma" class="headerlink" title="pragma"></a>pragma</h2><p>指示编译器以特定对齐方式对齐结构体成员，其中对齐单位=min(n, 结构体成员的最大大小)</p>
 <figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">pragma</span> pack(n)</span></span><br><span class="line"><span class="keyword">struct</span> <span class="title class_">A</span> &#123;</span><br><span class="line"></span><br><span class="line">&#125;;</span><br><span class="line"><span class="built_in">alignof</span>(A); <span class="comment">// 查看结构体的对齐单位</span></span><br></pre></td></tr></table></figure>
-<h2 id="attribute"><a class="header-anchor" href="#attribute">¶</a>attribute</h2>
-<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">__attribute((packed)); <span class="comment">// 设置紧凑排布，即对齐单位为1</span></span><br><span class="line">__attribute((<span class="built_in">aligned</span>(x))); <span class="comment">// 设置结构体的起始地址以及整体大小均为x的倍数（保证结构体的整体大小是x的倍数可以在使用结构体数组时使得每个结构体都是对齐的）</span></span><br></pre></td></tr></table></figure>
-<h2 id="alignas"><a class="header-anchor" href="#alignas">¶</a>alignas</h2>
-<p>作用类似于<code>__attribute((aligned(x)))</code></p>
+<h2 id="attribute"><a href="#attribute" class="headerlink" title="attribute"></a>attribute</h2><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">__attribute((packed)); <span class="comment">// 设置紧凑排布，即对齐单位为1</span></span><br><span class="line">__attribute((<span class="built_in">aligned</span>(x))); <span class="comment">// 设置结构体的起始地址以及整体大小均为x的倍数（保证结构体的整体大小是x的倍数可以在使用结构体数组时使得每个结构体都是对齐的）</span></span><br></pre></td></tr></table></figure>
+<h2 id="alignas"><a href="#alignas" class="headerlink" title="alignas"></a>alignas</h2><p>作用类似于<code>__attribute((aligned(x)))</code></p>
 <figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">alignas</span>(x);</span><br></pre></td></tr></table></figure>
 
   </div>

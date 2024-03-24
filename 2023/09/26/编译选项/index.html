@@ -6,15 +6,15 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="HandheldFriendly" content="True">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=5" />
-    <meta name="description" content="-Wall -Wextra -Wshadow -Wundef -Wconversion -fno-common：避免全局变量 -Wfloat-equal -Wunreachable-code -Wformat&#x3D;2：检查printf和scanf的格式控制符 -fmudflap：在运行时检查指针操作以捕获未定义行为 -fno-exceptions：在代码中使用异常时，报错 -ffast-math；要">
+    <meta name="description" content="-Wall -Wextra -Wshadow -Wundef  -Wconversion  -fno-common：避免全局变量  -Wfloat-equal  -Wunreachable-code  -Wformat&#x3D;2：检查printf和scanf的格式控制符 -fmudflap：在运行时检查指针操作以捕获未定义行为 -fno-exceptions：在代码中使用异常时，报错 -ffast-m">
 <meta property="og:type" content="article">
 <meta property="og:title" content="编译选项">
 <meta property="og:url" content="http://example.com/2023/09/26/%E7%BC%96%E8%AF%91%E9%80%89%E9%A1%B9/index.html">
 <meta property="og:site_name" content="jyf111&#39;s blog">
-<meta property="og:description" content="-Wall -Wextra -Wshadow -Wundef -Wconversion -fno-common：避免全局变量 -Wfloat-equal -Wunreachable-code -Wformat&#x3D;2：检查printf和scanf的格式控制符 -fmudflap：在运行时检查指针操作以捕获未定义行为 -fno-exceptions：在代码中使用异常时，报错 -ffast-math；要">
+<meta property="og:description" content="-Wall -Wextra -Wshadow -Wundef  -Wconversion  -fno-common：避免全局变量  -Wfloat-equal  -Wunreachable-code  -Wformat&#x3D;2：检查printf和scanf的格式控制符 -fmudflap：在运行时检查指针操作以捕获未定义行为 -fno-exceptions：在代码中使用异常时，报错 -ffast-m">
 <meta property="og:locale" content="zh_CN">
 <meta property="article:published_time" content="2023-09-26T09:26:49.000Z">
-<meta property="article:modified_time" content="2024-01-25T16:17:04.743Z">
+<meta property="article:modified_time" content="2024-03-24T05:24:31.591Z">
 <meta property="article:author" content="jyf111">
 <meta property="article:tag" content="语言">
 <meta name="twitter:card" content="summary">
@@ -133,7 +133,7 @@
       
         <time datetime="2023-09-26T09:26:49.000Z" class="dt-published" itemprop="datePublished">2023-09-26</time>
         
-        (Updated: <time datetime="2024-01-25T16:17:04.743Z" class="dt-updated" itemprop="dateModified">2024-01-26</time>)
+        (Updated: <time datetime="2024-03-24T05:24:31.591Z" class="dt-updated" itemprop="dateModified">2024-03-24</time>)
         
       
     </div>
@@ -167,17 +167,18 @@
     <ul>
 <li><code>-Wall</code> <code>-Wextra</code></li>
 <li><code>-Wshadow</code></li>
-<li><code>-Wundef</code></li>
-<li><code>-Wconversion</code></li>
-<li><code>-fno-common</code>：避免全局变量</li>
-<li><code>-Wfloat-equal</code></li>
-<li><code>-Wunreachable-code</code></li>
+<li><code>-Wundef</code> </li>
+<li><code>-Wconversion</code> </li>
+<li><code>-fno-common</code>：避免全局变量 </li>
+<li><code>-Wfloat-equal</code> </li>
+<li><code>-Wunreachable-code</code> </li>
 <li><code>-Wformat=2</code>：检查<code>printf</code>和<code>scanf</code>的格式控制符</li>
 <li><code>-fmudflap</code>：在运行时检查指针操作以捕获未定义行为</li>
 <li><code>-fno-exceptions</code>：在代码中使用异常时，报错</li>
 <li><code>-ffast-math</code>；要求高性能，但不要求精度</li>
 <li><code>-fomit-frame-pointer</code>：省略栈帧</li>
 <li><code>-fno-plt</code></li>
+<li><code>-ipo</code>：开启过程间优化</li>
 <li><code>-no-pie</code>：关闭位置无关</li>
 <li><code>-fPIE</code></li>
 <li><code>-fPIC</code>：生成位置无关代码，用于生成共享库</li>
@@ -188,6 +189,8 @@
 <li><code>-flto</code>：开启链接时优化，通常编译器只会在单个翻译单元内进行优化，这样可以在整个程序上优化</li>
 <li><code>-rdynamic</code>：指示链接器将所有符号（不仅是已经使用的）都添加到动态符号表中</li>
 <li><code>-march=native</code> <code>-mtune=native</code>：根据CPU进行特定优化</li>
+<li><code>-ftree-vectorize</code>：将循环转化为向量化指令</li>
+<li><code>-floop-nest-optimize</code>：优化嵌套循环</li>
 <li><code>-I</code> <code>-L</code>：指定链接时查找的include文件夹和共享库文件夹，环境变量<code>$LD_LIBRARY_PATH</code>为运行时查找的共享库文件夹</li>
 <li><code>-save-temps</code>：保留所有编译的中间文件（<code>.c</code>, <code>.i</code>, <code>.s</code>, <code>.o</code>）</li>
 <li><code>-v</code>：输出详细信息</li>

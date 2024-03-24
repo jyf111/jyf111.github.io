@@ -6,15 +6,15 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="HandheldFriendly" content="True">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=5" />
-    <meta name="description" content="¶概述 A Guide to Undefined Behavior in C and C++ 未定义行为就是一系列不应该进行的无厘头操作，如果进行，则可能发生任何事情。 未定义行为可以简化编译器的工作，优化性能。（比如不需要边界检查、除零、有符号整数溢出）编译器的义务只是考虑行为已有定义的情况，换句话说，它默认输入的程序是没有未定义行为的。一个程序中只要一个操作是未定义的，那整个程序的结果就是未定">
+    <meta name="description" content="概述A Guide to Undefined Behavior in C and C++ 未定义行为就是一系列不应该进行的无厘头操作，如果进行，则可能发生任何事情。 未定义行为可以简化编译器的工作，优化性能。（比如不需要边界检查、除零、有符号整数溢出）编译器的义务只是考虑行为已有定义的情况，换句话说，它默认输入的程序是没有未定义行为的。一个程序中只要一个操作是未定义的，那整个程序的结果就是未定义的">
 <meta property="og:type" content="article">
 <meta property="og:title" content="C++未定义行为罗列">
 <meta property="og:url" content="http://example.com/2024/03/09/C-%E6%9C%AA%E5%AE%9A%E4%B9%89%E8%A1%8C%E4%B8%BA%E7%BD%97%E5%88%97/index.html">
 <meta property="og:site_name" content="jyf111&#39;s blog">
-<meta property="og:description" content="¶概述 A Guide to Undefined Behavior in C and C++ 未定义行为就是一系列不应该进行的无厘头操作，如果进行，则可能发生任何事情。 未定义行为可以简化编译器的工作，优化性能。（比如不需要边界检查、除零、有符号整数溢出）编译器的义务只是考虑行为已有定义的情况，换句话说，它默认输入的程序是没有未定义行为的。一个程序中只要一个操作是未定义的，那整个程序的结果就是未定">
+<meta property="og:description" content="概述A Guide to Undefined Behavior in C and C++ 未定义行为就是一系列不应该进行的无厘头操作，如果进行，则可能发生任何事情。 未定义行为可以简化编译器的工作，优化性能。（比如不需要边界检查、除零、有符号整数溢出）编译器的义务只是考虑行为已有定义的情况，换句话说，它默认输入的程序是没有未定义行为的。一个程序中只要一个操作是未定义的，那整个程序的结果就是未定义的">
 <meta property="og:locale" content="zh_CN">
 <meta property="article:published_time" content="2024-03-09T07:09:44.000Z">
-<meta property="article:modified_time" content="2024-03-10T16:00:02.444Z">
+<meta property="article:modified_time" content="2024-03-23T15:18:28.978Z">
 <meta property="article:author" content="jyf111">
 <meta property="article:tag" content="语言">
 <meta name="twitter:card" content="summary">
@@ -137,7 +137,7 @@
       
         <time datetime="2024-03-09T07:09:44.000Z" class="dt-published" itemprop="datePublished">2024-03-09</time>
         
-        (Updated: <time datetime="2024-03-10T16:00:02.444Z" class="dt-updated" itemprop="dateModified">2024-03-11</time>)
+        (Updated: <time datetime="2024-03-23T15:18:28.978Z" class="dt-updated" itemprop="dateModified">2024-03-23</time>)
         
       
     </div>
@@ -158,7 +158,7 @@
             <i class="fa-solid fa-hourglass"></i>
             
             
-              (3 mins to read)
+              (4 mins to read)
             
             </span>
         
@@ -168,25 +168,22 @@
   
 
   <div class="content e-content" itemprop="articleBody">
-    <h2 id="概述"><a class="header-anchor" href="#概述">¶</a>概述</h2>
-<p><a target="_blank" rel="noopener" href="https://blog.xry111.site/post/regehr-guide-to-ub/">A Guide to Undefined Behavior in C and C++</a></p>
+    <h2 id="概述"><a href="#概述" class="headerlink" title="概述"></a>概述</h2><p><a target="_blank" rel="noopener" href="https://blog.xry111.site/post/regehr-guide-to-ub/">A Guide to Undefined Behavior in C and C++</a></p>
 <p>未定义行为就是一系列不应该进行的无厘头操作，如果进行，则可能发生任何事情。</p>
-<p>未定义行为可以简化编译器的工作，优化性能。（比如不需要边界检查、除零、<strong>有符号</strong>整数溢出）编译器的义务只是考虑行为已有定义的情况，换句话说，它<strong>默认输入的程序是没有未定义行为的</strong>。一个程序中只要一个操作是未定义的，那整个程序的结果就是未定义的（ill-formed）。</p>
+<p>未定义行为可以简化编译器的工作，优化性能。（比如不需要边界检查、除零、<strong>有符号</strong>整数溢出）<br>编译器的义务只是考虑行为已有定义的情况，换句话说，它<strong>默认输入的程序是没有未定义行为的</strong>。<br>一个程序中只要一个操作是未定义的，那整个程序的结果就是未定义的（ill-formed）。</p>
 <p>优化器在它认为可以提高性能，而且不会改变程序的可见行为时，可以进行指令重排等优化。</p>
 <p>C的一项设计理念是“信任程序员”。</p>
 <blockquote>
-<p>UB is a program executed out of contractwhen designing a program, remember to define the domain of inputsdefine what happens for out-of-contract inputsprovide optional input validation tools to your users</p>
+<p>UB is a program executed out of contract<br>when designing a program, remember to define the domain of inputs<br>define what happens for out-of-contract inputs<br>provide optional input validation tools to your users</p>
 </blockquote>
 <figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">asm</span> <span class="title">volatile</span> <span class="params">(<span class="string">&quot;&quot;</span> : : : <span class="string">&quot;memory&quot;</span>)</span></span>;</span><br></pre></td></tr></table></figure>
-<p>以上内嵌汇编表示可能修改整个内存，它使得在它之前的所有寄存器的值都被保存到了内存中，并且在它之后需要重新加载。</p>
-<h2 id="顺序点和副作用"><a class="header-anchor" href="#顺序点和副作用">¶</a>顺序点和副作用</h2>
-<ul>
-<li>顺序点：一个结算点，在该时刻前的求值和副作用都必须完成，才能进行后续的部分，如分号、逗号、冒号、运算符</li>
+<p>以上内嵌汇编表示可能修改整个内存，它使得在它之前的所有寄存器的值都被保存到了内存中，<br>并且在它之后需要重新加载。</p>
+<h2 id="顺序点和副作用"><a href="#顺序点和副作用" class="headerlink" title="顺序点和副作用"></a>顺序点和副作用</h2><ul>
+<li>顺序点：一个结算点，在该时刻前的求值和副作用都必须完成，才能进行后续的部分，包括完整表达式、逗号、三元运算符、逻辑运算符、函数调用等（用于确定执行熟悉怒的概念）</li>
 <li>副作用：计算表达式时，除了取得值外，可能改变某些变量的值（比如递增，赋值运算符）</li>
 </ul>
-<p>有副作用的操作只能按序执行（比如printf），但其它操作是可以重排的（这个副作用应该说是有依赖的副作用，比如a++,b++这两个表达式是没有依赖的，所以也可以重排），本质是只要单线程运行结果不变即可。举个例子，在一个除零操作前加一个printf，发生了除零，但是没有打印出printf，这是因为段错误不是副作用，是可以被重排的。</p>
-<h2 id="列表"><a class="header-anchor" href="#列表">¶</a>列表</h2>
-<ul>
+<p>有副作用的操作只能按序执行（比如printf），但其它操作是可以重排的（这个副作用应该说是有依赖的副作用，<br>比如a++,b++这两个表达式是没有依赖的，所以也可以重排），本质是只要单线程运行结果不变即可。<br>举个例子，在一个除零操作前加一个printf，发生了除零，但是没有打印出printf，<br>这是因为段错误不是副作用，是可以被重排的。</p>
+<h2 id="列表"><a href="#列表" class="headerlink" title="列表"></a>列表</h2><ul>
 <li>解引用空指针、野指针、new(0)返回的指针</li>
 <li>memcpy重叠的buffer</li>
 <li>转换指针为不兼容类型</li>
@@ -201,9 +198,38 @@
 <li>没有副作用的死循环（如<code>while(true) &#123;&#125;</code>）</li>
 </ul>
 <figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="type">int</span> <span class="title">foo</span><span class="params">(<span class="type">int</span> i)</span> </span>&#123;</span><br><span class="line">    <span class="type">static</span> <span class="type">int</span> s = <span class="built_in">foo</span>(i &lt;&lt; <span class="number">1</span>);</span><br><span class="line">    <span class="keyword">return</span> i + <span class="number">1</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<h2 id="UBSAN"><a class="header-anchor" href="#UBSAN">¶</a>UBSAN</h2>
-<p>UBSAN在编译阶段插桩，然后在运行阶段检查。因此只有执行到的代码才会被检查到。</p>
+<h2 id="UBSAN"><a href="#UBSAN" class="headerlink" title="UBSAN"></a>UBSAN</h2><p>UBSAN在编译阶段插桩，然后在运行阶段检查。因此只有执行到的代码才会被检查到。</p>
 <figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">clang++ -fsanitize=undefined</span><br></pre></td></tr></table></figure>
+<p>Please eliminate:</p>
+<ul>
+<li>uninitialized variales</li>
+<li>range errors</li>
+<li>nullptr dereferencing</li>
+<li>resource leaks</li>
+<li>dangling references</li>
+<li>unions (use variants)</li>
+<li>casts</li>
+<li>underflow and overflow</li>
+<li>data races</li>
+<li>subscripting raw pointers (use vector and span)</li>
+</ul>
+<p>Many notions of safety</p>
+<ul>
+<li>logic errors</li>
+<li>resource leaks</li>
+<li>concurrency errors</li>
+<li>memory corruption</li>
+<li>type errors</li>
+<li>overflows and unanticipated conversions</li>
+<li>timing errors</li>
+<li>allocation unpredictability</li>
+<li><p>termination errors</p>
+</li>
+<li><p>type safety: no type or resource violations</p>
+</li>
+<li>range: no pointer arithmetic; no nullptr dereference, span and vector range throw or terminate on violations</li>
+<li>arithmetic: no overflow, no narrowing conversions, no implicit signed/unsigned conversions</li>
+</ul>
 
   </div>
 </article>
