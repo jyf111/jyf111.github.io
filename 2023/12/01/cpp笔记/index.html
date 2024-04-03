@@ -16,7 +16,7 @@
 <meta property="og:image" content="http://example.com/post-images/cpp-argument-passing.png">
 <meta property="og:image" content="http://example.com/post-images/cpp-argument-passing.png">
 <meta property="article:published_time" content="2023-12-01T08:05:01.000Z">
-<meta property="article:modified_time" content="2024-03-24T10:58:51.529Z">
+<meta property="article:modified_time" content="2024-03-31T16:19:26.469Z">
 <meta property="article:author" content="jyf111">
 <meta property="article:tag" content="语言">
 <meta name="twitter:card" content="summary">
@@ -113,7 +113,7 @@
     
     
       <div id="toc">
-        <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#std-ref"><span class="toc-number">1.</span> <span class="toc-text">std::ref</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#std-reference-wrapper"><span class="toc-number">2.</span> <span class="toc-text">std::reference_wrapper</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#this-nullptr"><span class="toc-number">3.</span> <span class="toc-text">this &#x3D; nullptr</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%B8%A5%E6%A0%BC%E5%88%AB%E5%90%8D"><span class="toc-number">4.</span> <span class="toc-text">严格别名</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%88%9D%E5%A7%8B%E5%8C%96%E5%88%97%E8%A1%A8%E6%8B%B7%E8%B4%9D"><span class="toc-number">5.</span> <span class="toc-text">初始化列表拷贝</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BC%AA%E6%9E%90%E6%9E%84%E5%87%BD%E6%95%B0"><span class="toc-number">6.</span> <span class="toc-text">伪析构函数</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Opaque-Pointer"><span class="toc-number">7.</span> <span class="toc-text">Opaque Pointer</span></a></li></ol>
+        <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#std-ref"><span class="toc-number">1.</span> <span class="toc-text">std::ref</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#std-reference-wrapper"><span class="toc-number">2.</span> <span class="toc-text">std::reference_wrapper</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#this-nullptr"><span class="toc-number">3.</span> <span class="toc-text">this &#x3D; nullptr</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%B8%A5%E6%A0%BC%E5%88%AB%E5%90%8D"><span class="toc-number">4.</span> <span class="toc-text">严格别名</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%88%9D%E5%A7%8B%E5%8C%96%E5%88%97%E8%A1%A8%E6%8B%B7%E8%B4%9D"><span class="toc-number">5.</span> <span class="toc-text">初始化列表拷贝</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BC%AA%E6%9E%90%E6%9E%84%E5%87%BD%E6%95%B0"><span class="toc-number">6.</span> <span class="toc-text">伪析构函数</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Opaque-Pointer"><span class="toc-number">7.</span> <span class="toc-text">Opaque Pointer</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#std-string-SSO"><span class="toc-number">8.</span> <span class="toc-text">std::string SSO</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#NRVO%E5%92%8CRVO"><span class="toc-number">9.</span> <span class="toc-text">NRVO和RVO</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#clang"><span class="toc-number">10.</span> <span class="toc-text">clang</span></a></li></ol>
       </div>
     
   </span>
@@ -140,7 +140,7 @@
       
         <time datetime="2023-12-01T08:05:01.000Z" class="dt-published" itemprop="datePublished">2023-12-01</time>
         
-        (Updated: <time datetime="2024-03-24T10:58:51.529Z" class="dt-updated" itemprop="dateModified">2024-03-24</time>)
+        (Updated: <time datetime="2024-03-31T16:19:26.469Z" class="dt-updated" itemprop="dateModified">2024-04-01</time>)
         
       
     </div>
@@ -161,7 +161,7 @@
             <i class="fa-solid fa-hourglass"></i>
             
             
-              (7 mins to read)
+              (9 mins to read)
             
             </span>
         
@@ -211,6 +211,18 @@
 <p>主要被用于向用户隐藏接口的具体实现，即pointer to impl范式。</p>
 <p>头文件定义接口，源文件定义实现。</p>
 <figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// interface (widget.h)</span></span><br><span class="line"><span class="keyword">struct</span> <span class="title class_">widget</span> &#123;</span><br><span class="line">    <span class="comment">// public members</span></span><br><span class="line"><span class="keyword">private</span>:</span><br><span class="line">    <span class="keyword">struct</span> <span class="title class_">impl</span>; <span class="comment">// forward declaration of the implementation class</span></span><br><span class="line">    <span class="comment">// One implementation example: see below for other design options and trade-offs</span></span><br><span class="line">    std::experimental::propagate_const&lt; <span class="comment">// const-forwarding pointer wrapper</span></span><br><span class="line">        std::unique_ptr&lt;                <span class="comment">// unique-ownership opaque pointer</span></span><br><span class="line">            impl&gt;&gt; pImpl;               <span class="comment">// to the forward-declared implementation class</span></span><br><span class="line">&#125;;</span><br><span class="line"> </span><br><span class="line"><span class="comment">// implementation (widget.cpp)</span></span><br><span class="line"><span class="keyword">struct</span> <span class="title class_">widget</span>::impl &#123;</span><br><span class="line">    <span class="comment">// implementation details</span></span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+<h2 id="std-string-SSO"><a href="#std-string-SSO" class="headerlink" title="std::string SSO"></a>std::string SSO</h2><p><code>std::string</code>的实现与<code>std::vector</code>类型，需要一个8字节的capacity，一个8字节的size，<br>以及一个8字节的data。</p>
+<p>而对于较短的字符串，可以考虑直接利用这24字节的栈空间进行存储，而不进行堆内存分配，即著名的<br>短字符串优化（SSO）。</p>
+<p>这里<code>__min_cap=23</code>，又由于C++11规定<code>std::string</code>必须以<code>&#39;\n&#39;</code>结尾，因此可用长度为22。<br>对于小端序，<code>__size_</code>的最低位会被用于标记使用的是short还是long。</p>
+<p>这其实很巧妙。如果是short，只需要利用高7位表示长度即可；而如果是long，只需保证<br><code>__cap_</code>是2的倍数即可，也即最后一位无关紧要。</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">struct</span> <span class="title class_">__short</span></span><br><span class="line">&#123;</span><br><span class="line">    <span class="keyword">union</span></span><br><span class="line">    &#123;</span><br><span class="line">        <span class="type">unsigned</span> <span class="type">char</span> __size_;</span><br><span class="line">        value_type __lx;</span><br><span class="line">    &#125;;</span><br><span class="line">    value_type [__min_cap];</span><br><span class="line">&#125;;</span><br><span class="line"><span class="keyword">struct</span> <span class="title class_">__long</span></span><br><span class="line">&#123;</span><br><span class="line">    size_type __cap_;</span><br><span class="line">    size_type __size_;</span><br><span class="line">    pointer   __data_;</span><br><span class="line">&#125;;</span><br><span class="line"><span class="keyword">union</span></span><br><span class="line">&#123;</span><br><span class="line">    __short __s_;</span><br><span class="line">    __long __l_;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+<h2 id="NRVO和RVO"><a href="#NRVO和RVO" class="headerlink" title="NRVO和RVO"></a>NRVO和RVO</h2><p>即命名返回值优化和返回值优化：编译器会直接在接收函数返回值的对象上进行单次构造，<br>优化掉构造一个临时对象，再执行拷贝构造的过程。</p>
+<p>事实上，编译器会将这个返回值改成一个函数参数，然后将返回值变成void。<br>相当于先在函数外构造对象，然后再调用该函数操作这个对象。</p>
+<p>显然，在return的时候加<code>std::move</code>只会弄巧成拙，导致编译器无法执行返回值优化。</p>
+<h2 id="clang"><a href="#clang" class="headerlink" title="clang"></a>clang</h2><ul>
+<li><code>-S -emit-llvm</code>：将中间代码表示LLVM IR写到<code>.ll</code>的文本文件中</li>
+<li><code>-cc1 -emit-obj</code>：生成对象文件，其中包含机器码，但尚未链接为可执行文件或动态链接库</li>
+</ul>
 
   </div>
 </article>
@@ -238,7 +250,7 @@
     
     
       <div id="toc-footer" style="display: none">
-        <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#std-ref"><span class="toc-number">1.</span> <span class="toc-text">std::ref</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#std-reference-wrapper"><span class="toc-number">2.</span> <span class="toc-text">std::reference_wrapper</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#this-nullptr"><span class="toc-number">3.</span> <span class="toc-text">this &#x3D; nullptr</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%B8%A5%E6%A0%BC%E5%88%AB%E5%90%8D"><span class="toc-number">4.</span> <span class="toc-text">严格别名</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%88%9D%E5%A7%8B%E5%8C%96%E5%88%97%E8%A1%A8%E6%8B%B7%E8%B4%9D"><span class="toc-number">5.</span> <span class="toc-text">初始化列表拷贝</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BC%AA%E6%9E%90%E6%9E%84%E5%87%BD%E6%95%B0"><span class="toc-number">6.</span> <span class="toc-text">伪析构函数</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Opaque-Pointer"><span class="toc-number">7.</span> <span class="toc-text">Opaque Pointer</span></a></li></ol>
+        <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#std-ref"><span class="toc-number">1.</span> <span class="toc-text">std::ref</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#std-reference-wrapper"><span class="toc-number">2.</span> <span class="toc-text">std::reference_wrapper</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#this-nullptr"><span class="toc-number">3.</span> <span class="toc-text">this &#x3D; nullptr</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%B8%A5%E6%A0%BC%E5%88%AB%E5%90%8D"><span class="toc-number">4.</span> <span class="toc-text">严格别名</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%88%9D%E5%A7%8B%E5%8C%96%E5%88%97%E8%A1%A8%E6%8B%B7%E8%B4%9D"><span class="toc-number">5.</span> <span class="toc-text">初始化列表拷贝</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BC%AA%E6%9E%90%E6%9E%84%E5%87%BD%E6%95%B0"><span class="toc-number">6.</span> <span class="toc-text">伪析构函数</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Opaque-Pointer"><span class="toc-number">7.</span> <span class="toc-text">Opaque Pointer</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#std-string-SSO"><span class="toc-number">8.</span> <span class="toc-text">std::string SSO</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#NRVO%E5%92%8CRVO"><span class="toc-number">9.</span> <span class="toc-text">NRVO和RVO</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#clang"><span class="toc-number">10.</span> <span class="toc-text">clang</span></a></li></ol>
       </div>
     
 
