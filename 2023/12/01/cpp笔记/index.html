@@ -6,17 +6,17 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="HandheldFriendly" content="True">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=5" />
-    <meta name="description" content="std::ref在传参时默认是拷贝，通过添加std::ref来使用引用。这在std::bind、std::thread以及模板（std::make_pair、std::make_tuple）等间接进行函数调用的地方有用。 std::reference_wrapperstd::ref产生的就是一个包含引用的std::reference_wrapper的对象。从而能够声明一个引用数组。 referen">
+    <meta name="description" content="¶std::ref 在传参时默认是拷贝，通过添加std::ref来使用引用。这在std::bind、std::thread以及模板（std::make_pair、std::make_tuple）等间接进行函数调用的地方有用。 ¶std::reference_wrapper std::ref产生的就是一个包含引用的std::reference_wrapper的对象。从而能够声明一个引用数组。 ref">
 <meta property="og:type" content="article">
 <meta property="og:title" content="cpp笔记">
 <meta property="og:url" content="http://example.com/2023/12/01/cpp%E7%AC%94%E8%AE%B0/index.html">
 <meta property="og:site_name" content="jyf111&#39;s blog">
-<meta property="og:description" content="std::ref在传参时默认是拷贝，通过添加std::ref来使用引用。这在std::bind、std::thread以及模板（std::make_pair、std::make_tuple）等间接进行函数调用的地方有用。 std::reference_wrapperstd::ref产生的就是一个包含引用的std::reference_wrapper的对象。从而能够声明一个引用数组。 referen">
+<meta property="og:description" content="¶std::ref 在传参时默认是拷贝，通过添加std::ref来使用引用。这在std::bind、std::thread以及模板（std::make_pair、std::make_tuple）等间接进行函数调用的地方有用。 ¶std::reference_wrapper std::ref产生的就是一个包含引用的std::reference_wrapper的对象。从而能够声明一个引用数组。 ref">
 <meta property="og:locale" content="zh_CN">
 <meta property="og:image" content="http://example.com/post-images/cpp-argument-passing.png">
 <meta property="og:image" content="http://example.com/post-images/cpp-argument-passing.png">
 <meta property="article:published_time" content="2023-12-01T08:05:01.000Z">
-<meta property="article:modified_time" content="2024-03-31T16:19:26.469Z">
+<meta property="article:modified_time" content="2024-04-04T17:01:50.352Z">
 <meta property="article:author" content="jyf111">
 <meta property="article:tag" content="语言">
 <meta name="twitter:card" content="summary">
@@ -140,7 +140,7 @@
       
         <time datetime="2023-12-01T08:05:01.000Z" class="dt-published" itemprop="datePublished">2023-12-01</time>
         
-        (Updated: <time datetime="2024-03-31T16:19:26.469Z" class="dt-updated" itemprop="dateModified">2024-04-01</time>)
+        (Updated: <time datetime="2024-04-04T17:01:50.352Z" class="dt-updated" itemprop="dateModified">2024-04-05</time>)
         
       
     </div>
@@ -161,7 +161,7 @@
             <i class="fa-solid fa-hourglass"></i>
             
             
-              (9 mins to read)
+              (10 mins to read)
             
             </span>
         
@@ -171,22 +171,26 @@
   
 
   <div class="content e-content" itemprop="articleBody">
-    <h2 id="std-ref"><a href="#std-ref" class="headerlink" title="std::ref"></a>std::ref</h2><p>在传参时默认是拷贝，通过添加<code>std::ref</code>来使用引用。<br>这在<code>std::bind</code>、<code>std::thread</code>以及模板（<code>std::make_pair</code>、<code>std::make_tuple</code>）等间接进行函数调用的地方有用。</p>
-<h2 id="std-reference-wrapper"><a href="#std-reference-wrapper" class="headerlink" title="std::reference_wrapper"></a>std::reference_wrapper</h2><p><code>std::ref</code>产生的就是一个包含引用的<code>std::reference_wrapper</code>的对象。<br>从而能够声明一个引用数组。</p>
+    <h2 id="std-ref"><a class="header-anchor" href="#std-ref">¶</a>std::ref</h2>
+<p>在传参时默认是拷贝，通过添加<code>std::ref</code>来使用引用。这在<code>std::bind</code>、<code>std::thread</code>以及模板（<code>std::make_pair</code>、<code>std::make_tuple</code>）等间接进行函数调用的地方有用。</p>
+<h2 id="std-reference-wrapper"><a class="header-anchor" href="#std-reference-wrapper">¶</a>std::reference_wrapper</h2>
+<p><code>std::ref</code>产生的就是一个包含引用的<code>std::reference_wrapper</code>的对象。从而能够声明一个引用数组。</p>
 <p><code>reference_wrapper&lt;int&gt; arr[] &#123;x,y,z&#125;;</code></p>
-<h2 id="this-nullptr"><a href="#this-nullptr" class="headerlink" title="this = nullptr"></a>this = nullptr</h2><p>这里类函数中没有使用任何类成员和类函数，也即与this的取值无关，通常会正常运行，<br>但这仍然是未定义行为。</p>
+<h2 id="this-nullptr"><a class="header-anchor" href="#this-nullptr">¶</a>this = nullptr</h2>
+<p>这里类函数中没有使用任何类成员和类函数，也即与this的取值无关，通常会正常运行，但这仍然是未定义行为。</p>
 <p>编译器其实会将类函数<code>ABC::print()</code>转化为一个全局的函数<code>void _ABC_print(ABC *this)</code>。</p>
-<p>编译器优化会假设程序不包含UB，因此会假设<code>this != nullptr</code>，从而进行某些优化，<br>导致不符合预期。</p>
+<p>编译器优化会假设程序不包含UB，因此会假设<code>this != nullptr</code>，从而进行某些优化，导致不符合预期。</p>
 <figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">ABC</span>&#123;</span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">        <span class="type">int</span> a;</span><br><span class="line">        <span class="function"><span class="type">void</span> <span class="title">print</span><span class="params">()</span></span>&#123;cout&lt;&lt;<span class="string">&quot;hello&quot;</span>&lt;&lt;endl;&#125;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">int</span> <span class="title">main</span><span class="params">()</span></span>&#123;</span><br><span class="line">        ABC *ptr = <span class="literal">NULL</span>:</span><br><span class="line">        ptr-&gt;<span class="built_in">print</span>();</span><br><span class="line">        <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <p><code>delete this</code>是合法的，只要该对象时动态分配的，并且之后不再使用</p>
-<h2 id="严格别名"><a href="#严格别名" class="headerlink" title="严格别名"></a>严格别名</h2><p><code>-fstrict-aliasing</code></p>
-<p>严格别名规则指编译器在看到多个别名时，如果它们不满足严格别名要求，<br>就认为它们指向不同的内存区域，从而进行优化，<br>导致产生与我们预期不符的代码。</p>
-<p>严格别名要求（这是C语言的定义，相对简单一些）：<br>对象的值只能通过与该对象类型（1）兼容的类型及其CV限定、（2）有无符号版本及其CV限定、<br>（3）成员中有该类型的union和聚合结构体、（4）字符类型（char, unsigned char, std::byte）访问。</p>
+<h2 id="严格别名"><a class="header-anchor" href="#严格别名">¶</a>严格别名</h2>
+<p><code>-fstrict-aliasing</code></p>
+<p>严格别名规则指编译器在看到多个别名时，如果它们不满足严格别名要求，就认为它们指向不同的内存区域，从而进行优化，导致产生与我们预期不符的代码。</p>
+<p>严格别名要求（这是C语言的定义，相对简单一些）：对象的值只能通过与该对象类型（1）兼容的类型及其CV限定、（2）有无符号版本及其CV限定、（3）成员中有该类型的union和聚合结构体、（4）字符类型（char, unsigned char, std::byte）访问。</p>
 <p>注：这里的类型兼容是C语言的概念， 就是考虑typedef，数组退化指针后类型需要一致。</p>
-<p><code>restrict</code>是C语言的一个关键字，表明两个指针不会指向相同区域，但C++没有这个关键字。<br>C++可以使用<code>__restrict</code>。</p>
-<p>正因为这个，<code>reinterpret_cast&lt;double*&gt;(char*)</code>在标准中其实是未定义的，<br>因为此时用一个double指针去访问字符类型，违反了严格别名；<br>除非在char*处存在一个double的对象（即需要用<code>new(p) double</code>创建一个double对象；而在C++20中，字符数组、内存分配、std::memcpy都会进行隐式对象创建（IOC），<br>创建的类型在第一次访问时才确定）。</p>
+<p><code>restrict</code>是C语言的一个关键字，表明两个指针不会指向相同区域，但C++没有这个关键字。C++可以使用<code>__restrict</code>。</p>
+<p>正因为这个，<code>reinterpret_cast&lt;double*&gt;(char*)</code>在标准中其实是未定义的，因为此时用一个double指针去访问字符类型，违反了严格别名；除非在char*处存在一个double的对象（即需要用<code>new(p) double</code>创建一个double对象；而在C++20中，字符数组、内存分配、std::memcpy都会进行隐式对象创建（IOC），创建的类型在第一次访问时才确定）。</p>
 <p>同样地，C语言的宏<code>offset</code>在C++里其实也是个未定义行为。</p>
-<p>不过当前的编译器都能保证生成的代码是正确的。<br>标准做法则是用memcpy来进行（构造一个对象，然后把这个对象memcpy到buffer中），而C++20引入了constexpr的<code>bit_cast</code>（比reinterpret_cast更安全）。</p>
+<p>不过当前的编译器都能保证生成的代码是正确的。标准做法则是用memcpy来进行（构造一个对象，然后把这个对象memcpy到buffer中），而C++20引入了constexpr的<code>bit_cast</code>（比reinterpret_cast更安全）。</p>
 <p>此外，C++17引入了<code>std::launder</code>，其用途是充当优化屏障，阻止常量传播、阻止去虚拟化分析以及阻止别名分析。</p>
 <blockquote>
 <p>std::launder acts as an optimization barrier that prevents the optimizer from performing constant propagation.</p>
@@ -199,27 +203,37 @@
 <li>需要用<code>launder</code>洗一下指针，因为不能用旧指针（data*）去访问新的类型（int）</li>
 </ol>
 <p><code>static_cast</code>对指针类型的转换是很严格的，只能是相同类型的CV限定。</p>
-<p><img src="/post-images/cpp-argument-passing.png" alt="cpp-argument-passing"></p>
-<p><img src="/post-images/cpp-argument-passing.png" alt="cpp-performace"></p>
-<h2 id="初始化列表拷贝"><a href="#初始化列表拷贝" class="headerlink" title="初始化列表拷贝"></a>初始化列表拷贝</h2><p>std::initializer_list may be implemented as a pair of pointers or pointer and length.<br>Copying a std::initializer_list does not copy the backing array of the corresponding initializer list.</p>
+<p><a data-fancybox="gallery" data-src="/post-images/cpp-argument-passing.png" data-caption="cpp-argument-passing"><img src="/post-images/cpp-argument-passing.png" alt="cpp-argument-passing">
+</a></p>
+<p><a data-fancybox="gallery" data-src="/post-images/cpp-argument-passing.png" data-caption="cpp-performace"><img src="/post-images/cpp-argument-passing.png" alt="cpp-performace">
+</a></p>
+<h2 id="初始化列表拷贝"><a class="header-anchor" href="#初始化列表拷贝">¶</a>初始化列表拷贝</h2>
+<p>std::initializer_list may be implemented as a pair of pointers or pointer and length.Copying a std::initializer_list does not copy the backing array of the corresponding initializer list.</p>
 <p>注意初始化列表的拷贝是浅拷贝，可以把它当做是数组上的视图。</p>
 <figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">template</span> &lt;<span class="keyword">typename</span>... Args&gt;</span><br><span class="line"><span class="function"><span class="keyword">auto</span> <span class="title">f</span><span class="params">(Args... args)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">auto</span> list = &#123;args...&#125;;</span><br><span class="line">    <span class="keyword">return</span> list; <span class="comment">// 这里返回初始化列表使有问题的，生命周期错误</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<h2 id="伪析构函数"><a href="#伪析构函数" class="headerlink" title="伪析构函数"></a>伪析构函数</h2><p>由于伪析构函数，所有标量类型都满足可析构要求，数组和引用类型则不满足。</p>
+<p>但是为了实现视图效果，编译器的实现方式通常是在调用函数前创建一个生命期足够长的基底数组，然后再基于该基底数组去构建所需的初始化列表，那么对于类对象，虽然说是一个视图，但是它会产生一次额外的非预期拷贝。</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">A a1, a2;</span><br><span class="line"><span class="built_in">foo1</span>(&#123;a1, a2&#125;);</span><br><span class="line"><span class="comment">// const A _a[2] = &#123;a1, a2&#125;;</span></span><br><span class="line"><span class="comment">// foo(std::initializer_list&lt;A&gt;(_a, _a + 2));</span></span><br></pre></td></tr></table></figure>
+<h2 id="伪析构函数"><a class="header-anchor" href="#伪析构函数">¶</a>伪析构函数</h2>
+<p>由于伪析构函数，所有标量类型都满足可析构要求，数组和引用类型则不满足。</p>
 <figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">template</span> &lt;<span class="keyword">typename</span> T&gt;</span><br><span class="line"><span class="keyword">concept</span> is_destruct = <span class="built_in">requires</span>(T v) &#123; v.~<span class="built_in">T</span>(); &#125;;</span><br></pre></td></tr></table></figure>
-<p>一个好处是可以不需要考虑给定类型是否真的有析构函数。<br>当然，即使是伪析构函数，调用后该变量的生命周期理论上<br>应该是结束了，所以后续对其的操作均是未定义行为。</p>
-<h2 id="Opaque-Pointer"><a href="#Opaque-Pointer" class="headerlink" title="Opaque Pointer"></a>Opaque Pointer</h2><p>不透明指针指代一个指向只有声明，但没有实现的类型的指针。</p>
+<p>一个好处是可以不需要考虑给定类型是否真的有析构函数。当然，即使是伪析构函数，调用后该变量的生命周期理论上应该是结束了，所以后续对其的操作均是未定义行为。</p>
+<h2 id="Opaque-Pointer"><a class="header-anchor" href="#Opaque-Pointer">¶</a>Opaque Pointer</h2>
+<p>不透明指针指代一个指向只有声明，但没有实现的类型的指针。</p>
 <p>主要被用于向用户隐藏接口的具体实现，即pointer to impl范式。</p>
 <p>头文件定义接口，源文件定义实现。</p>
 <figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// interface (widget.h)</span></span><br><span class="line"><span class="keyword">struct</span> <span class="title class_">widget</span> &#123;</span><br><span class="line">    <span class="comment">// public members</span></span><br><span class="line"><span class="keyword">private</span>:</span><br><span class="line">    <span class="keyword">struct</span> <span class="title class_">impl</span>; <span class="comment">// forward declaration of the implementation class</span></span><br><span class="line">    <span class="comment">// One implementation example: see below for other design options and trade-offs</span></span><br><span class="line">    std::experimental::propagate_const&lt; <span class="comment">// const-forwarding pointer wrapper</span></span><br><span class="line">        std::unique_ptr&lt;                <span class="comment">// unique-ownership opaque pointer</span></span><br><span class="line">            impl&gt;&gt; pImpl;               <span class="comment">// to the forward-declared implementation class</span></span><br><span class="line">&#125;;</span><br><span class="line"> </span><br><span class="line"><span class="comment">// implementation (widget.cpp)</span></span><br><span class="line"><span class="keyword">struct</span> <span class="title class_">widget</span>::impl &#123;</span><br><span class="line">    <span class="comment">// implementation details</span></span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
-<h2 id="std-string-SSO"><a href="#std-string-SSO" class="headerlink" title="std::string SSO"></a>std::string SSO</h2><p><code>std::string</code>的实现与<code>std::vector</code>类型，需要一个8字节的capacity，一个8字节的size，<br>以及一个8字节的data。</p>
-<p>而对于较短的字符串，可以考虑直接利用这24字节的栈空间进行存储，而不进行堆内存分配，即著名的<br>短字符串优化（SSO）。</p>
-<p>这里<code>__min_cap=23</code>，又由于C++11规定<code>std::string</code>必须以<code>&#39;\n&#39;</code>结尾，因此可用长度为22。<br>对于小端序，<code>__size_</code>的最低位会被用于标记使用的是short还是long。</p>
-<p>这其实很巧妙。如果是short，只需要利用高7位表示长度即可；而如果是long，只需保证<br><code>__cap_</code>是2的倍数即可，也即最后一位无关紧要。</p>
+<h2 id="std-string-SSO"><a class="header-anchor" href="#std-string-SSO">¶</a>std::string SSO</h2>
+<p><code>std::string</code>的实现与<code>std::vector</code>类型，需要一个8字节的capacity，一个8字节的size，以及一个8字节的data。</p>
+<p>而对于较短的字符串，可以考虑直接利用这24字节的栈空间进行存储，而不进行堆内存分配，即著名的短字符串优化（SSO）。</p>
+<p>这里<code>__min_cap=23</code>，又由于C++11规定<code>std::string</code>必须以<code>'\n'</code>结尾，因此可用长度为22。对于小端序，<code>__size_</code>的最低位会被用于标记使用的是short还是long。</p>
+<p>这其实很巧妙。如果是short，只需要利用高7位表示长度即可；而如果是long，只需保证<code>__cap_</code>是2的倍数即可，也即最后一位无关紧要。</p>
 <figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">struct</span> <span class="title class_">__short</span></span><br><span class="line">&#123;</span><br><span class="line">    <span class="keyword">union</span></span><br><span class="line">    &#123;</span><br><span class="line">        <span class="type">unsigned</span> <span class="type">char</span> __size_;</span><br><span class="line">        value_type __lx;</span><br><span class="line">    &#125;;</span><br><span class="line">    value_type [__min_cap];</span><br><span class="line">&#125;;</span><br><span class="line"><span class="keyword">struct</span> <span class="title class_">__long</span></span><br><span class="line">&#123;</span><br><span class="line">    size_type __cap_;</span><br><span class="line">    size_type __size_;</span><br><span class="line">    pointer   __data_;</span><br><span class="line">&#125;;</span><br><span class="line"><span class="keyword">union</span></span><br><span class="line">&#123;</span><br><span class="line">    __short __s_;</span><br><span class="line">    __long __l_;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
-<h2 id="NRVO和RVO"><a href="#NRVO和RVO" class="headerlink" title="NRVO和RVO"></a>NRVO和RVO</h2><p>即命名返回值优化和返回值优化：编译器会直接在接收函数返回值的对象上进行单次构造，<br>优化掉构造一个临时对象，再执行拷贝构造的过程。</p>
-<p>事实上，编译器会将这个返回值改成一个函数参数，然后将返回值变成void。<br>相当于先在函数外构造对象，然后再调用该函数操作这个对象。</p>
+<h2 id="NRVO和RVO"><a class="header-anchor" href="#NRVO和RVO">¶</a>NRVO和RVO</h2>
+<p>即命名返回值优化和返回值优化：编译器会直接在接收函数返回值的对象上进行单次构造，优化掉构造一个临时对象，再执行拷贝构造的过程。</p>
+<p>事实上，编译器会将这个返回值改成一个函数参数，然后将返回值变成void。相当于先在函数外构造对象，然后再调用该函数操作这个对象。</p>
 <p>显然，在return的时候加<code>std::move</code>只会弄巧成拙，导致编译器无法执行返回值优化。</p>
-<h2 id="clang"><a href="#clang" class="headerlink" title="clang"></a>clang</h2><ul>
+<h2 id="clang"><a class="header-anchor" href="#clang">¶</a>clang</h2>
+<ul>
 <li><code>-S -emit-llvm</code>：将中间代码表示LLVM IR写到<code>.ll</code>的文本文件中</li>
 <li><code>-cc1 -emit-obj</code>：生成对象文件，其中包含机器码，但尚未链接为可执行文件或动态链接库</li>
 </ul>
