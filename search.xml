@@ -4,6 +4,38 @@
   
     
     <entry>
+      <title>困惑度</title>
+      <link href="/2024/08/18/%E5%9B%B0%E6%83%91%E5%BA%A6/"/>
+      <url>/2024/08/18/%E5%9B%B0%E6%83%91%E5%BA%A6/</url>
+      
+        <content type="html"><![CDATA[<h2 id="定义"><a class="header-anchor" href="#定义">¶</a>定义</h2><p>困惑度（Perplexity）是评估大语言模型能力的常用指标，表示对输入单词序列预测概率的准确度。</p><p>PPL越低，模型的预测能力越强。</p><h2 id="计算方式"><a class="header-anchor" href="#计算方式">¶</a>计算方式</h2><p>PPL(W) = $2^{-\frac{1}{N}\sum_{i=1}^N \log_2P(w_i|w_1,w_2,\dots,w_{i-1})}$</p><p>比如有输入单词序列&quot;the cat sat&quot;，大模型对每个词的预测概率分别为0.5，0.4，0.3，则该序列的困惑度为$2^{-\frac{1}{3}(\log_20.5+\log_20.4+\log_20.3)}\sim 2.45$</p>]]></content>
+      
+      
+      
+        <tags>
+            
+            <tag> 算法 </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
+    
+    <entry>
+      <title>GPU架构</title>
+      <link href="/2024/08/18/GPU%E6%9E%B6%E6%9E%84/"/>
+      <url>/2024/08/18/GPU%E6%9E%B6%E6%9E%84/</url>
+      
+        <content type="html"><![CDATA[]]></content>
+      
+      
+      
+    </entry>
+    
+    
+    
+    <entry>
       <title>curl &amp; wget</title>
       <link href="/2024/07/20/curl-wget/"/>
       <url>/2024/07/20/curl-wget/</url>

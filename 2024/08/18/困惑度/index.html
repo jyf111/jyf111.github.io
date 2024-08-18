@@ -6,17 +6,17 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="HandheldFriendly" content="True">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=5" />
-    <meta name="description" content="¶curl 用于请求web服务器 curl www.example.com  -H：指定请求头 -X POST：采用POST请求（默认为GET请求） -d：指定POST请求的数据（会自动转为POST请求）  ¶wget 从指定网站下载文件 wget www.example.com  -O output.zip：指定输出保存的位置 --continue：断点续传 --spider：模拟下载 --de">
+    <meta name="description" content="¶定义 困惑度（Perplexity）是评估大语言模型能力的常用指标，表示对输入单词序列预测概率的准确度。 PPL越低，模型的预测能力越强。 ¶计算方式 PPL(W) &#x3D; $2^{-\frac{1}{N}\sum_{i&#x3D;1}^N \log_2P(w_i|w_1,w_2,\dots,w_{i-1})}$ 比如有输入单词序列&quot;the cat sat&quot;，大模型对每个词的预测概率分别为">
 <meta property="og:type" content="article">
-<meta property="og:title" content="curl &amp; wget">
-<meta property="og:url" content="http://example.com/2024/07/20/curl-wget/index.html">
+<meta property="og:title" content="困惑度">
+<meta property="og:url" content="http://example.com/2024/08/18/%E5%9B%B0%E6%83%91%E5%BA%A6/index.html">
 <meta property="og:site_name" content="jyf111&#39;s blog">
-<meta property="og:description" content="¶curl 用于请求web服务器 curl www.example.com  -H：指定请求头 -X POST：采用POST请求（默认为GET请求） -d：指定POST请求的数据（会自动转为POST请求）  ¶wget 从指定网站下载文件 wget www.example.com  -O output.zip：指定输出保存的位置 --continue：断点续传 --spider：模拟下载 --de">
+<meta property="og:description" content="¶定义 困惑度（Perplexity）是评估大语言模型能力的常用指标，表示对输入单词序列预测概率的准确度。 PPL越低，模型的预测能力越强。 ¶计算方式 PPL(W) &#x3D; $2^{-\frac{1}{N}\sum_{i&#x3D;1}^N \log_2P(w_i|w_1,w_2,\dots,w_{i-1})}$ 比如有输入单词序列&quot;the cat sat&quot;，大模型对每个词的预测概率分别为">
 <meta property="og:locale" content="zh_CN">
-<meta property="article:published_time" content="2024-07-20T14:01:53.000Z">
-<meta property="article:modified_time" content="2024-07-20T14:14:33.654Z">
+<meta property="article:published_time" content="2024-08-18T02:45:34.000Z">
+<meta property="article:modified_time" content="2024-08-18T04:26:54.970Z">
 <meta property="article:author" content="jyf111">
-<meta property="article:tag" content="工具">
+<meta property="article:tag" content="算法">
 <meta name="twitter:card" content="summary">
     
     
@@ -37,7 +37,7 @@
       
     
     <!-- title -->
-    <title>curl &amp; wget</title>
+    <title>困惑度</title>
     <!-- async scripts -->
     <!-- Google Analytics -->
 
@@ -95,10 +95,8 @@
     <span id="actions">
       <ul>
         
-        <li><a class="icon" aria-label="上一篇" href="/2024/08/18/GPU%E6%9E%B6%E6%9E%84/"><i class="fa-solid fa-chevron-left" aria-hidden="true" onmouseover="$('#i-prev').toggle();" onmouseout="$('#i-prev').toggle();"></i></a></li>
         
-        
-        <li><a class="icon" aria-label="下一篇" href="/2024/05/02/G-thinker/"><i class="fa-solid fa-chevron-right" aria-hidden="true" onmouseover="$('#i-next').toggle();" onmouseout="$('#i-next').toggle();"></i></a></li>
+        <li><a class="icon" aria-label="下一篇" href="/2024/08/18/GPU%E6%9E%B6%E6%9E%84/"><i class="fa-solid fa-chevron-right" aria-hidden="true" onmouseover="$('#i-next').toggle();" onmouseout="$('#i-next').toggle();"></i></a></li>
         
         <li><a class="icon" aria-label="返回顶部" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fa-solid fa-chevron-up" aria-hidden="true" onmouseover="$('#i-top').toggle();" onmouseout="$('#i-top').toggle();"></i></a></li>
       </ul>
@@ -110,7 +108,7 @@
     
     
       <div id="toc">
-        <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#curl"><span class="toc-number">1.</span> <span class="toc-text">curl</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#wget"><span class="toc-number">2.</span> <span class="toc-text">wget</span></a></li></ol>
+        <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%AE%9A%E4%B9%89"><span class="toc-number">1.</span> <span class="toc-text">定义</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%AE%A1%E7%AE%97%E6%96%B9%E5%BC%8F"><span class="toc-number">2.</span> <span class="toc-text">计算方式</span></a></li></ol>
       </div>
     
   </span>
@@ -123,7 +121,7 @@
   <header>
     
     <h1 class="posttitle p-name" itemprop="name headline">
-        curl &amp; wget
+        困惑度
     </h1>
 
 
@@ -135,9 +133,9 @@
       
     <div class="postdate">
       
-        <time datetime="2024-07-20T14:01:53.000Z" class="dt-published" itemprop="datePublished">2024-07-20</time>
+        <time datetime="2024-08-18T02:45:34.000Z" class="dt-published" itemprop="datePublished">2024-08-18</time>
         
-        (Updated: <time datetime="2024-07-20T14:14:33.654Z" class="dt-updated" itemprop="dateModified">2024-07-20</time>)
+        (Updated: <time datetime="2024-08-18T04:26:54.970Z" class="dt-updated" itemprop="dateModified">2024-08-18</time>)
         
       
     </div>
@@ -148,7 +146,7 @@
       
     <div class="article-tag">
         <i class="fa-solid fa-tag"></i>
-        <a class="p-category" href="/tags/%E5%B7%A5%E5%85%B7/" rel="tag">工具</a>
+        <a class="p-category" href="/tags/%E7%AE%97%E6%B3%95/" rel="tag">算法</a>
     </div>
 
 
@@ -168,24 +166,12 @@
   
 
   <div class="content e-content" itemprop="articleBody">
-    <h2 id="curl"><a class="header-anchor" href="#curl">¶</a>curl</h2>
-<p>用于请求web服务器</p>
-<p><code>curl www.example.com</code></p>
-<ul>
-<li><code>-H</code>：指定请求头</li>
-<li><code>-X POST</code>：采用POST请求（默认为GET请求）</li>
-<li><code>-d</code>：指定POST请求的数据（会自动转为POST请求）</li>
-</ul>
-<h2 id="wget"><a class="header-anchor" href="#wget">¶</a>wget</h2>
-<p>从指定网站下载文件</p>
-<p><code>wget www.example.com</code></p>
-<ul>
-<li><code>-O output.zip</code>：指定输出保存的位置</li>
-<li><code>--continue</code>：断点续传</li>
-<li><code>--spider</code>：模拟下载</li>
-<li><code>--debug</code>：打印请求和响应内容</li>
-<li><code>--header</code>：指定请求头</li>
-</ul>
+    <h2 id="定义"><a class="header-anchor" href="#定义">¶</a>定义</h2>
+<p>困惑度（Perplexity）是评估大语言模型能力的常用指标，表示对输入单词序列预测概率的准确度。</p>
+<p>PPL越低，模型的预测能力越强。</p>
+<h2 id="计算方式"><a class="header-anchor" href="#计算方式">¶</a>计算方式</h2>
+<p>PPL(W) = $2^{-\frac{1}{N}\sum_{i=1}^N \log_2P(w_i|w_1,w_2,\dots,w_{i-1})}$</p>
+<p>比如有输入单词序列&quot;the cat sat&quot;，大模型对每个词的预测概率分别为0.5，0.4，0.3，则该序列的困惑度为$2^{-\frac{1}{3}(\log_20.5+\log_20.4+\log_20.3)}\sim 2.45$</p>
 
   </div>
 </article>
@@ -213,7 +199,7 @@
     
     
       <div id="toc-footer" style="display: none">
-        <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#curl"><span class="toc-number">1.</span> <span class="toc-text">curl</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#wget"><span class="toc-number">2.</span> <span class="toc-text">wget</span></a></li></ol>
+        <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%AE%9A%E4%B9%89"><span class="toc-number">1.</span> <span class="toc-text">定义</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%AE%A1%E7%AE%97%E6%96%B9%E5%BC%8F"><span class="toc-number">2.</span> <span class="toc-text">计算方式</span></a></li></ol>
       </div>
     
 
