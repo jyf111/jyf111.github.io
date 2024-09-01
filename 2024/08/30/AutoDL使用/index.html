@@ -1,0 +1,307 @@
+<!DOCTYPE html>
+<html lang=zh>
+<head>
+    <!-- so meta -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="HandheldFriendly" content="True">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=5" />
+    <meta name="description" content="环境弹性资源本身就是Docker了，没法在里面再开Docker了。 学生认证 代理：  source &#x2F;etc&#x2F;network_turbo （用于github和transformer） clash：https:&#x2F;&#x2F;zhuanlan.zhihu.com&#x2F;p&#x2F;685018159 软件源：https:&#x2F;&#x2F;www.autodl.com&#x2F;docs&#x2F;source&#x2F;  1234apt updateapt ins">
+<meta property="og:type" content="article">
+<meta property="og:title" content="AutoDL使用">
+<meta property="og:url" content="http://example.com/2024/08/30/AutoDL%E4%BD%BF%E7%94%A8/index.html">
+<meta property="og:site_name" content="jyf111&#39;s blog">
+<meta property="og:description" content="环境弹性资源本身就是Docker了，没法在里面再开Docker了。 学生认证 代理：  source &#x2F;etc&#x2F;network_turbo （用于github和transformer） clash：https:&#x2F;&#x2F;zhuanlan.zhihu.com&#x2F;p&#x2F;685018159 软件源：https:&#x2F;&#x2F;www.autodl.com&#x2F;docs&#x2F;source&#x2F;  1234apt updateapt ins">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2024-08-30T13:08:20.000Z">
+<meta property="article:modified_time" content="2024-09-01T12:34:50.327Z">
+<meta property="article:author" content="jyf111">
+<meta name="twitter:card" content="summary">
+    
+    
+      
+        
+          <link rel="shortcut icon" href="/images/favicon.ico">
+        
+      
+      
+        
+          <link rel="icon" type="image/png" href="/images/favicon-192x192.png" sizes="192x192">
+        
+      
+      
+        
+          <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png">
+        
+      
+    
+    <!-- title -->
+    <title>AutoDL使用</title>
+    <!-- async scripts -->
+    <!-- Google Analytics -->
+
+
+    <!-- Umami Analytics -->
+
+
+    <!-- styles -->
+    
+<link rel="stylesheet" href="/css/style.css">
+
+    <!-- persian styles -->
+    
+    <!-- rss -->
+    
+    
+	<!-- mathjax -->
+	
+		<script type="text/x-mathjax-config">
+		  MathJax.Hub.Config({
+			tex2jax: {
+			  skipTags: ['script', 'noscript', 'style', 'textarea', 'pre'],
+			  inlineMath: [['$','$']]
+			}
+		  });
+		</script>
+		<script src='https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-MML-AM_CHTML' async></script>
+	
+
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/ui@4.0/dist/fancybox.css" />
+
+<meta name="generator" content="Hexo 6.3.0"></head>
+
+<body class="max-width mx-auto px3 ltr">
+    
+      <div id="header-post">
+  <a id="menu-icon" href="#" aria-label="目录"><i class="fa-solid fa-bars fa-lg"></i></a>
+  <a id="menu-icon-tablet" href="#" aria-label="目录"><i class="fa-solid fa-bars fa-lg"></i></a>
+  <a id="top-icon-tablet" href="#" aria-label="顶部" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');" style="display:none;"><i class="fa-solid fa-chevron-up fa-lg"></i></a>
+  <span id="menu">
+    <span id="nav">
+      <ul>
+        <!--
+       --><li><a href="/">首页</a></li><!--
+     --><!--
+       --><li><a href="/archives/">归档</a></li><!--
+     --><!--
+       --><li><a href="/tags/">标签</a></li><!--
+     --><!--
+       --><li><a href="/search/">搜索</a></li><!--
+     -->
+      </ul>
+    </span>
+    <br/>
+    <span id="actions">
+      <ul>
+        
+        <li><a class="icon" aria-label="上一篇" href="/2024/09/01/numpy%E7%AC%94%E8%AE%B0/"><i class="fa-solid fa-chevron-left" aria-hidden="true" onmouseover="$('#i-prev').toggle();" onmouseout="$('#i-prev').toggle();"></i></a></li>
+        
+        
+        <li><a class="icon" aria-label="下一篇" href="/2024/08/18/torch%E7%AC%94%E8%AE%B0/"><i class="fa-solid fa-chevron-right" aria-hidden="true" onmouseover="$('#i-next').toggle();" onmouseout="$('#i-next').toggle();"></i></a></li>
+        
+        <li><a class="icon" aria-label="返回顶部" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fa-solid fa-chevron-up" aria-hidden="true" onmouseover="$('#i-top').toggle();" onmouseout="$('#i-top').toggle();"></i></a></li>
+      </ul>
+      <span id="i-prev" class="info" style="display:none;">上一篇</span>
+      <span id="i-next" class="info" style="display:none;">下一篇</span>
+      <span id="i-top" class="info" style="display:none;">返回顶部</span>
+    </span>
+    <br/>
+    
+    
+      <div id="toc">
+        <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%8E%AF%E5%A2%83"><span class="toc-number">1.</span> <span class="toc-text">环境</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#vLLM"><span class="toc-number">2.</span> <span class="toc-text">vLLM</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#TensorRT-LLM"><span class="toc-number">3.</span> <span class="toc-text">TensorRT-LLM</span></a></li></ol>
+      </div>
+    
+  </span>
+</div>
+
+    
+    <div class="content index py4 ">
+        
+        <article class="post h-entry" itemscope itemtype="http://schema.org/BlogPosting">
+  <header>
+    
+    <h1 class="posttitle p-name" itemprop="name headline">
+        AutoDL使用
+    </h1>
+
+
+
+    <div class="meta">
+      <span class="author p-author h-card" itemprop="author" itemscope itemtype="http://schema.org/Person">
+        <span class="p-name" itemprop="name">jyf111</span>
+      </span>
+      
+    <div class="postdate">
+      
+        <time datetime="2024-08-30T13:08:20.000Z" class="dt-published" itemprop="datePublished">2024-08-30</time>
+        
+        (Updated: <time datetime="2024-09-01T12:34:50.327Z" class="dt-updated" itemprop="dateModified">2024-09-01</time>)
+        
+      
+    </div>
+
+
+      
+
+      
+
+      
+        
+            <span class=count-symbol-post> 
+            <i class="fa-solid fa-hourglass"></i>
+            
+            
+              (5 mins to read)
+            
+            </span>
+        
+      
+    </div>
+  </header>
+  
+
+  <div class="content e-content" itemprop="articleBody">
+    <h2 id="环境"><a href="#环境" class="headerlink" title="环境"></a>环境</h2><p>弹性资源本身就是Docker了，没法在里面再开Docker了。</p>
+<p>学生认证</p>
+<p>代理：</p>
+<ul>
+<li><code>source /etc/network_turbo</code> （用于github和transformer）</li>
+<li>clash：<a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/685018159">https://zhuanlan.zhihu.com/p/685018159</a></li>
+<li>软件源：<a target="_blank" rel="noopener" href="https://www.autodl.com/docs/source/">https://www.autodl.com/docs/source/</a></li>
+</ul>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">apt update</span><br><span class="line">apt install git-lfs build-essential ninja-build vim tmux</span><br><span class="line"></span><br><span class="line"><span class="built_in">ulimit</span> -n 2048 <span class="comment"># 调整最大文件数</span></span><br></pre></td></tr></table></figure>
+<p>选择GPU，镜像选择Pytorch，注意版本以及对应CUDA的版本。</p>
+<p><code>/root/autodl-tmp</code>目录是数据盘，比较大有50G，但是在保存镜像的时候里面的数据不会存下来。</p>
+<h2 id="vLLM"><a href="#vLLM" class="headerlink" title="vLLM"></a>vLLM</h2><p>现在vLLM默认是CUDA12编译的，直接<code>pip install vllm</code>，<code>pip install flash-attn</code>即可，<br>下面说一下CUDA11.8版本的（注意匹配Python、CUDA、CXXABI）：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">export</span> VLLM_VERSION=0.5.5</span><br><span class="line"><span class="built_in">export</span> PYTHON_VERSION=310</span><br><span class="line">pip install https://github.com/vllm-project/vllm/releases/download/v<span class="variable">$&#123;VLLM_VERSION&#125;</span>/vllm-<span class="variable">$&#123;VLLM_VERSION&#125;</span>+cu118-cp<span class="variable">$&#123;PYTHON_VERSION&#125;</span>-<span class="built_in">cp</span><span class="variable">$&#123;PYTHON_VERSION&#125;</span>-manylinux1_x86_64.whl --extra-index-url https://download.pytorch.org/whl/cu118</span><br><span class="line">torch._C._GLIBCXX_USE_CXX11_ABI <span class="comment"># 看torch编译时有没有加CXX11ABI</span></span><br><span class="line">pip install https://github.com/Dao-AILab/flash-attention/releases/download/v2.6.3/flash_attn-2.6.3+cu118torch2.1cxx11abiTRUE-cp310-cp310-linux_x86_64.whl</span><br><span class="line"></span><br><span class="line">python -m vllm.entrypoints.api_server --model <span class="variable">$&#123;model_dir&#125;</span> --tensor-parallel-size 1 --gpu-memory-utilization 0.93</span><br></pre></td></tr></table></figure>
+<h2 id="TensorRT-LLM"><a href="#TensorRT-LLM" class="headerlink" title="TensorRT-LLM"></a>TensorRT-LLM</h2><p>使用镜像：<a target="_blank" rel="noopener" href="https://www.codewithgpu.com/i/triton-inference-server/tensorrtllm_backend/tensorrtllm_backend">https://www.codewithgpu.com/i/triton-inference-server/tensorrtllm_backend/tensorrtllm_backend</a><br>参考：<a target="_blank" rel="noopener" href="https://www.cnblogs.com/zackstang/p/18269743">https://www.cnblogs.com/zackstang/p/18269743</a> <a target="_blank" rel="noopener" href="https://github.com/vllm-project/vllm/blob/main/.buildkite/nightly-benchmarks/scripts/launch-trt-server.sh">https://github.com/vllm-project/vllm/blob/main/.buildkite/nightly-benchmarks/scripts/launch-trt-server.sh</a></p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">git <span class="built_in">clone</span> https://github.com/NVIDIA/TensorRT-LLM.git -b v0.8.0</span><br><span class="line"><span class="comment"># 先编译模型为trt引擎，参考examples/$&#123;model_type&#125;</span></span><br><span class="line">convert_checkpoint.py：权重格式转换</span><br><span class="line">trtllm-build：编译</span><br><span class="line">--use_gpt_attention_plugin=fp16 --remove_input_padding --enable_context_fmha --use_inflight_batching --paged_kv_cache --use_gemm_plugin=fp16 --max_input_len=1024</span><br><span class="line">run.py：静态运行</span><br><span class="line">--input_text=<span class="string">&quot;hello&quot;</span> --max_output_len=1024 --run_profiling</span><br><span class="line"></span><br><span class="line">git <span class="built_in">clone</span> https://github.com/triton-inference-server/tensorrtllm_backend.git -b v0.8.0</span><br><span class="line"><span class="comment"># 拷贝trt引擎到backend中，注意还有一个config.json文件</span></span><br><span class="line"><span class="built_in">cp</span> TensorRT-LLM/examples/llama/trt_engines/* all_models/inflight_batcher_llm/tensorrt_llm/1/</span><br><span class="line"><span class="comment"># 填各种配置，主要是tokenzier_dir和max_batch_size</span></span><br><span class="line">python3 tools/fill_template.py</span><br><span class="line"><span class="comment"># 启动</span></span><br><span class="line">python3 scripts/launch_triton_server.py --world_size 1 --model_repo=./all_models/inflight_batcher_llm/ --http_port 8080</span><br></pre></td></tr></table></figure>
+
+  </div>
+</article>
+
+
+
+        
+          <div id="footer-post-container">
+  <div id="footer-post">
+
+    <div id="nav-footer" style="display: none">
+      <ul>
+        
+          <li><a href="/">首页</a></li>
+        
+          <li><a href="/archives/">归档</a></li>
+        
+          <li><a href="/tags/">标签</a></li>
+        
+          <li><a href="/search/">搜索</a></li>
+        
+      </ul>
+    </div>
+
+    
+    
+      <div id="toc-footer" style="display: none">
+        <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%8E%AF%E5%A2%83"><span class="toc-number">1.</span> <span class="toc-text">环境</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#vLLM"><span class="toc-number">2.</span> <span class="toc-text">vLLM</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#TensorRT-LLM"><span class="toc-number">3.</span> <span class="toc-text">TensorRT-LLM</span></a></li></ol>
+      </div>
+    
+
+    <div id="actions-footer">
+        <a id="menu" class="icon" href="#" onclick="$('#nav-footer').toggle();return false;"><i class="fa-solid fa-bars fa-lg" aria-hidden="true"></i> 菜单</a>
+        
+          <a id="toc" class="icon" href="#" onclick="$('#toc-footer').toggle();return false;"><i class="fa-solid fa-list fa-lg" aria-hidden="true"></i> 目录</a>
+        
+        <a id="top" style="display:none" class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fa-solid fa-chevron-up fa-lg" aria-hidden="true"></i> 返回顶部</a>
+    </div>
+
+  </div>
+</div>
+
+        
+        <footer id="footer">
+  <div class="footer-left">
+    Copyright &copy;
+    
+    
+    2020-2024
+    jyf111
+  </div>
+  <div class="footer-right">
+    <nav>
+      <ul>
+        <!--
+       --><li><a href="/">首页</a></li><!--
+     --><!--
+       --><li><a href="/archives/">归档</a></li><!--
+     --><!--
+       --><li><a href="/tags/">标签</a></li><!--
+     --><!--
+       --><li><a href="/search/">搜索</a></li><!--
+     -->
+      </ul>
+    </nav>
+  </div>
+</footer>
+
+    </div>
+    <!-- styles -->
+
+
+
+  <link rel="preload" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" crossorigin="anonymous" onload="this.onload=null;this.rel='stylesheet'"/>
+
+
+    <!-- jquery -->
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js" crossorigin="anonymous"></script>
+
+
+
+
+<!-- clipboard -->
+
+  
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.7/clipboard.min.js" crossorigin="anonymous"></script>
+  
+  <script type="text/javascript">
+  $(function() {
+    // copy-btn HTML
+    var btn = "<span class=\"btn-copy tooltipped tooltipped-sw\" aria-label=\"复制到粘贴板！\">";
+    btn += '<i class="fa-regular fa-clone"></i>';
+    btn += '</span>';
+    // mount it!
+    $(".highlight table").before(btn);
+    var clip = new ClipboardJS('.btn-copy', {
+      text: function(trigger) {
+        return Array.from(trigger.nextElementSibling.querySelectorAll('.code')).reduce((str,it)=>str+it.innerText+'\n','')
+      }
+    });
+    clip.on('success', function(e) {
+      e.trigger.setAttribute('aria-label', "复制成功！");
+      e.clearSelection();
+    })
+  })
+  </script>
+
+
+<script src="/js/main.js"></script>
+
+<!-- search -->
+
+<!-- Baidu Analytics -->
+
+<!-- Cloudflare Analytics -->
+
+<!-- Disqus Comments -->
+
+<!-- utterances Comments -->
+
+<!-- FancyBox -->
+
+<script src="https://cdn.jsdelivr.net/npm/@fancyapps/ui@4.0/dist/fancybox.umd.js"></script>
+
+
+</body>
+</html>

@@ -4,11 +4,63 @@
   
     
     <entry>
+      <title>Triton</title>
+      <link href="/2024/09/01/Triton/"/>
+      <url>/2024/09/01/Triton/</url>
+      
+        <content type="html"><![CDATA[]]></content>
+      
+      
+      
+    </entry>
+    
+    
+    
+    <entry>
+      <title>numpy笔记</title>
+      <link href="/2024/09/01/numpy%E7%AC%94%E8%AE%B0/"/>
+      <url>/2024/09/01/numpy%E7%AC%94%E8%AE%B0/</url>
+      
+        <content type="html"><![CDATA[]]></content>
+      
+      
+      
+    </entry>
+    
+    
+    
+    <entry>
+      <title>AutoDL使用</title>
+      <link href="/2024/08/30/AutoDL%E4%BD%BF%E7%94%A8/"/>
+      <url>/2024/08/30/AutoDL%E4%BD%BF%E7%94%A8/</url>
+      
+        <content type="html"><![CDATA[<h2 id="环境"><a href="#环境" class="headerlink" title="环境"></a>环境</h2><p>弹性资源本身就是Docker了，没法在里面再开Docker了。</p><p>学生认证</p><p>代理：</p><ul><li><code>source /etc/network_turbo</code> （用于github和transformer）</li><li>clash：<a href="https://zhuanlan.zhihu.com/p/685018159">https://zhuanlan.zhihu.com/p/685018159</a></li><li>软件源：<a href="https://www.autodl.com/docs/source/">https://www.autodl.com/docs/source/</a></li></ul><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">apt update</span><br><span class="line">apt install git-lfs build-essential ninja-build vim tmux</span><br><span class="line"></span><br><span class="line"><span class="built_in">ulimit</span> -n 2048 <span class="comment"># 调整最大文件数</span></span><br></pre></td></tr></table></figure><p>选择GPU，镜像选择Pytorch，注意版本以及对应CUDA的版本。</p><p><code>/root/autodl-tmp</code>目录是数据盘，比较大有50G，但是在保存镜像的时候里面的数据不会存下来。</p><h2 id="vLLM"><a href="#vLLM" class="headerlink" title="vLLM"></a>vLLM</h2><p>现在vLLM默认是CUDA12编译的，直接<code>pip install vllm</code>，<code>pip install flash-attn</code>即可，<br>下面说一下CUDA11.8版本的（注意匹配Python、CUDA、CXXABI）：</p><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">export</span> VLLM_VERSION=0.5.5</span><br><span class="line"><span class="built_in">export</span> PYTHON_VERSION=310</span><br><span class="line">pip install https://github.com/vllm-project/vllm/releases/download/v<span class="variable">$&#123;VLLM_VERSION&#125;</span>/vllm-<span class="variable">$&#123;VLLM_VERSION&#125;</span>+cu118-cp<span class="variable">$&#123;PYTHON_VERSION&#125;</span>-<span class="built_in">cp</span><span class="variable">$&#123;PYTHON_VERSION&#125;</span>-manylinux1_x86_64.whl --extra-index-url https://download.pytorch.org/whl/cu118</span><br><span class="line">torch._C._GLIBCXX_USE_CXX11_ABI <span class="comment"># 看torch编译时有没有加CXX11ABI</span></span><br><span class="line">pip install https://github.com/Dao-AILab/flash-attention/releases/download/v2.6.3/flash_attn-2.6.3+cu118torch2.1cxx11abiTRUE-cp310-cp310-linux_x86_64.whl</span><br><span class="line"></span><br><span class="line">python -m vllm.entrypoints.api_server --model <span class="variable">$&#123;model_dir&#125;</span> --tensor-parallel-size 1 --gpu-memory-utilization 0.93</span><br></pre></td></tr></table></figure><h2 id="TensorRT-LLM"><a href="#TensorRT-LLM" class="headerlink" title="TensorRT-LLM"></a>TensorRT-LLM</h2><p>使用镜像：<a href="https://www.codewithgpu.com/i/triton-inference-server/tensorrtllm_backend/tensorrtllm_backend">https://www.codewithgpu.com/i/triton-inference-server/tensorrtllm_backend/tensorrtllm_backend</a><br>参考：<a href="https://www.cnblogs.com/zackstang/p/18269743">https://www.cnblogs.com/zackstang/p/18269743</a> <a href="https://github.com/vllm-project/vllm/blob/main/.buildkite/nightly-benchmarks/scripts/launch-trt-server.sh">https://github.com/vllm-project/vllm/blob/main/.buildkite/nightly-benchmarks/scripts/launch-trt-server.sh</a></p><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">git <span class="built_in">clone</span> https://github.com/NVIDIA/TensorRT-LLM.git -b v0.8.0</span><br><span class="line"><span class="comment"># 先编译模型为trt引擎，参考examples/$&#123;model_type&#125;</span></span><br><span class="line">convert_checkpoint.py：权重格式转换</span><br><span class="line">trtllm-build：编译</span><br><span class="line">--use_gpt_attention_plugin=fp16 --remove_input_padding --enable_context_fmha --use_inflight_batching --paged_kv_cache --use_gemm_plugin=fp16 --max_input_len=1024</span><br><span class="line">run.py：静态运行</span><br><span class="line">--input_text=<span class="string">&quot;hello&quot;</span> --max_output_len=1024 --run_profiling</span><br><span class="line"></span><br><span class="line">git <span class="built_in">clone</span> https://github.com/triton-inference-server/tensorrtllm_backend.git -b v0.8.0</span><br><span class="line"><span class="comment"># 拷贝trt引擎到backend中，注意还有一个config.json文件</span></span><br><span class="line"><span class="built_in">cp</span> TensorRT-LLM/examples/llama/trt_engines/* all_models/inflight_batcher_llm/tensorrt_llm/1/</span><br><span class="line"><span class="comment"># 填各种配置，主要是tokenzier_dir和max_batch_size</span></span><br><span class="line">python3 tools/fill_template.py</span><br><span class="line"><span class="comment"># 启动</span></span><br><span class="line">python3 scripts/launch_triton_server.py --world_size 1 --model_repo=./all_models/inflight_batcher_llm/ --http_port 8080</span><br></pre></td></tr></table></figure>]]></content>
+      
+      
+      
+    </entry>
+    
+    
+    
+    <entry>
+      <title>torch笔记</title>
+      <link href="/2024/08/18/torch%E7%AC%94%E8%AE%B0/"/>
+      <url>/2024/08/18/torch%E7%AC%94%E8%AE%B0/</url>
+      
+        <content type="html"><![CDATA[]]></content>
+      
+      
+      
+    </entry>
+    
+    
+    
+    <entry>
       <title>困惑度</title>
       <link href="/2024/08/18/%E5%9B%B0%E6%83%91%E5%BA%A6/"/>
       <url>/2024/08/18/%E5%9B%B0%E6%83%91%E5%BA%A6/</url>
       
-        <content type="html"><![CDATA[<h2 id="定义"><a class="header-anchor" href="#定义">¶</a>定义</h2><p>困惑度（Perplexity）是评估大语言模型能力的常用指标，表示对输入单词序列预测概率的准确度。</p><p>PPL越低，模型的预测能力越强。</p><h2 id="计算方式"><a class="header-anchor" href="#计算方式">¶</a>计算方式</h2><p>PPL(W) = $2^{-\frac{1}{N}\sum_{i=1}^N \log_2P(w_i|w_1,w_2,\dots,w_{i-1})}$</p><p>比如有输入单词序列&quot;the cat sat&quot;，大模型对每个词的预测概率分别为0.5，0.4，0.3，则该序列的困惑度为$2^{-\frac{1}{3}(\log_20.5+\log_20.4+\log_20.3)}\sim 2.45$</p>]]></content>
+        <content type="html"><![CDATA[<h2 id="定义"><a href="#定义" class="headerlink" title="定义"></a>定义</h2><p>困惑度（Perplexity）是评估大语言模型能力的常用指标。<br>给定模型和输入单词序列，困惑度表示模型生成该单词序列的概率。</p><p>PPL越低，模型的预测能力越强。</p><h2 id="计算方式"><a href="#计算方式" class="headerlink" title="计算方式"></a>计算方式</h2><p>PPL(W) = $2^{-\frac{1}{N}\sum_{i=1}^N \log_2P(w_i|w_1,w_2,\dots,w_{i-1})}$</p><p>注：2的幂次的取值就是交叉熵，另外有些也会用e的幂次。</p><p>比如有输入单词序列”the cat sat”，大模型对每个词的预测概率分别为0.5，0.4，0.3，<br>则该序列的困惑度为$2^{-\frac{1}{3}(\log_20.5+\log_20.4+\log_20.3)}\approx 2.45$。<br>直观上说，对于大模型的每次预测，你只需要在前2.45个最优候选词中进行选择。</p><p>注：GPT-2的困惑度为19.93</p><p>大模型对输入进行一次context推理（对于长文本，还需要考虑模型的最大输入长度问题；<br>另一个小细节是模型会预测下一个token的概率，所以会有1的偏移，因此第一个token的概率是得不到的，要么额外添加一个token，要么统一将第一个token的概率当作1或者忽略），<br>然后按公式计算即可：</p><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">log_prob = -np.<span class="built_in">sum</span>(np.log2(logits)) / <span class="built_in">len</span>(logits)</span><br><span class="line">ppl = <span class="number">2</span> ** log_prob</span><br></pre></td></tr></table></figure>]]></content>
       
       
       
