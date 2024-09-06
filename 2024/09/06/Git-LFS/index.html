@@ -6,16 +6,17 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="HandheldFriendly" content="True">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=5" />
-    <meta name="description" content="## 温故而知新">
+    <meta name="description" content="¶概述 Git管理大文件。 Git LFS其实是一个很小的链接文件（所以如果不特殊指定，会发现下载下来的就是这个链接文件），真正的内容存储在专门的LFS服务器中。 具体内容如下示例： 123version https:&#x2F;&#x2F;git-lfs.github.com&#x2F;spec&#x2F;v1oid sha256:189d0cea7ee085a79716ebf5e6bf29cd0d8aece08c0b0f25cbf1">
 <meta property="og:type" content="article">
-<meta property="og:title" content="Triton">
-<meta property="og:url" content="http://example.com/2024/09/01/Triton/index.html">
+<meta property="og:title" content="Git LFS">
+<meta property="og:url" content="http://example.com/2024/09/06/Git-LFS/index.html">
 <meta property="og:site_name" content="jyf111&#39;s blog">
-<meta property="og:description" content="## 温故而知新">
+<meta property="og:description" content="¶概述 Git管理大文件。 Git LFS其实是一个很小的链接文件（所以如果不特殊指定，会发现下载下来的就是这个链接文件），真正的内容存储在专门的LFS服务器中。 具体内容如下示例： 123version https:&#x2F;&#x2F;git-lfs.github.com&#x2F;spec&#x2F;v1oid sha256:189d0cea7ee085a79716ebf5e6bf29cd0d8aece08c0b0f25cbf1">
 <meta property="og:locale" content="zh_CN">
-<meta property="article:published_time" content="2024-09-01T12:36:02.000Z">
-<meta property="article:modified_time" content="2024-09-01T12:36:02.607Z">
+<meta property="article:published_time" content="2024-09-06T08:43:35.000Z">
+<meta property="article:modified_time" content="2024-09-06T08:55:04.436Z">
 <meta property="article:author" content="jyf111">
+<meta property="article:tag" content="工具">
 <meta name="twitter:card" content="summary">
     
     
@@ -36,7 +37,7 @@
       
     
     <!-- title -->
-    <title>Triton</title>
+    <title>Git LFS</title>
     <!-- async scripts -->
     <!-- Google Analytics -->
 
@@ -94,10 +95,10 @@
     <span id="actions">
       <ul>
         
-        <li><a class="icon" aria-label="上一篇" href="/2024/09/06/Reduce%E7%AE%97%E5%AD%90/"><i class="fa-solid fa-chevron-left" aria-hidden="true" onmouseover="$('#i-prev').toggle();" onmouseout="$('#i-prev').toggle();"></i></a></li>
+        <li><a class="icon" aria-label="上一篇" href="/2024/09/06/Paged-Attention/"><i class="fa-solid fa-chevron-left" aria-hidden="true" onmouseover="$('#i-prev').toggle();" onmouseout="$('#i-prev').toggle();"></i></a></li>
         
         
-        <li><a class="icon" aria-label="下一篇" href="/2024/09/01/numpy%E7%AC%94%E8%AE%B0/"><i class="fa-solid fa-chevron-right" aria-hidden="true" onmouseover="$('#i-next').toggle();" onmouseout="$('#i-next').toggle();"></i></a></li>
+        <li><a class="icon" aria-label="下一篇" href="/2024/09/06/Reduce%E7%AE%97%E5%AD%90/"><i class="fa-solid fa-chevron-right" aria-hidden="true" onmouseover="$('#i-next').toggle();" onmouseout="$('#i-next').toggle();"></i></a></li>
         
         <li><a class="icon" aria-label="返回顶部" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fa-solid fa-chevron-up" aria-hidden="true" onmouseover="$('#i-top').toggle();" onmouseout="$('#i-top').toggle();"></i></a></li>
       </ul>
@@ -107,6 +108,10 @@
     </span>
     <br/>
     
+    
+      <div id="toc">
+        <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%A6%82%E8%BF%B0"><span class="toc-number">1.</span> <span class="toc-text">概述</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BD%BF%E7%94%A8"><span class="toc-number">2.</span> <span class="toc-text">使用</span></a></li></ol>
+      </div>
     
   </span>
 </div>
@@ -118,7 +123,7 @@
   <header>
     
     <h1 class="posttitle p-name" itemprop="name headline">
-        Triton
+        Git LFS
     </h1>
 
 
@@ -130,9 +135,9 @@
       
     <div class="postdate">
       
-        <time datetime="2024-09-01T12:36:02.000Z" class="dt-published" itemprop="datePublished">2024-09-01</time>
+        <time datetime="2024-09-06T08:43:35.000Z" class="dt-published" itemprop="datePublished">2024-09-06</time>
         
-        (Updated: <time datetime="2024-09-01T12:36:02.607Z" class="dt-updated" itemprop="dateModified">2024-09-01</time>)
+        (Updated: <time datetime="2024-09-06T08:55:04.436Z" class="dt-updated" itemprop="dateModified">2024-09-06</time>)
         
       
     </div>
@@ -141,6 +146,11 @@
       
 
       
+    <div class="article-tag">
+        <i class="fa-solid fa-tag"></i>
+        <a class="p-category" href="/tags/%E5%B7%A5%E5%85%B7/" rel="tag">工具</a>
+    </div>
+
 
       
         
@@ -158,7 +168,14 @@
   
 
   <div class="content e-content" itemprop="articleBody">
-    
+    <h2 id="概述"><a class="header-anchor" href="#概述">¶</a>概述</h2>
+<p>Git管理大文件。</p>
+<p>Git LFS其实是一个很小的链接文件（所以如果不特殊指定，会发现下载下来的就是这个链接文件），真正的内容存储在专门的LFS服务器中。</p>
+<p>具体内容如下示例：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">version https://git-lfs.github.com/spec/v1</span><br><span class="line">oid sha256:189d0cea7ee085a79716ebf5e6bf29cd0d8aece08c0b0f25cbf15b3aa74d09cf</span><br><span class="line">size 17190</span><br></pre></td></tr></table></figure>
+<h2 id="使用"><a class="header-anchor" href="#使用">¶</a>使用</h2>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 安装</span></span><br><span class="line">git lfs install</span><br><span class="line"><span class="comment"># 追踪文件</span></span><br><span class="line">git lfs track big_file</span><br><span class="line">git lfs untrack big_file</span><br><span class="line"><span class="comment"># 查看已追踪文件</span></span><br><span class="line">git lfs track</span><br><span class="line"><span class="comment"># 并行化下载</span></span><br><span class="line">git lfs <span class="built_in">clone</span></span><br><span class="line"><span class="comment"># 指定内容</span></span><br><span class="line">--include <span class="string">&quot;*.bin&quot;</span></span><br></pre></td></tr></table></figure>
+
   </div>
 </article>
 
@@ -184,9 +201,15 @@
 
     
     
+      <div id="toc-footer" style="display: none">
+        <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%A6%82%E8%BF%B0"><span class="toc-number">1.</span> <span class="toc-text">概述</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BD%BF%E7%94%A8"><span class="toc-number">2.</span> <span class="toc-text">使用</span></a></li></ol>
+      </div>
+    
 
     <div id="actions-footer">
         <a id="menu" class="icon" href="#" onclick="$('#nav-footer').toggle();return false;"><i class="fa-solid fa-bars fa-lg" aria-hidden="true"></i> 菜单</a>
+        
+          <a id="toc" class="icon" href="#" onclick="$('#toc-footer').toggle();return false;"><i class="fa-solid fa-list fa-lg" aria-hidden="true"></i> 目录</a>
         
         <a id="top" style="display:none" class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fa-solid fa-chevron-up fa-lg" aria-hidden="true"></i> 返回顶部</a>
     </div>
