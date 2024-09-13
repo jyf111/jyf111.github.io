@@ -6,15 +6,15 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="HandheldFriendly" content="True">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=5" />
-    <meta name="description" content="最近最少使用置换算法。 有一个容量capacity，需要支持插入一个(key, value)，按照key查找value。 插入：  不在cache中： 还有容量，直接插入到末尾 没有容量，就挤掉开头最旧的，再插入到末尾   在cache中： 移动到末尾    查找：  不在cache中： 返回-1   在cache中： 移动到末尾    核心：用双向链表按序维护所有value，以支持快速删除操作；">
+    <meta name="description" content="¶LRU 最近最少使用置换算法。 有一个容量capacity，需要支持插入一个(key, value)，按照key查找value。 插入：  不在cache中：  还有容量，直接插入到末尾 没有容量，就挤掉开头最旧的，再插入到末尾   在cache中：  移动到末尾    查找：  不在cache中：  返回-1   在cache中：  移动到末尾    核心：用双向链表按序维护所有value，以">
 <meta property="og:type" content="article">
 <meta property="og:title" content="LRUCache">
 <meta property="og:url" content="http://example.com/2024/03/21/LRUCache/index.html">
 <meta property="og:site_name" content="jyf111&#39;s blog">
-<meta property="og:description" content="最近最少使用置换算法。 有一个容量capacity，需要支持插入一个(key, value)，按照key查找value。 插入：  不在cache中： 还有容量，直接插入到末尾 没有容量，就挤掉开头最旧的，再插入到末尾   在cache中： 移动到末尾    查找：  不在cache中： 返回-1   在cache中： 移动到末尾    核心：用双向链表按序维护所有value，以支持快速删除操作；">
+<meta property="og:description" content="¶LRU 最近最少使用置换算法。 有一个容量capacity，需要支持插入一个(key, value)，按照key查找value。 插入：  不在cache中：  还有容量，直接插入到末尾 没有容量，就挤掉开头最旧的，再插入到末尾   在cache中：  移动到末尾    查找：  不在cache中：  返回-1   在cache中：  移动到末尾    核心：用双向链表按序维护所有value，以">
 <meta property="og:locale" content="zh_CN">
 <meta property="article:published_time" content="2024-03-21T14:27:29.000Z">
-<meta property="article:modified_time" content="2024-03-21T15:08:16.627Z">
+<meta property="article:modified_time" content="2024-09-12T09:27:38.227Z">
 <meta property="article:author" content="jyf111">
 <meta property="article:tag" content="算法">
 <meta name="twitter:card" content="summary">
@@ -110,7 +110,7 @@
     
     
       <div id="toc">
-        <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BC%98%E5%8C%96"><span class="toc-number">1.</span> <span class="toc-text">优化</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%89%A9%E5%B1%95"><span class="toc-number">2.</span> <span class="toc-text">扩展</span></a></li></ol>
+        <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#LRU"><span class="toc-number">1.</span> <span class="toc-text">LRU</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%BC%98%E5%8C%96"><span class="toc-number">1.1.</span> <span class="toc-text">优化</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%89%A9%E5%B1%95"><span class="toc-number">1.2.</span> <span class="toc-text">扩展</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#LFU"><span class="toc-number">2.</span> <span class="toc-text">LFU</span></a></li></ol>
       </div>
     
   </span>
@@ -137,7 +137,7 @@
       
         <time datetime="2024-03-21T14:27:29.000Z" class="dt-published" itemprop="datePublished">2024-03-21</time>
         
-        (Updated: <time datetime="2024-03-21T15:08:16.627Z" class="dt-updated" itemprop="dateModified">2024-03-21</time>)
+        (Updated: <time datetime="2024-09-12T09:27:38.227Z" class="dt-updated" itemprop="dateModified">2024-09-12</time>)
         
       
     </div>
@@ -168,39 +168,48 @@
   
 
   <div class="content e-content" itemprop="articleBody">
-    <p>最近最少使用置换算法。</p>
+    <h2 id="LRU"><a class="header-anchor" href="#LRU">¶</a>LRU</h2>
+<p>最近最少使用置换算法。</p>
 <p>有一个容量<code>capacity</code>，需要支持插入一个<code>(key, value)</code>，按照<code>key</code>查找<code>value</code>。</p>
 <p>插入：</p>
 <ul>
-<li>不在cache中：<ul>
+<li>不在cache中：
+<ul>
 <li>还有容量，直接插入到末尾</li>
 <li>没有容量，就挤掉开头最旧的，再插入到末尾</li>
 </ul>
 </li>
-<li>在cache中：<ul>
+<li>在cache中：
+<ul>
 <li>移动到末尾</li>
 </ul>
 </li>
 </ul>
 <p>查找：</p>
 <ul>
-<li>不在cache中：<ul>
+<li>不在cache中：
+<ul>
 <li>返回-1</li>
 </ul>
 </li>
-<li>在cache中：<ul>
+<li>在cache中：
+<ul>
 <li>移动到末尾</li>
 </ul>
 </li>
 </ul>
 <p>核心：用双向链表按序维护所有<code>value</code>，以支持快速删除操作；用哈希表维护所有<code>key</code>到链表节点的映射，用于快速查找操作。</p>
 <p>注意<code>list</code>中必须key和value都存，因为替换的时候，得把替换掉的元素从<code>unordered_map</code>中移除。</p>
-<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">LRUCache</span> &#123;</span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="built_in">LRUCache</span>(<span class="type">int</span> capacity) : <span class="built_in">cap</span>(capacity) &#123;&#125;</span><br><span class="line">    </span><br><span class="line">    <span class="function"><span class="type">int</span> <span class="title">get</span><span class="params">(<span class="type">int</span> key)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">auto</span> it = pos.<span class="built_in">find</span>(key);</span><br><span class="line">        <span class="keyword">if</span> (it != pos.<span class="built_in">end</span>()) &#123;</span><br><span class="line">            <span class="type">int</span> value = it-&gt;second-&gt;second;</span><br><span class="line">            lst.<span class="built_in">erase</span>(it-&gt;second);</span><br><span class="line">            it-&gt;second = lst.<span class="built_in">emplace</span>(lst.<span class="built_in">end</span>(), key, value);</span><br><span class="line">            <span class="keyword">return</span> value;</span><br><span class="line">        &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">            <span class="keyword">return</span> <span class="number">-1</span>;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    <span class="function"><span class="type">void</span> <span class="title">put</span><span class="params">(<span class="type">int</span> key, <span class="type">int</span> value)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">auto</span> it = pos.<span class="built_in">find</span>(key);</span><br><span class="line">        <span class="keyword">if</span> (it != pos.<span class="built_in">end</span>()) &#123;</span><br><span class="line">            lst.<span class="built_in">erase</span>(it-&gt;second);</span><br><span class="line">            it-&gt;second = lst.<span class="built_in">emplace</span>(lst.<span class="built_in">end</span>(), key, value);</span><br><span class="line">        &#125; <span class="keyword">else</span> <span class="keyword">if</span> (lst.<span class="built_in">size</span>() &lt; cap) &#123;</span><br><span class="line">            pos.<span class="built_in">emplace</span>(key, lst.<span class="built_in">emplace</span>(lst.<span class="built_in">end</span>(), key, value));</span><br><span class="line">        &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">            pos.<span class="built_in">erase</span>(lst.<span class="built_in">begin</span>()-&gt;first);</span><br><span class="line">            lst.<span class="built_in">pop_front</span>();</span><br><span class="line">            pos.<span class="built_in">emplace</span>(key, lst.<span class="built_in">emplace</span>(lst.<span class="built_in">end</span>(), key, value));</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">private</span>:</span><br><span class="line">    unordered_map&lt;<span class="type">int</span>, list&lt;pair&lt;<span class="type">int</span>, <span class="type">int</span>&gt;&gt;::iterator&gt; pos;</span><br><span class="line">    list&lt;pair&lt;<span class="type">int</span>, <span class="type">int</span>&gt;&gt; lst;</span><br><span class="line">    <span class="type">int</span> cap;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
-<h2 id="优化"><a href="#优化" class="headerlink" title="优化"></a>优化</h2><p>处理预读问题：在读取时，由于局部性原理，会预读连续的若干页，但这些页可能并不会真正需要读取。</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">LRUCache</span> &#123;</span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="built_in">LRUCache</span>(<span class="type">int</span> capacity) : <span class="built_in">cap</span>(capacity) &#123;&#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="type">int</span> <span class="title">get</span><span class="params">(<span class="type">int</span> key)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">auto</span> it = pos.<span class="built_in">find</span>(key);</span><br><span class="line">        <span class="keyword">if</span> (it != pos.<span class="built_in">end</span>()) &#123;</span><br><span class="line">            <span class="type">int</span> value = it-&gt;second-&gt;second;</span><br><span class="line">            lst.<span class="built_in">erase</span>(it-&gt;second);</span><br><span class="line">            it-&gt;second = lst.<span class="built_in">emplace</span>(lst.<span class="built_in">end</span>(), key, value);</span><br><span class="line">            <span class="keyword">return</span> value;</span><br><span class="line">        &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">            <span class="keyword">return</span> <span class="number">-1</span>;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="type">void</span> <span class="title">put</span><span class="params">(<span class="type">int</span> key, <span class="type">int</span> value)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">auto</span> it = pos.<span class="built_in">find</span>(key);</span><br><span class="line">        <span class="keyword">if</span> (it != pos.<span class="built_in">end</span>()) &#123;</span><br><span class="line">            lst.<span class="built_in">erase</span>(it-&gt;second);</span><br><span class="line">            it-&gt;second = lst.<span class="built_in">emplace</span>(lst.<span class="built_in">end</span>(), key, value);</span><br><span class="line">        &#125; <span class="keyword">else</span> <span class="keyword">if</span> (lst.<span class="built_in">size</span>() &lt; cap) &#123;</span><br><span class="line">            pos.<span class="built_in">emplace</span>(key, lst.<span class="built_in">emplace</span>(lst.<span class="built_in">end</span>(), key, value));</span><br><span class="line">        &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">            pos.<span class="built_in">erase</span>(lst.<span class="built_in">begin</span>()-&gt;first);</span><br><span class="line">            lst.<span class="built_in">pop_front</span>();</span><br><span class="line">            pos.<span class="built_in">emplace</span>(key, lst.<span class="built_in">emplace</span>(lst.<span class="built_in">end</span>(), key, value));</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">private</span>:</span><br><span class="line">    unordered_map&lt;<span class="type">int</span>, list&lt;pair&lt;<span class="type">int</span>, <span class="type">int</span>&gt;&gt;::iterator&gt; pos;</span><br><span class="line">    list&lt;pair&lt;<span class="type">int</span>, <span class="type">int</span>&gt;&gt; lst;</span><br><span class="line">    <span class="type">int</span> cap;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+<h3 id="优化"><a class="header-anchor" href="#优化">¶</a>优化</h3>
+<p>处理预读问题：在读取时，由于局部性原理，会预读连续的若干页，但这些页可能并不会真正需要读取。</p>
 <p>解决方案：构造两级链表。预读先放到一级，真正读取时再从一级移到二级；二级中被淘汰的再放回一级。</p>
 <p>处理偶发的批量读问题：有时会连续读取若干页，但读取这一次后就不再使用，此时会污染整个二级链表。</p>
 <p>解决方案：提高从一级链表移到二级链表的门槛，比如第二次读才能移过去。</p>
-<h2 id="扩展"><a href="#扩展" class="headerlink" title="扩展"></a>扩展</h2><p>增加过期时间。</p>
+<h3 id="扩展"><a class="header-anchor" href="#扩展">¶</a>扩展</h3>
+<p>增加过期时间。</p>
+<h2 id="LFU"><a class="header-anchor" href="#LFU">¶</a>LFU</h2>
+<p>最不常使用替换算法。需要维护被访问次数，如果有多个访问次数最少的，则退化为LRU，选择最近访问时间最老的。</p>
 
   </div>
 </article>
@@ -228,7 +237,7 @@
     
     
       <div id="toc-footer" style="display: none">
-        <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BC%98%E5%8C%96"><span class="toc-number">1.</span> <span class="toc-text">优化</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%89%A9%E5%B1%95"><span class="toc-number">2.</span> <span class="toc-text">扩展</span></a></li></ol>
+        <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#LRU"><span class="toc-number">1.</span> <span class="toc-text">LRU</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%BC%98%E5%8C%96"><span class="toc-number">1.1.</span> <span class="toc-text">优化</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%89%A9%E5%B1%95"><span class="toc-number">1.2.</span> <span class="toc-text">扩展</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#LFU"><span class="toc-number">2.</span> <span class="toc-text">LFU</span></a></li></ol>
       </div>
     
 

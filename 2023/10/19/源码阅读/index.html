@@ -6,12 +6,12 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="HandheldFriendly" content="True">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=5" />
-    <meta name="description" content="静态分析cloc统计代码行数，由perl实现。  cloc &amp;#123;&amp;#123;file&#x2F;directory&amp;#125;&amp;#125; --by-file：按文件统计，而不是按语言 --exclude-list-file&#x3D;&lt;file&gt; --exclude-dir&#x3D;&lt;D1&gt;[,D2,]  diffgit diffgit diff --no-index --word-diff">
+    <meta name="description" content="¶静态分析 ¶cloc 统计代码行数，由perl实现。  cloc &amp;#123;&amp;#123;file&#x2F;directory&amp;#125;&amp;#125; --by-file：按文件统计，而不是按语言 --exclude-list-file&#x3D;&lt;file&gt; --exclude-dir&#x3D;&lt;D1&gt;[,D2,]  ¶diff ¶git diff git diff --no-index --w">
 <meta property="og:type" content="article">
 <meta property="og:title" content="源码阅读">
 <meta property="og:url" content="http://example.com/2023/10/19/%E6%BA%90%E7%A0%81%E9%98%85%E8%AF%BB/index.html">
 <meta property="og:site_name" content="jyf111&#39;s blog">
-<meta property="og:description" content="静态分析cloc统计代码行数，由perl实现。  cloc &amp;#123;&amp;#123;file&#x2F;directory&amp;#125;&amp;#125; --by-file：按文件统计，而不是按语言 --exclude-list-file&#x3D;&lt;file&gt; --exclude-dir&#x3D;&lt;D1&gt;[,D2,]  diffgit diffgit diff --no-index --word-diff">
+<meta property="og:description" content="¶静态分析 ¶cloc 统计代码行数，由perl实现。  cloc &amp;#123;&amp;#123;file&#x2F;directory&amp;#125;&amp;#125; --by-file：按文件统计，而不是按语言 --exclude-list-file&#x3D;&lt;file&gt; --exclude-dir&#x3D;&lt;D1&gt;[,D2,]  ¶diff ¶git diff git diff --no-index --w">
 <meta property="og:locale" content="zh_CN">
 <meta property="article:published_time" content="2023-10-19T12:22:17.000Z">
 <meta property="article:modified_time" content="2024-02-05T14:57:55.101Z">
@@ -168,27 +168,36 @@
   
 
   <div class="content e-content" itemprop="articleBody">
-    <h2 id="静态分析"><a href="#静态分析" class="headerlink" title="静态分析"></a>静态分析</h2><h3 id="cloc"><a href="#cloc" class="headerlink" title="cloc"></a>cloc</h3><p>统计代码行数，由perl实现。</p>
+    <h2 id="静态分析"><a class="header-anchor" href="#静态分析">¶</a>静态分析</h2>
+<h3 id="cloc"><a class="header-anchor" href="#cloc">¶</a>cloc</h3>
+<p>统计代码行数，由perl实现。</p>
 <ul>
 <li><code>cloc &#123;&#123;file/directory&#125;&#125;</code></li>
 <li><code>--by-file</code>：按文件统计，而不是按语言</li>
 <li><code>--exclude-list-file=&lt;file&gt;</code></li>
 <li><code>--exclude-dir=&lt;D1&gt;[,D2,]</code></li>
 </ul>
-<h3 id="diff"><a href="#diff" class="headerlink" title="diff"></a>diff</h3><h4 id="git-diff"><a href="#git-diff" class="headerlink" title="git diff"></a>git diff</h4><p><code>git diff --no-index --word-diff=color file1 file2</code></p>
+<h3 id="diff"><a class="header-anchor" href="#diff">¶</a>diff</h3>
+<h4 id="git-diff"><a class="header-anchor" href="#git-diff">¶</a>git diff</h4>
+<p><code>git diff --no-index --word-diff=color file1 file2</code></p>
 <p><code>--word-diff-regex=.</code>可以以字符为单位进行比较，默认情况下<code>word-diff</code>以word为单位，即连续的非空白字符。</p>
-<h4 id="git-delta"><a href="#git-delta" class="headerlink" title="git-delta"></a><a target="_blank" rel="noopener" href="https://github.com/dandavison/delta"><code>git-delta</code></a></h4><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">git diff | delta <span class="comment"># 配置.gitconfig中的pager就不需要再管道传到delta</span></span><br><span class="line">rg <span class="string">&quot;word&quot;</span> ./ | delta</span><br></pre></td></tr></table></figure>
-<h4 id="difft"><a href="#difft" class="headerlink" title="difft"></a><a target="_blank" rel="noopener" href="https://github.com/Wilfred/difftastic"><code>difft</code></a></h4><p>基于语法进行<code>diff</code>。</p>
+<h4 id="git-delta"><a class="header-anchor" href="#git-delta">¶</a><a target="_blank" rel="noopener" href="https://github.com/dandavison/delta"><code>git-delta</code></a></h4>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">git diff | delta <span class="comment"># 配置.gitconfig中的pager就不需要再管道传到delta</span></span><br><span class="line">rg <span class="string">&quot;word&quot;</span> ./ | delta</span><br></pre></td></tr></table></figure>
+<h4 id="difft"><a class="header-anchor" href="#difft">¶</a><a target="_blank" rel="noopener" href="https://github.com/Wilfred/difftastic"><code>difft</code></a></h4>
+<p>基于语法进行<code>diff</code>。</p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">difft --<span class="built_in">help</span></span><br></pre></td></tr></table></figure>
-<h4 id="bat"><a href="#bat" class="headerlink" title="bat"></a><a target="_blank" rel="noopener" href="https://github.com/sharkdp/bat"><code>bat</code></a></h4><p>just replace <code>cat</code></p>
-<h3 id="fd"><a href="#fd" class="headerlink" title="fd"></a>fd</h3><p>查找文件，由rust实现，是find的替代品。</p>
+<h4 id="bat"><a class="header-anchor" href="#bat">¶</a><a target="_blank" rel="noopener" href="https://github.com/sharkdp/bat"><code>bat</code></a></h4>
+<p>just replace <code>cat</code></p>
+<h3 id="fd"><a class="header-anchor" href="#fd">¶</a>fd</h3>
+<p>查找文件，由rust实现，是find的替代品。</p>
 <ul>
 <li><code>fd &#123;&#123;pattern&#125;&#125; [directory]</code>：默认为正则匹配，可以指定目录，不指定则搜索当前目前</li>
 <li><code>--extension</code>：查找扩展名</li>
 <li><code>--exclude</code>：排除某些文件或目录</li>
 <li><code>--no-ignore</code>：默认会遵守目录下的<code>.gitignore</code>，指定该选项则不遵守</li>
 </ul>
-<h3 id="rg"><a href="#rg" class="headerlink" title="rg"></a>rg</h3><p>查找文件内容，由rust实现，是grep的替代品。</p>
+<h3 id="rg"><a class="header-anchor" href="#rg">¶</a>rg</h3>
+<p>查找文件内容，由rust实现，是grep的替代品。</p>
 <ul>
 <li><code>rg &#123;&#123;pattern&#125;&#125; [path ...]</code>：搜索文本为正则匹配</li>
 <li><code>--type &#123;&#123;filetype&#125;&#125;</code>：指定要查找的文件类型</li>
@@ -198,22 +207,28 @@
 <li><code>-A/-B/-C N</code>：打印匹配行以及后/前/前后N行</li>
 <li><code>--files</code>：查找文件名</li>
 </ul>
-<h3 id="ast-grep"><a href="#ast-grep" class="headerlink" title="ast-grep"></a>ast-grep</h3><p>基于Tree-sitter进行代码搜索、替换，由rust实现。它基于AST节点（其实是CST，AST是抽象语法树，<br>而Ts生成的CST是具体语法树，它为每个token都存储了一个对应的节点，即使是逗号、括号等字符串字面量，而<br>AST则会去掉这些无意义的节点；这里称作命名节点和匿名节点）进行结构匹配，而不是简单的文本匹配。</p>
+<h3 id="ast-grep"><a class="header-anchor" href="#ast-grep">¶</a>ast-grep</h3>
+<p>基于Tree-sitter进行代码搜索、替换，由rust实现。它基于AST节点（其实是CST，AST是抽象语法树，而Ts生成的CST是具体语法树，它为每个token都存储了一个对应的节点，即使是逗号、括号等字符串字面量，而AST则会去掉这些无意义的节点；这里称作命名节点和匿名节点）进行结构匹配，而不是简单的文本匹配。</p>
 <ul>
 <li><code>ast-grep [OPTIONS] --p &lt;PATTERN&gt; [PATHS]...</code>：</li>
-<li>PATTERN：AST模式<ul>
+<li>PATTERN：AST模式
+<ul>
 <li>元变量：<code>$</code>开头后跟大写字母、下划线或数字1-9，匹配单个AST节点（类比正则中的<code>.</code>）</li>
-<li>多元变量：$$$$$来匹配零个或多个AST节点（类比正则中的<code>*</code>）</li>
+<li>多元变量：<code>$$$</code>来匹配零个或多个AST节点（类比正则中的<code>*</code>）</li>
 <li>元变量捕获：可以重复使用同名变量，此时它们被要求匹配相同的内容，可以用下划线开头来抑制该行为</li>
-<li>匿名节点：$$$$开头，即CST中直接用字符串字面量定义的，比如<code>+/,/;</code>等</li>
+<li>匿名节点：<code>$$</code>开头，即CST中直接用字符串字面量定义的，比如<code>+/,/;</code>等</li>
 </ul>
 </li>
 <li><code>-l</code>：指定语言</li>
 <li><code>--rewrite</code>：改写替换</li>
 <li><code>--interactive</code>：交互模式</li>
-<li><code>-A/-B/-C</code> </li>
+<li><code>-A/-B/-C</code></li>
 </ul>
-<h2 id="运行时分析"><a href="#运行时分析" class="headerlink" title="运行时分析"></a>运行时分析</h2><h3 id="strace"><a href="#strace" class="headerlink" title="strace"></a>strace</h3><h3 id="ltrace"><a href="#ltrace" class="headerlink" title="ltrace"></a>ltrace</h3><h3 id="uftrace"><a href="#uftrace" class="headerlink" title="uftrace"></a>uftrace</h3>
+<h2 id="运行时分析"><a class="header-anchor" href="#运行时分析">¶</a>运行时分析</h2>
+<h3 id="strace"><a class="header-anchor" href="#strace">¶</a>strace</h3>
+<h3 id="ltrace"><a class="header-anchor" href="#ltrace">¶</a>ltrace</h3>
+<h3 id="uftrace"><a class="header-anchor" href="#uftrace">¶</a>uftrace</h3>
+
   </div>
 </article>
 

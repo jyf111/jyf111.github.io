@@ -6,12 +6,12 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="HandheldFriendly" content="True">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=5" />
-    <meta name="description" content="constexprconstexpr用于表达常量表达式，可以作用到变量和函数上，表示该变量在编译期求值的，或者该函数可以在编译期求值（显然需要提供的函数参数都是常量表达式）。 const用于传达只读，constexpr用于传达常量。 123constexpr int f(int n) &amp;#123; &#x2F;&#x2F; 这也是允许的，但显然只有传入的n是常量时才能编译期求值    return n + 1;&amp;#1">
+    <meta name="description" content="¶constexpr constexpr用于表达常量表达式，可以作用到变量和函数上，表示该变量在编译期求值的，或者该函数可以在编译期求值（显然需要提供的函数参数都是常量表达式）。 const用于传达只读，constexpr用于传达常量。 123constexpr int f(int n) &amp;#123; &#x2F;&#x2F; 这也是允许的，但显然只有传入的n是常量时才能编译期求值    return n + 1;&amp;">
 <meta property="og:type" content="article">
 <meta property="og:title" content="constexpr&#x2F;consteval&#x2F;constinit">
 <meta property="og:url" content="http://example.com/2024/03/09/constexpr-consteval-constinit/index.html">
 <meta property="og:site_name" content="jyf111&#39;s blog">
-<meta property="og:description" content="constexprconstexpr用于表达常量表达式，可以作用到变量和函数上，表示该变量在编译期求值的，或者该函数可以在编译期求值（显然需要提供的函数参数都是常量表达式）。 const用于传达只读，constexpr用于传达常量。 123constexpr int f(int n) &amp;#123; &#x2F;&#x2F; 这也是允许的，但显然只有传入的n是常量时才能编译期求值    return n + 1;&amp;#1">
+<meta property="og:description" content="¶constexpr constexpr用于表达常量表达式，可以作用到变量和函数上，表示该变量在编译期求值的，或者该函数可以在编译期求值（显然需要提供的函数参数都是常量表达式）。 const用于传达只读，constexpr用于传达常量。 123constexpr int f(int n) &amp;#123; &#x2F;&#x2F; 这也是允许的，但显然只有传入的n是常量时才能编译期求值    return n + 1;&amp;">
 <meta property="og:locale" content="zh_CN">
 <meta property="article:published_time" content="2024-03-09T09:44:48.000Z">
 <meta property="article:modified_time" content="2024-03-24T11:06:43.318Z">
@@ -168,19 +168,22 @@
   
 
   <div class="content e-content" itemprop="articleBody">
-    <h2 id="constexpr"><a href="#constexpr" class="headerlink" title="constexpr"></a>constexpr</h2><p>constexpr用于表达常量表达式，可以作用到变量和函数上，表示该变量在编译期求值的，或者该函数<strong>可以</strong>在编译期求值（显然需要提供的函数参数都是常量表达式）。</p>
+    <h2 id="constexpr"><a class="header-anchor" href="#constexpr">¶</a>constexpr</h2>
+<p>constexpr用于表达常量表达式，可以作用到变量和函数上，表示该变量在编译期求值的，或者该函数<strong>可以</strong>在编译期求值（显然需要提供的函数参数都是常量表达式）。</p>
 <p>const用于传达只读，constexpr用于传达常量。</p>
 <figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">constexpr</span> <span class="type">int</span> <span class="title">f</span><span class="params">(<span class="type">int</span> n)</span> </span>&#123; <span class="comment">// 这也是允许的，但显然只有传入的n是常量时才能编译期求值</span></span><br><span class="line">    <span class="keyword">return</span> n + <span class="number">1</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<h2 id="consteval"><a href="#consteval" class="headerlink" title="consteval"></a>consteval</h2><p>consteval是一种局限的constexpr，只能作用到函数上，<br>它强制该函数是完全编译期求值的，不能在运行时调用。</p>
-<h2 id="constinit"><a href="#constinit" class="headerlink" title="constinit"></a>constinit</h2><p>constinit仅与具有静态存储期（生命期等于整个程序）的变量的初始化有关。</p>
+<h2 id="consteval"><a class="header-anchor" href="#consteval">¶</a>consteval</h2>
+<p>consteval是一种局限的constexpr，只能作用到函数上，它强制该函数是完全编译期求值的，不能在运行时调用。</p>
+<h2 id="constinit"><a class="header-anchor" href="#constinit">¶</a>constinit</h2>
+<p>constinit仅与具有静态存储期（生命期等于整个程序）的变量的初始化有关。</p>
 <p>具体有两种情况：</p>
 <ol>
 <li>在编译期静态初始化，即初始值为常量表达式（constant initialization）</li>
 <li>动态初始化，即运行时按执行流遇到的声明顺序计算</li>
 </ol>
 <p>第2种方式存在初始化顺序不确定的问题（主要是全局变量）。</p>
-<p>考虑两个编译单元中有两个全局变量A和B，而A的初始化依赖于B，但是A和B的初始化顺序是未定义的，<br>一旦A先于B初始化，就会发生段错误。一种解决方式就是改用函数内的静态变量（即单例范式来替代裸的全局变量）。<br>注意局部静态变量是在第一次函数调用时初始化的，因此如果存在依赖关系，要特别注意函数调用的顺序。</p>
-<p>constinit作用在具有静态存储期的变量上，强制其在编译期初始化（即第1种方式）。<br>constinit没有const语义，它修饰的变量仍然是可修改的，它与其它const是完全不同的（名字取得有误导性）。</p>
+<p>考虑两个编译单元中有两个全局变量A和B，而A的初始化依赖于B，但是A和B的初始化顺序是未定义的，一旦A先于B初始化，就会发生段错误。一种解决方式就是改用函数内的静态变量（即单例范式来替代裸的全局变量）。注意局部静态变量是在第一次函数调用时初始化的，因此如果存在依赖关系，要特别注意函数调用的顺序。</p>
+<p>constinit作用在具有静态存储期的变量上，强制其在编译期初始化（即第1种方式）。constinit没有const语义，它修饰的变量仍然是可修改的，它与其它const是完全不同的（名字取得有误导性）。</p>
 <p>事实上constexpr蕴含了constinit，但是多了const的限制。</p>
 
   </div>

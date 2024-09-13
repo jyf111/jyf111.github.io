@@ -6,12 +6,12 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="HandheldFriendly" content="True">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=5" />
-    <meta name="description" content="定义困惑度（Perplexity）是评估大语言模型能力的常用指标。给定模型和输入单词序列，困惑度表示模型生成该单词序列的概率。 PPL越低，模型的预测能力越强。 计算方式PPL(W) &#x3D; $2^{-\frac{1}{N}\sum_{i&#x3D;1}^N \log_2P(w_i|w_1,w_2,\dots,w_{i-1})}$ 注：2的幂次的取值就是交叉熵，另外有些也会用e的幂次。 比如有输入单词序列”th">
+    <meta name="description" content="¶定义 困惑度（Perplexity）是评估大语言模型能力的常用指标。给定模型和输入单词序列，困惑度表示模型生成该单词序列的概率。 PPL越低，模型的预测能力越强。 ¶计算方式 PPL(W) &#x3D; $2^{-\frac{1}{N}\sum_{i&#x3D;1}^N \log_2P(w_i|w_1,w_2,\dots,w_{i-1})}$ 注：2的幂次的取值就是交叉熵，另外有些也会用e的幂次。 比如有输入单词序">
 <meta property="og:type" content="article">
 <meta property="og:title" content="困惑度">
 <meta property="og:url" content="http://example.com/2024/08/18/%E5%9B%B0%E6%83%91%E5%BA%A6/index.html">
 <meta property="og:site_name" content="jyf111&#39;s blog">
-<meta property="og:description" content="定义困惑度（Perplexity）是评估大语言模型能力的常用指标。给定模型和输入单词序列，困惑度表示模型生成该单词序列的概率。 PPL越低，模型的预测能力越强。 计算方式PPL(W) &#x3D; $2^{-\frac{1}{N}\sum_{i&#x3D;1}^N \log_2P(w_i|w_1,w_2,\dots,w_{i-1})}$ 注：2的幂次的取值就是交叉熵，另外有些也会用e的幂次。 比如有输入单词序列”th">
+<meta property="og:description" content="¶定义 困惑度（Perplexity）是评估大语言模型能力的常用指标。给定模型和输入单词序列，困惑度表示模型生成该单词序列的概率。 PPL越低，模型的预测能力越强。 ¶计算方式 PPL(W) &#x3D; $2^{-\frac{1}{N}\sum_{i&#x3D;1}^N \log_2P(w_i|w_1,w_2,\dots,w_{i-1})}$ 注：2的幂次的取值就是交叉熵，另外有些也会用e的幂次。 比如有输入单词序">
 <meta property="og:locale" content="zh_CN">
 <meta property="article:published_time" content="2024-08-18T02:45:34.000Z">
 <meta property="article:modified_time" content="2024-08-18T05:37:28.339Z">
@@ -168,13 +168,15 @@
   
 
   <div class="content e-content" itemprop="articleBody">
-    <h2 id="定义"><a href="#定义" class="headerlink" title="定义"></a>定义</h2><p>困惑度（Perplexity）是评估大语言模型能力的常用指标。<br>给定模型和输入单词序列，困惑度表示模型生成该单词序列的概率。</p>
+    <h2 id="定义"><a class="header-anchor" href="#定义">¶</a>定义</h2>
+<p>困惑度（Perplexity）是评估大语言模型能力的常用指标。给定模型和输入单词序列，困惑度表示模型生成该单词序列的概率。</p>
 <p>PPL越低，模型的预测能力越强。</p>
-<h2 id="计算方式"><a href="#计算方式" class="headerlink" title="计算方式"></a>计算方式</h2><p>PPL(W) = $2^{-\frac{1}{N}\sum_{i=1}^N \log_2P(w_i|w_1,w_2,\dots,w_{i-1})}$</p>
+<h2 id="计算方式"><a class="header-anchor" href="#计算方式">¶</a>计算方式</h2>
+<p>PPL(W) = $2^{-\frac{1}{N}\sum_{i=1}^N \log_2P(w_i|w_1,w_2,\dots,w_{i-1})}$</p>
 <p>注：2的幂次的取值就是交叉熵，另外有些也会用e的幂次。</p>
-<p>比如有输入单词序列”the cat sat”，大模型对每个词的预测概率分别为0.5，0.4，0.3，<br>则该序列的困惑度为$2^{-\frac{1}{3}(\log_20.5+\log_20.4+\log_20.3)}\approx 2.45$。<br>直观上说，对于大模型的每次预测，你只需要在前2.45个最优候选词中进行选择。</p>
+<p>比如有输入单词序列&quot;the cat sat&quot;，大模型对每个词的预测概率分别为0.5，0.4，0.3，则该序列的困惑度为$2^{-\frac{1}{3}(\log_20.5+\log_20.4+\log_20.3)}\approx 2.45$。直观上说，对于大模型的每次预测，你只需要在前2.45个最优候选词中进行选择。</p>
 <p>注：GPT-2的困惑度为19.93</p>
-<p>大模型对输入进行一次context推理（对于长文本，还需要考虑模型的最大输入长度问题；<br>另一个小细节是模型会预测下一个token的概率，所以会有1的偏移，因此第一个token的概率是得不到的，要么额外添加一个token，要么统一将第一个token的概率当作1或者忽略），<br>然后按公式计算即可：</p>
+<p>大模型对输入进行一次context推理（对于长文本，还需要考虑模型的最大输入长度问题；另一个小细节是模型会预测下一个token的概率，所以会有1的偏移，因此第一个token的概率是得不到的，要么额外添加一个token，要么统一将第一个token的概率当作1或者忽略），然后按公式计算即可：</p>
 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">log_prob = -np.<span class="built_in">sum</span>(np.log2(logits)) / <span class="built_in">len</span>(logits)</span><br><span class="line">ppl = <span class="number">2</span> ** log_prob</span><br></pre></td></tr></table></figure>
 
   </div>

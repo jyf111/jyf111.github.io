@@ -6,15 +6,15 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="HandheldFriendly" content="True">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=5" />
-    <meta name="description" content="## 温故而知新">
+    <meta name="description" content="¶Shared memory 在GPU上，共享内存是由32个bank组成的SRAM，每个bank为4字节。对于每个bank，每个周期只能读或写一个地址行。 Bank conflict：1个warp内的不同线程访问了同一个bank的不同地址，就需要大于1个周期的时间。 注：有点类似CPU多线程中false sharing。一种解决方式就是padding；GPU上还可以通过指令集并行来隐藏冲突带来的延">
 <meta property="og:type" content="article">
 <meta property="og:title" content="GPU架构">
 <meta property="og:url" content="http://example.com/2024/08/18/GPU%E6%9E%B6%E6%9E%84/index.html">
 <meta property="og:site_name" content="jyf111&#39;s blog">
-<meta property="og:description" content="## 温故而知新">
+<meta property="og:description" content="¶Shared memory 在GPU上，共享内存是由32个bank组成的SRAM，每个bank为4字节。对于每个bank，每个周期只能读或写一个地址行。 Bank conflict：1个warp内的不同线程访问了同一个bank的不同地址，就需要大于1个周期的时间。 注：有点类似CPU多线程中false sharing。一种解决方式就是padding；GPU上还可以通过指令集并行来隐藏冲突带来的延">
 <meta property="og:locale" content="zh_CN">
 <meta property="article:published_time" content="2024-08-17T16:32:53.000Z">
-<meta property="article:modified_time" content="2024-08-17T16:32:53.608Z">
+<meta property="article:modified_time" content="2024-09-13T01:56:14.778Z">
 <meta property="article:author" content="jyf111">
 <meta name="twitter:card" content="summary">
     
@@ -108,6 +108,10 @@
     <br/>
     
     
+      <div id="toc">
+        <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#Shared-memory"><span class="toc-number">1.</span> <span class="toc-text">Shared memory</span></a></li></ol>
+      </div>
+    
   </span>
 </div>
 
@@ -132,7 +136,7 @@
       
         <time datetime="2024-08-17T16:32:53.000Z" class="dt-published" itemprop="datePublished">2024-08-18</time>
         
-        (Updated: <time datetime="2024-08-17T16:32:53.608Z" class="dt-updated" itemprop="dateModified">2024-08-18</time>)
+        (Updated: <time datetime="2024-09-13T01:56:14.778Z" class="dt-updated" itemprop="dateModified">2024-09-13</time>)
         
       
     </div>
@@ -158,7 +162,11 @@
   
 
   <div class="content e-content" itemprop="articleBody">
-    
+    <h2 id="Shared-memory"><a class="header-anchor" href="#Shared-memory">¶</a>Shared memory</h2>
+<p>在GPU上，共享内存是由32个bank组成的SRAM，每个bank为4字节。对于每个bank，每个周期只能读或写一个地址行。</p>
+<p>Bank conflict：1个warp内的不同线程访问了同一个bank的不同地址，就需要大于1个周期的时间。</p>
+<p>注：有点类似CPU多线程中false sharing。一种解决方式就是padding；GPU上还可以通过指令集并行来隐藏冲突带来的延迟。</p>
+
   </div>
 </article>
 
@@ -184,9 +192,15 @@
 
     
     
+      <div id="toc-footer" style="display: none">
+        <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#Shared-memory"><span class="toc-number">1.</span> <span class="toc-text">Shared memory</span></a></li></ol>
+      </div>
+    
 
     <div id="actions-footer">
         <a id="menu" class="icon" href="#" onclick="$('#nav-footer').toggle();return false;"><i class="fa-solid fa-bars fa-lg" aria-hidden="true"></i> 菜单</a>
+        
+          <a id="toc" class="icon" href="#" onclick="$('#toc-footer').toggle();return false;"><i class="fa-solid fa-list fa-lg" aria-hidden="true"></i> 目录</a>
         
         <a id="top" style="display:none" class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fa-solid fa-chevron-up fa-lg" aria-hidden="true"></i> 返回顶部</a>
     </div>

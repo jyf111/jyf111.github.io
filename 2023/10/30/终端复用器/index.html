@@ -6,12 +6,12 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="HandheldFriendly" content="True">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=5" />
-    <meta name="description" content="tmux基本概念通常，终端窗口和会话是绑定的，打开和关闭终端就意味着会话的开始和结束。 tmux则可以解绑终端和会话，这样每个会话可以拥有多个终端，终端也可以和会话分离以及重新接入。 tmux  服务器：一个tmux服务器可以管理多个会话 会话 (session)：一个会话可以有多个窗口，但同时只能显示一个窗口（可以类比成多桌面，不同的桌面干不同的事情） 窗口 (window)：一个窗口可以分割成">
+    <meta name="description" content="¶tmux ¶基本概念 通常，终端窗口和会话是绑定的，打开和关闭终端就意味着会话的开始和结束。 tmux则可以解绑终端和会话，这样每个会话可以拥有多个终端，终端也可以和会话分离以及重新接入。 tmux  服务器：一个tmux服务器可以管理多个会话 会话 (session)：一个会话可以有多个窗口，但同时只能显示一个窗口（可以类比成多桌面，不同的桌面干不同的事情） 窗口 (window)：一个窗口可">
 <meta property="og:type" content="article">
 <meta property="og:title" content="终端复用器">
 <meta property="og:url" content="http://example.com/2023/10/30/%E7%BB%88%E7%AB%AF%E5%A4%8D%E7%94%A8%E5%99%A8/index.html">
 <meta property="og:site_name" content="jyf111&#39;s blog">
-<meta property="og:description" content="tmux基本概念通常，终端窗口和会话是绑定的，打开和关闭终端就意味着会话的开始和结束。 tmux则可以解绑终端和会话，这样每个会话可以拥有多个终端，终端也可以和会话分离以及重新接入。 tmux  服务器：一个tmux服务器可以管理多个会话 会话 (session)：一个会话可以有多个窗口，但同时只能显示一个窗口（可以类比成多桌面，不同的桌面干不同的事情） 窗口 (window)：一个窗口可以分割成">
+<meta property="og:description" content="¶tmux ¶基本概念 通常，终端窗口和会话是绑定的，打开和关闭终端就意味着会话的开始和结束。 tmux则可以解绑终端和会话，这样每个会话可以拥有多个终端，终端也可以和会话分离以及重新接入。 tmux  服务器：一个tmux服务器可以管理多个会话 会话 (session)：一个会话可以有多个窗口，但同时只能显示一个窗口（可以类比成多桌面，不同的桌面干不同的事情） 窗口 (window)：一个窗口可">
 <meta property="og:locale" content="zh_CN">
 <meta property="article:published_time" content="2023-10-30T14:54:50.000Z">
 <meta property="article:modified_time" content="2024-03-31T15:06:26.580Z">
@@ -110,7 +110,7 @@
     
     
       <div id="toc">
-        <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#tmux"><span class="toc-number">1.</span> <span class="toc-text">tmux</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%9F%BA%E6%9C%AC%E6%A6%82%E5%BF%B5"><span class="toc-number">1.1.</span> <span class="toc-text">基本概念</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%BC%9A%E8%AF%9D%E6%93%8D%E4%BD%9C"><span class="toc-number">1.2.</span> <span class="toc-text">会话操作</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%AA%97%E6%A0%BC%E6%93%8D%E4%BD%9C"><span class="toc-number">1.3.</span> <span class="toc-text">窗格操作</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%AA%97%E5%8F%A3%E6%93%8D%E4%BD%9C"><span class="toc-number">1.4.</span> <span class="toc-text">窗口操作</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%B7%A5%E4%BD%9C%E6%B5%81"><span class="toc-number">1.5.</span> <span class="toc-text">工作流</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%97%A0%E9%85%8D%E7%BD%AE%E7%89%88"><span class="toc-number">1.6.</span> <span class="toc-text">无配置版</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#zellij"><span class="toc-number">2.</span> <span class="toc-text">zellij</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%A0%87%E7%AD%BE%E6%93%8D%E4%BD%9C"><span class="toc-number">2.1.</span> <span class="toc-text">标签操作</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%AA%97%E6%A0%BC%E6%93%8D%E4%BD%9C-1"><span class="toc-number">2.2.</span> <span class="toc-text">窗格操作</span></a></li></ol></li></ol>
+        <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#tmux"><span class="toc-number">1.</span> <span class="toc-text">tmux</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%9F%BA%E6%9C%AC%E6%A6%82%E5%BF%B5"><span class="toc-number">1.1.</span> <span class="toc-text">基本概念</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%BC%9A%E8%AF%9D%E6%93%8D%E4%BD%9C"><span class="toc-number">1.2.</span> <span class="toc-text">会话操作</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%AA%97%E6%A0%BC%E6%93%8D%E4%BD%9C"><span class="toc-number">1.3.</span> <span class="toc-text">窗格操作</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%AA%97%E5%8F%A3%E6%93%8D%E4%BD%9C"><span class="toc-number">1.4.</span> <span class="toc-text">窗口操作</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%B7%A5%E4%BD%9C%E6%B5%81"><span class="toc-number">1.5.</span> <span class="toc-text">工作流</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%97%A0%E9%85%8D%E7%BD%AE%E7%89%88"><span class="toc-number">1.6.</span> <span class="toc-text">无配置版</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#zellij"><span class="toc-number">2.</span> <span class="toc-text">zellij</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%A0%87%E7%AD%BE%E6%93%8D%E4%BD%9C"><span class="toc-number">2.1.</span> <span class="toc-text">标签操作</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%AA%97%E6%A0%BC%E6%93%8D%E4%BD%9C-s2"><span class="toc-number">2.2.</span> <span class="toc-text">窗格操作</span></a></li></ol></li></ol>
       </div>
     
   </span>
@@ -158,7 +158,7 @@
             <i class="fa-solid fa-hourglass"></i>
             
             
-              (4 mins to read)
+              (5 mins to read)
             
             </span>
         
@@ -168,7 +168,9 @@
   
 
   <div class="content e-content" itemprop="articleBody">
-    <h2 id="tmux"><a href="#tmux" class="headerlink" title="tmux"></a>tmux</h2><h3 id="基本概念"><a href="#基本概念" class="headerlink" title="基本概念"></a>基本概念</h3><p>通常，终端窗口和会话是绑定的，打开和关闭终端就意味着会话的开始和结束。</p>
+    <h2 id="tmux"><a class="header-anchor" href="#tmux">¶</a>tmux</h2>
+<h3 id="基本概念"><a class="header-anchor" href="#基本概念">¶</a>基本概念</h3>
+<p>通常，终端窗口和会话是绑定的，打开和关闭终端就意味着会话的开始和结束。</p>
 <p>tmux则可以解绑终端和会话，这样每个会话可以拥有多个终端，终端也可以和会话分离以及重新接入。</p>
 <p><a href="/post-images/tmux.png">tmux</a></p>
 <ul>
@@ -184,7 +186,8 @@
 <figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">cd</span><br><span class="line">git clone https://github.com/gpakosz/.tmux.git</span><br><span class="line">ln -s -f .tmux/.tmux.conf</span><br><span class="line">cp .tmux/.tmux.conf.local .</span><br></pre></td></tr></table></figure>
 <p>在<code>.tmux.conf.local</code>中添加下面配置：</p>
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">set -g mouse on</span><br><span class="line">set -g mouse-select-pane on</span><br><span class="line">set -g @plugin &#x27;catppuccin/tmux&#x27;</span><br></pre></td></tr></table></figure>
-<h3 id="会话操作"><a href="#会话操作" class="headerlink" title="会话操作"></a>会话操作</h3><ul>
+<h3 id="会话操作"><a class="header-anchor" href="#会话操作">¶</a>会话操作</h3>
+<ul>
 <li><code>tmux</code>：打开一个tmux服务器</li>
 <li><code>exit</code>：退出</li>
 <li><code>tmux new -s name</code>, <code>alias tnew=&quot;tmux new -s&quot;</code>：新建一个名为name的会话</li>
@@ -193,7 +196,8 @@
 <li><code>tmux kill-session -t id/name</code>：关闭会话</li>
 <li><code>tmux switch -t id/name</code>：切换会话</li>
 </ul>
-<h3 id="窗格操作"><a href="#窗格操作" class="headerlink" title="窗格操作"></a>窗格操作</h3><ul>
+<h3 id="窗格操作"><a class="header-anchor" href="#窗格操作">¶</a>窗格操作</h3>
+<ul>
 <li><code>C-a</code>：前缀键（也可以是默认的<code>C-b</code>；注意是先按下<prefix>，然后松开，再按后面的键）</li>
 <li><code>-</code>：上下分窗格</li>
 <li><code>_</code>：左右分窗格</li>
@@ -204,27 +208,35 @@
 <li><code>&lt;</code>/<code>&gt;</code>：交换窗格位置</li>
 <li><code>d</code>：分离，后续可以再attach回来</li>
 </ul>
-<h3 id="窗口操作"><a href="#窗口操作" class="headerlink" title="窗口操作"></a>窗口操作</h3><ul>
+<h3 id="窗口操作"><a class="header-anchor" href="#窗口操作">¶</a>窗口操作</h3>
+<ul>
 <li><code>c</code>：新建窗口</li>
 <li><code>C-h</code>/<code>C-l</code>：浏览窗口</li>
 <li><code>&lt;number&gt;</code>：跳转到该窗口</li>
 <li><code>,</code>：窗口重命名</li>
 </ul>
-<h3 id="工作流"><a href="#工作流" class="headerlink" title="工作流"></a>工作流</h3><p>通常开一个tmux，然后用<code>&lt;prefix&gt;-</code>/<code>&lt;prefix&gt;_</code>分割多个窗格即可。</p>
+<h3 id="工作流"><a class="header-anchor" href="#工作流">¶</a>工作流</h3>
+<p>通常开一个tmux，然后用<code>&lt;prefix&gt;-</code>/<code>&lt;prefix&gt;_</code>分割多个窗格即可。</p>
 <p>有时候要跑一些长任务，可以运行之后<code>&lt;prefix&gt;d</code>进行detach。</p>
-<h3 id="无配置版"><a href="#无配置版" class="headerlink" title="无配置版"></a>无配置版</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">tmux</span><br><span class="line">ctrl-b `:<span class="built_in">set</span> -g mouse on`</span><br><span class="line">ctrl-b `:kill-session` <span class="comment"># 关闭当前会话，也即关闭所有窗格</span></span><br><span class="line">ctrl-b % <span class="comment"># 横向分屏</span></span><br><span class="line">ctrl-b <span class="string">&quot; # 纵向分屏</span></span><br><span class="line"><span class="string">ctrl-b 方向键 # 切换窗格</span></span><br><span class="line"><span class="string">ctrl-b [ # 开始滚屏</span></span><br><span class="line"><span class="string">ctrl-d # 关闭当前pane</span></span><br></pre></td></tr></table></figure>
-<h2 id="zellij"><a href="#zellij" class="headerlink" title="zellij"></a>zellij</h2><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta prompt_"># </span><span class="language-bash">install</span></span><br><span class="line">wget https://github.com/zellij-org/zellij/releases/download/v0.38.2/zellij-x86_64-unknown-linux-musl.tar.gz</span><br><span class="line">tar -xvf zellij-x86_64-unknown-linux-musl.tar.gz</span><br><span class="line">sudo mv zellij /usr/local/bin</span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">uninstall</span></span><br><span class="line">sudo rm /usr/local/bin/zellij</span><br></pre></td></tr></table></figure>
+<h3 id="无配置版"><a class="header-anchor" href="#无配置版">¶</a>无配置版</h3>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">tmux</span><br><span class="line">ctrl-b `:<span class="built_in">set</span> -g mouse on`</span><br><span class="line">ctrl-b `:kill-session` <span class="comment"># 关闭当前会话，也即关闭所有窗格</span></span><br><span class="line">ctrl-b % <span class="comment"># 横向分屏</span></span><br><span class="line">ctrl-b <span class="string">&quot; # 纵向分屏</span></span><br><span class="line"><span class="string">ctrl-b 方向键 # 切换窗格</span></span><br><span class="line"><span class="string">ctrl-b [ # 开始滚屏</span></span><br><span class="line"><span class="string">ctrl-d # 关闭当前pane</span></span><br></pre></td></tr></table></figure>
+<h2 id="zellij"><a class="header-anchor" href="#zellij">¶</a>zellij</h2>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta prompt_"># </span><span class="language-bash">install</span></span><br><span class="line">wget https://github.com/zellij-org/zellij/releases/download/v0.38.2/zellij-x86_64-unknown-linux-musl.tar.gz</span><br><span class="line">tar -xvf zellij-x86_64-unknown-linux-musl.tar.gz</span><br><span class="line">sudo mv zellij /usr/local/bin</span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">uninstall</span></span><br><span class="line">sudo rm /usr/local/bin/zellij</span><br></pre></td></tr></table></figure>
 <p>这里窗口被叫作标签（tab；感觉更清晰），窗格仍然是pane。</p>
-<h3 id="标签操作"><a href="#标签操作" class="headerlink" title="标签操作"></a>标签操作</h3><ul>
-<li><code>C-t</code>起始<ul>
+<h3 id="标签操作"><a class="header-anchor" href="#标签操作">¶</a>标签操作</h3>
+<ul>
+<li><code>C-t</code>起始
+<ul>
 <li><code>n</code>：新建标签</li>
 <li><code>x</code>：关闭当前标签</li>
 </ul>
 </li>
 <li><code>C-o</code>：分离当前标签（和tmux一样，可以<code>zellij attach &lt;name&gt;</code>回来）</li>
 </ul>
-<h3 id="窗格操作-1"><a href="#窗格操作-1" class="headerlink" title="窗格操作"></a>窗格操作</h3><ul>
-<li><code>C-p</code>起始<ul>
+<h3 id="窗格操作-s2"><a class="header-anchor" href="#窗格操作-s2">¶</a>窗格操作</h3>
+<ul>
+<li><code>C-p</code>起始
+<ul>
 <li><code>n</code>：新建窗格（会自动选择垂直还是水平划分）</li>
 <li><code>x</code>：关闭当前窗格</li>
 </ul>
@@ -263,7 +275,7 @@
     
     
       <div id="toc-footer" style="display: none">
-        <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#tmux"><span class="toc-number">1.</span> <span class="toc-text">tmux</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%9F%BA%E6%9C%AC%E6%A6%82%E5%BF%B5"><span class="toc-number">1.1.</span> <span class="toc-text">基本概念</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%BC%9A%E8%AF%9D%E6%93%8D%E4%BD%9C"><span class="toc-number">1.2.</span> <span class="toc-text">会话操作</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%AA%97%E6%A0%BC%E6%93%8D%E4%BD%9C"><span class="toc-number">1.3.</span> <span class="toc-text">窗格操作</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%AA%97%E5%8F%A3%E6%93%8D%E4%BD%9C"><span class="toc-number">1.4.</span> <span class="toc-text">窗口操作</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%B7%A5%E4%BD%9C%E6%B5%81"><span class="toc-number">1.5.</span> <span class="toc-text">工作流</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%97%A0%E9%85%8D%E7%BD%AE%E7%89%88"><span class="toc-number">1.6.</span> <span class="toc-text">无配置版</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#zellij"><span class="toc-number">2.</span> <span class="toc-text">zellij</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%A0%87%E7%AD%BE%E6%93%8D%E4%BD%9C"><span class="toc-number">2.1.</span> <span class="toc-text">标签操作</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%AA%97%E6%A0%BC%E6%93%8D%E4%BD%9C-1"><span class="toc-number">2.2.</span> <span class="toc-text">窗格操作</span></a></li></ol></li></ol>
+        <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#tmux"><span class="toc-number">1.</span> <span class="toc-text">tmux</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%9F%BA%E6%9C%AC%E6%A6%82%E5%BF%B5"><span class="toc-number">1.1.</span> <span class="toc-text">基本概念</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%BC%9A%E8%AF%9D%E6%93%8D%E4%BD%9C"><span class="toc-number">1.2.</span> <span class="toc-text">会话操作</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%AA%97%E6%A0%BC%E6%93%8D%E4%BD%9C"><span class="toc-number">1.3.</span> <span class="toc-text">窗格操作</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%AA%97%E5%8F%A3%E6%93%8D%E4%BD%9C"><span class="toc-number">1.4.</span> <span class="toc-text">窗口操作</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%B7%A5%E4%BD%9C%E6%B5%81"><span class="toc-number">1.5.</span> <span class="toc-text">工作流</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%97%A0%E9%85%8D%E7%BD%AE%E7%89%88"><span class="toc-number">1.6.</span> <span class="toc-text">无配置版</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#zellij"><span class="toc-number">2.</span> <span class="toc-text">zellij</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%A0%87%E7%AD%BE%E6%93%8D%E4%BD%9C"><span class="toc-number">2.1.</span> <span class="toc-text">标签操作</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%AA%97%E6%A0%BC%E6%93%8D%E4%BD%9C-s2"><span class="toc-number">2.2.</span> <span class="toc-text">窗格操作</span></a></li></ol></li></ol>
       </div>
     
 
