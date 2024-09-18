@@ -14,7 +14,7 @@
 <meta property="og:description" content="¶内存布局 1clang++ -Xclang -fdump-record-layouts -c main.cpp  多态对象的起始是虚函数表。 按继承顺序排布各个类，声明顺序排布各个成员，需要结合对齐规则。  12345678910111213141516171819202122232425262728293031323334353637383940414243444546474849505152">
 <meta property="og:locale" content="zh_CN">
 <meta property="article:published_time" content="2024-03-09T03:37:13.000Z">
-<meta property="article:modified_time" content="2024-04-05T14:45:57.509Z">
+<meta property="article:modified_time" content="2024-09-18T16:31:57.024Z">
 <meta property="article:author" content="jyf111">
 <meta property="article:tag" content="语言">
 <meta name="twitter:card" content="summary">
@@ -137,7 +137,7 @@
       
         <time datetime="2024-03-09T03:37:13.000Z" class="dt-published" itemprop="datePublished">2024-03-09</time>
         
-        (Updated: <time datetime="2024-04-05T14:45:57.509Z" class="dt-updated" itemprop="dateModified">2024-04-05</time>)
+        (Updated: <time datetime="2024-09-18T16:31:57.024Z" class="dt-updated" itemprop="dateModified">2024-09-19</time>)
         
       
     </div>
@@ -183,7 +183,7 @@
 <li>并发的false sharing问题</li>
 </ul>
 <h2 id="pragma"><a class="header-anchor" href="#pragma">¶</a>pragma</h2>
-<p>指示编译器以特定对齐方式对齐结构体成员，其中对齐单位=min(n, 结构体成员的最大大小)</p>
+<p>指示编译器以特定对齐方式对齐结构体成员，其中对齐单位=min(n, <strong>结构体成员的最大大小</strong>)</p>
 <p>gcc默认n=4。</p>
 <p>每个成员的偏移值都是min(对齐单位, 该成员大小)的整数倍，且整个结构体的大小也是对齐单位的整数倍。</p>
 <figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">pragma</span> pack(n)</span></span><br><span class="line"><span class="keyword">struct</span> <span class="title class_">A</span> &#123;</span><br><span class="line"></span><br><span class="line">&#125;;</span><br><span class="line"><span class="built_in">alignof</span>(A); <span class="comment">// 查看结构体的对齐单位</span></span><br></pre></td></tr></table></figure>
