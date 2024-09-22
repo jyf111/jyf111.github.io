@@ -6,17 +6,17 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="HandheldFriendly" content="True">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=5" />
-    <meta name="description" content="¶C&#x2F;C++ ¶编译过程   预处理：-E   编译：生成汇编代码 -S   汇编：生成包含机器码的目标文件 -c   链接：将多个目标文件和库文件组合成可执行文件（需要进行符号解析和重定位）  静态链接：在编译阶段将静态库直接加入到目标文件中（静态库其实就是一组目标文件ar -rcs） 动态链接：只是加入一些描述性信息，在运行时（程序入口函数执行之前）才真正定位符号运行时才加载共享库到程序的虚拟">
+    <meta name="description" content="C&#x2F;C++编译过程 预处理：-E 编译：生成汇编代码 -S 汇编：生成包含机器码的目标文件 -c 链接：将多个目标文件和库文件组合成可执行文件（需要进行符号解析和重定位）  静态链接：在编译阶段将静态库直接加入到目标文件中（静态库其实就是一组目标文件ar -rcs） 动态链接：只是加入一些描述性信息，在运行时（程序入口函数执行之前）才真正定位符号    运行时才加载共享库到程序的虚拟地址空间中，利">
 <meta property="og:type" content="article">
 <meta property="og:title" content="八股记录">
 <meta property="og:url" content="http://example.com/2023/11/20/%E5%85%AB%E8%82%A1%E8%AE%B0%E5%BD%95/index.html">
 <meta property="og:site_name" content="jyf111&#39;s blog">
-<meta property="og:description" content="¶C&#x2F;C++ ¶编译过程   预处理：-E   编译：生成汇编代码 -S   汇编：生成包含机器码的目标文件 -c   链接：将多个目标文件和库文件组合成可执行文件（需要进行符号解析和重定位）  静态链接：在编译阶段将静态库直接加入到目标文件中（静态库其实就是一组目标文件ar -rcs） 动态链接：只是加入一些描述性信息，在运行时（程序入口函数执行之前）才真正定位符号运行时才加载共享库到程序的虚拟">
+<meta property="og:description" content="C&#x2F;C++编译过程 预处理：-E 编译：生成汇编代码 -S 汇编：生成包含机器码的目标文件 -c 链接：将多个目标文件和库文件组合成可执行文件（需要进行符号解析和重定位）  静态链接：在编译阶段将静态库直接加入到目标文件中（静态库其实就是一组目标文件ar -rcs） 动态链接：只是加入一些描述性信息，在运行时（程序入口函数执行之前）才真正定位符号    运行时才加载共享库到程序的虚拟地址空间中，利">
 <meta property="og:locale" content="zh_CN">
 <meta property="og:image" content="http://example.com/post-images/cpu-cache.png">
 <meta property="og:image" content="http://example.com/post-images/cache.png">
 <meta property="article:published_time" content="2023-11-20T07:59:47.000Z">
-<meta property="article:modified_time" content="2024-09-18T16:34:24.994Z">
+<meta property="article:modified_time" content="2024-09-22T15:50:54.007Z">
 <meta property="article:author" content="jyf111">
 <meta property="article:tag" content="知识点">
 <meta name="twitter:card" content="summary">
@@ -113,7 +113,7 @@
     
     
       <div id="toc">
-        <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#C-C"><span class="toc-number">1.</span> <span class="toc-text">C&#x2F;C++</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%BC%96%E8%AF%91%E8%BF%87%E7%A8%8B"><span class="toc-number">1.1.</span> <span class="toc-text">编译过程</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%AD%97%E8%8A%82%E5%BA%8F"><span class="toc-number">1.2.</span> <span class="toc-text">字节序</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#lambda"><span class="toc-number">1.3.</span> <span class="toc-text">lambda</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#volatile"><span class="toc-number">1.4.</span> <span class="toc-text">volatile</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#static"><span class="toc-number">1.5.</span> <span class="toc-text">static</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#inline"><span class="toc-number">1.6.</span> <span class="toc-text">inline</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#explicit"><span class="toc-number">1.7.</span> <span class="toc-text">explicit</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#std-function"><span class="toc-number">1.8.</span> <span class="toc-text">std::function</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#std-vector"><span class="toc-number">1.9.</span> <span class="toc-text">std::vector</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E9%9D%A2%E5%90%91%E5%AF%B9%E8%B1%A1"><span class="toc-number">1.10.</span> <span class="toc-text">面向对象</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%B1%BB%E7%9A%84%E5%86%85%E5%AD%98%E5%B8%83%E5%B1%80"><span class="toc-number">1.11.</span> <span class="toc-text">类的内存布局</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%A4%9A%E6%80%81%E7%9A%84%E5%AE%9E%E7%8E%B0"><span class="toc-number">1.12.</span> <span class="toc-text">多态的实现</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#RTTI-%E8%BF%90%E8%A1%8C%E6%97%B6%E7%B1%BB%E5%9E%8B%E8%AF%86%E5%88%AB"><span class="toc-number">1.13.</span> <span class="toc-text">RTTI 运行时类型识别</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#new%E5%92%8Cmalloc"><span class="toc-number">1.14.</span> <span class="toc-text">new和malloc</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#main%E5%87%BD%E6%95%B0%E5%90%AF%E5%8A%A8"><span class="toc-number">1.15.</span> <span class="toc-text">main函数启动</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#std-swap"><span class="toc-number">1.16.</span> <span class="toc-text">std::swap</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%8F%8B%E5%85%83%E8%BF%90%E7%AE%97%E7%AC%A6"><span class="toc-number">1.17.</span> <span class="toc-text">友元运算符</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%A9%BA%E7%B1%BB%E5%A4%A7%E5%B0%8F"><span class="toc-number">1.18.</span> <span class="toc-text">空类大小</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%91%BD%E5%90%8D%E7%A9%BA%E9%97%B4"><span class="toc-number">1.19.</span> <span class="toc-text">命名空间</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%B1%BB%E5%9E%8B%E8%BD%AC%E6%8D%A2"><span class="toc-number">1.20.</span> <span class="toc-text">类型转换</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%8C%87%E9%92%88%E5%92%8C%E5%BC%95%E7%94%A8%E7%9A%84%E5%8C%BA%E5%88%AB"><span class="toc-number">1.21.</span> <span class="toc-text">指针和引用的区别</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%8D%95%E4%BE%8B%E6%A8%A1%E5%BC%8F"><span class="toc-number">1.22.</span> <span class="toc-text">单例模式</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%99%BA%E8%83%BD%E6%8C%87%E9%92%88"><span class="toc-number">1.23.</span> <span class="toc-text">智能指针</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%B9%B6%E5%8F%91%E7%BC%96%E7%A8%8B"><span class="toc-number">1.24.</span> <span class="toc-text">并发编程</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%86%85%E5%AD%98%E6%A8%A1%E5%9E%8B"><span class="toc-number">1.25.</span> <span class="toc-text">内存模型</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%86%85%E5%AD%98%E6%B3%84%E9%9C%B2"><span class="toc-number">1.26.</span> <span class="toc-text">内存泄露</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#C-%E5%92%8CC%E7%9A%84%E5%8C%BA%E5%88%AB"><span class="toc-number">1.27.</span> <span class="toc-text">C++和C的区别</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%A0%86%E5%92%8C%E6%A0%88"><span class="toc-number">1.28.</span> <span class="toc-text">堆和栈</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%AE%B9%E5%99%A8%E9%80%82%E9%85%8D%E5%99%A8"><span class="toc-number">1.29.</span> <span class="toc-text">容器适配器</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%89%8D%E7%BD%AE%E5%92%8C%E5%90%8E%E7%BD%AE%E9%80%92%E5%A2%9E"><span class="toc-number">1.30.</span> <span class="toc-text">前置和后置递增</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%BC%82%E5%B8%B8%E5%AE%89%E5%85%A8"><span class="toc-number">1.31.</span> <span class="toc-text">异常安全</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%AE%BE%E8%AE%A1%E5%8E%9F%E5%88%99"><span class="toc-number">1.32.</span> <span class="toc-text">设计原则</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F"><span class="toc-number">1.33.</span> <span class="toc-text">设计模式</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%88%9B%E5%BB%BA%E5%9E%8B"><span class="toc-number">1.33.1.</span> <span class="toc-text">创建型</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E7%BB%93%E6%9E%84%E5%9E%8B"><span class="toc-number">1.33.2.</span> <span class="toc-text">结构型</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E8%A1%8C%E4%B8%BA%E5%9E%8B"><span class="toc-number">1.33.3.</span> <span class="toc-text">行为型</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%B5%8B%E8%AF%95"><span class="toc-number">1.34.</span> <span class="toc-text">测试</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F"><span class="toc-number">2.</span> <span class="toc-text">操作系统</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%86%AF%E8%AF%BA%E4%BE%9D%E6%9B%BC%E6%9E%B6%E6%9E%84"><span class="toc-number">2.1.</span> <span class="toc-text">冯诺依曼架构</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%86%85%E5%AD%98%E5%B8%83%E5%B1%80"><span class="toc-number">2.2.</span> <span class="toc-text">内存布局</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Buffer%E5%92%8CCache"><span class="toc-number">2.3.</span> <span class="toc-text">Buffer和Cache</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#TLB"><span class="toc-number">2.4.</span> <span class="toc-text">TLB</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#NUMA"><span class="toc-number">2.5.</span> <span class="toc-text">NUMA</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%8E%9F%E5%AD%90%E6%93%8D%E4%BD%9C"><span class="toc-number">2.6.</span> <span class="toc-text">原子操作</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%BF%9B%E7%A8%8B%E3%80%81%E7%BA%BF%E7%A8%8B%E3%80%81%E5%8D%8F%E7%A8%8B%E7%9A%84%E5%8C%BA%E5%88%AB"><span class="toc-number">2.7.</span> <span class="toc-text">进程、线程、协程的区别</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%BF%9B%E7%A8%8B%E7%9A%84%E7%8A%B6%E6%80%81"><span class="toc-number">2.8.</span> <span class="toc-text">进程的状态</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%BF%9B%E7%A8%8B%E4%BC%98%E5%85%88%E7%BA%A7"><span class="toc-number">2.9.</span> <span class="toc-text">进程优先级</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%BF%9B%E7%A8%8B%E9%80%9A%E4%BF%A1%E6%96%B9%E5%BC%8F"><span class="toc-number">2.10.</span> <span class="toc-text">进程通信方式</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%BA%BF%E7%A8%8B%E9%80%9A%E4%BF%A1%E6%96%B9%E5%BC%8F"><span class="toc-number">2.11.</span> <span class="toc-text">线程通信方式</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%82%B2%E8%A7%82%E9%94%81%E4%B8%8E%E4%B9%90%E8%A7%82%E9%94%81"><span class="toc-number">2.12.</span> <span class="toc-text">悲观锁与乐观锁</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E9%A1%BA%E5%BA%8F%E9%94%81"><span class="toc-number">2.13.</span> <span class="toc-text">顺序锁</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%AD%BB%E9%94%81"><span class="toc-number">2.14.</span> <span class="toc-text">死锁</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#I-O%E6%A8%A1%E5%9E%8B"><span class="toc-number">2.15.</span> <span class="toc-text">I&#x2F;O模型</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%94%A8%E6%88%B7%E6%80%81%E5%92%8C%E5%86%85%E6%A0%B8%E6%80%81"><span class="toc-number">2.16.</span> <span class="toc-text">用户态和内核态</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#MMU"><span class="toc-number">2.17.</span> <span class="toc-text">MMU</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%BF%9B%E7%A8%8B%E7%B1%BB%E5%88%AB"><span class="toc-number">2.18.</span> <span class="toc-text">进程类别</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%9B%9E%E6%94%B6%E7%BA%BF%E7%A8%8B"><span class="toc-number">2.19.</span> <span class="toc-text">回收线程</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%96%87%E4%BB%B6"><span class="toc-number">2.20.</span> <span class="toc-text">文件</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Radix-tree"><span class="toc-number">2.21.</span> <span class="toc-text">Radix tree</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C"><span class="toc-number">3.</span> <span class="toc-text">计算机网络</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%BD%91%E7%BB%9C%E6%A8%A1%E5%9E%8B"><span class="toc-number">3.1.</span> <span class="toc-text">网络模型</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#IP"><span class="toc-number">3.2.</span> <span class="toc-text">IP</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#TCP%E5%92%8CUDP"><span class="toc-number">3.3.</span> <span class="toc-text">TCP和UDP</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%B8%89%E6%AC%A1%E6%8F%A1%E6%89%8B%E5%92%8C%E5%9B%9B%E6%AC%A1%E6%8C%A5%E6%89%8B"><span class="toc-number">3.4.</span> <span class="toc-text">三次握手和四次挥手</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%B2%98%E5%8C%85"><span class="toc-number">3.5.</span> <span class="toc-text">粘包</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#ICMP"><span class="toc-number">3.6.</span> <span class="toc-text">ICMP</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#HTTP"><span class="toc-number">3.7.</span> <span class="toc-text">HTTP</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E8%BF%94%E5%9B%9E%E7%A0%81"><span class="toc-number">3.7.1.</span> <span class="toc-text">返回码</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E8%AF%B7%E6%B1%82%E6%96%B9%E5%BC%8F"><span class="toc-number">3.7.2.</span> <span class="toc-text">请求方式</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E7%BC%93%E5%AD%98"><span class="toc-number">3.7.3.</span> <span class="toc-text">缓存</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#HTTPS"><span class="toc-number">3.7.4.</span> <span class="toc-text">HTTPS</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#cookie%E5%92%8Csession"><span class="toc-number">3.7.5.</span> <span class="toc-text">cookie和session</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#Socket"><span class="toc-number">3.7.6.</span> <span class="toc-text">Socket</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#Websocket"><span class="toc-number">3.7.7.</span> <span class="toc-text">Websocket</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%AE%9A%E6%9C%9F%E8%BD%AE%E8%AF%A2%E5%92%8C%E9%95%BF%E8%BD%AE%E8%AF%A2%EF%BC%88poll%EF%BC%89"><span class="toc-number">3.7.8.</span> <span class="toc-text">定期轮询和长轮询（poll）</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E9%95%BF%E8%BF%9E%E6%8E%A5%E5%92%8C%E7%9F%AD%E8%BF%9E%E6%8E%A5"><span class="toc-number">3.7.9.</span> <span class="toc-text">长连接和短连接</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#TUN-TAP"><span class="toc-number">3.8.</span> <span class="toc-text">TUN&#x2F;TAP</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Linux%E6%8E%A5%E6%94%B6%E7%BD%91%E7%BB%9C%E5%8C%85"><span class="toc-number">3.9.</span> <span class="toc-text">Linux接收网络包</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#NAT-DNS-ARP"><span class="toc-number">3.10.</span> <span class="toc-text">NAT DNS ARP</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%86%85%E7%BD%91%E7%A9%BF%E9%80%8F"><span class="toc-number">3.11.</span> <span class="toc-text">内网穿透</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%B1%80%E5%9F%9F%E7%BD%91%E5%92%8C%E5%B9%BF%E5%9F%9F%E7%BD%91"><span class="toc-number">3.12.</span> <span class="toc-text">局域网和广域网</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%B5%8F%E8%A7%88%E5%99%A8%E8%BE%93%E5%85%A5URL"><span class="toc-number">3.13.</span> <span class="toc-text">浏览器输入URL</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%A4%9A%E8%B7%AF%E5%A4%8D%E7%94%A8"><span class="toc-number">3.14.</span> <span class="toc-text">多路复用</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%95%B0%E6%8D%AE%E5%BA%93"><span class="toc-number">4.</span> <span class="toc-text">数据库</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%BF%9E%E6%8E%A5"><span class="toc-number">4.1.</span> <span class="toc-text">连接</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#key"><span class="toc-number">4.2.</span> <span class="toc-text">key</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%B4%A2%E5%BC%95"><span class="toc-number">4.3.</span> <span class="toc-text">索引</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#B-B-tree"><span class="toc-number">4.3.1.</span> <span class="toc-text">B&#x2F;B+ tree</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#LSM-tree"><span class="toc-number">4.3.2.</span> <span class="toc-text">LSM tree</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#Bw-tree"><span class="toc-number">4.3.3.</span> <span class="toc-text">Bw tree</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E8%B7%B3%E8%A1%A8"><span class="toc-number">4.3.4.</span> <span class="toc-text">跳表</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%BA%8B%E5%8A%A1"><span class="toc-number">4.4.</span> <span class="toc-text">事务</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%97%A5%E5%BF%97"><span class="toc-number">4.5.</span> <span class="toc-text">日志</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%AE%97%E6%B3%95"><span class="toc-number">5.</span> <span class="toc-text">算法</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E9%93%BE%E8%A1%A8%E5%88%A4%E7%8E%AF"><span class="toc-number">5.1.</span> <span class="toc-text">链表判环</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E9%93%BE%E8%A1%A8%E5%8F%8D%E8%BD%AC"><span class="toc-number">5.2.</span> <span class="toc-text">链表反转</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%9C%80%E9%95%BF%E5%9B%9E%E6%96%87%E5%AD%90%E4%B8%B2"><span class="toc-number">5.3.</span> <span class="toc-text">最长回文子串</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%B8%8B%E4%B8%80%E4%B8%AA%E6%8E%92%E5%88%97"><span class="toc-number">5.4.</span> <span class="toc-text">下一个排列</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%B8%AD%E4%BD%8D%E6%95%B0"><span class="toc-number">5.5.</span> <span class="toc-text">中位数</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%93%84%E6%B0%B4%E6%B1%A0"><span class="toc-number">5.6.</span> <span class="toc-text">蓄水池</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E9%99%90%E6%B5%81"><span class="toc-number">5.7.</span> <span class="toc-text">限流</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%99%BA%E5%8A%9B-%E6%9D%82%E9%A2%98"><span class="toc-number">6.</span> <span class="toc-text">智力&#x2F;杂题</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E9%9A%8F%E6%9C%BA%E6%B4%97%E7%89%8C%E7%AE%97%E6%B3%95"><span class="toc-number">6.1.</span> <span class="toc-text">随机洗牌算法</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E9%9A%8F%E6%9C%BA%E7%BA%A2%E5%8C%85%E7%AE%97%E6%B3%95"><span class="toc-number">6.2.</span> <span class="toc-text">随机红包算法</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#25%E5%8C%B9%E9%A9%AC5%E4%B8%AA%E8%B5%9B%E9%81%93%E6%89%BE%E5%87%BA%E5%89%8D3%E5%BF%AB"><span class="toc-number">6.3.</span> <span class="toc-text">25匹马5个赛道找出前3快</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#10%E5%8F%AA%E8%80%81%E9%BC%A0%E5%9C%A81000%E7%93%B6%E6%B0%B4%E9%87%8C%E6%89%BE%E5%87%BA%E6%AF%92%E8%8D%AF"><span class="toc-number">6.4.</span> <span class="toc-text">10只老鼠在1000瓶水里找出毒药</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E9%AB%98%E6%A5%BC%E6%89%94%E9%B8%A1%E8%9B%8B%EF%BC%8C%E5%8F%AA%E6%9C%892%E6%9E%9A%E9%B8%A1%E8%9B%8B"><span class="toc-number">6.5.</span> <span class="toc-text">高楼扔鸡蛋，只有2枚鸡蛋</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%94%A8rand-7-%E7%94%9F%E6%88%90rand-10"><span class="toc-number">6.6.</span> <span class="toc-text">用rand(7)生成rand(10)</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%8C%B4%E5%AD%90%E6%90%AC%E9%A6%99%E8%95%89"><span class="toc-number">6.7.</span> <span class="toc-text">猴子搬香蕉</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#N%E4%B8%AA%E5%BC%BA%E7%9B%97%E5%88%86M%E4%B8%AA%E9%87%91%E5%B8%81"><span class="toc-number">6.8.</span> <span class="toc-text">N个强盗分M个金币</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%95%B0%E5%AD%A6"><span class="toc-number">7.</span> <span class="toc-text">数学</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%87%B8%E5%87%BD%E6%95%B0%E5%92%8C%E5%87%B9%E5%87%BD%E6%95%B0"><span class="toc-number">7.1.</span> <span class="toc-text">凸函数和凹函数</span></a></li></ol></li></ol>
+        <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#C-C"><span class="toc-number">1.</span> <span class="toc-text">C&#x2F;C++</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%BC%96%E8%AF%91%E8%BF%87%E7%A8%8B"><span class="toc-number">1.1.</span> <span class="toc-text">编译过程</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%AD%97%E8%8A%82%E5%BA%8F"><span class="toc-number">1.2.</span> <span class="toc-text">字节序</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#lambda"><span class="toc-number">1.3.</span> <span class="toc-text">lambda</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#volatile"><span class="toc-number">1.4.</span> <span class="toc-text">volatile</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#static"><span class="toc-number">1.5.</span> <span class="toc-text">static</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#inline"><span class="toc-number">1.6.</span> <span class="toc-text">inline</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#explicit"><span class="toc-number">1.7.</span> <span class="toc-text">explicit</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#std-function"><span class="toc-number">1.8.</span> <span class="toc-text">std::function</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#std-vector"><span class="toc-number">1.9.</span> <span class="toc-text">std::vector</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E9%9D%A2%E5%90%91%E5%AF%B9%E8%B1%A1"><span class="toc-number">1.10.</span> <span class="toc-text">面向对象</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%B1%BB%E7%9A%84%E5%86%85%E5%AD%98%E5%B8%83%E5%B1%80"><span class="toc-number">1.11.</span> <span class="toc-text">类的内存布局</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%A4%9A%E6%80%81%E7%9A%84%E5%AE%9E%E7%8E%B0"><span class="toc-number">1.12.</span> <span class="toc-text">多态的实现</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#RTTI-%E8%BF%90%E8%A1%8C%E6%97%B6%E7%B1%BB%E5%9E%8B%E8%AF%86%E5%88%AB"><span class="toc-number">1.13.</span> <span class="toc-text">RTTI 运行时类型识别</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#new%E5%92%8Cmalloc"><span class="toc-number">1.14.</span> <span class="toc-text">new和malloc</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#main%E5%87%BD%E6%95%B0%E5%90%AF%E5%8A%A8"><span class="toc-number">1.15.</span> <span class="toc-text">main函数启动</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#std-swap"><span class="toc-number">1.16.</span> <span class="toc-text">std::swap</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%8F%8B%E5%85%83%E8%BF%90%E7%AE%97%E7%AC%A6"><span class="toc-number">1.17.</span> <span class="toc-text">友元运算符</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%A9%BA%E7%B1%BB%E5%A4%A7%E5%B0%8F"><span class="toc-number">1.18.</span> <span class="toc-text">空类大小</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%91%BD%E5%90%8D%E7%A9%BA%E9%97%B4"><span class="toc-number">1.19.</span> <span class="toc-text">命名空间</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%B1%BB%E5%9E%8B%E8%BD%AC%E6%8D%A2"><span class="toc-number">1.20.</span> <span class="toc-text">类型转换</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%8C%87%E9%92%88%E5%92%8C%E5%BC%95%E7%94%A8%E7%9A%84%E5%8C%BA%E5%88%AB"><span class="toc-number">1.21.</span> <span class="toc-text">指针和引用的区别</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%8D%95%E4%BE%8B%E6%A8%A1%E5%BC%8F"><span class="toc-number">1.22.</span> <span class="toc-text">单例模式</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%99%BA%E8%83%BD%E6%8C%87%E9%92%88"><span class="toc-number">1.23.</span> <span class="toc-text">智能指针</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%B9%B6%E5%8F%91%E7%BC%96%E7%A8%8B"><span class="toc-number">1.24.</span> <span class="toc-text">并发编程</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%86%85%E5%AD%98%E6%A8%A1%E5%9E%8B"><span class="toc-number">1.25.</span> <span class="toc-text">内存模型</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%86%85%E5%AD%98%E6%B3%84%E9%9C%B2"><span class="toc-number">1.26.</span> <span class="toc-text">内存泄露</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#C-%E5%92%8CC%E7%9A%84%E5%8C%BA%E5%88%AB"><span class="toc-number">1.27.</span> <span class="toc-text">C++和C的区别</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%A0%86%E5%92%8C%E6%A0%88"><span class="toc-number">1.28.</span> <span class="toc-text">堆和栈</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%AE%B9%E5%99%A8%E9%80%82%E9%85%8D%E5%99%A8"><span class="toc-number">1.29.</span> <span class="toc-text">容器适配器</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%89%8D%E7%BD%AE%E5%92%8C%E5%90%8E%E7%BD%AE%E9%80%92%E5%A2%9E"><span class="toc-number">1.30.</span> <span class="toc-text">前置和后置递增</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%BC%82%E5%B8%B8%E5%AE%89%E5%85%A8"><span class="toc-number">1.31.</span> <span class="toc-text">异常安全</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%AE%BE%E8%AE%A1%E5%8E%9F%E5%88%99"><span class="toc-number">1.32.</span> <span class="toc-text">设计原则</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F"><span class="toc-number">1.33.</span> <span class="toc-text">设计模式</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%88%9B%E5%BB%BA%E5%9E%8B"><span class="toc-number">1.33.1.</span> <span class="toc-text">创建型</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E7%BB%93%E6%9E%84%E5%9E%8B"><span class="toc-number">1.33.2.</span> <span class="toc-text">结构型</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E8%A1%8C%E4%B8%BA%E5%9E%8B"><span class="toc-number">1.33.3.</span> <span class="toc-text">行为型</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%B5%8B%E8%AF%95"><span class="toc-number">1.34.</span> <span class="toc-text">测试</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F"><span class="toc-number">2.</span> <span class="toc-text">操作系统</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%86%AF%E8%AF%BA%E4%BE%9D%E6%9B%BC%E6%9E%B6%E6%9E%84"><span class="toc-number">2.1.</span> <span class="toc-text">冯诺依曼架构</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%86%85%E5%AD%98%E5%B8%83%E5%B1%80"><span class="toc-number">2.2.</span> <span class="toc-text">内存布局</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Buffer%E5%92%8CCache"><span class="toc-number">2.3.</span> <span class="toc-text">Buffer和Cache</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#TLB"><span class="toc-number">2.4.</span> <span class="toc-text">TLB</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#NUMA"><span class="toc-number">2.5.</span> <span class="toc-text">NUMA</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%8E%9F%E5%AD%90%E6%93%8D%E4%BD%9C"><span class="toc-number">2.6.</span> <span class="toc-text">原子操作</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%BF%9B%E7%A8%8B%E3%80%81%E7%BA%BF%E7%A8%8B%E3%80%81%E5%8D%8F%E7%A8%8B%E7%9A%84%E5%8C%BA%E5%88%AB"><span class="toc-number">2.7.</span> <span class="toc-text">进程、线程、协程的区别</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%BF%9B%E7%A8%8B%E7%9A%84%E7%8A%B6%E6%80%81"><span class="toc-number">2.8.</span> <span class="toc-text">进程的状态</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%BF%9B%E7%A8%8B%E4%BC%98%E5%85%88%E7%BA%A7"><span class="toc-number">2.9.</span> <span class="toc-text">进程优先级</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%BF%9B%E7%A8%8B%E9%80%9A%E4%BF%A1%E6%96%B9%E5%BC%8F"><span class="toc-number">2.10.</span> <span class="toc-text">进程通信方式</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%BA%BF%E7%A8%8B%E9%80%9A%E4%BF%A1%E6%96%B9%E5%BC%8F"><span class="toc-number">2.11.</span> <span class="toc-text">线程通信方式</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%82%B2%E8%A7%82%E9%94%81%E4%B8%8E%E4%B9%90%E8%A7%82%E9%94%81"><span class="toc-number">2.12.</span> <span class="toc-text">悲观锁与乐观锁</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E9%A1%BA%E5%BA%8F%E9%94%81"><span class="toc-number">2.13.</span> <span class="toc-text">顺序锁</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#RCU%E9%94%81"><span class="toc-number">2.14.</span> <span class="toc-text">RCU锁</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%AD%BB%E9%94%81"><span class="toc-number">2.15.</span> <span class="toc-text">死锁</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#I-O%E6%A8%A1%E5%9E%8B"><span class="toc-number">2.16.</span> <span class="toc-text">I&#x2F;O模型</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%94%A8%E6%88%B7%E6%80%81%E5%92%8C%E5%86%85%E6%A0%B8%E6%80%81"><span class="toc-number">2.17.</span> <span class="toc-text">用户态和内核态</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#MMU"><span class="toc-number">2.18.</span> <span class="toc-text">MMU</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%BF%9B%E7%A8%8B%E7%B1%BB%E5%88%AB"><span class="toc-number">2.19.</span> <span class="toc-text">进程类别</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%9B%9E%E6%94%B6%E7%BA%BF%E7%A8%8B"><span class="toc-number">2.20.</span> <span class="toc-text">回收线程</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%96%87%E4%BB%B6"><span class="toc-number">2.21.</span> <span class="toc-text">文件</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Radix-tree"><span class="toc-number">2.22.</span> <span class="toc-text">Radix tree</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C"><span class="toc-number">3.</span> <span class="toc-text">计算机网络</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%BD%91%E7%BB%9C%E6%A8%A1%E5%9E%8B"><span class="toc-number">3.1.</span> <span class="toc-text">网络模型</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#IP"><span class="toc-number">3.2.</span> <span class="toc-text">IP</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#TCP%E5%92%8CUDP"><span class="toc-number">3.3.</span> <span class="toc-text">TCP和UDP</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%B8%89%E6%AC%A1%E6%8F%A1%E6%89%8B%E5%92%8C%E5%9B%9B%E6%AC%A1%E6%8C%A5%E6%89%8B"><span class="toc-number">3.4.</span> <span class="toc-text">三次握手和四次挥手</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%B2%98%E5%8C%85"><span class="toc-number">3.5.</span> <span class="toc-text">粘包</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#ICMP"><span class="toc-number">3.6.</span> <span class="toc-text">ICMP</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#HTTP"><span class="toc-number">3.7.</span> <span class="toc-text">HTTP</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E8%BF%94%E5%9B%9E%E7%A0%81"><span class="toc-number">3.7.1.</span> <span class="toc-text">返回码</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E8%AF%B7%E6%B1%82%E6%96%B9%E5%BC%8F"><span class="toc-number">3.7.2.</span> <span class="toc-text">请求方式</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E7%BC%93%E5%AD%98"><span class="toc-number">3.7.3.</span> <span class="toc-text">缓存</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#HTTPS"><span class="toc-number">3.7.4.</span> <span class="toc-text">HTTPS</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#cookie%E5%92%8Csession"><span class="toc-number">3.7.5.</span> <span class="toc-text">cookie和session</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#Socket"><span class="toc-number">3.7.6.</span> <span class="toc-text">Socket</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#Websocket"><span class="toc-number">3.7.7.</span> <span class="toc-text">Websocket</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%AE%9A%E6%9C%9F%E8%BD%AE%E8%AF%A2%E5%92%8C%E9%95%BF%E8%BD%AE%E8%AF%A2%EF%BC%88poll%EF%BC%89"><span class="toc-number">3.7.8.</span> <span class="toc-text">定期轮询和长轮询（poll）</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E9%95%BF%E8%BF%9E%E6%8E%A5%E5%92%8C%E7%9F%AD%E8%BF%9E%E6%8E%A5"><span class="toc-number">3.7.9.</span> <span class="toc-text">长连接和短连接</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#TUN-TAP"><span class="toc-number">3.8.</span> <span class="toc-text">TUN&#x2F;TAP</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Linux%E6%8E%A5%E6%94%B6%E7%BD%91%E7%BB%9C%E5%8C%85"><span class="toc-number">3.9.</span> <span class="toc-text">Linux接收网络包</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#NAT-DNS-ARP"><span class="toc-number">3.10.</span> <span class="toc-text">NAT DNS ARP</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%86%85%E7%BD%91%E7%A9%BF%E9%80%8F"><span class="toc-number">3.11.</span> <span class="toc-text">内网穿透</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%B1%80%E5%9F%9F%E7%BD%91%E5%92%8C%E5%B9%BF%E5%9F%9F%E7%BD%91"><span class="toc-number">3.12.</span> <span class="toc-text">局域网和广域网</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%B5%8F%E8%A7%88%E5%99%A8%E8%BE%93%E5%85%A5URL"><span class="toc-number">3.13.</span> <span class="toc-text">浏览器输入URL</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%A4%9A%E8%B7%AF%E5%A4%8D%E7%94%A8"><span class="toc-number">3.14.</span> <span class="toc-text">多路复用</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%95%B0%E6%8D%AE%E5%BA%93"><span class="toc-number">4.</span> <span class="toc-text">数据库</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%BF%9E%E6%8E%A5"><span class="toc-number">4.1.</span> <span class="toc-text">连接</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#key"><span class="toc-number">4.2.</span> <span class="toc-text">key</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%B4%A2%E5%BC%95"><span class="toc-number">4.3.</span> <span class="toc-text">索引</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#B-B-tree"><span class="toc-number">4.3.1.</span> <span class="toc-text">B&#x2F;B+ tree</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#LSM-tree"><span class="toc-number">4.3.2.</span> <span class="toc-text">LSM tree</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#Bw-tree"><span class="toc-number">4.3.3.</span> <span class="toc-text">Bw tree</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E8%B7%B3%E8%A1%A8"><span class="toc-number">4.3.4.</span> <span class="toc-text">跳表</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%BA%8B%E5%8A%A1"><span class="toc-number">4.4.</span> <span class="toc-text">事务</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%97%A5%E5%BF%97"><span class="toc-number">4.5.</span> <span class="toc-text">日志</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%88%86%E5%B8%83%E5%BC%8F"><span class="toc-number">5.</span> <span class="toc-text">分布式</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#CAP"><span class="toc-number">5.1.</span> <span class="toc-text">CAP</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%A4%9A%E7%A7%9F%E6%88%B7"><span class="toc-number">5.2.</span> <span class="toc-text">多租户</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%AE%97%E6%B3%95"><span class="toc-number">6.</span> <span class="toc-text">算法</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E9%93%BE%E8%A1%A8%E5%88%A4%E7%8E%AF"><span class="toc-number">6.1.</span> <span class="toc-text">链表判环</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E9%93%BE%E8%A1%A8%E5%8F%8D%E8%BD%AC"><span class="toc-number">6.2.</span> <span class="toc-text">链表反转</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%9C%80%E9%95%BF%E5%9B%9E%E6%96%87%E5%AD%90%E4%B8%B2"><span class="toc-number">6.3.</span> <span class="toc-text">最长回文子串</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%B8%8B%E4%B8%80%E4%B8%AA%E6%8E%92%E5%88%97"><span class="toc-number">6.4.</span> <span class="toc-text">下一个排列</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%B8%AD%E4%BD%8D%E6%95%B0"><span class="toc-number">6.5.</span> <span class="toc-text">中位数</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%93%84%E6%B0%B4%E6%B1%A0"><span class="toc-number">6.6.</span> <span class="toc-text">蓄水池</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E9%99%90%E6%B5%81"><span class="toc-number">6.7.</span> <span class="toc-text">限流</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%99%BA%E5%8A%9B-%E6%9D%82%E9%A2%98"><span class="toc-number">7.</span> <span class="toc-text">智力&#x2F;杂题</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E9%9A%8F%E6%9C%BA%E6%B4%97%E7%89%8C%E7%AE%97%E6%B3%95"><span class="toc-number">7.1.</span> <span class="toc-text">随机洗牌算法</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E9%9A%8F%E6%9C%BA%E7%BA%A2%E5%8C%85%E7%AE%97%E6%B3%95"><span class="toc-number">7.2.</span> <span class="toc-text">随机红包算法</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#25%E5%8C%B9%E9%A9%AC5%E4%B8%AA%E8%B5%9B%E9%81%93%E6%89%BE%E5%87%BA%E5%89%8D3%E5%BF%AB"><span class="toc-number">7.3.</span> <span class="toc-text">25匹马5个赛道找出前3快</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#10%E5%8F%AA%E8%80%81%E9%BC%A0%E5%9C%A81000%E7%93%B6%E6%B0%B4%E9%87%8C%E6%89%BE%E5%87%BA%E6%AF%92%E8%8D%AF"><span class="toc-number">7.4.</span> <span class="toc-text">10只老鼠在1000瓶水里找出毒药</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E9%AB%98%E6%A5%BC%E6%89%94%E9%B8%A1%E8%9B%8B%EF%BC%8C%E5%8F%AA%E6%9C%892%E6%9E%9A%E9%B8%A1%E8%9B%8B"><span class="toc-number">7.5.</span> <span class="toc-text">高楼扔鸡蛋，只有2枚鸡蛋</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%94%A8rand-7-%E7%94%9F%E6%88%90rand-10"><span class="toc-number">7.6.</span> <span class="toc-text">用rand(7)生成rand(10)</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%8C%B4%E5%AD%90%E6%90%AC%E9%A6%99%E8%95%89"><span class="toc-number">7.7.</span> <span class="toc-text">猴子搬香蕉</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#N%E4%B8%AA%E5%BC%BA%E7%9B%97%E5%88%86M%E4%B8%AA%E9%87%91%E5%B8%81"><span class="toc-number">7.8.</span> <span class="toc-text">N个强盗分M个金币</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%95%B0%E5%AD%A6"><span class="toc-number">8.</span> <span class="toc-text">数学</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%87%B8%E5%87%BD%E6%95%B0%E5%92%8C%E5%87%B9%E5%87%BD%E6%95%B0"><span class="toc-number">8.1.</span> <span class="toc-text">凸函数和凹函数</span></a></li></ol></li></ol>
       </div>
     
   </span>
@@ -140,7 +140,7 @@
       
         <time datetime="2023-11-20T07:59:47.000Z" class="dt-published" itemprop="datePublished">2023-11-20</time>
         
-        (Updated: <time datetime="2024-09-18T16:34:24.994Z" class="dt-updated" itemprop="dateModified">2024-09-19</time>)
+        (Updated: <time datetime="2024-09-22T15:50:54.007Z" class="dt-updated" itemprop="dateModified">2024-09-22</time>)
         
       
     </div>
@@ -161,7 +161,7 @@
             <i class="fa-solid fa-hourglass"></i>
             
             
-              (56 mins to read)
+              (57 mins to read)
             
             </span>
         
@@ -171,44 +171,31 @@
   
 
   <div class="content e-content" itemprop="articleBody">
-    <h2 id="C-C"><a class="header-anchor" href="#C-C">¶</a>C/C++</h2>
-<h3 id="编译过程"><a class="header-anchor" href="#编译过程">¶</a>编译过程</h3>
-<ul>
-<li>
-<p>预处理：<code>-E</code></p>
-</li>
-<li>
-<p>编译：生成汇编代码 <code>-S</code></p>
-</li>
-<li>
-<p>汇编：生成包含机器码的目标文件 <code>-c</code></p>
-</li>
-<li>
-<p>链接：将多个目标文件和库文件组合成可执行文件（需要进行符号解析和重定位）</p>
+    <h2 id="C-C"><a href="#C-C" class="headerlink" title="C/C++"></a>C/C++</h2><h3 id="编译过程"><a href="#编译过程" class="headerlink" title="编译过程"></a>编译过程</h3><ul>
+<li>预处理：<code>-E</code></li>
+<li>编译：生成汇编代码 <code>-S</code></li>
+<li>汇编：生成包含机器码的目标文件 <code>-c</code></li>
+<li><p>链接：将多个目标文件和库文件组合成可执行文件（需要进行符号解析和重定位）</p>
 <ul>
 <li>静态链接：在编译阶段将静态库直接加入到目标文件中（静态库其实就是一组目标文件<code>ar -rcs</code>）</li>
-<li>动态链接：只是加入一些描述性信息，在运行时（程序入口函数执行之前）才真正定位符号运行时才加载共享库到程序的虚拟地址空间中，利用延迟绑定和PLT间接调用（<code>-fPIC -shared</code>）。<code>LD_LIBRARY_PATH</code>：指定共享库查找路径。<code>LD_PRELOAD</code>：指定优先加载的共享库路径，从而可以实现函数劫持操作，例如<code>jemalloc</code>。<code>-L./ -ltest</code>：在当前目录下查找库<code>libtest.so</code>或<code>libtest.a</code>。</li>
+<li>动态链接：只是加入一些描述性信息，在运行时（程序入口函数执行之前）才真正定位符号<pre><code>    运行时才加载共享库到程序的虚拟地址空间中，利用延迟绑定和PLT间接调用（`-fPIC -shared`）。
+    `LD_LIBRARY_PATH`：指定共享库查找路径。`LD_PRELOAD`：指定优先加载的共享库路径，从而可以实现函数劫持操作，例如`jemalloc`。
+    `-L./ -ltest`：在当前目录下查找库`libtest.so`或`libtest.a`。
+</code></pre></li>
 </ul>
 </li>
-<li>
-<p>可重定位目标文件</p>
+<li><p>可重定位目标文件</p>
 </li>
-<li>
-<p>可执行目标文件</p>
-</li>
-<li>
-<p>共享目标文件</p>
-</li>
-<li>
-<p>核心转储文件</p>
-</li>
+<li>可执行目标文件</li>
+<li>共享目标文件</li>
+<li>核心转储文件</li>
 </ul>
 <p>符号重定位：按顺序扫描每一个目标文件，只要其中有用到的符号，就会链接<strong>整个</strong>目标文件。</p>
 <ol>
 <li>绝对地址寻址</li>
 <li>相对地址寻址</li>
 </ol>
-<p>GOT为global offset table，全局偏移表，用于定位全局变量和函数。PLT为procedure linkage table，过程链接表，用于延迟绑定，在第一次函数调用时才进行地址解析。</p>
+<p>GOT为global offset table，全局偏移表，用于定位全局变量和函数。<br>PLT为procedure linkage table，过程链接表，用于延迟绑定，在第一次函数调用时才进行地址解析。</p>
 <ol>
 <li>调用bar@plt</li>
 <li>跳转到bar@got，如果是第一次调用则同构_dl_runtime_resolve解析地址，填充got表</li>
@@ -227,21 +214,19 @@
 <p>可通过以下方式实现函数的重写：</p>
 <figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// t1.cpp</span></span><br><span class="line">__attribute__ ((weak)) <span class="function"><span class="type">void</span> <span class="title">foo</span><span class="params">()</span></span>;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">int</span> <span class="title">main</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    <span class="keyword">if</span> (foo) &#123;</span><br><span class="line">        <span class="built_in">foo</span>();</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">// t2.cpp</span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;stdio.h&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">foo</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">&quot;foo2\n&quot;</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <p>链接、装载</p>
-<h3 id="字节序"><a class="header-anchor" href="#字节序">¶</a>字节序</h3>
-<ul>
+<h3 id="字节序"><a href="#字节序" class="headerlink" title="字节序"></a>字节序</h3><ul>
 <li>大端序：高位在低地址</li>
 <li>小端序：高位在高地址</li>
 </ul>
-<p>x86采用小端序。网络字节序统一为大端序。</p>
-<h3 id="lambda"><a class="header-anchor" href="#lambda">¶</a>lambda</h3>
-<p>lambda是一个匿名函数，对应一个仿函数（重载了<code>operator()</code>的类）。</p>
+<p>x86采用小端序。<br>网络字节序统一为大端序。</p>
+<h3 id="lambda"><a href="#lambda" class="headerlink" title="lambda"></a>lambda</h3><p>lambda是一个匿名函数，对应一个仿函数（重载了<code>operator()</code>的类）。</p>
 <ul>
 <li>简化了编写</li>
 <li>方便传入函数类型参数</li>
 <li>可以捕获上下文变量，可以写在函数体内</li>
 </ul>
-<p>lambda生成的<code>operator()</code>永远带有const限定（从而保证每次调用的结果都是一样的），如果需要修改拷贝捕获的变量，应该添加<code>mutable</code>，此时修改的影响是永久的。</p>
-<p>C++14泛型lambda，参数类型写成<code>auto</code>即可。不过每个<code>auto</code>都对应一个模板参数（可以理解成是通过auto推导的参数类型）。</p>
+<p>lambda生成的<code>operator()</code>永远带有const限定（从而保证每次调用的结果都是一样的），<br>如果需要修改拷贝捕获的变量，应该添加<code>mutable</code>，此时修改的影响是永久的。</p>
+<p>C++14泛型lambda，参数类型写成<code>auto</code>即可。<br>不过每个<code>auto</code>都对应一个模板参数（可以理解成是通过auto推导的参数类型）。</p>
 <figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">template</span>&lt;<span class="keyword">typename</span> T, <span class="keyword">typename</span> U&gt;</span></span><br><span class="line"><span class="function"><span class="keyword">auto</span> <span class="title">operator</span><span class="params">()</span><span class="params">(T x, U y)</span> <span class="type">const</span> </span>&#123; <span class="keyword">return</span> x + y; &#125;</span><br></pre></td></tr></table></figure>
 <p>递归lambda</p>
 <ul>
@@ -249,58 +234,49 @@
 <li>C++14，使用一个额外的右值引用自身的参数，注意必须写明返回类型</li>
 </ul>
 <figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">auto</span> fib = [](<span class="keyword">auto</span> &amp;&amp;fib, <span class="type">int</span> n)  -&gt; <span class="type">int</span> &#123;</span><br><span class="line">    <span class="keyword">if</span>(n &lt;= <span class="number">2</span>) <span class="keyword">return</span> <span class="number">1</span>;</span><br><span class="line">    <span class="keyword">else</span> <span class="keyword">return</span> <span class="built_in">fib</span>(fib, n - <span class="number">1</span>) + <span class="built_in">fib</span>(fib, n - <span class="number">2</span>);</span><br><span class="line">&#125;;</span><br><span class="line"><span class="built_in">fib</span>(fib, <span class="number">5</span>);</span><br></pre></td></tr></table></figure>
-<h3 id="volatile"><a class="header-anchor" href="#volatile">¶</a>volatile</h3>
-<p>volatile关键字用于表明对应变量的值可能被不经意的修改（硬件、多线程、信号），因此让编译器不要做出该变量不会被自己修改的假设，从而不进行过度的优化（不会优化掉任何一次读写，不会缓存到寄存器中，也不会对指令顺序进行重排）</p>
+<h3 id="volatile"><a href="#volatile" class="headerlink" title="volatile"></a>volatile</h3><p>volatile关键字用于表明对应变量的值可能被不经意的修改（硬件、多线程、信号），<br>因此让编译器不要做出该变量不会被自己修改的假设，从而不进行过度的优化<br>（不会优化掉任何一次读写，不会缓存到寄存器中，也不会对指令顺序进行重排）</p>
 <p>避免编译器指令重排，处理器乱序执行。</p>
-<h3 id="static"><a class="header-anchor" href="#static">¶</a>static</h3>
-<ul>
+<h3 id="static"><a href="#static" class="headerlink" title="static"></a>static</h3><ul>
 <li>在全局是设置静态生命周期和内部链接</li>
 <li>在局部是设置静态生命周期和初始化一次</li>
 <li>在类内是设置属于整个类，所有类共享，而不是绑定到具体的对象实例</li>
 </ul>
-<h3 id="inline"><a class="header-anchor" href="#inline">¶</a>inline</h3>
-<p>inline最初用于<strong>提示</strong>编译器将函数内联优先于函数调用（已弃用）；被inline标记的函数可以不生成符号（类似static），而没有标记的函数默认是extern的，必须生成符号。但如果要强制内联应该用<code>__attribute__((always_inline))</code>。</p>
+<h3 id="inline"><a href="#inline" class="headerlink" title="inline"></a>inline</h3><p>inline最初用于<strong>提示</strong>编译器将函数内联优先于函数调用（已弃用）；被inline标记的函数可以不生成符号（类似static），而没有标记的函数默认是extern的，必须生成符号。<br>但如果要强制内联应该用<code>__attribute__((always_inline))</code>。</p>
 <p>唯一定义原则（ODR）：注意区分声明（extern）与定义。</p>
-<p>C++17后inline用于表明修饰的变量和函数允许被重复定义，只会有一个实例，由编译器保证这一点，编译器会选择任意定义作为实际定义。（多个编译单元共同享有一份变量或函数，显然如果多个定义间存在不一致，就是未定义行为）</p>
-<p>这里还有一个小细节：在一个编译单元中使用一个inline函数，就应该在该编译单元中给出这个inline函数的定义，因为在开启优化后编译器可能会进行真正的内联，导致符号表中就不存在这个函数名了，那么如果不在该编译单元中定义，链接时也没法找到。</p>
+<p>C++17后inline用于表明修饰的变量和函数允许被重复定义，只会有一个实例，由编译器保证这一点，<br>编译器会选择任意定义作为实际定义。<br>（多个编译单元共同享有一份变量或函数，显然如果多个定义间存在不一致，就是未定义行为）</p>
+<p>这里还有一个小细节：在一个编译单元中使用一个inline函数，就应该在该编译单元中给出这个inline函数的定义，因为在开启优化后编译器可能会进行真正的内联，导致符号表中就不存在这个函数名了，<br>那么如果不在该编译单元中定义，链接时也没法找到。</p>
 <p>主要用在头文件中（类比之前用<code>extern</code>声明和定义分开的方式）。</p>
-<p>因为在头文件中定义的全局变量和函数如果被多个源文件包含，就会产生重复定义问题。如果使用static，则每个源文件的变量和函数是独立的；而使用inline，则各个源文件会共享。</p>
-<p>为了避免不同源文件内定义的函数、类的冲突，可以使用匿名命名空间（相当于是给符号的名称加了一个随机的前缀）；当然函数也可以用static修饰，但是类就没法用static了。</p>
+<p>因为在头文件中定义的全局变量和函数如果被多个源文件包含，就会产生重复定义问题。<br>如果使用static，则每个源文件的变量和函数是独立的；而使用inline，则各个源文件会共享。</p>
+<p>为了避免不同源文件内定义的函数、类的冲突，可以使用匿名命名空间（相当于是给符号的名称加了一个随机的前缀）；<br>当然函数也可以用static修饰，但是类就没法用static了。</p>
 <p>注意避免同一个inline变量设置不同的初值，这显然是未定义行为。</p>
 <p>inline修饰会生成弱符号。</p>
-<p>在类内定义的函数会默认内联。constexpr函数会内联。直接实现的模板函数也会内联。</p>
-<h3 id="explicit"><a class="header-anchor" href="#explicit">¶</a>explicit</h3>
-<p>作用在单参数构造函数是避免隐式转换。也可以作用在多参数构造函数上，表示禁止使用<code>&#123;&#125;</code>进行初始化。</p>
-<p><code>()</code>在空时为值初始化，非空时为直接初始化（即通过构造函数）。<code>&#123;&#125;</code>使用列表初始化，在空时即值初始化，非空时为聚合初始化。</p>
-<h3 id="std-function"><a class="header-anchor" href="#std-function">¶</a>std::function</h3>
-<p>包装任意可调用对象，包括函数指针、lambda和functors。</p>
-<p><code>std::any</code>和<code>std::function</code>的一种实现方式是利用一个基类指针，然后子类是一个模板类，不管传入什么，都构造一个模板类，然后用基类指针指向它，要操作的时候再向下转型即可。</p>
-<p>本质还是用一个模板类容纳一切，只不过<code>std::any</code>和<code>std::function</code>有自己的模板参数要求，所以只能把这个模板类包装在里面，然后利用基类指针起到一个void*的作用。</p>
+<p>在类内定义的函数会默认内联。<br>constexpr函数会内联。<br>直接实现的模板函数也会内联。</p>
+<h3 id="explicit"><a href="#explicit" class="headerlink" title="explicit"></a>explicit</h3><p>作用在单参数构造函数是避免隐式转换。<br>也可以作用在多参数构造函数上，表示禁止使用<code>&#123;&#125;</code>进行初始化。</p>
+<p><code>()</code>在空时为值初始化，非空时为直接初始化（即通过构造函数）。<br><code>&#123;&#125;</code>使用列表初始化，在空时即值初始化，非空时为聚合初始化。</p>
+<h3 id="std-function"><a href="#std-function" class="headerlink" title="std::function"></a>std::function</h3><p>包装任意可调用对象，包括函数指针、lambda和functors。</p>
+<p><code>std::any</code>和<code>std::function</code>的一种实现方式是利用一个基类指针，<br>然后子类是一个模板类，不管传入什么，都构造一个模板类，然后用基类指针指向它，<br>要操作的时候再向下转型即可。</p>
+<p>本质还是用一个模板类容纳一切，只不过<code>std::any</code>和<code>std::function</code>有自己的模板参数要求，<br>所以只能把这个模板类包装在里面，然后利用基类指针起到一个void*的作用。</p>
 <p>这里也有点Pimpl范式的意思，<code>std::any</code>和<code>std::function</code>只提供接口和包含一个指向具体实现类的指针。</p>
 <p>对于<code>std::function</code>会涉及到虚函数调用，对于lambda还会涉及到动态内存分配。</p>
 <figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">struct</span> <span class="title class_">Any</span> &#123;</span><br><span class="line">    <span class="function"><span class="keyword">template</span>&lt;<span class="keyword">typename</span> T&gt;</span></span><br><span class="line"><span class="function">    <span class="title">Any</span><span class="params">(<span class="type">const</span> T&amp; t)</span> : ptr&#123;</span> <span class="keyword">new</span> <span class="built_in">Data</span>&lt;T&gt;(t) &#125; &#123;&#125;;</span><br><span class="line">    <span class="keyword">struct</span> <span class="title class_">Base</span> &#123;&#125;;</span><br><span class="line">    <span class="keyword">template</span>&lt;<span class="keyword">typename</span> T&gt;</span><br><span class="line">    <span class="keyword">struct</span> <span class="title class_">Data</span> : Base &#123;</span><br><span class="line">        T data;</span><br><span class="line">        <span class="built_in">Data</span>(<span class="type">const</span> T&amp; t) : <span class="built_in">data</span>(t) &#123;&#125;</span><br><span class="line">    &#125;;</span><br><span class="line">    Base *ptr;</span><br><span class="line">    <span class="function"><span class="keyword">template</span>&lt;<span class="keyword">typename</span> T&gt;</span></span><br><span class="line"><span class="function">    T&amp; <span class="title">get_data</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> ((Data&lt;T&gt;*)ptr)-&gt;data;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
-<h3 id="std-vector"><a class="header-anchor" href="#std-vector">¶</a>std::vector</h3>
-<p>2倍扩容效率更高，因为只需要进行位运算。1.5倍扩容可以减少内存碎片。</p>
-<p>只有以倍率扩容才能使得复杂度均摊$O(1)$，而2倍扩容的问题是无法复用已经释放的空间，因为前面加起来的空间都比当前需要的空间小，而1.5倍扩容则可能可以服用之前的空间。</p>
-<h3 id="面向对象"><a class="header-anchor" href="#面向对象">¶</a>面向对象</h3>
-<ul>
+<h3 id="std-vector"><a href="#std-vector" class="headerlink" title="std::vector"></a>std::vector</h3><p>2倍扩容效率更高，因为只需要进行位运算。<br>1.5倍扩容可以减少内存碎片。</p>
+<p>只有以倍率扩容才能使得复杂度均摊$O(1)$，而2倍扩容的问题是无法复用已经释放的空间，因为前面加起来的空间都比当前需要的空间小，<br>而1.5倍扩容则可能可以服用之前的空间。</p>
+<h3 id="面向对象"><a href="#面向对象" class="headerlink" title="面向对象"></a>面向对象</h3><ul>
 <li>封装：将数据和操作数据的函数组合在一起，隐藏实现细节，只暴露行为，减少耦合</li>
 <li>继承：可以继承已有类的数据和函数，还可以重写，提高代码重用</li>
-<li>多态：主要指的是子类型多态，即可以用基类指针和引用使用派生类的函数。此外还包括参数多态，即泛型，以及特设多态，即重载，相同函数对不同类型执行不同操作。</li>
+<li>多态：主要指的是子类型多态，即可以用基类指针和引用使用派生类的函数。<br>此外还包括参数多态，即泛型，以及特设多态，即重载，相同函数对不同类型执行不同操作。</li>
 <li>抽象</li>
 </ul>
 <p>模板、类型擦除、虚函数表、字典</p>
-<h3 id="类的内存布局"><a class="header-anchor" href="#类的内存布局">¶</a>类的内存布局</h3>
-<p>静态成员不占用类对象的内存。成员函数不占用类对象的内存。数据成员访问级别不影响内存排布，均按照声明顺序，并进行适当对齐。</p>
-<p>当有虚函数时，会有虚函数指针，且永远位于起始位置。（一个类向上转型之后，但是虚函数指针还是指向自己的那份虚函数表）</p>
+<h3 id="类的内存布局"><a href="#类的内存布局" class="headerlink" title="类的内存布局"></a>类的内存布局</h3><p>静态成员不占用类对象的内存。<br>成员函数不占用类对象的内存。<br>数据成员访问级别不影响内存排布，均按照声明顺序，并进行适当对齐。</p>
+<p>当有虚函数时，会有虚函数指针，且永远位于起始位置。<br>（一个类向上转型之后，但是虚函数指针还是指向自己的那份虚函数表）</p>
 <p>虚函数表在常量区。</p>
 <p>当有继承关系时，起始位置是基类。</p>
-<p>当有多个继承关系时，会从起始位置开始依次存放各个基类（此时向上转型可能存在偏移，<code>static_cast</code>会自动处理这一点，但<code>reinterpret_cast</code>不会）。</p>
-<h3 id="多态的实现"><a class="header-anchor" href="#多态的实现">¶</a>多态的实现</h3>
-<ul>
+<p>当有多个继承关系时，会从起始位置开始依次存放各个基类（此时向上转型可能存在偏移，<br><code>static_cast</code>会自动处理这一点，但<code>reinterpret_cast</code>不会）。</p>
+<h3 id="多态的实现"><a href="#多态的实现" class="headerlink" title="多态的实现"></a>多态的实现</h3><ul>
 <li>运行时多态</li>
 </ul>
-<p>虚函数表包含了一个类的所有虚函数的地址。当派生类重写了基类的虚函数时，派生类的虚函数表会使用自己的函数地址，否则继承函数地址。</p>
+<p>虚函数表包含了一个类的所有虚函数的地址。<br>当派生类重写了基类的虚函数时，派生类的虚函数表会使用自己的函数地址，否则继承函数地址。</p>
 <p>每个包含虚函数的类的对象都有一个虚函数指针。</p>
 <p>显然构造函数不能是虚函数，因为此时对象还没有实例化，还没有虚函数指针。</p>
 <p>对于指向final类型的指针，因为不存在指向的子类可能，所以编译器很容易进行去虚函数。</p>
@@ -311,46 +287,40 @@
 <p>CRTP</p>
 <p>本质上就是把类型信息存在模板里了。</p>
 <figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">template</span>&lt;<span class="keyword">typename</span> specific_animal&gt;</span><br><span class="line"><span class="keyword">struct</span> <span class="title class_">animal</span> &#123;</span><br><span class="line">    <span class="function"><span class="type">void</span> <span class="title">who</span><span class="params">()</span> </span>&#123; <span class="built_in">static_cast</span>&lt;specific_animal*&gt;(<span class="keyword">this</span>)-&gt;<span class="built_in">who</span>(); &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
-<p>函数重写不会考虑访问控制是否不同，子类可以修改父类的访问控制，并且虚函数仍然起作用，编译器会根据调用函数的类型判断是否符合访问控制，不会去考虑多态问题。</p>
-<h3 id="RTTI-运行时类型识别"><a class="header-anchor" href="#RTTI-运行时类型识别">¶</a>RTTI 运行时类型识别</h3>
-<ul>
+<p>函数重写不会考虑访问控制是否不同，子类可以修改父类的访问控制，并且虚函数仍然起作用，<br>编译器会根据调用函数的类型判断是否符合访问控制，不会去考虑多态问题。</p>
+<h3 id="RTTI-运行时类型识别"><a href="#RTTI-运行时类型识别" class="headerlink" title="RTTI 运行时类型识别"></a>RTTI 运行时类型识别</h3><ul>
 <li>typeid操作符：返回唯一标识对应类型的类型信息对象<code>type_info</code>（<code>typeid(A).name()</code>）</li>
 <li>异常处理catch匹配</li>
 <li>动态类型转换dynamic_cast</li>
 </ul>
 <p>为了解决虚函数多态，会在虚函数表的起始位置的前一项保存一个指向<code>type_info</code>对象的指针。</p>
-<h3 id="new和malloc"><a class="header-anchor" href="#new和malloc">¶</a>new和malloc</h3>
-<ul>
+<h3 id="new和malloc"><a href="#new和malloc" class="headerlink" title="new和malloc"></a>new和malloc</h3><ul>
 <li>new会返回对应类型的指针，并且会调用构造函数进行初始化，而malloc只会返回void*</li>
 <li>new是C++中的一个关键字，而malloc是一个库函数</li>
 <li>new只需要传入类型信息，会自动计算需要分配的内存大小</li>
 <li>失败时new会抛出<code>bad_alloc</code>的异常，而malloc返回NULL</li>
 </ul>
 <p>new调用了<code>operator new()</code>，其中大概率会调用<code>malloc()</code>，最后调用构造函数进行初始化。</p>
-<p>placement new：在已分配内存上初始化一个对象（<code>std::vector</code>就需要这个）<code>new(address)A()</code></p>
+<p>placement new：在已分配内存上初始化一个对象（<code>std::vector</code>就需要这个）<br><code>new(address)A()</code></p>
 <p><code>new[n]</code>会额外存储数组大小，然后调用n次构造函数，<code>delete[]</code>时调用n次析构。</p>
-<p>一个小细节：<code>new[]</code>后用<code>delete</code>其实不会造成内存泄露，只不过<code>delete</code>只会调用第一个对象的析构，而<code>delete[]</code>则会依次调用各个对象的析构。</p>
-<h3 id="main函数启动"><a class="header-anchor" href="#main函数启动">¶</a>main函数启动</h3>
-<ul>
+<p>一个小细节：<code>new[]</code>后用<code>delete</code>其实不会造成内存泄露，只不过<code>delete</code>只会调用第一个对象的析构，<br>而<code>delete[]</code>则会依次调用各个对象的析构。</p>
+<h3 id="main函数启动"><a href="#main函数启动" class="headerlink" title="main函数启动"></a>main函数启动</h3><ul>
 <li>将argc、argv参数入栈</li>
 <li>调用<code>_start</code>函数</li>
 <li>调用<code>__libc_start_main</code></li>
 <li>调用<code>__libc_csu_init</code></li>
 <li>调用<code>_init</code>函数</li>
 </ul>
-<h3 id="std-swap"><a class="header-anchor" href="#std-swap">¶</a>std::swap</h3>
-<p>可以把swap当成一个永远不会失败且不会抛出异常的操作。主要用于实现赋值函数和移动构造函数。</p>
-<p>对于拷贝赋值，如果不用<code>std::swap</code>就需要分步进行：<code>new</code>一个新的，<code>delete</code>旧的，这会涉及异常失败的问题。把参数设为非引用，该赋值函数就可以同时用于拷贝赋值和移动赋值。</p>
+<h3 id="std-swap"><a href="#std-swap" class="headerlink" title="std::swap"></a>std::swap</h3><p>可以把swap当成一个永远不会失败且不会抛出异常的操作。<br>主要用于实现赋值函数和移动构造函数。</p>
+<p>对于拷贝赋值，如果不用<code>std::swap</code>就需要分步进行：<code>new</code>一个新的，<code>delete</code>旧的，这会涉及异常失败的问题。<br>把参数设为非引用，该赋值函数就可以同时用于拷贝赋值和移动赋值。</p>
 <p>对于移动构造，可以先默认初始化一个对象，然后进行swap。</p>
 <p>这是一个非常经典的copy-and-swap范式。</p>
 <figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">template</span>&lt;<span class="keyword">typename</span> T&gt;</span></span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">swap</span><span class="params">(T &amp;a,T &amp;b)</span> <span class="keyword">noexcept</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    T temp = std::<span class="built_in">move</span>(a);</span><br><span class="line">    a = std::<span class="built_in">move</span>(b);</span><br><span class="line">    b = std::<span class="built_in">move</span>(temp);</span><br><span class="line">&#125;</span><br><span class="line">dumb_array&amp; <span class="keyword">operator</span>=(<span class="type">const</span> dumb_array&amp; other)</span><br><span class="line">&#123;</span><br><span class="line">    <span class="keyword">if</span> (<span class="keyword">this</span> != &amp;other) <span class="comment">// (1)</span></span><br><span class="line">    &#123;</span><br><span class="line">        <span class="comment">// get the new data ready before we replace the old</span></span><br><span class="line">        std::<span class="type">size_t</span> newSize = other.mSize;</span><br><span class="line">        <span class="type">int</span>* newArray = newSize ? <span class="keyword">new</span> <span class="type">int</span>[newSize]() : <span class="literal">nullptr</span>; <span class="comment">// (3)</span></span><br><span class="line">        std::<span class="built_in">copy</span>(other.mArray, other.mArray + newSienze, newArray); <span class="comment">// (3)</span></span><br><span class="line">        <span class="comment">// replace the old data (all are non-throwing)</span></span><br><span class="line">        <span class="keyword">delete</span> [] mArray;</span><br><span class="line">        mSize = newSize;</span><br><span class="line">        mArray = newArray;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> *<span class="keyword">this</span>;</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">// 注意参数改成传值了</span></span><br><span class="line">dumb_array&amp; <span class="keyword">operator</span>=(dumb_array other) <span class="comment">// (1)</span></span><br><span class="line">&#123;</span><br><span class="line">    <span class="built_in">swap</span>(*<span class="keyword">this</span>, other); <span class="comment">// (2)</span></span><br><span class="line">    <span class="keyword">return</span> *<span class="keyword">this</span>;</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">// 移动构造也很简单</span></span><br><span class="line"><span class="built_in">dumb_array</span>(dumb_array&amp;&amp; other) <span class="keyword">noexcept</span></span><br><span class="line">    : <span class="built_in">dumb_array</span>() <span class="comment">// initialize via default constructor, C++11 only</span></span><br><span class="line">&#123;</span><br><span class="line">    <span class="built_in">swap</span>(*<span class="keyword">this</span>, other);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<h3 id="友元运算符"><a class="header-anchor" href="#友元运算符">¶</a>友元运算符</h3>
-<p>对于流运算符等，第一个参数不是该类，因此只能通过友元来实现。</p>
+<h3 id="友元运算符"><a href="#友元运算符" class="headerlink" title="友元运算符"></a>友元运算符</h3><p>对于流运算符等，第一个参数不是该类，因此只能通过友元来实现。</p>
 <p>友元是单向的，且不具有传递性。</p>
-<h3 id="空类大小"><a class="header-anchor" href="#空类大小">¶</a>空类大小</h3>
-<p>在C++中默认不为0，因为C++标准要求每个对象都有独一无二的地址，从而可以区分不同的对象。</p>
+<h3 id="空类大小"><a href="#空类大小" class="headerlink" title="空类大小"></a>空类大小</h3><p>在C++中默认不为0，因为C++标准要求每个对象都有独一无二的地址，从而可以区分不同的对象。</p>
 <p><code>[[no_unqiue_address]]</code>：允许被标记的类成员被下一个成员覆盖。</p>
-<p>空基类优化：如果基类是空的（即不包含非静态的成员），那么在子类的内存布局中不会包含该基类，而如果使用组合而不是继承，则会额外多1个字节。</p>
+<p>空基类优化：如果基类是空的（即不包含非静态的成员），<br>那么在子类的内存布局中不会包含该基类，而如果使用组合而不是继承，则会额外多1个字节。</p>
 <figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">struct</span> <span class="title class_">Base</span> &#123;&#125;;</span><br><span class="line"><span class="keyword">struct</span> <span class="title class_">Derived</span> : Base &#123;</span><br><span class="line">    <span class="type">int</span> i;</span><br><span class="line">&#125;;</span><br><span class="line"><span class="built_in">assert</span>(<span class="built_in">sizeof</span>(Derived) == <span class="built_in">sizeof</span>(<span class="type">int</span>));</span><br></pre></td></tr></table></figure>
 <p>编译器自动为空类生成以下函数，如果需要被使用到：</p>
 <ul>
@@ -361,17 +331,15 @@
 <li>移动赋值</li>
 <li>析构</li>
 </ul>
-<p>虽然构造函数和析构函数都可以抛出异常，但最好不要这么做。如果在构造函数中抛出异常，说明该对象没有构造成功，就不会调用对应的析构函数。</p>
-<p>protected non-virtual的析构函数直接拒绝析构基类指针，而virtual的析构函数则保证了安全析构基类指针。</p>
-<h3 id="命名空间"><a class="header-anchor" href="#命名空间">¶</a>命名空间</h3>
-<ul>
+<p>虽然构造函数和析构函数都可以抛出异常，但最好不要这么做。<br>如果在构造函数中抛出异常，说明该对象没有构造成功，就不会调用对应的析构函数。</p>
+<p>protected non-virtual的析构函数直接拒绝析构基类指针，<br>而virtual的析构函数则保证了安全析构基类指针。</p>
+<h3 id="命名空间"><a href="#命名空间" class="headerlink" title="命名空间"></a>命名空间</h3><ul>
 <li>避免名称冲突</li>
 <li>组织代码</li>
-<li>匿名命名空间具有内部链接，其效果等价于static的全局变量和函数，并且还可以作用在类上。匿名命名空间相当于生成一个全局唯一的名字，并在当前文件下添加using指示，从而只有在当前文件中可以访问这些变量、函数和类。显然这用在头文件里是没用的。</li>
+<li>匿名命名空间具有内部链接，其效果等价于static的全局变量和函数，并且还可以作用在类上。<br>匿名命名空间相当于生成一个全局唯一的名字，并在当前文件下添加using指示，从而只有在<br>当前文件中可以访问这些变量、函数和类。<br>显然这用在头文件里是没用的。</li>
 <li>内联命名空间，这个命名空间可存在也可不存在</li>
 </ul>
-<h3 id="类型转换"><a class="header-anchor" href="#类型转换">¶</a>类型转换</h3>
-<ul>
+<h3 id="类型转换"><a href="#类型转换" class="headerlink" title="类型转换"></a>类型转换</h3><ul>
 <li>C风格的缺陷</li>
 </ul>
 <p>不检查安全性；没有固定格式，不好查找；形式古怪（可以是<code>int(x)</code>，也可以是<code>(int)x</code>）</p>
@@ -386,7 +354,7 @@
 <ul>
 <li>const_cast</li>
 </ul>
-<p>用来移除CV限定符。把const的变量变成非const是未定义的，去掉const主要用在指针和引用上。如指向或引用的元素在定义时是非const的，就去可以合法的去掉指针和引用的底层const。</p>
+<p>用来移除CV限定符。把const的变量变成非const是未定义的，<br>去掉const主要用在指针和引用上。如指向或引用的元素在定义时是非const的，就去可以合法<br>的去掉指针和引用的底层const。</p>
 <ul>
 <li>dynamic_cast</li>
 </ul>
@@ -394,136 +362,80 @@
 <ul>
 <li>reinterpret_cast</li>
 </ul>
-<p>用来处理比特级别的转型，按照另一种类型重新解释这段比特。在指针之间转化不会改变地址，在指针与数值间转换。</p>
+<p>用来处理比特级别的转型，按照另一种类型重新解释这段比特。<br>在指针之间转化不会改变地址，在指针与数值间转换。</p>
 <ul>
 <li>bit_cast</li>
 </ul>
 <p>遵守强制别名规则，更加安全，且是constexpr的，同时也有更多限制（必须是相同大小，trivially copy等）。</p>
-<h3 id="指针和引用的区别"><a class="header-anchor" href="#指针和引用的区别">¶</a>指针和引用的区别</h3>
-<p>这里默认说的是左值引用，可以认为是指针常量（顶层const）的语法糖。虽然底层默认通过指针、地址实现，但应该把引用视作别名，它不占用空间。</p>
+<h3 id="指针和引用的区别"><a href="#指针和引用的区别" class="headerlink" title="指针和引用的区别"></a>指针和引用的区别</h3><p>这里默认说的是左值引用，可以认为是指针常量（顶层const）的语法糖。<br>虽然底层默认通过指针、地址实现，但应该把引用视作别名，它不占用空间。</p>
 <ul>
-<li>
-<p>指针存储地址，引用是别名</p>
+<li>指针存储地址，引用是别名</li>
+<li>指针可以为空，引用必须被初始化且不能为空</li>
+<li>指针可以被重新赋值，引用不可以</li>
+<li>指针有自己的地址，可以用sizeof计算大小</li>
+<li>指针可以有多级，引用只有一级</li>
+<li>有指向指针的指针，但是没有指向引用的指针</li>
+<li>有指针数组，但没有引用数组</li>
+<li><p>const引用可以绑定到常量</p>
 </li>
-<li>
-<p>指针可以为空，引用必须被初始化且不能为空</p>
+<li><p>野指针：未经初始化的指针，可能指向任何地方</p>
 </li>
-<li>
-<p>指针可以被重新赋值，引用不可以</p>
-</li>
-<li>
-<p>指针有自己的地址，可以用sizeof计算大小</p>
-</li>
-<li>
-<p>指针可以有多级，引用只有一级</p>
-</li>
-<li>
-<p>有指向指针的指针，但是没有指向引用的指针</p>
-</li>
-<li>
-<p>有指针数组，但没有引用数组</p>
-</li>
-<li>
-<p>const引用可以绑定到常量</p>
-</li>
-<li>
-<p>野指针：未经初始化的指针，可能指向任何地方</p>
-</li>
-<li>
-<p>空指针</p>
-</li>
-<li>
-<p>悬挂指针：指向已销毁的对象</p>
-</li>
-<li>
-<p>指针常量：指针本身是一个常量（<code>int* const p</code> 顶层const）</p>
-</li>
-<li>
-<p>常量指针：指向常量的指针（<code>const int* p</code> 底层const）</p>
-</li>
+<li>空指针</li>
+<li>悬挂指针：指向已销毁的对象</li>
+<li>指针常量：指针本身是一个常量（<code>int* const p</code> 顶层const）</li>
+<li>常量指针：指向常量的指针（<code>const int* p</code> 底层const）</li>
 </ul>
-<h3 id="单例模式"><a class="header-anchor" href="#单例模式">¶</a>单例模式</h3>
-<p>保证一个类只有一个实例。用局部静态变量即可，静态变量的初始化是会加锁的，并且自带了懒初始化特性。</p>
+<h3 id="单例模式"><a href="#单例模式" class="headerlink" title="单例模式"></a>单例模式</h3><p>保证一个类只有一个实例。<br>用局部静态变量即可，静态变量的初始化是会加锁的，并且自带了懒初始化特性。</p>
 <p>在某些场景下，套一层<code>shared_ptr</code>可以更好地避免提前析构的问题。</p>
-<p>饿汉：在程序加载时就实例化对象。懒汉：仅在第一次使用时才实例化。</p>
+<p>饿汉：在程序加载时就实例化对象。<br>懒汉：仅在第一次使用时才实例化。</p>
 <figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">Singleton</span></span><br><span class="line">&#123;</span><br><span class="line"><span class="keyword">private</span>:</span><br><span class="line">    <span class="built_in">Singleton</span>();</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="built_in">Singleton</span>(Singleton <span class="type">const</span>&amp;) = <span class="keyword">delete</span>;</span><br><span class="line">    Singleton&amp; <span class="keyword">operator</span>=(Singleton <span class="type">const</span>&amp;) = <span class="keyword">delete</span>;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="type">static</span> Singleton&amp; <span class="title">instance</span><span class="params">()</span></span></span><br><span class="line"><span class="function">    </span>&#123;</span><br><span class="line">        <span class="type">static</span> Singleton INSTANCE;</span><br><span class="line">        <span class="keyword">return</span> INSTANCE;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br><span class="line"><span class="keyword">class</span> <span class="title class_">Singleton</span></span><br><span class="line">&#123;</span><br><span class="line"><span class="keyword">private</span>:</span><br><span class="line">    <span class="built_in">Singleton</span>() &#123;&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="built_in">Singleton</span>(Singleton <span class="type">const</span>&amp;) = <span class="keyword">delete</span>;</span><br><span class="line">    Singleton&amp; <span class="keyword">operator</span>=(Singleton <span class="type">const</span>&amp;) = <span class="keyword">delete</span>;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="type">static</span> std::shared_ptr&lt;Singleton&gt; <span class="title">instance</span><span class="params">()</span></span></span><br><span class="line"><span class="function">    </span>&#123;</span><br><span class="line">        <span class="type">static</span> std::shared_ptr&lt;Singleton&gt; s&#123;<span class="keyword">new</span> Singleton&#125;;</span><br><span class="line">        <span class="keyword">return</span> s;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
-<h3 id="智能指针"><a class="header-anchor" href="#智能指针">¶</a>智能指针</h3>
-<ul>
+<h3 id="智能指针"><a href="#智能指针" class="headerlink" title="智能指针"></a>智能指针</h3><ul>
 <li><code>shared_ptr</code>：16字节，包含两个指针，一个是数据指针，一个是控制块指针</li>
 <li><code>unique_ptr</code>：8字节</li>
 <li><code>weak_ptr</code></li>
 </ul>
-<p><code>unique_ptr&lt;T&gt;</code>要求在遇到析构函数时T是完整类型，但不要求构造函数；而<code>shared_ptr&lt;T&gt;</code>要求在遇到构造函数时T是完整类型，但不要求析构函数。</p>
+<p><code>unique_ptr&lt;T&gt;</code>要求在遇到析构函数时T是完整类型，但不要求构造函数；<br>而<code>shared_ptr&lt;T&gt;</code>要求在遇到构造函数时T是完整类型，但不要求析构函数。</p>
 <p><code>shared_ptr</code>的引用计数是在堆上上，这样才能被多个<code>shared_ptr</code>共享。</p>
 <p>手写<code>shared_ptr</code>。</p>
 <p>关键就是拷贝构造、拷贝赋值、移动构造、移动赋值这个函数的写法。</p>
-<p>因为移动通常只窃取资源，不涉及资源分配，所以一般不涉及异常。显示标记<code>noexcept</code>的好处是性能的提升。特别地，在<code>std::vector</code>的扩容中，如果其移动构造会抛出异常，则<code>std::vector</code>会转而选择拷贝构造，以保证它的强异常安全性。因为移动构造如果失败，会出现vector中部分对象无效的情况。</p>
+<p>因为移动通常只窃取资源，不涉及资源分配，所以一般不涉及异常。<br>显示标记<code>noexcept</code>的好处是性能的提升。特别地，在<code>std::vector</code>的扩容中，如果其<br>移动构造会抛出异常，则<code>std::vector</code>会转而选择拷贝构造，以保证它的强异常安全性。<br>因为移动构造如果失败，会出现vector中部分对象无效的情况。</p>
 <p>注意：标记<code>noexcept</code>的函数仍然可以抛出异常，只是此时的行为一定是直接<code>terminate</code>。但此时编译器可以“明目张胆”地假设这个函数不会抛出异常，从而进行优化（比如不需要生成额外的清理资源的代码了，同时可以减轻代码膨胀）</p>
 <p>共享智能指针的引用计数是atomic包裹的，并且是在堆上的，这样才能保证拷贝赋值时，所有拥有同一个指针的共享指针的引用计数都加了1（显然如果在栈上，那需要遍历每个共享指针去修改了）。</p>
 <figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">template</span> &lt;<span class="keyword">typename</span> T&gt;</span><br><span class="line"><span class="keyword">class</span> <span class="title class_">SharedPtr</span> &#123;</span><br><span class="line"> <span class="keyword">public</span>:</span><br><span class="line">  <span class="function"><span class="keyword">explicit</span> <span class="title">SharedPtr</span><span class="params">(T *ptr = <span class="literal">nullptr</span>)</span> : ptr_(ptr) &#123;</span></span><br><span class="line">    <span class="keyword">if</span> (ptr) &#123;</span><br><span class="line">      ref_count_ = <span class="keyword">new</span> std::<span class="built_in">atomic</span>&lt;<span class="type">uint32_t</span>&gt;(<span class="number">1</span>));</span><br><span class="line">    &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">      ref_count_ = <span class="literal">nullptr</span>;</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="built_in">SharedPtr</span>(<span class="type">const</span> SharedPtr &amp;rhs) &#123;</span><br><span class="line">    ptr_ = rhs.ptr_;</span><br><span class="line">    ref_count_ = rhs.ref_count_;</span><br><span class="line">    <span class="keyword">if</span> (ptr_ != <span class="literal">nullptr</span>) &#123;</span><br><span class="line">      (*ref_count_)++;</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="built_in">SharedPtr</span>(SharedPtr &amp;&amp;rhs) <span class="keyword">noexcept</span> : <span class="built_in">SharedPtr</span>() &#123;</span><br><span class="line">    std::<span class="built_in">swap</span>(rhs, *<span class="keyword">this</span>);</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  SharedPtr&amp; <span class="keyword">operator</span>=(SharedPtr rhs) &#123;</span><br><span class="line">    std::<span class="built_in">swap</span>(rhs, *<span class="keyword">this</span>);</span><br><span class="line">    <span class="keyword">return</span> *<span class="keyword">this</span>;</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  SharedPtr&amp; <span class="keyword">operator</span>=(SharedPtr &amp;&amp;rhs) <span class="keyword">noexcept</span> &#123;</span><br><span class="line">    <span class="keyword">if</span> (<span class="keyword">this</span> == &amp;rhs) &#123;</span><br><span class="line">      <span class="keyword">return</span> *<span class="keyword">this</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="built_in">cleanup</span>();</span><br><span class="line">    std::<span class="built_in">swap</span>(rhs, *<span class="keyword">this</span>);</span><br><span class="line">    <span class="keyword">return</span> *<span class="keyword">this</span>;</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  ~<span class="built_in">SharedPtr</span>() &#123;</span><br><span class="line">    <span class="built_in">cleanup</span>();</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  T* <span class="keyword">operator</span>-&gt;() <span class="type">const</span> &#123;</span><br><span class="line">    <span class="keyword">return</span> ptr_;</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  T&amp; <span class="keyword">operator</span>*() <span class="type">const</span> &#123;</span><br><span class="line">    <span class="keyword">return</span> *ptr_;</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="function">T* <span class="title">get</span><span class="params">()</span> <span class="type">const</span> </span>&#123;</span><br><span class="line">    <span class="keyword">return</span> ptr_;</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="function"><span class="type">uint32_t</span> <span class="title">ref_count</span><span class="params">()</span> <span class="type">const</span> </span>&#123;</span><br><span class="line">    <span class="keyword">return</span> ref_count_-&gt;<span class="built_in">load</span>();</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line"> <span class="keyword">private</span>:</span><br><span class="line">  <span class="function"><span class="type">void</span> <span class="title">cleanup</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    <span class="keyword">if</span> (ref_count_ != <span class="literal">nullptr</span>) &#123;</span><br><span class="line">      (*ref_count_)--;</span><br><span class="line">      <span class="keyword">if</span> ((*ref_count_) == <span class="number">0</span>) &#123;</span><br><span class="line">        <span class="keyword">if</span> (ptr_ != <span class="literal">nullptr</span>) &#123;</span><br><span class="line">          <span class="keyword">delete</span> ptr_;</span><br><span class="line">          ptr_ = <span class="literal">nullptr</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">delete</span> ref_count_;</span><br><span class="line">        ref_count_ = <span class="literal">nullptr</span>;</span><br><span class="line">      &#125;</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  T *ptr_;</span><br><span class="line">  std::atomic&lt;<span class="type">uint32_t</span>&gt; *ref_count_;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
-<h3 id="并发编程"><a class="header-anchor" href="#并发编程">¶</a>并发编程</h3>
-<p>并发、并行</p>
+<h3 id="并发编程"><a href="#并发编程" class="headerlink" title="并发编程"></a>并发编程</h3><p>并发、并行</p>
 <p>线程：</p>
 <p><code>std::thread</code></p>
 <ul>
-<li>
-<p><code>join</code></p>
+<li><code>join</code></li>
+<li><code>detach</code></li>
+<li><code>yield</code></li>
+<li><code>get_id</code></li>
+<li><p><code>sleep_for</code>, <code>sleep_until</code></p>
 </li>
-<li>
-<p><code>detach</code></p>
+<li><p><code>call_once</code></p>
 </li>
-<li>
-<p><code>yield</code></p>
+<li><p><code>once_flag</code></p>
 </li>
-<li>
-<p><code>get_id</code></p>
-</li>
-<li>
-<p><code>sleep_for</code>, <code>sleep_until</code></p>
-</li>
-<li>
-<p><code>call_once</code></p>
-</li>
-<li>
-<p><code>once_flag</code></p>
-</li>
-<li>
-<p><code>thread::hardware_concurrency</code></p>
+<li><p><code>thread::hardware_concurrency</code></p>
 </li>
 </ul>
-<p><a data-fancybox="gallery" data-src="/post-images/cpu-cache.png" data-caption="cpu-cache"><img src="/post-images/cpu-cache.png" alt="cpu-cache">
-</a></p>
+<p><img src="/post-images/cpu-cache.png" alt="cpu-cache"></p>
 <p>互斥锁：</p>
 <ul>
-<li>
-<p><code>mutex</code></p>
+<li><code>mutex</code></li>
+<li><code>lock</code>：以无死锁的方式加多个锁</li>
+<li><code>unique_lock</code>：在需要自行加锁和解锁时使用</li>
+<li><code>shared_lock</code></li>
+<li><code>lock_guard</code>：RAII，在构造时锁定，在析构时解锁，用于单个锁，比unique_lock的接口更少，性能更好一些</li>
+<li><p><code>scoped_lock</code>：RAII，以无死锁的方式加多个锁</p>
 </li>
-<li>
-<p><code>lock</code>：以无死锁的方式加多个锁</p>
+<li><p><code>std::defer_lock</code></p>
 </li>
-<li>
-<p><code>unique_lock</code>：在需要自行加锁和解锁时使用</p>
-</li>
-<li>
-<p><code>shared_lock</code></p>
-</li>
-<li>
-<p><code>lock_guard</code>：RAII，在构造时锁定，在析构时解锁，用于单个锁，比unique_lock的接口更少，性能更好一些</p>
-</li>
-<li>
-<p><code>scoped_lock</code>：RAII，以无死锁的方式加多个锁</p>
-</li>
-<li>
-<p><code>std::defer_lock</code></p>
-</li>
-<li>
-<p><code>std::adopt_lock</code></p>
-</li>
+<li><code>std::adopt_lock</code></li>
 </ul>
 <p>条件变量：</p>
 <ul>
-<li><code>condition_variable</code>
-<ul>
+<li><code>condition_variable</code><ul>
 <li><code>wait</code>, <code>notify_one</code>, <code>notify_all</code></li>
 </ul>
 </li>
@@ -537,8 +449,7 @@
 <li><code>packaged_task</code></li>
 <li><code>promise</code></li>
 </ul>
-<h3 id="内存模型"><a class="header-anchor" href="#内存模型">¶</a>内存模型</h3>
-<p>主要是为了实现无锁编程。</p>
+<h3 id="内存模型"><a href="#内存模型" class="headerlink" title="内存模型"></a>内存模型</h3><p>主要是为了实现无锁编程。</p>
 <ul>
 <li>原子操作</li>
 <li>操作的顺序</li>
@@ -546,32 +457,24 @@
 </ul>
 <p>编译器乱序、处理器乱序，这些乱序都只保证<strong>不会修改单线程的行为</strong>。</p>
 <p><code>asm volatile(&quot;&quot; ::: &quot;memory&quot;);</code>用于阻止编译器乱序。</p>
-<p><a data-fancybox="gallery" data-src="/post-images/cache.png" data-caption="cache"><img src="/post-images/cache.png" alt="cache">
-</a></p>
+<p><img src="/post-images/cache.png" alt="cache"></p>
 <p>缓存一致性。</p>
 <p>当多个线程访问同一个内存位置，并且其中只要有一个线程包含了写操作，如果这些访问没有一致的修改顺序，那么结果就是未定义的。</p>
-<h3 id="内存泄露"><a class="header-anchor" href="#内存泄露">¶</a>内存泄露</h3>
-<p><code>malloc</code>和<code>new</code>没有配对<code>free</code>和<code>delete</code>。</p>
+<h3 id="内存泄露"><a href="#内存泄露" class="headerlink" title="内存泄露"></a>内存泄露</h3><p><code>malloc</code>和<code>new</code>没有配对<code>free</code>和<code>delete</code>。</p>
 <p><code>shared_ptr</code>循环引用。</p>
-<h3 id="C-和C的区别"><a class="header-anchor" href="#C-和C的区别">¶</a>C++和C的区别</h3>
-<p>C++是C的扩展，总体上兼容C，还提供了更多的编程范式（面向对象、重载、泛型、异常等等），但它们之间也存在分歧（ABI）。</p>
-<h3 id="堆和栈"><a class="header-anchor" href="#堆和栈">¶</a>堆和栈</h3>
-<ul>
+<h3 id="C-和C的区别"><a href="#C-和C的区别" class="headerlink" title="C++和C的区别"></a>C++和C的区别</h3><p>C++是C的扩展，总体上兼容C，<br>还提供了更多的编程范式（面向对象、重载、泛型、异常等等），<br>但它们之间也存在分歧（ABI）。</p>
+<h3 id="堆和栈"><a href="#堆和栈" class="headerlink" title="堆和栈"></a>堆和栈</h3><ul>
 <li>栈：每次进入函数时开辟栈帧，离开时释放栈帧，自动管理，速度快，但是空间比较小</li>
 <li>堆：在运行时动态分配和释放，需要手动管理，速度慢，但是空间大</li>
 </ul>
-<p>栈连续，堆不一定连续（内部碎片、外部碎片）。申请方式一个自动一个手动。生长方向不同。</p>
-<h3 id="容器适配器"><a class="header-anchor" href="#容器适配器">¶</a>容器适配器</h3>
-<p>容器适配器在一般容器的基础上提供了不同的功能（限制了一些接口）。</p>
-<p><code>queue</code>、<code>stack</code>都是基于<code>deque</code>实现的。<code>priority_queue</code>是基于<code>vector</code>实现的。</p>
-<p><code>shrink_to_fit()</code>请求将<code>capcity</code>缩小为<code>size()</code>，可能触发reallocation。这是实现定义的，不一定保证会做。</p>
+<p>栈连续，堆不一定连续（内部碎片、外部碎片）。<br>申请方式一个自动一个手动。<br>生长方向不同。</p>
+<h3 id="容器适配器"><a href="#容器适配器" class="headerlink" title="容器适配器"></a>容器适配器</h3><p>容器适配器在一般容器的基础上提供了不同的功能（限制了一些接口）。</p>
+<p><code>queue</code>、<code>stack</code>都是基于<code>deque</code>实现的。<br><code>priority_queue</code>是基于<code>vector</code>实现的。</p>
+<p><code>shrink_to_fit()</code>请求将<code>capcity</code>缩小为<code>size()</code>，可能触发reallocation。<br>这是实现定义的，不一定保证会做。</p>
 <p>一种可行的方法是用<code>swap</code>：<code>vector&lt;Person&gt;(persons).swap(persons);</code></p>
-<h3 id="前置和后置递增"><a class="header-anchor" href="#前置和后置递增">¶</a>前置和后置递增</h3>
-<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">A&amp; <span class="keyword">operator</span>++() &#123;&#125; <span class="comment">// ++A</span></span><br><span class="line"><span class="type">const</span> A <span class="keyword">operator</span>++(<span class="type">int</span>) &#123;&#125; <span class="comment">// A++</span></span><br></pre></td></tr></table></figure>
-<h3 id="异常安全"><a class="header-anchor" href="#异常安全">¶</a>异常安全</h3>
-<p>确保代码在异常发生时能够保持资源的完整性和一致性。这通常涉及到正确管理资源的生命周期，以及避免在异常路径上泄露资源。</p>
-<h3 id="设计原则"><a class="header-anchor" href="#设计原则">¶</a>设计原则</h3>
-<ul>
+<h3 id="前置和后置递增"><a href="#前置和后置递增" class="headerlink" title="前置和后置递增"></a>前置和后置递增</h3><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">A&amp; <span class="keyword">operator</span>++() &#123;&#125; <span class="comment">// ++A</span></span><br><span class="line"><span class="type">const</span> A <span class="keyword">operator</span>++(<span class="type">int</span>) &#123;&#125; <span class="comment">// A++</span></span><br></pre></td></tr></table></figure>
+<h3 id="异常安全"><a href="#异常安全" class="headerlink" title="异常安全"></a>异常安全</h3><p>确保代码在异常发生时能够保持资源的完整性和一致性。<br>这通常涉及到正确管理资源的生命周期，以及避免在异常路径上泄露资源。</p>
+<h3 id="设计原则"><a href="#设计原则" class="headerlink" title="设计原则"></a>设计原则</h3><ul>
 <li>开闭原则：对扩展开放，对修改关闭。在不修改已有代码的情况下，通过增加新功能进行扩展</li>
 <li>单一职责：每个类只负责一件事，高内聚低耦合</li>
 <li>依赖倒置：高层模块不依赖底层模块。通过依赖抽象进行解耦</li>
@@ -580,9 +483,7 @@
 <li>接口隔离：大接口拆分为更小、更具体的接口</li>
 <li>迪米特法则：最少知识原则</li>
 </ul>
-<h3 id="设计模式"><a class="header-anchor" href="#设计模式">¶</a>设计模式</h3>
-<h4 id="创建型"><a class="header-anchor" href="#创建型">¶</a>创建型</h4>
-<ul>
+<h3 id="设计模式"><a href="#设计模式" class="headerlink" title="设计模式"></a>设计模式</h3><h4 id="创建型"><a href="#创建型" class="headerlink" title="创建型"></a>创建型</h4><ul>
 <li>单例：保证一个类只有一个对象</li>
 <li>工厂：创建相似类</li>
 <li>工厂方法：定义一个工厂接口，然后在子类中实现具体的工厂</li>
@@ -590,8 +491,7 @@
 <li>建造者：分步创建复杂对象</li>
 <li>原型：创建重复对象（cache + clone）</li>
 </ul>
-<h4 id="结构型"><a class="header-anchor" href="#结构型">¶</a>结构型</h4>
-<ul>
+<h4 id="结构型"><a href="#结构型" class="headerlink" title="结构型"></a>结构型</h4><ul>
 <li>适配器：充当两个不兼容接口的桥梁</li>
 <li>过滤：filter</li>
 <li>组合：表示层次结构</li>
@@ -601,112 +501,68 @@
 <li>享元：尝试重用已有对象，减少对象创建的数量</li>
 <li>外观：抽象接口，隐藏复杂实现</li>
 </ul>
-<h4 id="行为型"><a class="header-anchor" href="#行为型">¶</a>行为型</h4>
-<ul>
-<li>
-<p>责任链：一个请求有多个可能的处理对象，依次发送给每个对象，能处理就处理否则忽略</p>
+<h4 id="行为型"><a href="#行为型" class="headerlink" title="行为型"></a>行为型</h4><ul>
+<li>责任链：一个请求有多个可能的处理对象，依次发送给每个对象，能处理就处理否则忽略</li>
+<li>命令：每种命令一个类，不同命令对应不同的行为</li>
+<li>策略：一系列可互相替换的算法，在运行时决定调用哪个</li>
+<li>迭代器：iterator</li>
+<li>状态：状态机，不同状态有不同行为</li>
+<li>备忘录：保存对象状态，并可在后续恢复</li>
+<li>模板：抽象类有一个固定调用若干虚函数的方法，子类可以重写这些虚函数</li>
+<li>观察者：一对多订阅发布，一个对象改变，需通知依赖的所有对象</li>
+<li>访问者：visitor依次访问各个对象，且对不同对象有不同的行为</li>
+<li>中介者：降低多个对象间通信的复杂度，n*n变成2n + 1</li>
+<li><p>解释器：parser</p>
 </li>
-<li>
-<p>命令：每种命令一个类，不同命令对应不同的行为</p>
-</li>
-<li>
-<p>策略：一系列可互相替换的算法，在运行时决定调用哪个</p>
-</li>
-<li>
-<p>迭代器：iterator</p>
-</li>
-<li>
-<p>状态：状态机，不同状态有不同行为</p>
-</li>
-<li>
-<p>备忘录：保存对象状态，并可在后续恢复</p>
-</li>
-<li>
-<p>模板：抽象类有一个固定调用若干虚函数的方法，子类可以重写这些虚函数</p>
-</li>
-<li>
-<p>观察者：一对多订阅发布，一个对象改变，需通知依赖的所有对象</p>
-</li>
-<li>
-<p>访问者：visitor依次访问各个对象，且对不同对象有不同的行为</p>
-</li>
-<li>
-<p>中介者：降低多个对象间通信的复杂度，n*n变成2n + 1</p>
-</li>
-<li>
-<p>解释器：parser</p>
-</li>
-<li>
-<p>MVC模式：Model（模型，即数据）、View（视图，即可视化）、Controller（控制，即操作）</p>
+<li><p>MVC模式：Model（模型，即数据）、View（视图，即可视化）、Controller（控制，即操作）</p>
 </li>
 </ul>
-<h3 id="测试"><a class="header-anchor" href="#测试">¶</a>测试</h3>
-<ul>
+<h3 id="测试"><a href="#测试" class="headerlink" title="测试"></a>测试</h3><ul>
 <li>黑盒测试：检查外部功能是否正常（系统测试）</li>
 <li>灰盒测试：检查多个模块组合是否正常（集成测试）</li>
 <li>白盒测试：检查内部实现是否正确（单元测试）</li>
 </ul>
-<h2 id="操作系统"><a class="header-anchor" href="#操作系统">¶</a>操作系统</h2>
-<h3 id="冯诺依曼架构"><a class="header-anchor" href="#冯诺依曼架构">¶</a>冯诺依曼架构</h3>
-<p>运算、存储、控制、输入、输出</p>
-<h3 id="内存布局"><a class="header-anchor" href="#内存布局">¶</a>内存布局</h3>
-<ul>
-<li>代码段（text）
-<ul>
+<h2 id="操作系统"><a href="#操作系统" class="headerlink" title="操作系统"></a>操作系统</h2><h3 id="冯诺依曼架构"><a href="#冯诺依曼架构" class="headerlink" title="冯诺依曼架构"></a>冯诺依曼架构</h3><p>运算、存储、控制、输入、输出</p>
+<h3 id="内存布局"><a href="#内存布局" class="headerlink" title="内存布局"></a>内存布局</h3><ul>
+<li>代码段（text）<ul>
 <li>只读，存放指令</li>
 </ul>
 </li>
-<li>只读数据段（rodata）
-<ul>
+<li>只读数据段（rodata）<ul>
 <li>存放常量、字面量</li>
 </ul>
 </li>
-<li>初始化数据段（data）
-<ul>
+<li>初始化数据段（data）<ul>
 <li>手动初始化的全局变量和静态变量</li>
 </ul>
 </li>
-<li>未初始化数据段（bss）
-<ul>
+<li>未初始化数据段（bss）<ul>
 <li>未手动初始化（即零初始化）的全局变量和静态变量</li>
 <li>只会预留位置，不会实际分配空间</li>
 </ul>
 </li>
-<li>堆（heap）
-<ul>
+<li>堆（heap）<ul>
 <li>动态内存分配的变量</li>
 </ul>
 </li>
-<li>栈（stack）
-<ul>
+<li>栈（stack）<ul>
 <li>非静态局部变量</li>
 </ul>
 </li>
 </ul>
 <p>代码段和数据段（包括rodata、data、bss）统称为静态存储区，栈和堆则是动态存储区。</p>
 <p>SRAM（L2 Cache）、DRAM（主存，HBM和DDR是不同的实现）、ROM、磁盘</p>
-<h3 id="Buffer和Cache"><a class="header-anchor" href="#Buffer和Cache">¶</a>Buffer和Cache</h3>
-<p>Buffer（缓冲区）是系统两端处理速度平衡（从长时间尺度上看）时使用的。它的引入是为了减小短期内突发I/O的影响，起到流量整形的作用。比如生产者——消费者问题，他们产生和消耗资源的速度大体接近，加一个buffer可以抵消掉资源刚产生/消耗时的突然变化。</p>
-<p>Cache（缓存）则是系统两端处理速度不匹配时的一种折衷策略。因为CPU和memory之间的速度差异越来越大，所以人们充分利用数据的局部性（locality）特征，通过使用存储系统分级（memory hierarchy）的策略来减小这种差异带来的影响。</p>
+<h3 id="Buffer和Cache"><a href="#Buffer和Cache" class="headerlink" title="Buffer和Cache"></a>Buffer和Cache</h3><p>Buffer（缓冲区）是系统两端处理速度平衡（从长时间尺度上看）时使用的。它的引入是为了减小短期内突发I/O的影响，起到流量整形的作用。比如生产者——消费者问题，<br>他们产生和消耗资源的速度大体接近，加一个buffer可以抵消掉资源刚产生/消耗时的突然变化。</p>
+<p>Cache（缓存）则是系统两端处理速度不匹配时的一种折衷策略。因为CPU和memory之间的速度差异越来越大，所以人们充分利用数据的局部性（locality）特征，<br>通过使用存储系统分级（memory hierarchy）的策略来减小这种差异带来的影响。</p>
 <ul>
-<li>
-<p>cache line：cache的最小访问单位，32/64 bytes</p>
+<li>cache line：cache的最小访问单位，32/64 bytes</li>
+<li>set：cache中不同块的相同位置的cache line为一组</li>
+<li><p>way：cache的一个块中cache line的数量</p>
 </li>
-<li>
-<p>set：cache中不同块的相同位置的cache line为一组</p>
+<li><p>直接映射：一路、多组</p>
 </li>
-<li>
-<p>way：cache的一个块中cache line的数量</p>
-</li>
-<li>
-<p>直接映射：一路、多组</p>
-</li>
-<li>
-<p>全相连：多路、一组</p>
-</li>
-<li>
-<p>组相连：多路、多组（最常用）</p>
-</li>
+<li>全相连：多路、一组</li>
+<li>组相连：多路、多组（最常用）</li>
 </ul>
 <p>address = [tag][index][offset]，offset确定line中的偏移，index确定是哪个组，tag通过遍历匹配确定是块中的哪一行</p>
 <ul>
@@ -728,17 +584,14 @@
 <li>outstanding：同时在传输的请求数</li>
 <li>burst length：一次传输请求中连续发送的数据量</li>
 </ul>
-<h3 id="TLB"><a class="header-anchor" href="#TLB">¶</a>TLB</h3>
-<p>MMU用于把虚拟地址转换为物理地址。其中的TLB作为页表的Cache，用于加速转换的过程。TLB一致性通过TLB击落维护（比如一个线程调用了madvice更改了地址空间的属性，需要告诉一个进程中的所有线程，因为它们是共享地址空间的）。</p>
-<h3 id="NUMA"><a class="header-anchor" href="#NUMA">¶</a>NUMA</h3>
-<p>非一致性内存访问。每个节点访问本地内存会更快。</p>
+<h3 id="TLB"><a href="#TLB" class="headerlink" title="TLB"></a>TLB</h3><p>MMU用于把虚拟地址转换为物理地址。其中的TLB作为页表的Cache，用于加速转换的过程。<br>TLB一致性通过TLB击落维护（比如一个线程调用了madvice更改了地址空间的属性，需要告诉一个进程中的所有线程，因为它们是共享地址空间的）。</p>
+<h3 id="NUMA"><a href="#NUMA" class="headerlink" title="NUMA"></a>NUMA</h3><p>非一致性内存访问。每个节点访问本地内存会更快。</p>
 <ul>
 <li><code>numactl --hardware</code></li>
 <li><code>numactl --membind=0 --cpunodebind=0</code>：内存和CPU都绑定到0号节点</li>
 </ul>
-<h3 id="原子操作"><a class="header-anchor" href="#原子操作">¶</a>原子操作</h3>
-<p>Cache以Cache Line（64 bytes）为单位进行读写操作。</p>
-<p>写回：写到缓存，标记为脏写直达：写到缓存和内存</p>
+<h3 id="原子操作"><a href="#原子操作" class="headerlink" title="原子操作"></a>原子操作</h3><p>Cache以Cache Line（64 bytes）为单位进行读写操作。</p>
+<p>写回：写到缓存，标记为脏<br>写直达：写到缓存和内存</p>
 <p>多核存在缓存一致性问题。</p>
 <p>总线嗅探广播写操作，代价较高。</p>
 <p>MESI：缓存一致性协议。</p>
@@ -748,65 +601,43 @@
 <li>硬件原子指令：CAS</li>
 <li>锁和同步源于：总线锁、缓存锁</li>
 </ul>
-<h3 id="进程、线程、协程的区别"><a class="header-anchor" href="#进程、线程、协程的区别">¶</a>进程、线程、协程的区别</h3>
-<ul>
+<h3 id="进程、线程、协程的区别"><a href="#进程、线程、协程的区别" class="headerlink" title="进程、线程、协程的区别"></a>进程、线程、协程的区别</h3><ul>
 <li>进程：一个程序运行时的实体，有独立的地址空间、堆、栈、寄存器、系统资源。资源分配的单位</li>
-<li>线程：执行任务和调度的最小单元，包含在进程之中，共享的资源比进程多，包括指令指针、寄存器、栈。CPU调度的单位</li>
+<li>线程：执行任务和调度的最小单元，包含在进程之中，共享的资源比进程多，<br>包括指令指针、寄存器、栈。CPU调度的单位</li>
 <li>协程：一个可以自行暂停执行和恢复执行的函数</li>
 </ul>
-<p>在Linux中，线程被表示为轻量级进程，与进程的区别是资源共享的程度不同（clone的参数不同），线程共享了地址空间和系统资源，但在内核调度上与进程没有区别，都用task_struct表示（其实最早的时候还没有线程的概念）。</p>
+<p>在Linux中，线程被表示为轻量级进程，与进程的区别是资源共享的程度不同（clone的参数不同），<br>线程共享了地址空间和系统资源，但在内核调度上与进程没有区别，都用task_struct表示（其实最早的时候还没有线程的概念）。</p>
 <p>当前pthread创建出的线程与内核中维护的task_struct是1:1的关系。</p>
 <p>多进程相比多线程更安全，因为隔离的资源多，互相的影响程度小。</p>
-<h3 id="进程的状态"><a class="header-anchor" href="#进程的状态">¶</a>进程的状态</h3>
+<p>上下文切换：</p>
 <ul>
-<li>
-<p>R：可执行状态（包括正在运行和可被调度运行）</p>
+<li>中断：和进程切换不同，中断切换不需要保存当前进程的用户态信息，因为中断处理程序是在内核态进行的，不会覆盖当前的用户态信息</li>
+</ul>
+<h3 id="进程的状态"><a href="#进程的状态" class="headerlink" title="进程的状态"></a>进程的状态</h3><ul>
+<li>R：可执行状态（包括正在运行和可被调度运行）</li>
+<li>S：可中断睡眠，因等待而挂起，如I/O、网络请求、以及手动的sleep</li>
+<li>D：不可中断睡眠，很少见，通常在进行不可打断的原子操作</li>
+<li>T：暂停或被跟踪</li>
+<li>Z：退出，成为僵尸进程</li>
+<li><p>X：退出，即将被销毁。当线程被detach，就不会像僵尸进程那样在进程描述表中保留元信息</p>
 </li>
-<li>
-<p>S：可中断睡眠，因等待而挂起，如I/O、网络请求、以及手动的sleep</p>
+<li><p>运行</p>
 </li>
-<li>
-<p>D：不可中断睡眠，很少见，通常在进行不可打断的原子操作</p>
-</li>
-<li>
-<p>T：暂停或被跟踪</p>
-</li>
-<li>
-<p>Z：退出，成为僵尸进程</p>
-</li>
-<li>
-<p>X：退出，即将被销毁。当线程被detach，就不会像僵尸进程那样在进程描述表中保留元信息</p>
-</li>
-<li>
-<p>运行</p>
-</li>
-<li>
-<p>阻塞</p>
-</li>
-<li>
-<p>就绪</p>
-</li>
-<li>
-<p>创建</p>
-</li>
-<li>
-<p>结束</p>
-</li>
-<li>
-<p>挂起（sleep;ctrl+z;进程没有占用内存空间，而是被换出到磁盘上）</p>
-</li>
+<li>阻塞</li>
+<li>就绪</li>
+<li>创建</li>
+<li>结束</li>
+<li>挂起（sleep;ctrl+z;进程没有占用内存空间，而是被换出到磁盘上）</li>
 </ul>
 <p>休眠一般是程序员主动的，而阻塞一般是由于等待资源而被动的。休眠的唤醒是定时的，而阻塞的唤醒是不确定的。</p>
 <p>进程控制块（PCB），是一个进程的唯一标识</p>
-<h3 id="进程优先级"><a class="header-anchor" href="#进程优先级">¶</a>进程优先级</h3>
-<p>影响调度的。</p>
+<h3 id="进程优先级"><a href="#进程优先级" class="headerlink" title="进程优先级"></a>进程优先级</h3><p>影响调度的。</p>
 <p><code>ps</code>, <code>top</code>, <code>nice</code></p>
-<h3 id="进程通信方式"><a class="header-anchor" href="#进程通信方式">¶</a>进程通信方式</h3>
-<p>消息传递：</p>
+<h3 id="进程通信方式"><a href="#进程通信方式" class="headerlink" title="进程通信方式"></a>进程通信方式</h3><p>消息传递：</p>
 <ul>
 <li>管道（pipe，内核会在内存中维护一个有限容量的缓冲器）、命名管道（FIFO）</li>
 <li>套接字（socket）</li>
-<li>消息队列（中间件：解耦、异步、削峰）</li>
+<li>消息队列（中间件：解耦、异步、削峰、广播）</li>
 <li>信号（signal）</li>
 <li>文件</li>
 </ul>
@@ -820,66 +651,49 @@
 <li>信号量（P表示减1，V表示加1）</li>
 <li>文件锁</li>
 </ul>
-<h3 id="线程通信方式"><a class="header-anchor" href="#线程通信方式">¶</a>线程通信方式</h3>
-<ul>
+<h3 id="线程通信方式"><a href="#线程通信方式" class="headerlink" title="线程通信方式"></a>线程通信方式</h3><ul>
 <li>信号</li>
-<li>互斥锁、自旋锁
-<ul>
+<li>互斥锁、自旋锁<ul>
 <li>自旋锁会不断忙等待，而互斥锁由内核完成，在失败时会挂起，从而允许被调度走，因此如果明确锁的时间比较短，可以用自旋锁，因为互斥锁需要切换到内核</li>
 <li>futex(fast userspace mutex)：先查看共享内存，如果没有竞争，就直接获取锁；否则陷入内核阻塞等待。在没有竞争时可以不经过内核，性能更好。</li>
 </ul>
 </li>
 <li>条件变量</li>
-<li>信号量
-<ul>
+<li>信号量<ul>
 <li>就是一个计数器，可以原子加1和减1，二元信号量其实就可以作为互斥锁</li>
 </ul>
 </li>
 <li>内存屏障</li>
 </ul>
-<h3 id="悲观锁与乐观锁"><a class="header-anchor" href="#悲观锁与乐观锁">¶</a>悲观锁与乐观锁</h3>
-<p>悲观锁认为多线程同时修改共享资源的概率很高，所以每次访问资源都会上锁。</p>
-<p>乐观锁则认为概率很低，先修改资源，再检查是否发生冲突，发生冲突则放弃本次操作。Git其实也可以算，利用版本号检查是否冲突。</p>
-<h3 id="顺序锁"><a class="header-anchor" href="#顺序锁">¶</a>顺序锁</h3>
-<p>相比读写锁，不会阻塞写进程。通过版本号，如果读取时的版本号为<strong>奇数</strong>或者读取前后的版本号不一致，则重新读取。注意写进程要先更新版本号，再写入，然后再更新一次版本号。</p>
-<h3 id="死锁"><a class="header-anchor" href="#死锁">¶</a>死锁</h3>
-<p>多个线程互相等待对面释放资源，但都不会释放资源。</p>
+<h3 id="悲观锁与乐观锁"><a href="#悲观锁与乐观锁" class="headerlink" title="悲观锁与乐观锁"></a>悲观锁与乐观锁</h3><p>悲观锁认为多线程同时修改共享资源的概率很高，所以每次访问资源都会上锁。</p>
+<p>乐观锁则认为概率很低，先修改资源，再检查是否发生冲突，发生冲突则放弃本次操作。<br>Git其实也可以算，利用版本号检查是否冲突。</p>
+<h3 id="顺序锁"><a href="#顺序锁" class="headerlink" title="顺序锁"></a>顺序锁</h3><p>相比读写锁，不会阻塞写进程。通过版本号，如果读取时的版本号为<strong>奇数</strong>或者读取前后的版本号不一致，则重新读取。注意写进程要先更新版本号，再写入，然后再更新一次版本号。</p>
+<h3 id="RCU锁"><a href="#RCU锁" class="headerlink" title="RCU锁"></a>RCU锁</h3><ul>
+<li>Read Copy Update：允许读时写，写时读；适用于读多写少的场景</li>
+<li>读：<code>rcu_read_lock(),rcu_read_unlock()</code></li>
+<li>写：<code>synchronize_rcu()</code>，会等待对应的读操作都完成后再完成真正的写操作</li>
+</ul>
+<h3 id="死锁"><a href="#死锁" class="headerlink" title="死锁"></a>死锁</h3><p>多个线程互相等待对面释放资源，但都不会释放资源。</p>
 <p>还有可能是对一个不可重入的互斥锁多次加锁。</p>
 <p>四个必要条件：</p>
 <ul>
-<li>
-<p>互斥：一个进程请求资源，其它进程只能等待</p>
+<li>互斥：一个进程请求资源，其它进程只能等待</li>
+<li>不可剥夺：不能强行夺走其它进程未释放的资源</li>
+<li>请求和保持：其它进程请求时继续占有</li>
+<li><p>循环等待：形成环等待</p>
 </li>
-<li>
-<p>不可剥夺：不能强行夺走其它进程未释放的资源</p>
+<li><p>鸵鸟策略</p>
 </li>
-<li>
-<p>请求和保持：其它进程请求时继续占有</p>
-</li>
-<li>
-<p>循环等待：形成环等待</p>
-</li>
-<li>
-<p>鸵鸟策略</p>
-</li>
-<li>
-<p>死锁检测与恢复</p>
-</li>
-<li>
-<p>死锁预防</p>
-</li>
-<li>
-<p>死锁避免</p>
-</li>
+<li>死锁检测与恢复</li>
+<li>死锁预防</li>
+<li>死锁避免</li>
 </ul>
 <p>注意加锁和解锁的顺序。</p>
 <p>查看offcpu，采样（定期pstack）</p>
-<h3 id="I-O模型"><a class="header-anchor" href="#I-O模型">¶</a>I/O模型</h3>
-<ul>
+<h3 id="I-O模型"><a href="#I-O模型" class="headerlink" title="I/O模型"></a>I/O模型</h3><ul>
 <li>同步阻塞</li>
 <li>同步非阻塞</li>
-<li>IO多路复用
-<ul>
+<li>IO多路复用<ul>
 <li>多个请求复用一个进程，类比CPU并发执行多个进程，这里一个进程处理多个请求</li>
 <li><code>select/poll</code>：文件描述符集合（select用一个bitmap，poll用一个链表）</li>
 <li><code>epoll</code>：使用红黑树</li>
@@ -888,9 +702,8 @@
 <li>信号驱动</li>
 <li>异步：发起请求后立即返回，等内核完成后以信号的方式进行通知</li>
 </ul>
-<h3 id="用户态和内核态"><a class="header-anchor" href="#用户态和内核态">¶</a>用户态和内核态</h3>
-<p>进行权限控制而设计的两种CPU运行级别。</p>
-<p>内核态可以执行所有指令、访问所有空间和资源。而内核态不能访问内核地址空间或执行特权指令。内核态主要执行操作系统的内核代码，而用户态主要执行用户的应用程序。</p>
+<h3 id="用户态和内核态"><a href="#用户态和内核态" class="headerlink" title="用户态和内核态"></a>用户态和内核态</h3><p>进行权限控制而设计的两种CPU运行级别。</p>
+<p>内核态可以执行所有指令、访问所有空间和资源。而内核态不能访问内核地址空间或执行特权指令。<br>内核态主要执行操作系统的内核代码，而用户态主要执行用户的应用程序。</p>
 <p>切换过程：</p>
 <ol>
 <li>设置CPU状态为内核态</li>
@@ -912,29 +725,21 @@
 <p>中断就是CPU的输入输出接口（外设、驱动交互）</p>
 <p>异常：执行指令产生错误（除0，缺页）</p>
 <p>信号：通知进程发生了某个系统事件</p>
-<h3 id="MMU"><a class="header-anchor" href="#MMU">¶</a>MMU</h3>
-<p>内存管理单元，将用户访问的虚拟地址翻译为实际的物理地址。</p>
-<h3 id="进程类别"><a class="header-anchor" href="#进程类别">¶</a>进程类别</h3>
-<ul>
+<h3 id="MMU"><a href="#MMU" class="headerlink" title="MMU"></a>MMU</h3><p>内存管理单元，将用户访问的虚拟地址翻译为实际的物理地址。</p>
+<h3 id="进程类别"><a href="#进程类别" class="headerlink" title="进程类别"></a>进程类别</h3><ul>
 <li>守护进程：在后台运行，提供某种服务或长期执行任务</li>
 <li>孤儿进程：父进程比子进程先结束，子进程由init进程接管</li>
-<li>僵尸进程：子进程已经结束，但父进程还没有执行wait()获取其终止状态。为了让父进程能通过wait()获取其子进程的状态，子进程结束后会释放大部分资源，但仍然会在内核进程表中保留一条记录，其中包括子进程ID、终止状态等信息。无法通过信号杀死僵尸进程。当父进程退出后，会由init进程接管进行清理</li>
+<li>僵尸进程：子进程已经结束，但父进程还没有执行wait()获取其终止状态。<br>为了让父进程能通过wait()获取其子进程的状态，子进程结束后会释放大部分资源，但仍然会在<br>内核进程表中保留一条记录，其中包括子进程ID、终止状态等信息。<br>无法通过信号杀死僵尸进程。当父进程退出后，会由init进程接管进行清理</li>
 </ul>
-<h3 id="回收线程"><a class="header-anchor" href="#回收线程">¶</a>回收线程</h3>
-<p><code>pthread_join</code>、<code>pthread_exit</code>、<code>pthread_detach</code></p>
+<h3 id="回收线程"><a href="#回收线程" class="headerlink" title="回收线程"></a>回收线程</h3><p><code>pthread_join</code>、<code>pthread_exit</code>、<code>pthread_detach</code></p>
 <p>线程池：每个线程不断查看工作队列，提取工作然后执行即可</p>
-<h3 id="文件"><a class="header-anchor" href="#文件">¶</a>文件</h3>
-<p>硬链接（指向同一个inode，不可跨文件系统）、软链接（一个新文件，文件内容是链接文件的路径）</p>
-<p>删除正在使用的文件：inode会维护链接计数，还会维护打开的文件描述符个数。在删除最后一个链接时，如果还有打开的文件描述符，就不会删除该文件。</p>
-<h3 id="Radix-tree"><a class="header-anchor" href="#Radix-tree">¶</a>Radix tree</h3>
-<p>一种空间优化的字典树。如果一个节点只有一个子节点，那么这个子节点会合并到该节点上。也就是在radix tree中一个节点可以表示多个连续的字符。</p>
+<h3 id="文件"><a href="#文件" class="headerlink" title="文件"></a>文件</h3><p>硬链接（指向同一个inode，不可跨文件系统）、软链接（一个新文件，文件内容是链接文件的路径）</p>
+<p>删除正在使用的文件：<br>inode会维护链接计数，还会维护打开的文件描述符个数。<br>在删除最后一个链接时，如果还有打开的文件描述符，就不会删除该文件。</p>
+<h3 id="Radix-tree"><a href="#Radix-tree" class="headerlink" title="Radix tree"></a>Radix tree</h3><p>一种空间优化的字典树。如果一个节点只有一个子节点，那么这个子节点会合并到该节点上。也就是在radix tree中一个节点可以表示多个连续的字符。</p>
 <p>Especially for small string sets that share long prefixes，也就是有很多可以合并的节点。</p>
-<h2 id="计算机网络"><a class="header-anchor" href="#计算机网络">¶</a>计算机网络</h2>
-<h3 id="网络模型"><a class="header-anchor" href="#网络模型">¶</a>网络模型</h3>
-<p>物理层、数据链路层（以太网）、网络层（IP）、传输层（TCP、UDP）、应用层（HTTP）</p>
+<h2 id="计算机网络"><a href="#计算机网络" class="headerlink" title="计算机网络"></a>计算机网络</h2><h3 id="网络模型"><a href="#网络模型" class="headerlink" title="网络模型"></a>网络模型</h3><p>物理层、数据链路层（以太网）、网络层（IP）、传输层（TCP、UDP）、应用层（HTTP）</p>
 <p>七层网络模型在传输层之上还有会话层和表示层。</p>
-<h3 id="IP"><a class="header-anchor" href="#IP">¶</a>IP</h3>
-<p>无分类地址（CIDR）：</p>
+<h3 id="IP"><a href="#IP" class="headerlink" title="IP"></a>IP</h3><p>无分类地址（CIDR）：</p>
 <ul>
 <li>网路号：标识该IP属于哪个子网（和子网掩码与运算）</li>
 <li>主机号：标识同一子网下的具体主机</li>
@@ -945,36 +750,26 @@
 <li>172.16.0.0 - 172.31.255.255</li>
 <li>192.168.0.0 -192.168.255.255</li>
 </ul>
-<h3 id="TCP和UDP"><a class="header-anchor" href="#TCP和UDP">¶</a>TCP和UDP</h3>
-<ul>
-<li>
-<p>TCP是面向连接的可靠字节流式协议，UDP是面向无连接的不可靠报文协议。</p>
+<h3 id="TCP和UDP"><a href="#TCP和UDP" class="headerlink" title="TCP和UDP"></a>TCP和UDP</h3><ul>
+<li>TCP是面向连接的可靠字节流式协议，UDP是面向无连接的不可靠报文协议。</li>
+<li>TCP会通过确认和重传等机制保证数据被准确收到。</li>
+<li><p>TCP只能一对一，UDP可以广播，多对多。</p>
 </li>
-<li>
-<p>TCP会通过确认和重传等机制保证数据被准确收到。</p>
+<li><p>流量控制：滑动窗口，保证不超过接收方的接收能力。</p>
 </li>
-<li>
-<p>TCP只能一对一，UDP可以广播，多对多。</p>
-</li>
-<li>
-<p>流量控制：滑动窗口，保证不超过接收方的接收能力。</p>
-</li>
-<li>
-<p>拥塞控制：拥塞窗口、拥塞避免，控制网络传输速率。</p>
-</li>
+<li>拥塞控制：拥塞窗口、拥塞避免，控制网络传输速率。</li>
 </ul>
 <p>源端口和目的端口记录在TCP报文中，而源IP和目的IP记录在IP数据包中。</p>
-<p>MTU：网络层最大传输单元（主要是数据链路层的以太网帧有大小限制1500字节，所以如果太大，网络层会进行分包）MSS：TCP最大分段大小，防止在网络层才分片，此时如果丢失需要重传相关的所有分片，增加了复杂度</p>
+<p>MTU：网络层最大传输单元（主要是数据链路层的以太网帧有大小限制1500字节，所以如果太大，网络层会进行分包）<br>MSS：TCP最大分段大小，防止在网络层才分片，此时如果丢失需要重传相关的所有分片，增加了复杂度</p>
 <p>TCP会进行分段，而UDP不会进行分段。</p>
-<p>TCP通过分段来避免下层IP分片的发生，避免在接收端进行IP重组。同时避免重传大份数据。</p>
-<h3 id="三次握手和四次挥手"><a class="header-anchor" href="#三次握手和四次挥手">¶</a>三次握手和四次挥手</h3>
-<p>三次握手：</p>
+<p>TCP通过分段来避免下层IP分片的发生，避免在接收端进行IP重组。<br>同时避免重传大份数据。</p>
+<h3 id="三次握手和四次挥手"><a href="#三次握手和四次挥手" class="headerlink" title="三次握手和四次挥手"></a>三次握手和四次挥手</h3><p>三次握手：</p>
 <ul>
 <li>客户端随机初始化一个seq，发送SYN</li>
 <li>服务端回应ACK、SYN，以及一个随机的seq</li>
 <li>客户端回应ACK，ackno为服务端seq+1，这里是可以携带数据的</li>
 </ul>
-<p>如果只进行两次连接，服务端可能会错误的建立一个历史连接。三次连接则可以给发起连接的客户端进行判断过滤的机会。</p>
+<p>如果只进行两次连接，服务端可能会错误的建立一个历史连接。<br>三次连接则可以给发起连接的客户端进行判断过滤的机会。</p>
 <p>四次挥手：</p>
 <ul>
 <li>客户端发送带有FIN标志的报文（表示自己不再发送数据）</li>
@@ -982,72 +777,53 @@
 <li>服务端再发送带有FIN标志的报文（表示服务端也不再发送数据）</li>
 <li>客户端再回应ACK（客户端进入TIME_WAIT状态，等待2MSL才能确定连接已关闭）</li>
 </ul>
-<p>被动断开方可以直接关闭。而主动断开方需要等待一段时间后关闭，等待时间一般是2MSL，其中MSL是最大报文段生存时间，主动断开方无法判断对方是否收到ACK，如果没有收到，会重新发送第三次挥手的FIN。</p>
+<p>被动断开方可以直接关闭。而主动断开方需要等待一段时间后关闭，<br>等待时间一般是2MSL，其中MSL是最大报文段生存时间，主动断开方无法<br>判断对方是否收到ACK，如果没有收到，会重新发送第三次挥手的FIN。</p>
 <p>这里第二个和第三个报文可以合在一起，此时就变成了三次挥手。</p>
 <ul>
-<li>
-<p>使用滑动窗口进行流量控制，避免发送者发送数据过快</p>
+<li>使用滑动窗口进行流量控制，避免发送者发送数据过快</li>
+<li><p>超时重传：超时重传时间RTO，肯定要大于往返时间，一般取RTO=2RTT</p>
 </li>
-<li>
-<p>超时重传：超时重传时间RTO，肯定要大于往返时间，一般取RTO=2RTT</p>
+<li><p>拥塞控制：避免网络负载过大</p>
 </li>
-<li>
-<p>拥塞控制：避免网络负载过大</p>
-</li>
-<li>
-<p>慢启动：窗口大小从1开始，逐渐翻倍，避免瞬时的大量数据</p>
-</li>
-<li>
-<p>拥塞避免</p>
-</li>
-<li>
-<p>快重传</p>
-</li>
-<li>
-<p>快恢复</p>
-</li>
+<li>慢启动：窗口大小从1开始，逐渐翻倍，避免瞬时的大量数据</li>
+<li>拥塞避免</li>
+<li>快重传</li>
+<li>快恢复</li>
 </ul>
 <p>SYN随机的原因：避免旧的报文被错误接收、避免被伪造攻击</p>
-<p>TCP SYN攻击：攻击者伪造大量不同IP的SYN报文发起连接，服务器应答ACK+SYN后，攻击者不继续回应，会占满服务器的半连接队列。</p>
-<p>接收到SYN，就会将客户端放到半连接队列中（在Linux中称作incomplete connection，需要在虚拟文件中设置）；接收到应答，就放到Accept队列中（在Linux中称作completely established sockets waiting to be accepted，可以在<code>listen()</code>中的<code>backlog</code>参数设置）。调用<code>accpet()</code>从Accept队列中取出连接对象。</p>
-<p>RTT (Round-Trip Time)：往返时延，数据从发送端到接收端再返回到发送端所需的时间。一定程度上反映了网络的拥塞程度。</p>
-<p>KCP和QUIC是基于UDP的可靠协议。</p>
+<p>TCP SYN攻击：攻击者伪造大量不同IP的SYN报文发起连接，服务器应答ACK+SYN后，攻击者<br>不继续回应，会占满服务器的半连接队列。</p>
+<p>接收到SYN，就会将客户端放到半连接队列中（在Linux中称作incomplete connection，需要在虚拟文件中设置）；<br>接收到应答，就放到Accept队列中（在Linux中称作completely established sockets waiting to be accepted，<br>可以在<code>listen()</code>中的<code>backlog</code>参数设置）。<br>调用<code>accpet()</code>从Accept队列中取出连接对象。</p>
+<p>RTT (Round-Trip Time)：往返时延，数据从发送端到接收端再返回到发送端所需的时间。<br>一定程度上反映了网络的拥塞程度。</p>
+<p>KCP（TCP追求带宽而KCP追求延迟）和QUIC是基于UDP的可靠协议。</p>
 <ul>
 <li>半连接队列：SYN队列（服务端第一次收到客户端的SYN请求）</li>
 <li>全连接队列：Accept队列（服务端收到客户端第三次握手的ACK请求 min(somaxconn, backlog)）</li>
 </ul>
 <p>RST：重置、复位连接的标志，用于关闭异常连接</p>
-<h3 id="粘包"><a class="header-anchor" href="#粘包">¶</a>粘包</h3>
-<p>字节流是没有边界的，间隔时间短可能就会连起来。通过固定长度的消息头加消息体（长度记录在消息头中）。</p>
+<h3 id="粘包"><a href="#粘包" class="headerlink" title="粘包"></a>粘包</h3><p>字节流是没有边界的，间隔时间短可能就会连起来。通过固定长度的消息头加消息体（长度记录在消息头中）。</p>
 <p>拆包：同理如果一次性发送一个很大的包，这个包可能会被拆分成若干小包。也可以通过先指定长度来解决。</p>
 <p>Nagle算法用于改善网络传输效率，会将多个小消息组合起来一起发送。</p>
-<h3 id="ICMP"><a class="header-anchor" href="#ICMP">¶</a>ICMP</h3>
-<p>互联网控制消息协议。告知网络包传输中的错误和控制信息。</p>
-<h3 id="HTTP"><a class="header-anchor" href="#HTTP">¶</a>HTTP</h3>
-<p>基于请求和响应，<strong>无状态</strong>（对已发送的请求和协议不作持久化处理，减少资源）的应用层协议。</p>
+<h3 id="ICMP"><a href="#ICMP" class="headerlink" title="ICMP"></a>ICMP</h3><p>互联网控制消息协议。告知网络包传输中的错误和控制信息。</p>
+<h3 id="HTTP"><a href="#HTTP" class="headerlink" title="HTTP"></a>HTTP</h3><p>基于请求和响应，<strong>无状态</strong>（对已发送的请求和协议不作持久化处理，减少资源）的应用层协议。</p>
 <ul>
 <li>HTTP1.0：短连接，队头阻塞（下一个请求只有在上一个响应到大前才能发送）</li>
 <li>HTTP1.1：长连接，管道（多个请求可以并行，不需要等待上一个响应），断点续传（Range），Cookie（服务器发送给客户端，之后客户端请求会携带上以表明自己的身份）</li>
 <li>HTTP2.0：完全使用二进制（之前header是ASCII）、多路复用（同时发起多个请求，管道的优化版，但无法解决TCP的队头阻塞问题）、头部压缩（HPACK）、服务端推送（服务端可以主动发送消息）</li>
 <li>HTTP3.0：QUIC（quick UDP）</li>
 </ul>
-<h4 id="返回码"><a class="header-anchor" href="#返回码">¶</a>返回码</h4>
-<ul>
+<h4 id="返回码"><a href="#返回码" class="headerlink" title="返回码"></a>返回码</h4><ul>
 <li>1xx：提示信息，处于中间状态</li>
 <li>2xx：成功</li>
 <li>3xx：重定向</li>
 <li>4xx：请求错误</li>
 <li>5xx：服务错误</li>
 </ul>
-<h4 id="请求方式"><a class="header-anchor" href="#请求方式">¶</a>请求方式</h4>
-<p>GET用于请求资源，参数只能写在URL里；POST用于对指定资源进行处理，内容写在body里。</p>
-<h4 id="缓存"><a class="header-anchor" href="#缓存">¶</a>缓存</h4>
-<ul>
+<h4 id="请求方式"><a href="#请求方式" class="headerlink" title="请求方式"></a>请求方式</h4><p>GET用于请求资源，参数只能写在URL里；POST用于对指定资源进行处理，内容写在body里。</p>
+<h4 id="缓存"><a href="#缓存" class="headerlink" title="缓存"></a>缓存</h4><ul>
 <li>强制缓存：客户端判断缓存未过期就会用缓存</li>
 <li>协商缓存：服务端通过返回304告知客户端是否可以用本地缓存</li>
 </ul>
-<h4 id="HTTPS"><a class="header-anchor" href="#HTTPS">¶</a>HTTPS</h4>
-<p>HTTP是<strong>明文</strong>传输的网络协议，不验证对方身份，不能防止报文被篡改；HTTPS增加了数据加密，还需要验证身份，更加安全。</p>
+<h4 id="HTTPS"><a href="#HTTPS" class="headerlink" title="HTTPS"></a>HTTPS</h4><p>HTTP是<strong>明文</strong>传输的网络协议，不验证对方身份，不能防止报文被篡改；HTTPS增加了数据加密，还需要验证身份，更加安全。</p>
 <p>HTTP = HTTPS + SSL/TLS</p>
 <p>TCP三次握手+SSL/TLS握手</p>
 <p>TLS：传输层安全协议，是SSL（安全套接字）的升级版</p>
@@ -1058,10 +834,8 @@
 </ol>
 <p>HTTPS的端口时443，而HTTP是80。</p>
 <p>中间人劫持：攻击者与通讯双方分别创建独立的连接，并控制通讯双方的交互，但通讯双方以为是在直接通信。</p>
-<h4 id="cookie和session"><a class="header-anchor" href="#cookie和session">¶</a>cookie和session</h4>
-<p>cookie保存在客户端，是针对网站的，cookie不安全，可以被拦截篡改；而session保存在服务端，是针对用户的。</p>
-<h4 id="Socket"><a class="header-anchor" href="#Socket">¶</a>Socket</h4>
-<p>网络编程抽象：IP + 端口 + 协议。</p>
+<h4 id="cookie和session"><a href="#cookie和session" class="headerlink" title="cookie和session"></a>cookie和session</h4><p>cookie保存在客户端，是针对网站的，cookie不安全，可以被拦截篡改；而session保存在服务端，是针对用户的。</p>
+<h4 id="Socket"><a href="#Socket" class="headerlink" title="Socket"></a>Socket</h4><p>网络编程抽象：IP + 端口 + 协议。</p>
 <ul>
 <li>bind</li>
 <li>listen</li>
@@ -1070,62 +844,49 @@
 <li>send/recv</li>
 <li>close</li>
 </ul>
-<h4 id="Websocket"><a class="header-anchor" href="#Websocket">¶</a>Websocket</h4>
-<p>一种协议，支持全双工通信（TCP本身是全双工的，不过HTTP是半双工的），服务端和客户端可以互相同时发送消息。通过HTTP请求中的字段<code>Sec-WebSocket-Key</code>，计算并返回<code>Sec-WebSocket-Accept</code>，完成握手建立连接。具体传输的数据会分成一个个frame。</p>
-<h4 id="定期轮询和长轮询（poll）"><a class="header-anchor" href="#定期轮询和长轮询（poll）">¶</a>定期轮询和长轮询（poll）</h4>
-<ul>
+<h4 id="Websocket"><a href="#Websocket" class="headerlink" title="Websocket"></a>Websocket</h4><p>一种协议，支持全双工通信（TCP本身是全双工的，不过HTTP是半双工的），服务端和客户端可以互相同时发送消息。<br>通过HTTP请求中的字段<code>Sec-WebSocket-Key</code>，计算并返回<code>Sec-WebSocket-Accept</code>，完成握手建立连接。<br>具体传输的数据会分成一个个frame。</p>
+<h4 id="定期轮询和长轮询（poll）"><a href="#定期轮询和长轮询（poll）" class="headerlink" title="定期轮询和长轮询（poll）"></a>定期轮询和长轮询（poll）</h4><ul>
 <li>客户端定期向服务端询问</li>
 <li>客户端发起一次询问后，会保持一段时间，在这期间服务端都可以响应</li>
 </ul>
-<h4 id="长连接和短连接"><a class="header-anchor" href="#长连接和短连接">¶</a>长连接和短连接</h4>
-<p>TCP长连接就是在三次握手后可以发送多个请求，不需要再重复三次握手建立连接。</p>
-<h3 id="TUN-TAP"><a class="header-anchor" href="#TUN-TAP">¶</a>TUN/TAP</h3>
-<p>虚拟网络设备。TUN工作在网络层，处理IP报文；TAP工作在数据链路层，处理以太网帧。收到的网络包不会再走内核的协议栈，而是直接传到用户空间中，从而可以用来实现用户协议栈。</p>
-<h3 id="Linux接收网络包"><a class="header-anchor" href="#Linux接收网络包">¶</a>Linux接收网络包</h3>
-<p>网络包到大，通过DMA写入到内存中的ring buffer，网卡向CPU发出硬件中断，然后CPU根据中断表调用中断处理函数。</p>
-<h3 id="NAT-DNS-ARP"><a class="header-anchor" href="#NAT-DNS-ARP">¶</a>NAT DNS ARP</h3>
-<ul>
+<h4 id="长连接和短连接"><a href="#长连接和短连接" class="headerlink" title="长连接和短连接"></a>长连接和短连接</h4><p>TCP长连接就是在三次握手后可以发送多个请求，不需要再重复三次握手建立连接。</p>
+<h3 id="TUN-TAP"><a href="#TUN-TAP" class="headerlink" title="TUN/TAP"></a>TUN/TAP</h3><p>虚拟网络设备。TUN工作在网络层，处理IP报文；TAP工作在数据链路层，处理以太网帧。<br>收到的网络包不会再走内核的协议栈，而是直接传到用户空间中，从而可以用来实现用户协议栈。</p>
+<h3 id="Linux接收网络包"><a href="#Linux接收网络包" class="headerlink" title="Linux接收网络包"></a>Linux接收网络包</h3><p>网络包到达网卡的缓冲区，通过DMA拷贝到内存中的ring buffer，网卡向CPU发出硬件中断，然后CPU根据中断表调用中断处理函数，<br>经过解析后写入到socket缓冲区中，最后拷贝到用户空间。</p>
+<h3 id="NAT-DNS-ARP"><a href="#NAT-DNS-ARP" class="headerlink" title="NAT DNS ARP"></a>NAT DNS ARP</h3><ul>
 <li>NAT：将内部多个私网IP映射为一个外部公网IP，用不同的端口号区分</li>
 <li>DNS：域名到IP的映射（DNS服务器）</li>
 <li>ARP：IP到MAC的映射（ARP广播）</li>
 <li>DHCP：动态获取IP（DHCP服务器负责管理和分配IP）</li>
 </ul>
-<h3 id="内网穿透"><a class="header-anchor" href="#内网穿透">¶</a>内网穿透</h3>
-<p>让外网与内网通信（NAT只是让内网可以与外网通信）。</p>
+<h3 id="内网穿透"><a href="#内网穿透" class="headerlink" title="内网穿透"></a>内网穿透</h3><p>让外网与内网通信（NAT只是让内网可以与外网通信）。</p>
 <ul>
 <li>端口映射</li>
 <li>反向代理</li>
 <li>VPN</li>
 <li>NAT穿透</li>
 </ul>
-<h3 id="局域网和广域网"><a class="header-anchor" href="#局域网和广域网">¶</a>局域网和广域网</h3>
-<ul>
+<h3 id="局域网和广域网"><a href="#局域网和广域网" class="headerlink" title="局域网和广域网"></a>局域网和广域网</h3><ul>
 <li>局域网（LAN）</li>
 <li>广域网（WAN）：物理范围更广，通常连接了多个局域网</li>
 </ul>
-<h3 id="浏览器输入URL"><a class="header-anchor" href="#浏览器输入URL">¶</a>浏览器输入URL</h3>
-<ul>
+<h3 id="浏览器输入URL"><a href="#浏览器输入URL" class="headerlink" title="浏览器输入URL"></a>浏览器输入URL</h3><ul>
 <li>将URL，即域名解析为IP地址（DNS）</li>
 <li>与该IP对应的服务器通过三次握手建立TCP连接（ARP解析MAC地址、路由器、交换机、网卡）</li>
 <li>发送请求</li>
 <li>接收到响应</li>
 <li>解析收到的HTML文件</li>
 </ul>
-<h3 id="多路复用"><a class="header-anchor" href="#多路复用">¶</a>多路复用</h3>
-<p>一个线程同时管理多个I/O操作。</p>
+<h3 id="多路复用"><a href="#多路复用" class="headerlink" title="多路复用"></a>多路复用</h3><p>一个线程同时管理多个I/O操作。</p>
 <ul>
 <li>select：每次调用时遍历文件描述符集合；只有一个描述符有I/O事件到达，内核就会通知线程，但线程不知道具体是哪一个，只能自己遍历检查；而且每次都需要从内核向用户拷贝整个文件描述符集合</li>
 <li>poll：相比select，去除了对文件描述符集合大小的限制（1024）（链表）</li>
-<li>epoll：内核会直接告诉线程是哪些描述符有I/O事件（红黑树管理事件，链表管理就绪描述符，mmap避免拷贝）
-<ul>
+<li>epoll：内核会直接告诉线程是哪些描述符有I/O事件（红黑树管理事件，链表管理就绪描述符，mmap避免拷贝）<ul>
 <li>水平触发：就绪状态就会一直通知</li>
 <li>边缘触发：只在变成就绪状态的那一刻通知一次</li>
 </ul>
 </li>
 </ul>
-<h2 id="数据库"><a class="header-anchor" href="#数据库">¶</a>数据库</h2>
-<h3 id="连接"><a class="header-anchor" href="#连接">¶</a>连接</h3>
-<p>想象两个相交的圆，inner就是intersection，outer就是union</p>
+<h2 id="数据库"><a href="#数据库" class="headerlink" title="数据库"></a>数据库</h2><h3 id="连接"><a href="#连接" class="headerlink" title="连接"></a>连接</h3><p>想象两个相交的圆，inner就是intersection，outer就是union</p>
 <ul>
 <li>inner join：结果为A和B的公共列</li>
 <li>left outer join：结果还包括A中与B没有匹配的行，且会包含B的列，值为null</li>
@@ -1135,42 +896,29 @@
 <li>anti join：得到A中与B没有匹配的行</li>
 <li>cross join：笛卡尔积</li>
 </ul>
-<h3 id="key"><a class="header-anchor" href="#key">¶</a>key</h3>
-<ul>
+<h3 id="key"><a href="#key" class="headerlink" title="key"></a>key</h3><ul>
 <li>primary key：能唯一标识表中的每一行，不允许为NULL。只能有一个主键。产生唯一的聚簇索引</li>
 <li>unique key：表中对应列的取值没有重复，允许为NULL。可以有多个唯一键。产生唯一的非聚簇索引</li>
 </ul>
-<h3 id="索引"><a class="header-anchor" href="#索引">¶</a>索引</h3>
-<p>加速查找。</p>
+<h3 id="索引"><a href="#索引" class="headerlink" title="索引"></a>索引</h3><p>加速查找。</p>
 <ul>
-<li>
-<p>聚簇索引：直接存放完整数据。MySQL只允许一个表有一个聚簇索引。</p>
+<li>聚簇索引：直接存放完整数据。MySQL只允许一个表有一个聚簇索引。</li>
+<li><p>非聚簇索引（二级索引）：只存放用于索引的部分数据，也就是需要多读一次才能得到完整数据。</p>
 </li>
-<li>
-<p>非聚簇索引（二级索引）：只存放用于索引的部分数据，也就是需要多读一次才能得到完整数据。</p>
+<li><p>联合索引：一个索引包含多个列（最左匹配）</p>
 </li>
-<li>
-<p>联合索引：一个索引包含多个列（最左匹配）</p>
-</li>
-<li>
-<p>非联合索引：一个索引只有一列</p>
-</li>
+<li>非联合索引：一个索引只有一列</li>
 </ul>
-<h4 id="B-B-tree"><a class="header-anchor" href="#B-B-tree">¶</a>B/B+ tree</h4>
-<ul>
+<h4 id="B-B-tree"><a href="#B-B-tree" class="headerlink" title="B/B+ tree"></a>B/B+ tree</h4><ul>
 <li>相比二叉搜索树，分支更多，树更矮更宽，磁盘读写次数少。</li>
 <li>B+ Tree只在叶子存放数据，其余节点只作为索引导向，因此其余节点会更小，磁盘读写量少。B+ Tree的叶子节点用双向链表串联，更适合范围查找。</li>
 <li>相比哈希，可以做范围查找。</li>
 </ul>
-<h4 id="LSM-tree"><a class="header-anchor" href="#LSM-tree">¶</a>LSM tree</h4>
-<p>批量写入、多层归并。用于多写场景，将磁盘随机写改成了顺序写。但也导致了读放大。</p>
-<h4 id="Bw-tree"><a class="header-anchor" href="#Bw-tree">¶</a>Bw tree</h4>
-<p>B/B+ tree的每个节点是一个多层归并的LSM tree。</p>
+<h4 id="LSM-tree"><a href="#LSM-tree" class="headerlink" title="LSM tree"></a>LSM tree</h4><p>批量写入、多层归并。用于多写场景，将磁盘随机写改成了顺序写。但也导致了读放大。</p>
+<h4 id="Bw-tree"><a href="#Bw-tree" class="headerlink" title="Bw tree"></a>Bw tree</h4><p>B/B+ tree的每个节点是一个多层归并的LSM tree。</p>
 <p>注：HDD（机械硬盘）需要考虑磁盘寻道时间，随机读写都很慢；而SSD（固态硬盘），随机读性能其实与顺序读差不多，只是随机写还是很慢。</p>
-<h4 id="跳表"><a class="header-anchor" href="#跳表">¶</a>跳表</h4>
-<p>多级有序链表。内存中用的更多，实现简单，局部性更好（？）</p>
-<h3 id="事务"><a class="header-anchor" href="#事务">¶</a>事务</h3>
-<p>ACID：原子性（undo log）、一致性（由其它三个保证）、隔离性（（MVCC、锁））、持久性（redo log）。</p>
+<h4 id="跳表"><a href="#跳表" class="headerlink" title="跳表"></a>跳表</h4><p>多级有序链表。内存中用的更多，实现简单，局部性更好（？）</p>
+<h3 id="事务"><a href="#事务" class="headerlink" title="事务"></a>事务</h3><p>ACID：原子性（undo log）、一致性（由其它三个保证）、隔离性（（MVCC、锁））、持久性（redo log）。</p>
 <ul>
 <li>脏读</li>
 <li>不可重复读</li>
@@ -1183,67 +931,55 @@
 <li>可重复读：一个事务多次读取同一个数据的结果一致</li>
 <li>串行化：多个事务可串行化执行</li>
 </ul>
-<h3 id="日志"><a class="header-anchor" href="#日志">¶</a>日志</h3>
-<ul>
+<h3 id="日志"><a href="#日志" class="headerlink" title="日志"></a>日志</h3><ul>
 <li>undo log（回滚日志）：在事务开始时先记录undo log，用于崩溃时事务<strong>回滚</strong>，实现事务的原子性（A）。记录的是事务开始前的状态。</li>
 <li>redo log（重做日志）：WAL，写操作先记录日志，再落盘。用于事务<strong>恢复</strong>，实现事务的持久性（D），并且可以把磁盘随机写改成顺序写。记录的是事务完成后的状态。</li>
 <li>bin log（归档日志）：类似于redo log，但位于Server层，而不是引擎层，因此主要用于server的备份同步，而不是事务。</li>
 </ul>
-<p>两阶段提交（属于一种原子提交协议）。引入一个第三方的事务协调者，并且分成准备阶段（确保所有参与发都具备提交的能力，并更新undo和redo日志）和提交阶段。（确保多个操作的原子性）</p>
-<h2 id="算法"><a class="header-anchor" href="#算法">¶</a>算法</h2>
-<h3 id="链表判环"><a class="header-anchor" href="#链表判环">¶</a>链表判环</h3>
-<p>快慢指针如果相遇则有环。</p>
+<p>两阶段提交（属于一种原子提交协议）。引入一个第三方的事务协调者，并且分成准备阶段（确保所有参与发都具备提交的能力，并更新undo和redo日志）和提交阶段。<br>（确保多个操作的原子性）</p>
+<h2 id="分布式"><a href="#分布式" class="headerlink" title="分布式"></a>分布式</h2><h3 id="CAP"><a href="#CAP" class="headerlink" title="CAP"></a>CAP</h3><ul>
+<li>consistency：一致性</li>
+<li>availablity：可用性</li>
+<li>partition tolerance：分区容忍性</li>
+</ul>
+<p>CAP只能做到两点。P肯定得做，不然就不是分布式了；A无法做到100%；因此一般都是做CP，然后把A做到好几个9。</p>
+<h3 id="多租户"><a href="#多租户" class="headerlink" title="多租户"></a>多租户</h3><p>SAAS：软件即服务。云提供商负责管理和维护软件，以即用即付费的形式将软件提供给客户</p>
+<p>单个软件实例可以同时为多个用户组提供服务的软件架构，同时保持各用户间的隔离性。</p>
+<h2 id="算法"><a href="#算法" class="headerlink" title="算法"></a>算法</h2><h3 id="链表判环"><a href="#链表判环" class="headerlink" title="链表判环"></a>链表判环</h3><p>快慢指针如果相遇则有环。</p>
 <p>找入环点：一个指针从头节点开始，另一个指针从相遇点开始，则它们会在入环点相遇。</p>
 <p>2L + 2x = L + x + n * c</p>
 <p>L = (n - 1) * c + c - x</p>
-<h3 id="链表反转"><a class="header-anchor" href="#链表反转">¶</a>链表反转</h3>
-<p>递归的写法最直白。</p>
-<h3 id="最长回文子串"><a class="header-anchor" href="#最长回文子串">¶</a>最长回文子串</h3>
-<h3 id="下一个排列"><a class="header-anchor" href="#下一个排列">¶</a>下一个排列</h3>
-<p>以3,7,6,2,5,4,3,1为例，从后往前找到第一个升序对(2, 5)，然后将2用后面最小的大于它的数(3)替换，后面的数再升序排列即可。</p>
-<h3 id="中位数"><a class="header-anchor" href="#中位数">¶</a>中位数</h3>
-<p>对顶堆，一个大顶堆和一个小顶堆，主要处理动态中位数问题。</p>
-<p>根据最高位划分，显然最高位为0的都小于最高位为1的，根据数量可以确定中位数在哪一堆里，不断分治即可（这个trick挺有用的）。</p>
-<h3 id="蓄水池"><a class="header-anchor" href="#蓄水池">¶</a>蓄水池</h3>
-<p>有n块挡板，选出两块挡板，最大化(j - i) * min(a[i], a[j])</p>
+<h3 id="链表反转"><a href="#链表反转" class="headerlink" title="链表反转"></a>链表反转</h3><p>递归的写法最直白。</p>
+<h3 id="最长回文子串"><a href="#最长回文子串" class="headerlink" title="最长回文子串"></a>最长回文子串</h3><h3 id="下一个排列"><a href="#下一个排列" class="headerlink" title="下一个排列"></a>下一个排列</h3><p>以3,7,6,2,5,4,3,1为例，从后往前找到第一个升序对(2, 5)，然后将2用后面最小的大于它的数(3)替换，<br>后面的数再升序排列即可。</p>
+<h3 id="中位数"><a href="#中位数" class="headerlink" title="中位数"></a>中位数</h3><p>对顶堆，一个大顶堆和一个小顶堆，主要处理动态中位数问题。</p>
+<p>根据最高位划分，显然最高位为0的都小于最高位为1的，根据数量可以<br>确定中位数在哪一堆里，不断分治即可（这个trick挺有用的）。</p>
+<h3 id="蓄水池"><a href="#蓄水池" class="headerlink" title="蓄水池"></a>蓄水池</h3><p>有n块挡板，选出两块挡板，最大化(j - i) * min(a[i], a[j])</p>
 <p>贪心，初始i=0, j=n-1，每次移动高度低的那个。</p>
-<h3 id="限流"><a class="header-anchor" href="#限流">¶</a>限流</h3>
-<p>令牌桶</p>
-<h2 id="智力-杂题"><a class="header-anchor" href="#智力-杂题">¶</a>智力/杂题</h2>
-<h3 id="随机洗牌算法"><a class="header-anchor" href="#随机洗牌算法">¶</a>随机洗牌算法</h3>
-<p>$O(n)$</p>
+<h3 id="限流"><a href="#限流" class="headerlink" title="限流"></a>限流</h3><p>令牌桶</p>
+<h2 id="智力-杂题"><a href="#智力-杂题" class="headerlink" title="智力/杂题"></a>智力/杂题</h2><h3 id="随机洗牌算法"><a href="#随机洗牌算法" class="headerlink" title="随机洗牌算法"></a>随机洗牌算法</h3><p>$O(n)$</p>
 <p>从后往前是knuth算法，从前往后是inside-out算法，都是正确的。</p>
 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">for</span> i <span class="built_in">range</span>(n - <span class="number">1</span>, <span class="number">0</span>, -<span class="number">1</span>):</span><br><span class="line">    j = random.randint(<span class="number">0</span>, i)</span><br><span class="line">    a[i], a[j] = a[j], a[i]</span><br></pre></td></tr></table></figure>
-<p>正确的洗牌算法应该产生$n!$种结果。进一步再通过蒙特卡洛模拟每种结果的概率是否一样。</p>
-<p><code>std::random_shuffle</code>使用<code>std::rand()</code>进行随机打乱，而<code>std::shuffle</code>使用更好的随机数生成器<code>urng</code>。</p>
+<p>正确的洗牌算法应该产生$n!$种结果。<br>进一步再通过蒙特卡洛模拟每种结果的概率是否一样。</p>
+<p><code>std::random_shuffle</code>使用<code>std::rand()</code>进行随机打乱，而<code>std::shuffle</code>使用<br>更好的随机数生成器<code>urng</code>。</p>
 <figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">template</span>&lt; <span class="keyword">class</span> RandomIt, <span class="keyword">class</span> URNG &gt;</span></span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">shuffle</span><span class="params">( RandomIt first, RandomIt last, URNG&amp;&amp; g )</span></span>;</span><br><span class="line"><span class="function"><span class="keyword">template</span>&lt; <span class="keyword">class</span> RandomIt, <span class="keyword">class</span> RandomFunc &gt;</span></span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">random_shuffle</span><span class="params">( RandomIt first, RandomIt last, RandomFunc&amp;&amp; r )</span></span>;</span><br></pre></td></tr></table></figure>
-<h3 id="随机红包算法"><a class="header-anchor" href="#随机红包算法">¶</a>随机红包算法</h3>
-<p>二倍均值法：每个人的金额在0.01到剩余均值（剩余钱数/剩余人数）的两倍之间随机</p>
-<h3 id="25匹马5个赛道找出前3快"><a class="header-anchor" href="#25匹马5个赛道找出前3快">¶</a>25匹马5个赛道找出前3快</h3>
-<p>需要比赛7次。</p>
-<p>首先随便分成5组各比1次。然后每组最快的一起比1次，这样就知道最快的了。接着，第2名和第3名只有5种可能，所以再比1次即可。</p>
-<h3 id="10只老鼠在1000瓶水里找出毒药"><a class="header-anchor" href="#10只老鼠在1000瓶水里找出毒药">¶</a>10只老鼠在1000瓶水里找出毒药</h3>
-<p>显然用二进制，第i号的二进制表示中的第j位为1，就给第j只老鼠喝，最后根据死亡情况就知道了。</p>
-<h3 id="高楼扔鸡蛋，只有2枚鸡蛋"><a class="header-anchor" href="#高楼扔鸡蛋，只有2枚鸡蛋">¶</a>高楼扔鸡蛋，只有2枚鸡蛋</h3>
-<p>整体方案是间隔着尝试，因为一旦第一枚鸡蛋碎了，后面就只能一层一层来了。</p>
-<p>设第一次在X楼扔，如果碎了需要X次；否则，应该在X+X-1楼扔，如果碎了仍然是X次，同理。。。</p>
+<h3 id="随机红包算法"><a href="#随机红包算法" class="headerlink" title="随机红包算法"></a>随机红包算法</h3><p>二倍均值法：每个人的金额在0.01到剩余均值（剩余钱数/剩余人数）的两倍之间随机</p>
+<h3 id="25匹马5个赛道找出前3快"><a href="#25匹马5个赛道找出前3快" class="headerlink" title="25匹马5个赛道找出前3快"></a>25匹马5个赛道找出前3快</h3><p>需要比赛7次。</p>
+<p>首先随便分成5组各比1次。<br>然后每组最快的一起比1次，这样就知道最快的了。<br>接着，第2名和第3名只有5种可能，所以再比1次即可。</p>
+<h3 id="10只老鼠在1000瓶水里找出毒药"><a href="#10只老鼠在1000瓶水里找出毒药" class="headerlink" title="10只老鼠在1000瓶水里找出毒药"></a>10只老鼠在1000瓶水里找出毒药</h3><p>显然用二进制，第i号的二进制表示中的第j位为1，就给第j只老鼠喝，最后根据死亡情况就知道了。</p>
+<h3 id="高楼扔鸡蛋，只有2枚鸡蛋"><a href="#高楼扔鸡蛋，只有2枚鸡蛋" class="headerlink" title="高楼扔鸡蛋，只有2枚鸡蛋"></a>高楼扔鸡蛋，只有2枚鸡蛋</h3><p>整体方案是间隔着尝试，因为一旦第一枚鸡蛋碎了，后面就只能一层一层来了。</p>
+<p>设第一次在X楼扔，如果碎了需要X次；<br>否则，应该在X+X-1楼扔，如果碎了仍然是X次，<br>同理。。。</p>
 <p>也就是1+…+(X-1)+X&gt;=100，X&gt;=14。</p>
-<h3 id="用rand-7-生成rand-10"><a class="header-anchor" href="#用rand-7-生成rand-10">¶</a>用rand(7)生成rand(10)</h3>
-<p>拒绝采样法。</p>
-<p>只要能构造足够多的结果，然后选择其中10个概率相同的结果即可。比如<code>rand(7) * rand(7)</code>。</p>
+<h3 id="用rand-7-生成rand-10"><a href="#用rand-7-生成rand-10" class="headerlink" title="用rand(7)生成rand(10)"></a>用rand(7)生成rand(10)</h3><p>拒绝采样法。</p>
+<p>只要能构造足够多的结果，然后选择其中10个概率相同的结果即可。<br>比如<code>rand(7) * rand(7)</code>。</p>
 <figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">int</span> first, second;</span><br><span class="line"><span class="keyword">while</span> ((first = <span class="built_in">rand7</span>()) &gt; <span class="number">6</span>);</span><br><span class="line"><span class="keyword">while</span> ((second = <span class="built_in">rand7</span>()) &gt; <span class="number">5</span>);</span><br><span class="line"><span class="keyword">return</span> (first&amp;<span class="number">1</span>) == <span class="number">1</span> ? second : <span class="number">5</span>+second;</span><br></pre></td></tr></table></figure>
-<h3 id="猴子搬香蕉"><a class="header-anchor" href="#猴子搬香蕉">¶</a>猴子搬香蕉</h3>
-<p>100根香蕉，搬到50米远的家，每走一米就必须吃一根，问最后最多剩几根。</p>
-<p>策略是先搬50根香蕉走x米，然后返回到原处，再搬50根香蕉到刚才的位置，然后合并一起搬回去。</p>
+<h3 id="猴子搬香蕉"><a href="#猴子搬香蕉" class="headerlink" title="猴子搬香蕉"></a>猴子搬香蕉</h3><p>100根香蕉，搬到50米远的家，每走一米就必须吃一根，问最后最多剩几根。</p>
+<p>策略是先搬50根香蕉走x米，然后返回到原处，<br>再搬50根香蕉到刚才的位置，然后合并一起搬回去。</p>
 <p>50 - 2x + 50 - x &lt;= 50, x &gt;= 17</p>
 <p>答案是100-50-2x = 16。</p>
-<h3 id="N个强盗分M个金币"><a class="header-anchor" href="#N个强盗分M个金币">¶</a>N个强盗分M个金币</h3>
-<p>每个强盗依次提出一种分配方案，如果超过半数的人同意就执行，否则杀死这个强盗。</p>
+<h3 id="N个强盗分M个金币"><a href="#N个强盗分M个金币" class="headerlink" title="N个强盗分M个金币"></a>N个强盗分M个金币</h3><p>每个强盗依次提出一种分配方案，如果超过半数的人同意就执行，否则杀死这个强盗。</p>
 <p>从后前推。</p>
-<p>最后一个强盗永远都是反对。倒数第二个强盗只有死的可能。倒数第三个强盗可以选择(M, 0, 0)，这样倒数第二个强盗不用死，肯定会同意。倒数第四个强盗可以选择(M - 2, 0, 1, 1)，这样最后两个强盗可以多得到1块钱，肯定会同意。倒数第五个强盗可以选择(M - 3, 0, 1, 2, 0)。</p>
-<h2 id="数学"><a class="header-anchor" href="#数学">¶</a>数学</h2>
-<h3 id="凸函数和凹函数"><a class="header-anchor" href="#凸函数和凹函数">¶</a>凸函数和凹函数</h3>
-<ul>
+<p>最后一个强盗永远都是反对。<br>倒数第二个强盗只有死的可能。<br>倒数第三个强盗可以选择(M, 0, 0)，这样倒数第二个强盗不用死，肯定会同意。<br>倒数第四个强盗可以选择(M - 2, 0, 1, 1)，这样最后两个强盗可以多得到1块钱，肯定会同意。<br>倒数第五个强盗可以选择(M - 3, 0, 1, 2, 0)。</p>
+<h2 id="数学"><a href="#数学" class="headerlink" title="数学"></a>数学</h2><h3 id="凸函数和凹函数"><a href="#凸函数和凹函数" class="headerlink" title="凸函数和凹函数"></a>凸函数和凹函数</h3><ul>
 <li>凸集：任意两点的连线都在凸集内</li>
 <li>凸函数：任意两点都满足<code>f((x1 + x2) / 2) &lt; (f(x1) + f(x2)) / 2</code>（凸函数y往上的部分是一个凸集，$x_1$和$x_2$的连线在该凸集中）</li>
 <li>凹函数：与凸函数相反</li>
@@ -1275,7 +1011,7 @@
     
     
       <div id="toc-footer" style="display: none">
-        <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#C-C"><span class="toc-number">1.</span> <span class="toc-text">C&#x2F;C++</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%BC%96%E8%AF%91%E8%BF%87%E7%A8%8B"><span class="toc-number">1.1.</span> <span class="toc-text">编译过程</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%AD%97%E8%8A%82%E5%BA%8F"><span class="toc-number">1.2.</span> <span class="toc-text">字节序</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#lambda"><span class="toc-number">1.3.</span> <span class="toc-text">lambda</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#volatile"><span class="toc-number">1.4.</span> <span class="toc-text">volatile</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#static"><span class="toc-number">1.5.</span> <span class="toc-text">static</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#inline"><span class="toc-number">1.6.</span> <span class="toc-text">inline</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#explicit"><span class="toc-number">1.7.</span> <span class="toc-text">explicit</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#std-function"><span class="toc-number">1.8.</span> <span class="toc-text">std::function</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#std-vector"><span class="toc-number">1.9.</span> <span class="toc-text">std::vector</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E9%9D%A2%E5%90%91%E5%AF%B9%E8%B1%A1"><span class="toc-number">1.10.</span> <span class="toc-text">面向对象</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%B1%BB%E7%9A%84%E5%86%85%E5%AD%98%E5%B8%83%E5%B1%80"><span class="toc-number">1.11.</span> <span class="toc-text">类的内存布局</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%A4%9A%E6%80%81%E7%9A%84%E5%AE%9E%E7%8E%B0"><span class="toc-number">1.12.</span> <span class="toc-text">多态的实现</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#RTTI-%E8%BF%90%E8%A1%8C%E6%97%B6%E7%B1%BB%E5%9E%8B%E8%AF%86%E5%88%AB"><span class="toc-number">1.13.</span> <span class="toc-text">RTTI 运行时类型识别</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#new%E5%92%8Cmalloc"><span class="toc-number">1.14.</span> <span class="toc-text">new和malloc</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#main%E5%87%BD%E6%95%B0%E5%90%AF%E5%8A%A8"><span class="toc-number">1.15.</span> <span class="toc-text">main函数启动</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#std-swap"><span class="toc-number">1.16.</span> <span class="toc-text">std::swap</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%8F%8B%E5%85%83%E8%BF%90%E7%AE%97%E7%AC%A6"><span class="toc-number">1.17.</span> <span class="toc-text">友元运算符</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%A9%BA%E7%B1%BB%E5%A4%A7%E5%B0%8F"><span class="toc-number">1.18.</span> <span class="toc-text">空类大小</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%91%BD%E5%90%8D%E7%A9%BA%E9%97%B4"><span class="toc-number">1.19.</span> <span class="toc-text">命名空间</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%B1%BB%E5%9E%8B%E8%BD%AC%E6%8D%A2"><span class="toc-number">1.20.</span> <span class="toc-text">类型转换</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%8C%87%E9%92%88%E5%92%8C%E5%BC%95%E7%94%A8%E7%9A%84%E5%8C%BA%E5%88%AB"><span class="toc-number">1.21.</span> <span class="toc-text">指针和引用的区别</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%8D%95%E4%BE%8B%E6%A8%A1%E5%BC%8F"><span class="toc-number">1.22.</span> <span class="toc-text">单例模式</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%99%BA%E8%83%BD%E6%8C%87%E9%92%88"><span class="toc-number">1.23.</span> <span class="toc-text">智能指针</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%B9%B6%E5%8F%91%E7%BC%96%E7%A8%8B"><span class="toc-number">1.24.</span> <span class="toc-text">并发编程</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%86%85%E5%AD%98%E6%A8%A1%E5%9E%8B"><span class="toc-number">1.25.</span> <span class="toc-text">内存模型</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%86%85%E5%AD%98%E6%B3%84%E9%9C%B2"><span class="toc-number">1.26.</span> <span class="toc-text">内存泄露</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#C-%E5%92%8CC%E7%9A%84%E5%8C%BA%E5%88%AB"><span class="toc-number">1.27.</span> <span class="toc-text">C++和C的区别</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%A0%86%E5%92%8C%E6%A0%88"><span class="toc-number">1.28.</span> <span class="toc-text">堆和栈</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%AE%B9%E5%99%A8%E9%80%82%E9%85%8D%E5%99%A8"><span class="toc-number">1.29.</span> <span class="toc-text">容器适配器</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%89%8D%E7%BD%AE%E5%92%8C%E5%90%8E%E7%BD%AE%E9%80%92%E5%A2%9E"><span class="toc-number">1.30.</span> <span class="toc-text">前置和后置递增</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%BC%82%E5%B8%B8%E5%AE%89%E5%85%A8"><span class="toc-number">1.31.</span> <span class="toc-text">异常安全</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%AE%BE%E8%AE%A1%E5%8E%9F%E5%88%99"><span class="toc-number">1.32.</span> <span class="toc-text">设计原则</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F"><span class="toc-number">1.33.</span> <span class="toc-text">设计模式</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%88%9B%E5%BB%BA%E5%9E%8B"><span class="toc-number">1.33.1.</span> <span class="toc-text">创建型</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E7%BB%93%E6%9E%84%E5%9E%8B"><span class="toc-number">1.33.2.</span> <span class="toc-text">结构型</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E8%A1%8C%E4%B8%BA%E5%9E%8B"><span class="toc-number">1.33.3.</span> <span class="toc-text">行为型</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%B5%8B%E8%AF%95"><span class="toc-number">1.34.</span> <span class="toc-text">测试</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F"><span class="toc-number">2.</span> <span class="toc-text">操作系统</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%86%AF%E8%AF%BA%E4%BE%9D%E6%9B%BC%E6%9E%B6%E6%9E%84"><span class="toc-number">2.1.</span> <span class="toc-text">冯诺依曼架构</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%86%85%E5%AD%98%E5%B8%83%E5%B1%80"><span class="toc-number">2.2.</span> <span class="toc-text">内存布局</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Buffer%E5%92%8CCache"><span class="toc-number">2.3.</span> <span class="toc-text">Buffer和Cache</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#TLB"><span class="toc-number">2.4.</span> <span class="toc-text">TLB</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#NUMA"><span class="toc-number">2.5.</span> <span class="toc-text">NUMA</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%8E%9F%E5%AD%90%E6%93%8D%E4%BD%9C"><span class="toc-number">2.6.</span> <span class="toc-text">原子操作</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%BF%9B%E7%A8%8B%E3%80%81%E7%BA%BF%E7%A8%8B%E3%80%81%E5%8D%8F%E7%A8%8B%E7%9A%84%E5%8C%BA%E5%88%AB"><span class="toc-number">2.7.</span> <span class="toc-text">进程、线程、协程的区别</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%BF%9B%E7%A8%8B%E7%9A%84%E7%8A%B6%E6%80%81"><span class="toc-number">2.8.</span> <span class="toc-text">进程的状态</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%BF%9B%E7%A8%8B%E4%BC%98%E5%85%88%E7%BA%A7"><span class="toc-number">2.9.</span> <span class="toc-text">进程优先级</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%BF%9B%E7%A8%8B%E9%80%9A%E4%BF%A1%E6%96%B9%E5%BC%8F"><span class="toc-number">2.10.</span> <span class="toc-text">进程通信方式</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%BA%BF%E7%A8%8B%E9%80%9A%E4%BF%A1%E6%96%B9%E5%BC%8F"><span class="toc-number">2.11.</span> <span class="toc-text">线程通信方式</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%82%B2%E8%A7%82%E9%94%81%E4%B8%8E%E4%B9%90%E8%A7%82%E9%94%81"><span class="toc-number">2.12.</span> <span class="toc-text">悲观锁与乐观锁</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E9%A1%BA%E5%BA%8F%E9%94%81"><span class="toc-number">2.13.</span> <span class="toc-text">顺序锁</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%AD%BB%E9%94%81"><span class="toc-number">2.14.</span> <span class="toc-text">死锁</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#I-O%E6%A8%A1%E5%9E%8B"><span class="toc-number">2.15.</span> <span class="toc-text">I&#x2F;O模型</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%94%A8%E6%88%B7%E6%80%81%E5%92%8C%E5%86%85%E6%A0%B8%E6%80%81"><span class="toc-number">2.16.</span> <span class="toc-text">用户态和内核态</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#MMU"><span class="toc-number">2.17.</span> <span class="toc-text">MMU</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%BF%9B%E7%A8%8B%E7%B1%BB%E5%88%AB"><span class="toc-number">2.18.</span> <span class="toc-text">进程类别</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%9B%9E%E6%94%B6%E7%BA%BF%E7%A8%8B"><span class="toc-number">2.19.</span> <span class="toc-text">回收线程</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%96%87%E4%BB%B6"><span class="toc-number">2.20.</span> <span class="toc-text">文件</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Radix-tree"><span class="toc-number">2.21.</span> <span class="toc-text">Radix tree</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C"><span class="toc-number">3.</span> <span class="toc-text">计算机网络</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%BD%91%E7%BB%9C%E6%A8%A1%E5%9E%8B"><span class="toc-number">3.1.</span> <span class="toc-text">网络模型</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#IP"><span class="toc-number">3.2.</span> <span class="toc-text">IP</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#TCP%E5%92%8CUDP"><span class="toc-number">3.3.</span> <span class="toc-text">TCP和UDP</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%B8%89%E6%AC%A1%E6%8F%A1%E6%89%8B%E5%92%8C%E5%9B%9B%E6%AC%A1%E6%8C%A5%E6%89%8B"><span class="toc-number">3.4.</span> <span class="toc-text">三次握手和四次挥手</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%B2%98%E5%8C%85"><span class="toc-number">3.5.</span> <span class="toc-text">粘包</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#ICMP"><span class="toc-number">3.6.</span> <span class="toc-text">ICMP</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#HTTP"><span class="toc-number">3.7.</span> <span class="toc-text">HTTP</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E8%BF%94%E5%9B%9E%E7%A0%81"><span class="toc-number">3.7.1.</span> <span class="toc-text">返回码</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E8%AF%B7%E6%B1%82%E6%96%B9%E5%BC%8F"><span class="toc-number">3.7.2.</span> <span class="toc-text">请求方式</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E7%BC%93%E5%AD%98"><span class="toc-number">3.7.3.</span> <span class="toc-text">缓存</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#HTTPS"><span class="toc-number">3.7.4.</span> <span class="toc-text">HTTPS</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#cookie%E5%92%8Csession"><span class="toc-number">3.7.5.</span> <span class="toc-text">cookie和session</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#Socket"><span class="toc-number">3.7.6.</span> <span class="toc-text">Socket</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#Websocket"><span class="toc-number">3.7.7.</span> <span class="toc-text">Websocket</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%AE%9A%E6%9C%9F%E8%BD%AE%E8%AF%A2%E5%92%8C%E9%95%BF%E8%BD%AE%E8%AF%A2%EF%BC%88poll%EF%BC%89"><span class="toc-number">3.7.8.</span> <span class="toc-text">定期轮询和长轮询（poll）</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E9%95%BF%E8%BF%9E%E6%8E%A5%E5%92%8C%E7%9F%AD%E8%BF%9E%E6%8E%A5"><span class="toc-number">3.7.9.</span> <span class="toc-text">长连接和短连接</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#TUN-TAP"><span class="toc-number">3.8.</span> <span class="toc-text">TUN&#x2F;TAP</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Linux%E6%8E%A5%E6%94%B6%E7%BD%91%E7%BB%9C%E5%8C%85"><span class="toc-number">3.9.</span> <span class="toc-text">Linux接收网络包</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#NAT-DNS-ARP"><span class="toc-number">3.10.</span> <span class="toc-text">NAT DNS ARP</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%86%85%E7%BD%91%E7%A9%BF%E9%80%8F"><span class="toc-number">3.11.</span> <span class="toc-text">内网穿透</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%B1%80%E5%9F%9F%E7%BD%91%E5%92%8C%E5%B9%BF%E5%9F%9F%E7%BD%91"><span class="toc-number">3.12.</span> <span class="toc-text">局域网和广域网</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%B5%8F%E8%A7%88%E5%99%A8%E8%BE%93%E5%85%A5URL"><span class="toc-number">3.13.</span> <span class="toc-text">浏览器输入URL</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%A4%9A%E8%B7%AF%E5%A4%8D%E7%94%A8"><span class="toc-number">3.14.</span> <span class="toc-text">多路复用</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%95%B0%E6%8D%AE%E5%BA%93"><span class="toc-number">4.</span> <span class="toc-text">数据库</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%BF%9E%E6%8E%A5"><span class="toc-number">4.1.</span> <span class="toc-text">连接</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#key"><span class="toc-number">4.2.</span> <span class="toc-text">key</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%B4%A2%E5%BC%95"><span class="toc-number">4.3.</span> <span class="toc-text">索引</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#B-B-tree"><span class="toc-number">4.3.1.</span> <span class="toc-text">B&#x2F;B+ tree</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#LSM-tree"><span class="toc-number">4.3.2.</span> <span class="toc-text">LSM tree</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#Bw-tree"><span class="toc-number">4.3.3.</span> <span class="toc-text">Bw tree</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E8%B7%B3%E8%A1%A8"><span class="toc-number">4.3.4.</span> <span class="toc-text">跳表</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%BA%8B%E5%8A%A1"><span class="toc-number">4.4.</span> <span class="toc-text">事务</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%97%A5%E5%BF%97"><span class="toc-number">4.5.</span> <span class="toc-text">日志</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%AE%97%E6%B3%95"><span class="toc-number">5.</span> <span class="toc-text">算法</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E9%93%BE%E8%A1%A8%E5%88%A4%E7%8E%AF"><span class="toc-number">5.1.</span> <span class="toc-text">链表判环</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E9%93%BE%E8%A1%A8%E5%8F%8D%E8%BD%AC"><span class="toc-number">5.2.</span> <span class="toc-text">链表反转</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%9C%80%E9%95%BF%E5%9B%9E%E6%96%87%E5%AD%90%E4%B8%B2"><span class="toc-number">5.3.</span> <span class="toc-text">最长回文子串</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%B8%8B%E4%B8%80%E4%B8%AA%E6%8E%92%E5%88%97"><span class="toc-number">5.4.</span> <span class="toc-text">下一个排列</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%B8%AD%E4%BD%8D%E6%95%B0"><span class="toc-number">5.5.</span> <span class="toc-text">中位数</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%93%84%E6%B0%B4%E6%B1%A0"><span class="toc-number">5.6.</span> <span class="toc-text">蓄水池</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E9%99%90%E6%B5%81"><span class="toc-number">5.7.</span> <span class="toc-text">限流</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%99%BA%E5%8A%9B-%E6%9D%82%E9%A2%98"><span class="toc-number">6.</span> <span class="toc-text">智力&#x2F;杂题</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E9%9A%8F%E6%9C%BA%E6%B4%97%E7%89%8C%E7%AE%97%E6%B3%95"><span class="toc-number">6.1.</span> <span class="toc-text">随机洗牌算法</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E9%9A%8F%E6%9C%BA%E7%BA%A2%E5%8C%85%E7%AE%97%E6%B3%95"><span class="toc-number">6.2.</span> <span class="toc-text">随机红包算法</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#25%E5%8C%B9%E9%A9%AC5%E4%B8%AA%E8%B5%9B%E9%81%93%E6%89%BE%E5%87%BA%E5%89%8D3%E5%BF%AB"><span class="toc-number">6.3.</span> <span class="toc-text">25匹马5个赛道找出前3快</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#10%E5%8F%AA%E8%80%81%E9%BC%A0%E5%9C%A81000%E7%93%B6%E6%B0%B4%E9%87%8C%E6%89%BE%E5%87%BA%E6%AF%92%E8%8D%AF"><span class="toc-number">6.4.</span> <span class="toc-text">10只老鼠在1000瓶水里找出毒药</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E9%AB%98%E6%A5%BC%E6%89%94%E9%B8%A1%E8%9B%8B%EF%BC%8C%E5%8F%AA%E6%9C%892%E6%9E%9A%E9%B8%A1%E8%9B%8B"><span class="toc-number">6.5.</span> <span class="toc-text">高楼扔鸡蛋，只有2枚鸡蛋</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%94%A8rand-7-%E7%94%9F%E6%88%90rand-10"><span class="toc-number">6.6.</span> <span class="toc-text">用rand(7)生成rand(10)</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%8C%B4%E5%AD%90%E6%90%AC%E9%A6%99%E8%95%89"><span class="toc-number">6.7.</span> <span class="toc-text">猴子搬香蕉</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#N%E4%B8%AA%E5%BC%BA%E7%9B%97%E5%88%86M%E4%B8%AA%E9%87%91%E5%B8%81"><span class="toc-number">6.8.</span> <span class="toc-text">N个强盗分M个金币</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%95%B0%E5%AD%A6"><span class="toc-number">7.</span> <span class="toc-text">数学</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%87%B8%E5%87%BD%E6%95%B0%E5%92%8C%E5%87%B9%E5%87%BD%E6%95%B0"><span class="toc-number">7.1.</span> <span class="toc-text">凸函数和凹函数</span></a></li></ol></li></ol>
+        <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#C-C"><span class="toc-number">1.</span> <span class="toc-text">C&#x2F;C++</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%BC%96%E8%AF%91%E8%BF%87%E7%A8%8B"><span class="toc-number">1.1.</span> <span class="toc-text">编译过程</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%AD%97%E8%8A%82%E5%BA%8F"><span class="toc-number">1.2.</span> <span class="toc-text">字节序</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#lambda"><span class="toc-number">1.3.</span> <span class="toc-text">lambda</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#volatile"><span class="toc-number">1.4.</span> <span class="toc-text">volatile</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#static"><span class="toc-number">1.5.</span> <span class="toc-text">static</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#inline"><span class="toc-number">1.6.</span> <span class="toc-text">inline</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#explicit"><span class="toc-number">1.7.</span> <span class="toc-text">explicit</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#std-function"><span class="toc-number">1.8.</span> <span class="toc-text">std::function</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#std-vector"><span class="toc-number">1.9.</span> <span class="toc-text">std::vector</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E9%9D%A2%E5%90%91%E5%AF%B9%E8%B1%A1"><span class="toc-number">1.10.</span> <span class="toc-text">面向对象</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%B1%BB%E7%9A%84%E5%86%85%E5%AD%98%E5%B8%83%E5%B1%80"><span class="toc-number">1.11.</span> <span class="toc-text">类的内存布局</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%A4%9A%E6%80%81%E7%9A%84%E5%AE%9E%E7%8E%B0"><span class="toc-number">1.12.</span> <span class="toc-text">多态的实现</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#RTTI-%E8%BF%90%E8%A1%8C%E6%97%B6%E7%B1%BB%E5%9E%8B%E8%AF%86%E5%88%AB"><span class="toc-number">1.13.</span> <span class="toc-text">RTTI 运行时类型识别</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#new%E5%92%8Cmalloc"><span class="toc-number">1.14.</span> <span class="toc-text">new和malloc</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#main%E5%87%BD%E6%95%B0%E5%90%AF%E5%8A%A8"><span class="toc-number">1.15.</span> <span class="toc-text">main函数启动</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#std-swap"><span class="toc-number">1.16.</span> <span class="toc-text">std::swap</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%8F%8B%E5%85%83%E8%BF%90%E7%AE%97%E7%AC%A6"><span class="toc-number">1.17.</span> <span class="toc-text">友元运算符</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%A9%BA%E7%B1%BB%E5%A4%A7%E5%B0%8F"><span class="toc-number">1.18.</span> <span class="toc-text">空类大小</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%91%BD%E5%90%8D%E7%A9%BA%E9%97%B4"><span class="toc-number">1.19.</span> <span class="toc-text">命名空间</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%B1%BB%E5%9E%8B%E8%BD%AC%E6%8D%A2"><span class="toc-number">1.20.</span> <span class="toc-text">类型转换</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%8C%87%E9%92%88%E5%92%8C%E5%BC%95%E7%94%A8%E7%9A%84%E5%8C%BA%E5%88%AB"><span class="toc-number">1.21.</span> <span class="toc-text">指针和引用的区别</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%8D%95%E4%BE%8B%E6%A8%A1%E5%BC%8F"><span class="toc-number">1.22.</span> <span class="toc-text">单例模式</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%99%BA%E8%83%BD%E6%8C%87%E9%92%88"><span class="toc-number">1.23.</span> <span class="toc-text">智能指针</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%B9%B6%E5%8F%91%E7%BC%96%E7%A8%8B"><span class="toc-number">1.24.</span> <span class="toc-text">并发编程</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%86%85%E5%AD%98%E6%A8%A1%E5%9E%8B"><span class="toc-number">1.25.</span> <span class="toc-text">内存模型</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%86%85%E5%AD%98%E6%B3%84%E9%9C%B2"><span class="toc-number">1.26.</span> <span class="toc-text">内存泄露</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#C-%E5%92%8CC%E7%9A%84%E5%8C%BA%E5%88%AB"><span class="toc-number">1.27.</span> <span class="toc-text">C++和C的区别</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%A0%86%E5%92%8C%E6%A0%88"><span class="toc-number">1.28.</span> <span class="toc-text">堆和栈</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%AE%B9%E5%99%A8%E9%80%82%E9%85%8D%E5%99%A8"><span class="toc-number">1.29.</span> <span class="toc-text">容器适配器</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%89%8D%E7%BD%AE%E5%92%8C%E5%90%8E%E7%BD%AE%E9%80%92%E5%A2%9E"><span class="toc-number">1.30.</span> <span class="toc-text">前置和后置递增</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%BC%82%E5%B8%B8%E5%AE%89%E5%85%A8"><span class="toc-number">1.31.</span> <span class="toc-text">异常安全</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%AE%BE%E8%AE%A1%E5%8E%9F%E5%88%99"><span class="toc-number">1.32.</span> <span class="toc-text">设计原则</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F"><span class="toc-number">1.33.</span> <span class="toc-text">设计模式</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%88%9B%E5%BB%BA%E5%9E%8B"><span class="toc-number">1.33.1.</span> <span class="toc-text">创建型</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E7%BB%93%E6%9E%84%E5%9E%8B"><span class="toc-number">1.33.2.</span> <span class="toc-text">结构型</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E8%A1%8C%E4%B8%BA%E5%9E%8B"><span class="toc-number">1.33.3.</span> <span class="toc-text">行为型</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%B5%8B%E8%AF%95"><span class="toc-number">1.34.</span> <span class="toc-text">测试</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F"><span class="toc-number">2.</span> <span class="toc-text">操作系统</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%86%AF%E8%AF%BA%E4%BE%9D%E6%9B%BC%E6%9E%B6%E6%9E%84"><span class="toc-number">2.1.</span> <span class="toc-text">冯诺依曼架构</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%86%85%E5%AD%98%E5%B8%83%E5%B1%80"><span class="toc-number">2.2.</span> <span class="toc-text">内存布局</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Buffer%E5%92%8CCache"><span class="toc-number">2.3.</span> <span class="toc-text">Buffer和Cache</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#TLB"><span class="toc-number">2.4.</span> <span class="toc-text">TLB</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#NUMA"><span class="toc-number">2.5.</span> <span class="toc-text">NUMA</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%8E%9F%E5%AD%90%E6%93%8D%E4%BD%9C"><span class="toc-number">2.6.</span> <span class="toc-text">原子操作</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%BF%9B%E7%A8%8B%E3%80%81%E7%BA%BF%E7%A8%8B%E3%80%81%E5%8D%8F%E7%A8%8B%E7%9A%84%E5%8C%BA%E5%88%AB"><span class="toc-number">2.7.</span> <span class="toc-text">进程、线程、协程的区别</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%BF%9B%E7%A8%8B%E7%9A%84%E7%8A%B6%E6%80%81"><span class="toc-number">2.8.</span> <span class="toc-text">进程的状态</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%BF%9B%E7%A8%8B%E4%BC%98%E5%85%88%E7%BA%A7"><span class="toc-number">2.9.</span> <span class="toc-text">进程优先级</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%BF%9B%E7%A8%8B%E9%80%9A%E4%BF%A1%E6%96%B9%E5%BC%8F"><span class="toc-number">2.10.</span> <span class="toc-text">进程通信方式</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%BA%BF%E7%A8%8B%E9%80%9A%E4%BF%A1%E6%96%B9%E5%BC%8F"><span class="toc-number">2.11.</span> <span class="toc-text">线程通信方式</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%82%B2%E8%A7%82%E9%94%81%E4%B8%8E%E4%B9%90%E8%A7%82%E9%94%81"><span class="toc-number">2.12.</span> <span class="toc-text">悲观锁与乐观锁</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E9%A1%BA%E5%BA%8F%E9%94%81"><span class="toc-number">2.13.</span> <span class="toc-text">顺序锁</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#RCU%E9%94%81"><span class="toc-number">2.14.</span> <span class="toc-text">RCU锁</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%AD%BB%E9%94%81"><span class="toc-number">2.15.</span> <span class="toc-text">死锁</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#I-O%E6%A8%A1%E5%9E%8B"><span class="toc-number">2.16.</span> <span class="toc-text">I&#x2F;O模型</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%94%A8%E6%88%B7%E6%80%81%E5%92%8C%E5%86%85%E6%A0%B8%E6%80%81"><span class="toc-number">2.17.</span> <span class="toc-text">用户态和内核态</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#MMU"><span class="toc-number">2.18.</span> <span class="toc-text">MMU</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%BF%9B%E7%A8%8B%E7%B1%BB%E5%88%AB"><span class="toc-number">2.19.</span> <span class="toc-text">进程类别</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%9B%9E%E6%94%B6%E7%BA%BF%E7%A8%8B"><span class="toc-number">2.20.</span> <span class="toc-text">回收线程</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%96%87%E4%BB%B6"><span class="toc-number">2.21.</span> <span class="toc-text">文件</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Radix-tree"><span class="toc-number">2.22.</span> <span class="toc-text">Radix tree</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C"><span class="toc-number">3.</span> <span class="toc-text">计算机网络</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%BD%91%E7%BB%9C%E6%A8%A1%E5%9E%8B"><span class="toc-number">3.1.</span> <span class="toc-text">网络模型</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#IP"><span class="toc-number">3.2.</span> <span class="toc-text">IP</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#TCP%E5%92%8CUDP"><span class="toc-number">3.3.</span> <span class="toc-text">TCP和UDP</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%B8%89%E6%AC%A1%E6%8F%A1%E6%89%8B%E5%92%8C%E5%9B%9B%E6%AC%A1%E6%8C%A5%E6%89%8B"><span class="toc-number">3.4.</span> <span class="toc-text">三次握手和四次挥手</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%B2%98%E5%8C%85"><span class="toc-number">3.5.</span> <span class="toc-text">粘包</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#ICMP"><span class="toc-number">3.6.</span> <span class="toc-text">ICMP</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#HTTP"><span class="toc-number">3.7.</span> <span class="toc-text">HTTP</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E8%BF%94%E5%9B%9E%E7%A0%81"><span class="toc-number">3.7.1.</span> <span class="toc-text">返回码</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E8%AF%B7%E6%B1%82%E6%96%B9%E5%BC%8F"><span class="toc-number">3.7.2.</span> <span class="toc-text">请求方式</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E7%BC%93%E5%AD%98"><span class="toc-number">3.7.3.</span> <span class="toc-text">缓存</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#HTTPS"><span class="toc-number">3.7.4.</span> <span class="toc-text">HTTPS</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#cookie%E5%92%8Csession"><span class="toc-number">3.7.5.</span> <span class="toc-text">cookie和session</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#Socket"><span class="toc-number">3.7.6.</span> <span class="toc-text">Socket</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#Websocket"><span class="toc-number">3.7.7.</span> <span class="toc-text">Websocket</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%AE%9A%E6%9C%9F%E8%BD%AE%E8%AF%A2%E5%92%8C%E9%95%BF%E8%BD%AE%E8%AF%A2%EF%BC%88poll%EF%BC%89"><span class="toc-number">3.7.8.</span> <span class="toc-text">定期轮询和长轮询（poll）</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E9%95%BF%E8%BF%9E%E6%8E%A5%E5%92%8C%E7%9F%AD%E8%BF%9E%E6%8E%A5"><span class="toc-number">3.7.9.</span> <span class="toc-text">长连接和短连接</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#TUN-TAP"><span class="toc-number">3.8.</span> <span class="toc-text">TUN&#x2F;TAP</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Linux%E6%8E%A5%E6%94%B6%E7%BD%91%E7%BB%9C%E5%8C%85"><span class="toc-number">3.9.</span> <span class="toc-text">Linux接收网络包</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#NAT-DNS-ARP"><span class="toc-number">3.10.</span> <span class="toc-text">NAT DNS ARP</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%86%85%E7%BD%91%E7%A9%BF%E9%80%8F"><span class="toc-number">3.11.</span> <span class="toc-text">内网穿透</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%B1%80%E5%9F%9F%E7%BD%91%E5%92%8C%E5%B9%BF%E5%9F%9F%E7%BD%91"><span class="toc-number">3.12.</span> <span class="toc-text">局域网和广域网</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%B5%8F%E8%A7%88%E5%99%A8%E8%BE%93%E5%85%A5URL"><span class="toc-number">3.13.</span> <span class="toc-text">浏览器输入URL</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%A4%9A%E8%B7%AF%E5%A4%8D%E7%94%A8"><span class="toc-number">3.14.</span> <span class="toc-text">多路复用</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%95%B0%E6%8D%AE%E5%BA%93"><span class="toc-number">4.</span> <span class="toc-text">数据库</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%BF%9E%E6%8E%A5"><span class="toc-number">4.1.</span> <span class="toc-text">连接</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#key"><span class="toc-number">4.2.</span> <span class="toc-text">key</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%B4%A2%E5%BC%95"><span class="toc-number">4.3.</span> <span class="toc-text">索引</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#B-B-tree"><span class="toc-number">4.3.1.</span> <span class="toc-text">B&#x2F;B+ tree</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#LSM-tree"><span class="toc-number">4.3.2.</span> <span class="toc-text">LSM tree</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#Bw-tree"><span class="toc-number">4.3.3.</span> <span class="toc-text">Bw tree</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E8%B7%B3%E8%A1%A8"><span class="toc-number">4.3.4.</span> <span class="toc-text">跳表</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%BA%8B%E5%8A%A1"><span class="toc-number">4.4.</span> <span class="toc-text">事务</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%97%A5%E5%BF%97"><span class="toc-number">4.5.</span> <span class="toc-text">日志</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%88%86%E5%B8%83%E5%BC%8F"><span class="toc-number">5.</span> <span class="toc-text">分布式</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#CAP"><span class="toc-number">5.1.</span> <span class="toc-text">CAP</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%A4%9A%E7%A7%9F%E6%88%B7"><span class="toc-number">5.2.</span> <span class="toc-text">多租户</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%AE%97%E6%B3%95"><span class="toc-number">6.</span> <span class="toc-text">算法</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E9%93%BE%E8%A1%A8%E5%88%A4%E7%8E%AF"><span class="toc-number">6.1.</span> <span class="toc-text">链表判环</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E9%93%BE%E8%A1%A8%E5%8F%8D%E8%BD%AC"><span class="toc-number">6.2.</span> <span class="toc-text">链表反转</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%9C%80%E9%95%BF%E5%9B%9E%E6%96%87%E5%AD%90%E4%B8%B2"><span class="toc-number">6.3.</span> <span class="toc-text">最长回文子串</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%B8%8B%E4%B8%80%E4%B8%AA%E6%8E%92%E5%88%97"><span class="toc-number">6.4.</span> <span class="toc-text">下一个排列</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%B8%AD%E4%BD%8D%E6%95%B0"><span class="toc-number">6.5.</span> <span class="toc-text">中位数</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%93%84%E6%B0%B4%E6%B1%A0"><span class="toc-number">6.6.</span> <span class="toc-text">蓄水池</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E9%99%90%E6%B5%81"><span class="toc-number">6.7.</span> <span class="toc-text">限流</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%99%BA%E5%8A%9B-%E6%9D%82%E9%A2%98"><span class="toc-number">7.</span> <span class="toc-text">智力&#x2F;杂题</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E9%9A%8F%E6%9C%BA%E6%B4%97%E7%89%8C%E7%AE%97%E6%B3%95"><span class="toc-number">7.1.</span> <span class="toc-text">随机洗牌算法</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E9%9A%8F%E6%9C%BA%E7%BA%A2%E5%8C%85%E7%AE%97%E6%B3%95"><span class="toc-number">7.2.</span> <span class="toc-text">随机红包算法</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#25%E5%8C%B9%E9%A9%AC5%E4%B8%AA%E8%B5%9B%E9%81%93%E6%89%BE%E5%87%BA%E5%89%8D3%E5%BF%AB"><span class="toc-number">7.3.</span> <span class="toc-text">25匹马5个赛道找出前3快</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#10%E5%8F%AA%E8%80%81%E9%BC%A0%E5%9C%A81000%E7%93%B6%E6%B0%B4%E9%87%8C%E6%89%BE%E5%87%BA%E6%AF%92%E8%8D%AF"><span class="toc-number">7.4.</span> <span class="toc-text">10只老鼠在1000瓶水里找出毒药</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E9%AB%98%E6%A5%BC%E6%89%94%E9%B8%A1%E8%9B%8B%EF%BC%8C%E5%8F%AA%E6%9C%892%E6%9E%9A%E9%B8%A1%E8%9B%8B"><span class="toc-number">7.5.</span> <span class="toc-text">高楼扔鸡蛋，只有2枚鸡蛋</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%94%A8rand-7-%E7%94%9F%E6%88%90rand-10"><span class="toc-number">7.6.</span> <span class="toc-text">用rand(7)生成rand(10)</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%8C%B4%E5%AD%90%E6%90%AC%E9%A6%99%E8%95%89"><span class="toc-number">7.7.</span> <span class="toc-text">猴子搬香蕉</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#N%E4%B8%AA%E5%BC%BA%E7%9B%97%E5%88%86M%E4%B8%AA%E9%87%91%E5%B8%81"><span class="toc-number">7.8.</span> <span class="toc-text">N个强盗分M个金币</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%95%B0%E5%AD%A6"><span class="toc-number">8.</span> <span class="toc-text">数学</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%87%B8%E5%87%BD%E6%95%B0%E5%92%8C%E5%87%B9%E5%87%BD%E6%95%B0"><span class="toc-number">8.1.</span> <span class="toc-text">凸函数和凹函数</span></a></li></ol></li></ol>
       </div>
     
 
