@@ -6,15 +6,15 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="HandheldFriendly" content="True">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=5" />
-    <meta name="description" content="¶du 显示目录或文件的大小。  -b&#x2F;-k&#x2F;-m 以bytes&#x2F;kb&#x2F;mb为单位 -h 以K、M、G为单位，提高可读性 -s 只显示总和，也就是&quot;.&quot;目录的大小 --exclude 略过指定目录或文件  dust（du+rust）以树型结构展示，并显示大小占比，最下面是内存占用最大的文件或目录。 ncdu是du的tui版本，从大到小列出所有目录或文件的大小，按?查看快捷键，其">
+    <meta name="description" content="du显示目录或文件的大小。  -b&#x2F;-k&#x2F;-m 以bytes&#x2F;kb&#x2F;mb为单位 -h 以K、M、G为单位，提高可读性 -s 只显示总和，也就是”.”目录的大小 --exclude 略过指定目录或文件  dust（du+rust）以树型结构展示，并显示大小占比，最下面是内存占用最大的文件或目录。 ncdu是du的tui版本，从大到小列出所有目录或文件的大小，按?查看快捷键，其中d删除，q退出。 tl">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Linux命令">
 <meta property="og:url" content="http://example.com/2023/10/17/Linux%E5%91%BD%E4%BB%A4/index.html">
 <meta property="og:site_name" content="jyf111&#39;s blog">
-<meta property="og:description" content="¶du 显示目录或文件的大小。  -b&#x2F;-k&#x2F;-m 以bytes&#x2F;kb&#x2F;mb为单位 -h 以K、M、G为单位，提高可读性 -s 只显示总和，也就是&quot;.&quot;目录的大小 --exclude 略过指定目录或文件  dust（du+rust）以树型结构展示，并显示大小占比，最下面是内存占用最大的文件或目录。 ncdu是du的tui版本，从大到小列出所有目录或文件的大小，按?查看快捷键，其">
+<meta property="og:description" content="du显示目录或文件的大小。  -b&#x2F;-k&#x2F;-m 以bytes&#x2F;kb&#x2F;mb为单位 -h 以K、M、G为单位，提高可读性 -s 只显示总和，也就是”.”目录的大小 --exclude 略过指定目录或文件  dust（du+rust）以树型结构展示，并显示大小占比，最下面是内存占用最大的文件或目录。 ncdu是du的tui版本，从大到小列出所有目录或文件的大小，按?查看快捷键，其中d删除，q退出。 tl">
 <meta property="og:locale" content="zh_CN">
 <meta property="article:published_time" content="2023-10-17T03:59:37.000Z">
-<meta property="article:modified_time" content="2024-09-26T14:53:00.643Z">
+<meta property="article:modified_time" content="2024-10-08T15:48:11.520Z">
 <meta property="article:author" content="jyf111">
 <meta property="article:tag" content="工具">
 <meta name="twitter:card" content="summary">
@@ -110,7 +110,7 @@
     
     
       <div id="toc">
-        <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#du"><span class="toc-number">1.</span> <span class="toc-text">du</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#tldr"><span class="toc-number">2.</span> <span class="toc-text">tldr</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#md5sum"><span class="toc-number">3.</span> <span class="toc-text">md5sum</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#pstack"><span class="toc-number">4.</span> <span class="toc-text">pstack</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#pkill"><span class="toc-number">5.</span> <span class="toc-text">pkill</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#pmap"><span class="toc-number">6.</span> <span class="toc-text">pmap</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#lsof"><span class="toc-number">7.</span> <span class="toc-text">lsof</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#uptime"><span class="toc-number">8.</span> <span class="toc-text">uptime</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#vmstat"><span class="toc-number">9.</span> <span class="toc-text">vmstat</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#pidstat"><span class="toc-number">10.</span> <span class="toc-text">pidstat</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#df"><span class="toc-number">11.</span> <span class="toc-text">df</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#dd"><span class="toc-number">12.</span> <span class="toc-text">dd</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#cut"><span class="toc-number">13.</span> <span class="toc-text">cut</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#sort"><span class="toc-number">14.</span> <span class="toc-text">sort</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#sed"><span class="toc-number">15.</span> <span class="toc-text">sed</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#awk"><span class="toc-number">16.</span> <span class="toc-text">awk</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#iostat"><span class="toc-number">17.</span> <span class="toc-text">iostat</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#pldd"><span class="toc-number">18.</span> <span class="toc-text">pldd</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#source"><span class="toc-number">19.</span> <span class="toc-text">source</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#stress"><span class="toc-number">20.</span> <span class="toc-text">stress</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#file"><span class="toc-number">21.</span> <span class="toc-text">file</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#strip"><span class="toc-number">22.</span> <span class="toc-text">strip</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#top"><span class="toc-number">23.</span> <span class="toc-text">top</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#htop"><span class="toc-number">24.</span> <span class="toc-text">htop</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#split"><span class="toc-number">25.</span> <span class="toc-text">split</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#hyperfine"><span class="toc-number">26.</span> <span class="toc-text">hyperfine</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#find"><span class="toc-number">27.</span> <span class="toc-text">find</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#grep"><span class="toc-number">28.</span> <span class="toc-text">grep</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#watch"><span class="toc-number">29.</span> <span class="toc-text">watch</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#nvitop"><span class="toc-number">30.</span> <span class="toc-text">nvitop</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#taskset"><span class="toc-number">31.</span> <span class="toc-text">taskset</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#dmesg"><span class="toc-number">32.</span> <span class="toc-text">dmesg</span></a></li></ol>
+        <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#du"><span class="toc-number">1.</span> <span class="toc-text">du</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#tldr"><span class="toc-number">2.</span> <span class="toc-text">tldr</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#md5sum"><span class="toc-number">3.</span> <span class="toc-text">md5sum</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#pstack"><span class="toc-number">4.</span> <span class="toc-text">pstack</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#pkill"><span class="toc-number">5.</span> <span class="toc-text">pkill</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#pmap"><span class="toc-number">6.</span> <span class="toc-text">pmap</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#lsof"><span class="toc-number">7.</span> <span class="toc-text">lsof</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#uptime"><span class="toc-number">8.</span> <span class="toc-text">uptime</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#df"><span class="toc-number">9.</span> <span class="toc-text">df</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#dd"><span class="toc-number">10.</span> <span class="toc-text">dd</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#cut"><span class="toc-number">11.</span> <span class="toc-text">cut</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#sort"><span class="toc-number">12.</span> <span class="toc-text">sort</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#sed"><span class="toc-number">13.</span> <span class="toc-text">sed</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#awk"><span class="toc-number">14.</span> <span class="toc-text">awk</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#sysstat"><span class="toc-number">15.</span> <span class="toc-text">sysstat</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#iostat"><span class="toc-number">15.1.</span> <span class="toc-text">iostat</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#mpstat"><span class="toc-number">15.2.</span> <span class="toc-text">mpstat</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#vmstat"><span class="toc-number">15.3.</span> <span class="toc-text">vmstat</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#pidstat"><span class="toc-number">15.4.</span> <span class="toc-text">pidstat</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#pldd"><span class="toc-number">16.</span> <span class="toc-text">pldd</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#source"><span class="toc-number">17.</span> <span class="toc-text">source</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#stress"><span class="toc-number">18.</span> <span class="toc-text">stress</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#file"><span class="toc-number">19.</span> <span class="toc-text">file</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#strip"><span class="toc-number">20.</span> <span class="toc-text">strip</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#top"><span class="toc-number">21.</span> <span class="toc-text">top</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#htop"><span class="toc-number">22.</span> <span class="toc-text">htop</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#split"><span class="toc-number">23.</span> <span class="toc-text">split</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#hyperfine"><span class="toc-number">24.</span> <span class="toc-text">hyperfine</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#find"><span class="toc-number">25.</span> <span class="toc-text">find</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#grep"><span class="toc-number">26.</span> <span class="toc-text">grep</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#watch"><span class="toc-number">27.</span> <span class="toc-text">watch</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#nvitop"><span class="toc-number">28.</span> <span class="toc-text">nvitop</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#taskset"><span class="toc-number">29.</span> <span class="toc-text">taskset</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#dmesg"><span class="toc-number">30.</span> <span class="toc-text">dmesg</span></a></li></ol>
       </div>
     
   </span>
@@ -137,7 +137,7 @@
       
         <time datetime="2023-10-17T03:59:37.000Z" class="dt-published" itemprop="datePublished">2023-10-17</time>
         
-        (Updated: <time datetime="2024-09-26T14:53:00.643Z" class="dt-updated" itemprop="dateModified">2024-09-26</time>)
+        (Updated: <time datetime="2024-10-08T15:48:11.520Z" class="dt-updated" itemprop="dateModified">2024-10-08</time>)
         
       
     </div>
@@ -168,67 +168,46 @@
   
 
   <div class="content e-content" itemprop="articleBody">
-    <h2 id="du"><a class="header-anchor" href="#du">¶</a>du</h2>
-<p>显示目录或文件的大小。</p>
+    <h2 id="du"><a href="#du" class="headerlink" title="du"></a>du</h2><p>显示目录或文件的大小。</p>
 <ul>
 <li><code>-b/-k/-m</code> 以bytes/kb/mb为单位</li>
 <li><code>-h</code> 以K、M、G为单位，提高可读性</li>
-<li><code>-s</code> 只显示总和，也就是&quot;.&quot;目录的大小</li>
+<li><code>-s</code> 只显示总和，也就是”.”目录的大小</li>
 <li><code>--exclude</code> 略过指定目录或文件</li>
 </ul>
 <p><code>dust</code>（du+rust）以树型结构展示，并显示大小占比，最下面是内存占用最大的文件或目录。</p>
-<p><code>ncdu</code>是<code>du</code>的tui版本，从大到小列出所有目录或文件的大小，按<code>?</code>查看快捷键，其中<code>d</code>删除，<code>q</code>退出。</p>
-<h2 id="tldr"><a class="header-anchor" href="#tldr">¶</a>tldr</h2>
-<p>man的言简意赅版本。</p>
-<h2 id="md5sum"><a class="header-anchor" href="#md5sum">¶</a>md5sum</h2>
-<p>在传输大文件时，数据可能出现不一致问题，可以用md5值简单校验文件内容是否正确。</p>
+<p><code>ncdu</code>是<code>du</code>的tui版本，从大到小列出所有目录或文件的大小，<br>按<code>?</code>查看快捷键，其中<code>d</code>删除，<code>q</code>退出。</p>
+<h2 id="tldr"><a href="#tldr" class="headerlink" title="tldr"></a>tldr</h2><p>man的言简意赅版本。</p>
+<h2 id="md5sum"><a href="#md5sum" class="headerlink" title="md5sum"></a>md5sum</h2><p>在传输大文件时，数据可能出现不一致问题，可以用md5值简单校验文件内容是否正确。</p>
 <ul>
 <li><code>md5sum &#123;&#123;path/to/file&#125;&#125;</code>：计算一个文件的md5h值</li>
 <li><code>md5sum --check &#123;&#123;path/to/file.md5&#125;&#125;</code>：检查该文件中罗列的每个文件与对应的md5值是否一致（每行是文件名和md5值）</li>
 </ul>
-<h2 id="pstack"><a class="header-anchor" href="#pstack">¶</a>pstack</h2>
-<p>唯一的用法就是<code>pstack &lt;PID&gt;</code>，用于打印正在运行的进程PID的堆栈信息。</p>
+<h2 id="pstack"><a href="#pstack" class="headerlink" title="pstack"></a>pstack</h2><p>唯一的用法就是<code>pstack &lt;PID&gt;</code>，用于打印正在运行的进程PID的堆栈信息。</p>
 <p>用于了解一个进程当前正在做什么，帮助死锁检测、性能分析、问题排查等。</p>
-<h2 id="pkill"><a class="header-anchor" href="#pkill">¶</a>pkill</h2>
-<p>杀死指定名称的所有进程。</p>
-<h2 id="pmap"><a class="header-anchor" href="#pmap">¶</a>pmap</h2>
-<ul>
+<h2 id="pkill"><a href="#pkill" class="headerlink" title="pkill"></a>pkill</h2><p>杀死指定名称的所有进程。</p>
+<h2 id="pmap"><a href="#pmap" class="headerlink" title="pmap"></a>pmap</h2><ul>
 <li><code>pmap &lt;PID&gt;</code>：显示进程PID的地址空间</li>
 <li><code>-p</code>：显示完整路径</li>
 </ul>
-<h2 id="lsof"><a class="header-anchor" href="#lsof">¶</a>lsof</h2>
-<p>list open files（列出当前系统打开的文件）。</p>
+<h2 id="lsof"><a href="#lsof" class="headerlink" title="lsof"></a>lsof</h2><p>list open files（列出当前系统打开的文件）。</p>
 <ul>
 <li><code>lsof</code></li>
 <li><code>lsof &#123;&#123;path/to/file&#125;&#125;</code>：输出打开该文件的所有进程</li>
 <li><code>lsof -c &#123;&#123;command&#125;&#125;</code>：输出该命令会打开的所有文件</li>
 <li><code>lsof -p &#123;&#123;PID&#125;&#125;</code>：输出进程PID打开的所有文件</li>
 </ul>
-<h2 id="uptime"><a class="header-anchor" href="#uptime">¶</a>uptime</h2>
-<p>快速查看系统在1min、5min和15min内的平均负载。</p>
-<h2 id="vmstat"><a class="header-anchor" href="#vmstat">¶</a>vmstat</h2>
-<p>virtual memory statistics（虚拟内存统计）</p>
-<ul>
-<li><code>vmstat</code></li>
-<li><code>vmstat 2 3</code>：每隔2秒采集一次状态，共采集3次</li>
-</ul>
-<h2 id="pidstat"><a class="header-anchor" href="#pidstat">¶</a>pidstat</h2>
-<p>查看一个进程的系统资源占用情况。</p>
-<p><code>pidstat -p &#123;&#123;PID&#125;&#125;</code></p>
-<h2 id="df"><a class="header-anchor" href="#df">¶</a>df</h2>
-<p>列出文件系统的磁盘使用情况。</p>
-<h2 id="dd"><a class="header-anchor" href="#dd">¶</a>dd</h2>
-<p>从标准输入或文件读取数据，转换并输出到文件、设备或标准输出。</p>
-<h2 id="cut"><a class="header-anchor" href="#cut">¶</a>cut</h2>
-<p>从文件的每一行中截取一部分。</p>
+<h2 id="uptime"><a href="#uptime" class="headerlink" title="uptime"></a>uptime</h2><p>快速查看系统在1min、5min和15min内的平均负载。</p>
+<h2 id="df"><a href="#df" class="headerlink" title="df"></a>df</h2><p>列出文件系统的磁盘使用情况。</p>
+<h2 id="dd"><a href="#dd" class="headerlink" title="dd"></a>dd</h2><p>从标准输入或文件读取数据，转换并输出到文件、设备或标准输出。</p>
+<h2 id="cut"><a href="#cut" class="headerlink" title="cut"></a>cut</h2><p>从文件的每一行中截取一部分。</p>
 <ul>
 <li><code>-d</code>指定分隔符</li>
 <li><code>-f</code>指定列（从1计数），只能和<code>-d</code>一起使用，不指定<code>-d</code>的话，默认分隔符为分配</li>
 <li><code>-c</code>提取指定范围的字符</li>
 <li><code>-b</code>提取指定范围的字节</li>
 </ul>
-<h2 id="sort"><a class="header-anchor" href="#sort">¶</a>sort</h2>
-<p>所有行按升序排序</p>
+<h2 id="sort"><a href="#sort" class="headerlink" title="sort"></a>sort</h2><p>所有行按升序排序</p>
 <ul>
 <li><code>-n</code>按数值大小</li>
 <li><code>-r</code>降序排序</li>
@@ -236,8 +215,7 @@
 <li><code>-m</code>合并多个已排序文件</li>
 <li><code>-t</code>指定排序时各列的分隔符</li>
 </ul>
-<h2 id="sed"><a class="header-anchor" href="#sed">¶</a>sed</h2>
-<p>逐行处理文本。</p>
+<h2 id="sed"><a href="#sed" class="headerlink" title="sed"></a>sed</h2><p>逐行处理文本。</p>
 <p>动作：</p>
 <ul>
 <li><code>a</code>：新增</li>
@@ -247,23 +225,24 @@
 <li><code>p</code>：打印</li>
 <li><code>s</code>：取代</li>
 </ul>
-<h2 id="awk"><a class="header-anchor" href="#awk">¶</a>awk</h2>
-<p>逐行分析文本。</p>
-<p><code>awk -F ':' '&#123;print $1,$3&#125;'</code>打印按照<code>:</code>分割后的第1和3列。</p>
-<h2 id="iostat"><a class="header-anchor" href="#iostat">¶</a>iostat</h2>
-<h2 id="pldd"><a class="header-anchor" href="#pldd">¶</a>pldd</h2>
-<h2 id="source"><a class="header-anchor" href="#source">¶</a>source</h2>
-<p>读取并执行文件中的命令，它与sh/bash的区别是不会创建一个子shell，而是在当前shell中执行。</p>
+<h2 id="awk"><a href="#awk" class="headerlink" title="awk"></a>awk</h2><p>逐行分析文本。</p>
+<p><code>awk -F &#39;:&#39; &#39;&#123;print $1,$3&#125;&#39;</code>打印按照<code>:</code>分割后的第1和3列。</p>
+<h2 id="sysstat"><a href="#sysstat" class="headerlink" title="sysstat"></a>sysstat</h2><h3 id="iostat"><a href="#iostat" class="headerlink" title="iostat"></a>iostat</h3><p>查看IO状态</p>
+<h3 id="mpstat"><a href="#mpstat" class="headerlink" title="mpstat"></a>mpstat</h3><p>查看CPU状态</p>
+<h3 id="vmstat"><a href="#vmstat" class="headerlink" title="vmstat"></a>vmstat</h3><p>virtual memory statistics（虚拟内存统计）</p>
+<ul>
+<li><code>vmstat</code></li>
+<li><code>vmstat 2 3</code>：每隔2秒采集一次状态，共采集3次</li>
+</ul>
+<h3 id="pidstat"><a href="#pidstat" class="headerlink" title="pidstat"></a>pidstat</h3><p>查看一个进程的系统资源占用情况。</p>
+<p><code>pidstat -p &#123;&#123;PID&#125;&#125;</code></p>
+<h2 id="pldd"><a href="#pldd" class="headerlink" title="pldd"></a>pldd</h2><h2 id="source"><a href="#source" class="headerlink" title="source"></a>source</h2><p>读取并执行文件中的命令，它与sh/bash的区别是不会创建一个子shell，而是在当前shell中执行。</p>
 <p><code>.</code>等价于<code>source</code>。</p>
-<h2 id="stress"><a class="header-anchor" href="#stress">¶</a>stress</h2>
-<p>Linux下的可以对CPU、IO、MEM、Disk进行压力测试的工具。</p>
+<h2 id="stress"><a href="#stress" class="headerlink" title="stress"></a>stress</h2><p>Linux下的可以对CPU、IO、MEM、Disk进行压力测试的工具。</p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">-t, --<span class="built_in">timeout</span> N    <span class="built_in">timeout</span> after N seconds</span><br><span class="line">-c, --cpu N        spawn N workers spinning on sqrt()</span><br><span class="line">-i, --io N         spawn N workers spinning on <span class="built_in">sync</span>()</span><br><span class="line">-m, --vm N         spawn N workers spinning on malloc()/free()</span><br><span class="line">-d, --hdd N        spawn N workers spinning on write()/unlink()</span><br></pre></td></tr></table></figure>
-<h2 id="file"><a class="header-anchor" href="#file">¶</a>file</h2>
-<h2 id="strip"><a class="header-anchor" href="#strip">¶</a>strip</h2>
-<p>去除无用的符号信息，减小release版本的共享库大小。注意strip需要和共享库的平台一致（用<code>file</code>查看）。</p>
+<h2 id="file"><a href="#file" class="headerlink" title="file"></a>file</h2><h2 id="strip"><a href="#strip" class="headerlink" title="strip"></a>strip</h2><p>去除无用的符号信息，减小release版本的共享库大小。<br>注意strip需要和共享库的平台一致（用<code>file</code>查看）。</p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">strip --strip-debug xxx.so</span><br><span class="line">strip --strip-unneeded xxx.so</span><br></pre></td></tr></table></figure>
-<h2 id="top"><a class="header-anchor" href="#top">¶</a>top</h2>
-<p>查看各个进程的资源占用情况。</p>
+<h2 id="top"><a href="#top" class="headerlink" title="top"></a>top</h2><p>查看各个进程的资源占用情况。</p>
 <ul>
 <li><code>-p pid</code>：指定进程</li>
 <li><code>-H</code>：在进程信息中显示线程详细信息</li>
@@ -271,33 +250,24 @@
 <li><code>-c</code>：显示完整命令行而不截断</li>
 <li><code>h</code>：展示help信息</li>
 </ul>
-<h2 id="htop"><a class="header-anchor" href="#htop">¶</a>htop</h2>
-<p>top的现代版本</p>
+<h2 id="htop"><a href="#htop" class="headerlink" title="htop"></a>htop</h2><p>top的现代版本</p>
 <ul>
 <li><code>-p pid</code>：指定进程</li>
 <li><code>-t</code>：以树形图展示</li>
 <li><code>H</code>：在进程信息中显示线程详细信息</li>
 <li><code>F1</code>：展示help信息</li>
 </ul>
-<h2 id="split"><a class="header-anchor" href="#split">¶</a>split</h2>
-<h2 id="hyperfine"><a class="header-anchor" href="#hyperfine">¶</a>hyperfine</h2>
-<p>命令行的基准测试工具。</p>
+<h2 id="split"><a href="#split" class="headerlink" title="split"></a>split</h2><h2 id="hyperfine"><a href="#hyperfine" class="headerlink" title="hyperfine"></a>hyperfine</h2><p>命令行的基准测试工具。</p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">hyperfine --warmup 3 --runs 5 `grep -R TODO *`</span><br></pre></td></tr></table></figure>
-<h2 id="find"><a class="header-anchor" href="#find">¶</a>find</h2>
-<p>查找文件</p>
+<h2 id="find"><a href="#find" class="headerlink" title="find"></a>find</h2><p>查找文件</p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">find &#123;&#123;root_path&#125;&#125; -name <span class="string">&#x27;&#123;&#123;*.ext&#125;&#125;&#x27;</span></span><br><span class="line"><span class="comment"># 以天为单位</span></span><br><span class="line">-atime N access time</span><br><span class="line">-ctime N changed time <span class="comment"># (content)</span></span><br><span class="line">-mtime N modified time <span class="comment"># (meta data)</span></span><br><span class="line"><span class="comment"># 以分钟为单位</span></span><br><span class="line">-amin  N</span><br><span class="line">-cmin  N</span><br><span class="line">-mmin  N</span><br><span class="line">+n     <span class="keyword">for</span> greater than n</span><br><span class="line">-n     <span class="keyword">for</span> less than n</span><br><span class="line">n      <span class="keyword">for</span> exactly n</span><br><span class="line">-readable -writable -executable</span><br></pre></td></tr></table></figure>
-<h2 id="grep"><a class="header-anchor" href="#grep">¶</a>grep</h2>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">grep --recursive --line-number --ignore-case <span class="string">&quot;&#123;&#123;search_pattern&#125;&#125;&quot;</span> &#123;&#123;path/to/file&#125;&#125;</span><br></pre></td></tr></table></figure>
-<h2 id="watch"><a class="header-anchor" href="#watch">¶</a>watch</h2>
-<p><code>watch -n 1 -d command</code></p>
+<h2 id="grep"><a href="#grep" class="headerlink" title="grep"></a>grep</h2><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">grep --recursive --line-number --ignore-case <span class="string">&quot;&#123;&#123;search_pattern&#125;&#125;&quot;</span> &#123;&#123;path/to/file&#125;&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="watch"><a href="#watch" class="headerlink" title="watch"></a>watch</h2><p><code>watch -n 1 -d command</code></p>
 <p>每隔1秒（<code>-n 1</code>）重新运行一次命令（command），并高亮与上一次的差异（<code>-d</code>）</p>
-<h2 id="nvitop"><a class="header-anchor" href="#nvitop">¶</a>nvitop</h2>
-<p>显示显卡使用情况，平替<code>watch -n 1 nvidia-smi</code></p>
-<h2 id="taskset"><a class="header-anchor" href="#taskset">¶</a>taskset</h2>
-<p><code>taskset --cpu-list &#123;&#123;cpu_id&#125;&#125; &#123;&#123;command&#125;&#125;</code></p>
+<h2 id="nvitop"><a href="#nvitop" class="headerlink" title="nvitop"></a>nvitop</h2><p>显示显卡使用情况，平替<code>watch -n 1 nvidia-smi</code></p>
+<h2 id="taskset"><a href="#taskset" class="headerlink" title="taskset"></a>taskset</h2><p><code>taskset --cpu-list &#123;&#123;cpu_id&#125;&#125; &#123;&#123;command&#125;&#125;</code></p>
 <p>设置CPU亲密度，同时起到限制核数的作用，</p>
-<h2 id="dmesg"><a class="header-anchor" href="#dmesg">¶</a>dmesg</h2>
-<p><code>display message</code>：显示Linux内核ring buffer中的系统信息，里面会包含一些故障信息。</p>
+<h2 id="dmesg"><a href="#dmesg" class="headerlink" title="dmesg"></a>dmesg</h2><p><code>display message</code>：显示Linux内核ring buffer中的系统信息，里面会包含一些故障信息。</p>
 
   </div>
 </article>
@@ -325,7 +295,7 @@
     
     
       <div id="toc-footer" style="display: none">
-        <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#du"><span class="toc-number">1.</span> <span class="toc-text">du</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#tldr"><span class="toc-number">2.</span> <span class="toc-text">tldr</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#md5sum"><span class="toc-number">3.</span> <span class="toc-text">md5sum</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#pstack"><span class="toc-number">4.</span> <span class="toc-text">pstack</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#pkill"><span class="toc-number">5.</span> <span class="toc-text">pkill</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#pmap"><span class="toc-number">6.</span> <span class="toc-text">pmap</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#lsof"><span class="toc-number">7.</span> <span class="toc-text">lsof</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#uptime"><span class="toc-number">8.</span> <span class="toc-text">uptime</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#vmstat"><span class="toc-number">9.</span> <span class="toc-text">vmstat</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#pidstat"><span class="toc-number">10.</span> <span class="toc-text">pidstat</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#df"><span class="toc-number">11.</span> <span class="toc-text">df</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#dd"><span class="toc-number">12.</span> <span class="toc-text">dd</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#cut"><span class="toc-number">13.</span> <span class="toc-text">cut</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#sort"><span class="toc-number">14.</span> <span class="toc-text">sort</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#sed"><span class="toc-number">15.</span> <span class="toc-text">sed</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#awk"><span class="toc-number">16.</span> <span class="toc-text">awk</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#iostat"><span class="toc-number">17.</span> <span class="toc-text">iostat</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#pldd"><span class="toc-number">18.</span> <span class="toc-text">pldd</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#source"><span class="toc-number">19.</span> <span class="toc-text">source</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#stress"><span class="toc-number">20.</span> <span class="toc-text">stress</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#file"><span class="toc-number">21.</span> <span class="toc-text">file</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#strip"><span class="toc-number">22.</span> <span class="toc-text">strip</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#top"><span class="toc-number">23.</span> <span class="toc-text">top</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#htop"><span class="toc-number">24.</span> <span class="toc-text">htop</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#split"><span class="toc-number">25.</span> <span class="toc-text">split</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#hyperfine"><span class="toc-number">26.</span> <span class="toc-text">hyperfine</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#find"><span class="toc-number">27.</span> <span class="toc-text">find</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#grep"><span class="toc-number">28.</span> <span class="toc-text">grep</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#watch"><span class="toc-number">29.</span> <span class="toc-text">watch</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#nvitop"><span class="toc-number">30.</span> <span class="toc-text">nvitop</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#taskset"><span class="toc-number">31.</span> <span class="toc-text">taskset</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#dmesg"><span class="toc-number">32.</span> <span class="toc-text">dmesg</span></a></li></ol>
+        <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#du"><span class="toc-number">1.</span> <span class="toc-text">du</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#tldr"><span class="toc-number">2.</span> <span class="toc-text">tldr</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#md5sum"><span class="toc-number">3.</span> <span class="toc-text">md5sum</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#pstack"><span class="toc-number">4.</span> <span class="toc-text">pstack</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#pkill"><span class="toc-number">5.</span> <span class="toc-text">pkill</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#pmap"><span class="toc-number">6.</span> <span class="toc-text">pmap</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#lsof"><span class="toc-number">7.</span> <span class="toc-text">lsof</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#uptime"><span class="toc-number">8.</span> <span class="toc-text">uptime</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#df"><span class="toc-number">9.</span> <span class="toc-text">df</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#dd"><span class="toc-number">10.</span> <span class="toc-text">dd</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#cut"><span class="toc-number">11.</span> <span class="toc-text">cut</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#sort"><span class="toc-number">12.</span> <span class="toc-text">sort</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#sed"><span class="toc-number">13.</span> <span class="toc-text">sed</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#awk"><span class="toc-number">14.</span> <span class="toc-text">awk</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#sysstat"><span class="toc-number">15.</span> <span class="toc-text">sysstat</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#iostat"><span class="toc-number">15.1.</span> <span class="toc-text">iostat</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#mpstat"><span class="toc-number">15.2.</span> <span class="toc-text">mpstat</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#vmstat"><span class="toc-number">15.3.</span> <span class="toc-text">vmstat</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#pidstat"><span class="toc-number">15.4.</span> <span class="toc-text">pidstat</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#pldd"><span class="toc-number">16.</span> <span class="toc-text">pldd</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#source"><span class="toc-number">17.</span> <span class="toc-text">source</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#stress"><span class="toc-number">18.</span> <span class="toc-text">stress</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#file"><span class="toc-number">19.</span> <span class="toc-text">file</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#strip"><span class="toc-number">20.</span> <span class="toc-text">strip</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#top"><span class="toc-number">21.</span> <span class="toc-text">top</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#htop"><span class="toc-number">22.</span> <span class="toc-text">htop</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#split"><span class="toc-number">23.</span> <span class="toc-text">split</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#hyperfine"><span class="toc-number">24.</span> <span class="toc-text">hyperfine</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#find"><span class="toc-number">25.</span> <span class="toc-text">find</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#grep"><span class="toc-number">26.</span> <span class="toc-text">grep</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#watch"><span class="toc-number">27.</span> <span class="toc-text">watch</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#nvitop"><span class="toc-number">28.</span> <span class="toc-text">nvitop</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#taskset"><span class="toc-number">29.</span> <span class="toc-text">taskset</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#dmesg"><span class="toc-number">30.</span> <span class="toc-text">dmesg</span></a></li></ol>
       </div>
     
 

@@ -6,15 +6,15 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="HandheldFriendly" content="True">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=5" />
-    <meta name="description" content="¶std::allocator 是所有标准库容器默认使用的内存分配器（封装了内存分配策略）。 new把内存分配和对象构造耦合在一起，delete则把内存释放和对象析构耦合在一起。 但是对于内存池等需求，这两个过程应该解耦成两步（内存管理与数据构造）。显然对于容器类型，在使用reserve扩容时，只是执行了内存分配，不应该进行对象构造。 12345allocator&lt;T&gt; a;a.all">
+    <meta name="description" content="std::allocator是所有标准库容器默认使用的内存分配器（封装了内存分配策略）。 new把内存分配和对象构造耦合在一起，delete则把内存释放和对象析构耦合在一起。 但是对于内存池等需求，这两个过程应该解耦成两步（内存管理与数据构造）。显然对于容器类型，在使用reserve扩容时，只是执行了内存分配，不应该进行对象构造。 12345allocator&lt;T&gt; a;a.alloc">
 <meta property="og:type" content="article">
 <meta property="og:title" content="allocator">
 <meta property="og:url" content="http://example.com/2024/03/24/allocator/index.html">
 <meta property="og:site_name" content="jyf111&#39;s blog">
-<meta property="og:description" content="¶std::allocator 是所有标准库容器默认使用的内存分配器（封装了内存分配策略）。 new把内存分配和对象构造耦合在一起，delete则把内存释放和对象析构耦合在一起。 但是对于内存池等需求，这两个过程应该解耦成两步（内存管理与数据构造）。显然对于容器类型，在使用reserve扩容时，只是执行了内存分配，不应该进行对象构造。 12345allocator&lt;T&gt; a;a.all">
+<meta property="og:description" content="std::allocator是所有标准库容器默认使用的内存分配器（封装了内存分配策略）。 new把内存分配和对象构造耦合在一起，delete则把内存释放和对象析构耦合在一起。 但是对于内存池等需求，这两个过程应该解耦成两步（内存管理与数据构造）。显然对于容器类型，在使用reserve扩容时，只是执行了内存分配，不应该进行对象构造。 12345allocator&lt;T&gt; a;a.alloc">
 <meta property="og:locale" content="zh_CN">
 <meta property="article:published_time" content="2024-03-24T05:25:35.000Z">
-<meta property="article:modified_time" content="2024-03-24T07:15:36.880Z">
+<meta property="article:modified_time" content="2024-10-07T11:41:26.492Z">
 <meta property="article:author" content="jyf111">
 <meta property="article:tag" content="语言">
 <meta name="twitter:card" content="summary">
@@ -110,7 +110,7 @@
     
     
       <div id="toc">
-        <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#std-allocator"><span class="toc-number">1.</span> <span class="toc-text">std::allocator</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#std-pmr-memory-resource"><span class="toc-number">2.</span> <span class="toc-text">std::pmr::memory_resource</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#placement-new"><span class="toc-number">3.</span> <span class="toc-text">placement new</span></a></li></ol>
+        <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#std-allocator"><span class="toc-number">1.</span> <span class="toc-text">std::allocator</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#std-pmr-memory-resource"><span class="toc-number">2.</span> <span class="toc-text">std::pmr::memory_resource</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#placement-new"><span class="toc-number">3.</span> <span class="toc-text">placement new</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%86%85%E5%AD%98%E5%88%86%E9%85%8D%E5%99%A8"><span class="toc-number">4.</span> <span class="toc-text">内存分配器</span></a></li></ol>
       </div>
     
   </span>
@@ -137,7 +137,7 @@
       
         <time datetime="2024-03-24T05:25:35.000Z" class="dt-published" itemprop="datePublished">2024-03-24</time>
         
-        (Updated: <time datetime="2024-03-24T07:15:36.880Z" class="dt-updated" itemprop="dateModified">2024-03-24</time>)
+        (Updated: <time datetime="2024-10-07T11:41:26.492Z" class="dt-updated" itemprop="dateModified">2024-10-07</time>)
         
       
     </div>
@@ -158,7 +158,7 @@
             <i class="fa-solid fa-hourglass"></i>
             
             
-              (5 mins to read)
+              (6 mins to read)
             
             </span>
         
@@ -168,14 +168,12 @@
   
 
   <div class="content e-content" itemprop="articleBody">
-    <h2 id="std-allocator"><a class="header-anchor" href="#std-allocator">¶</a><code>std::allocator</code></h2>
-<p>是所有标准库容器默认使用的内存分配器（封装了内存分配策略）。</p>
+    <h2 id="std-allocator"><a href="#std-allocator" class="headerlink" title="std::allocator"></a><code>std::allocator</code></h2><p>是所有标准库容器默认使用的内存分配器（封装了内存分配策略）。</p>
 <p><code>new</code>把内存分配和对象构造耦合在一起，<code>delete</code>则把内存释放和对象析构耦合在一起。</p>
-<p>但是对于内存池等需求，这两个过程应该解耦成两步（内存管理与数据构造）。显然对于容器类型，在使用<code>reserve</code>扩容时，只是执行了内存分配，不应该进行对象构造。</p>
+<p>但是对于内存池等需求，这两个过程应该解耦成两步（内存管理与数据构造）。显然对于容器类型，<br>在使用<code>reserve</code>扩容时，只是执行了内存分配，不应该进行对象构造。</p>
 <figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">allocator&lt;T&gt; a;</span><br><span class="line">a.<span class="built_in">allocate</span>(n); <span class="comment">// 分配一段未初始化内存，保存n个T类型</span></span><br><span class="line">a.<span class="built_in">construct</span>(p, args); <span class="comment">// 在p地址构造一个对象，参数为args</span></span><br><span class="line">a.<span class="built_in">destroy</span>(p); <span class="comment">// 析构p地址处的对象</span></span><br><span class="line">a.<span class="built_in">deallocate</span>(p, n); <span class="comment">// 释放从p地址开始的n个T类型</span></span><br></pre></td></tr></table></figure>
-<p>所以可以自己实现一个allocator（比如使用全局静态的buffer）去替换标准库容器的内存分配逻辑。list在每次插入时都需要进行内存分配；vector在size达到capacity时需要进行内存重分配。</p>
-<h2 id="std-pmr-memory-resource"><a class="header-anchor" href="#std-pmr-memory-resource">¶</a><code>std::pmr::memory_resource</code></h2>
-<p>对内存资源进行抽象，可以提供给<code>std::pmr::polymorphic_allocator</code>进行分配和释放。</p>
+<p>所以可以自己实现一个allocator（比如使用全局静态的buffer）<br>去替换标准库容器的内存分配逻辑。<br>list在每次插入时都需要进行内存分配；vector在size达到capacity时需要进行内存重分配。</p>
+<h2 id="std-pmr-memory-resource"><a href="#std-pmr-memory-resource" class="headerlink" title="std::pmr::memory_resource"></a><code>std::pmr::memory_resource</code></h2><p>对内存资源进行抽象，可以提供给<code>std::pmr::polymorphic_allocator</code>进行分配和释放。</p>
 <figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">allocate</span>();</span><br><span class="line"><span class="built_in">deallocate</span>();</span><br><span class="line"><span class="function"><span class="keyword">virtual</span> <span class="title">do_allocate</span><span class="params">()</span> </span>= <span class="number">0</span>;</span><br><span class="line"><span class="function"><span class="keyword">virtual</span> <span class="title">do_deallocate</span><span class="params">()</span> </span>= <span class="number">0</span>;</span><br></pre></td></tr></table></figure>
 <p>具体的<code>memory_resource</code>类型，即<code>memory_resource</code>的子类，override了纯虚函数。</p>
 <ul>
@@ -185,17 +183,31 @@
 <li><code>std::new_delete_resource</code>：使用全局<code>new</code>和<code>delete</code></li>
 <li><code>std::null_memory_resource</code>：什么都不干</li>
 </ul>
-<p>使用就只需要创建一个内存资源，然后提供给<code>polymorphic_allocator</code>使用即可。因为在<code>polymorphic_allocator</code>里拿到的是基类指针（即<code>memory_resource *</code>），所以在执行具体的内存管理策略时是依靠的运行时多态</p>
+<p>使用就只需要创建一个内存资源，然后提供给<code>polymorphic_allocator</code>使用即可。<br>因为在<code>polymorphic_allocator</code>里拿到的是基类指针（即<code>memory_resource *</code>），所以在执行具体的内存管理策略时是<br>依靠的运行时多态</p>
 <figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">monotonic_buffer_resource</span>( <span class="type">void</span>* buffer, std::<span class="type">size_t</span> buffer_size,</span><br><span class="line">                           std::pmr::memory_resource* upstream );</span><br><span class="line"><span class="comment">// 设置当前的缓冲区为buffer，下一个缓冲区大小为buffer_size，并设置无法分配时的上游内存资源（不传入就是用默认的）</span></span><br><span class="line"><span class="built_in">polymorphic_allocator</span>( std::pmr::memory_resource* r );</span><br><span class="line"></span><br><span class="line">std::pmr::monotonic_buffer_resource mem;</span><br><span class="line">std::vector&lt;<span class="type">char</span>, std::pmr::polymorphic_allocator&lt;<span class="type">char</span>&gt;&gt; buf&#123;&amp;mem&#125;;</span><br><span class="line">std::pmr::vector&lt;<span class="type">char</span>&gt; buf&#123;&amp;mem&#125;; <span class="comment">// 上一个的别名形式</span></span><br></pre></td></tr></table></figure>
-<h2 id="placement-new"><a class="header-anchor" href="#placement-new">¶</a>placement new</h2>
-<p>注意operator new可以选择使用在分配失败时抛出异常的版本还是返回空指针的版本。</p>
+<h2 id="placement-new"><a href="#placement-new" class="headerlink" title="placement new"></a>placement new</h2><p>注意operator new可以选择使用在分配失败时抛出异常的版本还是返回空指针的版本。</p>
 <p>实际上operator new只是分配内存（大概率是调用了malloc），且可以被重载，并加入其它形参。</p>
 <figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="type">void</span> *A::<span class="keyword">operator</span> <span class="title">new</span><span class="params">(<span class="type">size_t</span> )</span></span>; <span class="comment">// operator new</span></span><br><span class="line"><span class="function"><span class="type">void</span> *<span class="keyword">operator</span> <span class="title">new</span><span class="params">(<span class="type">size_t</span>, <span class="type">void</span> *)</span></span></span><br></pre></td></tr></table></figure>
-<p>new operator首先调用operator new分配空间，然后转换成所需类型的指针后调用相关对象的构造函数（即调用placement new），并返回指针。不能重载，其行为不能也不应被改变。</p>
+<p>new operator首先调用operator new分配空间，然后转换成所需类型的指针后调用相关对象的构造函数（即调用placement new），并返回指针。<br>不能重载，其行为不能也不应被改变。</p>
 <p>所以new其实也是有分配内存（operator new）和构造对象（placement new）两步构成的。</p>
-<p>placement new是对operator new的一个全局重载，忽略size_t参数，仅在传入的地址上执行构造函数创建对象，并返回地址。</p>
+<p>placement new是对operator new的一个全局重载，忽略size_t参数，<br>仅在传入的地址上执行构造函数创建对象，并返回地址。</p>
 <p>注意在使用完后需要自行调用析构函数销毁。</p>
 <p><code>new (ptr) T(1)</code>：operator new的额外参数加在new后面的括号里</p>
+<h2 id="内存分配器"><a href="#内存分配器" class="headerlink" title="内存分配器"></a>内存分配器</h2><p>目标：解决内部碎片（一个page内没用完）、外部碎片（申请大page时，连续的小page没法用）</p>
+<p>链表：first fit, next fit, best fit</p>
+<p>buddy（用多个链表分别维护不同的2的幂次的内存块，有时会进行合并或分裂，有效减缓外部碎片）</p>
+<p>slab（在buddy的基础上，对小内存分配进行优化，进一步减缓内部碎片）</p>
+<p>jemalloc进一步分为small、large、huge三种场景。</p>
+<ul>
+<li>arena：用于内存分配，每个CPU会绑定若干arena</li>
+<li>tcache：每个线程私有的缓存</li>
+</ul>
+<p>重要的tricks：</p>
+<ul>
+<li>boudary tags：每个块之前和之后都有meta信息（该块的大小；如果该块被使用，末尾的meta信息可以被覆盖掉），这样可以从任意一个块往前或往后遍历，还可以合并连续的块。</li>
+<li>binning：相同大小的块放在一个bin里，用链表串联。</li>
+<li>caching：延迟空闲块的合并、提前空闲块的分裂</li>
+</ul>
 
   </div>
 </article>
@@ -223,7 +235,7 @@
     
     
       <div id="toc-footer" style="display: none">
-        <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#std-allocator"><span class="toc-number">1.</span> <span class="toc-text">std::allocator</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#std-pmr-memory-resource"><span class="toc-number">2.</span> <span class="toc-text">std::pmr::memory_resource</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#placement-new"><span class="toc-number">3.</span> <span class="toc-text">placement new</span></a></li></ol>
+        <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#std-allocator"><span class="toc-number">1.</span> <span class="toc-text">std::allocator</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#std-pmr-memory-resource"><span class="toc-number">2.</span> <span class="toc-text">std::pmr::memory_resource</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#placement-new"><span class="toc-number">3.</span> <span class="toc-text">placement new</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%86%85%E5%AD%98%E5%88%86%E9%85%8D%E5%99%A8"><span class="toc-number">4.</span> <span class="toc-text">内存分配器</span></a></li></ol>
       </div>
     
 
